@@ -5699,7 +5699,7 @@ __metadata:
     "@babel/types": "npm:^7.0.0"
     "@nx-js/observer-util": "npm:^4.1.3"
     "@startupjs/cache": "npm:^0.55.0-alpha.1"
-    "@startupjs/css-to-react-native-transform": "npm:^1.9.0-1"
+    "@startupjs/css-to-react-native-transform": "npm:^1.9.0-2"
     babel-plugin-tester: "npm:^9.1.0"
     babel-plugin-transform-react-pug: "npm:^7.0.1"
     jest: "npm:^26.0.1"
@@ -5787,7 +5787,7 @@ __metadata:
     "@mdx-js/mdx": "npm:^2.3.0"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.1"
     "@startupjs/babel-plugin-react-css-modules": "npm:^6.5.4-1"
-    "@startupjs/css-to-react-native-transform": "npm:^1.9.0-1"
+    "@startupjs/css-to-react-native-transform": "npm:^1.9.0-2"
     "@startupjs/plugin": "npm:^0.55.0-alpha.1"
     "@svgr/webpack": "npm:~7.0.0"
     assets-webpack-plugin: "npm:^7.1.1"
@@ -5859,14 +5859,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/css-to-react-native-transform@npm:^1.9.0-1":
-  version: 1.9.0-1
-  resolution: "@startupjs/css-to-react-native-transform@npm:1.9.0-1"
+"@startupjs/css-to-react-native-transform@npm:^1.9.0-2":
+  version: 1.9.0-2
+  resolution: "@startupjs/css-to-react-native-transform@npm:1.9.0-2"
   dependencies:
     css: "npm:^2.2.4"
     css-mediaquery: "npm:^0.1.2"
     css-to-react-native: "npm:^2.3.2"
-  checksum: f7990dad59b485046346f463f57607cf466f89387945e1dc2d8d8279a0277059c402dd0c3e4d637d73295ca4fe623b1596ef5ea644c6754e7fc1d81f720eac0f
+  checksum: 68834fafd9980f1927c3eba1ea3a115344cc4ec0c2c2e1b316bee3fdd86fb110c7de135f9cb33e768ba02a9a1b5ae3988800e4401b21c34d5ea94aa26a459e28
   languageName: node
   linkType: hard
 

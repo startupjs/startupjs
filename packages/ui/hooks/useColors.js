@@ -5,10 +5,13 @@ export default function useColors () {
   return useCallback(getColor, [])
 }
 
-function getColor (color, { addPrefix = true, prefix = '--color' } = {}) {
+export function getColor (color, { addPrefix = true, prefix = '--color', convertToString = true } = {}) {
   if (!color) return
   const cssVar = addPrefix ? `${prefix}-${color}` : color
   // '?' operator is needed for cases in button and tag components to get 'text-on-' color
   // maybe get rid of it here and wrap function calls there in try/catch
-  return (singletonVariables[cssVar] || defaultVariables[cssVar])?.toString?.()
+  const colorValue = singletonVariables[cssVar] || defaultVariables[cssVar]
+  if (!colorValue) return
+
+  return convertToString ? colorValue.toString() : colorValue
 }
