@@ -82,11 +82,18 @@ const Border = {
   'border-strong-alt': 'border-strong-alt'
 }
 
+const Shadow = {
+  shadow: 'shadow',
+  'shadow-strong': 'shadow-strong',
+  'shadow-dim': 'shadow-dim'
+}
+
 const Colors = {
   ...MainEnum,
   ...Bg,
   ...Text,
-  ...Border
+  ...Border,
+  ...Shadow
 }
 
 export default Colors
