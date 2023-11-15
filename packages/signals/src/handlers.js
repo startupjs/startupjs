@@ -4,7 +4,8 @@ const REGEX_$ = /^\$/
 const COLLECTIONS_MAPPING = {
   session: '_session',
   page: '_page',
-  render: '$render'
+  render: '$render',
+  system: '$system'
 }
 const QUERY_METHODS = ['get', 'getIds', 'getExtra', 'subscribe', 'unsubscribe', 'fetch', 'unfetch']
 export const isQueryMethod = method => QUERY_METHODS.includes(method)
