@@ -184,7 +184,7 @@ SCRIPTS_ORIG.testIos = (appName, artifacts, updateScreenshot) => oneLine(`
     && npx wait-on http://localhost:3001
     && npx detox test -c ios
     ${artifacts ? '--artifacts-location $PWD/artifacts --take-screenshots all' : ''}
-    ${updateScreenshot ? '--testNamePattern Screenshots:' : ''}"
+    ${updateScreenshot ? '--testNamePattern Screenshots-' : ''}"
 `)
 
 SCRIPTS_ORIG.testJsBundle = appName => oneLine(`
