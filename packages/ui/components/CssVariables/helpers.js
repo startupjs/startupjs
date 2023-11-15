@@ -146,6 +146,7 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
 
   // base colors
   C[Colors['text-on-color']]                ??= Color('coolGray', high)
+  C[Colors.shadow]                          ??= Color('coolGray', low - 1, { alpha: 0.2 })
   C[Colors.bg]                              ??= Color('coolGray', high)
   C[Colors.text]                            ??= Color('coolGray', low + 2)
   C[Colors.border]                          ??= Color('coolGray', high - 2)
@@ -159,6 +160,10 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors.special]                         ??= Color('purple', middle - 1)
 
   // all other colors are generated from the base colors
+
+  // shadow colors
+  C[Colors['shadow-strong']]                ??= C[Colors.shadow].setAlpha(0.15)
+  C[Colors['shadow-dim']]                   ??= C[Colors.shadow].setAlpha(0.25)
 
   // main bg colors
   C[Colors['bg-primary']]                   ??= C[Colors.primary]
