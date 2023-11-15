@@ -1,3 +1,13 @@
+# [0.55.0-alpha.11](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.10...v0.55.0-alpha.11) (2023-11-15)
+
+
+### Bug Fixes
+
+* **CssVariables:** allow to use overriden variables immediately in static overrides ([ca15cb6](https://github.com/startupjs/startupjs/commit/ca15cb689ceb90cb1150401c7d7ee0c5045c456a))
+* **patches:** update css-to-react-native patch to handle 'var' in shorthand style props ([#1096](https://github.com/startupjs/startupjs/issues/1096)) ([6b7d2b2](https://github.com/startupjs/startupjs/commit/6b7d2b2955b56c287b2aca55dc9da441b0268225))
+
+
+
 # [0.55.0-alpha.10](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.9...v0.55.0-alpha.10) (2023-11-10)
 
 
