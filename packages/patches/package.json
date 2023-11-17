@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/patches",
-  "version": "0.55.0-alpha.11",
+  "version": "0.55.0-alpha.12",
   "type": "module",
   "description": "Patches for libraries used by StartupJS",
   "main": "index.js",

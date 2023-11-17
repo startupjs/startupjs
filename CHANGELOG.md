@@ -1,3 +1,17 @@
+# [0.55.0-alpha.12](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.11...v0.55.0-alpha.12) (2023-11-17)
+
+
+### Bug Fixes
+
+* **CssVariables): apply dark color scheme to scroll; fix(signals:** handle '\$system' collection ([#1100](https://github.com/startupjs/startupjs/issues/1100)) ([de98447](https://github.com/startupjs/startupjs/commit/de98447533249c52c5cdf3b35bb392f7fee863d2))
+
+
+### Features
+
+* **backend:** move server to esm ([#1094](https://github.com/startupjs/startupjs/issues/1094)) ([ef2048c](https://github.com/startupjs/startupjs/commit/ef2048c33847aba1c61eb85ae714b0e782554e2e))
+
+
+
 # [0.55.0-alpha.11](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.10...v0.55.0-alpha.11) (2023-11-15)
 
 
