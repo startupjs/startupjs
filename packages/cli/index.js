@@ -110,7 +110,7 @@ SCRIPTS_ORIG.server = ({ inspect } = {}) => oneLine(`
 
 // Production
 
-SCRIPTS_ORIG.build = ({ async, pure } = {}) => oneLine(`
+SCRIPTS_ORIG.build = ({ async } = {}) => oneLine(`
   npx rimraf ./build &&
   ${async ? 'npx cross-env ASYNC=1' : ''}
   npx webpack --config webpack.web.config.js
@@ -362,8 +362,6 @@ commander
   .command('server')
   .description('Compile (with webpack) and run server')
   .option('-i, --inspect', 'Use node --inspect')
-  .option('-p, --pure', 'Don\'t use any build system')
-  .option('-w, --webpack', 'Force use Webpack for server build. This takes priority over --pure option')
   .action(async (options) => {
     await execa.command(
       SCRIPTS_ORIG.server(options),
@@ -374,7 +372,6 @@ commander
 commander
   .command('build')
   .description('Build web bundles')
-  .option('-p, --pure', 'Don\'t use any build system for node')
   .option('-a, --async', 'Build with splitting code into async chunks loaded dynamically')
   .action(async (options) => {
     await execa.command(
@@ -386,10 +383,9 @@ commander
 commander
   .command('start-production')
   .description('Start production')
-  .option('-p, --pure', 'Don\'t use any build system for node')
   .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.startProduction(options),
+      SCRIPTS_ORIG.startProduction,
       { stdio: 'inherit', shell: true }
     )
   })

@@ -3,9 +3,12 @@
 // the life period of the application. And depends only on the type of
 // resource and the name of the application
 
+import { createRequire } from 'module'
 import path from 'path'
 import fs from 'fs'
 import memoize from 'lodash/memoize.js'
+
+const require = createRequire(import.meta.url)
 
 let PROJECT_PATH = process.env.PROJECT_PATH || process.cwd()
 const BUILD_CLIENT_PATH = process.env.BUILD_CLIENT_PATH || '/build/client/'
@@ -18,7 +21,7 @@ export const getResourcePath = memoize((type, appName, options = {}) => {
     case 'bundle':
       if (process.env.NODE_ENV === 'production') {
         prefix = options.BUILD_REFERENCE_URL || ''
-        postfix = '.' + exports.getHash(appName, type, options)
+        postfix = '.' + getHash(appName, type, options)
       } else {
         prefix = process.env.DEVSERVER_URL ||
             ('http://localhost:' + (options.DEV_PORT || process.env.DEV_PORT || 3010))
@@ -41,6 +44,7 @@ export const getHash = memoize((appName, type, options = {}) => {
   let assetsMeta
   let hash = ''
   PROJECT_PATH = options.PROJECT_PATH || PROJECT_PATH
+  console.log(path.join(PROJECT_PATH, BUILD_CLIENT_PATH, 'assets.json'), "path.join(PROJECT_PATH, BUILD_CLIENT_PATH, 'assets.json')")
   const assetsMetaPath = path.join(PROJECT_PATH, BUILD_CLIENT_PATH, 'assets.json')
   try {
     assetsMeta = require(assetsMetaPath)
@@ -68,7 +72,7 @@ export const getHash = memoize((appName, type, options = {}) => {
 // DEPRECATED
 export const getProductionStyles = memoize((appName, options = {}) => {
   PROJECT_PATH = options.PROJECT_PATH || PROJECT_PATH
-  const styleRelPath = exports.getResourcePath('style', appName, options)
+  const styleRelPath = getResourcePath('style', appName, options)
   const stylePath = path.join(PROJECT_PATH, styleRelPath)
   if (!fs.existsSync(stylePath)) {
     console.error('No stylesheets found for \'' + appName +
