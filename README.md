@@ -285,7 +285,7 @@ validateSchema: true
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md)
 
-## Licence
+## License
 
 MIT
 

@@ -155,7 +155,7 @@ startupjsServer({
 })
 ```
 
-## Licence
+## License
 
 MIT
 

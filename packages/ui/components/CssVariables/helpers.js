@@ -1,6 +1,7 @@
 // refs:
 // https://accessiblepalette.com/?lightness=98,93.3,88.6,79.9,71.2,60.5,49.8,38.4,27,15.6&e94c49=1,0&F1903C=1,-10&f3e203=1,-15&89BF1D=0,0&64c273=0,15&007DCC=0,0&808080=0,0&EAE8DE=0,0&768092=0,0
 // https://www.ibm.com/design/language/color/
+import { getColor } from '../../hooks/useColors'
 import Colors from './Colors'
 import { TheColor } from './TheColor'
 
@@ -102,21 +103,50 @@ export function getPaletteLength (palette) {
   return res
 }
 
-/* eslint-disable dot-notation, no-multi-spaces */
-export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, low, middle }) {
+export function transformOverrides (overrides, palette, Color) {
+  if (!overrides) return
+
+  const res = {}
+
   for (const colorName in overrides) {
     const color = overrides[colorName]
+    // Set color as it is if it's the instance
     if (color instanceof TheColor) {
-      C[colorName] = color
+      res[colorName] = color
+    // Get color value from existing (needed for static overrides).
+    // First check already overriden colors in local 'res' variable to allow reuse of overriden variables immediately
+    // e.g.,
+    // :root
+    //    --palette-blue-4: #000099
+    //    --color-primary: var(--palette-blue-4)
+    //    --color-secondary: var(--palette-red-4)
+    //    --color-bg: var(--color-primary)
+    } else if (/(--color|--palette)/.test(color)) {
+      const colorVar = color.replace(/var\(\s*(--[A-Za-z0-9_-]+)\s*\)/, (match, varName) => {
+        return varName
+      })
+      const colorValue = res[colorVar] || getColor(colorVar, { addPrefix: false, convertToString: false })
+      if (!colorValue) throw Error(`'${colorName}' does not exist.`)
+      res[colorName] = colorValue.clone()
+    // Find color in a palette by hex or rgb(a) string
     } else {
       const [paletteColorName, level, alpha] = findColorInPalette(color, palette)
       if (!paletteColorName) throw Error(`'${colorName}' does not exist in palette. You can only pass a color from palette.`)
-      C[colorName] = Color(paletteColorName, level, { alpha })
+      res[colorName] = Color(paletteColorName, level, { alpha })
     }
   }
 
+  return res
+}
+
+/* eslint-disable dot-notation, no-multi-spaces */
+export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, low, middle }) {
+  const transformedOverrides = transformOverrides(overrides, palette, Color)
+  if (transformedOverrides) Object.assign(C, transformedOverrides)
+
   // base colors
   C[Colors['text-on-color']]                ??= Color('coolGray', high)
+  C[Colors.shadow]                          ??= Color('coolGray', low - 1, { alpha: 0.2 })
   C[Colors.bg]                              ??= Color('coolGray', high)
   C[Colors.text]                            ??= Color('coolGray', low + 2)
   C[Colors.border]                          ??= Color('coolGray', high - 2)
@@ -130,6 +160,10 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors.special]                         ??= Color('purple', middle - 1)
 
   // all other colors are generated from the base colors
+
+  // shadow colors
+  C[Colors['shadow-strong']]                ??= C[Colors.shadow].setAlpha(0.15)
+  C[Colors['shadow-dim']]                   ??= C[Colors.shadow].setAlpha(0.25)
 
   // main bg colors
   C[Colors['bg-primary']]                   ??= C[Colors.primary]

@@ -10,6 +10,6 @@ Card
   Card.Footer(buttons=['Confirm', 'Cancel'])
 ```
 
-## Licence
+## License
 
 MIT

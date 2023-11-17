@@ -28,7 +28,7 @@ where `options` are:
 
 - `pollDebounce` is the minimum delay between subsequent database polls . It is used individually for each collection in database. This is used to batch updates to reduce load on the database.
 
-## Licence
+## License
 
 MIT
 

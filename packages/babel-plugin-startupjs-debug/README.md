@@ -48,6 +48,6 @@ export default observer.__wrapObserverMeta(
 );
 ```
 
-## Licence
+## License
 
 MIT

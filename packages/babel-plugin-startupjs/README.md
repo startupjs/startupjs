@@ -15,6 +15,6 @@ import Button from '@startupjs/ui/components/Button'
 import Span from '@startupjs/ui/components/typography/Span'
 ```
 
-## Licence
+## License
 
 MIT

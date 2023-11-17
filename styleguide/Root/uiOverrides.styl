@@ -5,12 +5,6 @@
 // In order to support the override, each @startupjs/ui component must be wrapped into a
 // `themed()` decorator, same as in Button/index.js
 
-// TODO: statically overriding colors should work like this.
-//       And if person wants dynamic css variables then he'll use CssVariables
-// :root
-//   loadPalette('./palette.json')
-//   --color-bg: var(--palette-red-5)
-
 .Button
   +web()
     outline-color rgba(255, 0, 0, 0)

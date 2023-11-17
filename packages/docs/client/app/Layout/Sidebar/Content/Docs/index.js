@@ -35,7 +35,7 @@ const MenuItem = observer(function MenuItemComponent ({
           icon=faAngleRight
           iconStyleName='collapse-icon'
         )
-          Menu.Item.item(
+          Menu.Item(
             style=menuItemStyle
             active=active
             to=doc.component ? rootPath : null

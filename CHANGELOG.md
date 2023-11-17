@@ -1,3 +1,80 @@
+# [0.55.0-alpha.11](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.10...v0.55.0-alpha.11) (2023-11-15)
+
+
+### Bug Fixes
+
+* **CssVariables:** allow to use overriden variables immediately in static overrides ([ca15cb6](https://github.com/startupjs/startupjs/commit/ca15cb689ceb90cb1150401c7d7ee0c5045c456a))
+* **patches:** update css-to-react-native patch to handle 'var' in shorthand style props ([#1096](https://github.com/startupjs/startupjs/issues/1096)) ([6b7d2b2](https://github.com/startupjs/startupjs/commit/6b7d2b2955b56c287b2aca55dc9da441b0268225))
+
+
+
+# [0.55.0-alpha.10](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.9...v0.55.0-alpha.10) (2023-11-10)
+
+
+
+# [0.55.0-alpha.9](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.8...v0.55.0-alpha.9) (2023-11-10)
+
+
+### Features
+
+* **pm:** support Difficulty field ([a5dcdc8](https://github.com/startupjs/startupjs/commit/a5dcdc8c76592ed01ac97cd3f7c50fd362631791))
+
+
+
+# [0.55.0-alpha.8](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.7...v0.55.0-alpha.8) (2023-11-10)
+
+
+### Bug Fixes
+
+* **pm:** correctly retrieve project url after creation ([4b7c29c](https://github.com/startupjs/startupjs/commit/4b7c29c7def7fe07e923cc23840f24f8e0542d12))
+
+
+
+# [0.55.0-alpha.7](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.6...v0.55.0-alpha.7) (2023-11-10)
+
+
+### Features
+
+* **pm:** add extra instructions for the manual step to turn on auto-adding issues into project ([829d262](https://github.com/startupjs/startupjs/commit/829d26299212f238755236e68b21310d649217e9))
+
+
+
+# [0.55.0-alpha.6](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.5...v0.55.0-alpha.6) (2023-11-10)
+
+
+### Bug Fixes
+
+* **pm:** fix cli commands and link project to repo ([5c1d6cb](https://github.com/startupjs/startupjs/commit/5c1d6cbd33bfe8f5ea4ae27405adf0d86fb68389))
+
+
+
+# [0.55.0-alpha.5](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.4...v0.55.0-alpha.5) (2023-11-10)
+
+
+### Bug Fixes
+
+* **cli/init:** skip npx asking for installing global react-native package on init ([3bd716e](https://github.com/startupjs/startupjs/commit/3bd716e56132720c7439426a4ab6401fd14962a4))
+
+
+
+# [0.55.0-alpha.4](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.3...v0.55.0-alpha.4) (2023-11-10)
+
+
+### Bug Fixes
+
+* **cli/init:** don't install dependencies right away when initializing new project ([ccbcfd1](https://github.com/startupjs/startupjs/commit/ccbcfd13a2ee60a37fbbff28d6a5951a94e207e7))
+
+
+
+# [0.55.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.2...v0.55.0-alpha.3) (2023-11-09)
+
+
+### Features
+
+* project management automation and guidelines ([#1090](https://github.com/startupjs/startupjs/issues/1090)) ([ce7f3dd](https://github.com/startupjs/startupjs/commit/ce7f3dd8891065a00455f1392f2602db817a33a1))
+
+
+
 # [0.55.0-alpha.2](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.1...v0.55.0-alpha.2) (2023-11-09)
 
 

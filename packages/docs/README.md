@@ -90,6 +90,6 @@ startupjs: >= 0.33.0
     />
     ```
 
-## Licence
+## License
 
 MIT

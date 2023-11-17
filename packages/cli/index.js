@@ -23,6 +23,17 @@ try {
   PATCHES_DIR = './patches'
 }
 
+let PM_SCRIPTS_PATH
+try {
+  PM_SCRIPTS_PATH = path.join(
+    path.dirname(require.resolve('@startupjs/pm')),
+    'scripts.sh'
+  )
+} catch (err) {
+  console.error(err)
+  console.error('ERROR!!! @startupjs/pm package wasn\'t found.')
+}
+
 let PATCHES_GESTURE_HANDLER_DIR
 try {
   PATCHES_GESTURE_HANDLER_DIR = path.join(
@@ -233,8 +244,10 @@ commander
 
     // init react-native application
     await execa('npx', [
+      '--yes',
       `react-native${'@' + reactNative}`,
       'init',
+      '--skip-install',
       projectName
     ].concat(['--version', reactNative]), {
       cwd: path.join(process.cwd(), LOCAL_DIR),
@@ -441,6 +454,30 @@ commander
     )
   })
 
+// ----- project management commands
+
+commander
+  .command('init-pm')
+  .description('Create a new project on github from template')
+  .action(async () => {
+    await execa.command(`${PM_SCRIPTS_PATH} init-pm`, { shell: true, stdio: 'inherit' })
+    addPmScriptsToPackageJson() // add `yarn pm` and `yarn task` to package.json/scripts
+  })
+
+commander
+  .command('task <issueNumber>')
+  .description('Create a task branch (or just switch to it if it already exists)')
+  .action(async (issueNumber) => {
+    await execa.command(`${PM_SCRIPTS_PATH} task ${issueNumber}`, { shell: true, stdio: 'inherit' })
+  })
+
+commander
+  .command('pr [issueNumber]')
+  .description('Make PR for this task (or re-request review if it already exists)')
+  .action(async (issueNumber = '') => {
+    await execa.command(`${PM_SCRIPTS_PATH} pr ${issueNumber}`, { shell: true, stdio: 'inherit' })
+  })
+
 // ----- helpers
 
 async function recursivelyCopyFiles (sourcePath, targetPath) {
@@ -532,6 +569,23 @@ function patchScriptsInPackageJson (projectPath) {
   // and does not provide ability to pass .cjs config.
   // packageJSON.type = 'module'
   packageJSON.sideEffects = ['*.css', '*.styl']
+
+  fs.writeFileSync(
+    packageJSONPath,
+    `${JSON.stringify(packageJSON, null, 2)}\n`
+  )
+}
+
+function addPmScriptsToPackageJson () {
+  const projectPath = process.cwd()
+  const packageJSONPath = path.join(projectPath, 'package.json')
+  const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath).toString())
+
+  packageJSON.scripts = {
+    ...packageJSON.scripts,
+    task: 'npx startupjs task',
+    pr: 'npx startupjs pr'
+  }
 
   fs.writeFileSync(
     packageJSONPath,

@@ -3,8 +3,7 @@ import { Platform } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
 import { pug, observer, model } from 'startupjs'
-import { registerPlugins } from 'startupjs/plugin'
-import { uiAppPlugin } from '@startupjs/ui'
+import { UiProvider } from '@startupjs/ui'
 import { BASE_URL } from '@env'
 import i18n, { useI18nGlobalInit } from '../i18n'
 import orm from '../model'
@@ -20,17 +19,12 @@ if (Platform.OS === 'web') window.model = model
 // Initialization must start before doing any subscribes to data.
 init({ baseUrl: BASE_URL, orm })
 
-registerPlugins({
-  '@startupjs/app': [
-    [uiAppPlugin, { defaultEnabled: true }]
-  ]
-})
-
 export default observer(() => {
   return pug`
-    App(
-      apps={ i18n, main }
-      useGlobalInit=useI18nGlobalInit
-    )
+    UiProvider
+      App(
+        apps={ i18n, main }
+        useGlobalInit=useI18nGlobalInit
+      )
   `
 })

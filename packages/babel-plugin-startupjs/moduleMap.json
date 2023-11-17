@@ -82,7 +82,7 @@
     "ThemeContext": "/theming/ThemeContext.js",
     "ThemeProvider": "/theming/ThemeProvider.js",
     "themed": "/theming/themed.js",
-    "uiAppPlugin": "/uiAppPlugin.js",
+    "UiProvider": "/UiProvider.js",
     "DialogsProvider": "/components/dialogs/DialogsProvider.js",
     "alert": "/components/dialogs/alert.js",
     "confirm": "/components/dialogs/confirm.js",
