@@ -3,14 +3,17 @@
 // the life period of the application. And depends only on the type of
 // resource and the name of the application
 
-const path = require('path')
-const fs = require('fs')
-const memoize = require('lodash/memoize')
+import { createRequire } from 'module'
+import path from 'path'
+import fs from 'fs'
+import memoize from 'lodash/memoize.js'
 
-let BUILD_CLIENT_PATH = process.env.BUILD_CLIENT_PATH || '/build/client/'
+const require = createRequire(import.meta.url)
+
 let PROJECT_PATH = process.env.PROJECT_PATH || process.cwd()
+const BUILD_CLIENT_PATH = process.env.BUILD_CLIENT_PATH || '/build/client/'
 
-exports.getResourcePath = memoize((type, appName, options = {}) => {
+export const getResourcePath = memoize((type, appName, options = {}) => {
   let prefix = ''
   let url = 'ERROR_EMPTY'
   let postfix = ''
@@ -18,7 +21,7 @@ exports.getResourcePath = memoize((type, appName, options = {}) => {
     case 'bundle':
       if (process.env.NODE_ENV === 'production') {
         prefix = options.BUILD_REFERENCE_URL || ''
-        postfix = '.' + exports.getHash(appName, type, options)
+        postfix = '.' + getHash(appName, type, options)
       } else {
         prefix = process.env.DEVSERVER_URL ||
             ('http://localhost:' + (options.DEV_PORT || process.env.DEV_PORT || 3010))
@@ -35,13 +38,14 @@ exports.getResourcePath = memoize((type, appName, options = {}) => {
 }, (...args) => JSON.stringify(args))
 
 // Get assets hashes in production (used for long term caching)
-exports.getHash = memoize((appName, type, options = {}) => {
+export const getHash = memoize((appName, type, options = {}) => {
   if (process.env.NODE_ENV !== 'production') return
   if (!appName) return ''
   let assetsMeta
   let hash = ''
   PROJECT_PATH = options.PROJECT_PATH || PROJECT_PATH
-  let assetsMetaPath = path.join(PROJECT_PATH, BUILD_CLIENT_PATH, 'assets.json')
+  console.log(path.join(PROJECT_PATH, BUILD_CLIENT_PATH, 'assets.json'), "path.join(PROJECT_PATH, BUILD_CLIENT_PATH, 'assets.json')")
+  const assetsMetaPath = path.join(PROJECT_PATH, BUILD_CLIENT_PATH, 'assets.json')
   try {
     assetsMeta = require(assetsMetaPath)
   } catch (e) {
@@ -66,9 +70,9 @@ exports.getHash = memoize((appName, type, options = {}) => {
 })
 
 // DEPRECATED
-exports.getProductionStyles = memoize((appName, options = {}) => {
+export const getProductionStyles = memoize((appName, options = {}) => {
   PROJECT_PATH = options.PROJECT_PATH || PROJECT_PATH
-  const styleRelPath = exports.getResourcePath('style', appName, options)
+  const styleRelPath = getResourcePath('style', appName, options)
   const stylePath = path.join(PROJECT_PATH, styleRelPath)
   if (!fs.existsSync(stylePath)) {
     console.error('No stylesheets found for \'' + appName +

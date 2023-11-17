@@ -1,4 +1,4 @@
-import { changePassword } from '../helpers'
+import { changePassword } from '../helpers/index.js'
 
 export default function resetPassword (config) {
   return function (req, res, done) {

@@ -1,3 +1,3 @@
-export { default as isLoggedIn } from './isLoggedIn'
-export { default as passportMiddleware } from './passportMiddleware'
-export { default as ensureAuthState } from './ensureAuthState'
+export { default as isLoggedIn } from './isLoggedIn.js'
+export { default as passportMiddleware } from './passportMiddleware.js'
+export { default as ensureAuthState } from './ensureAuthState.js'

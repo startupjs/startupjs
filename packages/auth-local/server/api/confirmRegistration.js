@@ -1,4 +1,4 @@
-import { sendError, ERROR_FORMAT_REDIRECT } from '../helpers'
+import { sendError, ERROR_FORMAT_REDIRECT } from '../helpers/index.js'
 
 export default function confirmRegistration (config) {
   return function (req, res) {
@@ -6,16 +6,16 @@ export default function confirmRegistration (config) {
       registrationConfirmedUrl,
       confirmEmail,
       onBeforeConfirmRegistration,
-      sendRegistrationConfirmationComplete,
+      sendRegistrationConfirmationComplete
     } = config
 
-    onBeforeConfirmRegistration(req, res, function(err, userId) {
+    onBeforeConfirmRegistration(req, res, function (err, userId) {
       if (err) return _sendError(err)
 
-      sendRegistrationConfirmationComplete(userId, function(err){
+      sendRegistrationConfirmationComplete(userId, function (err) {
         if (err) return _sendError(err)
 
-        confirmEmail(req.model, userId, config, function(err) {
+        confirmEmail(req.model, userId, config, function (err) {
           if (err) return _sendError(err)
 
           res.redirect(registrationConfirmedUrl)

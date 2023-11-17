@@ -1,4 +1,4 @@
-import { BaseModel } from 'startupjs/orm'
+import { BaseModel } from 'startupjs/orm.js'
 
 export default function getTranslationsModel (i18nPageAccess) {
   return class BaseTranslationsModel extends BaseModel {

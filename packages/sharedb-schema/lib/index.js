@@ -1,6 +1,6 @@
-const Schema = require('./Schema')
+import Schema from './Schema.js'
 
-module.exports = function plugin (backend, options) {
+export default function schema (backend, options) {
   const schema = new Schema(backend, options)
 
   backend.use('commit', schema.commitHandler)

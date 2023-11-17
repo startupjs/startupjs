@@ -1,4 +1,4 @@
-import { checkRecaptcha } from '@startupjs/recaptcha/server'
+import { checkRecaptcha } from '@startupjs/recaptcha/server/index.js'
 import express from 'express'
 
 const router = express.Router()

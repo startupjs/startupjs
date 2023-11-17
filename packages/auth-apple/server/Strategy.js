@@ -2,9 +2,9 @@ import passport from 'passport'
 import Strategy from '@nicokaiser/passport-apple'
 import nconf from 'nconf'
 import fs from 'fs'
-import Provider from './Provider'
-import initRoutes from './initRoutes'
-import { CALLBACK_URL } from '../isomorphic/constants'
+import Provider from './Provider.js'
+import initRoutes from './initRoutes.js'
+import { CALLBACK_URL } from '../isomorphic/constants.js'
 
 function validateConfigs ({ clientId, teamId, keyId, privateKeyLocation }) {
   if (!clientId) {

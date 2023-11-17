@@ -1,6 +1,6 @@
-import { CONFIRMED_EMAIL_URL } from '@startupjs/auth/isomorphic'
+import { CONFIRMED_EMAIL_URL } from '@startupjs/auth/isomorphic/index.js'
 import { Strategy } from 'passport-local'
-import _get from 'lodash/get'
+import _get from 'lodash/get.js'
 import passport from 'passport'
 import bcrypt from 'bcrypt'
 import {
@@ -22,16 +22,16 @@ import {
   sendRegistrationConfirmation,
   sendRegistrationConfirmationComplete,
   sendRegistrationInfo
-} from './helpers'
-import initRoutes from './initRoutes'
-import Provider from './Provider'
+} from './helpers/index.js'
+import initRoutes from './initRoutes.js'
+import Provider from './Provider.js'
 import {
   DEFAULT_CONFIRM_EMAIL_TIME_LIMIT,
   DEFAULT_PASS_RESET_TIME_LIMIT,
   ERROR_USER_INVALID_CREDENTIALS,
   ERROR_USER_NOT_CONFIRMED,
   ERROR_USER_NOT_FOUND
-} from '../isomorphic'
+} from '../isomorphic/index.js'
 
 export default function (config = {}) {
   this.config = {}
@@ -69,10 +69,12 @@ export default function (config = {}) {
     initRoutes({ router, config: this.config })
 
     // Append required configs to client session
-    updateClientSession({ local: {
-      localSignUpEnabled: this.config.localSignUpEnabled,
-      confirmRegistration: this.config.confirmRegistration
-    } })
+    updateClientSession({
+      local: {
+        localSignUpEnabled: this.config.localSignUpEnabled,
+        confirmRegistration: this.config.confirmRegistration
+      }
+    })
 
     passport.use(
       new Strategy(
@@ -99,8 +101,8 @@ export default function (config = {}) {
               return cb(ERROR_USER_INVALID_CREDENTIALS)
             }
             if (
-              this.config.confirmRegistration
-              && authData.providers.local.confirmationExpiresAt
+              this.config.confirmRegistration &&
+              authData.providers.local.confirmationExpiresAt
             ) {
               return cb(ERROR_USER_NOT_CONFIRMED)
             }

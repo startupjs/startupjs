@@ -1,9 +1,8 @@
 import { Strategy } from '@dmapper/passport-linkedin-oauth2'
 import passport from 'passport'
-import initRoutes from './initRoutes'
-import Provider from './Provider'
-
-import { CALLBACK_LINKEDIN_URL } from '../isomorphic'
+import initRoutes from './initRoutes.js'
+import Provider from './Provider.js'
+import { CALLBACK_LINKEDIN_URL } from '../isomorphic/index.js'
 
 function validateConfigs ({ getClient, clientId, clientSecret }) {
   if (typeof getClient === 'function') {

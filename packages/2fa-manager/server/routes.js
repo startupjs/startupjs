@@ -1,6 +1,6 @@
 import express from 'express'
-import { GET_PROVIDERS_URL, SEND_URL, CHECK_URL } from '../isomorphic'
-import TwoFAManager from './TwoFAManager'
+import { GET_PROVIDERS_URL, SEND_URL, CHECK_URL } from '../isomorphic/index.js'
+import TwoFAManager from './TwoFAManager.js'
 
 const router = express.Router()
 

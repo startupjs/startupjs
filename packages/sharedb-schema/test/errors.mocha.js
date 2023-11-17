@@ -1,5 +1,5 @@
-const assert = require('assert')
-const model = require('./model')
+import assert from 'assert'
+import model from './model.js'
 
 let id
 
@@ -24,7 +24,7 @@ describe('errors', function () {
   })
 
   it('should return hobbies.1 error', async function () {
-    let user = {
+    const user = {
       firstName: 'Ivan',
       lastName: 'Ivanov',
       age: 18,
@@ -44,7 +44,7 @@ describe('errors', function () {
   })
 
   it('should return hobbies.2 error', async function () {
-    let user = {
+    const user = {
       firstName: 'Ivan',
       lastName: 'Ivanov',
       age: 18,
@@ -60,7 +60,7 @@ describe('errors', function () {
   })
 
   it('should return categoryHash error', async function () {
-    let product = {
+    const product = {
       categoryHash: {
         wrong: 'asdf'
       }
@@ -107,7 +107,7 @@ describe('errors', function () {
   })
 
   it('should return categories.0 error', async function () {
-    let product = {
+    const product = {
       name: 'B-2'
     }
 

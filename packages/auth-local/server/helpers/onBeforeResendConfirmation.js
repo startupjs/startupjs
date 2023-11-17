@@ -1,8 +1,5 @@
-import {
-  ERROR_EMAIL_REQUIRED,
-  ERROR_USER_NOT_FOUND
-} from '../../isomorphic'
-import Provider from '../Provider'
+import { ERROR_EMAIL_REQUIRED } from '../../isomorphic/index.js'
+import Provider from '../Provider.js'
 
 export default async function onBeforeResendConfirmation (req, res, config, next) {
   const { email } = req.body

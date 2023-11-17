@@ -1,17 +1,17 @@
-const _defaults = require('lodash/defaults')
-const _cloneDeep = require('lodash/cloneDeep')
-const conf = require('nconf')
-const express = require('express')
-const expressSession = require('express-session')
-const compression = require('compression')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
-const methodOverride = require('method-override')
-const MongoStore = require('connect-mongo')
-const hsts = require('hsts')
-const cors = require('cors')
+import _defaults from 'lodash/defaults.js'
+import _cloneDeep from 'lodash/cloneDeep.js'
+import conf from 'nconf'
+import express from 'express'
+import expressSession from 'express-session'
+import compression from 'compression'
+import cookieParser from 'cookie-parser'
+import bodyParser from 'body-parser'
+import methodOverride from 'method-override'
+import MongoStore from 'connect-mongo'
+import hsts from 'hsts'
+import app from './app/index.js'
+
 const FORCE_HTTPS = conf.get('FORCE_HTTPS_REDIRECT')
-const app = require('./app')
 const DEFAULT_SESSION_MAX_AGE = 1000 * 60 * 60 * 24 * 365 * 2 // 2 years
 const DEFAULT_BODY_PARSER_OPTIONS = {
   urlencoded: {
@@ -25,7 +25,7 @@ function getDefaultSessionUpdateInterval (sessionMaxAge) {
   return Math.floor(sessionMaxAge / 1000 / 10)
 }
 
-module.exports = (backend, mongoClient, error, options) => {
+export default (backend, mongoClient, error, options) => {
   const connectMongoOptions = { client: mongoClient }
 
   if (options.sessionMaxAge) {
@@ -101,19 +101,6 @@ module.exports = (backend, mongoClient, error, options) => {
 
   // ----------------------------------------------------->    static    <#
   options.ee.emit('static', expressApp)
-
-  if (process.env.NODE_ENV !== 'production' && process.env.VITE) {
-    // Enable cors requests from localhost in dev
-    expressApp.use(cors({ origin: /(?:127\.0\.0\.1|localhost):?\d*$/ }))
-    // Redirect to https 3010 port in dev
-    const VITE_PORT = 3010
-    expressApp.use((req, res, next) => {
-      if (req.method === 'GET' && (req.path === '/' || req.path === '')) {
-        return res.redirect(301, 'https://' + req.get('host').replace(/:?\d+$/, ':' + VITE_PORT) + req.originalUrl)
-      }
-      next()
-    })
-  }
 
   expressApp
     .use(express.static(options.publicPath, { maxAge: '1h' }))

@@ -19,7 +19,7 @@ nconf: *
 import createBackend from '@startupjs/backend'
 
 export default async function runServer () {
-  const { backend, shareMongo, redis } = await createBackend(options)
+  const { backend, shareDbMongo, redisClient, redisPrefix, redis } = await createBackend(options)
   // ...
 }
 ```

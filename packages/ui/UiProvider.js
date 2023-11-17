@@ -24,7 +24,7 @@ export default observer(function UiProvider ({ children, style, palette, colors 
 
     const meta = { palette: {}, colors: {} }
 
-    let transformedOverrides = transformOverrides(staticOverrides, defaultPalette.colors, defaultPalette.Color)
+    const transformedOverrides = transformOverrides(staticOverrides, defaultPalette.colors, defaultPalette.Color)
 
     for (const key in transformedOverrides) {
       const isColor = key.includes('--color')

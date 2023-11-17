@@ -1,1 +1,1 @@
-export { default as TotpProvider } from './Provider'
+export { default as TotpProvider } from './Provider.js'

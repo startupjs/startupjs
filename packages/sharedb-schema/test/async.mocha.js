@@ -1,15 +1,15 @@
-const assert = require('assert')
-const model = require('./model')
+import assert from 'assert'
+import model from './model.js'
 
 describe('async', function () {
   let id
   let $category
   let $product
   beforeEach(async function () {
-    let category = {
+    const category = {
       name: 'Planes'
     }
-    let product = {
+    const product = {
       name: 'T-50'
     }
 
@@ -40,7 +40,7 @@ describe('async', function () {
   })
 
   it('should create product', async function () {
-    let product = {
+    const product = {
       name: 'A-10'
     }
     try {
@@ -51,7 +51,7 @@ describe('async', function () {
   })
 
   it('should create product with real categoryId', async function () {
-    let product = {
+    const product = {
       name: 'A-10',
       categoryId: $category.get('id')
     }
@@ -64,7 +64,7 @@ describe('async', function () {
   })
 
   it('should not create product with wrong categoryId', async function () {
-    let product = {
+    const product = {
       name: 'A-10',
       categoryId: model.id()
     }
@@ -77,7 +77,7 @@ describe('async', function () {
   })
 
   it('should create product with right hash', async function () {
-    let product = {
+    const product = {
       name: 'A-10',
       categoryHash: {}
     }
@@ -91,7 +91,7 @@ describe('async', function () {
   })
 
   it('should not create product with wrong hash', async function () {
-    let product = {
+    const product = {
       name: 'A-10',
       categoryHash: {}
     }
@@ -105,7 +105,7 @@ describe('async', function () {
   })
 
   it('should create product with right array', async function () {
-    let product = {
+    const product = {
       name: 'A-10',
       categories: [$category.get('id')]
     }
@@ -118,7 +118,7 @@ describe('async', function () {
   })
 
   it('should not create product with wrong array', async function () {
-    let product = {
+    const product = {
       name: 'A-10',
       categories: [model.id()]
     }
@@ -178,7 +178,7 @@ describe('async', function () {
     }
   })
 
-  xit('should not insert categoryId', async function () {
+  it('should not insert categoryId', async function () {
     try {
       await $product.insert('categories', 0, model.id())
     } catch (err) {
@@ -194,7 +194,7 @@ describe('async', function () {
     }
   })
 
-  it('should remove categoryId', async function () {
+  it('should remove categoryId 1', async function () {
     try {
       await $product.shift('categories')
     } catch (err) {
@@ -210,7 +210,7 @@ describe('async', function () {
     }
   })
 
-  it('should remove categoryId', async function () {
+  it('should remove categoryId 2', async function () {
     try {
       await $product.remove('categories', 0, model.id())
     } catch (err) {

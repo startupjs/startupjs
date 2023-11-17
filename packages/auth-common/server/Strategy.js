@@ -1,8 +1,8 @@
 import passport from 'passport'
 import Strategy from 'passport-oauth2'
 import nconf from 'nconf'
-import initRoutes from './initRoutes'
-import Provider from './Provider'
+import initRoutes from './initRoutes.js'
+import Provider from './Provider.js'
 
 function validateConfigs ({
   providerName,

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import nconf from 'nconf'
-import { ERRORS } from '../../constants'
+import { ERRORS } from '../../constants.js'
 
 export default async function checkToken ({ token }) {
   const RECAPTCHA_SECRET_KEY = nconf.get('RECAPTCHA_SECRET_KEY')

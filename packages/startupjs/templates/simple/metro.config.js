@@ -1,3 +1,9 @@
-// FIXME: Metro does not provide way to use cjs config.
-// https://github.com/facebook/metro/blob/master/packages/metro-config/src/loadConfig.js#L49
-module.exports = require('./metro.config.cjs')
+import config from 'startupjs/bundler/metro.config.js'
+import path from 'path'
+
+config.watchFolders = [
+  path.resolve(__dirname, '../'),
+  path.resolve(__dirname, '../node_modules')
+]
+
+export default config

@@ -1,4 +1,4 @@
-import { BaseProvider } from '@startupjs/auth/server'
+import { BaseProvider } from '@startupjs/auth/server/index.js'
 
 const PROVIDER_NAME = 'linkedin'
 

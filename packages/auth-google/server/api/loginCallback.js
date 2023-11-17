@@ -1,7 +1,7 @@
-import { finishAuth, linkAccount } from '@startupjs/auth/server'
-import { getGoogleIdToken, getGoogleProfile } from '../helpers'
-import { CALLBACK_URL } from '../../isomorphic'
-import Provider from '../Provider'
+import { finishAuth, linkAccount } from '@startupjs/auth/server/index.js'
+import { getGoogleIdToken, getGoogleProfile } from '../helpers/index.js'
+import { CALLBACK_URL } from '../../isomorphic/index.js'
+import Provider from '../Provider.js'
 
 export default async function loginCallback (req, res, next, config) {
   const {

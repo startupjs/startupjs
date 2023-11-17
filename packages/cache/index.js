@@ -10,7 +10,7 @@
  *
  * IMPORTANT: You must do cache.clear() when you don't need it anymore otherwise you'll have HUGE memory leaks
  */
-import cacheEnabled from '@startupjs/cache/enabled'
+import cacheEnabled from '@startupjs/cache/enabled.js'
 import { __increment, __decrement, setDebugVar } from '@startupjs/debug'
 
 // global setting to disable cache

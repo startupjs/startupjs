@@ -1,1 +1,1 @@
-export { default as TaskDispatcher } from './TaskDispatcher'
+export { default as TaskDispatcher } from './TaskDispatcher/index.js'

@@ -1,11 +1,14 @@
-const path = require('path')
-const template = require('lodash/template')
-const fs = require('fs')
+import url from 'url'
+import path from 'path'
+import template from 'lodash/template.js'
+import fs from 'fs'
 
-let templates = {
-  403: template(fs.readFileSync(path.join(__dirname, 'views/403.html'))),
-  404: template(fs.readFileSync(path.join(__dirname, 'views/404.html'))),
-  500: template(fs.readFileSync(path.join(__dirname, 'views/500.html')))
+const dirname = path.dirname(url.fileURLToPath(import.meta.url))
+
+const templates = {
+  403: template(fs.readFileSync(path.join(dirname, 'views/403.html'))),
+  404: template(fs.readFileSync(path.join(dirname, 'views/404.html'))),
+  500: template(fs.readFileSync(path.join(dirname, 'views/500.html')))
 }
 
 // Override/extend default error pages
@@ -20,7 +23,7 @@ const readFilesFromDir = dirPath => {
   })
 }
 
-module.exports = (options = {}) => {
+export default (options = {}) => {
   if (options.errorPagesPath) {
     readFilesFromDir(path.join(options.dirname, options.errorPagesPath))
   }
@@ -36,7 +39,7 @@ module.exports = (options = {}) => {
     }
 
     // Customize error handling here
-    let message = err.message || err.toString()
+    const message = err.message || err.toString()
     let status = parseInt(message)
     status = (status >= 400 && status < 600) ? status : 500
 

@@ -28,13 +28,12 @@ let customInit
       console.warn('[worker] WARNING! workerInit.js doesn\'t export a function. Ignoring.')
     }
   } catch (e) {
-    console.log(e, 'error')
     console.warn('[worker] WARNING! No custom init file found. Create an workerInit.js file in ' +
         'your project\'s worker directory to do the custom initialization of backend (hooks, etc.).')
   }
 
   process.on('message', (data) => {
-    let taskId = data && data.taskId
+    const taskId = data && data.taskId
 
     if (!taskId) {
       console.log('[Child Worker] received unknown message format', data)
@@ -67,7 +66,7 @@ async function executeTaskWrapper (taskId) {
   const { backend } = dbs
   const model = backend.createModel()
   const $task = model.at(collection + '.' + taskId)
-  await model.fetchAsync($task)
+  await model.fetch($task)
   const task = $task.get()
 
   if (!task) {
@@ -80,13 +79,13 @@ async function executeTaskWrapper (taskId) {
     throw new Error(`Task status is not executing: ${task.status}, tId: ${taskId}`)
   }
 
-  let actionType = task.type
+  const actionType = task.type
   if (!actionType) {
     model.close()
     throw new Error(`No action type in task, tId: ${taskId}`)
   }
 
-  let action = actions[actionType]
+  const action = actions[actionType]
   if (!action) {
     model.close()
     throw new Error(`No action to execute: ${action}, tId: ${taskId}`)

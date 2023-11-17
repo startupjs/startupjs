@@ -8,7 +8,7 @@ import {
   REGISTER_URL,
   RESEND_EMAIL_CONFIRMATION,
   RESET_PASSWORD_URL
-} from '../isomorphic'
+} from '../isomorphic/index.js'
 import {
   changePassword,
   changeEmail,
@@ -19,8 +19,8 @@ import {
   register,
   resendEmailConfirmation,
   resetPassword
-} from './api'
-import { loginLockChecker, setLoginAttempts } from './middlewares'
+} from './api/index.js'
+import { loginLockChecker, setLoginAttempts } from './middlewares/index.js'
 
 export default function (options) {
   const { router, config } = options

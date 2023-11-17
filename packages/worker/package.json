@@ -1,22 +1,21 @@
 {
   "name": "@startupjs/worker",
   "version": "0.55.0-alpha.1",
+  "type": "module",
   "description": "Worker to perform specified actions",
   "publishConfig": {
     "access": "public"
   },
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "test": "node_modules/.bin/mocha test/*.mocha.js --exit"
+    "test": "mocha --file test/hooks.js 'test/*.mocha.js'"
   },
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.7.2",
+    "@startupjs/backend": "^0.55.0-alpha.1",
+    "@startupjs/orm": "^0.55.0-alpha.1",
     "lodash": "^4.17.20",
-    "racer": "1.0.1",
-    "redlock": "^3.0.0",
-    "resolve": "^1.20.0"
+    "redlock": "^3.0.0"
   },
   "devDependencies": {
     "mocha": "^8.1.3"

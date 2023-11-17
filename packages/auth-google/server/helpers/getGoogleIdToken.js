@@ -8,7 +8,7 @@ export default async function getGoogleIdToken ({
   redirectURI
 }) {
   const data = qs.stringify({
-    code: code,
+    code,
     client_id: clientId,
     client_secret: clientSecret,
     redirect_uri: redirectURI,

@@ -1,12 +1,14 @@
-const createBackend = require('@startupjs/backend')
-const http = require('http')
-const https = require('https')
-const conf = require('nconf')
-const racerHighway = require('racer-highway')
+import createBackend from '@startupjs/backend'
+import http from 'http'
+import https from 'https'
+import conf from 'nconf'
+import racerHighway from 'racer-highway'
+import express from './express.js'
+
 let server = null
 let wsServer = null
 
-module.exports = async (options) => {
+export default async (options) => {
   options = Object.assign({ secure: true }, options)
 
   // Init backend and all apps
@@ -15,7 +17,7 @@ module.exports = async (options) => {
   // Init error handling route
   const error = options.error(options)
 
-  const { expressApp, session } = require('./express')(backend, shareDbMongo._mongoClient, error, options)
+  const { expressApp, session } = express(backend, shareDbMongo._mongoClient, error, options)
 
   const { wss, upgrade } = racerHighway(backend, { session }, { timeout: 5000, timeoutIncrement: 8000 })
   wsServer = wss

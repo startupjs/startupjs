@@ -1,7 +1,6 @@
-
-const relevantPath = (pattern, op) => {
-  let segments = segmentsFor(op)
-  let patternSegments = pattern.split('.')
+export function relevantPath (pattern, op) {
+  const segments = segmentsFor(op)
+  const patternSegments = pattern.split('.')
 
   if (segments.length !== patternSegments.length) {
     return false
@@ -11,12 +10,12 @@ const relevantPath = (pattern, op) => {
     return segments.join('.') === patternSegments.join('.')
   }
 
-  let regExp = patternToRegExp(patternSegments.join('.'))
+  const regExp = patternToRegExp(patternSegments.join('.'))
 
   return regExp.test(segments.join('.'))
 }
 
-const lookup = (segments, doc) => {
+export function lookup (segments, doc) {
   let curr = doc
   let part
 
@@ -29,8 +28,8 @@ const lookup = (segments, doc) => {
   return curr
 }
 
-const patternToRegExp = (pattern) => {
-  let regExpString = pattern
+export function patternToRegExp (pattern) {
+  const regExpString = pattern
     .replace(/\./g, '\\.')
     .replace(/\*\*/g, '(.+)')
     .replace(/\*/g, '([^.]+)')
@@ -38,22 +37,14 @@ const patternToRegExp = (pattern) => {
   return new RegExp('^' + regExpString + '$')
 }
 
-const segmentsFor = (item) => {
-  let relativeSegments = item.p
+export function segmentsFor (item) {
+  const relativeSegments = item.p
 
   if (normalPath(item)) return relativeSegments
 
   return relativeSegments.slice(0, -1)
 }
 
-const normalPath = (item) => {
+export function normalPath (item) {
   return 'oi' in item || 'od' in item || 'li' in item || 'ld' in item || 'na' in item
-}
-
-module.exports = {
-  relevantPath,
-  lookup,
-  patternToRegExp,
-  segmentsFor,
-  normalPath
 }
