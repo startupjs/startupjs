@@ -1,6 +1,7 @@
 {
   "name": "@startupjs/styleguide",
   "version": "0.54.0",
+  "type": "module",
   "sideEffects": [
     "*.css",
     "*.styl"
@@ -20,9 +21,7 @@
     "log-android-color": "react-native log-android | ccze -m ansi -C -o nolookups",
     "build": "startupjs build --async",
     "start-production": "startupjs start-production",
-    "fonts": "startupjs fonts",
-    "test:ios": "APP_ENV=detox startupjs test --ios --artifacts",
-    "test:build:ios": "startupjs test --build"
+    "fonts": "startupjs fonts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.12.0",

@@ -1,5 +1,5 @@
 import racer from 'racer'
-import Query from 'racer/lib/Model/Query'
+import Query from 'racer/lib/Model/Query.js'
 
 const Model = racer.Model
 

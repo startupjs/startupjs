@@ -7,14 +7,6 @@ module.exports = {
         'startupjs/i18n',
         'startupjs/init',
         'startupjs/plugin'
-      ],
-      server: [
-        'startupjs/app',
-        'startupjs/i18n',
-        'startupjs/init',
-        'startupjs/nconf',
-        'startupjs/orm',
-        'startupjs/server'
       ]
     }
   }

@@ -1,22 +1,23 @@
-const ShareDbAccess = require('@startupjs/sharedb-access')
-const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
-const rigisterOrmRulesFromFactory = require('@startupjs/sharedb-access').rigisterOrmRulesFromFactory
-const sharedbSchema = require('@startupjs/sharedb-schema')
-const serverAggregate = require('@startupjs/server-aggregate')
-const isArray = require('lodash/isArray')
-const isPlainObject = require('lodash/isPlainObject')
-const redisPubSub = require('sharedb-redis-pubsub')
-const racer = require('racer')
-const redis = require('redis')
-const Redlock = require('redlock')
-const shareDbHooks = require('sharedb-hooks')
-const getShareDbMongo = require('./getShareDbMongo')
-const getRedis = require('./getRedis')
+import ShareDbAccess, {
+  registerOrmRules,
+  rigisterOrmRulesFromFactory
+} from '@startupjs/sharedb-access'
+import sharedbSchema from '@startupjs/sharedb-schema'
+import serverAggregate from '@startupjs/server-aggregate'
+import isArray from 'lodash/isArray.js'
+import isPlainObject from 'lodash/isPlainObject.js'
+import redisPubSub from 'sharedb-redis-pubsub'
+import racer from 'racer'
+import redis from 'redis'
+import Redlock from 'redlock'
+import shareDbHooks from 'sharedb-hooks'
+import getShareDbMongo from './getShareDbMongo.js'
+import getRedis from './getRedis.js'
 
 global.__clients = {}
 const usersConnectionCounter = {}
 
-module.exports = async options => {
+export default async options => {
   options = Object.assign({ secure: true }, options)
 
   if (options.ee != null) options.ee.emit('storeUse', racer)
@@ -87,7 +88,7 @@ module.exports = async options => {
     })
   }
 
-  let pubsub = redisPubSub({
+  const pubsub = redisPubSub({
     client: redisClient,
     observer: redisObserver
   })
@@ -145,7 +146,7 @@ module.exports = async options => {
       const { aggregations } = ORM[path].OrmEntity
       if (!aggregations) continue
 
-      for (let aggregationKey in aggregations) {
+      for (const aggregationKey in aggregations) {
         const collection = path.replace(/\.\*$/u, '')
         backend.addAggregate(
           collection,
@@ -192,10 +193,10 @@ module.exports = async options => {
   }
 
   backend.on('client', (client, reject) => {
-    let req = client.upgradeReq
+    const req = client.upgradeReq
     if (!req) return
 
-    let userId = req.session && req.session.userId
+    const userId = req.session && req.session.userId
 
     if (!global.__clients[userId]) {
       const model = backend.createModel()
@@ -204,7 +205,7 @@ module.exports = async options => {
 
     usersConnectionCounter[userId] = ~~usersConnectionCounter[userId] + 1
 
-    let userAgent = req.headers && req.headers['user-agent']
+    const userAgent = req.headers && req.headers['user-agent']
     if (!options.silentLogs) console.log('[WS OPENED]:', userId, userAgent)
 
     client.once('close', () => {

@@ -1,6 +1,8 @@
-const fs = require('fs')
-const Redis = require('ioredis')
-const isString = require('lodash/isString')
+import fs from 'fs'
+import Redis from 'ioredis'
+import isString from 'lodash/isString.js'
+import RedisMock from 'ioredis-mock'
+
 const {
   BASE_URL,
   MONGO_URL,
@@ -22,14 +24,14 @@ const PREFIX = '_' + simpleNumericHash(MONGO_URL + BASE_URL)
     your redis keys and lock keys. This will prevent bugs when you have multiple staging
     apps using the same redis DB.
 */
-module.exports = function getRedis (options) {
+export default function getRedis (options) {
   let client
   let observer
 
   if (NO_REDIS) {
     ({ client, observer } = getMockedRedis())
   } else {
-    let redisOpts = isString(REDIS_OPTS)
+    const redisOpts = isString(REDIS_OPTS)
       ? JSON.parse(REDIS_OPTS)
       : undefined
 
@@ -70,9 +72,9 @@ module.exports = function getRedis (options) {
 }
 
 function getMockedRedis () {
-  const Redis = require('ioredis-mock')
   const options = { keyPrefix: PREFIX }
-  return { client: new Redis(options), observer: new Redis(options) }
+
+  return { client: new RedisMock(options), observer: new RedisMock(options) }
 }
 
 // ref: https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0?permalink_comment_id=2694461#gistcomment-2694461

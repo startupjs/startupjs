@@ -6,11 +6,11 @@ import {
   onBeforeLogoutHook,
   onAfterUserCreationHook,
   onAfterLoginHook
-} from './helpers'
-import initDefaultRoutes from './initDefaultRoutes'
-import { passportMiddleware } from './middlewares'
-import { SIGN_IN_URL } from '../isomorphic'
-import { auth } from './'
+} from './helpers/index.js'
+import initDefaultRoutes from './initDefaultRoutes.js'
+import { passportMiddleware } from './middlewares/index.js'
+import { SIGN_IN_URL } from '../isomorphic/index.js'
+import { auth } from './index.js'
 
 const DEFAULT_EXPIRES_REDIRECT_URL = 5 * 60000 // 5 min in ms
 

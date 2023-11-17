@@ -1,7 +1,10 @@
-const ShareDbMongo = require('sharedb-mongo')
-const MongoClient = require('mongodb').MongoClient
-const fs = require('fs')
-const isString = require('lodash/isString')
+import ShareDbMongo from 'sharedb-mongo'
+import { MongoClient } from 'mongodb'
+import fs from 'fs'
+import isString from 'lodash/isString.js'
+import ShareDbMingoMemory from 'sharedb-mingo-memory'
+import sqlite3 from 'sqlite3'
+
 const {
   MONGO_URL,
   MONGO_OPTS,
@@ -14,14 +17,14 @@ const {
 let initPromise
 let shareDbMongo
 
-module.exports = async function getShareDbMongo (options = {}) {
+export default async function getShareDbMongo (options = {}) {
   if (shareDbMongo) return shareDbMongo
   if (initPromise) return initPromise
 
   initPromise = new Promise((resolve, reject) => {
     if (MONGO_URL && !NO_MONGO) {
-      let mongoOptions = { useUnifiedTopology: true, ...options }
-      let mongoOpts = isString(MONGO_OPTS)
+      const mongoOptions = { useUnifiedTopology: true, ...options }
+      const mongoOpts = isString(MONGO_OPTS)
         ? JSON.parse(MONGO_OPTS)
         : undefined
 
@@ -65,9 +68,7 @@ module.exports = async function getShareDbMongo (options = {}) {
   return initPromise
 }
 
-async function getShareDbMingo () {
-  const ShareDbMingoMemory = require('sharedb-mingo-memory')
-  const sqlite3 = require('sqlite3')
+function getShareDbMingo () {
   const db = new sqlite3.Database('sqlite.db')
   const shareDbMingo = new ShareDbMingoMemory()
 

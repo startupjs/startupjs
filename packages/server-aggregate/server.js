@@ -1,13 +1,15 @@
-const ShareDBAccessError = require('./error')
+import ShareDBAccessError from './error.js'
+import { ACCESS_ERROR_CODES } from './constants.js'
+
 const {
   ERR_ACCESS_ONLY_SERVER_AGGREATE,
   ERR_ACCESS_NO_SERVER_AGGREGATE_NAME,
   ERR_ACCESS_IN_SERVER_QUERY
-} = require('./constants').ACCESS_ERROR_CODES
+} = ACCESS_ERROR_CODES
 
 const QUERIES = {}
 
-module.exports = (backend, customCheck) => {
+export default (backend, customCheck) => {
   backend.addAggregate = (collection, queryName, queryFunction) => {
     QUERIES[collection + '.' + queryName] = queryFunction
   }

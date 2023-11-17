@@ -1,5 +1,5 @@
 import qs from 'qs'
-import { SCOPE, getStrBase64 } from '../isomorphic'
+import { SCOPE, getStrBase64 } from '../isomorphic/index.js'
 
 export default function getAuthURI ({
   clientId,

@@ -1,2 +1,2 @@
-export { default as initPushNotifications } from './initPushNotifications'
-export { default as initFirebaseApp } from './initFirebaseApp'
+export { default as initPushNotifications } from './initPushNotifications.js'
+export { default as initFirebaseApp } from './initFirebaseApp.js'

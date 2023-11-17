@@ -2,6 +2,7 @@
   "name": "@startupjs/backend",
   "version": "0.55.0-alpha.1",
   "description": "Create new ShareDB backend instance",
+  "type": "module",
   "main": "index.js",
   "license": "MIT",
   "publishConfig": {

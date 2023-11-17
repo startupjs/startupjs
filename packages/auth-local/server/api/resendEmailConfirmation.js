@@ -1,5 +1,5 @@
-import { setConfirmRegistrationData } from '../api'
-import { sendError } from '../helpers'
+import { setConfirmRegistrationData } from '../api/index.js'
+import { sendError } from '../helpers/index.js'
 
 export default function resendEmailConfirmation (config) {
   return async function (req, res) {

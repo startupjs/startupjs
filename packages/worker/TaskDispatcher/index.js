@@ -51,7 +51,7 @@ export default class TaskDispatcher {
     const $task = model.at(collection + '.' + taskId)
     let workerId
 
-    await model.fetchAsync($task)
+    await model.fetch($task)
 
     if (!$task.get()) {
       model.close()
@@ -66,7 +66,7 @@ export default class TaskDispatcher {
     switch (status) {
       case ('executing'):
         start = Date.now()
-        await model.setEachAsync($task.path(), {
+        await model.setEach($task.path(), {
           status: 'executing',
           executingTime: Date.now()
         })
@@ -75,14 +75,14 @@ export default class TaskDispatcher {
           const params = {}
           if ($task.get('options.timeout')) params.timeout = $task.get('options.timeout')
           workerId = await this.workerManager.executeTask(taskId, params)
-          await model.setEachAsync($task.path(), {
+          await model.setEach($task.path(), {
             status: 'done',
             doneTime: Date.now()
           })
         } catch (err) {
           console.log(`Task error - tId: ${taskId}, uId: ${uniqId}, type: ${type}, error: '${err}'`)
 
-          await model.setEachAsync($task.path(), {
+          await model.setEach($task.path(), {
             status: 'error',
             error: err,
             errorTime: Date.now()

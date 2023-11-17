@@ -1,4 +1,4 @@
-import { BaseProvider } from '@startupjs/auth/server'
+import { BaseProvider } from '@startupjs/auth/server/index.js'
 
 export default class CommonProvider extends BaseProvider {
   getProviderName () {

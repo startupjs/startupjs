@@ -1,4 +1,4 @@
-import { login, loginCallback } from './api'
+import { login, loginCallback } from './api/index.js'
 
 export default function (options) {
   const { router, config } = options

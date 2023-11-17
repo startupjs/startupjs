@@ -1,11 +1,13 @@
-const fs = require('fs')
-const path = require('path')
-const defaultStyles = fs.readFileSync(path.join(__dirname, 'defaultStyles.css'), 'utf8')
-const rnwPolyfill = fs.readFileSync(path.join(__dirname, 'reactNativeWeb.css'), 'utf8')
+import url from 'url'
+import path from 'path'
+import fs from 'fs'
 
+const dirname = path.dirname(url.fileURLToPath(import.meta.url))
+const defaultStyles = fs.readFileSync(path.join(dirname, 'defaultStyles.css'), 'utf8')
+const rnwPolyfill = fs.readFileSync(path.join(dirname, 'reactNativeWeb.css'), 'utf8')
 const INDEX_FILE_PATH = path.join(process.cwd(), 'index.html')
 
-module.exports = getClientLayoutFn()
+export default getClientLayoutFn()
 
 function getClientLayoutFn () {
   if (fs.existsSync(INDEX_FILE_PATH)) {

@@ -1,15 +1,16 @@
-const MemoryDB = require('sharedb').MemoryDB
-const racer = require('racer')
-const { default: promisifyRacer } = require('../temp/promisifyRacer')
+import promisifyRacer from '@startupjs/orm/lib/promisifyRacer.js'
+import racer from 'racer'
+import sharedb from 'sharedb'
+import schema from './../lib/index.js'
+import options from './options.js'
 
-const racerSchema = require('../lib')
-const racerSchemaOptions = require('./options')
+const MemoryDB = sharedb.MemoryDB
 
 promisifyRacer()
 
 const backend = racer.createBackend({ db: new MemoryDB() })
 const model = backend.createModel()
 
-racerSchema(backend, racerSchemaOptions)
+schema(backend, options)
 
-module.exports = model
+export default model

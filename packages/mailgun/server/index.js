@@ -1,2 +1,2 @@
-export { default as mailAPI } from './mailAPI'
-export { default as sendEmail } from './sendEmail'
+export { default as mailAPI } from './mailAPI.js'
+export { default as sendEmail } from './sendEmail.js'

@@ -1,11 +1,11 @@
 import {
   WEB_LOGIN_URL,
   CALLBACK_URL
-} from '../isomorphic'
+} from '../isomorphic/index.js'
 import {
   loginWeb,
   loginCallback
-} from './api'
+} from './api/index.js'
 
 export default function (options) {
   const { router, config } = options

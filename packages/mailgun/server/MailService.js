@@ -1,6 +1,6 @@
 import Mailgun from 'mailgun.js'
 import formData from 'form-data'
-import pick from 'lodash/pick'
+import pick from 'lodash/pick.js'
 
 let instance = null
 

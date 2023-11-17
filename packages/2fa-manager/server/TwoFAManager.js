@@ -1,4 +1,4 @@
-import { Provider as ParentProvider } from '../Provider'
+import { Provider as ParentProvider } from '../Provider/index.js'
 
 // options = {
 //   providers: [

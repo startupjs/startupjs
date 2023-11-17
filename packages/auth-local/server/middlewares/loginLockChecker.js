@@ -3,7 +3,7 @@
  * That property block all future logins for specifiic period (60 sec) and send error message to client
  * You can find more logic in '../heplers/loginLock'
  */
-import Provider from '../Provider'
+import Provider from '../Provider.js'
 
 export default function loginLockChecker (config) {
   return async function (req, res, next) {

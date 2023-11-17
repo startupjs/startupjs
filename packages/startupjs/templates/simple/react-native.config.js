@@ -1,6 +1,6 @@
-const getConfig = require('startupjs/bundler/react-native.config.cjs')
+import getConfig from 'startupjs/bundler/react-native.config.js'
 
-module.exports = getConfig({
+export default getConfig({
   project: {},
   assets: []
 })

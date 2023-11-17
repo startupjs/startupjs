@@ -1,1 +1,1 @@
-export { default } from '@startupjs/server/nconf'
+export { default } from '@startupjs/server/nconf.js'

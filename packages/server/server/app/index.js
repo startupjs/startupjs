@@ -1,22 +1,23 @@
-const fs = require('fs')
-const defaultClientLayout = require('./defaultClientLayout')
-const resourceManager = require('./resourceManager')
+import fs from 'fs'
+import defaultClientLayout from './defaultClientLayout.js'
+import { getProductionStyles, getResourcePath } from './resourceManager.js'
+
 const appName = 'main'
 // `react-native` mode makes all root DOM elements fullscreen
 // with flex-direction column and removes scroll (ScrollView has to be used).
 // If you don't want this -- specify { mode: 'web' } in options.
 const DEFAULT_MODE = 'react-native'
 
-module.exports = function (options = {}) {
+export default (options = {}) => {
   const getHead = options.getHead || (() => '')
 
   return function (req, res, next) {
     const html = (options.getClientLayout || defaultClientLayout)({
       head: getHead(req),
       styles: process.env.NODE_ENV === 'production' && options.mode === 'web'
-        ? resourceManager.getProductionStyles(appName, options)
+        ? getProductionStyles(appName, options)
         : '',
-      jsBundle: resourceManager.getResourcePath('bundle', appName, options),
+      jsBundle: getResourcePath('bundle', appName, options),
       mode: options.mode || DEFAULT_MODE,
       fontsStyles: getFontsStyles() || ''
     })

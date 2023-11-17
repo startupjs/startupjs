@@ -5,8 +5,7 @@ module.exports = {
       web: [
         '@ptomasroos/react-native-multi-slider',
         '@startupjs/ui'
-      ],
-      server: true
+      ]
     }
   }
 }

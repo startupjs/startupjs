@@ -1,4 +1,4 @@
-import { EMAIL_REGEXP } from '../../isomorphic/constants'
+import { EMAIL_REGEXP } from '../../isomorphic/constants.js'
 
 /**
  * @description This hook is triggering before email change secret creation

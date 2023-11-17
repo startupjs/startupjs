@@ -1,7 +1,7 @@
 import passport from 'passport'
 import { Strategy } from 'passport-google-oauth20'
-import initRoutes from './initRoutes'
-import { CALLBACK_URL } from '../isomorphic'
+import initRoutes from './initRoutes.js'
+import { CALLBACK_URL } from '../isomorphic/index.js'
 
 function validateConfigs ({ clientId, clientSecret }) {
   if (!clientId) {

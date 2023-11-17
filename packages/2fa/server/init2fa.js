@@ -1,5 +1,5 @@
 import express from 'express'
-import initDefaultRoutes from './initDefaultRoutes'
+import initDefaultRoutes from './initDefaultRoutes.js'
 
 const router = express.Router()
 

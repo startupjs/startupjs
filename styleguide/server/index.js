@@ -1,29 +1,32 @@
-import init from 'startupjs/init'
-import startupjsServer from 'startupjs/server'
-import { initApp } from 'startupjs/app/server'
-import { initI18n } from 'startupjs/i18n/server'
-import { getUiHead, initUi } from '@startupjs/ui/server'
-import { initAuth } from '@startupjs/auth/server'
-import { initTwoFAManager } from '@startupjs/2fa-manager/server'
+import init from 'startupjs/init/server.js'
+import startupjsServer from 'startupjs/server.js'
+import { initApp } from 'startupjs/app/server.js'
+import { initI18n } from 'startupjs/i18n/server.js'
+import { getUiHead, initUi } from '@startupjs/ui/server/index.js'
+import { initAuth } from '@startupjs/auth/server/index.js'
+import { initTwoFAManager } from '@startupjs/2fa-manager/server/index.js'
 import { TotpProvider } from '@startupjs/2fa-totp-authentication-provider'
 import { PushProvider } from '@startupjs/2fa-push-notification-provider'
-import { initRecaptcha, getRecaptchaHead } from '@startupjs/recaptcha/server'
-import { initPushNotifications, initFirebaseApp } from '@startupjs/push-notifications/server'
-import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
-import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server'
-import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
-import { Strategy as GoogleStrategy } from '@startupjs/auth-google/server'
-import { Strategy as LinkedinStrategy } from '@startupjs/auth-linkedin/server'
-import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
-import { Strategy as CommonStrategy } from '@startupjs/auth-common/server'
-import { Strategy as IDGStrategy } from '@startupjs/auth-idg/server'
+import { initRecaptcha, getRecaptchaHead } from '@startupjs/recaptcha/server/index.js'
+import { initPushNotifications, initFirebaseApp } from '@startupjs/push-notifications/server/index.js'
+import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server/index.js'
+import { Strategy as AzureADStrategy } from '@startupjs/auth-azuread/server/index.js'
+import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server/index.js'
+import { Strategy as GoogleStrategy } from '@startupjs/auth-google/server/index.js'
+import { Strategy as LinkedinStrategy } from '@startupjs/auth-linkedin/server/index.js'
+import { Strategy as LocalStrategy } from '@startupjs/auth-local/server/index.js'
+import { Strategy as CommonStrategy } from '@startupjs/auth-common/server/index.js'
+import { Strategy as IDGStrategy } from '@startupjs/auth-idg/server/index.js'
 
+import { createRequire } from 'module'
 import fs from 'fs'
 import path from 'path'
 import conf from 'nconf'
-import initRecaptchaDoc from './initRecaptchaDoc'
-import app from '../app.json'
-import orm from '../model'
+import initRecaptchaDoc from './initRecaptchaDoc.js'
+import orm from '../model/index.js'
+
+const require = createRequire(import.meta.url)
+const app = require('./../app.json')
 
 // Init startupjs ORM.
 init({ orm })
@@ -128,7 +131,7 @@ function getAuthStrategies () {
         clientSecret: conf.get('AZUREAD_CLIENT_SECRET'),
         tenantId: conf.get('AZUREAD_TENANT_ID'),
         identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
-        allowHttpForRedirectUrl: true
+        allowHttpForRedirectUrl: process.env.NODE_ENV !== 'production'
       })
     ])
   }
