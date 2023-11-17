@@ -4,7 +4,7 @@ import path from 'path'
 const SCREENSHOTS_PATH = path.join(process.cwd(), 'test_failed_screenshots')
 
 /* global browser */
-exports.config = {
+export const config = {
   //
   // ====================
   // Runner Configuration
