@@ -1,3 +1,12 @@
+# [0.55.0-alpha.15](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.14...v0.55.0-alpha.15) (2023-11-20)
+
+
+### Bug Fixes
+
+* **cli:** typo ([33d1c30](https://github.com/startupjs/startupjs/commit/33d1c301a0124f7503729fec3e227f8b371a09ba))
+
+
+
 # [0.55.0-alpha.14](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.13...v0.55.0-alpha.14) (2023-11-20)
 
 
