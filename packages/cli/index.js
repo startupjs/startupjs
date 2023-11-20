@@ -2,7 +2,6 @@ const commander = require('commander')
 const execa = require('execa')
 const path = require('path')
 const fs = require('fs')
-const Font = require('fonteditor-core').Font
 const template = require('lodash/template')
 const CLI_VERSION = require('./package.json').version
 
@@ -144,12 +143,8 @@ SCRIPTS_ORIG.patchGestureHandler = () => PATCHES_GESTURE_HANDLER_DIR
     `)
   : 'true'
 
-SCRIPTS_ORIG.fonts = () => oneLine(`
-  npx react-native-asset
-`)
-
 SCRIPTS_ORIG.postinstall = () => oneLine(`
-  ${SCRIPTS_ORIG.patchPackage()} && ${SCRIPTS_ORIG.fonts()}
+  ${SCRIPTS_ORIG.patchPackage()}}
 `)
 
 const SCRIPTS = {
@@ -166,8 +161,7 @@ const SCRIPTS = {
   ios: 'react-native run-ios',
   'ios-release': 'react-native run-ios --configuration Release',
   build: 'startupjs build --async',
-  'start-production': 'startupjs start-production',
-  fonts: 'startupjs fonts'
+  'start-production': 'startupjs start-production'
 }
 
 const DEFAULT_TEMPLATE = 'ui'
@@ -442,18 +436,6 @@ commander
     )
   })
 
-commander
-  .command('fonts')
-  .description('Rename fonts and react-native smart linking for assets')
-  .action(async (options) => {
-    renameFonts()
-
-    await execa.command(
-      SCRIPTS_ORIG.fonts(options),
-      { stdio: 'inherit', shell: true }
-    )
-  })
-
 // ----- project management commands
 
 commander
@@ -502,39 +484,6 @@ async function recursivelyCopyFiles (sourcePath, targetPath) {
         { stdio: 'inherit' }
       )
     }
-  }
-}
-
-function renameFonts () {
-  const FONTS_PATH = process.cwd() + '/public/fonts'
-  const EXT_WISHLIST = ['eot', 'otf', 'ttf', 'woff', 'woff2']
-  const IGNORE = ['.gitignore', '.DS_Store', '.gitallowed']
-
-  if (fs.existsSync(FONTS_PATH)) {
-    const files = fs.readdirSync(FONTS_PATH)
-
-    files.forEach(file => {
-      if (IGNORE.includes(file)) return
-
-      const [fileName, fileExt] = file.split('.')
-      if (EXT_WISHLIST.indexOf(fileExt) === -1) {
-        return console.error(`Font format error: ${fileExt} is not supported`)
-      }
-
-      const buffer = fs.readFileSync(`${FONTS_PATH}/${file}`)
-      const font = Font.create(buffer, { type: fileExt })
-
-      if (font.get().name.fontFamily === fileName) return
-      font.get().name.fontFamily = fileName
-      font.get().name.fontSubFamily = fileName
-      font.get().name.preferredFamily = fileName
-
-      const bufferUpdate = font.write({ type: fileExt })
-      fs.writeFile(`${FONTS_PATH}/${file}`, bufferUpdate, (err) => {
-        if (err) return console.log(err)
-        console.log(`${file} rename font-family`)
-      })
-    })
   }
 }
 

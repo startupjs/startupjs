@@ -1,4 +1,4 @@
-module.exports = function getConfig ({
+export default function getConfig ({
   project = {},
   assets = []
 } = {}) {
