@@ -144,7 +144,7 @@ SCRIPTS_ORIG.patchGestureHandler = () => PATCHES_GESTURE_HANDLER_DIR
   : 'true'
 
 SCRIPTS_ORIG.postinstall = () => oneLine(`
-  ${SCRIPTS_ORIG.patchPackage()}}
+  ${SCRIPTS_ORIG.patchPackage()}
 `)
 
 const SCRIPTS = {
