@@ -20,8 +20,7 @@
     "log-android": "hash ccze 2>/dev/null && npm run log-android-color || (echo \"WARNING! Falling back to plain logging. For colored logs install ccze - brew install ccze\" && react-native log-android)",
     "log-android-color": "react-native log-android | ccze -m ansi -C -o nolookups",
     "build": "startupjs build --async",
-    "start-production": "startupjs start-production",
-    "fonts": "startupjs fonts"
+    "start-production": "startupjs start-production"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
