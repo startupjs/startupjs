@@ -319,8 +319,8 @@ commander
     console.log('> Update config.json')
     updateConfigJson(projectPath, { projectName })
 
-    console.log('> Patch package.json with additional scripts')
-    patchScriptsInPackageJson(projectPath)
+    console.log('> Patch package.json')
+    patchPackageJson(projectPath)
 
     console.log('> Add additional things to .gitignore')
     appendGitignore(projectPath)
@@ -538,7 +538,7 @@ function renameFonts () {
   }
 }
 
-function patchScriptsInPackageJson (projectPath) {
+function patchPackageJson (projectPath) {
   const packageJSONPath = path.join(projectPath, 'package.json')
   const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath).toString())
 
@@ -546,6 +546,8 @@ function patchScriptsInPackageJson (projectPath) {
   delete packageJSON.devDependencies['babel-jest']
   delete packageJSON.devDependencies['react-test-renderer']
   delete packageJSON.devDependencies.jest
+
+  packageJSON.type = 'module'
 
   packageJSON.scripts = {
     ...packageJSON.scripts,
