@@ -5763,7 +5763,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/backend@npm:^0.55.0-alpha.12, @startupjs/backend@workspace:packages/backend":
+"@startupjs/backend@npm:^0.55.0-alpha.13, @startupjs/backend@workspace:packages/backend":
   version: 0.0.0-use.local
   resolution: "@startupjs/backend@workspace:packages/backend"
   dependencies:
@@ -5835,7 +5835,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/cli@npm:^0.55.0-alpha.12, @startupjs/cli@workspace:packages/cli":
+"@startupjs/cli@npm:^0.55.0-alpha.13, @startupjs/cli@workspace:packages/cli":
   version: 0.0.0-use.local
   resolution: "@startupjs/cli@workspace:packages/cli"
   dependencies:
@@ -5887,8 +5887,8 @@ __metadata:
   resolution: "@startupjs/docs@workspace:packages/docs"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
-    "@startupjs/mdx": "npm:^0.55.0-alpha.12"
-    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.12"
+    "@startupjs/mdx": "npm:^0.55.0-alpha.13"
+    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.13"
     "@startupjs/ui": "npm:^0.55.0-alpha.12"
     parse-prop-types: "npm:^0.3.0"
   peerDependencies:
@@ -5980,12 +5980,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/mdx@npm:^0.55.0-alpha.1, @startupjs/mdx@npm:^0.55.0-alpha.12, @startupjs/mdx@workspace:packages/mdx":
+"@startupjs/mdx@npm:^0.55.0-alpha.1, @startupjs/mdx@npm:^0.55.0-alpha.13, @startupjs/mdx@workspace:packages/mdx":
   version: 0.0.0-use.local
   resolution: "@startupjs/mdx@workspace:packages/mdx"
   dependencies:
     "@mdx-js/react": "npm:~2.3.0"
-    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.12"
+    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.13"
     "@startupjs/ui": "npm:^0.55.0-alpha.12"
     refractor: "npm:^3.0.0"
   peerDependencies:
@@ -6175,12 +6175,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/scrollable-anchors@npm:^0.55.0-alpha.1, @startupjs/scrollable-anchors@npm:^0.55.0-alpha.12, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
+"@startupjs/scrollable-anchors@npm:^0.55.0-alpha.1, @startupjs/scrollable-anchors@npm:^0.55.0-alpha.13, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
   version: 0.0.0-use.local
   resolution: "@startupjs/scrollable-anchors@workspace:packages/scrollable-anchors"
   dependencies:
     "@startupjs/ui": "npm:^0.55.0-alpha.12"
-    startupjs: "npm:^0.55.0-alpha.12"
+    startupjs: "npm:^0.55.0-alpha.13"
   languageName: unknown
   linkType: soft
 
@@ -6192,11 +6192,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/server@npm:^0.55.0-alpha.12, @startupjs/server@workspace:packages/server":
+"@startupjs/server@npm:^0.55.0-alpha.13, @startupjs/server@workspace:packages/server":
   version: 0.0.0-use.local
   resolution: "@startupjs/server@workspace:packages/server"
   dependencies:
-    "@startupjs/backend": "npm:^0.55.0-alpha.12"
+    "@startupjs/backend": "npm:^0.55.0-alpha.13"
     body-parser: "npm:1.20.0"
     compression: "npm:^1.6.0"
     connect-mongo: "npm:^4.4.1"
@@ -6336,7 +6336,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@startupjs/worker@workspace:packages/worker"
   dependencies:
-    "@startupjs/backend": "npm:^0.55.0-alpha.12"
+    "@startupjs/backend": "npm:^0.55.0-alpha.13"
     "@startupjs/orm": "npm:^0.55.0-alpha.12"
     lodash: "npm:^4.17.20"
     mocha: "npm:^8.1.3"
@@ -28895,14 +28895,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.55.0-alpha.1, startupjs@npm:^0.55.0-alpha.12, startupjs@workspace:packages/startupjs":
+"startupjs@npm:^0.55.0-alpha.1, startupjs@npm:^0.55.0-alpha.13, startupjs@workspace:packages/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:packages/startupjs"
   dependencies:
     "@startupjs/app": "npm:^0.55.0-alpha.12"
-    "@startupjs/backend": "npm:^0.55.0-alpha.12"
+    "@startupjs/backend": "npm:^0.55.0-alpha.13"
     "@startupjs/bundler": "npm:^0.55.0-alpha.12"
-    "@startupjs/cli": "npm:^0.55.0-alpha.12"
+    "@startupjs/cli": "npm:^0.55.0-alpha.13"
     "@startupjs/docker": "npm:^0.54.0"
     "@startupjs/hooks": "npm:^0.55.0-alpha.1"
     "@startupjs/i18n": "npm:^0.55.0-alpha.12"
@@ -28911,7 +28911,7 @@ __metadata:
     "@startupjs/orm": "npm:^0.55.0-alpha.12"
     "@startupjs/patches": "npm:^0.55.0-alpha.12"
     "@startupjs/react-sharedb": "npm:^0.55.0-alpha.12"
-    "@startupjs/server": "npm:^0.55.0-alpha.12"
+    "@startupjs/server": "npm:^0.55.0-alpha.13"
     babel-preset-startupjs: "npm:^0.55.0-alpha.12"
     react-native-web: "npm:^0.18.0"
   bin:

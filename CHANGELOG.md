@@ -1,3 +1,15 @@
+# [0.55.0-alpha.13](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.12...v0.55.0-alpha.13) (2023-11-20)
+
+
+### Bug Fixes
+
+* **backend:** bump ioredis package version ([9d80045](https://github.com/startupjs/startupjs/commit/9d80045153547e0d847c18afc99134f84390943c))
+* **cli:** add 'type' module for new projects ([ba797b9](https://github.com/startupjs/startupjs/commit/ba797b914de4c49911c77522246e2af004dd27ba))
+* **wdio.conf.js:** fix export ([bc8f85d](https://github.com/startupjs/startupjs/commit/bc8f85d90786543c50a4fa1e3d8feabbb8f142fd))
+* **wdio.conf.js:** move to esm ([6cc1540](https://github.com/startupjs/startupjs/commit/6cc1540e504391503badee531ee5c36e9edc3c1f))
+
+
+
 # [0.55.0-alpha.12](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.11...v0.55.0-alpha.12) (2023-11-17)
 
 
