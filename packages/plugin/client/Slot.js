@@ -10,9 +10,12 @@ export default observer(function Slot ({
   children = null,
   ...props
 }) {
-  if (!name) return null
+  if (!name) throw new Error('[@startupjs/plugin] Slot.js: the name property is required')
 
   const { moduleName, plugins } = useContext(PluginsContext)
+
+  if (!pluginsSingleton.modules) return children
+
   const modulePlugins = pluginsSingleton.modules[moduleName]?.plugins
 
   // do nothing when no registered plugins for the module
