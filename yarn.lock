@@ -5682,7 +5682,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-rn-stylename-inline@npm:^0.55.0-alpha.14, @startupjs/babel-plugin-rn-stylename-inline@workspace:packages/babel-plugin-rn-stylename-inline":
+"@startupjs/babel-plugin-rn-stylename-inline@npm:^0.55.0-alpha.16, @startupjs/babel-plugin-rn-stylename-inline@workspace:packages/babel-plugin-rn-stylename-inline":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-rn-stylename-inline@workspace:packages/babel-plugin-rn-stylename-inline"
   dependencies:
@@ -5691,7 +5691,7 @@ __metadata:
     "@babel/template": "npm:^7.4.0"
     "@babel/types": "npm:^7.0.0"
     "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.55.0-alpha.12"
-    "@startupjs/bundler": "npm:^0.55.0-alpha.14"
+    "@startupjs/bundler": "npm:^0.55.0-alpha.16"
     babel-plugin-tester: "npm:^9.1.0"
     jest: "npm:^26.0.1"
   languageName: unknown
@@ -5787,7 +5787,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/bundler@npm:^0.55.0-alpha.14, @startupjs/bundler@workspace:packages/bundler":
+"@startupjs/bundler@npm:^0.55.0-alpha.16, @startupjs/bundler@workspace:packages/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:packages/bundler"
   dependencies:
@@ -5802,7 +5802,7 @@ __metadata:
     assets-webpack-plugin: "npm:^7.1.1"
     autoprefixer: "npm:^10.4.0"
     babel-loader: "npm:^8.2.3"
-    babel-preset-startupjs: "npm:^0.55.0-alpha.14"
+    babel-preset-startupjs: "npm:^0.55.0-alpha.16"
     css-loader: "npm:^6.5.0"
     css-minimizer-webpack-plugin: "npm:^5.0.0"
     file-loader: "npm:^6.2.0"
@@ -5885,8 +5885,8 @@ __metadata:
   resolution: "@startupjs/docs@workspace:packages/docs"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
-    "@startupjs/mdx": "npm:^0.55.0-alpha.15"
-    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.15"
+    "@startupjs/mdx": "npm:^0.55.0-alpha.16"
+    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.16"
     "@startupjs/ui": "npm:^0.55.0-alpha.12"
     parse-prop-types: "npm:^0.3.0"
   peerDependencies:
@@ -5978,12 +5978,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/mdx@npm:^0.55.0-alpha.1, @startupjs/mdx@npm:^0.55.0-alpha.15, @startupjs/mdx@workspace:packages/mdx":
+"@startupjs/mdx@npm:^0.55.0-alpha.1, @startupjs/mdx@npm:^0.55.0-alpha.16, @startupjs/mdx@workspace:packages/mdx":
   version: 0.0.0-use.local
   resolution: "@startupjs/mdx@workspace:packages/mdx"
   dependencies:
     "@mdx-js/react": "npm:~2.3.0"
-    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.15"
+    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.16"
     "@startupjs/ui": "npm:^0.55.0-alpha.12"
     refractor: "npm:^3.0.0"
   peerDependencies:
@@ -6173,12 +6173,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/scrollable-anchors@npm:^0.55.0-alpha.1, @startupjs/scrollable-anchors@npm:^0.55.0-alpha.15, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
+"@startupjs/scrollable-anchors@npm:^0.55.0-alpha.1, @startupjs/scrollable-anchors@npm:^0.55.0-alpha.16, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
   version: 0.0.0-use.local
   resolution: "@startupjs/scrollable-anchors@workspace:packages/scrollable-anchors"
   dependencies:
     "@startupjs/ui": "npm:^0.55.0-alpha.12"
-    startupjs: "npm:^0.55.0-alpha.15"
+    startupjs: "npm:^0.55.0-alpha.16"
   languageName: unknown
   linkType: soft
 
@@ -9196,7 +9196,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-startupjs@npm:^0.55.0-alpha.14, babel-preset-startupjs@workspace:packages/babel-preset-startupjs":
+"babel-preset-startupjs@npm:^0.55.0-alpha.16, babel-preset-startupjs@workspace:packages/babel-preset-startupjs":
   version: 0.0.0-use.local
   resolution: "babel-preset-startupjs@workspace:packages/babel-preset-startupjs"
   dependencies:
@@ -9219,12 +9219,12 @@ __metadata:
     "@startupjs/babel-plugin-import-to-react-lazy": "npm:^0.55.0-alpha.1"
     "@startupjs/babel-plugin-react-css-modules": "npm:^6.5.4-1"
     "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.55.0-alpha.1"
-    "@startupjs/babel-plugin-rn-stylename-inline": "npm:^0.55.0-alpha.14"
+    "@startupjs/babel-plugin-rn-stylename-inline": "npm:^0.55.0-alpha.16"
     "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.55.0-alpha.12"
     "@startupjs/babel-plugin-startupjs": "npm:^0.55.0-alpha.11"
     "@startupjs/babel-plugin-startupjs-debug": "npm:^0.55.0-alpha.1"
     "@startupjs/babel-plugin-startupjs-utils": "npm:^0.55.0-alpha.1"
-    "@startupjs/bundler": "npm:^0.55.0-alpha.14"
+    "@startupjs/bundler": "npm:^0.55.0-alpha.16"
     babel-plugin-module-resolver: "npm:^5.0.0"
     babel-plugin-react-native-platform-specific-extensions: "npm:^1.1.1"
     babel-plugin-react-native-web-pass-classname: "npm:^0.2.1"
@@ -28849,13 +28849,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.55.0-alpha.1, startupjs@npm:^0.55.0-alpha.15, startupjs@workspace:packages/startupjs":
+"startupjs@npm:^0.55.0-alpha.1, startupjs@npm:^0.55.0-alpha.16, startupjs@workspace:packages/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:packages/startupjs"
   dependencies:
     "@startupjs/app": "npm:^0.55.0-alpha.12"
     "@startupjs/backend": "npm:^0.55.0-alpha.13"
-    "@startupjs/bundler": "npm:^0.55.0-alpha.14"
+    "@startupjs/bundler": "npm:^0.55.0-alpha.16"
     "@startupjs/cli": "npm:^0.55.0-alpha.15"
     "@startupjs/docker": "npm:^0.54.0"
     "@startupjs/hooks": "npm:^0.55.0-alpha.1"
@@ -28866,7 +28866,7 @@ __metadata:
     "@startupjs/patches": "npm:^0.55.0-alpha.12"
     "@startupjs/react-sharedb": "npm:^0.55.0-alpha.12"
     "@startupjs/server": "npm:^0.55.0-alpha.14"
-    babel-preset-startupjs: "npm:^0.55.0-alpha.14"
+    babel-preset-startupjs: "npm:^0.55.0-alpha.16"
     react-native-web: "npm:^0.18.0"
   bin:
     startupjs: ./cli.js
