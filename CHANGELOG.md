@@ -1,3 +1,12 @@
+# [0.55.0-alpha.14](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.13...v0.55.0-alpha.14) (2023-11-20)
+
+
+### Bug Fixes
+
+* **cli:** remove react-native-asset that was used for fonts ([cb5e3fd](https://github.com/startupjs/startupjs/commit/cb5e3fd3db9c0d026e4b71c78be4051332a5368a))
+
+
+
 # [0.55.0-alpha.13](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.12...v0.55.0-alpha.13) (2023-11-20)
 
 

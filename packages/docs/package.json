@@ -4,13 +4,13 @@
     "access": "public"
   },
   "description": "MDX documentation generator",
-  "version": "0.55.0-alpha.13",
+  "version": "0.55.0-alpha.14",
   "type": "module",
   "main": "index.js",
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
-    "@startupjs/mdx": "^0.55.0-alpha.13",
-    "@startupjs/scrollable-anchors": "^0.55.0-alpha.13",
+    "@startupjs/mdx": "^0.55.0-alpha.14",
+    "@startupjs/scrollable-anchors": "^0.55.0-alpha.14",
     "@startupjs/ui": "^0.55.0-alpha.12",
     "parse-prop-types": "^0.3.0"
   },
