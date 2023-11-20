@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useImperativeHandle
 } from 'react'
-import { observer, useValue, useBind } from 'startupjs'
+import { pug, observer, useValue, useBind } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
@@ -45,6 +45,8 @@ function DateTimePicker ({
   minDate,
   visible,
   $visible,
+  testID,
+  calendarTestID,
   onFocus,
   onBlur,
   onChangeDate,
@@ -80,6 +82,7 @@ function DateTimePicker ({
 
   // if no bindProps then uncontrolled
   if (!bindProps) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     ;[, $visible] = useValue(false)
     bindProps = { $visible }
   }
@@ -156,7 +159,8 @@ function DateTimePicker ({
     size,
     placeholder,
     _hasError,
-    value: textInput
+    value: textInput,
+    testID
   }
 
   const caption = pug`
@@ -166,6 +170,7 @@ function DateTimePicker ({
     else
       TextInput(
         ...inputProps
+        showSoftInputOnFocus=false
         secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
         onSecondaryIconPress=() => onChangeDate && onChangeDate()
         onFocus=(...args) => {
@@ -195,6 +200,7 @@ function DateTimePicker ({
             minDate=minDate
             range=range
             timezone=timezone
+            testID=calendarTestID
             onChangeDate=_onChangeDate
           )
 

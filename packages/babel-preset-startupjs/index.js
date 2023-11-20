@@ -1,4 +1,4 @@
-var stylusToCssLoader = require('@startupjs/bundler/lib/stylusToCssLoader.js')
+const stylusToCssLoader = require('@startupjs/bundler/lib/stylusToCssLoader.js')
 const { generateScopedNameFactory } = require('@startupjs/babel-plugin-react-css-modules/utils')
 const { LOCAL_IDENT_NAME } = require('./constants')
 const ASYNC = process.env.ASYNC
@@ -15,9 +15,10 @@ const DIRECTORY_ALIASES = {
   appConstants: './appConstants'
 }
 
-const basePlugins = ({ alias, observerCache } = {}) => [
+const basePlugins = ({ alias, observerCache, signals } = {}) => [
   [require('@startupjs/babel-plugin-startupjs-utils'), {
-    observerCache
+    observerCache,
+    signals
   }],
   [require('babel-plugin-module-resolver'), {
     alias: {
@@ -222,16 +223,13 @@ const CONFIG_SERVER = {
 module.exports = (api, options) => {
   api.cache(true)
 
-  const { BABEL_ENV, NODE_ENV, MODE = DEFAULT_MODE, VITE_WEB, SNOWPACK_WEB } = process.env
+  const { BABEL_ENV, NODE_ENV, MODE = DEFAULT_MODE, SNOWPACK_WEB } = process.env
 
   // There is a bug in metro when BABEL_ENV is a string "undefined".
   // We have to workaround it and use NODE_ENV.
   let env = (BABEL_ENV !== 'undefined' && BABEL_ENV) || NODE_ENV
-  if (VITE_WEB) env = 'web_vite'
-  if (SNOWPACK_WEB) env = 'web_snowpack'
 
-  // Ignore babel config when using Vite
-  if (env === 'web_vite') return {}
+  if (SNOWPACK_WEB) env = 'web_snowpack'
 
   const { presets = [], plugins = [], ...extra } = getConfig(env, MODE)
 

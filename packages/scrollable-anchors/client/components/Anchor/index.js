@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { View, Platform } from 'react-native'
-import { observer, useOn } from 'startupjs'
+import { pug, observer, useOn } from 'startupjs'
 import PropTypes from 'prop-types'
 import { registerAnchor, unregisterAnchor } from '../../helpers'
 

@@ -6,7 +6,7 @@
 
 For internal use only.
 
-## Licence
+## License
 
 MIT
 

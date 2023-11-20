@@ -1,4 +1,5 @@
-const racer = require('racer')
+import racer from 'racer'
+
 const { Model } = racer
 
 Model.prototype.aggregateQuery = function (collection, queryName, params) {

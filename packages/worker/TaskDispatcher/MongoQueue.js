@@ -30,7 +30,7 @@ export default class MongoQueue {
     if (queryLock) {
       try {
         const $query = model.query(collection, this.getMongoQuery(start))
-        await model.fetchAsync($query)
+        await model.fetch($query)
         this.unlockQuery(queryLock)
         const tasks = map(($query.getExtra() || []), (item) => {
           const { task } = item

@@ -15,6 +15,6 @@ const BASE_URL = 'http://example.com'
 const STRIPE_PUBLIC_KEY = '000-000000-00'
 ```
 
-## Licence
+## License
 
 MIT

@@ -1,5 +1,5 @@
 import express from 'express'
-import testThing from './testThing'
+import testThing from './testThing.js'
 
 const router = express.Router()
 

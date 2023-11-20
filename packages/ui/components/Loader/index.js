@@ -1,32 +1,33 @@
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import Colors, { ColorValues } from '../CssVariables/Colors'
 import themed from '../../theming/themed'
-import STYLES from './index.styl'
+import useColors from '../../hooks/useColors'
 
-const { colors } = STYLES
 const SIZES = { s: 'small', m: 'large' }
 
 function Loader ({ color, size }) {
-  if (!colors[color]) console.error('Loader component: Color for color property is incorrect. Use colors from $UI.colors')
+  const getColor = useColors()
+  if (!getColor(color)) console.error('Loader component: Color for color property is incorrect. Use colors from Colors')
 
   return pug`
     ActivityIndicator(
-      color=colors[color]
+      color=getColor(color)
       size=SIZES[size]
     )
   `
 }
 
 Loader.defaultProps = {
-  color: 'darkLight',
+  color: Colors['text-description'],
   size: 'm'
 }
 
 Loader.propTypes = {
   size: PropTypes.oneOf(['s', 'm']),
-  color: PropTypes.oneOf(Object.keys(colors))
+  color: PropTypes.oneOf(ColorValues)
 }
 
 export default observer(themed('Loader', Loader))

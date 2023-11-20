@@ -1,39 +1,27 @@
 import React, { useMemo } from 'react'
-import { StyleSheet } from 'react-native'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Label from './Label'
-import styles from './index.styl'
+import './index.styl'
 
-function RangeInput (props) {
-  const {
-    customLabel,
-    showLabel,
-    min,
-    max,
-    range,
-    showSteps,
-    showStepLabels,
-    showStepMarkers,
-    step,
-    value,
-    width,
-    disabled,
-    containerStyle,
-    selectedStyle,
-    disabledSelectedStyle,
-    stepLabelStyle,
-    stepMarkerStyle,
-    stepStyle,
-    trackStyle,
-    markerStyle,
-    disabledMarkerStyle,
-    onChange,
-    onChangeFinish,
-    onChangeStart
-  } = props
-
+function RangeInput ({
+  customLabel,
+  disabled,
+  showLabel,
+  min,
+  max,
+  range,
+  showSteps,
+  showStepLabels,
+  showStepMarkers,
+  step,
+  value,
+  width,
+  onChange,
+  onChangeFinish,
+  onChangeStart
+}) {
   useMemo(function () {
     if (typeof value === 'undefined' || value === null) {
       // to initialize a model with default value if it is missing
@@ -54,7 +42,7 @@ function RangeInput (props) {
   }
 
   return pug`
-    MultiSlider(
+    MultiSlider.root(
       customLabel=customLabel
       enableLabel=showLabel
       enabledOne=!disabled
@@ -68,23 +56,6 @@ function RangeInput (props) {
       snapped
       step=step
       values=values
-      selectedStyle=StyleSheet.flatten([
-        styles.selected, 
-        selectedStyle,
-        disabled && styles.disabledSelected,
-        disabled && disabledSelectedStyle,
-      ])
-      containerStyle=StyleSheet.flatten([styles.container, containerStyle]),
-      stepLabelStyle=StyleSheet.flatten([styles.stepLabel, stepLabelStyle]),
-      stepMarkerStyle=StyleSheet.flatten([styles.stepMarker, stepMarkerStyle])
-      stepStyle=stepStyle
-      trackStyle=StyleSheet.flatten([styles.track, trackStyle]),
-      markerStyle=StyleSheet.flatten([styles.marker, markerStyle]),
-      disabledMarkerStyle=StyleSheet.flatten([
-        styles.marker, 
-        styles.disabledMarker, 
-        disabledMarkerStyle
-      ]),
       onValuesChange=onValuesChange
       onValuesChangeFinish=onChangeFinish
       onValuesChangeStart=onChangeStart
@@ -116,13 +87,11 @@ RangeInput.propTypes = {
   // Style props
   containerStyle: styleProp,
   selectedStyle: styleProp,
-  disabledSelectedStyle: styleProp,
   stepLabelStyle: styleProp,
   stepMarkerStyle: styleProp,
   stepStyle: styleProp,
   trackStyle: styleProp,
   markerStyle: styleProp,
-  disabledMarkerStyle: styleProp,
   // End style props
   onChange: PropTypes.func,
   onChangeFinish: PropTypes.func,
@@ -131,6 +100,7 @@ RangeInput.propTypes = {
 
 RangeInput.defaultProps = {
   customLabel: Label,
+  disabled: false,
   max: 100,
   min: 0,
   range: false,
@@ -139,8 +109,7 @@ RangeInput.defaultProps = {
   showStepLabels: true,
   showStepMarkers: true,
   step: 1,
-  width: 280,
-  disabled: false
+  width: 280
 }
 
-export default observer(RangeInput)
+export default observer(RangeInput, { forwardRef: true })

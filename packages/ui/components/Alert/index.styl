@@ -5,20 +5,20 @@
   radius()
 
   &.info
-    border-color: $UI.colors.primary
-    background-color: $UI.colors.primaryLightest
+    border-color var(--color-border-primary)
+    background-color var(--color-bg-primary-transparent)
 
   &.error
-    border-color: $UI.colors.error
-    background-color: $UI.colors.errorLightest
+    border-color var(--color-border-error)
+    background-color var(--color-bg-error-transparent)
 
   &.warning
-    border-color: $UI.colors.warning
-    background-color: $UI.colors.warningLightest
+    border-color var(--color-border-warning)
+    background-color var(--color-bg-warning-transparent)
 
   &.success
-    border-color: $UI.colors.success
-    background-color: $UI.colors.successLightest
+    border-color var(--color-border-success)
+    background-color var(--color-bg-success-transparent)
 
 // we align height by actions
 // since info block has height less small button
@@ -30,16 +30,16 @@
   flex-shrink 0
 
   &.info
-    color: $UI.colors.primary
+    color var(--color-text-primary)
 
   &.error
-    color: $UI.colors.error
+    color var(--color-text-error)
 
   &.warning
-    color: $UI.colors.warning
+    color var(--color-text-warning)
 
   &.success
-    color: $UI.colors.success
+    color var(--color-text-success)
 
 .content
   flex-shrink 1

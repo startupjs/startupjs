@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue, useError, useSession } from 'startupjs'
+import { pug, observer, useValue, useError, useSession } from 'startupjs'
 import { Alert, Br, Row, Div, Span, Button, ObjectInput } from '@startupjs/ui'
 import { clientFinishAuth, CookieManager } from '@startupjs/auth'
 import {
@@ -18,7 +18,7 @@ import _pickBy from 'lodash/pickBy'
 import _identity from 'lodash/identity'
 import PropTypes from 'prop-types'
 import { useAuthHelper } from '../../helpers'
-import commonSchema from './utils/joi'
+import { getValidationSchema } from './utils/getValidationSchema'
 import './index.styl'
 
 const IS_WEB = Platform.OS === 'web'
@@ -54,6 +54,7 @@ const REGISTER_DEFAULT_INPUTS = {
 
 function RegisterForm ({
   baseUrl,
+  passwordCheckType,
   recaptchaBadgePosition,
   redirectUrl,
   properties,
@@ -93,7 +94,7 @@ function RegisterForm ({
   async function onSubmit (recaptcha) {
     setErrors({})
 
-    let fullSchema = commonSchema
+    let fullSchema = getValidationSchema({ passwordCheckType })
     if (validateSchema) {
       fullSchema = fullSchema.keys(validateSchema)
     }
@@ -108,8 +109,9 @@ function RegisterForm ({
     const formClone = { ...form }
     if (recaptchaEnabled) formClone.recaptcha = recaptcha
     if (formClone.name) {
-      formClone.firstName = form.name.split(' ').shift()
-      formClone.lastName = form.name.split(' ').slice(1).join(' ')
+      const [firstName, ...rest] = formClone.name.trim().split(' ')
+      formClone.firstName = firstName
+      formClone.lastName = rest.filter(Boolean).join(' ')
       delete formClone.name
     }
 
@@ -211,11 +213,13 @@ function initForm (properties) {
 }
 
 RegisterForm.defaultProps = {
-  baseUrl: BASE_URL
+  baseUrl: BASE_URL,
+  passwordCheckType: 'simple'
 }
 
 RegisterForm.propTypes = {
   baseUrl: PropTypes.string,
+  passwordCheckType: PropTypes.oneOf(['complex', 'simple']),
   recaptchaBadgePosition: Recaptcha.propTypes.badge,
   redirectUrl: PropTypes.string,
   properties: PropTypes.object,

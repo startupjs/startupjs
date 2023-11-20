@@ -1,6 +1,6 @@
 import React from 'react'
 import { Platform, StyleSheet } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../Div'
 import themed from '../../theming/themed'
@@ -17,9 +17,11 @@ function Row ({
   reverse,
   ...props
 }) {
+  console.warn('[@startupjs/ui] Row: The component is DEPRECATED, use `Div(row)` instead.')
+
   // FIXME: for native apps row-reverse switches margins and paddings
   if (isNative && reverse) {
-    style = StyleSheet.flatten(style)
+    style = StyleSheet.flatten([style])
     const { paddingLeft, paddingRight, marginLeft, marginRight } = style
     style.marginLeft = marginRight
     style.marginRight = marginLeft

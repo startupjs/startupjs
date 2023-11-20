@@ -1,5 +1,5 @@
-import _get from 'lodash/get'
-import { changeEmail as _changeEmail } from '../helpers'
+import _get from 'lodash/get.js'
+import { changeEmail as _changeEmail } from '../helpers/index.js'
 
 export default function changeEmail (config) {
   return function (req, res) {

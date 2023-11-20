@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useImperativeHandle } from 'react'
 import { View, TouchableWithoutFeedback } from 'react-native'
-import { observer, useBind, useValue } from 'startupjs'
+import { pug, observer, useBind, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import AbstractPopover from './../../AbstractPopover'
 import DeprecatedPopover from './Deprecated'

@@ -84,19 +84,17 @@ Go into your `MyReactProject/ios` dir and open `MyProject.xcworkspace` workspace
 
 ```js
 import { initFirebaseApp, initPushNotifications } from '@startupjs/push-notifications/server'
-import { getPushNotificationsRoutes } from '@startupjs/push-notifications/isomorphic'
 const serviceAccountPath = path.join(process.cwd(), 'path/to/serviceAccountKey.json')
+
 ...
+
 init({ orm })
 initFirebaseApp(serviceAccountPath)
 
 ...
+
 startupjsServer({
-...
-appRoutes: [
   ...
-  ...getPushNotificationsRoutes()
-]
 }, (ee, options) => {
   ...
   initPushNotifications(ee)
@@ -165,7 +163,7 @@ The function of sending push notifications. Same as [client function](/docs/libr
 ## Usage client API
 
 ### `initPushNotifications (options)`
-function of initializing push notifications. 
+function of initializing push notifications.
 
 **Arguments**
   `options [Object]` - an options object for initializing push notifications. A complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#usage). !!IMPORTANT!! It is highly discouraged to override the `onRegister` and` onNotification [Function]` fields as this may break the package's behavior.

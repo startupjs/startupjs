@@ -1,4 +1,4 @@
-import { BaseModel } from 'startupjs/orm'
+import { BaseModel } from 'startupjs/orm.js'
 
 export default class TestThingModel extends BaseModel {
   async addSelf () {

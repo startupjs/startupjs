@@ -1,7 +1,7 @@
-import { finishAuth, linkAccount } from '@startupjs/auth/server'
-import { getFBAccessToken, getFBProfile } from '../helpers'
-import { CALLBACK_URL } from '../../isomorphic'
-import Provider from '../Provider'
+import { finishAuth, linkAccount } from '@startupjs/auth/server/index.js'
+import { getFBAccessToken, getFBProfile } from '../helpers/index.js'
+import { CALLBACK_URL } from '../../isomorphic/index.js'
+import Provider from '../Provider.js'
 
 export default async function loginCallback (req, res, next, config) {
   const {

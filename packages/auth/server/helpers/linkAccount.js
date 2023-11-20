@@ -4,7 +4,7 @@ import {
   ACCOUNT_LINKED_INFO,
   ACCOUNT_ALREADY_LINKED_TO_ANOHER_PROFILE_ERROR,
   generateRedirectResponse
-} from '../../isomorphic'
+} from '../../isomorphic/index.js'
 
 export default async function linkAccount (req, provider, goBackCount = 2) {
   const { model } = req

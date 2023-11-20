@@ -1,5 +1,5 @@
 import FB from 'fb'
-import { FIELDS } from '../../isomorphic'
+import { FIELDS } from '../../isomorphic/index.js'
 
 export default function getFBProfile (accessToken) {
   return new Promise((resolve, reject) => {

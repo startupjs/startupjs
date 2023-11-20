@@ -1,5 +1,5 @@
 import React from 'react'
-import { initAuthApp } from '@startupjs/auth'
+import { pug } from 'startupjs'
 import {
   LoginForm,
   RegisterForm,
@@ -15,6 +15,7 @@ import { AuthButton as CommonAuthButton } from '@startupjs/auth-common'
 import { AuthButton as IDGAuthButton } from '@startupjs/auth-idg'
 import { BASE_URL } from '@env'
 import Joi from '@hapi/joi'
+import { initAuthApp } from '../../packages/auth'
 import Layout from './Layout'
 import './index.styl'
 
@@ -46,6 +47,7 @@ const registerForm = pug`
 export default initAuthApp({
   Layout,
   redirectUrl: '/profile?customParam=dummy',
+  loggedInRedirectUrl: '/profile?customParam=dummy',
   localForms: {
     'sign-in': pug`
       LoginForm
@@ -57,19 +59,21 @@ export default initAuthApp({
   },
 
   socialButtons: [
-    <AppleAuthButton key='apple-btn' />,
-    <AzureadAuthButton key='azure-btn' />,
-    <FacebookAuthButton key='fb-btn' />,
-    <GoogleAuthButton key='google-btn' />,
-    <LinkedinAuthButton key='linkedin-btn' />,
-    <CommonAuthButton
-      key='virign-btn'
-      label='Virgin'
-      providerName='virgin'
-      style={{ backgroundColor: '#e1090d' }}
-      imageUrl={BASE_URL + '/img/virgin.png'}
-    />,
-    <IDGAuthButton key='idg-btn' />
+    pug`AppleAuthButton(key='apple-btn')`,
+    pug`AzureadAuthButton(key='azure-btn')`,
+    pug`FacebookAuthButton(key='fb-btn')`,
+    pug`GoogleAuthButton(key='google-btn')`,
+    pug`LinkedinAuthButton(key='linkedin-btn')`,
+    pug`
+      CommonAuthButton(
+        key='virign-btn'
+        style={ backgroundColor: '#e1090d' }
+        imageUrl=BASE_URL + '/img/virgin.png'
+        label='Virgin'
+        providerName='virgin'
+      )
+    `,
+    pug`IDGAuthButton(key='idg-btn')`
   ],
 
   renderForm: function ({

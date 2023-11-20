@@ -1,6 +1,6 @@
 /* eslint-disable no-unreachable */
 import React from 'react'
-import { observer, styl } from 'startupjs'
+import { pug, observer, styl } from 'startupjs'
 import { Div, Span } from '@startupjs/ui'
 import { decodePath } from './../../../../isomorphic'
 
@@ -17,7 +17,7 @@ export default observer(function Filename ({ style, meta }) {
     .file
       padding-bottom 0.5u
       border-bottom-width 1px
-      border-bottom color $UI.colors.dark
+      border-bottom color var(--color-border-secondary)
     .filename
       font(h6)
   `

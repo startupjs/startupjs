@@ -4,67 +4,57 @@
     "browser": true,
     "es6": true,
     "node": true,
-    "mocha": true,
-    "detox/detox": true,
-    "jest": true,
-    "jest/globals": true
+    "mocha": true
   },
   "extends": [
     "standard",
     "standard-react",
+    "plugin:react/recommended",
     "plugin:react-pug/all",
-    "plugin:jest/recommended"
+    "plugin:wdio/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaFeatures": {
-      "legacyDecorators": true,
-      "jsx": true
+      "legacyDecorators": true
     },
-    "ecmaVersion": 10,
-    "sourceType": "module",
-    "babelOptions": {
-      "parserOpts": {
-        "plugins": ["jsx"]
-      }
-    }
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
   "plugins": [
     "react",
     "react-pug",
-    "jest",
-    "detox",
-    "eslint-plugin-import-helpers"
+    "eslint-plugin-import-helpers",
+    "wdio"
   ],
   "rules": {
-    "prefer-const": "off",
+    "prefer-const": "error",
+    "eol-last": "error",
     "react/jsx-handler-names": "off",
     "react/prop-types": "off",
     "react-pug/empty-lines": "off",
     "react-pug/no-interpolation": "off",
     "react-pug/prop-types": "off",
     "react-pug/quotes": "off",
-    "jest/expect-expect": "off",
     "import-helpers/order-imports": [
       "warn",
       {
         "newlinesBetween": "ignore",
         "groups": [
-            "/^react$/",
-            "/react-native/",
-            "/^react.*/",
-            "/^startupjs/",
-            "/^@?startupjs.*/",
-            "/^@?dmapper.*/",
-            "module",
-            "/^components/",
-            ["/^helpers/", "/^hooks/"],
-            ["sibling", "parent"],
-            "/.\/index.styl/"
+          "/^react$/",
+          "/react-native/",
+          "/^react.*/",
+          "/^startupjs/",
+          "/^@?startupjs.*/",
+          "/^@?dmapper.*/",
+          "module",
+          "/^components/",
+          ["/^helpers/", "/^hooks/"],
+          ["sibling", "parent"],
+          "/.\/index.styl/"
         ]
       }
     ]

@@ -1,4 +1,4 @@
-import { BaseModel } from 'startupjs/orm'
+import { BaseModel } from 'startupjs/orm.js'
 
 const DRAFT_POSTFIX = '--draft'
 

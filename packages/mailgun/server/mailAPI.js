@@ -1,5 +1,5 @@
 import express from 'express'
-import sendEmail from './sendEmail'
+import sendEmail from './sendEmail.js'
 
 const router = express.Router()
 

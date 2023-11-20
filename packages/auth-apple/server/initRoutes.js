@@ -1,5 +1,5 @@
-import { WEB_LOGIN_URL, CALLBACK_URL, CALLBACK_NATIVE_URL } from '../isomorphic'
-import { loginWeb, loginWebCallback, loginNative } from './api'
+import { WEB_LOGIN_URL, CALLBACK_URL, CALLBACK_NATIVE_URL } from '../isomorphic/index.js'
+import { loginWeb, loginWebCallback, loginNative } from './api/index.js'
 
 export default function (options) {
   const { router, config } = options

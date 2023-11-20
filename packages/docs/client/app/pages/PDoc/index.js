@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, useLocal } from 'startupjs'
+import { pug, observer, useLocal } from 'startupjs'
 import { Span, Br, Div } from '@startupjs/ui'
 import { useDocsContext } from '../../../../docsContext'
 import { useLang } from '../../../clientHelpers'

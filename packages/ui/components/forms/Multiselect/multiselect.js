@@ -1,15 +1,13 @@
 import React from 'react'
-import { ScrollView } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Drawer from './../../popups/Drawer'
+import ScrollView from './../../ScrollView'
 import MultiselectInput from './input'
 import themed from '../../../theming/themed'
-import styles from './index.styl'
+import './index.styl'
 
 const Multiselect = ({
-  style,
-  inputStyle,
   options,
   value,
   placeholder,
@@ -28,7 +26,7 @@ const Multiselect = ({
   return pug`
     MultiselectInput(
       ref=ref
-      style=inputStyle
+      part='input'
       onOpen=onOpen
       onHide=onHide
       focused=focused
@@ -42,15 +40,14 @@ const Multiselect = ({
       _hasError=_hasError
     )
     Drawer.nativeListContent(
-      style=style
+      part='root'
       visible=focused
       position='bottom'
       onDismiss=onHide
-      styleSwipe=styles.swipeZone
     )
       ScrollView.suggestions-native
-        each opt in options
-          = renderListItem(opt)
+        each option, index in options
+          = renderListItem({ item: option, index })
 
   `
 }

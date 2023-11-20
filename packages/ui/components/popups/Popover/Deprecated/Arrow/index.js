@@ -1,5 +1,6 @@
 import React from 'react'
 import { Animated, StyleSheet } from 'react-native'
+import { pug } from 'startupjs'
 import './index.styl'
 
 export default function Arrow ({

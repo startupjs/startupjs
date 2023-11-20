@@ -8,7 +8,7 @@
 react: 16.9 - 17
 ```
 
-## Licence
+## License
 
 MIT
 

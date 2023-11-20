@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useImperativeHandle } from 'react'
-import { observer, useComponentId } from 'startupjs'
+import { pug, observer, useComponentId } from 'startupjs'
 import PropTypes from 'prop-types'
 import {
   getSiteKey,

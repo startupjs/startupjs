@@ -1,5 +1,5 @@
-import { createOrUpdateSecret, checkToken, getSecret } from './helpers'
-import { GET_SECRET_URL, CHECK_TOKEN_URL, CREATE_SECRET_URL } from '../isomorphic/constants'
+import { createOrUpdateSecret, checkToken, getSecret } from './helpers/index.js'
+import { GET_SECRET_URL, CHECK_TOKEN_URL, CREATE_SECRET_URL } from '../isomorphic/constants.js'
 
 export default function initDefaultRoutes (router, options) {
   router.get(CREATE_SECRET_URL, async function (req, res) {

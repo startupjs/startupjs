@@ -1,13 +1,12 @@
 {
   "name": "@startupjs/i18n",
-  "version": "0.48.0",
+  "version": "0.55.0-alpha.12",
   "description": "Internationalization framework for startupjs",
   "main": "client/index.js",
   "type": "module",
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
@@ -15,11 +14,11 @@
     "resolve": "^1.20.0"
   },
   "peerDependencies": {
-    "@startupjs/ui": ">= 0.34.0",
+    "@startupjs/ui": "*",
     "axios": "*",
     "express": "4.x",
-    "react": "16.9 - 17",
-    "react-native": ">= 0.61.4 < 0.64.0",
-    "startupjs": ">= 0.34.0"
+    "react": "*",
+    "react-native": "*",
+    "startupjs": "*"
   }
 }

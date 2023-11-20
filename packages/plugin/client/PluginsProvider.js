@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { pug } from 'startupjs'
 import pluginsSingleton from './pluginsSingleton'
 import PluginsContext from './context'
 
@@ -16,6 +17,7 @@ export function PluginsProvider ({
     )
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const value = useMemo(() => {
     let _plugins = {}
     // transform an array into an object

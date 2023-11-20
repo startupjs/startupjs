@@ -16,7 +16,7 @@ react-native: >= 0.61.4 < 0.64.0
 react-native-color-picker: ^0.6.0
 react-native-collapsible: >= 1.6.0
 react-native-gesture-handler: >= 1.10.3
-react-native-pager-view: >= 5.1.2
+react-native-pager-view: >= 6.2.0
 react-native-svg: >= 12.1.0
 react-native-tab-view: >= 3.0.0
 startupjs: >= 0.33.0
@@ -63,7 +63,7 @@ startupjsServer({
   ...
 })
 
-function getHead (appName) {
+function getHead () {
   return `
     ${getUiHead()}
     other head text
@@ -71,24 +71,21 @@ function getHead (appName) {
 }
 ```
 
-## App plugin
+## Top-level UiProvider component
 
-Register ui plugin for app
+Wrap your app into a top-level `UiProvider` component
 
 ```js
-import { registerPlugins } from '@startupjs/plugin'
-import { uiAppPlugin } from '@startupjs/ui'
+import { UiProvider } from '@startupjs/ui'
 
 ...
 
-registerPlugins({
-  '@startupjs/app': [
-    [uiAppPlugin, { defaultEnabled: true, style: overridesStyle }]
-  ]
-})
+<Ui style={ styleOverrides }>
+  <App />
+</Ui>
 ```
 
-where `overridesStyle` is the styles to override default components' styles and for the override to work the component must be wrapped into `themed()` decorator. The override syntax looks requires that component is referred as a class by its name (starting with a capital letter) in the `.styl` file. For example `Button` is referred as `.Button`:
+where `styleOverrides` is the styles to override default components' styles and for the override to work the component must be wrapped into `themed()` decorator. The override syntax looks requires that component is referred as a class by its name (starting with a capital letter) in the `.styl` file. For example `Button` is referred as `.Button`:
 
 ```styl
 .Button

@@ -1,11 +1,17 @@
+import url from 'url'
+import path from 'path'
 import { EventEmitter } from 'events'
 import random from 'lodash/random.js'
 import cluster from 'cluster'
-import entryPath from './entryPath.cjs'
+
+const WORKER_ENTRY_PATH = path.join(
+  path.dirname(url.fileURLToPath(import.meta.url)),
+  './executor.js'
+)
 
 const env = process.env
 
-cluster.setupMaster({ exec: entryPath })
+cluster.setupMaster({ exec: WORKER_ENTRY_PATH })
 
 export default class Worker extends EventEmitter {
   constructor () {
@@ -22,7 +28,7 @@ export default class Worker extends EventEmitter {
 
   createWorker () {
     return new Promise((resolve, reject) => {
-      let worker = cluster.fork(process.env)
+      const worker = cluster.fork(process.env)
 
       worker.once('message', (data) => {
         if (data.ready) {
@@ -37,7 +43,7 @@ export default class Worker extends EventEmitter {
         }
       })
 
-      let exit = (reason) => {
+      const exit = (reason) => {
         if (this.exitedOnce) return
         console.log('Child Worker is ending, id:', worker.id)
         if (this.taskReject) this.taskReject('Child worker is dead during the execution, taskId: ' + this.taskId)
@@ -66,21 +72,20 @@ export default class Worker extends EventEmitter {
     }
   }
 
-  executeTask (taskId) {
+  executeTask (taskId, { timeout = env.WORKER_TASK_DEFAULT_TIMEOUT } = {}) {
     this.taskId = taskId
     return new Promise((resolve, reject) => {
       if (!this.ready) return reject(new Error('Worker is dead: taskId: ' + taskId))
       this.taskReject = reject
-      const TASK_TIMEOUT = Number(env.WORKER_TASK_DEFAULT_TIMEOUT)
-      let timer = setTimeout(() => {
+      const timer = setTimeout(() => {
         reject(new Error('Task timeout reached: ' + taskId))
 
         if (this.ready) this.worker.kill()
-      }, TASK_TIMEOUT)
+      }, Number(timeout))
 
       this.worker.once('message', (data) => {
-        let taskId = data && data.taskId
-        let err = data && data.err
+        const taskId = data && data.taskId
+        const err = data && data.err
 
         if (!taskId) {
           return reject(new Error('Child Worker returned message in unknown format: ' + data))

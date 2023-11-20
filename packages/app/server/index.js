@@ -1,1 +1,1 @@
-export { default as initApp } from './initApp'
+export { default as initApp } from './initApp.js'

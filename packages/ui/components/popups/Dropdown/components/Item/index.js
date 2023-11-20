@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from '../../../../Icon'

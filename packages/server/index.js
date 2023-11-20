@@ -1,25 +1,21 @@
-// Initialize nconf with proper config
-require('./nconf')
-
-const defaults = require('lodash/defaults')
-const path = require('path')
-const EventEmitter = require('events').EventEmitter
-const errorApp = require('./error')
-const server = require('./server')
-
+import './nconf.js'
+import defaults from 'lodash/defaults.js'
+import path from 'path'
+import { EventEmitter } from 'events'
+import errorApp from './error/index.js'
+import server from './server/index.js'
 const ROOT_PATH = process.env.ROOT_PATH || process.cwd()
 
-module.exports = (options = {}, cb) => {
+export default (options = {}, cb) => {
   // Set project dir to process.cwd(). In future we may want to allow to
   // allow the customization of this parameter.
   options.dirname = ROOT_PATH
 
   defaults(options, {
-    appRoutes: {},
     publicPath: './public',
     loginUrl: '/login',
-    bodyParserLimit: '10mb',
-    error: errorApp
+    error: errorApp,
+    bodyParserLimit: '10mb'
   })
 
   // Transform public path to be absolute

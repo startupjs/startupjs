@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue } from 'startupjs'
 import { Alert, Br, Span, Div, Button, PasswordInput } from '@startupjs/ui'
 import { RESET_PASSWORD_SLIDE } from '@startupjs/auth/isomorphic'
 import _get from 'lodash/get'

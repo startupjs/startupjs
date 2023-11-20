@@ -1,5 +1,5 @@
-import { EMAIL_REGEXP } from '../../isomorphic/constants'
-import Provider from '../Provider'
+import { EMAIL_REGEXP } from '../../isomorphic/constants.js'
+import Provider from '../Provider.js'
 
 export default async function createEmailChangeSecret ({ email, userId, model, config }) {
   if (!userId) {

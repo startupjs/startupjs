@@ -2,8 +2,10 @@
   flex 1
   &:part(contentContainer)
     flex 1
+
   +desktop()
-    background-color $UI.colors.darkLighter
+    background-color var(--color-bg-dim)
+
     &:part(contentContainer)
       justify-content center
       align-items center
@@ -12,10 +14,11 @@
   padding 2u 0
   width 100%
   border-radius 0.5u
+
   +desktop()
     width 50u
-    background-color $UI.colors.white
-    box-shadow $UI.colors.darkLighter 0 1u 1.5u
+    background-color var(--color-bg-strong)
+    box-shadow 0 1u 1.5u var(--color-shadow-dim)
 
 .logo
   padding 1u
@@ -26,7 +29,7 @@
     position fixed
     align-items start
     top 3u
-    left 3u
+    left 10u
 
 .form
   padding-top 1u
@@ -39,3 +42,11 @@
 
 .case
   margin-top 2u
+
+.backButton
+  +tablet()
+    padding-left 3u
+    padding-right 1u
+    position fixed
+    top 0
+    left 0

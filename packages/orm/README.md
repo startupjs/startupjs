@@ -245,7 +245,7 @@ export default class UserModel extends BaseModel {
 2. Schema validation only works in development. So there won't be any performance overheads when `NODE_ENV` is `production`
 3. Only ORMs targeting documents path `<collection>.*` are gonna be parsed for `schema` definitions.
 
-## Licence
+## License
 
 MIT
 

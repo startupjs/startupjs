@@ -61,9 +61,8 @@ buck-out/
 # DB data
 /data/
 
-# Detox
-/artifacts/
-/e2e/__diff_output__
-
 # private files
 *.private.*
+
+# sqlite
+sqlite.db

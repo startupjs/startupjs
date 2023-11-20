@@ -1,8 +1,5 @@
-/* @jsx unstable_createElement */
 import React from 'react'
-// eslint-disable-next-line
-import { unstable_createElement } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import {
   stringifyValue,
   getLabel,
@@ -11,7 +8,7 @@ import {
 } from './helpers'
 import Div from '../../../Div'
 import themed from '../../../../theming/themed'
-import './index.styl'
+import STYLES from './index.styl'
 
 function SelectWrapper ({
   style,
@@ -21,6 +18,7 @@ function SelectWrapper ({
   disabled,
   showEmptyValue,
   emptyValueLabel,
+  testID,
   onChange
 }) {
   function onSelectChange (event) {
@@ -29,10 +27,11 @@ function SelectWrapper ({
   }
 
   return pug`
-    Div.root(style=style)
+    Div.root(style=style testID=testID)
       = children
       if !disabled
-        select.overlay(
+        select(
+          style=STYLES.overlay
           value=stringifyValue(value)
           onChange=onSelectChange
         )

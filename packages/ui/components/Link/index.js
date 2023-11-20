@@ -1,7 +1,7 @@
 import React from 'react'
 import { Platform, Linking } from 'react-native'
 import { useHistory } from 'react-router-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../Div'
 import Button from './../Button'

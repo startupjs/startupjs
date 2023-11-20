@@ -1,4 +1,4 @@
-import { createEmailChangeSecret as _createEmailChangeSecret } from '../helpers'
+import { createEmailChangeSecret as _createEmailChangeSecret } from '../helpers/index.js'
 
 export default function createEmailChangeSecret (config) {
   return function (req, res) {

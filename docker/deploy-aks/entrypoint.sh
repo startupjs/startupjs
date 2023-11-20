@@ -124,6 +124,7 @@ validate_batch () {
 run_step_init () {
   _log "install_generic" && install_generic
   _log "install_kubectl" && install_kubectl
+  _log "install_neat" && install_neat
 }
 
 install_generic () {
@@ -132,6 +133,18 @@ install_generic () {
 
 install_kubectl () {
   az aks install-cli
+}
+
+install_neat () {
+  set -x; cd "$(mktemp -d)" &&
+  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+  KREW="krew-${OS}_${ARCH}" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+  tar zxvf "${KREW}.tar.gz" &&
+  ./"${KREW}" install krew
+
+  kubectl krew install neat
 }
 
 # -----------------------------------------------------------------------------
@@ -199,28 +212,46 @@ build_image_kaniko () {
   mkdir -p /kaniko/.docker
   # authorize to registry
   echo "{\"auths\":{\"${REGISTRY_SERVER}\":{\"auth\":\"$(printf "%s:%s" "${CLIENT_ID}" "${CLIENT_SECRET}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-  if [ ! -d "$DEPLOYMENTS" ]
+  if [ -n "$DEPLOYMENTS" ]
   then
     for dockerfile in $(echo $DEPLOYMENTS | tr "," "\n")
     do
         SERVICE=$(echo $dockerfile | cut -d ":" -f 1)
         DOCKERFILE_PATH=$(echo $dockerfile | cut -d ":" -f 2)
         echo "Building docker image for ${SERVICE} microservice from dockerfile: ${DOCKERFILE_PATH}"
-        executor \
-          --context /_project \
-          --dockerfile "$DOCKERFILE_PATH" \
-          --destination "${REGISTRY_SERVER}/${APP}-${SERVICE}:${COMMIT_SHA}" \
-          --destination "${REGISTRY_SERVER}/${APP}-${SERVICE}:latest"
+        if [ -n "$FEATURE" ]
+        then
+          executor \
+            --context /_project \
+            --dockerfile "$DOCKERFILE_PATH" \
+            --destination "${REGISTRY_SERVER}/${APP}-${SERVICE}-${FEATURE}:${COMMIT_SHA}" \
+            --destination "${REGISTRY_SERVER}/${APP}-${SERVICE}-${FEATURE}:latest"
+        else
+          executor \
+            --context /_project \
+            --dockerfile "$DOCKERFILE_PATH" \
+            --destination "${REGISTRY_SERVER}/${APP}-${SERVICE}:${COMMIT_SHA}" \
+            --destination "${REGISTRY_SERVER}/${APP}-${SERVICE}:latest"
+        fi
     done
   fi
 
   if [ -f "$PROJECT_PATH/Dockerfile" ]
   then
-    executor \
-      --context /_project \
-      --dockerfile "$DOCKERFILE_PATH" \
-      --destination "${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}" \
-      --destination "${REGISTRY_SERVER}/${APP}:latest"
+    if [ -n "$FEATURE" ]
+    then
+      executor \
+        --context /_project \
+        --dockerfile "$DOCKERFILE_PATH" \
+        --destination "${REGISTRY_SERVER}/${APP}-${FEATURE}:${COMMIT_SHA}" \
+        --destination "${REGISTRY_SERVER}/${APP}-${FEATURE}:latest"
+    else
+      executor \
+        --context /_project \
+        --dockerfile "$DOCKERFILE_PATH" \
+        --destination "${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}" \
+        --destination "${REGISTRY_SERVER}/${APP}:latest"
+    fi
   fi
 }
 
@@ -244,6 +275,10 @@ validate_step_apply () {
 
 login_kubectl () {
   az aks get-credentials --resource-group "$RESOURCE_GROUP_NAME" --name "$CLUSTER_NAME"
+  kubelogin convert-kubeconfig \
+    -l spn \
+    --client-id "$CLIENT_ID" \
+    --client-secret "$CLIENT_SECRET"  
 }
 
 update_secret () {
@@ -262,19 +297,113 @@ _get_keyvault_secrets_yaml () {
     echo "${_name}=${_value}" >> ./secrets.env
   done
   # Next command will output the yaml to stdout and we'll catch it outside
-  kubectl create secret generic "$APP" --type=Opaque --from-env-file=./secrets.env --dry-run -o yaml
+  kubectl create secret generic "$APP" --type=Opaque --from-env-file=./secrets.env --dry-run=client -o yaml
   rm ./secrets.env
 }
 
 update_deployments () {
-  for _name in $(kubectl get deployments -l "managed-by=terraform,part-of=${APP}" --no-headers -o custom-columns=":metadata.name"); do
-    SERVICE=$(echo $NAME | cut -d "-" -f 2)
-    if [[ "$DEPLOYMENTS" =~ .*"$SERVICE:".* ]]; then
-      kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}" --record
+  if [ -n "$FEATURE" ]
+  then
+    if [ -n "$DEPLOYMENTS" ]
+    then
+      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json \
+        | kubectl-neat \
+        | jq '.items[]' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
+        | jq 'del(.metadata.annotations["deployment.kubernetes.io/revision"])' \
+        | jq 'del(.metadata.annotations["kubernetes.io/change-cause"])' \
+        | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
+        | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
+        | jq ".spec.selector.matchLabels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq ".spec.template.metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq '.spec.template.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
+        | jq ".spec.template.spec.containers[0].image = \"${REGISTRY_SERVER}/${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}:${COMMIT_SHA}\"" \
+        | kubectl apply -f -
     else
-      kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}" --record
+      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json \
+        | kubectl-neat \
+        | jq '.items[]' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
+        | jq 'del(.metadata.annotations["deployment.kubernetes.io/revision"])' \
+        | jq 'del(.metadata.annotations["kubernetes.io/change-cause"])' \
+        | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
+        | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
+        | jq ".spec.selector.matchLabels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq ".spec.template.metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq '.spec.template.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
+        | jq ".spec.template.spec.containers[0].image = \"${REGISTRY_SERVER}/${APP}-${FEATURE}:${COMMIT_SHA}\"" \
+        | kubectl apply -f -
     fi
-  done
+
+    kubectl get service -l "managed-by=terraform,part-of=${APP}" -o json \
+      | kubectl-neat \
+      | jq '.items[]' \
+      | jq "del(.spec.clusterIP)" \
+      | jq "del(.spec.clusterIPs)" \
+      | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
+      | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
+      | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
+      | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+      | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+      | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
+      | jq ".spec.selector.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+      | kubectl apply -f -
+
+    if [ -n "$FEATURE_WILDCARD" ]
+    then
+      kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
+        | kubectl-neat \
+        | jq '.items[]' \
+        | jq 'del(.metadata.annotations["cert-manager.io/cluster-issuer"])' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
+        | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
+        | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
+        | jq "del(.spec.rules[1,2,3,4,5])" \
+        | jq ".spec.rules[].host = \"${FEATURE}.${FEATURE_DOMAIN}\"" \
+        | jq ".spec.rules[].http.paths[].backend.service.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq "del(.spec.tls[1,2,3,4,5])" \
+        | jq ".spec.tls[0].hosts = [\"${FEATURE}.${FEATURE_DOMAIN}\"]" \
+        | jq ".spec.tls[0].secretName = \"${APP}-features-cert\"" \
+        | kubectl apply -f -
+    else
+      kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
+        | kubectl-neat \
+        | jq '.items[]' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
+        | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
+        | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
+        | jq "del(.spec.rules[1,2,3,4,5])" \
+        | jq ".spec.rules[].host = \"${FEATURE}.${FEATURE_DOMAIN}\"" \
+        | jq ".spec.rules[].http.paths[].backend.service.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq "del(.spec.tls[1,2,3,4,5])" \
+        | jq ".spec.tls[0].hosts = [\"${FEATURE}.${FEATURE_DOMAIN}\"]" \
+        | jq ".spec.tls[0].secretName = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}-cert\"" \
+        | kubectl apply -f -
+    fi
+  else
+    for _name in $(kubectl get deployments -l "managed-by=terraform,part-of=${APP}" --no-headers -o custom-columns=":metadata.name"); do
+      SERVICE=$(echo $NAME | cut -d "-" -f 2)
+      if [[ "$DEPLOYMENTS" =~ .*"$SERVICE:".* ]]; then
+        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}" 
+        kubectl annotate "deployment/$_name" kubernetes.io/change-cause="Set image: $_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}"
+      else
+        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}"
+        kubectl annotate "deployment/$_name" kubernetes.io/change-cause="Set image: $_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}"
+      fi
+    done
+  fi
 }
 
 # ----- test -----

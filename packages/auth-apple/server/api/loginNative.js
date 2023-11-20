@@ -1,7 +1,7 @@
-import { finishAuth, linkAccount } from '@startupjs/auth/server'
+import { finishAuth, linkAccount } from '@startupjs/auth/server/index.js'
 import crypto from 'crypto'
 import appleSigninAuth from 'apple-signin-auth'
-import Provider from '../Provider'
+import Provider from '../Provider.js'
 
 export default async function loginNative (req, res, config) {
   const { onBeforeLoginHook } = config

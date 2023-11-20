@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import DropdownCaption from './components/Caption'
 import DropdownItem from './components/Item'

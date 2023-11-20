@@ -1,6 +1,6 @@
-const ZSchema = require('z-schema')
+import ZSchema from 'z-schema'
 
-class Schema {
+export default class Schema {
   constructor (backend, options = {}) {
     if (!options.schemas) throw new Error('Schemas are required in options')
 
@@ -14,7 +14,7 @@ class Schema {
     this.validator = new ZSchema()
 
     // register formats
-    for (let format in formats) {
+    for (const format in formats) {
       ZSchema.registerFormat(format, options.formats[format])
     }
   }
@@ -159,7 +159,7 @@ class Schema {
   }
 
   getContexts = (schema, value) => {
-    let partialSchema = {}
+    const partialSchema = {}
 
     if (!schema) {
       return partialSchema
@@ -194,5 +194,3 @@ class Schema {
     return partialSchema
   }
 }
-
-module.exports = Schema

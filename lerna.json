@@ -1,5 +1,5 @@
 {
-  "version": "0.48.6",
+  "version": "0.55.0-alpha.13",
   "command": {
     "publish": {
       "ignoreChanges": [
@@ -9,6 +9,5 @@
       ]
     }
   },
-  "npmClient": "yarn",
-  "useWorkspaces": true
+  "npmClient": "yarn"
 }

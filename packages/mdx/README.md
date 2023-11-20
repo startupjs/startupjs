@@ -40,6 +40,6 @@ import { MDXProvider } from '@startupjs/mdx'
 
 For the full list of components, look [here](https://mdxjs.com/getting-started#table-of-components)
 
-## Licence
+## License
 
 MIT

@@ -1,16 +1,16 @@
-const routesMiddleware = require('@startupjs/routes-middleware')
-const _defaults = require('lodash/defaults')
-const _cloneDeep = require('lodash/cloneDeep')
-const conf = require('nconf')
-const express = require('express')
-const expressSession = require('express-session')
-const compression = require('compression')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
-const methodOverride = require('method-override')
-const MongoStore = require('connect-mongo')
-const hsts = require('hsts')
-const cors = require('cors')
+import _defaults from 'lodash/defaults.js'
+import _cloneDeep from 'lodash/cloneDeep.js'
+import conf from 'nconf'
+import express from 'express'
+import expressSession from 'express-session'
+import compression from 'compression'
+import cookieParser from 'cookie-parser'
+import bodyParser from 'body-parser'
+import methodOverride from 'method-override'
+import MongoStore from 'connect-mongo'
+import hsts from 'hsts'
+import app from './app/index.js'
+
 const FORCE_HTTPS = conf.get('FORCE_HTTPS_REDIRECT')
 const DEFAULT_SESSION_MAX_AGE = 1000 * 60 * 60 * 24 * 365 * 2 // 2 years
 const DEFAULT_BODY_PARSER_OPTIONS = {
@@ -25,7 +25,7 @@ function getDefaultSessionUpdateInterval (sessionMaxAge) {
   return Math.floor(sessionMaxAge / 1000 / 10)
 }
 
-module.exports = (backend, mongoClient, appRoutes, error, options) => {
+export default (backend, mongoClient, error, options) => {
   const connectMongoOptions = { client: mongoClient }
 
   if (options.sessionMaxAge) {
@@ -43,7 +43,8 @@ module.exports = (backend, mongoClient, appRoutes, error, options) => {
     store: sessionStore,
     cookie: {
       maxAge: options.sessionMaxAge || DEFAULT_SESSION_MAX_AGE,
-      secure: options.cookiesSecure || false
+      secure: options.cookiesSecure || false,
+      sameSite: options.sameSite
     },
     saveUninitialized: true,
     resave: false,
@@ -55,13 +56,23 @@ module.exports = (backend, mongoClient, appRoutes, error, options) => {
   const expressApp = express()
 
   // Required to be able to determine whether the protocol is 'http' or 'https'
-  if (FORCE_HTTPS) expressApp.enable('trust proxy')
+  if (FORCE_HTTPS || options.trustProxy) expressApp.enable('trust proxy')
 
   // ----------------------------------------------------->    logs    <#
   options.ee.emit('logs', expressApp)
 
+  function shouldCompress (req, res) {
+    if (req.headers['x-no-compression']) {
+      // don't compress responses with this request header
+      return false
+    }
+
+    // fallback to standard filter function
+    return compression.filter(req, res)
+  }
+
   expressApp
-    .use(compression())
+    .use(compression({ filter: shouldCompress }))
     .use('/healthcheck', (req, res) => res.status(200).send('OK'))
 
   if (FORCE_HTTPS) {
@@ -90,19 +101,6 @@ module.exports = (backend, mongoClient, appRoutes, error, options) => {
 
   // ----------------------------------------------------->    static    <#
   options.ee.emit('static', expressApp)
-
-  if (process.env.NODE_ENV !== 'production' && process.env.VITE) {
-    // Enable cors requests from localhost in dev
-    expressApp.use(cors({ origin: /(?:127\.0\.0\.1|localhost):?\d*$/ }))
-    // Redirect to https 3010 port in dev
-    const VITE_PORT = 3010
-    expressApp.use((req, res, next) => {
-      if (req.method === 'GET' && (req.path === '/' || req.path === '')) {
-        return res.redirect(301, 'https://' + req.get('host').replace(/:?\d+$/, ':' + VITE_PORT) + req.originalUrl)
-      }
-      next()
-    })
-  }
 
   expressApp
     .use(express.static(options.publicPath, { maxAge: '1h' }))
@@ -142,10 +140,10 @@ module.exports = (backend, mongoClient, appRoutes, error, options) => {
   // ----------------------------------------------------->      routes      <#
   options.ee.emit('routes', expressApp)
 
-  expressApp.use(routesMiddleware(appRoutes, options))
+  const appMiddleware = app(options)
 
   expressApp
-    .all('*', (req, res, next) => next('404: ' + req.url))
+    .use(appMiddleware)
     .use(function (err, req, res, next) {
       if (err.name === 'MongoError' && err.message === 'Topology was destroyed') {
         process.exit()

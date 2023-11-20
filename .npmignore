@@ -17,17 +17,19 @@ node_modules
 # npm-debug log
 npm-debug.*
 
-# yarn log
+# yarn
 yarn-error.log
+yarn.lock
+.yarn/
+
+# eslint
+.eslintrc.json
 
 # lerna log
 lerna-debug.log
 
-# Yarn lock file
-yarn.lock
-
-# NPM lock
-package-lock.json
+# Test screenshots
+/test_failed_screenshots
 
 # ----- additional
 

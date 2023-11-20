@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Popover from '../popups/Popover'
 import TooltipCaption from './Caption'

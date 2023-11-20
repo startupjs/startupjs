@@ -1,3 +1,5 @@
+import { BASE_URL } from '@env'
+
 # i18n
 
 i18n module provides with tools to localize your product.
@@ -26,21 +28,6 @@ startupjs: >= 0.34.0
     // ...
   }, (ee, options) => {
     initI18n(ee)
-  })
-  ```
-
-1. Add server-side routes
-
-  ```js
-  import { getI18nRoutes } from '@startupjs/i18n/server'
-
-  startupjsServer({
-    appRoutes: [
-      // provides page /i18n to manage translations
-      ...getI18nRoutes()
-    ]
-  }, (ee, options) => {
-    // ...
   })
   ```
 

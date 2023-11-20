@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Item from '../../Item'
 import Div from '../../Div'
@@ -7,9 +7,8 @@ import Icon from '../../Icon'
 import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
 import MenuContext from '../context'
-import STYLES from './index.styl'
-
-const { colors } = STYLES
+import useColors from '../../../hooks/useColors'
+import './index.styl'
 
 function MenuItem ({
   children,
@@ -20,6 +19,7 @@ function MenuItem ({
   ...props
 }) {
   const context = useContext(MenuContext)
+  const getColor = useColors()
 
   // TODO
   // we should think about a better api
@@ -30,9 +30,8 @@ function MenuItem ({
   const iconPosition = props.iconPosition || context.iconPosition || 'left'
 
   // TODO: prevent click if already active (for link and for div)
-  const activeItemColor = activeColor || colors.primary
-  color = active ? activeItemColor : color || colors.mainText
-  const borderStyle = { backgroundColor: activeItemColor }
+  color = active ? activeColor || getColor('text-primary') : color || getColor('text-secondary')
+  const borderStyle = { backgroundColor: activeColor || getColor('border-primary') }
 
   return pug`
     Div

@@ -1,6 +1,6 @@
-import racer from 'racer'
-import promisifyRacer from './promisifyRacer'
 import { singletonMemoize } from '@startupjs/cache'
+import racer from 'racer'
+import promisifyRacer from './promisifyRacer.js'
 
 const Model = racer.Model
 
@@ -11,32 +11,32 @@ export default function (racer) {
 
   racer._orm = global.STARTUP_JS_ORM
   racer.orm = function (pattern, OrmEntity, alias) {
-    var name = alias || pattern
+    const name = alias || pattern
     if (global.STARTUP_JS_ORM[name]) throw alreadyDefinedError(pattern, alias)
 
     // NOTE
     // if same OrmEntity will be passed for different collections
     // then they will all have the same collection name
     if (!OrmEntity.collection) {
-      var match = pattern.match(/^[^.]+/)
+      const match = pattern.match(/^[^.]+/)
       if (match) OrmEntity.collection = match[0]
     }
 
     global.STARTUP_JS_ORM[name] = {
-      pattern: pattern,
+      pattern,
       regexp: patternToRegExp(pattern),
-      OrmEntity: OrmEntity
+      OrmEntity
     }
   }
 
   Model.prototype.at = function (subpath, alias) {
-    var path = this.path(subpath)
+    const path = this.path(subpath)
     return this.scope(path, alias)
   }
 
   Model.prototype._scope = function (path) {
-    var ChildModel = Model.ChildModel
-    var model = new ChildModel(this)
+    const ChildModel = Model.ChildModel
+    const model = new ChildModel(this)
     model._at = path
     return model
   }
@@ -64,11 +64,11 @@ export default function (racer) {
       }
     }
 
-    var segments = this._dereference(this.__splitPath(path), true)
-    var fullPath = segments.join('.')
+    const segments = this._dereference(this.__splitPath(path), true)
+    const fullPath = segments.join('.')
 
-    for (var name in global.STARTUP_JS_ORM) {
-      var regexp = global.STARTUP_JS_ORM[name].regexp
+    for (const name in global.STARTUP_JS_ORM) {
+      const regexp = global.STARTUP_JS_ORM[name].regexp
       if (regexp.test(fullPath)) {
         return this.__createScopedModel(path, global.STARTUP_JS_ORM[name].OrmEntity)
       }
@@ -81,7 +81,7 @@ export default function (racer) {
   })
 
   Model.prototype.__createScopedModel = function (path, OrmEntity) {
-    var model
+    let model
     if (OrmEntity.factory || OrmEntity.prototype.factory) {
       model = OrmEntity(this._scope(path), this)
       // if factory didn't return anything, return a simple scoped model
@@ -106,7 +106,7 @@ function patternToRegExp (pattern) {
 }
 
 function alreadyDefinedError (pattern, alias) {
-  var msg
+  let msg
   if (alias) {
     msg =
       "ORM entity with the alias '" +
@@ -130,7 +130,7 @@ BaseModel.prototype = Object.create(Model.ChildModel.prototype)
 BaseModel.prototype.constructor = BaseModel
 
 BaseModel.prototype.getId = function () {
-  var actualField = this.dereferenceSelf()
+  const actualField = this.dereferenceSelf()
   return actualField.leaf()
 }
 
@@ -148,8 +148,8 @@ BaseModel.prototype.getCollection = function () {
 }
 
 BaseModel.prototype.dereferenceSelf = function () {
-  var model = this.root
-  var segments = model._splitPath(this.path())
+  const model = this.root
+  const segments = model._splitPath(this.path())
   return model.scope(model._dereference(segments, true).join('.'))
 }
 
@@ -164,4 +164,4 @@ BaseModel.prototype.getAssociations = function () {
 }
 
 export { BaseModel }
-export * from './associations'
+export * from './associations/index.js'

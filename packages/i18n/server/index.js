@@ -1,4 +1,4 @@
-import routes from './routes'
+import routes from './routes.js'
 
 export function initI18n (ee, config) {
   if (!ee) {
@@ -15,5 +15,3 @@ export function initI18n (ee, config) {
     })
   })
 }
-
-export { default as getI18nRoutes } from './../client/app/routes'

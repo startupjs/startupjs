@@ -517,7 +517,7 @@ export default observer(function Game ({gameId}) {
 })
 ```
 
-## Licence
+## License
 
 MIT
 

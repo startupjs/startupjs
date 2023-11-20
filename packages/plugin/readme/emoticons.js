@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { alert, Div, Row, Span } from '@startupjs/ui'
 
 export default {

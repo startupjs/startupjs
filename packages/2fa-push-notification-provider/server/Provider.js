@@ -1,5 +1,5 @@
-import { Provider } from '@startupjs/2fa-manager/Provider'
-import { sendNotification } from '@startupjs/push-notifications/server/helpers'
+import { Provider } from '@startupjs/2fa-manager/Provider/index.js'
+import { sendNotification } from '@startupjs/push-notifications/server/helpers/index.js'
 
 export default class PushProvider extends Provider {
   constructor (ee, options) {

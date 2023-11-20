@@ -1,36 +1,34 @@
-_inputHeight = 4u
-_inputBg = $UI.colors.white
-_inputBorderWidth = 1px
-_inputBorderColor = $UI.colors.darkLighter
-_inputBgDisabled = $UI.colors.darkLightest
-_inputPlaceholderColor = $UI.colors.darkLighter
-_focusedColor = $UI.colors.primary
-_errorColor = $UI.colors.error
-_swipeZoneColor = #f5f5f5
-_suggestionsPopoverMaxHeight = 25u
+$inputBg = var(--color-bg-strong)
+$inputBorderWidth = 1px
+$inputBorderColor = var(--color-border)
+$inputBgDisabled = var(--color-bg)
+$inputPlaceholderColor = var(--color-text-placeholder)
+$focusedColor = var(--color-border-primary)
+$errorColor = var(--color-border-error)
+$swipeZoneColor = var(--color-bg-secondary-inverse)
+$suggestionsPopoverMaxHeight = 25u
 
 .input
   padding 5px 1u
-  background-color _inputBg
-  border-width _inputBorderWidth
+  background-color $inputBg
+  border-width $inputBorderWidth
   border-style solid
-  border-color _inputBorderColor
+  border-color $inputBorderColor
   min-height 4u
   min-width 8u
   radius()
 
   &.disabled
-    background-color _inputBgDisabled
+    background-color $inputBgDisabled
 
   &.focused
-    border-color _focusedColor
+    border-color $focusedColor
 
   &.error
-    border-color _errorColor
+    border-color $errorColor
 
 .placeholder
-  color _inputPlaceholderColor
-  padding-top 1px
+  color $inputPlaceholderColor
 
 .tag
   margin-right 0.5u
@@ -44,27 +42,28 @@ _suggestionsPopoverMaxHeight = 25u
 
 .suggestions-web
   padding 0 1u
-  max-height _suggestionsPopoverMaxHeight
+  max-height $suggestionsPopoverMaxHeight
 
 .suggestions-native
   padding 1u 0
 
-.swipeZone
-  background-color _swipeZoneColor
-
 .nativeListContent
   padding-top 5u
+
+  &:part(swipe)
+    background-color $swipeZoneColor
 
 .suggestion
   cursor pointer
   padding 1u 2u
   flex-direction row
   align-items center
+
   +desktop()
     padding 1u
 
 .sugText
-  color $UI.colors.mainText
+  color var(--color-text)
   font(h5)
 
   +desktop()
@@ -76,7 +75,7 @@ _suggestionsPopoverMaxHeight = 25u
 
 .popover
   padding 0 .5u
-  max-height _suggestionsPopoverMaxHeight
+  max-height $suggestionsPopoverMaxHeight
   min-width 20u
 
 .ellipsis
@@ -89,7 +88,7 @@ _suggestionsPopoverMaxHeight = 25u
   width 2u
 
 .checkIcon
-  color $UI.colors.primary
+  color var(--color-text-primary)
 
 .label
   margin-right 1u

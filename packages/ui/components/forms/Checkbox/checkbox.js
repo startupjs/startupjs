@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { Animated, Easing } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import { pug, observer, useDidUpdate } from 'startupjs'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import Icon from './../../Icon'
 import Div from './../../Div'

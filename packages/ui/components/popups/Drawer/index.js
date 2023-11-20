@@ -6,7 +6,7 @@ import {
   TouchableWithoutFeedback,
   StyleSheet
 } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Portal from '../../Portal'
 import Swipe from './Swipe'

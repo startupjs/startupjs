@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue, useSession, useError } from 'startupjs'
+import { pug, observer, useValue, useSession, useError } from 'startupjs'
 import {
   Alert,
   Br,
@@ -144,7 +144,7 @@ function LoginForm ({
       await authHelper.resendEmailConfirmation(form.email)
     } catch (error) {
       const { message } = error.response.data
-      setErrors({ server: { message }})
+      setErrors({ server: { message } })
     }
     setErrors({})
     setSuccessAlert('Confirmation email has been sent to your email')
@@ -157,7 +157,7 @@ function LoginForm ({
       errMessage = pug`
         Span
           Span= errors.server.message + '.'
-          Span 
+          Span
             Span.resendLink(onPress=resendConfirmation) Resend
             Span  confirmation
       `

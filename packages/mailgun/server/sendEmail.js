@@ -1,7 +1,7 @@
 import conf from 'nconf'
 import fs from 'fs'
 import inlineCss from 'inline-css'
-import MailService from './MailService'
+import MailService from './MailService.js'
 
 const STAGE = process.env.STAGE
 const EMAIL_WHITELIST = [...(conf.get('ADMINS') || []), ...(conf.get('EMAIL_WHITELIST') || [])]
@@ -32,7 +32,7 @@ async function getTemplate (template, options) {
 async function sendEmail (params) {
   const splitEmails = params.email.split(',')
 
-  for (let email of splitEmails) {
+  for (const email of splitEmails) {
     if (!isProduction && !EMAIL_WHITELIST.includes(email.trim()) && !params.ignoreWhitelist) {
       return console.log(`\n[@startupjs/mailgun] We can't send email to address ("${email}") that not in whitelist in dev STAGE.\n`)
     }
@@ -47,13 +47,10 @@ async function sendEmail (params) {
 
     const from = params.from || process.env.MAILGUN_FROM_ID || conf.get('MAILGUN_FROM_ID')
 
-    let options = {
+    const options = {
+      ...params,
       from,
-      to: params.email,
-      subject: params.subject,
-      text: params.text,
-      html: params.html,
-      inline: params.inline
+      to: [params.email]
     }
 
     if (params.templateName) {

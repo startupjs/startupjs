@@ -1,9 +1,9 @@
 import React from 'react'
-import { emit, $root } from 'startupjs'
+import { pug, emit, $root } from 'startupjs'
 import { BASE_URL } from '@env'
 import * as pages from './pages'
+import getAuthRoutes from './routes'
 import {
-  getAuthRoutes,
   SIGN_IN_SLIDE,
   SIGN_UP_SLIDE,
   RECOVER_PASSWORD_SLIDE,
@@ -20,6 +20,7 @@ export default function initAuthApp ({
   localForms,
   socialButtons,
   renderForm,
+  loggedInRedirectUrl,
   onChangeSlide,
   onSuccess,
   onError,
@@ -48,7 +49,7 @@ export default function initAuthApp ({
     }
   }
 
-  const routes = getAuthRoutes(pages).map(item => {
+  const routes = getAuthRoutes(pages, { loggedInRedirectUrl }).map(item => {
     const Page = item.component
     item.component = () => {
       return pug`

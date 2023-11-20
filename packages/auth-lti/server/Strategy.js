@@ -1,8 +1,8 @@
 import { Strategy as LTIStrategy } from '@dmapper/passport-lms-lti'
 import passport from 'passport'
-import initRoutes from './initRoutes'
-import { CALLBACK_URL, DB_COLLECTION_NAME } from '../isomorphic'
-import { getDbSchools } from './helpers'
+import initRoutes from './initRoutes.js'
+import { CALLBACK_URL, DB_COLLECTION_NAME } from '../isomorphic/index.js'
+import { getDbSchools } from './helpers.js'
 
 function validateConfigs ({ schools, collectionName, dbSchools }) {
   if ((dbSchools && !collectionName) || (!dbSchools && !schools)) {

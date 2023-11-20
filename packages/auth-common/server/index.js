@@ -1,1 +1,1 @@
-export { default as Strategy } from './Strategy'
+export { default as Strategy } from './Strategy.js'

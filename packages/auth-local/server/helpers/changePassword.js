@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import _get from 'lodash/get'
+import _get from 'lodash/get.js'
 
 export default async function changePassword ({ model, userId, password }) {
   if (!userId) {

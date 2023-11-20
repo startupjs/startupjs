@@ -1,7 +1,7 @@
 import React from 'react'
-import { Text, ScrollView } from 'react-native'
+import { Text } from 'react-native'
 import { pug, observer } from 'startupjs'
-import { Content } from '@startupjs/ui'
+import { Content, ScrollView } from '@startupjs/ui'
 import './index.styl'
 
 export default observer(function PAbout () {

@@ -90,23 +90,6 @@ startupjs: >= 0.33.0
     />
     ```
 
-4. Add server-side `docs` routes to your `server/index.js` file:
-
-    ```js
-    import getDocsRoutes from '@startupjs/docs/routes'
-    // ...
-
-    startupjsServer({
-      getHead,
-      appRoutes: [
-        ...getMainRoutes(),
-        ...getDocsRoutes()
-      ]
-    })
-
-    // ...
-    ```
-
-## Licence
+## License
 
 MIT

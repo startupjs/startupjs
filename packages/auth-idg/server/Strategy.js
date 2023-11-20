@@ -1,8 +1,8 @@
 import { Strategy as IdecisiongamesStrategy } from '@dmapper/passport-idg-oauth2'
 import passport from 'passport'
-import initRoutes from './initRoutes'
-import { CALLBACK_URL } from '../isomorphic'
-import Provider from './Provider'
+import initRoutes from './initRoutes.js'
+import { CALLBACK_URL } from '../isomorphic/index.js'
+import Provider from './Provider.js'
 
 function validateConfigs ({ clientId, clientSecret }) {
   if (!clientId) {
