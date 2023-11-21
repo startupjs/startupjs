@@ -32,6 +32,8 @@
     "react-native": "*",
     "react-native-collapsible": "*",
     "react-native-color-picker": "*",
+    "react-native-document-picker": "*",
+    "react-native-image-picker": "*",
     "react-native-gesture-handler": "*",
     "react-native-pager-view": "*",
     "react-native-svg": "*",
