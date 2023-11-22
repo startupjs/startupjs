@@ -7,7 +7,7 @@ pluginTester({
   pluginName,
   snapshot: true,
   pluginOptions: {
-    namedExports: ['preload', 'staticPreload']
+    removeExports: ['preload', 'staticPreload']
   },
   tests: {
     'removes export function declaration. 1': /* js */`

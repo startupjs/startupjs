@@ -60,9 +60,9 @@ module.exports = function babelPluginEliminator ({ types: t }) {
       Program: {
         enter (path, state) {
           state.refs = new Set()
-          state.removedNamedExports = new Set()
+          state.removedExports = new Set()
 
-          const namedExports = state.opts.namedExports || []
+          const removeExports = state.opts.removeExports || []
 
           const markImport = createMarkImport(state)
           const markFunction = createMarkFunction(state)
@@ -146,10 +146,10 @@ module.exports = function babelPluginEliminator ({ types: t }) {
                 }
 
                 const { name } = spec.exported
-                for (const namedExport of namedExports) {
-                  if (name === namedExport) {
-                    insertIndicator(path, namedExport)
-                    state.removedNamedExports.add(namedExport)
+                for (const exportName of removeExports) {
+                  if (name === exportName) {
+                    insertIndicator(path, exportName)
+                    state.removedExports.add(exportName)
                     return false
                   }
                 }
@@ -167,13 +167,13 @@ module.exports = function babelPluginEliminator ({ types: t }) {
               if (declaration && declaration.type === 'VariableDeclaration') {
                 declaration.declarations = declaration.declarations.filter(
                   declarator => {
-                    for (const name of namedExports) {
+                    for (const name of removeExports) {
                       if (
                         declarator.id.name === name &&
                         declarator.init?.type.includes('Function') // ArrowFunctionExpression or FunctionExpression
                       ) {
                         insertIndicator(path, name)
-                        state.removedNamedExports.add(name)
+                        state.removedExports.add(name)
                         return false
                       }
                     }
@@ -186,11 +186,11 @@ module.exports = function babelPluginEliminator ({ types: t }) {
               }
 
               if (declaration && declaration.type === 'FunctionDeclaration') {
-                for (const name of namedExports) {
+                for (const name of removeExports) {
                   // @ts-ignore
                   if (declaration.id.name === name) {
                     shouldRemove = true
-                    state.removedNamedExports.add(name)
+                    state.removedExports.add(name)
                     insertIndicator(path, name)
                   }
                 }
@@ -202,7 +202,7 @@ module.exports = function babelPluginEliminator ({ types: t }) {
             }
           })
 
-          if (state.removedNamedExports.size === 0) {
+          if (state.removedExports.size === 0) {
             // No server-specific exports found
             // No need to clean unused references then
             return
