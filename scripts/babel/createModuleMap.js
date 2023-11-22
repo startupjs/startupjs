@@ -5,11 +5,11 @@
  * Creates a map of exported modules, allowing the startupjs-babel-plugin to rewrite
  * paths only for modules it knows are exported by startupjs.
  */
-import fs from 'fs'
-import path from 'path'
-import url from 'url'
 
-const PACKAGES_DIR = path.join(url.fileURLToPath(import.meta.url), '../../../packages/')
+const fs = require('fs')
+const path = require('path')
+
+const PACKAGES_DIR = path.join(__dirname, '../../packages/')
 const MODULE_MAP_FILE = path.join(PACKAGES_DIR, 'babel-plugin-startupjs/moduleMap.json')
 const MODULE_DIRS = {
   '@startupjs/ui': [

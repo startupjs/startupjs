@@ -115,6 +115,7 @@ SCRIPTS_ORIG.server = ({ inspect } = {}) => oneLine(`
   node
     ${inspect ? '--inspect' : ''}
     --watch
+    --experimental-detect-module
     server.js
 `)
 
@@ -128,7 +129,7 @@ SCRIPTS_ORIG.build = ({ async } = {}) => oneLine(`
 
 SCRIPTS_ORIG.startProduction = oneLine(`
   npx cross-env NODE_ENV=production
-  node server.js
+  node --experimental-detect-module server.js
 `)
 
 // Etc
@@ -495,8 +496,6 @@ function patchPackageJson (projectPath) {
   delete packageJSON.devDependencies['babel-jest']
   delete packageJSON.devDependencies['react-test-renderer']
   delete packageJSON.devDependencies.jest
-
-  packageJSON.type = 'module'
 
   packageJSON.scripts = {
     ...packageJSON.scripts,
