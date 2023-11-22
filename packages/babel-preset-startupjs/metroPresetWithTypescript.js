@@ -4,13 +4,18 @@
 // Without this option pug-related and style imports are gonna get stripped by typescript.
 const metroPreset = require('metro-react-native-babel-preset')
 
-module.exports = (...args) => {
-  return patchTypescriptOptions(metroPreset(...args))
+module.exports = (babel, options) => {
+  return patchTypescriptOptions(
+    metroPreset(
+      babel,
+      { ...options, useTransformReactJSXExperimental: true }
+    )
+  )
 }
 
 function patchTypescriptOptions (config) {
-  for (let override of config.overrides || []) {
-    for (let plugin of override.plugins || []) {
+  for (const override of config.overrides || []) {
+    for (const plugin of override.plugins || []) {
       if (Array.isArray(plugin) && plugin[1] && plugin[1].isTSX != null) {
         plugin[1].onlyRemoveTypeImports = true
       }
