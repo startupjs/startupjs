@@ -1,0 +1,30 @@
+{
+  "name": "@startupjs/babel-plugin-eliminator",
+  "version": "0.55.0-alpha.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "commonjs",
+  "description": "Cut out specific named exports or do the opposite -- only keep the ones you specify",
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "eliminator",
+    "react",
+    "react-native"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Pavel Zhukov",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/startupjs/startupjs"
+  },
+  "devDependencies": {
+    "babel-plugin-tester": "^9.1.0",
+    "jest": "^26.0.1"
+  }
+}

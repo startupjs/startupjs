@@ -5699,6 +5699,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@startupjs/babel-plugin-eliminator@workspace:packages/babel-plugin-eliminator":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/babel-plugin-eliminator@workspace:packages/babel-plugin-eliminator"
+  dependencies:
+    babel-plugin-tester: "npm:^9.1.0"
+    jest: "npm:^26.0.1"
+  languageName: unknown
+  linkType: soft
+
 "@startupjs/babel-plugin-i18n-extract@npm:^0.55.0-alpha.1, @startupjs/babel-plugin-i18n-extract@workspace:packages/babel-plugin-i18n-extract":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-i18n-extract@workspace:packages/babel-plugin-i18n-extract"
