@@ -1,3 +1,12 @@
+# [0.55.0-alpha.20](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.19...v0.55.0-alpha.20) (2023-11-22)
+
+
+### Bug Fixes
+
+* **cli:** add 'experimental-detect-module' flag for node ([615fee1](https://github.com/startupjs/startupjs/commit/615fee1fa6a63728c1240fc7100cc8b4a096d53e))
+
+
+
 # [0.55.0-alpha.19](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.18...v0.55.0-alpha.19) (2023-11-20)
 
 
