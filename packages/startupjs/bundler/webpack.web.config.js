@@ -1,1 +1,1 @@
-export { default } from '@startupjs/bundler/webpack.web.config.js'
+module.exports = require('@startupjs/bundler/webpack.web.config')

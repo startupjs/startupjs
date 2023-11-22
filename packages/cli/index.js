@@ -106,7 +106,7 @@ SCRIPTS_ORIG.start = ({ inspect } = {}) => oneLine(`
 
 SCRIPTS_ORIG.web = oneLine(`
   npx cross-env WEBPACK_DEV=1
-  npx webpack-dev-server --config webpack.web.config.js
+  npx webpack-dev-server --config webpack.web.config.cjs
 `)
 
 // Server
@@ -124,7 +124,7 @@ SCRIPTS_ORIG.server = ({ inspect } = {}) => oneLine(`
 SCRIPTS_ORIG.build = ({ async } = {}) => oneLine(`
   npx rimraf ./build &&
   ${async ? 'npx cross-env ASYNC=1' : ''}
-  npx webpack --config webpack.web.config.js
+  npx webpack --config webpack.web.config.cjs
 `)
 
 SCRIPTS_ORIG.startProduction = oneLine(`

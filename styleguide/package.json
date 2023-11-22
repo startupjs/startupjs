@@ -1,7 +1,6 @@
 {
   "name": "@startupjs/styleguide",
   "version": "0.54.0",
-  "type": "module",
   "sideEffects": [
     "*.css",
     "*.styl"
