@@ -1,4 +1,4 @@
-import { LOGOUT_URL } from '../isomorphic/constants'
+import { LOGOUT_URL } from '../isomorphic/constants.js'
 
 export default function initDefaultRoutes (router, config) {
   const { onBeforeLogoutHook, signInPageUrl } = config

@@ -1,7 +1,7 @@
-export { default as initAuth } from './initAuth'
-export { default as BaseProvider } from './BaseProvider'
-export { finishAuth, loginLock, linkAccount } from './helpers'
-export { ensureAuthState, isLoggedIn } from './middlewares'
+export { default as initAuth } from './initAuth.js'
+export { default as BaseProvider } from './BaseProvider.js'
+export { finishAuth, loginLock, linkAccount } from './helpers/index.js'
+export { ensureAuthState, isLoggedIn } from './middlewares/index.js'
 
 // singleton
 class Auth {}

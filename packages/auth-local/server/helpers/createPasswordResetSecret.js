@@ -1,4 +1,4 @@
-import Provider from '../Provider'
+import Provider from '../Provider.js'
 
 export default async function createPasswordResetSecret ({ model, email, config }) {
   const provider = new Provider(model, { email }, config)

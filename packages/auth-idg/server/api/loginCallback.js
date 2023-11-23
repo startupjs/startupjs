@@ -1,4 +1,4 @@
-import { finishAuth } from '@startupjs/auth/server'
+import { finishAuth } from '@startupjs/auth/server/index.js'
 import passport from 'passport'
 
 export default function callBackLogin (req, res, next, config) {

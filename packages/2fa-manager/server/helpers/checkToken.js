@@ -1,4 +1,4 @@
-import TwoFAManagerConstructor from '../TwoFAManager'
+import TwoFAManagerConstructor from '../TwoFAManager.js'
 
 export default function checkToken (model, session, { data = {}, providerName = '', token = '' }) {
   const TwoFAManager = new TwoFAManagerConstructor()

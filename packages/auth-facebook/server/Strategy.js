@@ -1,7 +1,7 @@
 import passport from 'passport'
 import { Strategy } from 'passport-facebook'
-import initRoutes from './initRoutes'
-import { CALLBACK_URL, FIELDS } from '../isomorphic/constants'
+import initRoutes from './initRoutes.js'
+import { CALLBACK_URL, FIELDS } from '../isomorphic/constants.js'
 
 function validateConfigs ({ clientId, clientSecret }) {
   if (!clientId) {

@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/debug",
+  "version": "0.55.0-alpha.12",
   "type": "module",
-  "version": "0.55.0-alpha.1",
   "engines": {
     "node": ">= 14"
   },

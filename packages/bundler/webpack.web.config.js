@@ -38,7 +38,7 @@ const DEFAULT_ALIAS = {
   '@fortawesome/react-native-fontawesome': '@fortawesome/react-fontawesome'
 }
 
-let DEFAULT_ENTRIES = [
+const DEFAULT_ENTRIES = [
   '@babel/polyfill'
 ]
 
@@ -262,75 +262,79 @@ module.exports = function getConfig (env, {
         },
         {
           test: /\.styl$/,
-          use: mode === 'web' ? [
-            {
-              loader: PROD ? MiniCssExtractPlugin.loader : 'style-loader'
-            },
-            {
-              loader: 'css-loader',
-              options: {
-                url: false, // NOTE can remove when change file loader to https://webpack.js.org/guides/asset-modules/
-                modules: {
-                  getLocalIdent,
-                  localIdentName: LOCAL_IDENT_NAME
-                }
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                postcssOptions: {
-                  plugins: [autoprefixer]
-                }
-              }
-            },
-            {
-              loader: 'stylus-loader',
-              options: {
-                stylusOptions: {
-                  use: [],
-                  import: fs.existsSync(STYLES_PATH) ? [STYLES_PATH] : [],
-                  define: {
-                    __WEB__: true
+          use: mode === 'web'
+            ? [
+                {
+                  loader: PROD ? MiniCssExtractPlugin.loader : 'style-loader'
+                },
+                {
+                  loader: 'css-loader',
+                  options: {
+                    url: false, // NOTE can remove when change file loader to https://webpack.js.org/guides/asset-modules/
+                    modules: {
+                      getLocalIdent,
+                      localIdentName: LOCAL_IDENT_NAME
+                    }
+                  }
+                },
+                {
+                  loader: 'postcss-loader',
+                  options: {
+                    postcssOptions: {
+                      plugins: [autoprefixer]
+                    }
+                  }
+                },
+                {
+                  loader: 'stylus-loader',
+                  options: {
+                    stylusOptions: {
+                      use: [],
+                      import: fs.existsSync(STYLES_PATH) ? [STYLES_PATH] : [],
+                      define: {
+                        __WEB__: true
+                      }
+                    }
                   }
                 }
-              }
-            }
-          ] : [
-            { loader: 'babel-loader' },
-            {
-              loader: require.resolve('./lib/cssToReactNativeLoader.js')
-            },
-            {
-              loader: require.resolve('./lib/stylusToCssLoader.js'),
-              options: {
-                platform: 'web'
-              }
-            }
-          ]
+              ]
+            : [
+                { loader: 'babel-loader' },
+                {
+                  loader: require.resolve('./lib/cssToReactNativeLoader.js')
+                },
+                {
+                  loader: require.resolve('./lib/stylusToCssLoader.js'),
+                  options: {
+                    platform: 'web'
+                  }
+                }
+              ]
         },
         {
           test: /\.css$/,
           exclude: /node_modules/,
-          use: mode === 'web' ? [
-            {
-              loader: PROD ? MiniCssExtractPlugin.loader : 'style-loader'
-            },
-            {
-              loader: 'css-loader',
-              options: {
-                modules: {
-                  getLocalIdent,
-                  localIdentName: LOCAL_IDENT_NAME
+          use: mode === 'web'
+            ? [
+                {
+                  loader: PROD ? MiniCssExtractPlugin.loader : 'style-loader'
+                },
+                {
+                  loader: 'css-loader',
+                  options: {
+                    modules: {
+                      getLocalIdent,
+                      localIdentName: LOCAL_IDENT_NAME
+                    }
+                  }
                 }
-              }
-            }
-          ] : [
-            { loader: 'babel-loader' },
-            {
-              loader: require.resolve('./lib/cssToReactNativeLoader.js')
-            }
-          ]
+              ]
+            : [
+                { loader: 'babel-loader' },
+                {
+                  loader: require.resolve('./lib/cssToReactNativeLoader.js')
+                }
+              ]
         },
         // Vendor stylesheets
         {

@@ -1,5 +1,5 @@
-import { loginLock } from '@startupjs/auth/server'
-import Provider from '../Provider'
+import { loginLock } from '@startupjs/auth/server/index.js'
+import Provider from '../Provider.js'
 
 const ALLOWED_FAILED_LOGIN_ATTEMPTS = 5
 const LIFETIME_FAILED_LOGIN_ATTEMPTS = 1 * 60 * 1000

@@ -1,5 +1,5 @@
-import sendPush from './sendPush'
-import { getBackend } from './singletonBackend'
+import sendPush from './sendPush.js'
+import { getBackend } from './singletonBackend.js'
 
 export default async function sendNotification (userIds, options) {
   const model = getBackend().createModel()

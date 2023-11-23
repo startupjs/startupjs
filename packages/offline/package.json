@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/offline",
-  "version": "0.55.0-alpha.1",
+  "version": "0.55.0-alpha.12",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"

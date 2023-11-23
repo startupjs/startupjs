@@ -1,10 +1,10 @@
-import init from 'startupjs/init'
-import startupjsServer from 'startupjs/server'
-import { initApp } from 'startupjs/app/server'
-import { initI18n } from 'startupjs/i18n/server'
-import { getUiHead, initUi } from '@startupjs/ui/server'
-import orm from '../model'
-import api from './api'
+import init from 'startupjs/init/server.js'
+import startupjsServer from 'startupjs/server.js'
+import { initApp } from 'startupjs/app/server.js'
+import { initI18n } from 'startupjs/i18n/server.js'
+import { getUiHead, initUi } from '@startupjs/ui/server/index.js'
+import orm from '../model/index.js'
+import api from './api/index.js'
 
 // Init startupjs ORM.
 init({ orm })

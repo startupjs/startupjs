@@ -1,4 +1,4 @@
-import { checkEnterpriseToken, checkToken } from './helpers'
+import { checkEnterpriseToken, checkToken } from './helpers/index.js'
 
 export default async function checkRecaptcha (params) {
   switch (params.type) {

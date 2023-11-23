@@ -1,9 +1,9 @@
 import { OIDCStrategy as Strategy } from 'passport-azure-ad'
 import passport from 'passport'
 import nconf from 'nconf'
-import initRoutes from './initRoutes'
-import { CALLBACK_AZUREAD_URL } from '../isomorphic'
-import Provider from './Provider'
+import initRoutes from './initRoutes.js'
+import { CALLBACK_AZUREAD_URL } from '../isomorphic/index.js'
+import Provider from './Provider.js'
 
 function validateConfigs ({ clientId, identityMetadata, tenantId }) {
   if (!clientId) {
@@ -77,10 +77,10 @@ export default function (config = {}) {
 
 function generateRandomString (length = 0) {
   let result = ''
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  var charactersLength = characters.length
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const charactersLength = characters.length
 
-  for (var i = 0; i < length; i++) {
+  for (let i = 0; i < length; i++) {
     result += characters.charAt(
       Math.floor(
         Math.random() * charactersLength

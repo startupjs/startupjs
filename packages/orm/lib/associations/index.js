@@ -1,3 +1,3 @@
-export { default as belongsTo } from './belongsTo'
-export { default as hasOne } from './hasOne'
-export { default as hasMany } from './hasMany'
+export { default as belongsTo } from './belongsTo.js'
+export { default as hasOne } from './hasOne.js'
+export { default as hasMany } from './hasMany.js'

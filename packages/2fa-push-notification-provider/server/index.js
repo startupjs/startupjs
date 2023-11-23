@@ -1,1 +1,1 @@
-export { default as PushProvider } from './Provider'
+export { default as PushProvider } from './Provider.js'

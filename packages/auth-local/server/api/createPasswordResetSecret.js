@@ -1,6 +1,6 @@
-import { checkRecaptcha } from '@startupjs/recaptcha/server'
-import { createPasswordResetSecret as _createPasswordResetSecret } from '../helpers'
-import Provider from '../Provider'
+import { checkRecaptcha } from '@startupjs/recaptcha/server/index.js'
+import { createPasswordResetSecret as _createPasswordResetSecret } from '../helpers/index.js'
+import Provider from '../Provider.js'
 
 export default function createPasswordResetSecret (config) {
   return function (req, res) {

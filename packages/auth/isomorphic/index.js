@@ -1,3 +1,3 @@
-export { default as generateGoBackScript } from './generateGoBackScript'
-export { default as generateRedirectResponse } from './generateRedirectResponse'
-export * from './constants'
+export { default as generateGoBackScript } from './generateGoBackScript.js'
+export { default as generateRedirectResponse } from './generateRedirectResponse.js'
+export * from './constants.js'

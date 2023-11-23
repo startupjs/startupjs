@@ -1,8 +1,10 @@
-const _ = require('lodash')
-const debug = require('debug')('access')
-const util = require('./util')
-const ShareDBAccessError = require('./error')
+import cloneDeep from 'lodash/cloneDeep.js'
+import isFunction from 'lodash/isFunction.js'
+import debugModule from 'debug'
+import { patternToRegExp, lookup } from './util.js'
+import ShareDBAccessError from './error.js'
 
+const debug = debugModule('access')
 const operations = [
   'Read',
   'Create',
@@ -12,35 +14,33 @@ const operations = [
 const validKeys = operations.map(el => el.charAt(0).toLowerCase() + el.slice(1))
 
 function validateKeys (obj, collectionName) {
-  Object.keys(obj).map(key => {
+  for (const key of Object.keys(obj)) {
     if (!validKeys.includes(key)) {
       throw new Error(`Invalid access property ${key} in collection ${collectionName}. You need to use only 'create', 'read', 'update', 'delete' keys.`)
     }
-  })
+  }
 }
 
-function registerOrmRules (backend, pattern, access) {
+export function registerOrmRules (backend, pattern, access) {
   // if there are extra fields, an exception is thrown
   validateKeys(access, pattern)
 
-  operations.map(op => {
+  for (const op of operations) {
     // the user can write the first letter of the rules in any case
     const fn = access[op.charAt(0).toLowerCase() + op.slice(1)]
-    if (fn) {
-      const collection = pattern.replace(/\.\*$/u, '')
-      backend['allow' + op](collection, (...params) => {
-        const [,, session] = params
-        const userId = session.userId
-        const model = global.__clients[userId].model
-        return fn(model, collection, ...params)
-      })
-    }
-  })
+    if (!fn) continue
+    const collection = pattern.replace(/\.\*$/u, '')
+    backend['allow' + op](collection, (...params) => {
+      const [,, session] = params
+      const userId = session.userId
+      const model = global.__clients[userId].model
+      return fn(model, collection, ...params)
+    })
+  }
 }
 
-function rigisterOrmRulesFromFactory (backend, pattern, factory) {
-  operations.map(op => {
-    // the user can write the first letter of the rules in any case
+export function rigisterOrmRulesFromFactory (backend, pattern, factory) {
+  for (const op of operations) {
     const collection = pattern.replace(/\.\*$/u, '')
     backend['allow' + op](collection, async (...params) => {
       const [docId,, session] = params
@@ -62,14 +62,14 @@ function rigisterOrmRulesFromFactory (backend, pattern, factory) {
 
       return fn ? fn(model, collection, ...params) : false
     })
-  })
+  }
 }
 
 // Possible options:
 // dontUseOldDocs: false - if true don't save unupdated docs for update action
 // opCreatorUserIdPath - path to 'userId' for op's meta
 
-class ShareDBAccess {
+export default class ShareDBAccess {
   constructor (backend, options) {
     if (!(this instanceof ShareDBAccess)) return new ShareDBAccess(backend, options)
 
@@ -95,7 +95,7 @@ class ShareDBAccess {
       backend['allow' + op] = function (collection, fn) {
         if (collection.indexOf('*') > -1) {
           allow[op]['**'] = allow[op]['**'] || []
-          allow[op]['**'].push({ fn: fn, pattern: collection })
+          allow[op]['**'].push({ fn, pattern: collection })
         } else {
           allow[op][collection] = allow[op][collection] || []
           allow[op][collection].push(fn)
@@ -109,7 +109,7 @@ class ShareDBAccess {
       backend['deny' + op] = function (collection, fn) {
         if (collection.indexOf('*') > -1) {
           deny[op]['**'] = deny[op]['**'] || []
-          deny[op]['**'].push({ fn: fn, pattern: collection })
+          deny[op]['**'].push({ fn, pattern: collection })
         } else {
           deny[op][collection] = deny[op][collection] || []
           deny[op][collection].push(fn)
@@ -161,7 +161,7 @@ class ShareDBAccess {
     debug('update', ok, collection, docId, oldDoc, newDoc, ops, session)
 
     if (ok) return
-    throw new ShareDBAccessError('ERR_ACCESS_DENY_UPDATE', '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId)
+    return new ShareDBAccessError('ERR_ACCESS_DENY_UPDATE', '403: Permission denied (update), collection: ' + collection + ', docId: ' + docId)
   }
 
   applyHandler (shareRequest, done) {
@@ -195,7 +195,7 @@ class ShareDBAccess {
       debug('create', ok, collection, docId, doc)
 
       if (ok) return
-      throw new ShareDBAccessError('ERR_ACCESS_DENY_CREATE', '403: Permission denied (create), collection: ' + collection + ', docId: ' + docId)
+      return new ShareDBAccessError('ERR_ACCESS_DENY_CREATE', '403: Permission denied (create), collection: ' + collection + ', docId: ' + docId)
     }
 
     // ++++++++++++++++++++++++++++++++ DELETE ++++++++++++++++++++++++++++++++++
@@ -205,12 +205,12 @@ class ShareDBAccess {
       const ok = await this.check('Delete', collection, [docId, doc, session])
       debug('delete', ok, collection, docId, doc)
       if (ok) return
-      throw new ShareDBAccessError('ERR_ACCESS_DENY_DELETE', '403: Permission denied (delete), collection: ' + collection + ', docId: ' + docId)
+      return new ShareDBAccessError('ERR_ACCESS_DENY_DELETE', '403: Permission denied (delete), collection: ' + collection + ', docId: ' + docId)
     }
 
     // For Update
     if (!this.options.dontUseOldDocs) {
-      shareRequest.originalSnapshot = _.cloneDeep(snapshot)
+      shareRequest.originalSnapshot = cloneDeep(snapshot)
     }
   }
 
@@ -220,7 +220,7 @@ class ShareDBAccess {
         index: shareRequest.index,
         collection: shareRequest.collection,
         id: snapshot.id,
-        snapshot: snapshot,
+        snapshot,
         agent: shareRequest.agent
       })
     }))
@@ -250,7 +250,7 @@ class ShareDBAccess {
     debug('read', ok, collection, [docId, doc, session])
 
     if (ok) return
-    throw new ShareDBAccessError('ERR_ACCESS_DENY_READ', '403: Permission denied (read), collection: ' + collection + ', docId: ' + docId)
+    return new ShareDBAccessError('ERR_ACCESS_DENY_READ', '403: Permission denied (read), collection: ' + collection + ', docId: ' + docId)
   }
 
   async check (operation, collection, args) {
@@ -275,7 +275,7 @@ class ShareDBAccess {
     for (let i = 0, len = allowPatterns.length; i < len; i++) {
       const pattern = allowPatterns[i].pattern
 
-      const regExp = util.patternToRegExp(pattern)
+      const regExp = patternToRegExp(pattern)
 
       if (regExp.test(collection)) isAllowed = await apply(allowPatterns[i])
 
@@ -292,7 +292,7 @@ class ShareDBAccess {
     for (let i = 0, len = denyPatterns.length; i < len; i++) {
       const pattern = denyPatterns[i].pattern
 
-      const regExp = util.patternToRegExp(pattern)
+      const regExp = patternToRegExp(pattern)
 
       if (regExp.test(collection)) isDenied = await apply(denyPatterns[i])
 
@@ -307,13 +307,10 @@ class ShareDBAccess {
     return isAllowed && !isDenied
 
     async function apply (validator) {
-      if (_.isFunction(validator)) return await validator.apply(this, args)
+      if (isFunction(validator)) return await validator.apply(this, args)
       return await validator.fn.apply(this, args)
     }
   }
 }
 
-module.exports = ShareDBAccess
-module.exports.lookup = util.lookup
-module.exports.registerOrmRules = registerOrmRules
-module.exports.rigisterOrmRulesFromFactory = rigisterOrmRulesFromFactory
+export { lookup }

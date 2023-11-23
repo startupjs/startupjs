@@ -5,7 +5,6 @@ import { AutoSuggest, Button, Div, Layout, Menu, Row, Span } from '@startupjs/ui
 import { MDXProvider } from '@startupjs/mdx'
 import { ScrollableProvider } from '@startupjs/scrollable-anchors'
 import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons'
-import { APP_ENV } from '@env'
 import Sidebar, { SIDEBAR_PATH } from './Sidebar'
 import { useDocsContext } from '../../../docsContext'
 import { useLang, getTitle } from '../../clientHelpers'
@@ -57,14 +56,6 @@ const Search = observer(function Search () {
     emit('url', value.value)
   }
 
-  function onChangeText (value) {
-    const testComponentUrlRegExp = /^\/test\//
-
-    if (testComponentUrlRegExp.test(value)) {
-      return emit('url', value)
-    }
-  }
-
   return pug`
     AutoSuggest.search(
       testID='searchInput'
@@ -74,7 +65,6 @@ const Search = observer(function Search () {
       inputIcon=faSearch
       renderItem=item => renderItem(item, pathname)
       onChange=onChange
-      onChangeText=APP_ENV === 'detox' ? onChangeText : undefined
     )
   `
 })

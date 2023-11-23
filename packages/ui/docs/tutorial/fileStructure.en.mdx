@@ -278,9 +278,7 @@ Some things to note here:
 
 ## Force Compile Modules
 
-By default, webpack does not go through the files in the `node_modules` folder, because the already-compiled code is usually stored there. But from time to time such situations occur, when it is essential to convert code within a module, using `babel`. In this case, add the package name to `forceCompileModules` in `webpack` configuration file. Be aware of the fact that two such files exist:
-
-  * `webpack.server.config.cjs`: for building the server
+By default, webpack does not go through the files in the `node_modules` folder, because the already-compiled code is usually stored there. But from time to time such situations occur, when it is essential to convert code within a module, using `babel`. In this case, add the package name to `forceCompileModules` in `webpack` configuration file.
 
   * `webpack.web.config.cjs`: for building the client side
 

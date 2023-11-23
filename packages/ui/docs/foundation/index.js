@@ -8,8 +8,6 @@ import ExportCSStoJSEn from './exportCSStoJS.en.mdx'
 import ExportCSStoJSRu from './exportCSStoJS.ru.mdx'
 import NodeModulesCacheEn from './nodeModulesCache.en.mdx'
 import NodeModulesCacheRu from './nodeModulesCache.ru.mdx'
-import TestingEn from './testing.en.mdx'
-import TestingRu from './testing.ru.mdx'
 import SecurityRu from './security.ru.mdx'
 import WebsocketEn from './websocket.en.mdx'
 import WebsocketRu from './websocket.ru.mdx'
@@ -98,17 +96,6 @@ export default {
         ru: 'Безопасность'
       },
       component: SecurityRu
-    },
-    testing: {
-      type: 'mdx',
-      title: {
-        en: 'Testing',
-        ru: 'Тестирование'
-      },
-      component: {
-        en: TestingEn,
-        ru: TestingRu
-      }
     },
     typography: {
       type: 'mdx',

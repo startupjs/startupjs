@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/signals",
-  "version": "0.55.0-alpha.1",
+  "version": "0.55.0-alpha.12",
   "description": "Signals with an ORM support",
   "type": "module",
   "main": "index.js",

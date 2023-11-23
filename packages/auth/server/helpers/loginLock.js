@@ -1,4 +1,4 @@
-import { LOGIN_LOCK_MINUTES } from '../../isomorphic'
+import { LOGIN_LOCK_MINUTES } from '../../isomorphic/index.js'
 
 export default async function loginLock (userId, req, res) {
   const $auth = req.model.scope(`auths.${userId}`)

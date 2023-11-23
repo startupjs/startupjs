@@ -1,5 +1,5 @@
-import routes from './routes'
-import TwoFAManager from './TwoFAManager'
+import routes from './routes.js'
+import TwoFAManager from './TwoFAManager.js'
 
 export default function (ee, options) {
   const TwoFAManagerInstance = new TwoFAManager(ee, options)

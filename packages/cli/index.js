@@ -2,17 +2,11 @@ const commander = require('commander')
 const execa = require('execa')
 const path = require('path')
 const fs = require('fs')
-const Font = require('fonteditor-core').Font
 const template = require('lodash/template')
 const CLI_VERSION = require('./package.json').version
-const DETOXRC_TEMPLATE = require('./detoxTemplates/detoxrcTemplate')
-const ENVDETOX_TEMPLATE = require('./detoxTemplates/envdetoxTemplate')
-const FIRSTTEST_TEMPLATE = require('./detoxTemplates/firstTestTemplate')
 
 const IS_PRERELEASE = /(?:alpha|canary)/.test(CLI_VERSION)
 const STARTUPJS_VERSION = IS_PRERELEASE ? `^${CLI_VERSION.replace(/\.\d+$/, '.0')}` : 'latest'
-const APP_JSON_PATH = path.join(process.cwd(), 'app.json')
-const ROOT_PATH = process.env.ROOT_PATH || process.cwd()
 
 let PATCHES_DIR
 try {
@@ -100,214 +94,45 @@ const REMOVE_FILES = [
 
 const SCRIPTS_ORIG = {}
 
-// Web
+// Development
 
-SCRIPTS_ORIG.web = ({ reset, vite, webpack } = {}) => {
-  if (vite && !webpack) {
-    return SCRIPTS_ORIG.webVite({ reset })
-  } else {
-    return SCRIPTS_ORIG.webWebpack
-  }
-}
-
-SCRIPTS_ORIG.webVite = ({ reset } = {}) => oneLine(`
-  ${reset ? 'npx rimraf node_modules/.vite_opt_cache &&' : ''}
-  npx cross-env VITE_WEB=1
-  npx vite
+SCRIPTS_ORIG.start = ({ inspect } = {}) => oneLine(`
+  npx concurrently
+    "${SCRIPTS_ORIG.web}"
+    "${SCRIPTS_ORIG.server({ inspect })}"
 `)
 
-SCRIPTS_ORIG.webWebpack = oneLine(`
+// Web
+
+SCRIPTS_ORIG.web = oneLine(`
   npx cross-env WEBPACK_DEV=1
   npx webpack-dev-server --config webpack.web.config.cjs
 `)
 
-// Detox test
-
-SCRIPTS_ORIG.test = ({ ios, init, build, artifacts, updateScreenshot } = {}) => {
-  const appName = require(APP_JSON_PATH).name
-
-  if (init) {
-    try {
-      SCRIPTS_ORIG.testInit()
-    } catch (err) {
-      return oneLine(`
-        echo '\\033[0;31m${err}'
-      `)
-    }
-
-    return `
-      echo "
-        \\033[0;32mCreated a directory at path: /e2e
-        Created a file at path: /e2e/firstTest.e2e.js
-        Created a file at path: /.env.detox
-        Created a file at path: /.detoxrc.js
-      "
-    `
-  }
-
-  if (build) {
-    return SCRIPTS_ORIG.testBuild(appName)
-  }
-
-  if (ios) {
-    return SCRIPTS_ORIG.testIos(appName, artifacts, updateScreenshot)
-  }
-}
-
-SCRIPTS_ORIG.testInit = () => {
-  const detoxrcPath = path.join(process.cwd(), '.detoxrc.js')
-  const envdetoxPath = path.join(process.cwd(), '.env.detox')
-  const e2eDirPath = path.join(process.cwd(), 'e2e')
-
-  fs.writeFileSync(detoxrcPath, DETOXRC_TEMPLATE)
-  fs.writeFileSync(envdetoxPath, ENVDETOX_TEMPLATE)
-  if (!fs.existsSync(e2eDirPath)) {
-    fs.mkdirSync(e2eDirPath)
-  }
-  fs.writeFileSync(path.join(e2eDirPath, 'firstTest.e2e.js'), FIRSTTEST_TEMPLATE)
-}
-
-SCRIPTS_ORIG.testBuild = appName => oneLine(`
-  ${SCRIPTS_ORIG.testJsBundle(appName)}
-  && npx detox build -c ios
-`)
-
-SCRIPTS_ORIG.testIos = (appName, artifacts, updateScreenshot) => oneLine(`
-  ${updateScreenshot ? `npx rimraf \`find ${ROOT_PATH} -name "__image_snapshots__" -type d\` &&` : ''}
-  npx concurrently
-    -s first -k -n "S,T"
-    -c white,cyan.bgBlue
-    "mongo ${appName}_test --eval 'db.dropDatabase();'
-    && npx cross-env ASYNC=1 startupjs build
-    && PORT=3001 MONGO_URL=mongodb://localhost:27017/${appName}_test npx startupjs start-production"
-    "${SCRIPTS_ORIG.testJsBundle(appName)}
-    && npx wait-on http://localhost:3001
-    && npx detox test -c ios
-    ${artifacts ? '--artifacts-location $PWD/artifacts --take-screenshots all' : ''}
-    ${updateScreenshot ? '--testNamePattern Screenshots:' : ''}"
-`)
-
-SCRIPTS_ORIG.testJsBundle = appName => oneLine(`
-  mkdir -p ios/build/Build/Products/Release-iphonesimulator/${appName}.app/
-  && npx cross-env APP_ENV=detox react-native bundle
-  --entry-file="index.js"
-  --bundle-output="./ios/build/Build/Products/Release-iphonesimulator/${appName}.app/main.jsbundle"
-  --reset-cache --dev=false
-`)
-
 // Server
 
-SCRIPTS_ORIG.server = ({ inspect, vite, webpack, pure } = {}) => {
-  if (pure && !webpack) {
-    return SCRIPTS_ORIG.serverPure({ inspect, vite })
-  } else {
-    return SCRIPTS_ORIG.serverWebpack({ inspect, vite })
-  }
-}
-
-SCRIPTS_ORIG.serverPure = ({ inspect, vite } = {}) => oneLine(`
-  ${vite ? 'npx cross-env VITE=1' : ''}
-  npx nodemon
-    --experimental-specifier-resolution=node
+SCRIPTS_ORIG.server = ({ inspect } = {}) => oneLine(`
+  node
     ${inspect ? '--inspect' : ''}
-    -e js,mjs,cjs,json,yaml server.js
-    --delay 3
-    --watch model/
-    --watch hooks/
-    --watch cron/
-    --watch helpers/
-    --watch serverHelpers/
-    --watch isomorphicHelpers/
-    --watch '**/routes.js'
-    --watch server/
-    --watch config.json
+    --watch
+    --experimental-detect-module
+    server.js
 `)
 
-SCRIPTS_ORIG.serverWebpack = (options) => oneLine(`
-  npx concurrently
-    -r -s first -k -n 'S,B'
-    -c black.bgWhite,black.bgWhite
-    "${SCRIPTS_ORIG.serverWebpackRun(options)}"
-    "${SCRIPTS_ORIG.serverWebpackBuild}"
-`)
+// Production
 
-SCRIPTS_ORIG.serverWebpackBuild = oneLine(`
-  npx cross-env WEBPACK_DEV=1
-  npx webpack --watch --config webpack.server.config.cjs
-`)
-
-SCRIPTS_ORIG.serverWebpackRun = ({ inspect, vite }) => oneLine(`
-  npx rimraf ./build/server.dev.cjs &&
-  npx just-wait -t 1000 --pattern ./build/server.dev.cjs &&
-  ${vite ? 'npx cross-env VITE=1' : ''}
-  npx nodemon
-    --experimental-specifier-resolution=node
-    ${inspect ? '--inspect' : ''}
-    ./build/server.dev.cjs
-    -r source-map-support/register
-    -e js,mjs,cjs,json,yaml
-    --watch ./build/server.dev.cjs
-`)
-
-// Start (web and server)
-
-SCRIPTS_ORIG.start = (options = {}) => {
-  if (options.pure && !options.webpack) {
-    return SCRIPTS_ORIG.startPure(options)
-  } else {
-    return SCRIPTS_ORIG.startWebpack(options)
-  }
-}
-
-SCRIPTS_ORIG.startPure = (...args) => oneLine(`
-  npx concurrently
-    -s first -k -n 'Server,Web'
-    -c cyan.bgBlue,gray
-    "${SCRIPTS_ORIG.server(...args)}"
-    "${SCRIPTS_ORIG.web(...args)}"
-`)
-
-SCRIPTS_ORIG.startWebpack = (options) => oneLine(`
-  npx concurrently
-    -p "{name}:"
-    -s first -k -n 'Server,ServerBuild,Web'
-    -c cyan.bgBlue.bold,gray,gray
-    "${SCRIPTS_ORIG.serverWebpackRun(options)}"
-    "${SCRIPTS_ORIG.serverWebpackBuild}"
-    "${SCRIPTS_ORIG.web(options)}"
-`)
-
-// Production build
-
-SCRIPTS_ORIG.build = ({ async, pure } = {}) => oneLine(`
+SCRIPTS_ORIG.build = ({ async } = {}) => oneLine(`
   npx rimraf ./build &&
-  ${pure ? '' : 'npx webpack --config webpack.server.config.cjs &&'}
   ${async ? 'npx cross-env ASYNC=1' : ''}
   npx webpack --config webpack.web.config.cjs
 `)
 
-SCRIPTS_ORIG.startProduction = ({ pure }) => {
-  if (pure) {
-    return SCRIPTS_ORIG.startProductionPure
-  } else {
-    return SCRIPTS_ORIG.startProductionWebpack
-  }
-}
-
-SCRIPTS_ORIG.startProductionPure = oneLine(`
+SCRIPTS_ORIG.startProduction = oneLine(`
   npx cross-env NODE_ENV=production
-  node
-    --experimental-specifier-resolution=node
-    server.js
+  node --experimental-detect-module server.js
 `)
 
-SCRIPTS_ORIG.startProductionWebpack = oneLine(`
-  npx cross-env NODE_ENV=production
-  node
-    --experimental-specifier-resolution=node
-    -r source-map-support/register
-    build/server.cjs
-`)
+// Etc
 
 SCRIPTS_ORIG.patchPackage = () => oneLine(`
   npx patch-package --patch-dir ${PATCHES_DIR} && ${SCRIPTS_ORIG.patchGestureHandler()}
@@ -319,12 +144,8 @@ SCRIPTS_ORIG.patchGestureHandler = () => PATCHES_GESTURE_HANDLER_DIR
     `)
   : 'true'
 
-SCRIPTS_ORIG.fonts = () => oneLine(`
-  npx react-native-asset
-`)
-
 SCRIPTS_ORIG.postinstall = () => oneLine(`
-  ${SCRIPTS_ORIG.patchPackage()} && ${SCRIPTS_ORIG.fonts()}
+  ${SCRIPTS_ORIG.patchPackage()}
 `)
 
 const SCRIPTS = {
@@ -341,8 +162,7 @@ const SCRIPTS = {
   ios: 'react-native run-ios',
   'ios-release': 'react-native run-ios --configuration Release',
   build: 'startupjs build --async',
-  'start-production': 'startupjs start-production',
-  fonts: 'startupjs fonts'
+  'start-production': 'startupjs start-production'
 }
 
 const DEFAULT_TEMPLATE = 'ui'
@@ -466,7 +286,7 @@ commander
 
     // copy additional startupjs template files over react-native ones
     console.log(`> Copy template '${template}'`)
-    for (let subTemplate of TEMPLATES[template].subTemplates) {
+    for (const subTemplate of TEMPLATES[template].subTemplates) {
       const subTemplatePath = path.join(templatesPath, subTemplate)
       await recursivelyCopyFiles(subTemplatePath, projectPath)
     }
@@ -494,8 +314,8 @@ commander
     console.log('> Update config.json')
     updateConfigJson(projectPath, { projectName })
 
-    console.log('> Patch package.json with additional scripts')
-    patchScriptsInPackageJson(projectPath)
+    console.log('> Patch package.json')
+    patchPackageJson(projectPath)
 
     console.log('> Add additional things to .gitignore')
     appendGitignore(projectPath)
@@ -529,10 +349,6 @@ commander
   .command('start')
   .description('Run "startupjs web" and "startupjs server" at the same time.')
   .option('-i, --inspect', 'Use node --inspect')
-  .option('-p, --pure', 'Don\'t use any build system for node')
-  .option('-v, --vite', 'Use ES Modules and Vite for development instead of Webpack')
-  .option('-w, --webpack', 'Force use Webpack. This will take priority over --vite and --pure option.')
-  .option('-r, --reset', 'Reset Vite cache before starting the server. This is helpful when you are directly monkey-patching node_modules')
   .action(async (options) => {
     await execa.command(
       SCRIPTS_ORIG.start(options),
@@ -541,31 +357,19 @@ commander
   })
 
 commander
-  .command('test')
-  .description('Init or run E2E Detox tests')
-  .option('-s, --ios', 'Run tests on iOS simulator')
-  .option('-i, --init', 'Init test environment in your project')
-  .option('-b, --build', 'Build ios app /ios/build')
-  .option('-a, --artifacts', 'Artifacts are disabled by default. To enable them, pass this flag') // https://github.com/wix/Detox/blob/master/docs/APIRef.Artifacts.md
-  .option('-u, --updateScreenshot', 'Update tests screenshots')
+  .command('web')
+  .description('Compile (with webpack) and run web')
   .action(async (options) => {
-    try {
-      await execa.command(
-        SCRIPTS_ORIG.test(options),
-        { stdio: 'inherit', shell: true }
-      )
-    } catch (err) {
-      console.error('Something went wrong...')
-    }
+    await execa.command(
+      SCRIPTS_ORIG.web,
+      { stdio: 'inherit', shell: true }
+    )
   })
 
 commander
   .command('server')
   .description('Compile (with webpack) and run server')
   .option('-i, --inspect', 'Use node --inspect')
-  .option('-p, --pure', 'Don\'t use any build system')
-  .option('-w, --webpack', 'Force use Webpack for server build. This takes priority over --pure option')
-  .option('-v, --vite', 'Automatically redirect to the web bundle served by Vite. Use this when running Vite for web client')
   .action(async (options) => {
     await execa.command(
       SCRIPTS_ORIG.server(options),
@@ -576,7 +380,6 @@ commander
 commander
   .command('build')
   .description('Build web bundles')
-  .option('-p, --pure', 'Don\'t use any build system for node')
   .option('-a, --async', 'Build with splitting code into async chunks loaded dynamically')
   .action(async (options) => {
     await execa.command(
@@ -588,23 +391,9 @@ commander
 commander
   .command('start-production')
   .description('Start production')
-  .option('-p, --pure', 'Don\'t use any build system for node')
   .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.startProduction(options),
-      { stdio: 'inherit', shell: true }
-    )
-  })
-
-commander
-  .command('web')
-  .description('Run web bundling (Webpack). Insead of bundling you can also use Vite and ES Modules by specifying --vite')
-  .option('-v, --vite', 'Use ES Modules and Vite for development instead of Webpack')
-  .option('-w, --webpack', 'Force use Webpack. This takes priority over --vite option.')
-  .option('-r, --reset', 'Reset Vite cache before starting the server. This is helpful when you are directly monkey-patching node_modules')
-  .action(async (options) => {
-    await execa.command(
-      SCRIPTS_ORIG.web(options),
+      SCRIPTS_ORIG.startProduction,
       { stdio: 'inherit', shell: true }
     )
   })
@@ -648,18 +437,6 @@ commander
     )
   })
 
-commander
-  .command('fonts')
-  .description('Rename fonts and react-native smart linking for assets')
-  .action(async (options) => {
-    renameFonts()
-
-    await execa.command(
-      SCRIPTS_ORIG.fonts(options),
-      { stdio: 'inherit', shell: true }
-    )
-  })
-
 // ----- project management commands
 
 commander
@@ -691,10 +468,10 @@ async function recursivelyCopyFiles (sourcePath, targetPath) {
 
   if (fileNames.length === 0) return
 
-  for (let fileName of fileNames) {
-    let filePath = path.join(sourcePath, fileName)
+  for (const fileName of fileNames) {
+    const filePath = path.join(sourcePath, fileName)
     if (fs.lstatSync(filePath).isDirectory()) {
-      let subTargetPath = path.join(targetPath, fileName)
+      const subTargetPath = path.join(targetPath, fileName)
       await execa(
         'mkdir',
         ['-p', subTargetPath],
@@ -711,40 +488,7 @@ async function recursivelyCopyFiles (sourcePath, targetPath) {
   }
 }
 
-function renameFonts () {
-  const FONTS_PATH = process.cwd() + '/public/fonts'
-  const EXT_WISHLIST = ['eot', 'otf', 'ttf', 'woff', 'woff2']
-  const IGNORE = ['.gitignore', '.DS_Store', '.gitallowed']
-
-  if (fs.existsSync(FONTS_PATH)) {
-    const files = fs.readdirSync(FONTS_PATH)
-
-    files.forEach(file => {
-      if (IGNORE.includes(file)) return
-
-      const [fileName, fileExt] = file.split('.')
-      if (EXT_WISHLIST.indexOf(fileExt) === -1) {
-        return console.error(`Font format error: ${fileExt} is not supported`)
-      }
-
-      const buffer = fs.readFileSync(`${FONTS_PATH}/${file}`)
-      const font = Font.create(buffer, { type: fileExt })
-
-      if (font.get().name.fontFamily === fileName) return
-      font.get().name.fontFamily = fileName
-      font.get().name.fontSubFamily = fileName
-      font.get().name.preferredFamily = fileName
-
-      const bufferUpdate = font.write({ type: fileExt })
-      fs.writeFile(`${FONTS_PATH}/${file}`, bufferUpdate, (err) => {
-        if (err) return console.log(err)
-        console.log(`${file} rename font-family`)
-      })
-    })
-  }
-}
-
-function patchScriptsInPackageJson (projectPath) {
+function patchPackageJson (projectPath) {
   const packageJSONPath = path.join(projectPath, 'package.json')
   const packageJSON = JSON.parse(fs.readFileSync(packageJSONPath).toString())
 
@@ -752,7 +496,6 @@ function patchScriptsInPackageJson (projectPath) {
   delete packageJSON.devDependencies['babel-jest']
   delete packageJSON.devDependencies['react-test-renderer']
   delete packageJSON.devDependencies.jest
-  delete packageJSON.jest
 
   packageJSON.scripts = {
     ...packageJSON.scripts,
@@ -809,13 +552,12 @@ function appendGitignore (projectPath) {
     /data/
     # Protection from accidentally commiting private npm keys to a public repo
     .npmrc
-    # Detox
-    /artifacts/
-    /e2e/__diff_output__
     # Mongo data when running in a docker dev container
     /.mongo
     # yarn
     .yarn/
+    # sqlite
+    sqlite.db
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)

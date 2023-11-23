@@ -1,1 +1,1 @@
-export { default as loginWeb } from './loginWeb'
+export { default as loginWeb } from './loginWeb.js'

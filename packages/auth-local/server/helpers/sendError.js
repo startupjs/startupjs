@@ -1,5 +1,5 @@
-import { ERROR_URL } from '@startupjs/auth/isomorphic'
-import { ERROR_MESSAGES } from '../../isomorphic'
+import { ERROR_URL } from '@startupjs/auth/isomorphic/index.js'
+import { ERROR_MESSAGES } from '../../isomorphic/index.js'
 
 export const ERROR_FORMAT_JSON = 'json'
 export const ERROR_FORMAT_REDIRECT = 'redirect'

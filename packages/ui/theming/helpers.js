@@ -1,7 +1,7 @@
 // refs:
 // https://accessiblepalette.com/?lightness=98,93.3,88.6,79.9,71.2,60.5,49.8,38.4,27,15.6&e94c49=1,0&F1903C=1,-10&f3e203=1,-15&89BF1D=0,0&64c273=0,15&007DCC=0,0&808080=0,0&EAE8DE=0,0&768092=0,0
 // https://www.ibm.com/design/language/color/
-import { getColor } from '../../hooks/useColors'
+import { getColor } from '../hooks/useColors'
 import Colors from './Colors'
 import { TheColor } from './TheColor'
 

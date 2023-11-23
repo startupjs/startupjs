@@ -1,22 +1,14 @@
-const { default: promisifyRacer } = require('../temp/promisifyRacer.js')
-const racer = require('racer')
-const shareDbMongo = require('sharedb-mongo')
+import promisifyRacer from '@startupjs/orm/lib/promisifyRacer.js'
+import racer from 'racer'
+import sharedb from 'sharedb'
+
+const MemoryDB = sharedb.MemoryDB
 
 promisifyRacer()
 
-const getDbs = () => {
-  let mongoUrl = 'mongodb://localhost:27017/accessTest'
+export default function getDbs () {
+  const db = new MemoryDB()
+  const backend = racer.createBackend({ db })
 
-  let shareMongo = shareDbMongo(mongoUrl, {
-    allowAllQueries: true,
-    mongoOptions: { useUnifiedTopology: true }
-  })
-
-  let backend = racer.createBackend({ db: shareMongo })
-
-  return { backend, shareMongo }
-}
-
-module.exports = {
-  getDbs
+  return { backend, db }
 }
