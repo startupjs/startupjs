@@ -1,3 +1,12 @@
+# [0.55.0-alpha.24](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.23...v0.55.0-alpha.24) (2023-11-23)
+
+
+### Bug Fixes
+
+* **cli:** fix metro preset ([c0633a2](https://github.com/startupjs/startupjs/commit/c0633a2d952a101cb9cfb765a5aa74717bc99190))
+
+
+
 # [0.55.0-alpha.23](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.22...v0.55.0-alpha.23) (2023-11-22)
 
 
