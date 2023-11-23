@@ -1,10 +1,10 @@
 import React from 'react'
-// import DocumentPicker from 'react-native-document-picker'
 import { Platform } from 'react-native'
 import { pug, observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import onFileSelect from './helpers/onFileSelect'
 import Button from '../../Button'
+import Div from '../../Div'
 import themed from '../../../theming/themed'
 import FilePickerDrawer from './components/FilePickerDrawer'
 import './index.styl'
@@ -13,15 +13,16 @@ function FilePickerRoot ({
   style,
   title,
   drawerTitle,
+  drawerStyle,
   accept,
   multiple,
   useCamera,
   useGallery,
   useFileSystem,
   size,
-  mode,
   buttonProps,
-  onSelectFiles
+  onSelectFiles,
+  children
 }, ref) {
   const [showDrawer, $showDrawer] = useValue(false)
   const isWeb = Platform.OS === 'web'
@@ -36,11 +37,8 @@ function FilePickerRoot ({
   }
 
   function onButtonPress () {
-    if (isWeb) {
-      _onFileSelect()
-    } else {
-      $showDrawer.set(true)
-    }
+    if (isWeb) return _onFileSelect()
+    $showDrawer.set(true)
   }
 
   function onHideDrawer () {
@@ -49,6 +47,7 @@ function FilePickerRoot ({
 
   return pug`
     FilePickerDrawer(
+      style=drawerStyle
       visible=showDrawer
       title=drawerTitle
       useCamera=useCamera
@@ -58,20 +57,22 @@ function FilePickerRoot ({
       onFileSelect=_onFileSelect
     )
 
-    if mode === 'button'
+    if children && typeof children !== 'string'
+      Div(style=style onPress=onButtonPress)
+        =children
+    else
       Button(
-        onPress=() => onButtonPress()
+        onPress=onButtonPress
         size=size
         style=style
         ...buttonProps
-      ) Select file
+      )=title
     
   `
 }
 
 FilePickerRoot.defaultProps = {
   title: 'Select file',
-  drawerTitle: 'Select file',
   mode: 'button',
   size: 'm',
   useGallery: true,
@@ -82,6 +83,7 @@ FilePickerRoot.defaultProps = {
 
 FilePickerRoot.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  drawerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   buttonProps: PropTypes.object,
   accept: PropTypes.string,
   title: PropTypes.string,
@@ -99,9 +101,4 @@ const FilePicker = observer(
   themed('FilePicker', FilePickerRoot),
   { forwardRef: true }
 )
-
-FilePicker.useFilePicker = (WrapperComponent) => {
-  return pug`WrapperComponent(onFileSelect=onFileSelect)`
-}
-
 export default FilePicker

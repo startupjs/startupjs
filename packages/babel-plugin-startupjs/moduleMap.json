@@ -41,6 +41,7 @@
     "Checkbox": "/components/forms/Checkbox",
     "ColorPicker": "/components/forms/ColorPicker",
     "DateTimePicker": "/components/forms/DateTimePicker",
+    "FilePicker": "/components/forms/FilePicker",
     "Input": "/components/forms/Input",
     "Multiselect": "/components/forms/Multiselect",
     "NumberInput": "/components/forms/NumberInput",
