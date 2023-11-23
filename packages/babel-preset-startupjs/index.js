@@ -138,23 +138,6 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
   ]
 }
 
-const CONFIG_WEB_SNOWPACK = {
-  presets: [
-    [require('./esNextPreset'), { debugJsx: true }]
-    // NOTE: If we start to face unknown errors in development or
-    //       want to sync the whole presets/plugins stack with RN,
-    //       just replace the optimized esNext preset above with the
-    //       regular metro preset below:
-    // [require('./metroPresetWithTypescript')]
-  ],
-  plugins: [
-    require('@startupjs/babel-plugin-startupjs'),
-    require('@startupjs/babel-plugin-import-to-react-lazy'),
-    dotenvPlugin({ mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web' })
-  ]
-}
-
 const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
   presets: [
     [require('./metroPresetWithTypescript'), {
@@ -229,13 +212,11 @@ const CONFIG_SERVER = {
 module.exports = (api, options) => {
   api.cache(true)
 
-  const { BABEL_ENV, NODE_ENV, MODE = DEFAULT_MODE, SNOWPACK_WEB } = process.env
+  const { BABEL_ENV, NODE_ENV, MODE = DEFAULT_MODE } = process.env
 
   // There is a bug in metro when BABEL_ENV is a string "undefined".
   // We have to workaround it and use NODE_ENV.
-  let env = (BABEL_ENV !== 'undefined' && BABEL_ENV) || NODE_ENV
-
-  if (SNOWPACK_WEB) env = 'web_snowpack'
+  const env = (BABEL_ENV !== 'undefined' && BABEL_ENV) || NODE_ENV
 
   const { presets = [], plugins = [], ...extra } = getConfig(env, MODE)
 
@@ -253,8 +234,6 @@ function getConfig (env, mode) {
     return CONFIG_NATIVE_PRODUCTION
   } else if (env === 'server') {
     return CONFIG_SERVER
-  } else if (env === 'web_snowpack') {
-    return CONFIG_WEB_SNOWPACK
   } else if (env === 'web_development') {
     if (mode === 'web') {
       return CONFIG_WEB_PURE_DEVELOPMENT
