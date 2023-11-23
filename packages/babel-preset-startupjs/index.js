@@ -88,7 +88,10 @@ const nativeReactCssModulesPlugins = ({ platform, useImport } = {}) => [
 
 const CONFIG_NATIVE_DEVELOPMENT = {
   presets: [
-    [require('./metroPresetWithTypescript')]
+    [
+      require('./metroPresetWithTypescript'),
+      { useTransformReactJSXExperimental: true }
+    ]
   ],
   plugins: [
     [require('@startupjs/babel-plugin-startupjs-debug')],
@@ -101,7 +104,10 @@ const CONFIG_NATIVE_DEVELOPMENT = {
 
 const CONFIG_NATIVE_PRODUCTION = {
   presets: [
-    [require('./metroPresetWithTypescript')]
+    [
+      require('./metroPresetWithTypescript'),
+      { useTransformReactJSXExperimental: true }
+    ]
   ],
   plugins: [
     dotenvPlugin({ production: true }),
