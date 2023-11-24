@@ -7,7 +7,6 @@ import Button from '../../Button'
 import Div from '../../Div'
 import themed from '../../../theming/themed'
 import FilePickerDrawer from './components/FilePickerDrawer'
-import './index.styl'
 
 function FilePickerRoot ({
   style,
