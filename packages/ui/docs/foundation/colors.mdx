@@ -1,95 +1,111 @@
-import {
-  colorCard,
-  colorCardDemo,
-  colorCardDemoWhite,
-  colorCardDemoDark,
-  colorCardDemoPrimary,
-  colorCardDemoSuccess,
-  colorCardDemoWarning,
-  colorCardDemoError,
-  colorCardHex,
-  colorCardVariable
-} from './colors.styl'
-import { Div, Span } from '@startupjs/ui'
+import { pug } from 'startupjs'
+import { Div, Span, useColors } from '@startupjs/ui'
+import { BaseColors, TextColors, TextOnColors, BgColors, BorderColors, ShadowColors } from '../../theming/Colors'
+import './colors.styl'
+
+export function renderColorCards (colorsEnum, mainColor) {
+  const getColor = useColors()
+  let colorNames = Object.values(colorsEnum)
+  if (mainColor) colorNames.unshift(mainColor)
+
+  return pug`
+    Div(row wrap)
+      each colorName in colorNames
+        Div.colorCard(key=colorName)
+          Div.colorCardDemo(style={ backgroundColor: getColor(colorName) })
+          Span.colorCardVariable(numberOfLines=1)= colorName
+          Span.colorCardHex(numberOfLines=1)= getColor(colorName)
+  `
+}
 
 # Colors
 
-These are the color used in the Echo Design System.
+## Overview
 
-## Neutrals
+StartupJS colors provide a comprehensive set of semantically named variables designed to ensure visual coherence and maintain semantic meaning across all digital interfaces. This documentation outlines the usage of the colors object, which includes base colors and their derivatives categorized for shadows, text, backgrounds, borders, and text on various backgrounds. Each color variable is named to indicate its intended use, aiding in maintaining consistency and ease of understanding for developers and designers when applying the color system. StartupJS also provides an [API](./colorCustomization) to integrate custom color palette or override specific colors.
 
-Content colors are semantically named for their hierarchical purpose and corresponding environment.
+## Usage guidelines
 
-### White
+1. **Consistency**: Always use color variables instead of hardcoded values to ensure consistency across the interface and facilitate theming or rebranding.
+2. **Semantics**: Use colors according to their semantic meaning as defined in this documentation to maintain a coherent user experience.
 
-Primary color for the branding. Mostly used for action buttons and hyperlinks.
+## Using color variables in styles
 
-<Div style={colorCard}>
-  <Div style={[colorCardDemo, colorCardDemoWhite]}></Div>
-  <Span style={colorCardVariable}>$UI.colors.white</Span>
-  <Span style={colorCardHex}>#ffffff</Span>
-</Div>
+To use these color variables in your styles, refer to them with the `var` function - `var(--color-${COLOR_NAME})`. This allows you to apply the dynamic values of the color variables to your styles.
 
-### Black
+```styl
+.card
+  background-color var(--color-bg-strong)
+  border-color var(--color-border)
 
-Color for the branding. Mostly used for action buttons.
+.text
+  color var(--color-text)
+```
+## Using color variables in JavaScript
 
-<Div style={colorCard}>
-  <Div style={[colorCardDemo, colorCardDemoDark]}></Div>
-  <Span style={colorCardVariable}>$UI.colors.dark</Span>
-  <Span style={colorCardVariable}>$UI.colors.mainText</Span>
-  <Span style={colorCardVariable}>$UI.colors.secondary</Span>
-  <Span style={colorCardHex}>#3E4657</Span>
-</Div>
+```js
+import { useColors } from '@startupjs/ui'
 
-## Brand Colors
+const getColor = useColors()
+const bgColor = getColor('bg')
+```
 
-Brand colors represent the project identity and are used for Call-to-action buttons and hyperlinks.
+## Base colors
 
-### Primary
+Base colors are the foundation from which all other colors are derived. These colors are carefully chosen to represent the brand and ensure accessibility.
 
-Primary color for the branding. Mostly used for action buttons and hyperlinks.
+```jsx pure-example noscroll
+return pug`
+  = renderColorCards(BaseColors)
+`
+```
 
-<Div style={colorCard}>
-  <Div style={[colorCardDemo, colorCardDemoPrimary]}></Div>
-  <Span style={colorCardVariable}>$UI.colors.primary</Span>
-  <Span style={colorCardHex}>#2962FF</Span>
-</Div>
+## Text colors
 
-### Secondary
+Text colors are defined to offer optimal readability on various backgrounds while maintaining brand consistency.
 
-Color for the branding. Mostly used for action buttons.
+```jsx pure-example noscroll
+return pug`
+  = renderColorCards(TextColors, BaseColors.text)
+`
+```
 
-<Div style={colorCard}>
-  <Div style={[colorCardDemo, colorCardDemoDark]}></Div>
-  <Span style={colorCardVariable}>$UI.colors.secondary</Span>
-  <Span style={colorCardHex}>#3E4657</Span>
-</Div>
+## Text-on-background colors
 
-## Utility
+For text that appears on top of colored backgrounds or images, we provide a set of colors that ensure legibility and contrast.
 
-Utility colors are used to emphasize and communicate feedback or meaning. Use each utility color only for its intended purpose, or they will lose the meaning.
+```jsx pure-example noscroll
+return pug`
+  = renderColorCards(TextOnColors)
+`
+```
 
-### Success
+## Background colors
 
-<Div style={colorCard}>
-  <Div style={[colorCardDemo, colorCardDemoSuccess]}></Div>
-  <Span style={colorCardVariable}>$UI.colors.success</Span>
-  <Span style={colorCardHex}>#24B47E</Span>
-</Div>
+Background colors are used across different UI components and layouts to delineate areas and group elements.
 
-### Warning
+```jsx pure-example noscroll
+return pug`
+  = renderColorCards(BgColors, BaseColors.bg)
+`
+```
 
-<Div style={colorCard}>
-  <Div style={[colorCardDemo, colorCardDemoWarning]}></Div>
-  <Span style={colorCardVariable}>$UI.colors.warning</Span>
-  <Span style={colorCardHex}>#F5BE59</Span>
-</Div>
+## Border colors
 
-### Error
+Border colors define the boundaries of elements, such as input fields, cards, and buttons, ensuring that they are discernible against the background.
 
-<Div style={colorCard}>
-  <Div style={[colorCardDemo, colorCardDemoError]}></Div>
-  <Span style={colorCardVariable}>$UI.colors.error</Span>
-  <Span style={colorCardHex}>#E25950</Span>
-</Div>
+```jsx pure-example noscroll
+return pug`
+  = renderColorCards(BorderColors, BaseColors.border)
+`
+```
+
+## Shadow colors
+
+Shadows are used to create depth and elevation in the interface. They typically vary in opacity and may be tinted with base colors to maintain cohesion.
+
+```jsx pure-example noscroll
+return pug`
+  = renderColorCards(ShadowColors)
+`
+```

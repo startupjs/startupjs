@@ -1,4 +1,8 @@
-const MainEnum = {
+export const BaseColors = {
+  bg: 'bg',
+  text: 'text',
+  border: 'border',
+  contrast: 'contrast',
   primary: 'primary',
   secondary: 'secondary',
   error: 'error',
@@ -9,11 +13,13 @@ const MainEnum = {
   special: 'special'
 }
 
-const Bg = {
-  bg: 'bg',
-  'bg-inverse': 'bg-inverse',
-  'bg-inverse-alt': 'bg-inverse-alt',
-  'bg-inverse-transparent': 'bg-inverse-transparent',
+export const BgColors = {
+  'bg-contrast': 'bg-contrast',
+  'bg-contrast-alt': 'bg-contrast-alt',
+  'bg-contrast-transparent': 'bg-contrast-transparent',
+  'bg-dim': 'bg-dim',
+  'bg-dim-alt': 'bg-dim-alt',
+  'bg-strong': 'bg-strong',
   'bg-primary': 'bg-primary',
   'bg-secondary': 'bg-secondary',
   'bg-error': 'bg-error',
@@ -22,26 +28,22 @@ const Bg = {
   'bg-info': 'bg-info',
   'bg-attention': 'bg-attention',
   'bg-special': 'bg-special',
-  'bg-dim': 'bg-dim',
-  'bg-dim-alt': 'bg-dim-alt',
-  'bg-strong': 'bg-strong',
-  'bg-primary-inverse': 'bg-primary-inverse',
+  'bg-primary-contrast': 'bg-primary-contrast',
   'bg-primary-dim': 'bg-primary-dim',
   'bg-primary-transparent': 'bg-primary-transparent',
-  'bg-secondary-inverse': 'bg-secondary-inverse',
-  'bg-error-inverse': 'bg-error-inverse',
+  'bg-secondary-contrast': 'bg-secondary-contrast',
+  'bg-error-contrast': 'bg-error-contrast',
   'bg-error-transparent': 'bg-error-transparent',
-  'bg-success-inverse': 'bg-success-inverse',
+  'bg-success-contrast': 'bg-success-contrast',
   'bg-success-transparent': 'bg-success-transparent',
-  'bg-warning-inverse': 'bg-warning-inverse',
+  'bg-warning-contrast': 'bg-warning-contrast',
   'bg-warning-transparent': 'bg-warning-transparent',
-  'bg-info-inverse': 'bg-info-inverse',
-  'bg-attention-inverse': 'bg-attention-inverse',
-  'bg-special-inverse': 'bg-special-inverse'
+  'bg-info-contrast': 'bg-info-contrast',
+  'bg-attention-contrast': 'bg-attention-contrast',
+  'bg-special-contrast': 'bg-special-contrast'
 }
 
-const Text = {
-  text: 'text',
+export const TextColors = {
   'text-description': 'text-description',
   'text-placeholder': 'text-placeholder',
   'text-primary': 'text-primary',
@@ -53,9 +55,12 @@ const Text = {
   'text-attention': 'text-attention',
   'text-special': 'text-special',
   'text-success-strong': 'text-success-strong',
-  'text-info-strong': 'text-info-strong',
+  'text-info-strong': 'text-info-strong'
+}
+
+export const TextOnColors = {
   'text-on-color': 'text-on-color',
-  'text-inverse': 'text-inverse',
+  'text-on-contrast': 'text-on-contrast',
   'text-on-primary': 'text-on-primary',
   'text-on-secondary': 'text-on-secondary',
   'text-on-error': 'text-on-error',
@@ -66,9 +71,11 @@ const Text = {
   'text-on-special': 'text-on-special'
 }
 
-const Border = {
-  border: 'border',
+export const BorderColors = {
+  'border-contrast': 'border-contrast',
   'border-strong': 'border-strong',
+  'border-strong-alt': 'border-strong-alt',
+  'border-dim': 'border-dim',
   'border-primary': 'border-primary',
   'border-secondary': 'border-secondary',
   'border-error': 'border-error',
@@ -76,24 +83,22 @@ const Border = {
   'border-warning': 'border-warning',
   'border-info': 'border-info',
   'border-attention': 'border-attention',
-  'border-special': 'border-special',
-  'border-inverse': 'border-inverse',
-  'border-dim': 'border-dim',
-  'border-strong-alt': 'border-strong-alt'
+  'border-special': 'border-special'
 }
 
-const Shadow = {
+export const ShadowColors = {
   shadow: 'shadow',
   'shadow-strong': 'shadow-strong',
   'shadow-dim': 'shadow-dim'
 }
 
 const Colors = {
-  ...MainEnum,
-  ...Bg,
-  ...Text,
-  ...Border,
-  ...Shadow
+  ...BaseColors,
+  ...BgColors,
+  ...TextColors,
+  ...TextOnColors,
+  ...BorderColors,
+  ...ShadowColors
 }
 
 export default Colors
