@@ -6,57 +6,84 @@ Currently, overrides can only be performed using colors from the provided palett
 
 Or you can use our [default](./colors) color scheme
 
-## Simple
+## Simple static color and palette customisation
 
-### Using custom palette
+Allows you to override specific colors statically without affecting colors derived from them.
+This allows you to statically override specific colors. Overrides are applied directly to the chosen colors and will not impact any other colors that are derived from the original values. This ensures that your customizations are localized and do not unintentionally alter the overall color scheme.
 
 ```js
+import { UiProvider } from '@startupjs/ui'
+import STYLE_OVERRIDES from './styleOverrides.styl'
+...
+
+<UiProvider style=STYLE_OVERRIDES >
+  ...
+</UiProvider>
+```
+
+```styl
+styleOverrides.styl
+:root
+  --palette-blue-4: #000099
+  --color-primary: var(--palette-blue-4)
+  --color-secondary: var(--palette-red-4)
+  --color-bg: var(--color-primary)
+```
+
+## Dynamic palette and colors
+
+This allows you to implement dynamic switching between dark and light themes.
+You can either provide a custom palette like in example below or import default StartupJS palette from `@startupjs/ui`
+
+```js
+import { $ } from 'startupjs'
 import { generateColors, UiProvider } from '@startupjs/ui'
 const CUSTOM_COLOR_PALETTE = { red: ['#520408', ...], blue: ['#001141', ...], ... }
 
+const THEMES = {
+  dark: generateColors(CUSTOM_COLOR_PALETTE, {
+    [Colors.bg]: Color('coolGray', 0),
+    [Colors.text]: Color('coolGray', 9),
+    [Colors.border]: Color('coolGray', 2),
+    [Colors.secondary]: Color('coolGray', 9),
+    [Colors.contrast]: Color('coolGray', 9)
+  })
+}
 ...
 
-<UiProvider ...generateColors(CUSTOM_COLOR_PALETTE)>
+const themeValue = 'dark'
+
+<UiProvider ...THEMES[themeValue] >
   ...
 </UiProvider>
 ```
 
-### Overriding colors
+## Advanced API
+
+Advanced API lets you fully control creation of palette and colors to prevent any potential race conditions in cases when your custom palette might have duplicated colors
 
 ```js
-import { generateColors, palette, UiProvider, Colors } from '@startupjs/ui'
-
-...
-
-<UiProvider ...generateColors(palette, { [Colors.bg]: palette.red[2] })>
-  ...
-</UiProvider>
-```
-
-## Advanced
-
-### Using custom palette
-
-```js
-import { Palette, UiProvider } from '@startupjs/ui'
+import { $ } from 'startupjs'
+import { Palette, Colors, UiProvider } from '@startupjs/ui'
 const CUSTOM_COLOR_PALETTE = { red: ['#520408', ...], blue: ['#001141', ...], ... }
+
 const palette = new Palette(CUSTOM_COLOR_PALETTE)
+const { Color, generateColors } = palette
 
+const THEMES = {
+  dark: generateColors(CUSTOM_COLOR_PALETTE, {
+    [Colors.bg]: Color('coolGray', 0),
+    [Colors.text]: Color('coolGray', 9),
+    [Colors.border]: Color('coolGray', 2),
+    [Colors.secondary]: Color('coolGray', 9),
+    [Colors.contrast]: Color('coolGray', 9)
+  })
+}
 ...
 
-<UiProvider ...palette.generateColors()>
-  ...
-</UiProvider>
-```
+const themeValue = 'dark'
 
-### Overriding colors
-
-```js
-import { Palette, UiProvider, Colors } from '@startupjs/ui'
-const palette = new Palette()
-...
-
-<UiProvider ...palette.generateColors({ [Colors.bg]: palette.Color('blue', 2) })>
+<UiProvider ...THEMES[themeValue] >
   ...
 </UiProvider>
 ```
