@@ -1,3 +1,12 @@
+# [0.55.0-alpha.25](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.24...v0.55.0-alpha.25) (2023-11-24)
+
+
+### Bug Fixes
+
+* **server:** accept correct arguments in gracefulShutdown fn ([#1106](https://github.com/startupjs/startupjs/issues/1106)) ([701a88f](https://github.com/startupjs/startupjs/commit/701a88f11ed6c0747e05085fc96af8505071933b))
+
+
+
 # [0.55.0-alpha.24](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.23...v0.55.0-alpha.24) (2023-11-23)
 
 
