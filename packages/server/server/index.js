@@ -63,7 +63,7 @@ export default async (options) => {
 
 // Handle graceful shutdown of the server
 
-function gracefulShutdown (code) {
+function gracefulShutdown (signaleName, code) {
   console.log('Exiting...')
   if (server) {
     console.log('Http server closing...')
