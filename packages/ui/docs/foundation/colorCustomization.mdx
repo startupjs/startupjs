@@ -1,0 +1,62 @@
+# Custom color palette and color overrides
+
+StartupJS offers a flexible API that allows for the integration of a custom color palette and the ability to override specific colors. To utilize this feature, custom palette and override parameters must be supplied to the [UiProvider](https://github.com/startupjs/startupjs/tree/master/packages/ui#top-level-uiprovider-component) component.
+
+Currently, overrides can only be performed using colors from the provided palette. We support several color formats, including hexadecimal (hex), Red Green Blue (RGB), Red Green Blue Alpha (RGBA), and an instance of the Color class, which is part of our advanced API.
+
+Or you can use our [default](./colors) color scheme
+
+## Simple
+
+### Using custom palette
+
+```js
+import { generateColors, UiProvider } from '@startupjs/ui'
+const CUSTOM_COLOR_PALETTE = { red: ['#520408', ...], blue: ['#001141', ...], ... }
+
+...
+
+<UiProvider ...generateColors(CUSTOM_COLOR_PALETTE)>
+  ...
+</UiProvider>
+```
+
+### Overriding colors
+
+```js
+import { generateColors, palette, UiProvider, Colors } from '@startupjs/ui'
+
+...
+
+<UiProvider ...generateColors(palette, { [Colors.bg]: palette.red[2] })>
+  ...
+</UiProvider>
+```
+
+## Advanced
+
+### Using custom palette
+
+```js
+import { Palette, UiProvider } from '@startupjs/ui'
+const CUSTOM_COLOR_PALETTE = { red: ['#520408', ...], blue: ['#001141', ...], ... }
+const palette = new Palette(CUSTOM_COLOR_PALETTE)
+
+...
+
+<UiProvider ...palette.generateColors()>
+  ...
+</UiProvider>
+```
+
+### Overriding colors
+
+```js
+import { Palette, UiProvider, Colors } from '@startupjs/ui'
+const palette = new Palette()
+...
+
+<UiProvider ...palette.generateColors({ [Colors.bg]: palette.Color('blue', 2) })>
+  ...
+</UiProvider>
+```

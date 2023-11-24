@@ -148,6 +148,7 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['text-on-color']]                ??= Color('coolGray', high)
   C[Colors.shadow]                          ??= Color('coolGray', low - 1, { alpha: 0.2 })
   C[Colors.bg]                              ??= Color('coolGray', high)
+  C[Colors.contrast]                        ??= Color('coolGray', low + 2)
   C[Colors.text]                            ??= Color('coolGray', low + 2)
   C[Colors.border]                          ??= Color('coolGray', high - 2)
   C[Colors.primary]                         ??= Color('blue', middle)
@@ -176,30 +177,29 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['bg-special']]                   ??= C[Colors.special]
 
   // extra bg colors
-  C[Colors['bg-inverse']]                   ??= C[Colors.bg].dimmer(7)
-  C[Colors['bg-inverse-alt']]               ??= C[Colors.bg].dimmer(6)
-  C[Colors['bg-inverse-transparent']]       ??= C[Colors['bg-inverse']].setAlpha(0.05)
+  C[Colors['bg-contrast']]                  ??= C[Colors.contrast]
+  C[Colors['bg-contrast-alt']]              ??= C[Colors.contrast].stronger(1)
+  C[Colors['bg-contrast-transparent']]      ??= C[Colors['bg-contrast']].setAlpha(0.05)
   C[Colors['bg-dim']]                       ??= C[Colors.bg].dimmer(1)
   C[Colors['bg-dim-alt']]                   ??= C[Colors.bg].dimmer(2)
   C[Colors['bg-strong']]                    ??= C[Colors.bg].stronger(1)
-  C[Colors['bg-primary-inverse']]           ??= C[Colors.primary].highContrast()
+  C[Colors['bg-primary-contrast']]          ??= C[Colors.primary].stronger(4)
   C[Colors['bg-primary-dim']]               ??= C[Colors.primary].dimmer(3)
   C[Colors['bg-primary-transparent']]       ??= C[Colors.primary].setAlpha(0.05)
-  C[Colors['bg-secondary-inverse']]         ??= C[Colors.secondary].highContrast()
-  C[Colors['bg-error-inverse']]             ??= C[Colors.error].highContrast()
+  C[Colors['bg-secondary-contrast']]        ??= C[Colors.secondary].highContrast()
+  C[Colors['bg-error-contrast']]            ??= C[Colors.error].highContrast()
   C[Colors['bg-error-transparent']]         ??= C[Colors.error].setAlpha(0.05)
-  C[Colors['bg-success-inverse']]           ??= C[Colors.success].highContrast()
+  C[Colors['bg-success-contrast']]          ??= C[Colors.success].highContrast()
   C[Colors['bg-success-transparent']]       ??= C[Colors.success].setAlpha(0.05)
-  C[Colors['bg-warning-inverse']]           ??= C[Colors.warning].highContrast()
+  C[Colors['bg-warning-contrast']]          ??= C[Colors.warning].highContrast()
   C[Colors['bg-warning-transparent']]       ??= C[Colors.warning].setAlpha(0.05)
-  C[Colors['bg-info-inverse']]              ??= C[Colors.info].highContrast()
-  C[Colors['bg-attention-inverse']]         ??= C[Colors.attention].highContrast()
-  C[Colors['bg-special-inverse']]           ??= C[Colors.special].highContrast()
+  C[Colors['bg-info-contrast']]             ??= C[Colors.info].highContrast()
+  C[Colors['bg-attention-contrast']]        ??= C[Colors.attention].highContrast()
+  C[Colors['bg-special-contrast']]          ??= C[Colors.special].highContrast()
 
   // text
   C[Colors['text-description']]             ??= C[Colors.text].dimmer(2)
   C[Colors['text-placeholder']]             ??= C[Colors.text].dimmer(4)
-  C[Colors['text-inverse']]                 ??= C[Colors.text].dimmer(5)
   C[Colors['text-primary']]                 ??= C[Colors.primary]
   C[Colors['text-secondary']]               ??= C[Colors.secondary]
   C[Colors['text-error']]                   ??= C[Colors.error]
@@ -214,12 +214,13 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['text-info-strong']]             ??= C[Colors.info].stronger(2)
 
   // text on different backgrounds
+  C[Colors['text-on-contrast']]             ??= C[Colors.text].dimmer(5)
   C[Colors['text-on-primary']]              ??= C[Colors.primary].stronger(4)
   C[Colors['text-on-secondary']]            ??= C[Colors.secondary].highContrast()
   C[Colors['text-on-error']]                ??= C[Colors.error].stronger(4)
   C[Colors['text-on-success']]              ??= C[Colors.success].stronger(4)
-  C[Colors['text-on-warning']]              ??= C[Colors.warning].stronger(3)
-  C[Colors['text-on-info']]                 ??= C[Colors.info].highContrast()
+  C[Colors['text-on-warning']]              ??= C[Colors['text-on-color']]
+  C[Colors['text-on-info']]                 ??= C[Colors.info].stronger(3)
   C[Colors['text-on-attention']]            ??= C[Colors.attention].stronger(4)
   C[Colors['text-on-special']]              ??= C[Colors.special].highContrast()
 
@@ -235,7 +236,7 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['border-special']]               ??= C[Colors.special]
 
   // extra border colors
-  C[Colors['border-inverse']]               ??= C[Colors.border].dimmer(5)
+  C[Colors['border-contrast']]              ??= C[Colors.border].dimmer(5)
   C[Colors['border-dim']]                   ??= C[Colors.border].dimmer(1)
   C[Colors['border-strong-alt']]            ??= C[Colors.border].stronger(1)
 

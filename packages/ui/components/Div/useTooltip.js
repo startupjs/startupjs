@@ -63,7 +63,7 @@ export default function useTooltip ({ style, anchorRef, tooltip }) {
 
   /* eslint-disable-line */ styl`
     .tooltip
-      background-color var(--color-bg-inverse)
+      background-color var(--color-bg-contrast)
       max-width 260px
       radius()
       shadow(3)
@@ -73,6 +73,6 @@ export default function useTooltip ({ style, anchorRef, tooltip }) {
         max-width 320px
 
       &-text
-        color var(--color-text-inverse)
+        color var(--color-text-on-contrast)
   `
 }
