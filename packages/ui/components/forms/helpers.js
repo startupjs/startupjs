@@ -10,8 +10,8 @@ function simpleNumericHash (s) {
   return h
 }
 
-export function simpleInputNameHash (props) {
-  if (props.name) return name
+export function getInputTestId (props) {
+  if (props.testId) return props.testId
 
   const inputName = props.label || props.description || props.placeholder
 

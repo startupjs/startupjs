@@ -1,7 +1,7 @@
 import React, { useRef, useImperativeHandle } from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { SCHEMA_TYPE_TO_INPUT, simpleInputNameHash } from '../helpers'
+import { getInputTestId, SCHEMA_TYPE_TO_INPUT } from '../helpers'
 import inputs from './inputs'
 
 function Input ({
@@ -15,7 +15,7 @@ function Input ({
   const inputRef = useRef()
   useImperativeHandle(ref, () => inputRef.current, [])
 
-  const testID = simpleInputNameHash(props)
+  const testID = getInputTestId(props)
   const { Component, useProps } = inputs[input]
   const componentProps = useProps({ ...props, testID }, inputRef)
 
