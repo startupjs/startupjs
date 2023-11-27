@@ -101,6 +101,7 @@ export default observer(function Days ({
             hoverStyleName='cellHover'
             disabled=isDisableDay(day.value)
             testID=day.testID
+            accessibilityRole='button'
             onPress=() => _onChangeDay(day)
           )
             Span.label(

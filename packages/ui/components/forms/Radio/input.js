@@ -60,6 +60,7 @@ const RadioInput = function ({
       vAlign='center'
       disabled=disabled || readonly
       onPress=() => onChange && onChange(parseValue(value))
+      accessibilityRole='radio'
     )
       Div.radio(
         styleName=[{ checked, error }]

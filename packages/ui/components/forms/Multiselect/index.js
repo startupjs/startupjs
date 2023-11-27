@@ -76,6 +76,7 @@ const Multiselect = ({
         vAlign='center'
         disabled=selected ? false : shouldDisableSelection
         onPress=() => onPress(!selected)
+        accessibilityRole='button'
       )
         if renderListItem
           = renderListItem({ item, index, selected })

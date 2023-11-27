@@ -67,6 +67,7 @@ export default observer(function TimeSelect ({
         hoverStyleName='cellHover'
         disabled=item.disabled
         onPress=()=> onChangeDate(item.value)
+        accessibilityRole='button'
       )
         Span(styleName={ labelActive: isActive })
           = item.label

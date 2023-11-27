@@ -30,6 +30,7 @@ function NumberInputButtons ({
         size=size
         variant='outlined'
         onPress=() => onIncrement(1)
+        accessibilityRole='button'
       )
       Button.input-button.decrease(
         style=buttonStyle
@@ -40,6 +41,7 @@ function NumberInputButtons ({
         size=size
         variant='outlined'
         onPress=() => onIncrement(-1)
+        accessibilityRole='button'
       )
   `
 }
