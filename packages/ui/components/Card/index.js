@@ -16,7 +16,7 @@ function Card ({
   ...props
 }) {
   const extraProps = useMemo(() => {
-    let props = {}
+    const props = {}
     if (variant === 'elevated') props.level = level
     return props
   }, [variant, level])
@@ -26,6 +26,7 @@ function Card ({
       style=style
       styleName=[variant]
       onPress=onPress
+      accessibilityRole=props.onPress ? 'button' : undefined
       ...props
       ...extraProps
     )

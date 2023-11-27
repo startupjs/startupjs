@@ -36,6 +36,7 @@ function Avatar ({
 
   return pug`
     Div.root(
+      accessibilityRole=props.onPress ? 'button' : undefined
       style=StyleSheet.flatten([style, rootStyle])
       ...props
     )

@@ -27,6 +27,7 @@ function Rating ({
           Div.star(
             key=index
             onPress=() => onChange && onChange(index + 1)
+            accessibilityRole=onChange ? 'button' : undefined
             styleName={first: index === 0}
           )
             Star(active=index < Math.round(value))

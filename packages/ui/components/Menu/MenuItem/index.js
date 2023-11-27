@@ -35,7 +35,7 @@ function MenuItem ({
 
   return pug`
     Div
-      Item(...props)
+      Item(accessibilityRole='button' ...props)
         if icon && iconPosition === 'left'
           Item.Left
             Icon(icon=icon style={ color })

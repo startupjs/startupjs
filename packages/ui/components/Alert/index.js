@@ -61,7 +61,7 @@ function Alert ({
         Div.actions
           = renderActions()
       else if onClose
-        Div.actions(onPress=onClose)
+        Div.actions(onPress=onClose accessibilityRole='button')
           Icon.icon(
             icon=faTimes
             size='l'

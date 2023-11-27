@@ -30,7 +30,7 @@ function Item ({
   }
 
   let left = null; let content = null; let right = null
-  let contentChildren = []
+  const contentChildren = []
 
   React.Children.toArray(children).forEach(child => {
     if (ItemLeft === child.type) {
@@ -80,6 +80,7 @@ function Item ({
       style=style
       variant="highlight"
       onPress=onPress
+      accessibilityRole=onPress ? 'button' : undefined
       ...extraProps
       ...props
     )

@@ -20,5 +20,5 @@ export function simpleInputNameHash (props) {
   const nameHash = simpleNumericHash(inputName)
   const allowedCharacters = inputName.match(/\w+/g)
 
-  return (allowedCharacters || []).join('_').slice(0, 20) + '_' + nameHash
+  return (allowedCharacters || []).join('_').slice(0, 20) + '-' + nameHash
 }

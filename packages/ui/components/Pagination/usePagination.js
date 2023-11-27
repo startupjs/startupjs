@@ -50,7 +50,7 @@ export default function usePagination ({
   pages = pages || 1
 
   // Basic list of items to render
-  let itemList = [
+  const itemList = [
     ...(showFirstButton ? ['first'] : []),
     ...(showPrevButton ? ['previous'] : [])
   ]
@@ -142,6 +142,7 @@ export default function usePagination ({
     if (typeof item === 'number') {
       return {
         onPress: () => { onChangePage(item) },
+        accessibilityRole: 'button',
         type: 'page',
         value: item,
         selected: item === page,
@@ -162,6 +163,7 @@ export default function usePagination ({
 
     return {
       onPress: () => { value !== null && onChangePage(value) },
+      accessibilityRole: 'button',
       type: item,
       value,
       selected: false,
