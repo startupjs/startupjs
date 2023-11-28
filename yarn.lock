@@ -4603,6 +4603,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@playwright/test@npm:^1.40.0":
+  version: 1.40.0
+  resolution: "@playwright/test@npm:1.40.0"
+  dependencies:
+    playwright: "npm:1.40.0"
+  bin:
+    playwright: cli.js
+  checksum: f8856466128100cd7b152fdbf55f36b294c11a3c67dd8ba40fd383c58d3c559d7efb78b5173f40e54952eec421cad126f24a12e44fb37ea911a99c8ab87b3207
+  languageName: node
+  linkType: hard
+
 "@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.1":
   version: 0.5.11
   resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.11"
@@ -4721,7 +4732,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 7baf1a36855c5cb303e56972103fdf69c03e321e8b448c5b00989ff7693f993eb2278e473e4b6d61ae9d456fbdb8c9f885c56859d441dfcce71dca52943f7dd4
+  checksum: 3e2d091602f71f33daa5b415db473fb8a18cdb377ce574b6388ac176f214d727cbcc302cce13143f0b1e5c93f98a0e2f0ae43ded496cb10a82266183a0b66f61
   languageName: node
   linkType: hard
 
@@ -7140,6 +7151,15 @@ __metadata:
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: caaa3ae9294f1bfdacb029a916c64af63cbcea613a52f53ea86f93c91779859af177b2b68113ef835194519f5e76cadda08559929b68297f1a8a568c207f9f66
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.10.0":
+  version: 20.10.0
+  resolution: "@types/node@npm:20.10.0"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: f379e57d9d28cb5f3d8eab943de0c54a0ca2f95ee356e1fe2a1a4fa718b740103ae522c50ce107cffd52c3642ef3244cfc55bf5369081dd6c48369c8587b21ae
   languageName: node
   linkType: hard
 
@@ -15131,6 +15151,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fsevents@npm:2.3.2":
+  version: 2.3.2
+  resolution: "fsevents@npm:2.3.2"
+  dependencies:
+    node-gyp: "npm:latest"
+  checksum: be78a3efa3e181cda3cf7a4637cb527bcebb0bd0ea0440105a3bb45b86f9245b307dc10a2507e8f4498a7d4ec349d1910f4d73e4d4495b16103106e07eee735b
+  conditions: os=darwin
+  languageName: node
+  linkType: hard
+
 "fsevents@npm:^1.2.7":
   version: 1.2.13
   resolution: "fsevents@npm:1.2.13"
@@ -15148,6 +15178,15 @@ __metadata:
   dependencies:
     node-gyp: "npm:latest"
   checksum: a1f0c44595123ed717febbc478aa952e47adfc28e2092be66b8ab1635147254ca6cfe1df792a8997f22716d4cbafc73309899ff7bfac2ac3ad8cf2e4ecc3ec60
+  conditions: os=darwin
+  languageName: node
+  linkType: hard
+
+"fsevents@patch:fsevents@npm%3A2.3.2#optional!builtin<compat/fsevents>":
+  version: 2.3.2
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#optional!builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
+  dependencies:
+    node-gyp: "npm:latest"
   conditions: os=darwin
   languageName: node
   linkType: hard
@@ -24985,6 +25024,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"playwright-core@npm:1.40.0":
+  version: 1.40.0
+  resolution: "playwright-core@npm:1.40.0"
+  bin:
+    playwright-core: cli.js
+  checksum: 6973f34b023ee9ca7451715065afbb11c119b028ec866e44e7862118f17eafaa832d6bb388fa657124e88c290d7192cd5c125970a3c635d3d9336331ddba8d10
+  languageName: node
+  linkType: hard
+
+"playwright@npm:1.40.0":
+  version: 1.40.0
+  resolution: "playwright@npm:1.40.0"
+  dependencies:
+    fsevents: "npm:2.3.2"
+    playwright-core: "npm:1.40.0"
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    playwright: cli.js
+  checksum: 21bcf473950472881d500ac5f29dff9f529ac3bd667f9ec5eed6c6bc1be00a1b2bfbc3fe55c9db214c57bbbf102eea6ae894dd42d856cfbe3c8dbd60b58684a1
+  languageName: node
+  linkType: hard
+
 "please-upgrade-node@npm:^3.1.1, please-upgrade-node@npm:^3.2.0":
   version: 3.2.0
   resolution: "please-upgrade-node@npm:3.2.0"
@@ -27666,6 +27729,8 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@babel/eslint-parser": "npm:^7.23.3"
+    "@playwright/test": "npm:^1.40.0"
+    "@types/node": "npm:^20.10.0"
     "@wdio/cli": "npm:^8.8.8"
     "@wdio/local-runner": "npm:^8.8.8"
     "@wdio/mocha-framework": "npm:^8.8.7"
