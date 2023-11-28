@@ -16,10 +16,10 @@ nconf: *
 ## Usage
 
 ```js
-import createBackend from '@startupjs/backend'
+import getBackend from '@startupjs/backend'
 
 export default async function runServer () {
-  const { backend, shareDbMongo, redisClient, redisPrefix, redis } = await createBackend(options)
+  const backend = await getBackend(options)
   // ...
 }
 ```

@@ -65,7 +65,7 @@ describe('tasks', function () {
     it('fast tasks - singleton, throttle, trailing mode', async function () {
       const taskNum = 3
 
-      let result = await runner.executeTasks({}, taskNum, 0, {
+      const result = await runner.executeTasks({}, taskNum, 0, {
         duration: 50,
         singleton: true,
         throttle: true,

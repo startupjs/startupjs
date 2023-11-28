@@ -1,11 +1,11 @@
 import promisifyRacer from '@startupjs/orm/lib/promisifyRacer.js'
-import createBackend from '@startupjs/backend'
+import getBackend, { mongo, redisClient } from '@startupjs/backend'
 import Redlock from 'redlock'
 
 promisifyRacer()
 
 export async function getDbs (options) {
-  const { backend, shareDbMongo, redisClient } = await createBackend(options)
+  const backend = await getBackend(options)
 
   const redlock = new Redlock([redisClient], {
     driftFactor: 0.01,
@@ -14,13 +14,13 @@ export async function getDbs (options) {
     retryJitter: 10
   })
 
-  await shareDbMongo.mongo.collection('tasks').createIndex({
+  await mongo.collection('tasks').createIndex({
     status: 1,
     startTime: 1,
     executingTime: 1
   })
 
-  return { backend, shareDbMongo, redisClient, redlock }
+  return { backend, mongo, redis: redisClient, redlock }
 }
 
 export const initBackend = () => {
