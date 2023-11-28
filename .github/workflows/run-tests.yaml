@@ -52,5 +52,27 @@ jobs:
       with:
         name: playwright-report
         path: playwright-report/
-        retention-days: 30
+        retention-days: 15
 
+    - name: Discord Notification on Failure. Message with Screenshot
+      if: failure() && github.ref == 'refs/heads/master'
+      run: |
+        FILE_PATH="test_failed_screenshots/screenshot.png"
+        PAYLOAD="{
+          \"embeds\": [{
+            \"title\": \"> Tests failed! Click here to check logs\",
+            \"description\": \"[${{ github.event.head_commit.message }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})\",
+            \"color\": 16711680,
+            \"url\": \"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\",
+            \"author\": {
+              \"name\": \"${{ github.actor }}\",
+              \"url\": \"${{ github.server_url }}/${{ github.actor }}\",
+              \"icon_url\": \"${{ github.server_url }}/${{ github.actor }}.png\"
+            }
+          }]
+        }"
+        ARGS=(-F "payload_json=$PAYLOAD")
+        if [ -f "$FILE_PATH" ]; then
+          ARGS+=(-F "file=@$FILE_PATH")
+        fi
+        curl -X POST "${{ secrets.DISCORD_WEBHOOK_STARTUPJS_TESTS_FAILED }}" "${ARGS[@]}"
