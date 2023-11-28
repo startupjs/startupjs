@@ -19,10 +19,10 @@ jobs:
           - 6379:6379
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Use Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: '21.x'
 
@@ -32,14 +32,8 @@ jobs:
     - name: Use yarn@4
       run: corepack use yarn@4
 
-    - name: Setup Chrome
-      uses: browser-actions/setup-chrome@latest
-
-    - name: Get Chrome Version
-      run: echo "CHROME_VERSION=$(google-chrome-stable --version | cut -d ' ' -f 3 | cut -d '.' -f 1)" >> $GITHUB_ENV
-
-    - name: Install all dependencies and chromedriver which matches chrome version
-      run: yarn add chromedriver@$CHROME_VERSION
+    - name: Install Playwright Browsers
+      run: yarn playwright install --with-deps
 
     - name: Build production app
       run: yarn build
@@ -50,28 +44,13 @@ jobs:
     - name: Wait for 30 seconds
       run: sleep 30s
 
-    - name: Run tests
-      run: yarn wdio
+    - name: Run Playwright tests
+      run: yarn playwright test
 
-    - name: Discord Notification on Failure. Message with Screenshot
-      if: failure() && github.ref == 'refs/heads/master'
-      run: |
-        FILE_PATH="test_failed_screenshots/screenshot.png"
-        PAYLOAD="{
-          \"embeds\": [{
-            \"title\": \"> Tests failed! Click here to check logs\",
-            \"description\": \"[${{ github.event.head_commit.message }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})\",
-            \"color\": 16711680,
-            \"url\": \"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\",
-            \"author\": {
-              \"name\": \"${{ github.actor }}\",
-              \"url\": \"${{ github.server_url }}/${{ github.actor }}\",
-              \"icon_url\": \"${{ github.server_url }}/${{ github.actor }}.png\"
-            }
-          }]
-        }"
-        ARGS=(-F "payload_json=$PAYLOAD")
-        if [ -f "$FILE_PATH" ]; then
-          ARGS+=(-F "file=@$FILE_PATH")
-        fi
-        curl -X POST "${{ secrets.DISCORD_WEBHOOK_STARTUPJS_TESTS_FAILED }}" "${ARGS[@]}"
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
+
