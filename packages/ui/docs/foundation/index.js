@@ -12,6 +12,8 @@ import NodeModulesCacheRu from './nodeModulesCache.ru.mdx'
 import SecurityRu from './security.ru.mdx'
 import WebsocketEn from './websocket.en.mdx'
 import WebsocketRu from './websocket.ru.mdx'
+import E2ETestsRu from './e2e-tests.ru.mdx'
+import E2ETestsEn from './e2e-tests.en.mdx'
 import FontsEn from '../../components/typography/Fonts.en.mdx'
 import FontsRu from '../../components/typography/Fonts.ru.mdx'
 import TypographyEn from '../../components/typography/Typography.en.mdx'
@@ -126,6 +128,17 @@ export default {
       component: {
         en: WebsocketEn,
         ru: WebsocketRu
+      }
+    },
+    testE2E: {
+      type: 'mdx',
+      title: {
+        en: 'E2E Testing',
+        ru: 'E2E тестирование'
+      },
+      component: {
+        en: E2ETestsEn,
+        ru: E2ETestsRu
       }
     }
   }

@@ -1,0 +1,33 @@
+# E2E Testing in StartupJS
+
+StartupJS utilizes the **Playwright** tool for writing E2E (End-to-End) tests. Below are the steps to get started with Playwright in your project.
+
+## Installing Playwright
+
+To start working with Playwright, you need to install it in your project's repository. Execute the following command:
+
+```bash
+yarn create playwright
+```
+
+## Generating Tests with Playwright
+
+To launch the test generator, use the command:
+
+```bash
+npx playwright codegen http://localhost:3000
+```
+
+The result will be recorded in the `tests` folder.
+
+## Running Tests
+
+To run the tests, execute the command:
+
+```bash
+npx playwright test
+```
+
+## Additional Information
+
+[Official Documentation](https://playwright.dev/docs/intro).
