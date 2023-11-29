@@ -36,6 +36,5 @@ function updateMediaFlags ({ window }) {
 
 function listenForMediaUpdates () {
   updateMediaFlags({ window: Dimensions.get('window') })
-  // todo: что на счет удаления слушателя?
   Dimensions.addEventListener('change', debouncedUpdateMedia)
 }

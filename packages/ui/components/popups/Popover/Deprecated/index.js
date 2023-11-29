@@ -98,7 +98,7 @@ function Popover ({
     return () => {
       mounted = false
       // removeEventListener has been removed from rn 0.70.4
-      if (listener && !Dimensions.removeEventListener) {
+      if (listener) {
         listener.remove()
       } else {
         Dimensions.removeEventListener('change', handleDimensions)
@@ -197,7 +197,7 @@ function Popover ({
 
   // parse children
   let caption = null
-  let content = []
+  const content = []
   const onLayoutCaption = e => {
     captionInfo.current = e.nativeEvent.layout
   }
