@@ -43,6 +43,23 @@ return (
 )
 ```
 
+## Disabled state
+
+```jsx example
+const [value, setValue] = useState([30, 80])
+
+return (
+  <RangeInput
+    disabled
+    min={0}
+    max={100}
+    range
+    value={value}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
 ## Hide marker label
 
 Pass `showLabel=false` to hide marker label.
@@ -79,9 +96,9 @@ return (
 )
 ```
 
-## Show labels and markers for step
+## Show step labels and markers
 
-Pass `showSteps=true` to display labels and markers for step.
+  Pass `showSteps=true` to display labels and markers for step.
 
 ```jsx example
 const [value, setValue] = useState(4)
@@ -130,24 +147,6 @@ return (
     showLabel={false}
     showSteps
     showStepMarkers={false}
-    onChange={(val) => setValue(val)}
-  />
-)
-```
-
-## Width
-
-Use `width` property to specify custom width of input.
-
-```jsx example
-const [value, setValue] = useState(30)
-
-return (
-  <RangeInput
-    value={value}
-    min={0}
-    max={100}
-    width={400}
     onChange={(val) => setValue(val)}
   />
 )

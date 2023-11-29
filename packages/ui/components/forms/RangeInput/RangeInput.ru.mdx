@@ -43,6 +43,24 @@ return (
 )
 ```
 
+
+## Отключенное состояние
+
+```jsx example
+const [value, setValue] = useState([30, 80])
+
+return (
+  <RangeInput
+    disabled
+    min={0}
+    max={100}
+    range
+    value={value}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
 ## Скрыть метку ползунка
 
 Передайте `showLabel=false`, чтобы скрыть метку маркера.
@@ -129,24 +147,6 @@ return (
     showLabel={false}
     showSteps
     showStepMarkers={false}
-    onChange={(val) => setValue(val)}
-  />
-)
-```
-
-## Ширина
-
-Используйте свойство `width`, чтобы указать пользовательскую ширину поля.
-
-```jsx example
-const [value, setValue] = useState(30)
-
-return (
-  <RangeInput
-    value={value}
-    min={0}
-    max={100}
-    width={400}
     onChange={(val) => setValue(val)}
   />
 )
