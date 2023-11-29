@@ -128,22 +128,20 @@ export default class DispatcherRunner {
 
   dropMongoDatabase () {
     return new Promise((resolve, reject) => {
-      const { shareDbMongo } = this.dbs
-      shareDbMongo.getDbs((_err, mongo) => {
-        mongo.dropDatabase((err) => {
-          // eslint-disable-next-line prefer-promise-reject-errors
-          if (err) return reject()
-          console.log('Drop mongo db')
-          resolve()
-        })
+      const { mongo } = this.dbs
+      mongo.dropDatabase((err) => {
+        // eslint-disable-next-line prefer-promise-reject-errors
+        if (err) return reject()
+        console.log('Drop mongo db')
+        resolve()
       })
     })
   }
 
   dropRedisDatabase () {
     return new Promise((resolve, reject) => {
-      const { redisClient } = this.dbs
-      redisClient.flushdb((err) => {
+      const { redis } = this.dbs
+      redis.flushdb((err) => {
         // eslint-disable-next-line prefer-promise-reject-errors
         if (err) return reject()
         console.log('Drop redis db')

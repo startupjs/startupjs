@@ -8,7 +8,7 @@ export default class MongoQueue {
     this.dispatcherNum = dispatcherNum
     this.backend = dbs.backend
     this.redlock = dbs.redlock
-    this.redis = dbs.redisClient
+    this.redis = dbs.redis
   }
 
   async lock (key, ttl) {

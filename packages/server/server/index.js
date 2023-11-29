@@ -1,4 +1,9 @@
-import createBackend from '@startupjs/backend'
+import getBackend, {
+  mongo,
+  mongoClient,
+  createMongoIndex,
+  redisClient
+} from '@startupjs/backend'
 import http from 'http'
 import https from 'https'
 import conf from 'nconf'
@@ -8,16 +13,19 @@ import express from './express.js'
 let server = null
 let wsServer = null
 
+export { mongo, createMongoIndex }
+export const redis = redisClient
+
 export default async (options) => {
   options = Object.assign({ secure: true }, options)
 
   // Init backend and all apps
-  const { backend, shareDbMongo } = await createBackend(options)
+  const backend = await getBackend(options)
 
   // Init error handling route
   const error = options.error(options)
 
-  const { expressApp, session } = express(backend, shareDbMongo._mongoClient, error, options)
+  const { expressApp, session } = express(backend, mongoClient, error, options)
 
   const { wss, upgrade } = racerHighway(backend, { session }, { timeout: 5000, timeoutIncrement: 8000 })
   wsServer = wss
