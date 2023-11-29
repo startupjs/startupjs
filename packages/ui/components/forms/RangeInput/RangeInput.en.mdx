@@ -43,6 +43,23 @@ return (
 )
 ```
 
+## Disabled state
+
+```jsx example
+const [value, setValue] = useState([30, 80])
+
+return (
+  <RangeInput
+    disabled
+    min={0}
+    max={100}
+    range
+    value={value}
+    onChange={(val) => setValue(val)}
+  />
+)
+```
+
 ## Hide marker label
 
 Pass `showLabel=false` to hide marker label.
