@@ -1,34 +1,77 @@
 $this = merge({
-  trackColor: var(--color-bg-dim),
-  selectedColor: var(--color-bg-primary),
-  stepMarker: var(--color-text-on-color)
+  trackColor: var(--color-bg-dim)
+  selectedColor: var(--color-bg-primary)
+  markerColor: var(--color-text-on-color)
+  stepMarkerColor: var(--color-text-on-color)
+
 }, $UI.RangeInput, true)
 
-.root
-  &:part(container)
-    height 10u
+.label
+  position absolute
+  align-items center
+  width 10u
+  left -(@width / 2)
 
-  &:part(track)
-    height 1u
-    background-color $this.trackColor
-    border-radius 4px
+.labelText
+  background-color var(--color-bg-inverse)
+  padding 0.5u 1u
+  font-style normal
+  font(caption)
+  color var(--color-text-inverse)
+  shadow(1)
+  radius()
 
-  &:part(selected)
-    background-color $this.selectedColor
+.labelArrow
+  width 0
+  height 0
+  background-color transparent
+  border-style solid
+  border-left-width 4
+  border-right-width 4
+  border-bottom-width 4
+  border-left-color transparent
+  border-right-color transparent
+  border-bottom-color var(--color-border-inverse)
+  transform rotate(180deg)
 
-  &:part(marker)
-    top 4px
-    width 16px
-    height @width
-    border-radius 10px
-    shadow(1)
+.container
+  height 10u
 
-  &:part(stepLabel)
-    font-style normal
-    font(caption)
-    color var(--color-text)
+.marker
+  background-color $this.markerColor
+  width 16px
+  height @width
+  border-radius 10px
+  //shadow(1)
+  box-shadow: 0 1px 2px rgba(black, 0.2) // todo: resolve the issue with colors
 
-  &:part(stepMarker)
-    border-radius 0
-    width 2px
-    background-color $this.stepMarker
+.track
+  height 1u
+  background-color $this.trackColor
+  border-radius 4px
+
+.selected
+  background-color $this.selectedColor
+
+.step
+  position relative
+
+.stepMarker
+  height 1u
+  width 0.25u
+  background-color $this.stepMarkerColor
+
+.stepLabel
+  position absolute
+  top 2u
+  fontFamily('normal')
+  font(caption)
+  color var(--color-text)
+
+  //&:part(stepMarkerColor)
+  //  border-radius 0
+  //  width 2px
+  //  background-color $this.stepMarkerColor
+
+:export
+  config: $this

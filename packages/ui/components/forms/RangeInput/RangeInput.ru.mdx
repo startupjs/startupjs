@@ -133,21 +133,3 @@ return (
   />
 )
 ```
-
-## Ширина
-
-Используйте свойство `width`, чтобы указать пользовательскую ширину поля.
-
-```jsx example
-const [value, setValue] = useState(30)
-
-return (
-  <RangeInput
-    value={value}
-    min={0}
-    max={100}
-    width={400}
-    onChange={(val) => setValue(val)}
-  />
-)
-```

@@ -4,6 +4,7 @@ module.exports = {
     forceCompile: {
       web: [
         '@ptomasroos/react-native-multi-slider',
+        '@miblanchard/react-native-slider',
         '@startupjs/ui'
       ]
     }
