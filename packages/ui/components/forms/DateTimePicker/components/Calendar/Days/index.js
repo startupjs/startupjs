@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Row, Span, Div } from '@startupjs/ui'
 import moment from 'moment'
 import './index.styl'
@@ -46,7 +46,9 @@ export default observer(function Days ({
           label: currentDay.format('DD'),
           month: currentDay.month(),
           day: currentDay.date(),
-          value: +currentDay
+          value: +currentDay,
+          testID: `${currentDay.format('MM')}-` +
+            `${currentDay.format('DD')}-${currentDay.format('YYYY')}`
         })
         currentDay.add(1, 'd')
       }
@@ -75,7 +77,7 @@ export default observer(function Days ({
   function getLabelActive (value) {
     return range
       ? moment.tz(value, timezone).isSame(range[0], 'd') ||
-        moment.tz(value, timezone).isSame(range[1], 'd')
+      moment.tz(value, timezone).isSame(range[1], 'd')
       : moment.tz(value, timezone).isSame(date, 'd')
   }
 
@@ -98,6 +100,7 @@ export default observer(function Days ({
             }
             hoverStyleName='cellHover'
             disabled=isDisableDay(day.value)
+            testID=day.testID
             onPress=() => _onChangeDay(day)
           )
             Span.label(

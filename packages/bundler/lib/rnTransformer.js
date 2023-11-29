@@ -6,10 +6,10 @@ const platformSingleton = require(
 const stylusToCssLoader = require('./stylusToCssLoader')
 const cssToReactNativeLoader = require('./cssToReactNativeLoader')
 const mdxExamplesLoader = require('./mdxExamplesLoader')
-const mdxLoader = require('./mdxLoader')
+const getMDXLoader = require('./getMDXLoader')
 const callLoader = require('./callLoader')
 
-module.exports.transform = function ({ src, filename, options = {} }) {
+module.exports.transform = async function ({ src, filename, options = {} }) {
   const { platform } = options
   platformSingleton.value = platform
 
@@ -25,6 +25,7 @@ module.exports.transform = function ({ src, filename, options = {} }) {
   } else if (/\.[cm]?jsx?$/.test(filename) && /['"]startupjs['"]/.test(src)) {
     return upstreamTransformer.transform({ src, filename, options })
   } else if (/\.mdx?$/.test(filename)) {
+    const mdxLoader = await getMDXLoader()
     src = callLoader(mdxExamplesLoader, src, filename)
     src = callLoader(mdxLoader, src, filename)
     return upstreamTransformer.transform({ src, filename, options })

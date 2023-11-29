@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text } from 'react-native'
+import { pug } from 'startupjs'
 import './index.styl'
 
 export default function Layout ({

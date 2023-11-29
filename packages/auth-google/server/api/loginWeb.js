@@ -1,5 +1,5 @@
 import passport from 'passport'
-import { PERMISSIONS } from '../../isomorphic'
+import { PERMISSIONS } from '../../isomorphic/index.js'
 
 export default function loginWeb (req, res, next) {
   return passport.authenticate('google', {

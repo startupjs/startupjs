@@ -1,6 +1,7 @@
 import React, { useLayoutEffect } from 'react'
 import { Dimensions } from 'react-native'
 import {
+  pug,
   observer,
   useValue,
   useComponentId,
@@ -36,12 +37,13 @@ function SmartSidebar ({
   const componentId = useComponentId()
 
   if (!$open) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     [, $open] = useLocal(path || `_session.SmartSidebar.${componentId}`)
   }
 
   let open
   let onChange
-  ;({ open, onChange } = useBind({ $open: $open, open, onChange }))
+  ;({ open, onChange } = useBind({ $open, open, onChange }))
 
   let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 

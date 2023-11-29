@@ -1,4 +1,4 @@
-import { EMAIL_REGEXP } from '../../isomorphic'
+import { EMAIL_REGEXP } from '../../isomorphic/index.js'
 
 /**
  * @description This hook is triggering right before user register

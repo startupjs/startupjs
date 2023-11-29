@@ -1,7 +1,7 @@
 import React, { useImperativeHandle, useState, useCallback, useRef, useMemo } from 'react'
 import WebView from 'react-native-webview'
 import { Modal } from 'react-native'
-import { observer, useComponentId } from 'startupjs'
+import { pug, observer, useComponentId } from 'startupjs'
 import { Div, Loader } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { BASE_URL } from '@env'

@@ -1,6 +1,6 @@
-import { finishAuth } from '@startupjs/auth/server'
+import { finishAuth } from '@startupjs/auth/server/index.js'
 import passport from 'passport'
-import { sendError } from '../helpers'
+import { sendError } from '../helpers/index.js'
 
 export default function login (config) {
   return async function (req, res, next) {
@@ -24,6 +24,7 @@ async function clearLoginAttempts (userId, model) {
   await $auth.subscribe()
 
   await $auth.del('providers.local.failedLoginAttempts')
+  await $auth.del('providers.local.faildeLoginTimestamp')
 
   $auth.unsubscribe()
 }

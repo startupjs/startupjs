@@ -1,5 +1,5 @@
-import { sendNotification } from './helpers'
-import { SEND_URL } from '../isomorphic/constants'
+import { sendNotification } from './helpers/index.js'
+import { SEND_URL } from '../isomorphic/constants.js'
 
 export default function initDefaultRoutes (router) {
   router.post(SEND_URL, async function (req, res) {

@@ -275,6 +275,10 @@ validate_step_apply () {
 
 login_kubectl () {
   az aks get-credentials --resource-group "$RESOURCE_GROUP_NAME" --name "$CLUSTER_NAME"
+  kubelogin convert-kubeconfig \
+    -l spn \
+    --client-id "$CLIENT_ID" \
+    --client-secret "$CLIENT_SECRET"  
 }
 
 update_secret () {
@@ -293,7 +297,7 @@ _get_keyvault_secrets_yaml () {
     echo "${_name}=${_value}" >> ./secrets.env
   done
   # Next command will output the yaml to stdout and we'll catch it outside
-  kubectl create secret generic "$APP" --type=Opaque --from-env-file=./secrets.env --dry-run -o yaml
+  kubectl create secret generic "$APP" --type=Opaque --from-env-file=./secrets.env --dry-run=client -o yaml
   rm ./secrets.env
 }
 
@@ -351,29 +355,52 @@ update_deployments () {
       | jq ".spec.selector.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
       | kubectl apply -f -
 
-    kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
-      | kubectl-neat \
-      | jq '.items[]' \
-      | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
-      | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
-      | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
-      | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-      | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-      | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
-      | jq "del(.spec.rules[1,2,3,4,5])" \
-      | jq ".spec.rules[].host = \"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"" \
-      | jq ".spec.rules[].http.paths[].backend.service.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-      | jq "del(.spec.tls[1,2,3,4,5])" \
-      | jq ".spec.tls[0].hosts = [\"${APP}-${FEATURE}.${FEATURE_DOMAIN}\"]" \
-      | jq ".spec.tls[0].secretName = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}-cert\"" \
-      | kubectl apply -f -
+    if [ -n "$FEATURE_WILDCARD" ]
+    then
+      kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
+        | kubectl-neat \
+        | jq '.items[]' \
+        | jq 'del(.metadata.annotations["cert-manager.io/cluster-issuer"])' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
+        | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
+        | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
+        | jq "del(.spec.rules[1,2,3,4,5])" \
+        | jq ".spec.rules[].host = \"${FEATURE}.${FEATURE_DOMAIN}\"" \
+        | jq ".spec.rules[].http.paths[].backend.service.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq "del(.spec.tls[1,2,3,4,5])" \
+        | jq ".spec.tls[0].hosts = [\"${FEATURE}.${FEATURE_DOMAIN}\"]" \
+        | jq ".spec.tls[0].secretName = \"${APP}-features-cert\"" \
+        | kubectl apply -f -
+    else
+      kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
+        | kubectl-neat \
+        | jq '.items[]' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
+        | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
+        | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
+        | jq ".metadata.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
+        | jq "del(.spec.rules[1,2,3,4,5])" \
+        | jq ".spec.rules[].host = \"${FEATURE}.${FEATURE_DOMAIN}\"" \
+        | jq ".spec.rules[].http.paths[].backend.service.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
+        | jq "del(.spec.tls[1,2,3,4,5])" \
+        | jq ".spec.tls[0].hosts = [\"${FEATURE}.${FEATURE_DOMAIN}\"]" \
+        | jq ".spec.tls[0].secretName = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}-cert\"" \
+        | kubectl apply -f -
+    fi
   else
     for _name in $(kubectl get deployments -l "managed-by=terraform,part-of=${APP}" --no-headers -o custom-columns=":metadata.name"); do
       SERVICE=$(echo $NAME | cut -d "-" -f 2)
       if [[ "$DEPLOYMENTS" =~ .*"$SERVICE:".* ]]; then
-        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}" --record
+        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}" 
+        kubectl annotate "deployment/$_name" kubernetes.io/change-cause="Set image: $_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}"
       else
-        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}" --record
+        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}"
+        kubectl annotate "deployment/$_name" kubernetes.io/change-cause="Set image: $_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}"
       fi
     done
   fi

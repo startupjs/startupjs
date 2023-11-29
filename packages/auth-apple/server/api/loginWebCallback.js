@@ -1,4 +1,4 @@
-import { finishAuth, linkAccount } from '@startupjs/auth/server'
+import { finishAuth, linkAccount } from '@startupjs/auth/server/index.js'
 import passport from 'passport'
 
 export default function loginWebCallback (req, res, next, config) {

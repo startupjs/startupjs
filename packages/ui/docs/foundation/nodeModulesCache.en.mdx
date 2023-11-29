@@ -1,0 +1,15 @@
+# Caching node_modules
+
+In order to enable caching of `node_modules` in the project, write the following commands in the project folder:
+
+1. Disable the global cache for `yarn` and it will save the package cache into a folder local to your project (by default `.yarn/cache`) that can then be added to Git
+
+    ```
+    yarn config set enableGlobalCache false
+    ```
+
+1. Disable ignoring the cache folder from git
+
+    ```
+    echo '!.yarn/cache' >> .gitignore
+    ```

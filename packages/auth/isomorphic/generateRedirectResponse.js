@@ -1,4 +1,4 @@
-import generateGoBackScript from './generateGoBackScript'
+import generateGoBackScript from './generateGoBackScript.js'
 
 export default function generateRedirectResponse (text, delay, goBackCount) {
   if (typeof goBackCount !== 'number') {

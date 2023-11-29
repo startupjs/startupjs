@@ -72,6 +72,6 @@ export default class EventModel extends BaseModel {
 }
 ```
 
-## Licence
+## License
 
 MIT

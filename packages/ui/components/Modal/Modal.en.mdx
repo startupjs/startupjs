@@ -274,8 +274,9 @@ return (
 
 <Sandbox
   Component={Modal}
-  props={{ $visible: $root.scope('_session.Props.Modal.visible') }} // HACK to make alive sandbox when user click on 'visible' checkbox
+  props={{ $visible: $root.scope('_session.Props.Modal.visible') }}
   $props={$root.scope('_session.Props.Modal')}
+  {...{ _comment: "HACK to make alive sandbox when user click on 'visible' checkbox" }}
 />
 
 ### Modal.Header

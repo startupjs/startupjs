@@ -39,23 +39,23 @@ export default function themed (name, Component) {
     }
 
     // Setup theme context
-    let contextTheme = useContext(ThemeContext)
-    let theme = props.theme || contextTheme
+    const contextTheme = useContext(ThemeContext)
+    const theme = props.theme || contextTheme
     let res
     if (theme && !props.theme) {
       res = Component({ theme, ...props }, ref)
     } else {
       res = Component(props, ref)
     }
-    return (props.theme && (!contextTheme || contextTheme !== props.theme)) ? (
-      React.createElement(
-        ThemeContext.Provider,
-        { value: props.theme },
-        res
-      )
-    ) : (
-      res
-    )
+    return (props.theme && (!contextTheme || contextTheme !== props.theme))
+      ? (
+          React.createElement(
+            ThemeContext.Provider,
+            { value: props.theme },
+            res
+          )
+        )
+      : res
   }
 
   ThemeWrapper.displayName = Component.displayName || Component.name

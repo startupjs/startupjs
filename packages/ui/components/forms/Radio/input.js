@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Animated, Easing, Platform } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import { pug, observer, useDidUpdate } from 'startupjs'
 import Row from '../../Row'
 import Div from '../../Div'
 import Span from '../../typography/Span'

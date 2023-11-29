@@ -1,13 +1,14 @@
-import { finishAuth, linkAccount } from '@startupjs/auth/server'
-import { getGoogleIdToken, getGoogleProfile } from '../helpers'
-import { CALLBACK_URL } from '../../isomorphic'
-import Provider from '../Provider'
+import { finishAuth, linkAccount } from '@startupjs/auth/server/index.js'
+import { getGoogleIdToken, getGoogleProfile } from '../helpers/index.js'
+import { CALLBACK_URL } from '../../isomorphic/index.js'
+import Provider from '../Provider.js'
 
 export default async function loginCallback (req, res, next, config) {
   const {
     clientId,
     clientSecret,
-    onBeforeLoginHook
+    onBeforeLoginHook,
+    onAfterLoginHook
   } = config
 
   let { token, code } = req.query
@@ -37,7 +38,10 @@ export default async function loginCallback (req, res, next, config) {
       return res.send(response)
     } else {
       const userId = await provider.findOrCreateUser({ req })
-      finishAuth(req, res, { userId, onBeforeLoginHook })
+      const _onAfterLoginHook = async function (userId) {
+        onAfterLoginHook && await onAfterLoginHook({ userId }, req)
+      }
+      finishAuth(req, res, { userId, onBeforeLoginHook, onAfterLoginHook: _onAfterLoginHook })
     }
   } catch (err) {
     // TODO: http://lalverma.blogspot.com/2016/02/token-used-too-early.html

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from 'react-native'
-import { observer, styl } from 'startupjs'
+import { pug, observer, styl } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../../theming/themed'
 
@@ -52,8 +52,8 @@ styl`
   // ----- CONFIG: $UI.Span
 
   $this = merge({
-    color: $UI.colors.mainText,
-    descriptionColor: $UI.colors.secondaryText
+    color: var(--color-text),
+    descriptionColor: var(--color-text-description)
   }, $UI.Span, true)
 
   // ----- COMPONENT

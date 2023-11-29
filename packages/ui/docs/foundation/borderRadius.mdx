@@ -1,4 +1,10 @@
-import borderRadius from './borderRadius.styl'
+import {
+  cell,
+  borderRadius,
+  borderRadiusMedium,
+  borderRadiusLarge,
+  borderRadiusCircle
+} from './borderRadius.styl'
 import { Div, Span } from '@startupjs/ui'
 
 # Border Radius
@@ -9,7 +15,7 @@ The keep of the design language consistent, a uniform border radius should be ap
 
 Used for small-medium content (input-fields, buttons, toasts, cards).
 
-<Div styleName='borderRadius medium'>
+<Div style={[borderRadius, borderRadiusMedium]}>
   <Span>4 px</Span>
 </Div>
 
@@ -22,7 +28,7 @@ Used for small-medium content (input-fields, buttons, toasts, cards).
 
 Used for large content (large cards, tables, modal dialogs).
 
-<Div styleName='borderRadius large'>
+<Div style={[borderRadius, borderRadiusLarge]}>
   <Span>8 px</Span>
 </Div>
 
@@ -35,7 +41,7 @@ Used for large content (large cards, tables, modal dialogs).
 
 Used for avatars, badges, notifications.
 
-<Div styleName='borderRadius circle'>
+<Div style={[borderRadius, borderRadiusCircle]}>
   <Span>Circle</Span>
 </Div>
 

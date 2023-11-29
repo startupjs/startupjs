@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Route, Redirect } from 'react-router'
 import {
+  pug,
   $root,
   observer,
   emit,

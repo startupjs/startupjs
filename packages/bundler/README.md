@@ -81,6 +81,6 @@ export default function ShoppingCart () {
 }
 ```
 
-## MIT Licence
+## MIT License
 
 Copyright (c) 2018 Pavel Zhukov

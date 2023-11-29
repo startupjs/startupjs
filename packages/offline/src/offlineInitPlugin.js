@@ -1,7 +1,7 @@
 import '@startupjs/model/lib/getModel'
-import racer from 'racer'
-import { Socket, Messenger, RPC } from 'sharedb-offline'
 import { Thread } from 'react-native-threads'
+import racer from 'racer'
+import { Socket, Messenger } from 'sharedb-offline'
 
 const DEFAULT_CLIENT_OPTIONS = {
   base: '/channel',
@@ -40,7 +40,7 @@ function getWebSocketURL (options) {
 
 export default function offlineInitPlugin (options = {}) {
   racer.Model.prototype._createSocket = function () {
-    let clientOptions =
+    const clientOptions =
       (typeof window !== 'undefined' && window.__racerHighwayClientOptions) ||
       DEFAULT_CLIENT_OPTIONS
 

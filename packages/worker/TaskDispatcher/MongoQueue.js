@@ -8,7 +8,7 @@ export default class MongoQueue {
     this.dispatcherNum = dispatcherNum
     this.backend = dbs.backend
     this.redlock = dbs.redlock
-    this.redis = dbs.redisClient
+    this.redis = dbs.redis
   }
 
   async lock (key, ttl) {
@@ -30,7 +30,7 @@ export default class MongoQueue {
     if (queryLock) {
       try {
         const $query = model.query(collection, this.getMongoQuery(start))
-        await model.fetchAsync($query)
+        await model.fetch($query)
         this.unlockQuery(queryLock)
         const tasks = map(($query.getExtra() || []), (item) => {
           const { task } = item

@@ -11,8 +11,8 @@
   import path from 'path'
 
   // full path to workerActions.js and workerInit.js
-  process.env.WORKER_ACTIONS_PATH = path.join(process.cwd(), './build/workerActions.cjs')
-  process.env.WORKER_INIT_PATH = path.join(process.cwd(), './build/workerInit.cjs')
+  process.env.WORKER_ACTIONS_PATH = path.join(process.cwd(), './workerActions.js')
+  process.env.WORKER_INIT_PATH = path.join(process.cwd(), './workerInit.js')
 
   const dispatcher = new TaskDispatcher()
 
@@ -21,7 +21,7 @@
   })
   ```
 
-2. In project root create `workerInit.js`. Do any initializations here (plug in hooks, ORM, etc.):
+1. In project root create `workerInit.js`. Do any initializations here (plug in hooks, ORM, etc.):
 
     ```js
     import init from 'startupjs/init'
@@ -37,7 +37,7 @@
     }
     ```
 
-3. In project root create `workerActions.js`. Put your tasks here (name of functions are the name of tasks).:
+1. In project root create `workerActions.js`. Put your tasks here (name of functions are the name of tasks).:
 
     ```js
     let ACTIONS = global.DM_WORKER_ACTIONS = {}
@@ -51,25 +51,10 @@
     }
     ```
 
-4. Add `worker`, `workerInit`, `workerActions` to your `webpack.server.config.cjs`:
+1. Run in console:
 
 ```js
-const getConfig = require('startupjs/bundler/webpack.server.config.cjs')
-const merge = require('lodash/merge')
-
-module.exports = merge(getConfig(), {
-  entry: {
-    worker: './worker',
-    workerInit: './workerInit',
-    workerActions: './workerActions'
-  }
-})
-```
-
-4. Run in console:
-
-```js
-cd build && node worker.cjs
+node worker.js
 ```
 
 # Defaults
@@ -89,6 +74,6 @@ MONGO_URL: 'mongodb://localhost:27017/tasks'
 REDIS_URL: 'redis://localhost:6379/0'
 ```
 
-## MIT Licence
+## MIT License
 
 Copyright (c) 2020 Decision Mapper

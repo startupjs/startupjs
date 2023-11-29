@@ -1,7 +1,7 @@
 import React from 'react'
-import { observer, useSession } from 'startupjs'
-import Layout from './../Layout'
 import { Text } from 'react-native'
+import { pug, observer, useSession } from 'startupjs'
+import Layout from './../Layout'
 import mailTo from './mailTo'
 import './index.styl'
 

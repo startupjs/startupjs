@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
-import { changePassword as _changePassword } from '../helpers'
-import Provider from '../Provider'
+import { changePassword as _changePassword } from '../helpers/index.js'
+import Provider from '../Provider.js'
 
 export default function changePassword (config) {
   return function (req, res, next) {

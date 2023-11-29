@@ -23,7 +23,7 @@ In the `getHead` function, add a call to the `getRecaptchaHead` function:
 ```js
   import { getRecaptchaHead } from '@startupjs/recaptcha/server'
 
-  function getHead (appName, req) {
+  function getHead (req) {
     return `
       // ...
       ${getRecaptchaHead(req)}

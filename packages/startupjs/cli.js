@@ -10,4 +10,4 @@ const __dirname = dirname(__filename)
 
 const templatesPath = path.join(__dirname, 'templates')
 
-cli.run({ templatesPath: templatesPath })
+cli.run({ templatesPath })

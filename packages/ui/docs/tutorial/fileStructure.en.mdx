@@ -231,35 +231,6 @@ export default observer(() => {
 })
 ```
 
-4. Set up routes on the server. It will look like this:
-
-```js
-...
-
-import getAppRoutes from '../main/routes'
-import getAdminRoutes from '../admin/routes'
-
-...
-
-const BUNDLE_NAME = 'main'
-
-startupjsServer(
-  {
-    getHead,
-    appRoutes: {
-      [BUNDLE_NAME]: [
-        ...getAppRoutes(),
-        ...getAdminRoutes(),
-      ]
-    },
-  },
-
-  (ee, options) => {
-    ...
-```
-
-`BUNDLE_NAME` - indicates the name of the bundle where all these routes should end up.
-
 ## Server
 
 Startupjs provides an Express-based server. After running `npx startupjs init myapp` you get a fully functional server, to which the orm and base application `main` are already connected. On this basis, you can already build your application’s business logic. Server can be found at `server/index.js`. Let us look closer at how a typical server looks in startupjs:
@@ -269,7 +240,6 @@ import init from 'startupjs/init'
 import orm from '../model'
 import startupjsServer from 'startupjs/server'
 import api from './api'
-import getMainRoutes from '../main/routes'
 import initPermissions from '@dmapper/permissions/server'
 import { initApp } from 'startupjs/app/server'
 
@@ -278,10 +248,7 @@ init({ orm })
 
 // Check '@startupjs/server' readme for the full API
 startupjsServer({
-  getHead,
-  appRoutes: [
-    ...getMainRoutes()
-  ]
+  getHead
 }, (ee, options) => {
   initApp(ee)
 
@@ -290,7 +257,7 @@ startupjsServer({
   })
 })
 
-function getHead (appName) {
+function getHead () {
   return `
     <title>HelloWorld</title>
     <!-- Put vendor JS and CSS here -->
@@ -311,9 +278,7 @@ Some things to note here:
 
 ## Force Compile Modules
 
-By default, webpack does not go through the files in the `node_modules` folder, because the already-compiled code is usually stored there. But from time to time such situations occur, when it is essential to convert code within a module, using `babel`. In this case, add the package name to `forceCompileModules` in `webpack` configuration file. Be aware of the fact that two such files exist:
-
-  * `webpack.server.config.cjs`: for building the server
+By default, webpack does not go through the files in the `node_modules` folder, because the already-compiled code is usually stored there. But from time to time such situations occur, when it is essential to convert code within a module, using `babel`. In this case, add the package name to `forceCompileModules` in `webpack` configuration file.
 
   * `webpack.web.config.cjs`: for building the client side
 

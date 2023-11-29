@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, emit } from 'startupjs'
+import { pug, observer, emit } from 'startupjs'
 import { Span, Div, Button } from '@startupjs/ui'
 import { SIGN_IN_URL } from '../../../../isomorphic'
 import './index.styl'

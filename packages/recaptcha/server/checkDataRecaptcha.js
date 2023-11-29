@@ -1,4 +1,4 @@
-import { checkDataEnterpriseToken, checkDataToken } from './helpers'
+import { checkDataEnterpriseToken, checkDataToken } from './helpers/index.js'
 
 export default async function checkDataRecaptcha (params) {
   switch (params.type) {

@@ -1,8 +1,19 @@
 import React, { useCallback, useMemo } from 'react'
-import { FlatList } from 'react-native'
-import { observer, useValue } from 'startupjs'
-import { Row, Div, Span, Button, Popover, Icon } from '@startupjs/ui'
-import { faAngleLeft, faAngleRight, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { pug, observer, useValue } from 'startupjs'
+import {
+  Button,
+  Div,
+  FlatList,
+  Icon,
+  Popover,
+  Row,
+  Span
+} from '@startupjs/ui'
+import {
+  faAngleLeft,
+  faAngleRight,
+  faCaretDown
+} from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment'
 import STYLES from './index.styl'
 
@@ -45,14 +56,14 @@ export default observer(function Header ({
         )
       Row.actions
         Button.button(
-          color='darkLight'
+          color='text-description'
           variant='text'
           disabled=isPrevDisabled
           icon=faAngleLeft
           onPress=()=> onChangeMonth(-1)
         )
         Button.button(
-          color='darkLight'
+          color='text-description'
           variant='text'
           disabled=isNextDisabled
           icon=faAngleRight
@@ -80,18 +91,21 @@ const Years = observer(function YearsComponent ({
     `
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const onChangeYear = useCallback((year) => {
     const ts = +moment($uiDate.get()).year(year)
     $uiDate.set(ts)
     $visible.set(false)
   }, [])
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const years = useMemo(() => {
     return new Array(yearsDiff + 1).fill(minYear).map((year, index) => {
       return year + index
     })
   }, [yearsDiff, minYear])
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const getItemLayout = useCallback((data, index) => {
     return {
       offset: YEAR_ITEM_HEIGHT * index,

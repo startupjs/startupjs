@@ -1,5 +1,5 @@
-import { BaseProvider } from '@startupjs/auth/server'
-import _pick from 'lodash/pick'
+import { BaseProvider } from '@startupjs/auth/server/index.js'
+import _pick from 'lodash/pick.js'
 const PROVIDER_NAME = 'local'
 
 export default class LocalProvider extends BaseProvider {
@@ -52,8 +52,9 @@ export default class LocalProvider extends BaseProvider {
       salt,
       email: this.getEmail()
     }
-    if (confirmationExpiresAt)
+    if (confirmationExpiresAt) {
       data.confirmationExpiresAt = confirmationExpiresAt
+    }
     return data
   }
 

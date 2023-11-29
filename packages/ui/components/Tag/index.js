@@ -1,15 +1,15 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import colorToRGBA from '../../helpers/colorToRGBA'
-import Icon from '../Icon'
 import Div from '../Div'
+import Icon from '../Icon'
 import Span from '../typography/Span'
+import Colors, { ColorValues } from '../../theming/Colors'
 import themed from '../../theming/themed'
-import STYLES from './index.styl'
-
-const { colors } = STYLES
+import useColors from '../../hooks/useColors'
+import './index.styl'
 
 const ICON_SIZES = {
   s: 's',
@@ -35,29 +35,31 @@ function Tag ({
   onSecondaryIconPress,
   ...props
 }) {
-  if (!colors[color]) {
+  const getColor = useColors()
+
+  if (!getColor(color)) {
     console.error(
       'Tag component: Color for color property is incorrect. ' +
-      'Use colors from $UI.colors'
+      'Use colors from Colors'
     )
   }
 
   const isFlat = variant === 'flat'
-  const _color = colors[color]
+  const _color = getColor(color)
   const rootStyle = {}
   let extraHoverStyle
   let extraActiveStyle
 
   textStyle = StyleSheet.flatten([
-    { color: isFlat ? colors.white : _color },
+    { color: isFlat ? getFlatTextColor() : _color },
     textStyle
   ])
   iconStyle = StyleSheet.flatten([
-    { color: isFlat ? colors.white : _color },
+    { color: isFlat ? getFlatTextColor() : _color },
     iconStyle
   ])
   secondaryIconStyle = StyleSheet.flatten([
-    { color: isFlat ? colors.white : _color },
+    { color: isFlat ? getFlatTextColor() : _color },
     secondaryIconStyle
   ])
 
@@ -76,6 +78,10 @@ function Tag ({
       extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
       extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
       break
+  }
+
+  function getFlatTextColor () {
+    return getColor(`text-on-${color}`) || getColor('text-on-color')
   }
 
   return pug`
@@ -98,9 +104,8 @@ function Tag ({
           styleName=[size]
           onPress=onIconPress
         )
-          Icon.icon(
+          Icon(
             style=iconStyle
-            styleName=[variant]
             icon=icon
             size=ICON_SIZES[size]
           )
@@ -130,7 +135,7 @@ function Tag ({
 
 Tag.defaultProps = {
   ...Div.defaultProps,
-  color: 'primary',
+  color: Colors.primary,
   variant: 'flat',
   size: 'm',
   shape: 'circle'
@@ -142,7 +147,7 @@ Tag.propTypes = {
   iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   secondaryIconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   variant: PropTypes.oneOf(['flat', 'outlined', 'outlined-bg']),
-  color: PropTypes.oneOf(Object.keys(colors)),
+  color: PropTypes.oneOf(ColorValues),
   shape: PropTypes.oneOf(['circle', 'rounded']),
   size: PropTypes.oneOf(['s', 'm']),
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),

@@ -1,6 +1,6 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 
 export default observer(function TooltipCaption ({ children, onChange }) {
   let isPressable = false

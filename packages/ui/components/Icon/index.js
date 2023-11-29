@@ -1,16 +1,11 @@
 import React, { useMemo } from 'react'
 import { StyleSheet, Platform } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { observer, u } from 'startupjs'
+import { pug, observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../theming/themed'
-import STYLES from './index.styl'
-
-const {
-  config: {
-    color
-  }
-} = STYLES
+import Colors from '../../theming/Colors'
+import { useColors } from '../../hooks'
 
 const SIZES = {
   xs: u(1),
@@ -27,11 +22,12 @@ function Icon ({
   size,
   ...props
 }) {
+  const getColor = useColors()
   const _size = useMemo(() => SIZES[size] || size, [size])
 
   if (!icon) return null
 
-  style = StyleSheet.flatten([{ color }, style])
+  style = StyleSheet.flatten([{ color: getColor(Colors['text-secondary']) }, style])
 
   if (typeof icon === 'function') {
     const CustomIcon = icon

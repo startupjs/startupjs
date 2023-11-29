@@ -1,4 +1,4 @@
-import { auth } from './'
+import { auth } from './index.js'
 
 export default class BaseProvider {
   constructor ($root, profile, options) {

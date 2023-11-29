@@ -1,7 +1,7 @@
-import { checkRecaptcha } from '@startupjs/recaptcha/server'
+import { checkRecaptcha } from '@startupjs/recaptcha/server/index.js'
 import bcrypt from 'bcrypt'
-import setConfirmRegistrationData from './setConfirmRegistrationData'
-import Provider from '../Provider'
+import setConfirmRegistrationData from './setConfirmRegistrationData.js'
+import Provider from '../Provider.js'
 
 export default function (config) {
   return function (req, res, next) {
@@ -34,8 +34,6 @@ export default function (config) {
             return res.json(userId)
           })
         }
-
-
       })
     }, { emailRegistrationRegexp })
   }

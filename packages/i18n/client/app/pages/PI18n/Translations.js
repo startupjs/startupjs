@@ -1,7 +1,8 @@
 /* eslint-disable no-unreachable */
 import React, { useRef, useCallback } from 'react'
-import { FlatList, Platform } from 'react-native'
-import { observer, styl, useDidUpdate } from 'startupjs'
+import { Platform } from 'react-native'
+import { pug, observer, styl, useDidUpdate } from 'startupjs'
+import { FlatList } from '@startupjs/ui'
 import usePage from './../../../usePage'
 import DefaultLang from './DefaultLang'
 import Filename from './Filename'
@@ -35,8 +36,9 @@ export default observer(function Translations () {
       .item
         padding-left 2u
         padding-right @padding-left
+
         &.even
-          background-color $UI.colors.darkLightest
+          background-color var(--color-bg)
     `
   }, [])
 

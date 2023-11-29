@@ -2,7 +2,7 @@ import { Dimensions } from 'react-native'
 import { batch } from 'startupjs'
 import { observable } from '@nx-js/observer-util'
 import debounce from 'lodash/debounce'
-import STYLES from './index.styl'
+import STYLES from './useMedia.styl'
 
 const { media } = STYLES
 

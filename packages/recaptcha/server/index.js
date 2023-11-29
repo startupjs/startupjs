@@ -1,7 +1,7 @@
-import defaults from 'lodash/defaults'
-import checkRecaptcha from './checkRecaptcha'
-import checkDataRecaptcha from './checkDataRecaptcha'
-import { setRecaptcha } from './middlewares'
+import defaults from 'lodash/defaults.js'
+import checkRecaptcha from './checkRecaptcha.js'
+import checkDataRecaptcha from './checkDataRecaptcha.js'
+import { setRecaptcha } from './middlewares/index.js'
 
 function initRecaptcha (ee, options) {
   options = defaults(options, { type: 'v3' })

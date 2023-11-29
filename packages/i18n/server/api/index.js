@@ -1,7 +1,7 @@
 import express from 'express'
 import fs from 'fs'
 import resolve from 'resolve'
-import { encodePath } from './../../isomorphic'
+import { encodePath } from './../../isomorphic/index.js'
 
 const router = express.Router()
 

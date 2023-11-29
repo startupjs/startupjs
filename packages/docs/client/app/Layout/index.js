@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import { emit, observer, useModel } from 'startupjs'
+import { pug, emit, observer, useModel, $ } from 'startupjs'
 import { pathFor, useLocation } from 'startupjs/app'
 import { AutoSuggest, Button, Div, Layout, Menu, Row, Span } from '@startupjs/ui'
 import { MDXProvider } from '@startupjs/mdx'
 import { ScrollableProvider } from '@startupjs/scrollable-anchors'
 import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons'
-import { APP_ENV } from '@env'
 import Sidebar, { SIDEBAR_PATH } from './Sidebar'
 import { useDocsContext } from '../../../docsContext'
 import { useLang, getTitle } from '../../clientHelpers'
@@ -51,17 +50,10 @@ const Search = observer(function Search () {
   }, [])
 
   function onChange (value) {
+    if (!value) return
     setValue({})
     // TODO: replaced from Menu.Item 'to' property
     emit('url', value.value)
-  }
-
-  function onChangeText (value) {
-    const testComponentUrlRegExp = new RegExp(/^\/test\//)
-
-    if (testComponentUrlRegExp.test(value)) {
-      return emit('url', value)
-    }
   }
 
   return pug`
@@ -73,7 +65,6 @@ const Search = observer(function Search () {
       inputIcon=faSearch
       renderItem=item => renderItem(item, pathname)
       onChange=onChange
-      onChangeText=APP_ENV === 'detox' ? onChangeText : undefined
     )
   `
 })
@@ -87,7 +78,7 @@ const Topbar = observer(function Topbar () {
 
   return pug`
     Row.topbar
-      Button(testID='button' variant='text' icon=faBars onPress=toggleSidebar color='darkLight')
+      Button(testID='button' variant='text' icon=faBars onPress=toggleSidebar color='text-description')
       Div.searchWrapper
         Search
   `
@@ -97,7 +88,7 @@ export default observer(function StyleguideLayout ({ children }) {
   // Note: Topbar height is compensated in PDoc
   //       to achieve a semi-transparent effect
   return pug`
-    MDXProvider
+    MDXProvider(key=$.session.theme.get())
       Layout.layout(testID="Layout")
         Sidebar
           Topbar

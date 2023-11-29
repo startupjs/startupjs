@@ -5,32 +5,32 @@ Startupjs offline creates an additional Thread (a la WebWorker) in background.
 
 This thread has (we will call it offline backend):
   1. sharedb backend
-  2. mingo 
+  2. mingo
   3. async-storage (to store data)
-  
-Client sharedb connection is also modified. It can communicate with regular web server (via websocket) and 
-with the thread offline-"backend". So, if web-server is available the client connects to the web-server otherwise it 
-connects to offline server. Moreover going offline the socket copy all the current client sharedb data 
+
+Client sharedb connection is also modified. It can communicate with regular web server (via websocket) and
+with the thread offline-"backend". So, if web-server is available the client connects to the web-server otherwise it
+connects to offline server. Moreover going offline the socket copy all the current client sharedb data
 into the offline-server. Reconnecting it synchronizes data back from 'offline'-server to 'online'.
 
-Also the offline-backend allows to have "readonly collections". F.e. it could be metadata about games, stages, 
-exercises etc. To have the data prefetched on the client in case the user is offline. 
+Also the offline-backend allows to have "readonly collections". F.e. it could be metadata about games, stages,
+exercises etc. To have the data prefetched on the client in case the user is offline.
 
 ### Possible scenarios
 
 #### Serverless app
 
-We can create mobile apps without server storing all the data in the "offline"-backend. Pros here is that we 
+We can create mobile apps without server storing all the data in the "offline"-backend. Pros here is that we
 can use our tech-stack without any changes: sharedb, mongo etc.
 
 #### App with offline mode
 
 We can design our app for full featured offline mode.
 The main task is to design it the way to have all the necessary data in offline. So, developer
-should decide which data should be read-only (usually it's necessary resources 
-like game/stage/exercise metadata) and provide sincronization/update code 
-(see example int the last section). 
-   
+should decide which data should be read-only (usually it's necessary resources
+like game/stage/exercise metadata) and provide sincronization/update code
+(see example int the last section).
+
 ## installation
 ### step 0
 Create your app using
@@ -50,13 +50,13 @@ Modify project
 
 #### add to index.js in the root of your app
 ```
-import './shim' // the first line in the file 
+import './shim' // the first line in the file
 ```
-#### add to App.js 
+#### add to App.js
 ```
 import offlineInitPlugin from '@startupjs/offline/lib/offlineInitPlugin'
 
-/** 
+/**
  * All params are optional
  *
  * @param subscribeDoc fn take collectionName, docId  - we need this to count refs and load/unload docs correctly
@@ -100,7 +100,7 @@ Add the lines
 ```
 import com.reactlibrary.RNThreadPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-``` 
+```
 
 to the imports at the top of the file
 
@@ -129,7 +129,7 @@ Just in case take a look here - https://github.com/joltup/react-native-threads#a
      }
   }
 
-  // doc example   
+  // doc example
   // {
   //   	"_id" : "65e74553-c7d7-4ace-9e1a-68b4e4600e62",
   // 	"name" : "",
@@ -143,10 +143,10 @@ Just in case take a look here - https://github.com/joltup/react-native-threads#a
   // 	"_o" : ObjectId("5d089090b49a8f7740f4a77d")
   // }
 
-  
+
   // rm all the previous content of "games" and fill it with the new docs
   await model.socket.rpc.run('updateDocumentsFull', collections )
-  or 
+  or
   // await model.connection.socket....
   // need to check
 ```

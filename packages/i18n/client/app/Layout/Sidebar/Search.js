@@ -1,6 +1,6 @@
 /* eslint-disable no-unreachable */
 import React, { useCallback } from 'react'
-import { observer, useValue, styl } from 'startupjs'
+import { pug, observer, useValue, styl } from 'startupjs'
 import { TextInput } from '@startupjs/ui'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import usePage from './../../../usePage'
@@ -30,6 +30,6 @@ export default observer(function Search () {
   styl`
     .root
       &:part(icon)
-        color: $UI.colors.darkLighter
+        color var(--color-text-placeholder)
   `
 })

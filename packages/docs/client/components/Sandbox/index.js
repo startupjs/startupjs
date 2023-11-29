@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer, $root } from 'startupjs'
+import { pug, observer, $root } from 'startupjs'
 import { H4 } from '@startupjs/ui'
 import Props from '../Props'
 import {

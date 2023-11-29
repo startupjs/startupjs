@@ -1,137 +1,104 @@
-const ShareDbAccess = require('@startupjs/sharedb-access')
-const registerOrmRules = require('@startupjs/sharedb-access').registerOrmRules
-const rigisterOrmRulesFromFactory = require('@startupjs/sharedb-access').rigisterOrmRulesFromFactory
-const sharedbSchema = require('@startupjs/sharedb-schema')
-const serverAggregate = require('@startupjs/server-aggregate')
-const isArray = require('lodash/isArray')
-const isPlainObject = require('lodash/isPlainObject')
-const redisPubSub = require('sharedb-redis-pubsub')
-const racer = require('racer')
-const redis = require('redis')
-const Redlock = require('redlock')
-const shareDbHooks = require('sharedb-hooks')
-const getShareDbMongo = require('./getShareDbMongo')
-const getRedis = require('./getRedis')
+import ShareDbAccess, {
+  registerOrmRules,
+  rigisterOrmRulesFromFactory
+} from '@startupjs/sharedb-access'
+import sharedbSchema from '@startupjs/sharedb-schema'
+import serverAggregate from '@startupjs/server-aggregate'
+import isArray from 'lodash/isArray.js'
+import isPlainObject from 'lodash/isPlainObject.js'
+import redisPubSub from 'sharedb-redis-pubsub'
+import racer from 'racer'
+import Redlock from 'redlock'
+import shareDbHooks from 'sharedb-hooks'
+import db from './db.js'
+import { mongo, mongoClient, createMongoIndex } from './mongo.js'
+import { redisClient, redisObserver, redisLock } from './redis.js'
 
-global.__clients = {}
 const usersConnectionCounter = {}
 
-// Optional sharedb-ws-pubsub
-let wsbusPubSub = null
-try {
-  require.resolve('sharedb-wsbus-pubsub')
-  wsbusPubSub = require('sharedb-wsbus-pubsub')
-} catch (e) { }
+global.__clients = {}
 
-module.exports = async options => {
+export {
+  db,
+  mongo,
+  mongoClient,
+  createMongoIndex,
+  redisClient,
+  redisObserver,
+  redisLock
+}
+
+export default async options => {
   options = Object.assign({ secure: true }, options)
+
   if (options.ee != null) options.ee.emit('storeUse', racer)
 
-  // ShareDB Setup
-  let shareDbMongo
-  if (process.env.MONGO_URL && !process.env.NO_MONGO) {
-    shareDbMongo = await getShareDbMongo()
-  } else {
-    console.log('>>> WARNING! Using temporary Mingo storage for the DB. All data will be lost on server restart.\n')
-    shareDbMongo = getMingo()
-  }
-  if (options.pollDebounce) shareDbMongo.pollDebounce = options.pollDebounce
+  // pollDebounce is the minimum time in ms between query polls in sharedb
+  if (options.pollDebounce) db.pollDebounce = options.pollDebounce
 
-  let redisClient
-  let redisPrefix
-
-  let backend = (() => {
-    if (!process.env.NO_REDIS) {
-      const redis = getRedis()
-      const redisObserver = redis.observer
-
-      redisClient = redis.client
-      redisPrefix = redis.prefix
-
-      // Flush redis when starting the app.
-      // When running in cluster this should only run on the first instance.
-      // Currently only the detection of the first instance of deis.com cluster
-      // is supported.
-      // TODO: Implement detection of the first instance on kubernetes and azure
-      if (options.flushRedis !== false) {
-        const flushRedis = () => {
-          return new Promise(resolve => {
-            redisClient.flushdb((err, didSucceed) => {
-              if (err) {
-                console.error('Redis flushdb err:', err)
-              } else {
-                console.log('Redis flushdb success:', didSucceed)
-              }
-              resolve()
-            })
-          })
-        }
-        redisClient.on('connect', () => {
-          // Always flush redis db in development or if a force env flag is specified.
-          if (process.env.NODE_ENV !== 'production' || process.env.FORCE_REDIS_FLUSH) {
-            flushRedis()
-            return
+  // Flush redis when starting the app.
+  // When running in cluster this should only run on the first instance.
+  // Currently only the detection of the first instance of deis.com cluster
+  // is supported.
+  // TODO: Implement detection of the first instance on kubernetes and azure
+  if (options.flushRedis !== false) {
+    const flushRedis = () => {
+      return new Promise(resolve => {
+        redisClient.flushdb((err, didSucceed) => {
+          if (err) {
+            console.error('Redis flushdb err:', err)
+          } else {
+            console.log('Redis flushdb success:', didSucceed)
           }
-          // In production we flush redis db once a day using locking in redis itself.
-          const redlock = new Redlock([redisClient], {
-            driftFactor: 0.01,
-            retryCount: 0
-          })
-          const ONE_DAY = 1000 * 60 * 60 * 24
-          const LOCK_FLUSH_DB_KEY = 'startupjs_service_flushdb'
-          redlock.lock(LOCK_FLUSH_DB_KEY, ONE_DAY)
-            .then(() => {
-              console.log('>>> FLUSHING REDIS DB (this should happen only once a day)')
-              return flushRedis()
-            })
-            .then(() => {
-              // Re-lock right away.
-              console.log('>>> RE-LOCK REDIS DB FLUSH CHECK (for one day)')
-              redlock.lock(LOCK_FLUSH_DB_KEY, ONE_DAY)
-                .catch(err => console.error('Error while re-locking flushdb redis lock!\n' + err))
-            })
-            .catch(err => {
-              if (err instanceof Redlock.LockError) {
-                console.log('>> No need to do Redis Flush DB yet (lock for one day is still present)')
-              } else {
-                console.error('Error while checking flushdb redis lock!\n' + err)
-              }
-            })
+          resolve()
         })
-      }
-
-      let pubsub = redisPubSub({
-        client: redisClient,
-        observer: redisObserver
-      })
-
-      return racer.createBackend({
-        db: shareDbMongo,
-        pubsub: pubsub,
-        extraDbs: options.extraDbs
-      })
-    // redis alternative
-    } else if (process.env.WSBUS_URL && !process.env.NO_WSBUS) {
-      if (!wsbusPubSub) {
-        throw new Error(
-          "Please install the 'sharedb-wsbus-pubsub' package to use it"
-        )
-      }
-      let pubsub = wsbusPubSub(process.env.WSBUS_URL)
-
-      return racer.createBackend({
-        db: shareDbMongo,
-        pubsub: pubsub,
-        extraDbs: options.extraDbs
-      })
-      // For development
-    } else {
-      return racer.createBackend({
-        db: shareDbMongo,
-        extraDbs: options.extraDbs
       })
     }
-  })()
+
+    redisClient.on('connect', () => {
+      // Always flush redis db in development or if a force env flag is specified.
+      if (process.env.NODE_ENV !== 'production' || process.env.FORCE_REDIS_FLUSH) {
+        flushRedis()
+        return
+      }
+      // In production we flush redis db once a day using locking in redis itself.
+      const redlock = new Redlock([redisClient], {
+        driftFactor: 0.01,
+        retryCount: 0
+      })
+      const ONE_DAY = 1000 * 60 * 60 * 24
+      const LOCK_FLUSH_DB_KEY = 'startupjs_service_flushdb'
+      redlock.lock(LOCK_FLUSH_DB_KEY, ONE_DAY)
+        .then(() => {
+          console.log('>>> FLUSHING REDIS DB (this should happen only once a day)')
+          return flushRedis()
+        })
+        .then(() => {
+          // Re-lock right away.
+          console.log('>>> RE-LOCK REDIS DB FLUSH CHECK (for one day)')
+          redlock.lock(LOCK_FLUSH_DB_KEY, ONE_DAY)
+            .catch(err => console.error('Error while re-locking flushdb redis lock!\n' + err))
+        })
+        .catch(err => {
+          if (err instanceof Redlock.LockError) {
+            console.log('>> No need to do Redis Flush DB yet (lock for one day is still present)')
+          } else {
+            console.error('Error while checking flushdb redis lock!\n' + err)
+          }
+        })
+    })
+  }
+
+  const pubsub = redisPubSub({
+    client: redisClient,
+    observer: redisObserver
+  })
+
+  const backend = racer.createBackend({
+    db,
+    pubsub,
+    extraDbs: options.extraDbs
+  })
 
   backend.use('query', pathQueryMongo)
 
@@ -144,9 +111,7 @@ module.exports = async options => {
   // sharedb-hooks
   shareDbHooks(backend)
 
-  if (options.hooks != null) {
-    options.hooks(backend)
-  }
+  if (options.hooks != null) options.hooks(backend)
 
   const ORM = global.STARTUP_JS_ORM || {}
 
@@ -182,7 +147,7 @@ module.exports = async options => {
       const { aggregations } = ORM[path].OrmEntity
       if (!aggregations) continue
 
-      for (let aggregationKey in aggregations) {
+      for (const aggregationKey in aggregations) {
         const collection = path.replace(/\.\*$/u, '')
         backend.addAggregate(
           collection,
@@ -229,10 +194,10 @@ module.exports = async options => {
   }
 
   backend.on('client', (client, reject) => {
-    let req = client.upgradeReq
+    const req = client.upgradeReq
     if (!req) return
 
-    let userId = req.session && req.session.userId
+    const userId = req.session && req.session.userId
 
     if (!global.__clients[userId]) {
       const model = backend.createModel()
@@ -241,7 +206,7 @@ module.exports = async options => {
 
     usersConnectionCounter[userId] = ~~usersConnectionCounter[userId] + 1
 
-    let userAgent = req.headers && req.headers['user-agent']
+    const userAgent = req.headers && req.headers['user-agent']
     if (!options.silentLogs) console.log('[WS OPENED]:', userId, userAgent)
 
     client.once('close', () => {
@@ -256,31 +221,9 @@ module.exports = async options => {
     })
   })
 
-  // ------------------------------------------------------->      backend       <#
-  if (options.ee != null) {
-    // should to deprecate first parameter in future
-    options.ee.emit('backend', backend, {
-      mongo: shareDbMongo.mongo,
-      backend,
-      shareDbMongo,
-      redisClient,
-      redisPrefix
-    })
-  }
+  if (options.ee != null) options.ee.emit('backend', backend)
 
-  return {
-    backend,
-    shareMongo: shareDbMongo, // mock old name of shareDbMongo
-    shareDbMongo, // you can get mongo client from shareDbMongo.mongo
-    redisClient, // you can directly pass this redis client to redlock
-    redisPrefix, // use this for you redis prefixes (and redlock prefixes)
-    // mock old redis-url api. TODO: get rid of this after we refactor other libs to use redisClient directly
-    redis: {
-      connect () {
-        return redis.createClient({ url: process.env.REDIS_URL })
-      }
-    }
-  }
+  return backend
 }
 
 function pathQueryMongo (request, next) {
@@ -289,9 +232,4 @@ function pathQueryMongo (request, next) {
   if (!isArray(query)) query = [query]
   request.query = { _id: { $in: query } }
   next()
-}
-
-function getMingo () {
-  const ShareDBMingo = require('sharedb-mingo-memory')
-  return new ShareDBMingo()
 }

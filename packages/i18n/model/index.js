@@ -1,5 +1,5 @@
-import getTranslationsModel from './getTranslationsModel'
-import BaseTranslationModel from './BaseTranslationModel'
+import getTranslationsModel from './getTranslationsModel.js'
+import BaseTranslationModel from './BaseTranslationModel.js'
 
 export default function (racer, i18nPageAccess) {
   if (typeof i18nPageAccess !== 'function') {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Platform, Text } from 'react-native'
-import { observer, styl } from 'startupjs'
+import { pug, observer, styl } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../../theming/themed'
 
@@ -9,7 +9,7 @@ export default function generateHeader (tag) {
     function Header ({ children, style, bold, italic, full, ...props }) {
       const isWeb = Platform.OS === 'web'
       const role = isWeb
-        ? { accessibilityRole: 'heading', 'aria-level': tag.replace(/^h/, '') }
+        ? { accessibilityRole: 'header', accessibilityLevel: tag.replace(/^h/, '') }
         : {}
 
       return pug`
@@ -44,7 +44,7 @@ styl`
 
   .root
     fontFamily('heading')
-    color: $UI.colors.mainText
+    color var(--color-text)
 
     for tag in _tags
       &.{tag}

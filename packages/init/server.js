@@ -1,1 +1,1 @@
-export { default } from './lib/server'
+export { default } from './lib/server/index.js'

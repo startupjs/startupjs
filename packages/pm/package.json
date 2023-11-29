@@ -1,0 +1,11 @@
+{
+  "name": "@startupjs/pm",
+  "version": "0.55.0",
+  "description": "project management automation and guidelines for github projects",
+  "main": "index.js",
+  "type": "module",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

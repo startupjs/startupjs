@@ -1,7 +1,7 @@
 import passport from 'passport'
 import { TelegramStrategy as Strategy } from 'passport-telegram-official'
-import initRoutes from './initRoutes'
-import Provider from './Provider'
+import initRoutes from './initRoutes.js'
+import Provider from './Provider.js'
 
 export default function (config = {}) {
   this.config = {}

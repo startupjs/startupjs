@@ -2,9 +2,9 @@ import passport from 'passport'
 import Strategy from '@nicokaiser/passport-apple'
 import nconf from 'nconf'
 import fs from 'fs'
-import Provider from './Provider'
-import initRoutes from './initRoutes'
-import { CALLBACK_URL } from '../isomorphic/constants'
+import Provider from './Provider.js'
+import initRoutes from './initRoutes.js'
+import { CALLBACK_URL } from '../isomorphic/constants.js'
 
 function validateConfigs ({ clientId, teamId, keyId, privateKeyLocation }) {
   if (!clientId) {
@@ -48,7 +48,7 @@ export default function (config = {}) {
         keyID: keyId,
         key: fs.readFileSync(privateKeyLocation),
         scope: ['name', 'email'],
-        // TODO: make multitentant
+        // TODO: make multitenant
         callbackURL: (testBaseUrl || nconf.get('BASE_URL')) + CALLBACK_URL,
         passReqToCallback: true
       },

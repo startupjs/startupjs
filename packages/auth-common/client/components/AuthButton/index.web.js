@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image } from 'react-native'
-import { observer, useSession } from 'startupjs'
+import { pug, observer, useSession } from 'startupjs'
 import { Span, Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { BASE_URL } from '@env'

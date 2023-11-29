@@ -1,4 +1,4 @@
-var stylusToCssLoader = require('@startupjs/bundler/lib/stylusToCssLoader.js')
+const stylusToCssLoader = require('@startupjs/bundler/lib/stylusToCssLoader.js')
 const { generateScopedNameFactory } = require('@startupjs/babel-plugin-react-css-modules/utils')
 const { LOCAL_IDENT_NAME } = require('./constants')
 const ASYNC = process.env.ASYNC
@@ -15,9 +15,10 @@ const DIRECTORY_ALIASES = {
   appConstants: './appConstants'
 }
 
-const basePlugins = ({ alias, observerCache } = {}) => [
+const basePlugins = ({ alias, observerCache, signals } = {}) => [
   [require('@startupjs/babel-plugin-startupjs-utils'), {
-    observerCache
+    observerCache,
+    signals
   }],
   [require('babel-plugin-module-resolver'), {
     alias: {
@@ -87,7 +88,10 @@ const nativeReactCssModulesPlugins = ({ platform, useImport } = {}) => [
 
 const CONFIG_NATIVE_DEVELOPMENT = {
   presets: [
-    [require('./metroPresetWithTypescript')]
+    [
+      require('./metroPresetWithTypescript'),
+      { useTransformReactJSXExperimental: true }
+    ]
   ],
   plugins: [
     [require('@startupjs/babel-plugin-startupjs-debug')],
@@ -100,7 +104,10 @@ const CONFIG_NATIVE_DEVELOPMENT = {
 
 const CONFIG_NATIVE_PRODUCTION = {
   presets: [
-    [require('./metroPresetWithTypescript')]
+    [
+      require('./metroPresetWithTypescript'),
+      { useTransformReactJSXExperimental: true }
+    ]
   ],
   plugins: [
     dotenvPlugin({ production: true }),
@@ -128,23 +135,6 @@ const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
     dotenvPlugin({ mockBaseUrl: true }),
     ...nativeReactCssModulesPlugins({ platform: 'web' }),
     i18nPlugin({ collectTranslations: true })
-  ]
-}
-
-const CONFIG_WEB_SNOWPACK = {
-  presets: [
-    [require('./esNextPreset'), { debugJsx: true }]
-    // NOTE: If we start to face unknown errors in development or
-    //       want to sync the whole presets/plugins stack with RN,
-    //       just replace the optimized esNext preset above with the
-    //       regular metro preset below:
-    // [require('./metroPresetWithTypescript')]
-  ],
-  plugins: [
-    require('@startupjs/babel-plugin-startupjs'),
-    require('@startupjs/babel-plugin-import-to-react-lazy'),
-    dotenvPlugin({ mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web' })
   ]
 }
 
@@ -222,16 +212,11 @@ const CONFIG_SERVER = {
 module.exports = (api, options) => {
   api.cache(true)
 
-  const { BABEL_ENV, NODE_ENV, MODE = DEFAULT_MODE, VITE_WEB, SNOWPACK_WEB } = process.env
+  const { BABEL_ENV, NODE_ENV, MODE = DEFAULT_MODE } = process.env
 
   // There is a bug in metro when BABEL_ENV is a string "undefined".
   // We have to workaround it and use NODE_ENV.
-  let env = (BABEL_ENV !== 'undefined' && BABEL_ENV) || NODE_ENV
-  if (VITE_WEB) env = 'web_vite'
-  if (SNOWPACK_WEB) env = 'web_snowpack'
-
-  // Ignore babel config when using Vite
-  if (env === 'web_vite') return {}
+  const env = (BABEL_ENV !== 'undefined' && BABEL_ENV) || NODE_ENV
 
   const { presets = [], plugins = [], ...extra } = getConfig(env, MODE)
 
@@ -249,8 +234,6 @@ function getConfig (env, mode) {
     return CONFIG_NATIVE_PRODUCTION
   } else if (env === 'server') {
     return CONFIG_SERVER
-  } else if (env === 'web_snowpack') {
-    return CONFIG_WEB_SNOWPACK
   } else if (env === 'web_development') {
     if (mode === 'web') {
       return CONFIG_WEB_PURE_DEVELOPMENT

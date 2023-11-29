@@ -1,7 +1,8 @@
-const assert = require('assert')
-const { getDbs } = require('./db.js')
-const ShareDbAccess = require('../lib/index.js')
-const { backend } = getDbs()
+import assert from 'assert'
+import getDbs from './db.js'
+import ShareDbAccess from '../lib/index.js'
+
+const { backend, db } = getDbs()
 const model = backend.createModel()
 const shareDBAccess = new ShareDbAccess(backend)
 
@@ -21,6 +22,10 @@ describe('CREATE', function () {
   beforeEach(function () {
     shareDBAccess.allow.Create.tasksCreate = []
     shareDBAccess.deny.Create.tasksCreate = []
+  })
+
+  after(() => {
+    db.close()
   })
 
   it('deny = false && allow = false', async () => {

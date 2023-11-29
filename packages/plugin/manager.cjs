@@ -9,7 +9,7 @@ const CONFIG_NAME = 'startupjs.config.cjs'
 let cache
 
 // In future we might want to get only configuration for specific environment:
-// 'bundler' | 'client' | 'server' | 'isomorphic'
+// 'bundler' | 'client' | 'isomorphic'
 exports.getPluginConfigs = function () {
   if (cache) return cache
 
@@ -56,7 +56,6 @@ function setModuleConfig (packageName) {
 //
 // Alternative and the simplest solution would be to just have a separate config file for each environment:
 // - startupjs.bundler.config.js
-// - startupjs.server.config.js
 // - startupjs.client.config.js
 // - startupjs.isomorphic.config.js
 // Or to have a whole folder .startupjs with configs

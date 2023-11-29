@@ -1,4 +1,5 @@
 import React from 'react'
+import { pug } from 'startupjs'
 import {
   LoginForm,
   RegisterForm,
@@ -58,19 +59,21 @@ export default initAuthApp({
   },
 
   socialButtons: [
-    <AppleAuthButton key='apple-btn' />,
-    <AzureadAuthButton key='azure-btn' />,
-    <FacebookAuthButton key='fb-btn' />,
-    <GoogleAuthButton key='google-btn' />,
-    <LinkedinAuthButton key='linkedin-btn' />,
-    <CommonAuthButton
-      key='virign-btn'
-      label='Virgin'
-      providerName='virgin'
-      style={{ backgroundColor: '#e1090d' }}
-      imageUrl={BASE_URL + '/img/virgin.png'}
-    />,
-    <IDGAuthButton key='idg-btn' />
+    pug`AppleAuthButton(key='apple-btn')`,
+    pug`AzureadAuthButton(key='azure-btn')`,
+    pug`FacebookAuthButton(key='fb-btn')`,
+    pug`GoogleAuthButton(key='google-btn')`,
+    pug`LinkedinAuthButton(key='linkedin-btn')`,
+    pug`
+      CommonAuthButton(
+        key='virign-btn'
+        style={ backgroundColor: '#e1090d' }
+        imageUrl=BASE_URL + '/img/virgin.png'
+        label='Virgin'
+        providerName='virgin'
+      )
+    `,
+    pug`IDGAuthButton(key='idg-btn')`
   ],
 
   renderForm: function ({

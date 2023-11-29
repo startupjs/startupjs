@@ -1,4 +1,4 @@
-# startupjs routes-middleware
+# startupjs hooks
 > Helper hooks
 
 ## Installation
@@ -19,7 +19,7 @@ react: 16.9 - 17
 import '@startupjs/hooks'
 ```
 
-## Licence
+## License
 
 MIT
 

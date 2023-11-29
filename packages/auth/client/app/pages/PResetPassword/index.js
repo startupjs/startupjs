@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { AuthForm } from '../../../components'
 import { RESET_PASSWORD_SLIDE } from '../../../../isomorphic'

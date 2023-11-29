@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { styl, observer } from 'startupjs'
+import { pug, styl, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 import merge from 'lodash/merge'
@@ -71,6 +71,7 @@ export default function wrapInput (Component, configuration) {
     const _label = pug`
       if label
         Span.label(
+          part='label'
           styleName=[
             layout,
             layout + '-' + labelPosition,
@@ -158,7 +159,7 @@ export default function wrapInput (Component, configuration) {
   InputWrapper.defaultProps = merge(
     {},
     Component.defaultProps,
-    configuration
+    { configuration }
   )
 
   InputWrapper.propTypes = Object.assign({
@@ -186,8 +187,8 @@ export default function wrapInput (Component, configuration) {
 }
 
 styl`
-  $errorColor = $UI.colors.attention
-  $focusedColor = $UI.colors.primary
+  $errorColor = var(--color-text-error)
+  $focusedColor = var(--color-text-primary)
 
   // common
   .label

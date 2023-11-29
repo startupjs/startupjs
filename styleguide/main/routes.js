@@ -15,11 +15,6 @@ export default (components = {}) => [
     component: components.PAnchorsExample
   },
   {
-    path: '/test/:componentName',
-    exact: true,
-    component: components.PTestComponent
-  },
-  {
     path: '/playground1',
     exact: true,
     component: components.PPlayground1
@@ -28,5 +23,10 @@ export default (components = {}) => [
     path: '/playground2',
     exact: true,
     component: components.PPlayground2
+  },
+  {
+    path: '/playgroundSignals',
+    exact: true,
+    component: components.PPlaygroundSignals
   }
 ]

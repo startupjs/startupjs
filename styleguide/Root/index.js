@@ -6,9 +6,9 @@ import React from 'react'
 import { Platform } from 'react-native'
 import init from 'startupjs/init'
 import App from 'startupjs/app'
-import { observer, model } from 'startupjs'
+import { pug, observer, model, $ } from 'startupjs'
 import { registerPlugins } from 'startupjs/plugin'
-import { uiAppPlugin } from '@startupjs/ui'
+import { UiProvider, Palette, Colors } from '@startupjs/ui'
 import { initPushNotifications, notifications } from '@startupjs/push-notifications'
 import {
   BASE_URL,
@@ -41,31 +41,45 @@ if (Platform.OS === 'web') window.model = model
 init({ baseUrl: BASE_URL, orm })
 
 registerPlugins({
-  '@startupjs/app': [
-    [uiAppPlugin, { defaultEnabled: true, defaultOptions: { style: UI_STYLE_OVERRIDES } }]
-  ],
   pluginsPackageModuleExample: [
     [emoticons, { size: 20 }]
   ]
 })
 
+const palette = new Palette()
+const { Color, generateColors } = palette
+
+const THEMES = {
+  dark: generateColors({
+    [Colors.bg]: Color('coolGray', 0),
+    [Colors.text]: Color('coolGray', 9),
+    [Colors.border]: Color('coolGray', 2),
+    [Colors.secondary]: Color('coolGray', 9),
+    [Colors.contrast]: Color('coolGray', 9)
+  })
+}
+
 export default observer(() => {
+  const $theme = $.session.theme
+  const themeMeta = THEMES[$theme.get()] || {}
+
   return pug`
-    App(
-      apps={ auth, docs, main, notifications }
-      criticalVersion={
-        ios: CRITICAL_VERSION_IOS,
-        android: CRITICAL_VERSION_ANDROID,
-        web: CRITICAL_VERSION_WEB
-      }
-      supportEmail=SUPPORT_EMAIL
-      androidUpdateLink=UPDATE_LINK_ANDROID
-      iosUpdateLink=UPDATE_LINK_IOS
-      useGlobalInit=() => {
-        initPushNotifications()
-        return true
-      }
-    )
+    UiProvider(style=UI_STYLE_OVERRIDES ...themeMeta)
+      App(
+        apps={ auth, docs, main, notifications }
+        criticalVersion={
+          ios: CRITICAL_VERSION_IOS,
+          android: CRITICAL_VERSION_ANDROID,
+          web: CRITICAL_VERSION_WEB
+        }
+        supportEmail=SUPPORT_EMAIL
+        androidUpdateLink=UPDATE_LINK_ANDROID
+        iosUpdateLink=UPDATE_LINK_IOS
+        useGlobalInit=() => {
+          initPushNotifications()
+          return true
+        }
+      )
   `
 })
 

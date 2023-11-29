@@ -1,17 +1,19 @@
-const nconf = require('nconf')
-const path = require('path')
-const fs = require('fs')
-const isArray = require('lodash/isArray')
-const each = require('lodash/each')
+import { createRequire } from 'module'
+import nconf from 'nconf'
+import path from 'path'
+import fs from 'fs'
+import isArray from 'lodash/isArray.js'
+import each from 'lodash/each.js'
 
-let app = process.env.APP
-let stage = process.env.STAGE
+const app = process.env.APP
+const stage = process.env.STAGE
+const require = createRequire(import.meta.url)
 
 initNconf(process.env.ROOT_PATH || process.cwd())
 
 function initNconf (dirname) {
-  let addNconfFile = (nconf, filename) => {
-    let filePath = path.join(dirname, 'config', filename + '.json')
+  const addNconfFile = (nconf, filename) => {
+    const filePath = path.join(dirname, 'config', filename + '.json')
     if (fs.existsSync(filePath)) {
       nconf.file(filePath)
       return true
@@ -30,6 +32,7 @@ function initNconf (dirname) {
   else if (app) addNconfFile(nconf, app)
 
   nconf.file('private', dirname + '/config.private.json')
+
   nconf.defaults(require(dirname + '/config.json'))
 
   if (!process.env.NODE_ENV && nconf.get('NODE_ENV')) {

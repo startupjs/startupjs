@@ -14,7 +14,7 @@ yarn add @startupjs/cli
 npx startupjs init myapp --version=next && cd myapp
 ```
 
-## Licence
+## License
 
 MIT
 

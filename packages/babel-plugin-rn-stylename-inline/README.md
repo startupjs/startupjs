@@ -70,6 +70,6 @@ styl`
 `
 ```
 
-## Licence
+## License
 
 MIT

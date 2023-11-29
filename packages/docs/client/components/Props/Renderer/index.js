@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { themed, Row, Div } from '@startupjs/ui'
 import GridVisualizer from './GridVisualizer'
 

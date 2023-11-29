@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Image, StyleSheet } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import { pug, observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import randomcolor from 'randomcolor'
 import Div from './../Div'

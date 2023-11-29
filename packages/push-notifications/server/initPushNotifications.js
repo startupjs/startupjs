@@ -1,7 +1,7 @@
 import express from 'express'
 import * as fadmin from 'firebase-admin'
-import { setBackend } from './helpers/singletonBackend'
-import initDefaultRoutes from './initDefaultRoutes'
+import { setBackend } from './helpers/singletonBackend.js'
+import initDefaultRoutes from './initDefaultRoutes.js'
 
 const router = express.Router()
 

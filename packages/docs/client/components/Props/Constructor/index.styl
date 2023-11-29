@@ -1,15 +1,10 @@
-$input = lighten($UI.colors.dark, 75%)
-$thead = $UI.colors.darkLight
-$header = $UI.colors.secondaryText
-$darkHeader = $UI.colors.whiteLight
-$value = $UI.colors.success
-$type = $UI.colors.additional1
-
-.input
-  background-color white
-  border-color $input
-  border-width 1px
-  padding 0 0.5u
+$input = var(--color-border)
+$header = var(--color-text-description)
+$darkHeader = var(--color-text-on-contrast)
+$value = var(--color-text-success)
+$type = var(--color-text-info)
+$valueDark = var(--color-text-success-strong)
+$typeDark = var(--color-text-info-strong)
 
 .header
   font-size 12px
@@ -34,19 +29,19 @@ $type = $UI.colors.additional1
   &.header
     color $darkHeader
   &.value
-    color lighten($value, 30%)
+    color $valueDark
   &.type
-    color lighten($type, 30%)
+    color $typeDark
 
 .checkbox
   align-self flex-end
 
 .unsupported
-  color $UI.colors.secondaryText
+  color var(--color-text-description)
   text-align right
 
 .separator
-  color $UI.colors.darkLighter
+  color var(--color-text-placeholder)
 
 .vCenter
   justify-content center
@@ -56,4 +51,4 @@ $type = $UI.colors.additional1
   align-self flex-start
 
 .badJSON
-  color: $UI.colors.error
+  color var(--color-text-error)

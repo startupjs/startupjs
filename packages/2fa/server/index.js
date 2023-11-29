@@ -1,1 +1,1 @@
-export { default as init2fa } from './init2fa'
+export { default as init2fa } from './init2fa.js'

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   schemas: {
     categories: {
       type: 'object',
@@ -92,7 +92,7 @@ module.exports = {
   validators: {
     notVasya: {
       sync: function (value, context) {
-        let name = 'Vasya'
+        const name = 'Vasya'
         if (Array.isArray(value) && value.some(v => v === name)) {
           return Error('Can not be ' + name)
         } else if (value === name) return Error('Can not be ' + name)
@@ -107,15 +107,15 @@ module.exports = {
     },
     join: {
       async: function (context, done) {
-        let id = Array.isArray(context.value) ? context.value.pop() : context.value
+        const id = Array.isArray(context.value) ? context.value.pop() : context.value
 
         if (!id) return done()
 
-        let collection = context.collection
+        const collection = context.collection
 
-        let model = this.backend.createModel()
+        const model = this.backend.createModel()
 
-        let $entity = model.at(collection + '.' + id)
+        const $entity = model.at(collection + '.' + id)
 
         model.fetch($entity, function (err) {
           if (err) return done(err)
@@ -131,11 +131,11 @@ module.exports = {
       async: function (context, done) {
         const id = Object.keys(context.value)
 
-        let collection = context.collection
+        const collection = context.collection
 
-        let model = this.backend.createModel()
+        const model = this.backend.createModel()
 
-        let $entity = model.at(collection + '.' + id)
+        const $entity = model.at(collection + '.' + id)
 
         model.fetch($entity, function (err) {
           if (err) return done(err)

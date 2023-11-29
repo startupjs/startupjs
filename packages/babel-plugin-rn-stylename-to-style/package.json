@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-rn-stylename-to-style",
-  "version": "0.49.0",
+  "version": "0.55.0",
   "publishConfig": {
     "access": "public"
   },
@@ -27,12 +27,12 @@
     "@babel/template": "^7.4.0",
     "@babel/types": "^7.0.0",
     "@nx-js/observer-util": "^4.1.3",
-    "@startupjs/cache": "^0.49.0",
+    "@startupjs/cache": "^0.55.0",
     "react-native-dynamic-style-processor": "^0.21.0"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.0.0",
-    "@startupjs/css-to-react-native-transform": "^1.9.0-1",
+    "@startupjs/css-to-react-native-transform": "^1.9.0-2",
     "babel-plugin-tester": "^9.1.0",
     "babel-plugin-transform-react-pug": "^7.0.1",
     "jest": "^26.0.1",

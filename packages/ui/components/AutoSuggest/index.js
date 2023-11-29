@@ -2,10 +2,9 @@ import React, { useState, useRef, useEffect, useMemo } from 'react'
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
-  FlatList
+  View
 } from 'react-native'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'
@@ -14,6 +13,7 @@ import TextInput from '../forms/TextInput'
 import Menu from '../Menu'
 import AbstractPopover from '../AbstractPopover'
 import Loader from '../Loader'
+import FlatList from '../FlatList'
 import useKeyboard from './useKeyboard'
 import themed from '../../theming/themed'
 import './index.styl'
@@ -147,6 +147,7 @@ function AutoSuggest ({
       inputStyle=inputStyle
       icon=value && !disabled ? faTimes : undefined
       iconPosition='right'
+      iconStyle=iconStyle
       value=inputValue
       placeholder=placeholder
       disabled=disabled

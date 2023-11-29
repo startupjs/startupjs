@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import propTypes from 'prop-types'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import Row from '../../../../Row'

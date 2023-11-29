@@ -1,7 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Alert } from '@startupjs/ui'
+import PropTypes from 'prop-types'
 
 function RequestConfirmationSlide ({ message }) {
   return pug`

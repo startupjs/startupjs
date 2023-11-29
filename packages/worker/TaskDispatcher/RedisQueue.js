@@ -7,7 +7,7 @@ export default class RedisQueue {
     this.dispatcherNum = dispatcherNum
     this.backend = dbs.backend
     this.redlock = dbs.redlock
-    this.redis = dbs.redisClient
+    this.redis = dbs.redis
     this.runTask = runTask
   }
 
@@ -35,7 +35,8 @@ export default class RedisQueue {
       await delay(0)
       const taskLockKey = 'tasks:regular:' + taskId
       try {
-        const timeout = Number(env.WORKER_TASK_DEFAULT_TIMEOUT) + Number(env.WORKER_MONGO_QUERY_TIMEOUT)
+        const taskTimeout = options.timeout || env.WORKER_TASK_DEFAULT_TIMEOUT
+        const timeout = Number(taskTimeout) + Number(env.WORKER_MONGO_QUERY_TIMEOUT)
         locks.taskLock = await this.redlock.lock(taskLockKey, timeout)
       } catch (err) {
         throw new Error('task skip')
@@ -45,7 +46,8 @@ export default class RedisQueue {
     const singletonLockHandler = async () => {
       if (!options.singleton) return
       await delay(0)
-      const timeout = Number(env.WORKER_TASK_DEFAULT_TIMEOUT)
+      const taskTimeout = options.timeout || env.WORKER_TASK_DEFAULT_TIMEOUT
+      const timeout = Number(taskTimeout)
       const taskSingletonLockKey = 'tasks:singleton:' + task.uniqId
       try {
         locks.singletonLock = await this.redlock.lock(taskSingletonLockKey, timeout)
@@ -109,7 +111,7 @@ export default class RedisQueue {
   }
 
   async handleTasks (tasks) {
-    let label = env.WORKER_TASK_LABEL
+    const label = env.WORKER_TASK_LABEL
 
     if (label) {
       const labels = label.split(',')
@@ -122,7 +124,7 @@ export default class RedisQueue {
       })
     }
 
-    for (let task of tasks) {
+    for (const task of tasks) {
       await this.handleTask(task)
       await delay(0)
     }

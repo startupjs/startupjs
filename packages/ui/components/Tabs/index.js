@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react'
 import { TabView } from 'react-native-tab-view'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue } from 'startupjs'
 import { Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import findIndex from 'lodash/findIndex'

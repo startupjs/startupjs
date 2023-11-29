@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { Platform } from 'react-native'
-import { observer, useValue, useError, useSession } from 'startupjs'
+import { pug, observer, useValue, useError, useSession } from 'startupjs'
 import { Alert, Br, Row, Div, Span, Button, ObjectInput } from '@startupjs/ui'
 import { clientFinishAuth, CookieManager } from '@startupjs/auth'
 import {
@@ -109,8 +109,9 @@ function RegisterForm ({
     const formClone = { ...form }
     if (recaptchaEnabled) formClone.recaptcha = recaptcha
     if (formClone.name) {
-      formClone.firstName = form.name.split(' ').shift()
-      formClone.lastName = form.name.split(' ').slice(1).join(' ')
+      const [firstName, ...rest] = formClone.name.trim().split(' ')
+      formClone.firstName = firstName
+      formClone.lastName = rest.filter(Boolean).join(' ')
       delete formClone.name
     }
 

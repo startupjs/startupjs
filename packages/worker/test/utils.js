@@ -26,7 +26,7 @@ export default class DispatcherRunner {
   }
 
   async stop () {
-    for (let runner of this.runners) {
+    for (const runner of this.runners) {
       await runner.stop()
       console.log('Dispatcher', runner._num, 'is stopped')
     }
@@ -52,7 +52,7 @@ export default class DispatcherRunner {
       options
     }
 
-    await this.model.addAsync('tasks', task)
+    await this.model.add('tasks', task)
     return id
   }
 
@@ -128,22 +128,20 @@ export default class DispatcherRunner {
 
   dropMongoDatabase () {
     return new Promise((resolve, reject) => {
-      const { shareMongo } = this.dbs
-      shareMongo.getDbs((_err, mongo) => {
-        mongo.dropDatabase((err) => {
-          // eslint-disable-next-line prefer-promise-reject-errors
-          if (err) return reject()
-          console.log('Drop mongo db')
-          resolve()
-        })
+      const { mongo } = this.dbs
+      mongo.dropDatabase((err) => {
+        // eslint-disable-next-line prefer-promise-reject-errors
+        if (err) return reject()
+        console.log('Drop mongo db')
+        resolve()
       })
     })
   }
 
   dropRedisDatabase () {
     return new Promise((resolve, reject) => {
-      const { redisClient } = this.dbs
-      redisClient.flushdb((err) => {
+      const { redis } = this.dbs
+      redis.flushdb((err) => {
         // eslint-disable-next-line prefer-promise-reject-errors
         if (err) return reject()
         console.log('Drop redis db')

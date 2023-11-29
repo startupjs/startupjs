@@ -10,16 +10,16 @@
 
 # Kaniko binaries are used to build the image
 # ref: https://stackoverflow.com/a/69251129
-FROM gcr.io/kaniko-project/executor:v1.7.0 AS kaniko
+FROM gcr.io/kaniko-project/executor:v1.9.2 AS kaniko
 
 # Azure CLI is the main binary so it makes sense to just use as the base image
-FROM mcr.microsoft.com/azure-cli
+FROM mcr.microsoft.com/azure-cli:2.48.1
 
 # Add kaniko to this image by re-using binaries and steps from official image
 COPY --from=kaniko /kaniko/executor /kaniko/executor
 COPY --from=kaniko /kaniko/docker-credential-gcr /kaniko/docker-credential-gcr
 COPY --from=kaniko /kaniko/docker-credential-ecr-login /kaniko/docker-credential-ecr-login
-COPY --from=kaniko /kaniko/docker-credential-acr /kaniko/docker-credential-acr
+COPY --from=kaniko /kaniko/docker-credential-acr-env /kaniko/docker-credential-acr-env
 COPY --from=kaniko /etc/nsswitch.conf /etc/nsswitch.conf
 COPY --from=kaniko /kaniko/.docker /kaniko/.docker
 ENV PATH $PATH:/kaniko:/root/.krew/bin

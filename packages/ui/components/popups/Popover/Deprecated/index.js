@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ScrollView
 } from 'react-native'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Arrow from './Arrow'
 import Portal from '../../../Portal'
@@ -228,15 +228,15 @@ function Popover ({
     style,
     isStampInit(step)
       ? {
-        position: 'absolute',
-        opacity: animateStates.opacity,
-        transform: [
-          { scaleX: animateStates.scaleX },
-          { scaleY: animateStates.scaleY },
-          { translateX: animateStates.translateX },
-          { translateY: animateStates.translateY }
-        ]
-      }
+          position: 'absolute',
+          opacity: animateStates.opacity,
+          transform: [
+            { scaleX: animateStates.scaleX },
+            { scaleY: animateStates.scaleY },
+            { translateX: animateStates.translateX },
+            { translateY: animateStates.translateY }
+          ]
+        }
       : STYLES.popoverStamp
   ])
 

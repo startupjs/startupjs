@@ -1,6 +1,7 @@
 import React from 'react'
 import { ScrollView, View, StyleSheet } from 'react-native'
 import {
+  pug,
   observer,
   useComponentId,
   useLocal,
@@ -9,9 +10,8 @@ import {
 import PropTypes from 'prop-types'
 import Div from '../Div'
 import themed from '../../theming/themed'
-import STYLES from './index.styl'
-
-const { colors } = STYLES
+import useColors from '../../hooks/useColors'
+import './index.styl'
 
 function Sidebar ({
   style = [],
@@ -29,14 +29,17 @@ function Sidebar ({
   if (path) {
     console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
   }
+  const getColor = useColors()
 
   const componentId = useComponentId()
+
   if (!$open) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     [, $open] = useLocal(path || `_session.Sidebar.${componentId}`)
   }
 
   let backgroundColor
-  ;({ backgroundColor = colors.white, ...style } = StyleSheet.flatten(style))
+  ;({ backgroundColor = getColor('bg-strong'), ...style } = StyleSheet.flatten(style))
 
   let open
   let onChange

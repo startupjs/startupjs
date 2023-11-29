@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Animated, Easing } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import { pug, observer, useDidUpdate } from 'startupjs'
 import Div from './../../Div'
 import themed from '../../../theming/themed'
 import './index.styl'

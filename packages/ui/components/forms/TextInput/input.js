@@ -5,16 +5,17 @@ import React, {
   useRef,
   useImperativeHandle
 } from 'react'
-import { StyleSheet, TextInput, Platform } from 'react-native'
-import { observer, useDidUpdate } from 'startupjs'
+import { TextInput, Platform } from 'react-native'
+import { pug, observer, useDidUpdate } from 'startupjs'
 import Div from './../../Div'
 import Icon from './../../Icon'
 import themed from '../../../theming/themed'
+import { useColors } from '../../../hooks'
 import STYLES from './index.styl'
 
 const {
   config: {
-    caretColor, heights, lineHeights, borderWidth, placeholderTextColor
+    caretColor, heights, lineHeights, borderWidth
   }
 } = STYLES
 
@@ -29,9 +30,6 @@ const ICON_SIZES = {
 
 function TextInputInput ({
   style,
-  inputStyle,
-  iconStyle,
-  secondaryIconStyle,
   placeholder,
   value,
   size,
@@ -54,6 +52,8 @@ function TextInputInput ({
   const inputRef = useRef()
 
   useImperativeHandle(ref, () => inputRef.current, [])
+
+  const getColor = useColors()
 
   function handleFocus (...args) {
     onFocus && onFocus(...args)
@@ -83,13 +83,19 @@ function TextInputInput ({
     // repeat mobile behaviour on the web
     // TODO
     // test mobile device behaviour
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useLayoutEffect(() => {
-      if (focused && disabled) inputRef.current.blur()
+      if (focused && disabled) {
+        inputRef.current.blur()
+        setFocused(false)
+      }
     }, [disabled])
     // fix minWidth on web
     // ref: https://stackoverflow.com/a/29990524/1930491
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useLayoutEffect(() => {
-      inputRef.current.setNativeProps({ size: '1' })
+      inputRef.current?.setNativeProps({ size: '1' })
     }, [])
   }
 
@@ -120,12 +126,6 @@ function TextInputInput ({
     }
   }
 
-  inputStyle = StyleSheet.flatten([{
-    paddingTop: verticalGutter,
-    paddingBottom: verticalGutter,
-    lineHeight: lH
-  }, inputStyle])
-
   const inputExtraProps = {}
   if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
 
@@ -144,12 +144,17 @@ function TextInputInput ({
     style: [{ height: fullHeight }, style]
   }, pug`
     TextInput.input-input(
+      part='input'
       ref=inputRef
-      style=inputStyle
-      styleName=[inputStyleName]
-      selectionColor=caretColor
+      style=[{
+        paddingTop: verticalGutter,
+        paddingBottom: verticalGutter,
+        lineHeight: lH
+      }]
+      styleName=inputStyleName
+      selectionColor=getColor(caretColor, { addPrefix: false })
       placeholder=placeholder
-      placeholderTextColor=placeholderTextColor
+      placeholderTextColor=getColor('text-placeholder')
       value=value
       disabled=IS_WEB ? disabled : undefined
       editable=IS_WEB ? undefined : !disabled
@@ -162,28 +167,28 @@ function TextInputInput ({
     )
     if icon
       Div.input-icon(
-        accessible=false
+        focusable=false
         onLayout=onLayoutIcon
         styleName=[size, iconPosition]
         onPress=onIconPress
         pointerEvents=onIconPress ? undefined : 'none'
       )
         Icon(
+          part='icon'
           icon=icon
-          style=iconStyle
           size=ICON_SIZES[size]
         )
     if secondaryIcon
       Div.input-icon(
-        accessible=false
+        focusable=false
         onLayout=onLayoutIcon
         styleName=[size, getOppositePosition(iconPosition)]
         onPress=onSecondaryIconPress
         pointerEvents=onSecondaryIconPress ? undefined : 'none'
       )
         Icon(
+          part='secondaryIcon'
           icon=secondaryIcon
-          style=secondaryIconStyle
           size=ICON_SIZES[size]
         )
   `)

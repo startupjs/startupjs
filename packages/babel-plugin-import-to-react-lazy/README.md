@@ -16,6 +16,6 @@ import { lazy } from 'react'
 export const PHome = lazy(() => import('./PHome'))
 ```
 
-## Licence
+## License
 
 MIT

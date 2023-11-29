@@ -1,6 +1,6 @@
 /* eslint-disable no-unreachable */
 import React from 'react'
-import { $root, observer, styl } from 'startupjs'
+import { pug, $root, observer, styl } from 'startupjs'
 import { Layout as UILayout, Button, Row } from '@startupjs/ui'
 // import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import Sidebar from './Sidebar'
@@ -57,7 +57,8 @@ export default observer(function Layout ({ children }) {
   styl`
     .header
       padding 1u 2u
-      border-bottom: 1px solid $UI.colors.darkLighter
+      border-bottom-width 1px
+      border-bottom-color var(--color-text-placeholder)
     // .menu
     //   margin-left 1u
   `

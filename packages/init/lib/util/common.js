@@ -1,8 +1,8 @@
+import ormPlugin from '@startupjs/orm'
 import richText from 'rich-text'
 import Racer from 'racer'
-import RacerRemoteDoc from 'racer/lib/Model/RemoteDoc'
-import batch from './batch'
-import ormPlugin from '@startupjs/orm'
+import RacerRemoteDoc from 'racer/lib/Model/RemoteDoc.js'
+import batch from './batch.js'
 
 export default (ShareDB, { orm } = {}) => {
   // Register rich-text type in ShareDB

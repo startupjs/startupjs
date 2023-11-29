@@ -1,6 +1,6 @@
 import React, { useMemo, memo } from 'react'
-import { ScrollView } from 'react-native'
-import { Span, Div } from '@startupjs/ui'
+import { pug } from 'startupjs'
+import { Div, Span, ScrollView } from '@startupjs/ui'
 import refractor from 'refractor/core.js'
 // Supported languages
 import languageJsx from 'refractor/lang/jsx.js'

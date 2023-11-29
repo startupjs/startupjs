@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { observer, useQuery, useValue } from 'startupjs'
+import { pug, observer, useQuery, useValue } from 'startupjs'
 import {
   Row,
   Span,

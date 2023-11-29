@@ -1,5 +1,9 @@
 import React, { useMemo, memo } from 'react'
-import { MDXProvider as InternalMDXProvider } from '@mdx-js/react'
+import { pug } from 'startupjs'
+import {
+  MDXProvider as InternalMDXProvider,
+  useMDXComponents
+} from '@mdx-js/react'
 import mdxComponents from '../mdxComponents'
 
 export default memo(function MDXProvider ({
@@ -12,6 +16,7 @@ export default memo(function MDXProvider ({
       ...components
     }
   }, [])
+
   return pug`
     InternalMDXProvider(
       ...props
@@ -19,3 +24,5 @@ export default memo(function MDXProvider ({
     )
   `
 })
+
+export { useMDXComponents }

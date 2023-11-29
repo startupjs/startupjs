@@ -1,20 +1,19 @@
 {
   "name": "@startupjs/2fa-totp-authentication",
-  "version": "0.49.0",
+  "version": "0.55.0",
   "type": "module",
   "description": "Two factor authentication module for Google Authenticator",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "qrcode": "^1.4.4",
     "speakeasy": "^2.0.0"
   },
   "peerDependencies": {
-    "@startupjs/ui": ">= 0.33.0",
-    "startupjs": ">= 0.33.0"
+    "@startupjs/ui": "*",
+    "startupjs": "*"
   }
 }

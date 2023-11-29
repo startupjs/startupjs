@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { StyleSheet } from 'react-native'
-import { observer, $root, useValue } from 'startupjs'
+import { pug, observer, $root, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons'
 import {
@@ -13,6 +13,7 @@ import {
   Input,
   Div
 } from '../../..'
+import { useColors } from '../../../hooks'
 import { getOptionValue, getOptionLabel, stringifyValue, move } from './helpers'
 import STYLES from './index.styl'
 
@@ -43,6 +44,8 @@ const RankInput = observer(function ({
   const [width, $width] = useValue()
   const dropId = useMemo(() => $root.id(), [])
 
+  const getColor = useColors()
+
   const selectOptions = useMemo(() => {
     return value.map((o, i) => ({ label: i + 1, value: i }))
   }, [])
@@ -63,8 +66,12 @@ const RankInput = observer(function ({
 
     // HACK: Draggable component has some visual bugs if styles are not passed
     // through style object
-    const extraStyle = disabled ? STYLES['draggable-disabled'] : STYLES.cursor
-    const style = [STYLES.draggable, { width }, extraStyle]
+    const extraStyle = disabled ? { backgroundColor: getColor('bg-contrast-transparent') } : STYLES.cursor
+    const style = [
+      { ...STYLES.draggable, backgroundColor: getColor('bg-strong'), borderColor: getColor('border') },
+      { width },
+      extraStyle
+    ]
 
     const Container = disabled
       ? Div
@@ -111,7 +118,7 @@ const RankReadonly = observer(function ({ value, style }) {
   return pug`
     Div(style=style)
       each option, index in value
-        Row.readonly
+        Row.readonly(key=index)
           Div.readonly-index
             Span #{index + 1}.&nbsp;
           Div.readonly-text

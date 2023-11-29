@@ -1,34 +1,44 @@
-import { loginLock } from '@startupjs/auth/server'
+import { loginLock } from '@startupjs/auth/server/index.js'
+import Provider from '../Provider.js'
 
-const ALLOWED_FAILED_LOGIN_ATTEMPTS = 10
+const ALLOWED_FAILED_LOGIN_ATTEMPTS = 5
+const LIFETIME_FAILED_LOGIN_ATTEMPTS = 1 * 60 * 1000
 
-export default async function setLoginAttempts (req, res, next) {
-  const { model, body } = req
+export default function setLoginAttempts (config) {
+  return async function (req, res, next) {
+    const { model, body } = req
+    const provider = new Provider(model, { email: body.email }, config)
+    const auth = await provider.loadAuthData()
 
-  const $auths = model.query('auths', {
-    $or: [
-      { 'providers.local.email': body.email },
-      // Generally we don't need an provider id to perform auth
-      // auth proces depends on provider.email field only
-      // but earlier implementation of auth lib used provideer.id in local strategy
-      // Those lines is added only for backward compabilities reasons
-      { 'providers.local.id': body.email }
-    ]
-  })
-  await $auths.subscribe()
-  const authDoc = $auths.get()[0]
+    if (auth) {
+      const authId = auth.id
+      const now = Date.now()
+      const $auth = model.scope(`auths.${authId}`)
 
-  if (authDoc) {
-    const $auth = model.scope(`auths.${authDoc.id}`)
-    const failedLoginAttempts = $auth.get('providers.local.failedLoginAttempts') || 0
+      await $auth.subscribe()
 
-    if (failedLoginAttempts > ALLOWED_FAILED_LOGIN_ATTEMPTS) {
-      await $auth.del('providers.local.failedLoginAttempts')
-      return loginLock(authDoc.id, req, res)
-    } else {
-      await $auth.set('providers.local.failedLoginAttempts', failedLoginAttempts + 1)
+      const failedLoginTimestamp = $auth.get('providers.local.failedLoginTimestamp')
+
+      // strange behaviour to prevent brute-force attacks
+      // because login tries counts before login call
+      if (
+        failedLoginTimestamp &&
+        failedLoginTimestamp + LIFETIME_FAILED_LOGIN_ATTEMPTS > now
+      ) {
+        await $auth.increment('providers.local.failedLoginAttempts')
+      } else {
+        await $auth.set('providers.local.failedLoginAttempts', 1)
+      }
+
+      await $auth.set('providers.local.failedLoginTimestamp', now)
+
+      if ($auth.get('providers.local.failedLoginAttempts') >= ALLOWED_FAILED_LOGIN_ATTEMPTS) {
+        await $auth.del('providers.local.failedLoginAttempts')
+        await $auth.del('providers.local.failedLoginTimestamp')
+        return loginLock(authId, req, res)
+      }
     }
-  }
 
-  next()
+    next()
+  }
 }

@@ -1,12 +1,11 @@
 import React from 'react'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue, $ } from 'startupjs'
 import { Br, Input, Button, Modal } from '@startupjs/ui'
 import { faSlidersH } from '@fortawesome/free-solid-svg-icons'
 import {
   useShowGrid,
-  useShowSizes,
-  // useValidateWidth,
-  useDarkTheme
+  useShowSizes
+  // useValidateWidth
 } from '../../../../../clientHelpers'
 import './index.styl'
 
@@ -19,13 +18,22 @@ export default observer(function Options ({
   //       initially. While $showSizes.get() works fine for some reason.
   const [, $showSizes] = useShowSizes()
   // const [, $validateWidth] = useValidateWidth()
-  const [, $darkTheme] = useDarkTheme()
+  const $theme = $.session.theme
+  const theme = $theme.get() || 'light'
+
+  function toggleTheme () {
+    if (theme === 'light') {
+      $theme.set('dark')
+    } else {
+      $theme.set('light')
+    }
+  }
 
   return pug`
     Button(
       style=style
       icon=faSlidersH
-      color='darkLight'
+      color='text-description'
       variant='text'
       onPress=() => $open.set(true)
     )
@@ -33,12 +41,12 @@ export default observer(function Options ({
       title='Settings'
       $visible=$open
     )
-      Input.input(type='checkbox' label='Dark theme' $value=$darkTheme)
+      Input.input(type='checkbox' label='Dark theme' value=theme === 'dark' onChange=toggleTheme)
       if $showSizes.get()
         //- TODO: Maybe bring width check back in future
         // Input.input(type='checkbox' label='Validate width' $value=$validateWidth)
         Input.input(type='checkbox' label='Show grid' $value=$showGrid)
       Input.input(type='checkbox' label='Show sizes' $value=$showSizes)
-      Br(half)
+      Br
   `
 })
