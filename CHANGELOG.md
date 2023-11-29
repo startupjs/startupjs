@@ -1,3 +1,93 @@
+# [0.55.0](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.25...v0.55.0) (2023-11-29)
+
+
+### Features
+
+* add singletone for mongo and redis ([#1111](https://github.com/startupjs/startupjs/issues/1111)) ([a419e46](https://github.com/startupjs/startupjs/commit/a419e46a502afb4ad759dc9d42ce418f3b1ed586))
+
+
+
+# [0.55.0-alpha.25](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.24...v0.55.0-alpha.25) (2023-11-24)
+
+
+### Bug Fixes
+
+* **server:** accept correct arguments in gracefulShutdown fn ([#1106](https://github.com/startupjs/startupjs/issues/1106)) ([701a88f](https://github.com/startupjs/startupjs/commit/701a88f11ed6c0747e05085fc96af8505071933b))
+
+
+
+# [0.55.0-alpha.24](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.23...v0.55.0-alpha.24) (2023-11-23)
+
+
+### Bug Fixes
+
+* **cli:** fix metro preset ([c0633a2](https://github.com/startupjs/startupjs/commit/c0633a2d952a101cb9cfb765a5aa74717bc99190))
+
+
+
+# [0.55.0-alpha.23](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.22...v0.55.0-alpha.23) (2023-11-22)
+
+
+### Bug Fixes
+
+* **babel-preset-startupjs:** add useTransformReactJSXExperimental flag to metro preset ([78fb3e0](https://github.com/startupjs/startupjs/commit/78fb3e0f44ed748499ff0accaaea4aa1782ea8b7))
+* **CssVariables:** move contents to a different folder ([be3ee4f](https://github.com/startupjs/startupjs/commit/be3ee4f22c9d819984620f9d34bce5669812a011))
+* **Palette:** use default export ([d877c24](https://github.com/startupjs/startupjs/commit/d877c24fcbfb2e64baeccb53f65795ef035b7a54))
+* typos ([5d39fee](https://github.com/startupjs/startupjs/commit/5d39feec951a3fdffc539d34cc22cdca242476d0))
+
+
+
+# [0.55.0-alpha.22](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.21...v0.55.0-alpha.22) (2023-11-22)
+
+
+
+# [0.55.0-alpha.21](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.20...v0.55.0-alpha.21) (2023-11-22)
+
+
+
+# [0.55.0-alpha.20](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.19...v0.55.0-alpha.20) (2023-11-22)
+
+
+### Bug Fixes
+
+* **cli:** add 'experimental-detect-module' flag for node ([615fee1](https://github.com/startupjs/startupjs/commit/615fee1fa6a63728c1240fc7100cc8b4a096d53e))
+
+
+
+# [0.55.0-alpha.19](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.18...v0.55.0-alpha.19) (2023-11-20)
+
+
+
+# [0.55.0-alpha.18](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.17...v0.55.0-alpha.18) (2023-11-20)
+
+
+
+# [0.55.0-alpha.17](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.16...v0.55.0-alpha.17) (2023-11-20)
+
+
+
+# [0.55.0-alpha.16](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.15...v0.55.0-alpha.16) (2023-11-20)
+
+
+
+# [0.55.0-alpha.15](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.14...v0.55.0-alpha.15) (2023-11-20)
+
+
+### Bug Fixes
+
+* **cli:** typo ([33d1c30](https://github.com/startupjs/startupjs/commit/33d1c301a0124f7503729fec3e227f8b371a09ba))
+
+
+
+# [0.55.0-alpha.14](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.13...v0.55.0-alpha.14) (2023-11-20)
+
+
+### Bug Fixes
+
+* **cli:** remove react-native-asset that was used for fonts ([cb5e3fd](https://github.com/startupjs/startupjs/commit/cb5e3fd3db9c0d026e4b71c78be4051332a5368a))
+
+
+
 # [0.55.0-alpha.13](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.12...v0.55.0-alpha.13) (2023-11-20)
 
 

@@ -2,7 +2,7 @@ import { TheColor } from './TheColor'
 import { getPaletteMeta, fillColorsObject } from './helpers'
 import defaultPalette from './palette.json'
 
-export class Palette {
+export default class Palette {
   constructor (palette = defaultPalette) {
     this.colors = palette
 

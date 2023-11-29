@@ -3,12 +3,12 @@ import { pug, observer } from 'startupjs'
 import { setDefaultVariables } from '@startupjs/babel-plugin-rn-stylename-to-style/variables'
 import { ToastProvider } from './components/toast'
 import { DialogsProvider } from './components/dialogs'
-import CssVariables from './components/CssVariables'
-import defaultPalette from './components/CssVariables/defaultPalette'
-import { transformOverrides } from './components/CssVariables/helpers'
 import Portal from './components/Portal'
+import CssVariables from './theming/CssVariables'
+import defaultPalette from './theming/defaultPalette'
+import { transformOverrides } from './theming/helpers'
+import defaultVariables from './theming/defaultUiVariables'
 import StyleContext from './StyleContext'
-import defaultVariables from './components/CssVariables/defaultUiVariables'
 
 // set default css variables as early as possible
 setDefaultVariables(defaultVariables)

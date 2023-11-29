@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { pug, observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../theming/themed'
+import Colors from '../../theming/Colors'
 import { useColors } from '../../hooks'
-import Colors from '../CssVariables/Colors'
 
 const SIZES = {
   xs: u(1),

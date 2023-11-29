@@ -1,10 +1,10 @@
-import fs from 'fs'
-import path from 'path'
+const fs = require('fs')
+const fsPath = require('path')
 
-const SCREENSHOTS_PATH = path.join(process.cwd(), 'test_failed_screenshots')
+const SCREENSHOTS_PATH = fsPath.join(process.cwd(), 'test_failed_screenshots')
 
 /* global browser */
-export const config = {
+exports.config = {
   //
   // ====================
   // Runner Configuration

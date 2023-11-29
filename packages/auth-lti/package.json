@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-lti",
-  "version": "0.55.0-alpha.12",
+  "version": "0.55.0",
   "type": "module",
   "description": "LTI auth plugin for StartupJS auth module",
   "publishConfig": {

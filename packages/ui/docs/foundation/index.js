@@ -3,6 +3,7 @@ import { faLandmark } from '@fortawesome/free-solid-svg-icons'
 import BorderRadius from './borderRadius.mdx'
 import CollectionTypesRu from './collectionTypes.ru.mdx'
 import Colors from './colors.mdx'
+import ColorCustomization from './colorCustomization.mdx'
 import EditingRu from './editing.ru.mdx'
 import ExportCSStoJSEn from './exportCSStoJS.en.mdx'
 import ExportCSStoJSRu from './exportCSStoJS.ru.mdx'
@@ -47,6 +48,14 @@ export default {
         ru: 'Цвета'
       },
       component: Colors
+    },
+    colorCustomization: {
+      type: 'mdx',
+      title: {
+        en: 'Colors customization',
+        ru: 'Кастомизация цветов'
+      },
+      component: ColorCustomization
     },
     editing: {
       type: 'mdx',
