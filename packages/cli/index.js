@@ -148,6 +148,10 @@ SCRIPTS_ORIG.postinstall = () => oneLine(`
   ${SCRIPTS_ORIG.patchPackage()}
 `)
 
+SCRIPTS_ORIG.testE2E = ({ inspect } = {}) => oneLine(`
+  npx playwright test
+`)
+
 const SCRIPTS = {
   start: 'startupjs start',
   metro: 'react-native start --reset-cache',
@@ -162,7 +166,8 @@ const SCRIPTS = {
   ios: 'react-native run-ios',
   'ios-release': 'react-native run-ios --configuration Release',
   build: 'startupjs build --async',
-  'start-production': 'startupjs start-production'
+  'start-production': 'startupjs start-production',
+  'test-e2e': 'startupjs test-e2e'
 }
 
 const DEFAULT_TEMPLATE = 'ui'
@@ -352,6 +357,16 @@ commander
   .action(async (options) => {
     await execa.command(
       SCRIPTS_ORIG.start(options),
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
+commander
+  .command('test-e2e')
+  .description('Run e2e tests')
+  .action(async (options) => {
+    await execa.command(
+      SCRIPTS_ORIG.testE2E(options),
       { stdio: 'inherit', shell: true }
     )
   })
