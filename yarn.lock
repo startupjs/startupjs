@@ -7154,15 +7154,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.10.0":
-  version: 20.10.0
-  resolution: "@types/node@npm:20.10.0"
-  dependencies:
-    undici-types: "npm:~5.26.4"
-  checksum: f379e57d9d28cb5f3d8eab943de0c54a0ca2f95ee356e1fe2a1a4fa718b740103ae522c50ce107cffd52c3642ef3244cfc55bf5369081dd6c48369c8587b21ae
-  languageName: node
-  linkType: hard
-
 "@types/normalize-package-data@npm:^2.4.0, @types/normalize-package-data@npm:^2.4.1":
   version: 2.4.3
   resolution: "@types/normalize-package-data@npm:2.4.3"
@@ -27730,7 +27721,6 @@ __metadata:
   dependencies:
     "@babel/eslint-parser": "npm:^7.23.3"
     "@playwright/test": "npm:^1.40.0"
-    "@types/node": "npm:^20.10.0"
     "@wdio/cli": "npm:^8.8.8"
     "@wdio/local-runner": "npm:^8.8.8"
     "@wdio/mocha-framework": "npm:^8.8.7"

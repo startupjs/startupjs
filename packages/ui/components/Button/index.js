@@ -136,7 +136,6 @@ function Button ({
       activeStyle=extraActiveStyle ? [extraActiveStyle, activeStyle] : activeStyle
       disabled=asyncActive || disabled
       onPress=onPress ? _onPress : undefined
-      accessibilityRole='button'
       ...rootExtraProps
       ...props
     )
