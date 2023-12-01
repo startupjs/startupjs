@@ -130,7 +130,6 @@ const Years = observer(function YearsComponent ({
       Div.years-item(
         variant='higlight'
         onPress=() => onChangeYear(item)
-        accessibilityRole='button'
       )
         Span= item
     `
@@ -143,7 +142,7 @@ const Years = observer(function YearsComponent ({
         renderContent=renderYears
         attachmentStyleName='years-popover'
       )
-        Row(vAlign='center' accessibilityRole='button')
+        Row(vAlign='center')
           Span.year(bold)= moment.tz($uiDate.get(), timezone).year()
           Icon(icon=faCaretDown)
   `

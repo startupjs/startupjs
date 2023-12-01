@@ -27,7 +27,6 @@ function User ({
       style=style
       styleName=[avatarPosition]
       onPress=onPress
-      accessibilityRole=onPress ? 'button' : undefined
     )
       Avatar.avatar(
         styleName=[avatarPosition]

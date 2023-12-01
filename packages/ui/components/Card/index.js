@@ -25,7 +25,6 @@ function Card ({
       style=style
       styleName=[variant]
       onPress=onPress
-      accessibilityRole=onPress ? 'button' : undefined
       ...props
       ...extraProps
     )

@@ -72,7 +72,7 @@ function Collapse ({
     : React.createElement(CollapseContent, contentProps, contentChildren)
 
   // Handle <Collapse.Header>
-  const headerProps = { open, variant, icon, accessibilityRole: 'button', onPress }
+  const headerProps = { open, variant, icon, onPress }
   header = header
     ? React.cloneElement(header, { ...headerProps, ...header.props })
     : React.createElement(CollapseHeader, headerProps, title || '')

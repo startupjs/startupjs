@@ -97,14 +97,12 @@ function Tag ({
       activeStyle=extraActiveStyle ? [extraActiveStyle, activeStyle] : activeStyle
       disabled=disabled
       onPress=onPress
-      accessibilityRole='button'
       ...props
     )
       if icon
         Div.iconWrapper.left(
           styleName=[size]
           onPress=onIconPress
-          accessibilityRole=onIconPress ? 'button' : undefined
         )
           Icon(
             style=iconStyle
@@ -125,7 +123,6 @@ function Tag ({
         Div.iconWrapper.right(
           styleName=[size]
           onPress=onSecondaryIconPress
-          accessibilityRole=onSecondaryIconPress ? 'button' : undefined
         )
           Icon.icon(
             style=secondaryIconStyle

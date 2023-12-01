@@ -142,7 +142,6 @@ export default function usePagination ({
     if (typeof item === 'number') {
       return {
         onPress: () => { onChangePage(item) },
-        accessibilityRole: 'button',
         type: 'page',
         value: item,
         selected: item === page,
@@ -163,7 +162,6 @@ export default function usePagination ({
 
     return {
       onPress: () => { value !== null && onChangePage(value) },
-      accessibilityRole: 'button',
       type: item,
       value,
       selected: false,

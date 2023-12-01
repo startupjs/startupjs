@@ -80,7 +80,6 @@ function Item ({
       style=style
       variant="highlight"
       onPress=onPress
-      accessibilityRole=onPress ? 'button' : undefined
       ...extraProps
       ...props
     )

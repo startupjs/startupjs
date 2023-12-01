@@ -470,7 +470,6 @@ function Carousel ({
             style=arrowBackStyle
             styleName=variant
             onPress=onBack
-            accessibilityRole='button'
           )
             Icon.icon(
               style={ color: arrowBackStyle.color || '#eeeeee' }
@@ -501,7 +500,6 @@ function Carousel ({
             style=arrowNextStyle
             styleName=variant
             onPress=onNext
-            accessibilityRole='button'
           )
             Icon.icon(
               style={ color: arrowNextStyle.color || '#eeeeee' }
@@ -515,7 +513,6 @@ function Carousel ({
             Div.dot(
               key=index
               onPress=()=> toIndex(index)
-              accessibilityRole='button'
               styleName={ dotActive: activeIndex === (isEndless ? (index + children.length) : index) }
             )
   `

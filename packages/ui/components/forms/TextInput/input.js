@@ -172,7 +172,6 @@ function TextInputInput ({
         styleName=[size, iconPosition]
         onPress=onIconPress
         pointerEvents=onIconPress ? undefined : 'none'
-        accessibilityRole=onIconPress ? 'button' : undefined
       )
         Icon(
           part='icon'
@@ -186,7 +185,6 @@ function TextInputInput ({
         styleName=[size, getOppositePosition(iconPosition)]
         onPress=onSecondaryIconPress
         pointerEvents=onSecondaryIconPress ? undefined : 'none'
-        accessibilityRole=onSecondaryIconPress ? 'button' : undefined
       )
         Icon(
           part='secondaryIcon'

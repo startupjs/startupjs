@@ -97,7 +97,7 @@ function ToastComponent ({
             )
             Span.title(styleName=[type])
               = title ? title : TITLES[type]
-          Div(onPress=onHide accessibilityRole='button')
+          Div(onPress=onHide)
             Icon(icon=faTimes)
 
         Span.text= text
