@@ -165,7 +165,7 @@ function Div ({
 
   function maybeWrapToClickable (children) {
     if (isClickable) {
-      const role = accessibilityRole || 'button'
+      const role = accessibilityRole || accessible !== false ? 'button' : undefined
       const touchableProps = pick(props, PRESSABLE_PROPS)
       return pug`
         TouchableWithoutFeedback(focusable=accessible accessibilityRole=role ...touchableProps)
