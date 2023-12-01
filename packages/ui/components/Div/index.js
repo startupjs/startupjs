@@ -46,7 +46,8 @@ function Div ({
   pushed, // By some reason prop 'push' was ignored
   bleed,
   full,
-  accessible, accessibilityRole,
+  accessible,
+  accessibilityRole,
   tooltip,
   tooltipStyle,
   renderTooltip,
