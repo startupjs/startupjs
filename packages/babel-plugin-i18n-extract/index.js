@@ -75,7 +75,7 @@ module.exports = function (babel, opts) {
       }
 
       let fileContent
-      let needToMergeFiles = commonTranslationsKey && transformedFilePaths.length
+      const needToMergeFiles = commonTranslationsKey && transformedFilePaths.length
 
       try {
         fileContent = JSON.parse(
@@ -107,6 +107,7 @@ module.exports = function (babel, opts) {
         fileContent[commonTranslationsKey] = merge({}, keys, ...withKeys)
       }
 
+      console.log(fs.writeFileSync, JSON.stringify(fileContent))
       fs.writeFileSync(
         TRANSLATIONS_FILE_PATH,
         JSON.stringify(fileContent),
