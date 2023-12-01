@@ -165,7 +165,7 @@ function Div ({
 
   function maybeWrapToClickable (children) {
     if (isClickable) {
-      const role = accessibilityRole || accessible !== false ? 'button' : undefined
+      const role = accessible !== false ? accessibilityRole || 'button' : undefined
       const touchableProps = pick(props, PRESSABLE_PROPS)
       return pug`
         TouchableWithoutFeedback(focusable=accessible accessibilityRole=role ...touchableProps)
@@ -179,7 +179,7 @@ function Div ({
   const viewProps = omit(props, PRESSABLE_PROPS)
 
   if (!isClickable) {
-    viewProps.accessibilityRole = accessibilityRole
+    viewProps.accessibilityRole = accessible !== false ? accessibilityRole : undefined
   }
 
   const testID = viewProps.testID || viewProps['data-testid']
