@@ -19,7 +19,7 @@ import orm from './../model/'
 import hooks from './../server/hooks'
 import getBackend from 'startupjs/backend'
 import cron from 'node-cron'
-const { backend } = getBackend({ hooks })
+const backend = getBackend({ hooks })
 init({ orm })
 
 cron.schedule('* * * * * *', async () => {

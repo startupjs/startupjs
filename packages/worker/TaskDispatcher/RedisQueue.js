@@ -7,7 +7,7 @@ export default class RedisQueue {
     this.dispatcherNum = dispatcherNum
     this.backend = dbs.backend
     this.redlock = dbs.redlock
-    this.redis = dbs.redisClient
+    this.redis = dbs.redis
     this.runTask = runTask
   }
 
@@ -111,7 +111,7 @@ export default class RedisQueue {
   }
 
   async handleTasks (tasks) {
-    let label = env.WORKER_TASK_LABEL
+    const label = env.WORKER_TASK_LABEL
 
     if (label) {
       const labels = label.split(',')
@@ -124,7 +124,7 @@ export default class RedisQueue {
       })
     }
 
-    for (let task of tasks) {
+    for (const task of tasks) {
       await this.handleTask(task)
       await delay(0)
     }

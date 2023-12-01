@@ -1,3 +1,12 @@
+# [0.55.0](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.25...v0.55.0) (2023-11-29)
+
+
+### Features
+
+* add singletone for mongo and redis ([#1111](https://github.com/startupjs/startupjs/issues/1111)) ([a419e46](https://github.com/startupjs/startupjs/commit/a419e46a502afb4ad759dc9d42ce418f3b1ed586))
+
+
+
 # [0.55.0-alpha.25](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.24...v0.55.0-alpha.25) (2023-11-24)
 
 
