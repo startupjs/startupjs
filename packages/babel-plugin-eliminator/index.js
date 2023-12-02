@@ -86,9 +86,7 @@ module.exports = function babelPluginEliminator ({ types: t }) {
                   } else {
                     throw new Error('invariant')
                   }
-                  if (isIdentifierReferenced($local)) {
-                    state.refs.add($local)
-                  }
+                  if (isIdentifierReferenced($local)) state.refs.add($local)
                 }
               } else if ($id.isArrayPattern()) {
                 const $elements = $id.get('elements')
@@ -101,9 +99,7 @@ module.exports = function babelPluginEliminator ({ types: t }) {
                   } else {
                     continue
                   }
-                  if (isIdentifierReferenced($local)) {
-                    state.refs.add($local)
-                  }
+                  if (isIdentifierReferenced($local)) state.refs.add($local)
                 }
               }
             },
