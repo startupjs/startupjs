@@ -69,50 +69,42 @@ module.exports = function babelPluginEliminator ({ types: t }) {
 
           // Keep variables that're referenced
           path.traverse({
-            // No idea why the second argument is always undefine
+            // No idea why the second argument is always undefined
             // It should have been `state`
-            VariableDeclarator (variablePath) {
-              if (variablePath.node.id.type === 'Identifier') {
-                const local = variablePath.get('id')
-                if (isIdentifierReferenced(local)) {
-                  state.refs.add(local)
-                }
-              } else if (variablePath.node.id.type === 'ObjectPattern') {
-                const pattern = variablePath.get('id')
-
-                const properties = pattern.get('properties')
-                properties.forEach(p => {
-                  const local = p.get(
-                    p.node.type === 'ObjectProperty'
-                      ? 'value'
-                      : p.node.type === 'RestElement'
-                        ? 'argument'
-                        : (function () {
-                            throw new Error('invariant')
-                          })()
-                  )
-                  if (isIdentifierReferenced(local)) {
-                    state.refs.add(local)
-                  }
-                })
-              } else if (variablePath.node.id.type === 'ArrayPattern') {
-                const pattern = variablePath.get('id')
-
-                const elements = pattern.get('elements')
-                elements.forEach(e => {
-                  let local
-                  if (e.node?.type === 'Identifier') {
-                    local = e
-                  } else if (e.node?.type === 'RestElement') {
-                    local = e.get('argument')
+            VariableDeclarator ($this) {
+              const $id = $this.get('id')
+              if ($id.isIdentifier()) {
+                if (isIdentifierReferenced($id)) state.refs.add($id)
+              } else if ($id.isObjectPattern()) {
+                const $properties = $id.get('properties')
+                for (const $property of $properties) {
+                  let $local
+                  if ($property.isObjectProperty()) {
+                    $local = $property.get('value')
+                  } else if ($property.isRestElement()) {
+                    $local = $property.get('argument')
                   } else {
-                    return
+                    throw new Error('invariant')
                   }
-
-                  if (isIdentifierReferenced(local)) {
-                    state.refs.add(local)
+                  if (isIdentifierReferenced($local)) {
+                    state.refs.add($local)
                   }
-                })
+                }
+              } else if ($id.isArrayPattern()) {
+                const $elements = $id.get('elements')
+                for (const $element of $elements) {
+                  let $local
+                  if ($element.isIdentifier()) {
+                    $local = $element
+                  } else if ($element.isRestElement()) {
+                    $local = $element.get('argument')
+                  } else {
+                    continue
+                  }
+                  if (isIdentifierReferenced($local)) {
+                    state.refs.add($local)
+                  }
+                }
               }
             },
 
@@ -198,6 +190,14 @@ module.exports = function babelPluginEliminator ({ types: t }) {
 
               if (shouldRemove) {
                 path.remove()
+              }
+            },
+
+            ExportDefaultDeclaration (path) {
+              // Check if 'default' is in the list of exports to remove
+              if (removeExports.includes('default')) {
+                // Replace only the value of the export default
+                path.node.declaration = t.numericLiteral(1)
               }
             }
           })

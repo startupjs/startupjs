@@ -17,7 +17,7 @@ Options:
 ```json
 {
   "plugins": [
-    ["@startupjs/babel-plugin-eliminator", {"removeExports": ["foo"]}]
+    ["@startupjs/babel-plugin-eliminator", {"removeExports": ["foo", "default"]}]
   ]
 }
 ```
@@ -25,19 +25,97 @@ Options:
 Input:
 
 ```js
-import pkg from 'some-pkg'
+import usedByFoo from 'used-by-foo'
+import usedByDefault from 'used-by-default'
+import usedByBar from 'used-by-bar'
 
-const someVariable = 'some-string'
+const varInFoo = 'var-in-foo'
+const varInDefault = 'var-in-default'
+const varInBar = 'var-in-bar'
 
 export const foo = () => {
-  return pkg(someVariable)
+  return usedByFoo(varInFoo)
+}
+
+export default () => {
+  return usedByDefault(varInDefault)
+}
+
+export function bar () {
+  return usedByBar(varInBar)
 }
 ```
 
 Output:
 
 ```js
+import usedByBar from 'used-by-bar'
+
+const varInBar = 'var-in-bar'
+
 export var foo = 1
+
+export default 1
+
+export function bar () {
+  return usedByBar(varInBar)
+}
+```
+
+### Keep only the specified exports
+
+Options:
+
+```json
+{
+  "plugins": [
+    ["@startupjs/babel-plugin-eliminator", {"keepExports": ["foo", "default"]}]
+  ]
+}
+```
+
+Input:
+
+```js
+import usedByFoo from 'used-by-foo'
+import usedByDefault from 'used-by-default'
+import usedByBar from 'used-by-bar'
+
+const varInFoo = 'var-in-foo'
+const varInDefault = 'var-in-default'
+const varInBar = 'var-in-bar'
+
+export const foo = () => {
+  return usedByFoo(varInFoo)
+}
+
+export default () => {
+  return usedByDefault(varInDefault)
+}
+
+export function bar () {
+  return usedByBar(varInBar)
+}
+```
+
+Output:
+
+```js
+import usedByFoo from 'used-by-foo'
+import usedByDefault from 'used-by-default'
+
+const varInFoo = 'var-in-foo'
+const varInDefault = 'var-in-default'
+
+export const foo = () => {
+  return usedByFoo(varInFoo)
+}
+
+export default () => {
+  return usedByDefault(varInDefault)
+}
+
+export var bar = 1
 ```
 
 ## Options

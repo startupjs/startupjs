@@ -54,6 +54,58 @@ pluginTester({
       export const preload = () => {
         console.log(a,b,c,e)
       }
-    `
+    `,
+    'longer example. Remove `foo`': {
+      pluginOptions: {
+        removeExports: ['foo']
+      },
+      code: /* js */`
+        import usedByFoo from 'used-by-foo'
+        import usedByDefault from 'used-by-default'
+        import usedByBar from 'used-by-bar'
+
+        const varInFoo = 'var-in-foo'
+        const varInDefault = 'var-in-default'
+        const varInBar = 'var-in-bar'
+
+        export const foo = () => {
+          return usedByFoo(varInFoo)
+        }
+
+        export default () => {
+          return usedByDefault(varInDefault)
+        }
+
+        export function bar () {
+          return usedByBar(varInBar)
+        }
+      `
+    },
+    'longer example. Remove `foo`, `default`': {
+      pluginOptions: {
+        removeExports: ['foo', 'default']
+      },
+      code: /* js */`
+        import usedByFoo from 'used-by-foo'
+        import usedByDefault from 'used-by-default'
+        import usedByBar from 'used-by-bar'
+
+        const varInFoo = 'var-in-foo'
+        const varInDefault = 'var-in-default'
+        const varInBar = 'var-in-bar'
+
+        export const foo = () => {
+          return usedByFoo(varInFoo)
+        }
+
+        export default () => {
+          return usedByDefault(varInDefault)
+        }
+
+        export function bar () {
+          return usedByBar(varInBar)
+        }
+      `
+    }
   }
 })

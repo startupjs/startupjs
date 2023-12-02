@@ -13,6 +13,80 @@ export var preload = 1;
 
 `;
 
+exports[`@startupjs/babel-plugin-eliminator longer example. Remove \`foo\`, \`default\`: longer example. Remove \`foo\`, \`default\` 1`] = `
+
+import usedByFoo from 'used-by-foo'
+import usedByDefault from 'used-by-default'
+import usedByBar from 'used-by-bar'
+
+const varInFoo = 'var-in-foo'
+const varInDefault = 'var-in-default'
+const varInBar = 'var-in-bar'
+
+export const foo = () => {
+  return usedByFoo(varInFoo)
+}
+
+export default () => {
+  return usedByDefault(varInDefault)
+}
+
+export function bar () {
+  return usedByBar(varInBar)
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import usedByBar from "used-by-bar";
+const varInBar = "var-in-bar";
+export var foo = 1;
+export default 1;
+export function bar() {
+  return usedByBar(varInBar);
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator longer example. Remove \`foo\`: longer example. Remove \`foo\` 1`] = `
+
+import usedByFoo from 'used-by-foo'
+import usedByDefault from 'used-by-default'
+import usedByBar from 'used-by-bar'
+
+const varInFoo = 'var-in-foo'
+const varInDefault = 'var-in-default'
+const varInBar = 'var-in-bar'
+
+export const foo = () => {
+  return usedByFoo(varInFoo)
+}
+
+export default () => {
+  return usedByDefault(varInDefault)
+}
+
+export function bar () {
+  return usedByBar(varInBar)
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import usedByDefault from "used-by-default";
+import usedByBar from "used-by-bar";
+const varInDefault = "var-in-default";
+const varInBar = "var-in-bar";
+export var foo = 1;
+export default () => {
+  return usedByDefault(varInDefault);
+};
+export function bar() {
+  return usedByBar(varInBar);
+}
+
+
+`;
+
 exports[`@startupjs/babel-plugin-eliminator removes destructuring assignment (array): removes destructuring assignment (array) 1`] = `
 
 const [a,b,c] = d
