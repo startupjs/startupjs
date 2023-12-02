@@ -54,7 +54,10 @@ const createMarkImport = state =>
     }
   }
 
-module.exports = function babelPluginEliminator ({ types: t }) {
+module.exports = function babelPluginEliminator ({ types: t, template }) {
+  const buildIndicator = template('export var %%name%% = 1')
+  const insertIndicator = ($path, name) => $path.insertBefore(buildIndicator({ name }))
+
   return {
     visitor: {
       Program: {
@@ -111,89 +114,55 @@ module.exports = function babelPluginEliminator ({ types: t }) {
             ImportDefaultSpecifier: markImport,
             ImportNamespaceSpecifier: markImport,
 
-            ExportNamedDeclaration (path) {
-              const insertIndicator = (path, exportName) => {
-                path.insertBefore(
-                  t.exportNamedDeclaration(
-                    t.variableDeclaration('var', [
-                      t.variableDeclarator(
-                        t.identifier(exportName),
-                        t.numericLiteral(1)
-                      )
-                    ])
-                  )
-                )
-              }
-
-              let shouldRemove = false
-
-              // Handle re-exports: export { preload } from './foo'
-              path.node.specifiers = path.node.specifiers.filter(spec => {
-                if (spec.exported.type !== 'Identifier') {
-                  return true
+            ExportNamedDeclaration ($this) {
+              // 1. handle re-exports: export { preload } from './foo'
+              if ($this.get('specifiers').length > 0) {
+                for (const $specifier of $this.get('specifiers')) {
+                  const $exported = $specifier.get('exported')
+                  if (!$exported.isIdentifier()) continue
+                  const { name } = $exported.node
+                  if (!removeExports.includes(name)) continue
+                  insertIndicator($this, name)
+                  state.removedExports.add(name)
+                  $specifier.remove()
                 }
+                if ($this.get('specifiers').length === 0) $this.remove()
+                return
+              }
 
-                const { name } = spec.exported
-                for (const exportName of removeExports) {
-                  if (name === exportName) {
-                    insertIndicator(path, exportName)
-                    state.removedExports.add(exportName)
-                    return false
-                  }
+              const $declaration = $this.get('declaration')
+              if (!$declaration.node) return
+
+              // 2. handle export var preload = function () {}
+              if ($declaration.isVariableDeclaration()) {
+                for (const $declarator of $declaration.get('declarations')) {
+                  const { name } = $declarator.get('id').node
+                  if (!removeExports.includes(name)) continue
+                  if (!$declarator.node.init?.type.includes('Function')) continue // ArrowFunctionExpression or FunctionExpression
+                  insertIndicator($this, name)
+                  state.removedExports.add(name)
+                  $declarator.remove()
                 }
-
-                return true
-              })
-
-              const { declaration } = path.node
-
-              // When none of Re-exports left, remove the path
-              if (!declaration && path.node.specifiers.length === 0) {
-                shouldRemove = true
+                return
               }
 
-              if (declaration && declaration.type === 'VariableDeclaration') {
-                declaration.declarations = declaration.declarations.filter(
-                  declarator => {
-                    for (const name of removeExports) {
-                      if (
-                        declarator.id.name === name &&
-                        declarator.init?.type.includes('Function') // ArrowFunctionExpression or FunctionExpression
-                      ) {
-                        insertIndicator(path, name)
-                        state.removedExports.add(name)
-                        return false
-                      }
-                    }
-                    return true
-                  }
-                )
-                if (declaration.declarations.length === 0) {
-                  shouldRemove = true
-                }
+              // 3. handle export function preload () {}
+              if ($declaration.isFunctionDeclaration()) {
+                const { name } = $declaration.get('id').node
+                if (!removeExports.includes(name)) return
+                insertIndicator($this, name)
+                state.removedExports.add(name)
+                $this.remove()
+                return
               }
 
-              if (declaration && declaration.type === 'FunctionDeclaration') {
-                for (const name of removeExports) {
-                  // @ts-ignore
-                  if (declaration.id.name === name) {
-                    shouldRemove = true
-                    state.removedExports.add(name)
-                    insertIndicator(path, name)
-                  }
-                }
-              }
-
-              if (shouldRemove) {
-                path.remove()
-              }
+              return undefined // explicit return for better switch conditions above
             },
 
-            ExportDefaultDeclaration (path) {
-              // Check if 'default' is in the list of exports to remove
+            ExportDefaultDeclaration ($this) {
               if (removeExports.includes('default')) {
                 // Replace only the value of the export default
-                path.node.declaration = t.numericLiteral(1)
+                $this.get('declaration').replaceWith(t.numericLiteral(1))
               }
             }
           })
