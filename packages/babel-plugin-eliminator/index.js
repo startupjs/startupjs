@@ -1,59 +1,3 @@
-function getIdentifier (path) {
-  const parentPath = path.parentPath
-  if (parentPath.type === 'VariableDeclarator') {
-    const pp = parentPath
-    const name = pp.get('id')
-    return name.node.type === 'Identifier' ? name : null
-  }
-
-  if (parentPath.type === 'AssignmentExpression') {
-    const pp = parentPath
-    const name = pp.get('left')
-    return name.node.type === 'Identifier' ? name : null
-  }
-
-  if (path.node.type === 'ArrowFunctionExpression') {
-    return null
-  }
-
-  return path.node.id && path.node.id.type === 'Identifier'
-    ? path.get('id')
-    : null
-}
-
-function isIdentifierReferenced (ident) {
-  const b = ident.scope.getBinding(ident.node.name)
-  if (b?.referenced) {
-    // Functions can reference themselves, so we need to check if there's a
-    // binding outside the function scope or not.
-    if (b.path.type === 'FunctionDeclaration') {
-      return !b.constantViolations
-        .concat(b.referencePaths)
-        // Check that every reference is contained within the function:
-        .every(ref => ref.findParent(p => p === b.path))
-    }
-
-    return true
-  }
-  return false
-}
-
-const createMarkFunction = state =>
-  function markFunction (path) {
-    const ident = getIdentifier(path)
-    if (ident?.node && isIdentifierReferenced(ident)) {
-      state.refs.add(ident)
-    }
-  }
-
-const createMarkImport = state =>
-  function markImport (path) {
-    const local = path.get('local')
-    if (isIdentifierReferenced(local)) {
-      state.refs.add(local)
-    }
-  }
-
 module.exports = function babelPluginEliminator ({ template }) {
   const buildNamedExportIndicator = template('export var %%name%% = 1')
   const buildDefaultExportIndicatorValue = template('1')
@@ -310,4 +254,62 @@ function cleanUnusedReferences ($program, { refs }) {
       ImportNamespaceSpecifier: sweepImport
     })
   } while (count)
+}
+
+function getIdentifier (path) {
+  const parentPath = path.parentPath
+  if (parentPath.type === 'VariableDeclarator') {
+    const pp = parentPath
+    const name = pp.get('id')
+    return name.node.type === 'Identifier' ? name : null
+  }
+
+  if (parentPath.type === 'AssignmentExpression') {
+    const pp = parentPath
+    const name = pp.get('left')
+    return name.node.type === 'Identifier' ? name : null
+  }
+
+  if (path.node.type === 'ArrowFunctionExpression') {
+    return null
+  }
+
+  return path.node.id && path.node.id.type === 'Identifier'
+    ? path.get('id')
+    : null
+}
+
+function isIdentifierReferenced (ident) {
+  const b = ident.scope.getBinding(ident.node.name)
+  if (b?.referenced) {
+    // Functions can reference themselves, so we need to check if there's a
+    // binding outside the function scope or not.
+    if (b.path.type === 'FunctionDeclaration') {
+      return !b.constantViolations
+        .concat(b.referencePaths)
+        // Check that every reference is contained within the function:
+        .every(ref => ref.findParent(p => p === b.path))
+    }
+
+    return true
+  }
+  return false
+}
+
+function createMarkFunction (state) {
+  return function markFunction (path) {
+    const ident = getIdentifier(path)
+    if (ident?.node && isIdentifierReferenced(ident)) {
+      state.refs.add(ident)
+    }
+  }
+}
+
+function createMarkImport (state) {
+  return function markImport (path) {
+    const local = path.get('local')
+    if (isIdentifierReferenced(local)) {
+      state.refs.add(local)
+    }
+  }
 }
