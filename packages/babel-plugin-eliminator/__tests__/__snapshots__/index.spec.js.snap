@@ -1,0 +1,267 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@startupjs/babel-plugin-eliminator keeps other exports: keeps other exports 1`] = `
+
+export const a = 1
+export {preload} from './'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+export const a = 1;
+export var preload = 1;
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator longer example. Keep \`foo\`, \`default\`: longer example. Keep \`foo\`, \`default\` 1`] = `
+
+import usedByFoo from 'used-by-foo'
+import usedByDefault from 'used-by-default'
+import usedByBar from 'used-by-bar'
+
+const varInFoo = 'var-in-foo'
+const varInDefault = 'var-in-default'
+const varInBar = 'var-in-bar'
+
+export const foo = () => {
+  return usedByFoo(varInFoo)
+}
+
+export default () => {
+  return usedByDefault(varInDefault)
+}
+
+export function bar () {
+  return usedByBar(varInBar)
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import usedByFoo from "used-by-foo";
+import usedByDefault from "used-by-default";
+const varInFoo = "var-in-foo";
+const varInDefault = "var-in-default";
+export const foo = () => {
+  return usedByFoo(varInFoo);
+};
+export default () => {
+  return usedByDefault(varInDefault);
+};
+export var bar = 1;
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator longer example. Keep \`foo\`: longer example. Keep \`foo\` 1`] = `
+
+import usedByFoo from 'used-by-foo'
+import usedByDefault from 'used-by-default'
+import usedByBar from 'used-by-bar'
+
+const varInFoo = 'var-in-foo'
+const varInDefault = 'var-in-default'
+const varInBar = 'var-in-bar'
+
+export const foo = () => {
+  return usedByFoo(varInFoo)
+}
+
+export default () => {
+  return usedByDefault(varInDefault)
+}
+
+export function bar () {
+  return usedByBar(varInBar)
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import usedByFoo from "used-by-foo";
+const varInFoo = "var-in-foo";
+export const foo = () => {
+  return usedByFoo(varInFoo);
+};
+export default 1;
+export var bar = 1;
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator longer example. Remove \`foo\`, \`default\`: longer example. Remove \`foo\`, \`default\` 1`] = `
+
+import usedByFoo from 'used-by-foo'
+import usedByDefault from 'used-by-default'
+import usedByBar from 'used-by-bar'
+
+const varInFoo = 'var-in-foo'
+const varInDefault = 'var-in-default'
+const varInBar = 'var-in-bar'
+
+export const foo = () => {
+  return usedByFoo(varInFoo)
+}
+
+export default () => {
+  return usedByDefault(varInDefault)
+}
+
+export function bar () {
+  return usedByBar(varInBar)
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import usedByBar from "used-by-bar";
+const varInBar = "var-in-bar";
+export var foo = 1;
+export default 1;
+export function bar() {
+  return usedByBar(varInBar);
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator longer example. Remove \`foo\`: longer example. Remove \`foo\` 1`] = `
+
+import usedByFoo from 'used-by-foo'
+import usedByDefault from 'used-by-default'
+import usedByBar from 'used-by-bar'
+
+const varInFoo = 'var-in-foo'
+const varInDefault = 'var-in-default'
+const varInBar = 'var-in-bar'
+
+export const foo = () => {
+  return usedByFoo(varInFoo)
+}
+
+export default () => {
+  return usedByDefault(varInDefault)
+}
+
+export function bar () {
+  return usedByBar(varInBar)
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import usedByDefault from "used-by-default";
+import usedByBar from "used-by-bar";
+const varInDefault = "var-in-default";
+const varInBar = "var-in-bar";
+export var foo = 1;
+export default () => {
+  return usedByDefault(varInDefault);
+};
+export function bar() {
+  return usedByBar(varInBar);
+}
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator removes destructuring assignment (array): removes destructuring assignment (array) 1`] = `
+
+const [a,b,c] = d
+const e = d[0]
+export const preload = () => {
+  console.log(a,b,c,e)
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+export var preload = 1;
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator removes export function declaration. 1: removes export function declaration. 1 1`] = `
+
+export function preload() {
+  return {}
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+export var preload = 1;
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator removes export function declaration. 2: removes export function declaration. 2 1`] = `
+
+export function staticPreload() {
+  return {}
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+export var staticPreload = 1;
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator removes export variable declaration: removes export variable declaration 1`] = `
+
+export var preload= function() {
+  return {}
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+export var preload = 1;
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator removes re-exports: removes re-exports 1`] = `
+
+export {preload} from './'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+export var preload = 1;
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator removes references that are only used in server exports: removes references that are only used in server exports 1`] = `
+
+var readFile = require('fs').readFile
+import foo from 'foo'
+// This is kept since it's not used by ssr exports
+import { getStaticProps } from './'
+const a = 1
+function bar() {
+
+}
+var shouldHeep = 2
+var alsoShouldKeep =3
+console.log(alsoShouldKepp)
+export function preload() {
+  return {a, bar, foo, readFile: readFile.toString()}
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+// This is kept since it's not used by ssr exports
+import { getStaticProps } from "./";
+var shouldHeep = 2;
+var alsoShouldKeep = 3;
+console.log(alsoShouldKepp);
+export var preload = 1;
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator throws error if both \`removeExports\` and \`keepExports\` are specified: throws error if both \`removeExports\` and \`keepExports\` are specified 1`] = `
+
+export const foo = () => {}
+export function bar () {}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown file: You cannot specify both \`removeExports\` and \`keepExports\`
+
+`;
