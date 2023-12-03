@@ -13,6 +13,80 @@ export var preload = 1;
 
 `;
 
+exports[`@startupjs/babel-plugin-eliminator longer example. Keep \`foo\`, \`default\`: longer example. Keep \`foo\`, \`default\` 1`] = `
+
+import usedByFoo from 'used-by-foo'
+import usedByDefault from 'used-by-default'
+import usedByBar from 'used-by-bar'
+
+const varInFoo = 'var-in-foo'
+const varInDefault = 'var-in-default'
+const varInBar = 'var-in-bar'
+
+export const foo = () => {
+  return usedByFoo(varInFoo)
+}
+
+export default () => {
+  return usedByDefault(varInDefault)
+}
+
+export function bar () {
+  return usedByBar(varInBar)
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import usedByFoo from "used-by-foo";
+import usedByDefault from "used-by-default";
+const varInFoo = "var-in-foo";
+const varInDefault = "var-in-default";
+export const foo = () => {
+  return usedByFoo(varInFoo);
+};
+export default () => {
+  return usedByDefault(varInDefault);
+};
+export var bar = 1;
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator longer example. Keep \`foo\`: longer example. Keep \`foo\` 1`] = `
+
+import usedByFoo from 'used-by-foo'
+import usedByDefault from 'used-by-default'
+import usedByBar from 'used-by-bar'
+
+const varInFoo = 'var-in-foo'
+const varInDefault = 'var-in-default'
+const varInBar = 'var-in-bar'
+
+export const foo = () => {
+  return usedByFoo(varInFoo)
+}
+
+export default () => {
+  return usedByDefault(varInDefault)
+}
+
+export function bar () {
+  return usedByBar(varInBar)
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import usedByFoo from "used-by-foo";
+const varInFoo = "var-in-foo";
+export const foo = () => {
+  return usedByFoo(varInFoo);
+};
+export default 1;
+export var bar = 1;
+
+
+`;
+
 exports[`@startupjs/babel-plugin-eliminator longer example. Remove \`foo\`, \`default\`: longer example. Remove \`foo\`, \`default\` 1`] = `
 
 import usedByFoo from 'used-by-foo'
@@ -178,5 +252,16 @@ var alsoShouldKeep = 3;
 console.log(alsoShouldKepp);
 export var preload = 1;
 
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator throws error if both \`removeExports\` and \`keepExports\` are specified: throws error if both \`removeExports\` and \`keepExports\` are specified 1`] = `
+
+export const foo = () => {}
+export function bar () {}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: unknown file: You cannot specify both \`removeExports\` and \`keepExports\`
 
 `;

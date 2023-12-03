@@ -65,7 +65,16 @@ module.exports = function babelPluginEliminator ({ types: t, template }) {
           state.refs = new Set()
           state.removedExports = new Set()
 
-          const removeExports = state.opts.removeExports || []
+          const shouldRemoveExport = name => {
+            const removeExports = state.opts.removeExports || []
+            const keepExports = state.opts.keepExports || []
+            if (removeExports.length > 0 && keepExports.length > 0) {
+              throw new Error('You cannot specify both `removeExports` and `keepExports`')
+            }
+            if (removeExports.length > 0) return removeExports.includes(name)
+            if (keepExports.length > 0) return !keepExports.includes(name)
+            return false
+          }
 
           const markImport = createMarkImport(state)
           const markFunction = createMarkFunction(state)
@@ -121,7 +130,7 @@ module.exports = function babelPluginEliminator ({ types: t, template }) {
                   const $exported = $specifier.get('exported')
                   if (!$exported.isIdentifier()) continue
                   const { name } = $exported.node
-                  if (!removeExports.includes(name)) continue
+                  if (!shouldRemoveExport(name)) continue
                   insertIndicator($this, name)
                   state.removedExports.add(name)
                   $specifier.remove()
@@ -137,7 +146,7 @@ module.exports = function babelPluginEliminator ({ types: t, template }) {
               if ($declaration.isVariableDeclaration()) {
                 for (const $declarator of $declaration.get('declarations')) {
                   const { name } = $declarator.get('id').node
-                  if (!removeExports.includes(name)) continue
+                  if (!shouldRemoveExport(name)) continue
                   if (!$declarator.node.init?.type.includes('Function')) continue // ArrowFunctionExpression or FunctionExpression
                   insertIndicator($this, name)
                   state.removedExports.add(name)
@@ -149,7 +158,7 @@ module.exports = function babelPluginEliminator ({ types: t, template }) {
               // 3. handle export function preload () {}
               if ($declaration.isFunctionDeclaration()) {
                 const { name } = $declaration.get('id').node
-                if (!removeExports.includes(name)) return
+                if (!shouldRemoveExport(name)) return
                 insertIndicator($this, name)
                 state.removedExports.add(name)
                 $this.remove()
@@ -160,10 +169,11 @@ module.exports = function babelPluginEliminator ({ types: t, template }) {
             },
 
             ExportDefaultDeclaration ($this) {
-              if (removeExports.includes('default')) {
-                // Replace only the value of the export default
-                $this.get('declaration').replaceWith(t.numericLiteral(1))
-              }
+              const name = 'default'
+              if (!shouldRemoveExport(name)) return
+              // Replace only the value of the export default
+              state.removedExports.add(name)
+              $this.get('declaration').replaceWith(t.numericLiteral(1))
             }
           })
 

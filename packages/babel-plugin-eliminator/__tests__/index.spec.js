@@ -2,6 +2,28 @@ const pluginTester = require('babel-plugin-tester').default
 const plugin = require('../index')
 const { name: pluginName } = require('../package.json')
 
+const LONGER_EXAMPLE = /* js */`
+  import usedByFoo from 'used-by-foo'
+  import usedByDefault from 'used-by-default'
+  import usedByBar from 'used-by-bar'
+
+  const varInFoo = 'var-in-foo'
+  const varInDefault = 'var-in-default'
+  const varInBar = 'var-in-bar'
+
+  export const foo = () => {
+    return usedByFoo(varInFoo)
+  }
+
+  export default () => {
+    return usedByDefault(varInDefault)
+  }
+
+  export function bar () {
+    return usedByBar(varInBar)
+  }
+`
+
 pluginTester({
   plugin,
   pluginName,
@@ -59,53 +81,36 @@ pluginTester({
       pluginOptions: {
         removeExports: ['foo']
       },
-      code: /* js */`
-        import usedByFoo from 'used-by-foo'
-        import usedByDefault from 'used-by-default'
-        import usedByBar from 'used-by-bar'
-
-        const varInFoo = 'var-in-foo'
-        const varInDefault = 'var-in-default'
-        const varInBar = 'var-in-bar'
-
-        export const foo = () => {
-          return usedByFoo(varInFoo)
-        }
-
-        export default () => {
-          return usedByDefault(varInDefault)
-        }
-
-        export function bar () {
-          return usedByBar(varInBar)
-        }
-      `
+      code: LONGER_EXAMPLE
     },
     'longer example. Remove `foo`, `default`': {
       pluginOptions: {
         removeExports: ['foo', 'default']
       },
+      code: LONGER_EXAMPLE
+    },
+    'throws error if both `removeExports` and `keepExports` are specified': {
+      pluginOptions: {
+        removeExports: ['foo'],
+        keepExports: ['bar']
+      },
+      error: true,
       code: /* js */`
-        import usedByFoo from 'used-by-foo'
-        import usedByDefault from 'used-by-default'
-        import usedByBar from 'used-by-bar'
-
-        const varInFoo = 'var-in-foo'
-        const varInDefault = 'var-in-default'
-        const varInBar = 'var-in-bar'
-
-        export const foo = () => {
-          return usedByFoo(varInFoo)
-        }
-
-        export default () => {
-          return usedByDefault(varInDefault)
-        }
-
-        export function bar () {
-          return usedByBar(varInBar)
-        }
+        export const foo = () => {}
+        export function bar () {}
       `
+    },
+    'longer example. Keep `foo`': {
+      pluginOptions: {
+        keepExports: ['foo']
+      },
+      code: LONGER_EXAMPLE
+    },
+    'longer example. Keep `foo`, `default`': {
+      pluginOptions: {
+        keepExports: ['foo', 'default']
+      },
+      code: LONGER_EXAMPLE
     }
   }
 })
