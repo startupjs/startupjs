@@ -9,8 +9,7 @@
     "standard",
     "standard-react",
     "plugin:react/recommended",
-    "plugin:react-pug/all",
-    "plugin:wdio/recommended"
+    "plugin:react-pug/all"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -26,8 +25,7 @@
   "plugins": [
     "react",
     "react-pug",
-    "eslint-plugin-import-helpers",
-    "wdio"
+    "eslint-plugin-import-helpers"
   ],
   "rules": {
     "prefer-const": "error",

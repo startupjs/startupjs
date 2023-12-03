@@ -8,32 +8,33 @@ import isArray from 'lodash/isArray.js'
 import isPlainObject from 'lodash/isPlainObject.js'
 import redisPubSub from 'sharedb-redis-pubsub'
 import racer from 'racer'
-import redis from 'redis'
 import Redlock from 'redlock'
 import shareDbHooks from 'sharedb-hooks'
-import getShareDbMongo from './getShareDbMongo.js'
-import getRedis from './getRedis.js'
+import db from './db.js'
+import { mongo, mongoClient, createMongoIndex } from './mongo.js'
+import { redisClient, redisObserver, redisLock } from './redis.js'
+
+const usersConnectionCounter = {}
 
 global.__clients = {}
-const usersConnectionCounter = {}
+
+export {
+  db,
+  mongo,
+  mongoClient,
+  createMongoIndex,
+  redisClient,
+  redisObserver,
+  redisLock
+}
 
 export default async options => {
   options = Object.assign({ secure: true }, options)
 
   if (options.ee != null) options.ee.emit('storeUse', racer)
 
-  // Setup redis
-  const {
-    client: redisClient,
-    observer: redisObserver,
-    prefix: redisPrefix
-  } = getRedis(options.redisOptions)
-
-  // ShareDB Setup
-  const shareDbMongo = await getShareDbMongo(options.mongoOptions)
-
-  // pollDebounce is the minimum time in ms between query polls
-  if (options.pollDebounce) shareDbMongo.pollDebounce = options.pollDebounce
+  // pollDebounce is the minimum time in ms between query polls in sharedb
+  if (options.pollDebounce) db.pollDebounce = options.pollDebounce
 
   // Flush redis when starting the app.
   // When running in cluster this should only run on the first instance.
@@ -94,7 +95,7 @@ export default async options => {
   })
 
   const backend = racer.createBackend({
-    db: shareDbMongo,
+    db,
     pubsub,
     extraDbs: options.extraDbs
   })
@@ -220,30 +221,9 @@ export default async options => {
     })
   })
 
-  // ------------------------------------------------------->      backend       <#
-  if (options.ee != null) {
-    // should to deprecate first parameter in future
-    options.ee.emit('backend', backend, {
-      mongo: shareDbMongo.mongo,
-      backend,
-      shareDbMongo,
-      redisClient,
-      redisPrefix
-    })
-  }
+  if (options.ee != null) options.ee.emit('backend', backend)
 
-  return {
-    backend,
-    shareDbMongo, // you can get mongo client from shareDbMongo.mongo
-    redisClient, // you can directly pass this redis client to redlock
-    redisPrefix, // use this for you redis prefixes (and redlock prefixes)
-    // mock old redis-url api. TODO: get rid of this after we refactor other libs to use redisClient directly
-    redis: {
-      connect () {
-        return redis.createClient({ url: process.env.REDIS_URL })
-      }
-    }
-  }
+  return backend
 }
 
 function pathQueryMongo (request, next) {

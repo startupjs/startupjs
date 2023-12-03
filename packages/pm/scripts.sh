@@ -229,11 +229,11 @@ _getJsonValue () {
 }
 
 _getOwner () {
-  git remote get-url origin | sed -n 's/.*github\.com:\([^\/]*\)\/[^\/]*.git/\1/p'
+  git remote get-url origin | sed -n 's/.*github\.com[:\/]\([^\/]*\)\/[^\/]*.git/\1/p'
 }
 
 _getRepo () {
-  git remote get-url origin | sed -n 's/.*github\.com:[^\/]*\/\([^\/]*\).git/\1/p'
+  git remote get-url origin | sed -n 's/.*github\.com[:\/][^\/]*\/\([^\/]*\).git/\1/p'
 }
 
 # project url example: https://github.com/orgs/dmstartups/projects/4

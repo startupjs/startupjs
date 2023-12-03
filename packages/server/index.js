@@ -6,6 +6,8 @@ import errorApp from './error/index.js'
 import server from './server/index.js'
 const ROOT_PATH = process.env.ROOT_PATH || process.cwd()
 
+export * from './server/index.js'
+
 export default (options = {}, cb) => {
   // Set project dir to process.cwd(). In future we may want to allow to
   // allow the customization of this parameter.
