@@ -14,8 +14,7 @@ npx startupjs init-pm
 ```
 
 This will create the GitHub project with the same name as your github repo from
-our private Template. You have to have access to our private Template in order
-to use it. For access please contact @cray0000
+our Project Management Template.
 
 It will also add the following helper scripts `yarn pr` and `yarn task ISSUE_NUMBER`
 to your `package.json` which you'll need to use doing all the development work going
