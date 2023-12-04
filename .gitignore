@@ -32,3 +32,7 @@ lerna-debug.log
 
 # Mongo for docker
 /.mongo
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

@@ -47,6 +47,7 @@ function Div ({
   bleed,
   full,
   accessible,
+  accessibilityRole,
   tooltip,
   tooltipStyle,
   renderTooltip,
@@ -164,9 +165,10 @@ function Div ({
 
   function maybeWrapToClickable (children) {
     if (isClickable) {
+      const role = accessible !== false ? accessibilityRole || 'button' : undefined
       const touchableProps = pick(props, PRESSABLE_PROPS)
       return pug`
-        TouchableWithoutFeedback(focusable=accessible ...touchableProps)
+        TouchableWithoutFeedback(focusable=accessible accessibilityRole=role ...touchableProps)
           = children
       `
     } else {
@@ -175,6 +177,11 @@ function Div ({
   }
 
   const viewProps = omit(props, PRESSABLE_PROPS)
+
+  if (!isClickable) {
+    viewProps.accessibilityRole = accessible !== false ? accessibilityRole : undefined
+  }
+
   const testID = viewProps.testID || viewProps['data-testid']
   // backgroundColor in style can override extraStyle backgroundColor
   // so passing the extraStyle to the end is important in this case
@@ -254,7 +261,9 @@ Div.propTypes = {
   tooltip: PropTypes.string,
   tooltipStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   onPress: PropTypes.func,
-  onLongPress: PropTypes.func
+  onLongPress: PropTypes.func,
+  accessible: PropTypes.bool,
+  accessibilityRole: PropTypes.string
 }
 
 export default observer(themed('Div', Div), { forwardRef: true })

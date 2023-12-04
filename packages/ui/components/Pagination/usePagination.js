@@ -50,7 +50,7 @@ export default function usePagination ({
   pages = pages || 1
 
   // Basic list of items to render
-  let itemList = [
+  const itemList = [
     ...(showFirstButton ? ['first'] : []),
     ...(showPrevButton ? ['previous'] : [])
   ]

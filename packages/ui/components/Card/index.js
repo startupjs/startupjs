@@ -16,7 +16,7 @@ function Card ({
   ...props
 }) {
   const extraProps = useMemo(() => {
-    let props = {}
+    const props = {}
     if (variant === 'elevated') props.level = level
     return props
   }, [variant, level])

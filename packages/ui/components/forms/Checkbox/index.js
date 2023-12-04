@@ -44,6 +44,7 @@ function Checkbox ({
           style=inputStyle
           value=value
           onPress=onPress
+          accessibilityRole='checkbox'
           ...props
         )
   `

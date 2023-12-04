@@ -292,7 +292,7 @@ function Carousel ({
       coardName,
       sideName
     })
-    let side = (startDrag > _endDrag) ? 'next' : 'back'
+    const side = (startDrag > _endDrag) ? 'next' : 'back'
 
     if (activeElement.index === activeIndex) {
       if (side === 'next') {
