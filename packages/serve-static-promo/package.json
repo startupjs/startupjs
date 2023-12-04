@@ -1,0 +1,13 @@
+{
+  "name": "@startupjs/serve-static-promo",
+  "description": "Serve static html website from /promo folder",
+  "version": "0.55.0",
+  "type": "module",
+  "main": "server/index.js",
+  "dependencies": {
+    "serve-static-zip": "1.0.3"
+  },
+  "peerDependencies": {
+    "express": "4.x"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@startupjs/registry",
+  "version": "0.55.0",
+  "engines": {
+    "node": ">= 14"
+  },
+  "description": "StartupJS Registry of modules and plugins",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "resolve": "^1.20.0"
+  }
+}
