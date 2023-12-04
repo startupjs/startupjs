@@ -1,4 +1,4 @@
-const { getPackages } = require('@startupjs/registry/lib/loader')
+const { getPackages } = require('@startupjs/registry/loader')
 const { addDefault } = require('@babel/helper-module-imports')
 const babelParser = require('@babel/parser')
 const template = require('@babel/template').default
