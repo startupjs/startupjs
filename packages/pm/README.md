@@ -4,21 +4,24 @@
 
 ## Installation
 
-This meant to be used from the main `cli` package (the main `startupjs` cli)
+After you've created a new startupjs project **and pushed it to a new github repo**,
+you need to:
 
-After you've created a new startupjs project and pushed it to a new github repo,
-execute the following command from the root of your project:
+1. create a new GitHub project with the same name as your github repo from
+our [Project Management Template](https://github.com/orgs/startupjs/projects/2)
+
+    **IMPORTANT**: You have to be a member of the organization where the repo is located
+to have rights to create a new GitHub project.
+
+1. link it to the repository in repository's `Projects` tab
+1. add `"task": "npx startupjs task"` and `"pr": "npx startupjs pr"` into `scripts` of your `package.json`
+
+Instead of manually performing the 3 steps above, we provide a simple command which
+you can run once:
 
 ```sh
 npx startupjs init-pm
 ```
-
-This will create the GitHub project with the same name as your github repo from
-our Project Management Template.
-
-It will also add the following helper scripts `yarn pr` and `yarn task ISSUE_NUMBER`
-to your `package.json` which you'll need to use doing all the development work going
-forward.
 
 The whole process of development and how to use the helper scripts is described
 in separate guidelines files.
