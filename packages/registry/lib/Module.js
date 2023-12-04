@@ -1,6 +1,6 @@
-const Plugin = require('./Plugin')
+import Plugin from './Plugin.js'
 
-module.exports = class Module {
+export default class Module {
   // ------------------------------------------
   //   Registration and initialization
   // ------------------------------------------

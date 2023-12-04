@@ -1,7 +1,8 @@
-// Plugins Manager API (used by the actual framework)
-const fs = require('fs')
-const fsPath = require('path')
-const resolve = require('resolve')
+// Plugins Manager API
+// used by the actual framework to find all modules and plugins for them
+import fs from 'fs'
+import fsPath from 'path'
+import resolve from 'resolve'
 
 const ROOT = process.cwd()
 const METADATA_FILENAME = 'startupjs.json'
@@ -14,7 +15,7 @@ const getParentEnvs = env => {
   }
 }
 
-exports.getPackages = function (env, root = ROOT) {
+export function getPackages (env, root = ROOT) {
   if (!env) throw Error('You must pass the env')
   const packagePaths = getPackagePathsFromPackageJson(root, fsPath.join(root, 'package.json'))
   return removeDuplicates(findPackages(root, packagePaths, env))

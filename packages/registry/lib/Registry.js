@@ -2,16 +2,14 @@
 // Module can only be registered once.
 // Plugin is something which extends a specific module's API.
 // There might be multiple plugins active for a single module.
-const Module = require('./Module')
+import Module from './Module.js'
 
-module.exports = class Registry {
+export default class Registry {
   // ------------------------------------------
   //   Registration and initialization
   // ------------------------------------------
 
-  constructor ({ env } = {}) {
-    if (!env) throw Error('You must specify \'env\' when creating a registry')
-    this.env = env
+  constructor () {
     this.modules = new Map()
   }
 

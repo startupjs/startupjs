@@ -1,4 +1,4 @@
-module.exports = class Plugin {
+export default class Plugin {
   // ------------------------------------------
   //   Registration and initialization
   // ------------------------------------------
