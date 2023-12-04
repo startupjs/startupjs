@@ -1,0 +1,37 @@
+# E2E тестирование в StartupJS
+
+StartupJS использует инструмент **Playwright** для написания E2E (End-to-End) тестов. Ниже приведены шаги для начала работы с Playwright в вашем проекте.
+
+## Установка Playwright
+
+Для начала работы с Playwright, необходимо установить его в репозитории вашего проекта. Выполните следующую команду:
+
+```bash
+yarn create playwright
+```
+
+## Генерация тестов с помощью Playwright
+
+Для запуска генератора тестов, используйте команду:
+
+```bash
+yarn playwright codegen http://localhost:3000
+```
+
+Результат будет записан в папку `tests`.
+
+## Запуск тестов
+
+Для запуска тестов, выполните команду:
+
+```bash
+yarn playwright test
+```
+
+## Интеграция с CI
+
+Для примера интеграции Playwright с CI с использованием GitHub Actions обратитесь к файлу [workflows/run-tests.yaml](https://github.com/startupjs/startupjs/blob/master/.github/workflows/run-tests.yaml) в репозитории StartupJS.
+
+## Дополнительная информация
+
+[Официальная документация](https://playwright.dev/docs/intro).

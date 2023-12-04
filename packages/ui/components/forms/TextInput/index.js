@@ -41,6 +41,7 @@ TextInput.propTypes = {
   iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   secondaryIconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   placeholder: PropTypes.string,
+  testID: PropTypes.string,
   value: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
   disabled: PropTypes.bool,
