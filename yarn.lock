@@ -5477,7 +5477,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/2fa-manager@npm:^0.55.0-alpha.1, @startupjs/2fa-manager@workspace:packages/2fa-manager":
+"@startupjs/2fa-manager@npm:^0.55.0, @startupjs/2fa-manager@workspace:packages/2fa-manager":
   version: 0.0.0-use.local
   resolution: "@startupjs/2fa-manager@workspace:packages/2fa-manager"
   peerDependencies:
@@ -5486,7 +5486,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/2fa-push-notification-provider@npm:^0.55.0-alpha.1, @startupjs/2fa-push-notification-provider@workspace:packages/2fa-push-notification-provider":
+"@startupjs/2fa-push-notification-provider@npm:^0.55.0, @startupjs/2fa-push-notification-provider@workspace:packages/2fa-push-notification-provider":
   version: 0.0.0-use.local
   resolution: "@startupjs/2fa-push-notification-provider@workspace:packages/2fa-push-notification-provider"
   peerDependencies:
@@ -5495,7 +5495,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/2fa-totp-authentication-provider@npm:^0.55.0-alpha.1, @startupjs/2fa-totp-authentication-provider@workspace:packages/2fa-totp-authentication-provider":
+"@startupjs/2fa-totp-authentication-provider@npm:^0.55.0, @startupjs/2fa-totp-authentication-provider@workspace:packages/2fa-totp-authentication-provider":
   version: 0.0.0-use.local
   resolution: "@startupjs/2fa-totp-authentication-provider@workspace:packages/2fa-totp-authentication-provider"
   peerDependencies:
@@ -5505,7 +5505,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/2fa-totp-authentication@npm:^0.55.0-alpha.1, @startupjs/2fa-totp-authentication@workspace:packages/2fa-totp-authentication":
+"@startupjs/2fa-totp-authentication@npm:^0.55.0, @startupjs/2fa-totp-authentication@workspace:packages/2fa-totp-authentication":
   version: 0.0.0-use.local
   resolution: "@startupjs/2fa-totp-authentication@workspace:packages/2fa-totp-authentication"
   dependencies:
@@ -5517,7 +5517,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/2fa@npm:^0.55.0-alpha.1, @startupjs/2fa@workspace:packages/2fa":
+"@startupjs/2fa@npm:^0.55.0, @startupjs/2fa@workspace:packages/2fa":
   version: 0.0.0-use.local
   resolution: "@startupjs/2fa@workspace:packages/2fa"
   dependencies:
@@ -5550,7 +5550,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth-apple@npm:^0.55.0-alpha.1, @startupjs/auth-apple@workspace:packages/auth-apple":
+"@startupjs/auth-apple@npm:^0.55.0, @startupjs/auth-apple@workspace:packages/auth-apple":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth-apple@workspace:packages/auth-apple"
   dependencies:
@@ -5563,7 +5563,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth-azuread@npm:^0.55.0-alpha.1, @startupjs/auth-azuread@workspace:packages/auth-azuread":
+"@startupjs/auth-azuread@npm:^0.55.0, @startupjs/auth-azuread@workspace:packages/auth-azuread":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth-azuread@workspace:packages/auth-azuread"
   dependencies:
@@ -5576,7 +5576,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth-common@npm:^0.55.0-alpha.1, @startupjs/auth-common@workspace:packages/auth-common":
+"@startupjs/auth-common@npm:^0.55.0, @startupjs/auth-common@workspace:packages/auth-common":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth-common@workspace:packages/auth-common"
   peerDependencies:
@@ -5585,7 +5585,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth-facebook@npm:^0.55.0-alpha.1, @startupjs/auth-facebook@workspace:packages/auth-facebook":
+"@startupjs/auth-facebook@npm:^0.55.0, @startupjs/auth-facebook@workspace:packages/auth-facebook":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth-facebook@workspace:packages/auth-facebook"
   dependencies:
@@ -5598,7 +5598,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth-google@npm:^0.55.0-alpha.1, @startupjs/auth-google@workspace:packages/auth-google":
+"@startupjs/auth-google@npm:^0.55.0, @startupjs/auth-google@workspace:packages/auth-google":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth-google@workspace:packages/auth-google"
   dependencies:
@@ -5611,7 +5611,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth-idg@npm:^0.55.0-alpha.1, @startupjs/auth-idg@workspace:packages/auth-idg":
+"@startupjs/auth-idg@npm:^0.55.0, @startupjs/auth-idg@workspace:packages/auth-idg":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth-idg@workspace:packages/auth-idg"
   dependencies:
@@ -5622,7 +5622,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth-linkedin@npm:^0.55.0-alpha.1, @startupjs/auth-linkedin@workspace:packages/auth-linkedin":
+"@startupjs/auth-linkedin@npm:^0.55.0, @startupjs/auth-linkedin@workspace:packages/auth-linkedin":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth-linkedin@workspace:packages/auth-linkedin"
   dependencies:
@@ -5636,7 +5636,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth-local@npm:^0.55.0-alpha.1, @startupjs/auth-local@workspace:packages/auth-local":
+"@startupjs/auth-local@npm:^0.55.0, @startupjs/auth-local@workspace:packages/auth-local":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth-local@workspace:packages/auth-local"
   dependencies:
@@ -5673,7 +5673,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth@npm:^0.55.0-alpha.1, @startupjs/auth@workspace:packages/auth":
+"@startupjs/auth@npm:^0.55.0, @startupjs/auth@workspace:packages/auth":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth@workspace:packages/auth"
   dependencies:
@@ -5962,7 +5962,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/docs@npm:^0.55.0-alpha.1, @startupjs/docs@workspace:packages/docs":
+"@startupjs/docs@npm:^0.55.0, @startupjs/docs@workspace:packages/docs":
   version: 0.0.0-use.local
   resolution: "@startupjs/docs@workspace:packages/docs"
   dependencies:
@@ -5998,7 +5998,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/i18n@npm:^0.55.0, @startupjs/i18n@npm:^0.55.0-alpha.1, @startupjs/i18n@workspace:packages/i18n":
+"@startupjs/i18n@npm:^0.55.0, @startupjs/i18n@workspace:packages/i18n":
   version: 0.0.0-use.local
   resolution: "@startupjs/i18n@workspace:packages/i18n"
   dependencies:
@@ -6060,7 +6060,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/mdx@npm:^0.55.0, @startupjs/mdx@npm:^0.55.0-alpha.1, @startupjs/mdx@workspace:packages/mdx":
+"@startupjs/mdx@npm:^0.55.0, @startupjs/mdx@workspace:packages/mdx":
   version: 0.0.0-use.local
   resolution: "@startupjs/mdx@workspace:packages/mdx"
   dependencies:
@@ -6139,7 +6139,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/push-notifications@npm:^0.55.0-alpha.1, @startupjs/push-notifications@workspace:packages/push-notifications":
+"@startupjs/push-notifications@npm:^0.55.0, @startupjs/push-notifications@workspace:packages/push-notifications":
   version: 0.0.0-use.local
   resolution: "@startupjs/push-notifications@workspace:packages/push-notifications"
   dependencies:
@@ -6244,7 +6244,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/recaptcha@npm:^0.55.0, @startupjs/recaptcha@npm:^0.55.0-alpha.1, @startupjs/recaptcha@workspace:packages/recaptcha":
+"@startupjs/recaptcha@npm:^0.55.0, @startupjs/recaptcha@workspace:packages/recaptcha":
   version: 0.0.0-use.local
   resolution: "@startupjs/recaptcha@workspace:packages/recaptcha"
   peerDependencies:
@@ -6255,7 +6255,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/scrollable-anchors@npm:^0.55.0, @startupjs/scrollable-anchors@npm:^0.55.0-alpha.1, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
+"@startupjs/scrollable-anchors@npm:^0.55.0, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
   version: 0.0.0-use.local
   resolution: "@startupjs/scrollable-anchors@workspace:packages/scrollable-anchors"
   dependencies:
@@ -6336,27 +6336,27 @@ __metadata:
     "@react-native-cookies/cookies": "npm:^6.0.5"
     "@react-native-google-signin/google-signin": "npm:^6.0.0"
     "@react-native-picker/picker": "npm:^1.16.1"
-    "@startupjs/2fa": "npm:^0.55.0-alpha.1"
-    "@startupjs/2fa-manager": "npm:^0.55.0-alpha.1"
-    "@startupjs/2fa-push-notification-provider": "npm:^0.55.0-alpha.1"
-    "@startupjs/2fa-totp-authentication": "npm:^0.55.0-alpha.1"
-    "@startupjs/2fa-totp-authentication-provider": "npm:^0.55.0-alpha.1"
-    "@startupjs/auth": "npm:^0.55.0-alpha.1"
-    "@startupjs/auth-apple": "npm:^0.55.0-alpha.1"
-    "@startupjs/auth-azuread": "npm:^0.55.0-alpha.1"
-    "@startupjs/auth-common": "npm:^0.55.0-alpha.1"
-    "@startupjs/auth-facebook": "npm:^0.55.0-alpha.1"
-    "@startupjs/auth-google": "npm:^0.55.0-alpha.1"
-    "@startupjs/auth-idg": "npm:^0.55.0-alpha.1"
-    "@startupjs/auth-linkedin": "npm:^0.55.0-alpha.1"
-    "@startupjs/auth-local": "npm:^0.55.0-alpha.1"
-    "@startupjs/docs": "npm:^0.55.0-alpha.1"
-    "@startupjs/i18n": "npm:^0.55.0-alpha.1"
-    "@startupjs/mdx": "npm:^0.55.0-alpha.1"
-    "@startupjs/push-notifications": "npm:^0.55.0-alpha.1"
-    "@startupjs/recaptcha": "npm:^0.55.0-alpha.1"
-    "@startupjs/scrollable-anchors": "npm:^0.55.0-alpha.1"
-    "@startupjs/ui": "npm:^0.55.0-alpha.1"
+    "@startupjs/2fa": "npm:^0.55.0"
+    "@startupjs/2fa-manager": "npm:^0.55.0"
+    "@startupjs/2fa-push-notification-provider": "npm:^0.55.0"
+    "@startupjs/2fa-totp-authentication": "npm:^0.55.0"
+    "@startupjs/2fa-totp-authentication-provider": "npm:^0.55.0"
+    "@startupjs/auth": "npm:^0.55.0"
+    "@startupjs/auth-apple": "npm:^0.55.0"
+    "@startupjs/auth-azuread": "npm:^0.55.0"
+    "@startupjs/auth-common": "npm:^0.55.0"
+    "@startupjs/auth-facebook": "npm:^0.55.0"
+    "@startupjs/auth-google": "npm:^0.55.0"
+    "@startupjs/auth-idg": "npm:^0.55.0"
+    "@startupjs/auth-linkedin": "npm:^0.55.0"
+    "@startupjs/auth-local": "npm:^0.55.0"
+    "@startupjs/docs": "npm:^0.55.0"
+    "@startupjs/i18n": "npm:^0.55.0"
+    "@startupjs/mdx": "npm:^0.55.0"
+    "@startupjs/push-notifications": "npm:^0.55.0"
+    "@startupjs/recaptcha": "npm:^0.55.0"
+    "@startupjs/scrollable-anchors": "npm:^0.55.0"
+    "@startupjs/ui": "npm:^0.55.0"
     axios: "npm:^0.21.1"
     js-cookie: "npm:^2.2.1"
     nconf: "npm:^0.11.4"
@@ -6373,12 +6373,12 @@ __metadata:
     react-native-svg: "npm:^12.1.0"
     react-native-tab-view: "npm:^3.0.0"
     react-native-webview: "npm:10.10.2"
-    startupjs: "npm:^0.55.0-alpha.1"
+    startupjs: "npm:^0.55.0"
     text-encoding-polyfill: "npm:^0.6.7"
   languageName: unknown
   linkType: soft
 
-"@startupjs/ui@npm:^0.55.0, @startupjs/ui@npm:^0.55.0-alpha.1, @startupjs/ui@workspace:packages/ui":
+"@startupjs/ui@npm:^0.55.0, @startupjs/ui@workspace:packages/ui":
   version: 0.0.0-use.local
   resolution: "@startupjs/ui@workspace:packages/ui"
   dependencies:
@@ -28939,7 +28939,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.55.0, startupjs@npm:^0.55.0-alpha.1, startupjs@workspace:packages/startupjs":
+"startupjs@npm:^0.55.0, startupjs@workspace:packages/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:packages/startupjs"
   dependencies:
