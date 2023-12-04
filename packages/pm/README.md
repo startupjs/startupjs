@@ -57,6 +57,13 @@ to have rights to create a new GitHub project.
     "pr": "sh ./node_modules/@startupjs/pm/scripts.sh pr"
     ```
 
+The whole process of development and how to use the helper scripts is described
+in separate guidelines files.
+Please make sure all developers, designers, team leads and project managers are strictly
+following their according guidelines:
+
+[**StartupJS Project Management Guidelines**](./guidelines.md)
+
 ## License
 
 MIT
