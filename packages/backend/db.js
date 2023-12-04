@@ -1,6 +1,7 @@
 import ShareDbMongo from 'sharedb-mongo'
 import ShareDbMingoMemory from 'sharedb-mingo-memory'
 import sqlite3 from 'sqlite3'
+import path from 'path'
 import { mongoClient } from './mongo.js'
 
 const { MONGO_URL, NO_MONGO, DB_PATH, DB_LOAD_SNAPSHOT } = process.env
@@ -37,7 +38,7 @@ async function loadDataToMingo (db, mingo) {
         mingo.docs[row.collection][row.id] = JSON.parse(row.data)
       }
       resolve()
-      console.log('Documents loaded from SQLite to shareDbMingo')
+      console.log('DB data was loaded from SQLite to shareDbMingo')
     })
   })
 }
@@ -45,24 +46,23 @@ async function loadDataToMingo (db, mingo) {
 async function cloneSqlDb (source, target) {
   return new Promise((resolve, reject) => {
     source.serialize(() => {
-      source.all('SELECT * FROM tableName', [], (err, rows) => {
+      source.all('SELECT * FROM documents', [], (err, rows) => {
         if (err) return reject(err)
 
         // Insert data into target database
         rows.forEach((row) => {
-          target.run('INSERT INTO tableName (column1, column2) VALUES (?, ?)', [row.column1, row.column2], (err) => {
+          target.run('INSERT INTO documents (collection, id, data) VALUES (?, ?, ?)', [row.collection, row.id, row.data], (err) => {
             if (err) return reject(err)
-
-            console.log('Documents cloned into SQLite database')
           })
         })
+        resolve()
       })
     })
   })
 }
 
 // override the commit method to save changes to SQLite
-async function patchMingoCommit (sqlDb, shareDbMingo) {
+function patchMingoCommit (sqlDb, shareDbMingo) {
   const originalCommit = shareDbMingo.commit
 
   shareDbMingo.commit = function (collection, docId, op, snapshot, options, callback) {
@@ -87,9 +87,11 @@ async function patchMingoCommit (sqlDb, shareDbMingo) {
 }
 
 async function initDb () {
-  console.log(DB_PATH, DB_LOAD_SNAPSHOT, MONGO_URL, NO_MONGO)
-
+  const isReadOnly = DB_PATH === ''
+  const snapshotPath = DB_LOAD_SNAPSHOT ? path.join(process.cwd(), DB_LOAD_SNAPSHOT) : undefined
+  const dbPath = DB_PATH ? path.join(process.cwd(), DB_PATH) : undefined
   if (MONGO_URL && !NO_MONGO) {
+    console.log('Using MongoBd')
     return ShareDbMongo(
       {
         mongo: callback => callback(null, mongoClient),
@@ -98,35 +100,32 @@ async function initDb () {
     )
   }
 
-  console.log(1)
-
   const shareDbMingo = new ShareDbMingoMemory()
 
-  if (DB_PATH === '' && !DB_LOAD_SNAPSHOT) return shareDbMingo
+  if (isReadOnly && !snapshotPath) {
+    console.log('Using MingoMemory')
+    return shareDbMingo
+  }
 
-  console.log(2)
-  const sourcePath = DB_LOAD_SNAPSHOT || DB_PATH || 'sqlite.db'
+  console.log('Using MingoMemory with SQLite.')
+  const sourcePath = snapshotPath || dbPath || 'sqlite.db'
   let sqlDb = await createSqlDb(sourcePath)
-  console.log(3, sqlDb)
   await loadDataToMingo(sqlDb, shareDbMingo)
-  console.log(4)
-  // create new db base on snapshot
-  if (DB_PATH !== '' && DB_LOAD_SNAPSHOT) {
+
+  if (snapshotPath && !isReadOnly) {
     const sourceDb = sqlDb
-    console.log(5)
-    sqlDb = await createSqlDb(DB_PATH || 'sqlite.db')
-    console.log(6)
+    sqlDb = await createSqlDb(dbPath || 'sqlite.db')
+
     await cloneSqlDb(sourceDb, sqlDb)
   }
 
-  console.log(7)
-  await patchMingoCommit(sqlDb, shareDbMingo)
+  if (!isReadOnly) {
+    patchMingoCommit(sqlDb, shareDbMingo)
+  }
 
   return shareDbMingo
 }
 
 const db = await initDb()
-
-console.log(db, 'WTF!!!!!!!!!!!!')
 
 export default db
