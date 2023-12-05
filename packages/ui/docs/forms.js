@@ -8,6 +8,8 @@ import ColorPickerEn from '../components/forms/ColorPicker/ColorPicker.en.mdx'
 import ColorPickerRu from '../components/forms/ColorPicker/ColorPicker.ru.mdx'
 import DateTimePickerEn from '../components/forms/DateTimePicker/docs/DateTimePicker.en.mdx'
 import DateTimePickerRu from '../components/forms/DateTimePicker/docs/DateTimePicker.ru.mdx'
+import FilePickerEn from '../components/forms/FilePicker/docs/FilePicker.en.mdx'
+import FilePickerRu from '../components/forms/FilePicker/docs/FilePicker.ru.mdx'
 import InputEn from '../components/forms/Input/Input.en.mdx'
 import InputRu from '../components/forms/Input/Input.ru.mdx'
 import MultiselectEn from '../components/forms/Multiselect/Multiselect.en.mdx'
@@ -83,6 +85,14 @@ export default {
       component: {
         en: DateTimePickerEn,
         ru: DateTimePickerRu
+      }
+    },
+    FilePicker: {
+      type: 'mdx',
+      title: 'FilePicker',
+      component: {
+        en: FilePickerEn,
+        ru: FilePickerRu
       }
     },
     Multiselect: {

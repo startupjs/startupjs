@@ -1,0 +1,28 @@
+import { useState } from 'react'
+import { pug } from 'startupjs'
+import FilePicker from '../'
+import { useValue } from 'startupjs'
+import { Sandbox } from '@startupjs/docs'
+
+# FilePicker
+
+FilePicker позволяет выбирать  файлы для последующих манипуляций с ними
+
+```jsx
+import { FilePicker } from '@startupjs/ui'
+```
+
+## IOS
+Добавьте запрос разрешений в ios/app/Info.plist:
+
+```jsx
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Select image/video from photos</string>
+<string>For selecting and uploading photos in the app, access to your photo library is required.</string>
+<key>NSCameraUsageDescription</key>
+<string>For taking photos and videos, access to your device's camera is required.</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>For recording audio, access to your device's microphone is required.</string>
+```
+
+<Sandbox Component={FilePicker} block />
