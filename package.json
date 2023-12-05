@@ -31,7 +31,8 @@
     "publish-alpha-patch": "yarn before-publish && npx lerna publish prerelease --dist-tag next --no-push && yarn publish-update-changelog",
     "before-publish": "./scripts/tasks.sh before-publish",
     "publish-update-changelog": "./scripts/tasks.sh update-changelog",
-    "test-e2e": "cd styleguide && yarn test-e2e"
+    "test-e2e": "cd styleguide && yarn test-e2e",
+    "codegen-test-e2e": "cd styleguide && yarn codegen-test-e2e"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.3",
