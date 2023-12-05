@@ -148,9 +148,17 @@ SCRIPTS_ORIG.postinstall = () => oneLine(`
   ${SCRIPTS_ORIG.patchPackage()}
 `)
 
-SCRIPTS_ORIG.testE2E = ({ inspect } = {}) => oneLine(`
-  npx playwright test
+SCRIPTS_ORIG.testE2E = ({ inspect } = {}) => {
+  return oneLine(`
+  startupjs build --async && npx concurrently "startupjs start-production" "sleep 15s && npx playwright test ${process.env.TEST_E2E_DIR || ''}"
 `)
+}
+
+SCRIPTS_ORIG.codegenTestE2E = ({ inspect } = {}) => {
+  return oneLine(`
+  startupjs build --async && npx concurrently "startupjs start-production" "npx playwright codegen http://localhost:3000/"
+`)
+}
 
 const SCRIPTS = {
   start: 'startupjs start',
@@ -167,7 +175,8 @@ const SCRIPTS = {
   'ios-release': 'react-native run-ios --configuration Release',
   build: 'startupjs build --async',
   'start-production': 'startupjs start-production',
-  'test-e2e': 'startupjs test-e2e'
+  'test-e2e': 'startupjs test-e2e',
+  'codegen-test-e2e': 'startupjs codegen-test-e2e'
 }
 
 const DEFAULT_TEMPLATE = 'ui'
@@ -367,6 +376,16 @@ commander
   .action(async (options) => {
     await execa.command(
       SCRIPTS_ORIG.testE2E(options),
+      { stdio: 'inherit', shell: true }
+    )
+  })
+
+commander
+  .command('codegen-test-e2e')
+  .description('Run codegen for e2e tests')
+  .action(async (options) => {
+    await execa.command(
+      SCRIPTS_ORIG.codegenTestE2E(options),
       { stdio: 'inherit', shell: true }
     )
   })
