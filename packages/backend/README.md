@@ -17,12 +17,12 @@ nconf: *
 
 The package can be configured using the following environment variables:
 
-- `MONGO_URL`: Specifies the URL for the MongoDB connection. MongoDB is used as the primary database unless overridden by setting `NO_MONGO` to true.
+- `MONGO_URL`: Specifies the URL for the MongoDB connection. MongoDB is used as the primary database unless overridden by setting `NO_MONGO` to `true`.
 - `NO_MONGO`: When set to `true`, this variable disables the use of MongoDB. In this case, the package will utilize a Mingo database with persisting data to SQLite.
 - `DB_PATH`: Defines the file path for the SQLite database. This setting is relevant when `NO_MONGO` is `true`. If `DB_PATH` is not specified, the default file 'sqlite.db' will be used.
 - `DB_LOAD_SNAPSHOT`: An optional variable that can be set with a path to a SQLite snapshot file. This setting is relevant when `NO_MONGO` is `true`. If provided, the SQLite database will be initialized from this snapshot.
 - `REDIS_URL`: URL for the Redis connection.
-- `NO_REDIS`: Set to true to use a mocked Redis client.
+- `NO_REDIS`: Set to `true` to use a mocked Redis client.
 
 ### Database Initialization
 
