@@ -1,5 +1,6 @@
 import ShareDbMingoMemory from 'sharedb-mingo-memory'
 import path from 'path'
+import sqlite3 from 'sqlite3'
 import { cloneSqlDb, createSqlDb, loadDataToMingo } from './helpers.js'
 
 // override the commit method to save changes to SQLite
@@ -34,7 +35,7 @@ const targetSqliteDbPath = path.join(process.cwd(), DB_PATH || 'sqlite.db')
 const targetSqliteDb = await createSqlDb(targetSqliteDbPath)
 
 if (sourceSqliteDbPath) {
-  const sourceSqliteDb = await createSqlDb(sourceSqliteDbPath)
+  const sourceSqliteDb = new sqlite3.Database(sourceSqliteDbPath)
   await cloneSqlDb(sourceSqliteDb, targetSqliteDb)
 }
 
