@@ -3,14 +3,14 @@ import path from 'path'
 import { cloneSqlDb, createSqlDb, loadDataToMingo } from './helpers.js'
 
 // override the commit method to save changes to SQLite
-function patchMingoCommit (sqlite, shareDbMingo) {
+function patchMingoCommit (sqliteDb, shareDbMingo) {
   const originalCommit = shareDbMingo.commit
 
   shareDbMingo.commit = function (collection, docId, op, snapshot, options, callback) {
     originalCommit.call(this, collection, docId, op, snapshot, options, (err) => {
       if (err) return callback(err)
 
-      sqlite.run(
+      sqliteDb.run(
         'REPLACE INTO documents (collection, id, data) VALUES (?, ?, ?)',
         [collection, docId, JSON.stringify(snapshot)],
         (err) => {
@@ -28,20 +28,18 @@ function patchMingoCommit (sqlite, shareDbMingo) {
 }
 
 const { DB_PATH, DB_LOAD_SNAPSHOT } = process.env
-
 const db = new ShareDbMingoMemory()
-const sourcePath = DB_LOAD_SNAPSHOT || DB_PATH || 'sqlite.db'
-let sqliteDb = await createSqlDb(path.join(process.cwd(), sourcePath))
+const sourceSqliteDbPath = DB_LOAD_SNAPSHOT ? path.join(process.cwd(), DB_LOAD_SNAPSHOT) : undefined
+const targetSqliteDbPath = path.join(process.cwd(), DB_PATH || 'sqlite.db')
+const targetSqliteDb = await createSqlDb(targetSqliteDbPath)
 
-await loadDataToMingo(sqliteDb, db)
-
-if (DB_PATH && DB_PATH !== sourcePath) {
-  const sourceDb = sqliteDb
-  sqliteDb = await createSqlDb(path.join(process.cwd(), DB_PATH || 'sqlite.db'))
-
-  await cloneSqlDb(sourceDb, sqliteDb)
+if (sourceSqliteDbPath) {
+  const sourceSqliteDb = await createSqlDb(sourceSqliteDbPath)
+  await cloneSqlDb(sourceSqliteDb, targetSqliteDb)
 }
 
-patchMingoCommit(sqliteDb, db)
+await loadDataToMingo(targetSqliteDb, db)
+
+patchMingoCommit(targetSqliteDb, db)
 
 export default db
