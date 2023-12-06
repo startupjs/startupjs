@@ -1,6 +1,6 @@
 import ShareDbMongo from 'sharedb-mongo'
 
-const { MONGO_URL, NO_MONGO, DB_PATH } = process.env
+const { MONGO_URL, NO_MONGO, DB_READONLY } = process.env
 
 let db
 
@@ -16,7 +16,7 @@ if (MONGO_URL && !NO_MONGO) {
     }
   )
 // use mingo without persist data
-} else if (DB_PATH === '') {
+} else if (DB_READONLY) {
   console.log('Database: mingo')
   db = await import('./mingo.js').default
 // all other cases use mingo with sqlite persist
