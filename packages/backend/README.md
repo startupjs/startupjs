@@ -34,7 +34,7 @@ The backend toggles between MongoDB and Mingo for database operations, influence
 - **SQLite Snapshot**: When `DB_LOAD_SNAPSHOT` is set, SQLite is initialized with this pre-populated data snapshot and pulls data to Mingo.
 
 This setup ensures flexibility in database management based on environment configurations.
-Data persistence can be disabled by passing an empty string to `DB_PATH`.
+Data persistence can be disabled by setting `DB_READONLY` to `true`.
 
 ## Usage
 
