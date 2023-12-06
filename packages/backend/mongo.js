@@ -1,17 +1,15 @@
 import fs from 'fs'
 import { MongoClient } from 'mongodb'
 import isString from 'lodash/isString.js'
+import ShareDbMongo from 'sharedb-mongo'
 
 const {
-  NO_MONGO,
   MONGO_URL,
   MONGO_OPTS,
   MONGO_SSL_KEY_PATH,
   MONGO_SSL_CERT_PATH,
   MONGO_SSL_CA_PATH
 } = process.env
-let mongoClient
-let mongo
 const options = { useUnifiedTopology: true }
 
 if (isString(MONGO_OPTS)) {
@@ -25,13 +23,20 @@ if (isString(MONGO_OPTS)) {
   options.sslCA = fs.readFileSync(MONGO_SSL_CA_PATH)
 }
 
-if (MONGO_URL && !NO_MONGO) {
-  mongoClient = new MongoClient(MONGO_URL, options)
-  mongo = mongoClient.db()
-}
+const mongoClient = new MongoClient(MONGO_URL, options)
+const mongo = mongoClient.db()
 
 function createMongoIndex (collection, keys, options) {
   return mongo.collection(collection).createIndex(keys, options)
 }
 
+const db = ShareDbMongo(
+  {
+    mongo: callback => callback(null, mongoClient),
+    allowAllQueries: true
+  }
+)
+
 export { mongo, mongoClient, createMongoIndex }
+
+export default db
