@@ -7,11 +7,11 @@ let db
 // use mongo
 if (MONGO_URL && !NO_MONGO) {
   console.log('Database: mongo')
-  const mongoClient = await import('./mongo.js').mongoClient
+  const mongo = await import('./mongo.js')
 
   db = ShareDbMongo(
     {
-      mongo: callback => callback(null, mongoClient),
+      mongo: callback => callback(null, mongo.mongoClient),
       allowAllQueries: true
     }
   )
