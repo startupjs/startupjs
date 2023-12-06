@@ -8,8 +8,8 @@ const db = new ShareDbMingoMemory()
 
 if (DB_LOAD_SNAPSHOT) {
   const snapshotPath = path.join(process.cwd(), DB_LOAD_SNAPSHOT)
-  const sqlDb = await createSqlDb(snapshotPath)
-  await loadDataToMingo(sqlDb, db)
+  const sqlite = await createSqlDb(snapshotPath)
+  await loadDataToMingo(sqlite, db)
 }
 
 export default db

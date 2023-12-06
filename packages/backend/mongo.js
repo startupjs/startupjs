@@ -1,7 +1,6 @@
 import fs from 'fs'
 import { MongoClient } from 'mongodb'
 import isString from 'lodash/isString.js'
-import ShareDbMongo from 'sharedb-mongo'
 
 const {
   MONGO_URL,
@@ -30,13 +29,4 @@ function createMongoIndex (collection, keys, options) {
   return mongo.collection(collection).createIndex(keys, options)
 }
 
-const db = ShareDbMongo(
-  {
-    mongo: callback => callback(null, mongoClient),
-    allowAllQueries: true
-  }
-)
-
 export { mongo, mongoClient, createMongoIndex }
-
-export default db

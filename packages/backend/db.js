@@ -1,19 +1,28 @@
+import ShareDbMongo from 'sharedb-mongo'
+
 const { MONGO_URL, NO_MONGO, DB_PATH } = process.env
 
 let db
 
 // use mongo
 if (MONGO_URL && !NO_MONGO) {
-  console.log('Use Mongo')
-  db = await import('./mongo.js').default
+  console.log('Database: mongo')
+  const mongoClient = await import('./mongo.js').mongoClient
+
+  db = ShareDbMongo(
+    {
+      mongo: callback => callback(null, mongoClient),
+      allowAllQueries: true
+    }
+  )
 // use mingo without persist data
 } else if (DB_PATH === '') {
-  console.log('Use Mingo')
+  console.log('Database: mingo')
   db = await import('./mingo.js').default
 // all other cases use mingo with sqlite persist
 } else {
-  console.log('Use Mingo with persist')
-  db = await import('./mingo-persist.js').default
+  console.log('Database: mingo persistance sqlite')
+  db = await import('./mingo-sqlite.js').default
 }
 
 export default db

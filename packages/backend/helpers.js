@@ -55,14 +55,14 @@ async function cloneSqlDb (source, target) {
 }
 
 // override the commit method to save changes to SQLite
-function patchMingoCommit (sqlDb, shareDbMingo) {
+function patchMingoCommit (sqlite, shareDbMingo) {
   const originalCommit = shareDbMingo.commit
 
   shareDbMingo.commit = function (collection, docId, op, snapshot, options, callback) {
     originalCommit.call(this, collection, docId, op, snapshot, options, (err) => {
       if (err) return callback(err)
 
-      sqlDb.run(
+      sqlite.run(
         'REPLACE INTO documents (collection, id, data) VALUES (?, ?, ?)',
         [collection, docId, JSON.stringify(snapshot)],
         (err) => {
