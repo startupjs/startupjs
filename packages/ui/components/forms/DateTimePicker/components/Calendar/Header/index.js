@@ -45,7 +45,7 @@ export default observer(function Header ({
 
   return pug`
     Div.header(row)
-      Div(vAlign='center' row=true)
+      Div(vAlign='center' row)
         Span.month(bold)= monthName
         Years.years(
           timezone=timezone
@@ -141,7 +141,7 @@ const Years = observer(function YearsComponent ({
         renderContent=renderYears
         attachmentStyleName='years-popover'
       )
-        Div(vAlign='center' row=true)
+        Div(vAlign='center' row)
           Span.year(bold)= moment.tz($uiDate.get(), timezone).year()
           Icon(icon=faCaretDown)
   `

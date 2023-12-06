@@ -17,7 +17,7 @@ function Rating ({
   onChange
 }) {
   return pug`
-    Div(style=style vAlign='center' row=true)
+    Div(style=style vAlign='center' row)
       if readonly
         Star(active)
         H6.value(bold)= value.toFixed(1)

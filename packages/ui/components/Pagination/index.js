@@ -52,7 +52,7 @@ function Pagination (props) {
             Div.item
               Span ...
           else if type === 'status'
-            Div.status(vAlign='center' row=true)
+            Div.status(vAlign='center' row)
               Span= item.value
     `
 }

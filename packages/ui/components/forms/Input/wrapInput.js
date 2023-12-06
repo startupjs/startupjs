@@ -113,7 +113,7 @@ export default function wrapInput (Component, configuration) {
             layout + '-' + descriptionPosition,
           ]
           vAlign='center'
-          row=true
+          row
         )
           Icon.errorContainer-icon(icon=faExclamationCircle)
           Span.errorContainer-text= error
@@ -131,7 +131,7 @@ export default function wrapInput (Component, configuration) {
             = _description
             = err
           if labelPosition === 'right'
-            Div(vAlign='center' row=true)
+            Div(vAlign='center' row)
               = input
               = _label
           else

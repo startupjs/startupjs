@@ -15,7 +15,7 @@ function ModalActions ({
   onConfirm
 }) {
   return pug`
-    Div.root(row=true style=style align='right')
+    Div.root(row style=style align='right')
       if children
         = children
       else

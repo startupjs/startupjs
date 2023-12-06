@@ -122,7 +122,7 @@ function Button ({
 
   return pug`
     Div.root(
-      row=true
+      row
       style=[rootStyle, style]
       styleName=[
         size,

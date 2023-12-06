@@ -38,7 +38,7 @@ function CollapseHeader ({
 
   return pug`
     Div.root(
-      row=true
+      row
       style=style
       styleName=[variant]
       onPress=onPress

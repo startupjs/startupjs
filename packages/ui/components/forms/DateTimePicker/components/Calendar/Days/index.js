@@ -88,7 +88,7 @@ export default observer(function Days ({
           Span.shortName(bold)= shortDayName
 
     for week, weekIndex in matrixMonthDays
-      Div.row(key='week-' + weekIndex row=true)
+      Div.row(key='week-' + weekIndex row)
         for day, dayIndex in matrixMonthDays[weekIndex]
           Div.cell(
             key=weekIndex + '-' + dayIndex

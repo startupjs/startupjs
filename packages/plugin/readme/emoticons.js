@@ -38,7 +38,7 @@ function renderEmoticons ({ emoticons, size }) {
   const style = { fontSize: size, lineHeight: size }
 
   return pug`
-    Div(wrap=true row)
+    Div(wrap row)
       each emoticon, index in emoticons
         Div(
           key=index
