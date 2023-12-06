@@ -17,36 +17,31 @@ nconf: *
 
 The package can be configured using the following environment variables:
 
-- `MONGO_URL`: URL for the MongoDB connection. If set and `NO_MONGO` is not true, MongoDB will be used as the database.
-- `NO_MONGO`: Set to true to disable MongoDB and fallback to SQLite.
-- `DB_PATH`: The file path for the SQLite database. If not set, a default 'sqlite.db' file will be used.
-- `DB_LOAD_SNAPSHOT`: Optional path to a SQLite snapshot file. If provided, the database will be initialized from this snapshot
+- `MONGO_URL`: Specifies the URL for the MongoDB connection. MongoDB is used as the primary database unless overridden by setting `NO_MONGO` to true.
+- `NO_MONGO`: When set to true, this variable disables the use of MongoDB. In this case, the package will utilize a Mingo database with persisting data to SQLite.
+- `DB_PATH`: Defines the file path for the SQLite database. This setting is relevant when `NO_MONGO` is true. If `DB_PATH` is not specified, the default file 'sqlite.db' will be used.
+- `DB_LOAD_SNAPSHOT`: An optional variable that can be set with a path to a SQLite snapshot file. This setting is relevant when `NO_MONGO` is true. If provided, the SQLite database will be initialized from this snapshot.
 - `REDIS_URL`: URL for the Redis connection.
 - `NO_REDIS`: Set to true to use a mocked Redis client.
+
 ### Database Initialization
 
-The backend supports both MongoDB and SQLite databases. It automatically chooses the database based on the provided environment variables:
+The backend toggles between MongoDB and Mingo for database operations, influenced by environment settings:
 
-- If `MONGO_URL` is provided and `NO_MONGO` is not true, it connects to MongoDB.
-- If MongoDB is not used, it falls back to SQLite. The SQLite database is either created or loaded from `DB_PATH`.
-- If `DB_LOAD_SNAPSHOT` is provided, the database is initialized from this snapshot, allowing for pre-populated data setups.
+- **MongoDB**: Used when `MONGO_URL` is set and `NO_MONGO` is false.
+- **Mingo and SQLite**: Activated by setting `NO_MONGO` to true. Mingo handles operations, while SQLite is solely for data persistence, initialized from `DB_PATH` if provided.
+- **SQLite Snapshot**: When `DB_LOAD_SNAPSHOT` is set, SQLite is initialized with this pre-populated data snapshot and pull data to Mingo.
 
-### Read-Only Mode
+This setup ensures flexibility in database management based on environment configurations.
 
-The backend can operate in a read-only mode for SQLite databases. This is determined by the `DB_PATH` variable. If `DB_PATH` is an empty string, the SQLite database will be in read-only mode.
+### Using Mingo
 
-### Data Persistence and Cloning
-
-The backend includes advanced handling for data persistence and cloning in SQLite:
-
-- Changes to the database are persisted in real-time.
-- The ability to clone data from a source SQLite database to a target database is provided, facilitating data migration and testing scenarios.
+When NO_MONGO is true, Mingo is the active database. SQLite is exclusively used for persisting Mingo's state
+Data Persistence can be disabled by pass empty string to `DB_PATH`.
 
 ## Usage
 
 To use the backend package in your StartupJS project, import and initialize it as follows:
-
-## Usage
 
 ```js
 import getBackend from '@startupjs/backend'
