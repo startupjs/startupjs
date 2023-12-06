@@ -75,9 +75,6 @@ export function findColorInPalette (color, palette) {
     color = rgbToHex(r, g, b)
   }
 
-  if (color === palette.black) return ['coolGray', -1, alpha]
-  if (color === palette.white) return ['coolGray', getPaletteLength(palette), alpha]
-
   let foundName
   let foundLevel
   for (const name in palette) {
@@ -95,7 +92,8 @@ export function findColorInPalette (color, palette) {
 export function getPaletteLength (palette) {
   let res
   for (const name of Object.keys(palette)) {
-    if (!['black', 'white'].includes(name)) {
+    // 'black' and 'white' keys in our default palette are not arrays
+    if (Array.isArray(palette[name])) {
       res = palette[name].length
       break
     }
@@ -242,15 +240,14 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
 
   // add palette colors
   for (const colorName in palette) {
-    if (colorName === 'black') {
-      P[colorName] = Color('coolGray', -1)
-    } else if (colorName === 'white') {
-      P[colorName] = Color('coolGray', getPaletteLength(palette))
-    } else {
-      const colors = palette[colorName]
+    const colors = palette[colorName]
+    // 'black' and 'white' keys in our default palette are not arrays
+    if (Array.isArray(colors)) {
       for (let i = 0; i < colors.length; i++) {
         P[`${colorName}-${i}`] = Color(colorName, i)
       }
+    } else {
+      P[colorName] = Color(colorName)
     }
   }
 }
