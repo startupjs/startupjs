@@ -2,7 +2,6 @@ import Badge from '../Badge'
 import Button from '../Button'
 import Div from '../Div'
 import Icon from '../Icon'
-import Row from '../Row'
 import { faThumbsUp, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 import './index.mdx.styl'
@@ -31,7 +30,7 @@ Badges come in three different sizes: `s`, `m`, and `l`. The `m` size is the def
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Badge label='16' size='s'>
       <Icon icon={faEnvelope} size={40} />
     </Badge>
@@ -41,7 +40,7 @@ return (
     <Badge style={{ marginLeft: 16 }} label='24' size='l'>
       <Icon icon={faEnvelope} size={40} />
     </Badge>
-  </Row>
+  </Div>
 )
 ```
 
@@ -51,14 +50,14 @@ There are two types of Badges: `default` and `dot`. `default` it is the most fre
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Badge label='10'>
       <Icon icon={faEnvelope} size={40} />
     </Badge>
     <Badge style={{ marginLeft: 16 }} variant='dot'>
       <Icon icon={faEnvelope} size={40} />
     </Badge>
-  </Row>
+  </Div>
 )
 ```
 
@@ -80,14 +79,14 @@ Badge can be in two positions: `top` and `bottom`. **Default value:** `top`.
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Badge label='10'>
       <Icon icon={faEnvelope} size={40} />
     </Badge>
     <Badge style={{ marginLeft: 16 }} position='bottom' label='10'>
       <Icon icon={faEnvelope} size={40} />
     </Badge>
-  </Row>
+  </Div>
 )
 ```
 

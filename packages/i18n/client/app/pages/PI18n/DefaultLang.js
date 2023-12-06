@@ -1,12 +1,12 @@
 import React from 'react'
 import { pug, observer } from 'startupjs'
-import { Row, Span, TextInput } from '@startupjs/ui'
+import { Div, Span, TextInput } from '@startupjs/ui'
 import './languages.styl'
 
 export default observer(function DefaultLang ({ style, meta }) {
   return pug`
-    Row.root(style=style vAlign='center')
-      Row.info
+    Div.root(style=style vAlign='center' row)
+      Div.info(row)
         Span.lang= meta.lang
       TextInput.input(
         size='s'

@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { pug } from 'startupjs'
 import { DragDropProvider, Draggable, Droppable } from './'
 import Div from '../Div'
-import Row from '../Row'
 import ScrollView from '../ScrollView'
 import H5 from '../typography/headers/H5'
 import Span from '../typography/Span'
@@ -67,7 +66,7 @@ function onDragEnd ({
 return pug`
   DragDropProvider
     ScrollView(horizontal=true)
-      Row
+      Div(row)
         each drop in data
           Droppable.droppable(
             key=drop.id

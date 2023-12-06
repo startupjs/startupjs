@@ -2,7 +2,6 @@ import React from 'react'
 import { pug, observer } from 'startupjs'
 import {
   Div,
-  Row,
   Checkbox,
   H4,
   H6
@@ -28,7 +27,7 @@ function DeliveryConfigBlock ({ $options }) {
       H4 Delivery Config
       Div.platformsBlock
         H6 Platforms
-        Row.platforms(vAlign='center')
+        Div.platforms(vAlign='center' row)
           each platform, index in PLATFORMS
             Checkbox.checkbox(
               key=platform

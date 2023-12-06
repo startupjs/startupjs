@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react'
 import { pug, observer } from 'startupjs'
-import { Row, Span, Div } from '@startupjs/ui'
+import { Span, Div } from '@startupjs/ui'
 import moment from 'moment'
 import './index.styl'
 
@@ -82,13 +82,13 @@ export default observer(function Days ({
   }
 
   return pug`
-    Row.row
+    Div.row(row)
       for shortDayName in weekdaysShort
         Div.cell(key=shortDayName)
           Span.shortName(bold)= shortDayName
 
     for week, weekIndex in matrixMonthDays
-      Row.row(key='week-' + weekIndex)
+      Div.row(key='week-' + weekIndex row=true)
         for day, dayIndex in matrixMonthDays[weekIndex]
           Div.cell(
             key=weekIndex + '-' + dayIndex

@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { Text } from 'react-native'
 import Carousel from '../Carousel'
-import { Div, Span, Row } from '@startupjs/ui'
+import { Div, Span } from '@startupjs/ui'
 
 # Carousel
 
@@ -446,14 +446,14 @@ const data = [
 
 return (
   <Div style={{ overflow: 'hidden' }}>
-    <Row style={{ marginBottom: 4 }}>
+    <Div row style={{ marginBottom: 4 }}>
       <Div style={arrowStyle} onPress={()=> ref.current.toBack()}>
         <Text style={{ color: '#fff' }}>{'<'}</Text>
       </Div>
       <Div style={arrowStyle} onPress={()=> ref.current.toNext()}>
         <Text style={{ color: '#fff' }}>{'>'}</Text>
       </Div>
-    </Row>
+    </Div>
     <Carousel
       ref={ref}
       style={{ marginLeft: -4, marginRight: -4 }}
@@ -469,7 +469,7 @@ return (
         ))
       }
     </Carousel>
-    <Row style={{ alignSelf: 'center', marginTop: 8 }}>
+    <Div row style={{ alignSelf: 'center', marginTop: 8 }}>
       {
         data.map((item, index) => (
           <Div
@@ -482,7 +482,7 @@ return (
           />
         ))
       }
-    </Row>
+    </Div>
   </Div>
 )
 ```

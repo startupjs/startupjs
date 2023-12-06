@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { pug, emit, observer, useModel, $ } from 'startupjs'
 import { pathFor, useLocation } from 'startupjs/app'
-import { AutoSuggest, Button, Div, Layout, Menu, Row, Span } from '@startupjs/ui'
+import { AutoSuggest, Button, Div, Layout, Menu, Span } from '@startupjs/ui'
 import { MDXProvider } from '@startupjs/mdx'
 import { ScrollableProvider } from '@startupjs/scrollable-anchors'
 import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -77,7 +77,7 @@ const Topbar = observer(function Topbar () {
   }
 
   return pug`
-    Row.topbar
+    Div.topbar(row)
       Button(testID='button' variant='text' icon=faBars onPress=toggleSidebar color='text-description')
       Div.searchWrapper
         Search

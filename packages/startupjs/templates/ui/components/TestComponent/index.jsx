@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { pug, observer, useApi, useDoc } from 'startupjs'
-import { Br, Button, Card, Div, Row, Span } from '@startupjs/ui'
+import { Br, Button, Card, Div, Span } from '@startupjs/ui'
 import axios from 'axios'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import './index.styl'
@@ -30,7 +30,7 @@ export default observer(function TestComponent ({ style }) {
         | TestThing counter:#{' '}
         Span.counter(bold) #{testThing.counter}
       Br
-      Row
+      Div(row)
         Button(
           variant='flat'
           color='success'
@@ -61,7 +61,7 @@ export default observer(function TestComponent ({ style }) {
 
 async function getApi () {
   try {
-    let res = await axios.get('/api/test-thing')
+    const res = await axios.get('/api/test-thing')
     if (res.status !== 200 || !res.data) {
       throw new Error('No data. Status: ' + res.status)
     }

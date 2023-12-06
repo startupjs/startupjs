@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { pug, observer, useQuery } from 'startupjs'
 import {
-  Row,
   Div,
   Table,
   Thead,
@@ -40,7 +39,7 @@ function Messages () {
               Td= pushMessage.title || '✗'
               Td= pushMessage.body
               Td= pushMessage.platforms.sort().join(', ')
-    Row.pagination(align='center')
+    Div.pagination(align='center' row)
       Pagination(
         count=pushMessagesCount
         limit=LIMIT

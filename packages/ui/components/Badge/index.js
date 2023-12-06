@@ -4,7 +4,6 @@ import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../Div'
 import Icon from '../Icon'
-import Row from '../Row'
 import Span from '../typography/Span'
 import Colors, { ColorValues } from '../../theming/Colors'
 import themed from '../../theming/themed'
@@ -60,7 +59,8 @@ function Badge ({
     Div.root(style=style)
       = children
       if hasLabel || variant === 'dot'
-        Row.badge(
+        Div.badge(
+          row
           style=badgeStyle
           onLayout=onLayout
           styleName=[

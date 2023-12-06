@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react'
 import { pug, styl, observer, useValue, useComponentId } from 'startupjs'
-import { Content, Button, Link, Row, Span, Card, H5 } from '@startupjs/ui'
+import { Content, Button, Link, Div, Span, Card, H5 } from '@startupjs/ui'
 
 export default observer(function PPlayground () {
   const [count, setCount] = useState(0)
@@ -43,7 +43,8 @@ const Sub = observer(({ $value, title }) => {
       H5= title
       Button(onPress=() => $value.set($value.get() + 1)) Increase magicCounter.value from Sub
       Sub2($value=$value)
-      Row(
+      Div(
+        row
         part='root'
         align='center'
         vAlign='center'

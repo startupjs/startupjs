@@ -2,7 +2,6 @@ import React from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
-import Row from '../../Row'
 import themed from '../../../theming/themed'
 import Input from '../Input'
 import './index.styl'
@@ -50,9 +49,8 @@ function ObjectInput ({
 
   if (!_renderWrapper) {
     _renderWrapper = ({ style }, children) => {
-      const Container = row ? Row : Div
       return pug`
-        Container(style=style)= children
+        Div(style=style row=row)= children
       `
     }
   }

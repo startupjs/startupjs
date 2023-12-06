@@ -1,7 +1,7 @@
 import React from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Row from './../../Row'
+import Div from './../../Div'
 import Button from './../../Button'
 import themed from '../../../theming/themed'
 import './index.styl'
@@ -15,7 +15,7 @@ function ModalActions ({
   onConfirm
 }) {
   return pug`
-    Row.root(style=style align='right')
+    Div.root(row=true style=style align='right')
       if children
         = children
       else

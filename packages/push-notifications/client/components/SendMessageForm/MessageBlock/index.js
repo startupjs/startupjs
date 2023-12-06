@@ -3,7 +3,6 @@ import { pug, observer, useSession } from 'startupjs'
 import {
   Div,
   TextInput,
-  Row,
   Span,
   Icon
 } from '@startupjs/ui'
@@ -36,9 +35,9 @@ function MessageBlock ({ $options }) {
         )
       Div.previewBlock
         Div.previewPush
-          Row.appNameBlock(vAlign='center')
+          Div.appNameBlock(vAlign='center' row)
             Icon(size='s' icon=faBell)
-            Row.infoBlock(align='between' vAlign='center')
+            Div.infoBlock(align='between' vAlign='center' row)
               Span.appName= appName ? appName : 'app name'
               Span(description) now
           if options.title

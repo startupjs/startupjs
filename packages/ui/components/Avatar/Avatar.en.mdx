@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react'
 import { pug } from 'startupjs'
 import Avatar from '../Avatar'
-import Row from '../Row'
 import Div from '../Div'
 import Span from '../typography/Span'
 import Br from '../Br'
@@ -28,7 +27,7 @@ Size is `m` by default. It can be changed by changing the `size` property by set
 
 ```jsx example
 return pug`
-  Row
+  Div(row)
     Div
       Avatar(
         size='s'
@@ -57,7 +56,7 @@ Avatars can be used to display user online status. It can be set by passing stri
 
 ```jsx example
 return pug`
-  Row
+  Div(row)
     Div
       Avatar(
         status='online'
@@ -114,7 +113,7 @@ If `url` prop is not provided or if there is an error loading the avatar image, 
 
 ```jsx example
 return pug`
-  Row
+  Div(row)
     Div
       Avatar(src='/img/non-existen-image.jpeg')
     Div(pushed)

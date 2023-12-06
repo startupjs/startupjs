@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import { Animated, PanResponder, StyleSheet, View } from 'react-native'
 import { pug, observer } from 'startupjs'
-import { Div, Row, Icon } from '@startupjs/ui'
+import { Div, Icon } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import {
   faAngleLeft,
@@ -508,7 +508,7 @@ function Carousel ({
             )
 
       if hasDots && isResponsive
-        Row.dots
+        Div.dots(row)
           each _, index in dots
             Div.dot(
               key=index

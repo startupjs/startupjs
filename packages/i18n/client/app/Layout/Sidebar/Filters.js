@@ -1,7 +1,7 @@
 /* eslint-disable no-unreachable */
 import React, { useCallback } from 'react'
 import { pug, observer, styl } from 'startupjs'
-import { Div, Row, Span, Icon } from '@startupjs/ui'
+import { Div, Span, Icon } from '@startupjs/ui'
 import { FILTERS, FILTERS_META } from './../../constants'
 import usePage from './../../../usePage'
 
@@ -22,14 +22,15 @@ export default observer(function Filters () {
       each FILTER, index in FILTERS
         - const meta = FILTERS_META[FILTER]
         - const active = filter === FILTER
-        Row.filter(
+        Div.filter(
           key=FILTER
           styleName={ first: !index }
+          row
           align='between'
           vAlign='center'
           onPress=() => { onStatePress(FILTER) }
         )
-          Row(vAlign='center')
+          Div(vAlign='center' row)
             Icon(style=meta.style icon=meta.icon)
             Span.label(bold=active)= meta.label
           Span(description bold=active)= filtersCounters[FILTER] || 0

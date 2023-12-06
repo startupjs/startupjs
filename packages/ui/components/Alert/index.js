@@ -10,7 +10,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import Div from '../Div'
 import Span from '../typography/Span'
-import Row from '../Row'
 import Icon from '../Icon'
 import themed from '../../theming/themed'
 import './index.styl'
@@ -38,12 +37,13 @@ function Alert ({
   }
 
   return pug`
-    Row.root(
+    Div.root(
       style=style
       vAlign='center'
       styleName=[variant]
+      row
     )
-      Row.information
+      Div.information(row)
         if icon
           Icon.icon(
             icon=icon === true ? ICONS[variant] : icon

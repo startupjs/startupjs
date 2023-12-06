@@ -12,7 +12,6 @@ import {
 import Button from '../Button'
 import Div from '../Div'
 import Icon from '../Icon'
-import Row from '../Row'
 import Span from '../typography/Span'
 import themed from '../../theming/themed'
 import './index.styl'
@@ -86,11 +85,12 @@ function ToastComponent ({
       onLayout=e=> onLayout(e.nativeEvent.layout)
     )
       Div.toast(styleName=[type])
-        Row(
+        Div(
           align='between'
           vAlign='center'
+          row
         )
-          Row(vAlign='center')
+          Div(vAlign='center' row)
             Icon.icon(
               icon=icon ? icon : ICONS[type]
               styleName=[type]
@@ -103,7 +103,7 @@ function ToastComponent ({
         Span.text= text
 
         if onAction
-          Row.actions
+          Div.actions(row)
             Button(
               size='s'
               onPress=() => {

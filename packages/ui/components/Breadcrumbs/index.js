@@ -2,7 +2,6 @@ import React from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Link from './../Link'
-import Row from '../Row'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
@@ -28,7 +27,7 @@ function Breadcrumbs ({
   function renderItem ({ icon, color, bold, children }) {
     const extraStyle = { color }
     return pug`
-      Row(vAlign='center' reverse=iconPosition === 'right')
+      Div(vAlign='center' reverse=iconPosition === 'right' row)
         if icon
           Div.iconWrapper(styleName=[size, iconPosition])
             Icon(style=extraStyle icon=icon size=size)
@@ -41,7 +40,7 @@ function Breadcrumbs ({
   }
 
   return pug`
-    Row(style=style wrap)
+    Div(style=style wrap row)
       each route, index in routes
         - const { name, icon, to } = route
         - const isLastRoute = index === routes.length - 1
@@ -49,7 +48,7 @@ function Breadcrumbs ({
           if isLastRoute
             = renderItem({ icon, color: getColor('text-secondary'), bold: true, children: name })
           else
-            Row.item
+            Div.item(row)
               Link(
                 replace=replace
                 to=to

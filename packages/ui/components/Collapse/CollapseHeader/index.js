@@ -4,7 +4,6 @@ import { pug, observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 import Div from './../../Div'
-import Row from './../../Row'
 import Icon from './../../Icon'
 import Span from './../../typography/Span'
 import themed from '../../../theming/themed'
@@ -38,7 +37,8 @@ function CollapseHeader ({
   }, [open])
 
   return pug`
-    Row.root(
+    Div.root(
+      row=true
       style=style
       styleName=[variant]
       onPress=onPress

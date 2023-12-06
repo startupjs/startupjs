@@ -2,7 +2,7 @@
 import React from 'react'
 import { pug, observer, styl } from 'startupjs'
 import {
-  Row,
+  Div,
   Loader
 } from '@startupjs/ui'
 import usePage from './../../../usePage'
@@ -17,7 +17,7 @@ export default observer(function PI18n () {
     if displayTranslations
       Translations
     else
-      Row.loader(align='center' vAlign='center')
+      Div.loader(align='center' vAlign='center' row)
         Loader
   `
 

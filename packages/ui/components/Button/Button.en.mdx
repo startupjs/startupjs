@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { pug } from 'startupjs'
 import Button from '../Button'
 import Div from '../Div'
-import Row from '../Row'
 import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
 import {
@@ -168,14 +167,14 @@ Never put multiple `Call-to-Action` buttons in one component. And try to keep th
 It's a much better UX decision to use regular buttons by default and decide which of them to make a `Call-to-Action` later.
 
 ```jsx example
-<Row align='right'>
+<Div row align='right'>
   <Button>
     Cancel
   </Button>
   <Button pushed color='primary' variant='flat'>
     OK
   </Button>
-</Row>
+</Div>
 ```
 
 ## Sandbox

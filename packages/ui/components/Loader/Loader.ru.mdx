@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Loader from '../Loader'
-import Row from '../Row'
+import Div from '../Div'
 import { Sandbox } from '@startupjs/docs'
 
 # Loader (лоадер)
@@ -25,10 +25,10 @@ return (
 
 ```jsx example
 return (
-  <Row align='around'>
+  <Div row align='around'>
     <Loader size='s' />
     <Loader size='m' />
-  </Row>
+  </Div>
 )
 ```
 
@@ -38,12 +38,12 @@ return (
 
 ```jsx example
 return (
-  <Row align='around'>
+  <Div row align='around'>
     <Loader />
     <Loader color='success' />
     <Loader color='error' />
     <Loader color='warning' />
-  </Row>
+  </Div>
 )
 ```
 

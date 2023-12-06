@@ -5,7 +5,6 @@ import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 import merge from 'lodash/merge'
 import Div from './../../Div'
 import Icon from './../../Icon'
-import Row from './../../Row'
 import { Span } from './../../typography'
 import { useLayout } from './../../../hooks'
 import themed from '../../../theming/themed'
@@ -108,12 +107,13 @@ export default function wrapInput (Component, configuration) {
     `
     const err = pug`
       if error
-        Row.errorContainer(
+        Div.errorContainer(
           styleName=[
             layout,
             layout + '-' + descriptionPosition,
           ]
           vAlign='center'
+          row=true
         )
           Icon.errorContainer-icon(icon=faExclamationCircle)
           Span.errorContainer-text= error
@@ -131,7 +131,7 @@ export default function wrapInput (Component, configuration) {
             = _description
             = err
           if labelPosition === 'right'
-            Row(vAlign='center')
+            Div(vAlign='center' row=true)
               = input
               = _label
           else

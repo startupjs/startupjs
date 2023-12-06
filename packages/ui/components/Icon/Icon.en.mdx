@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Icon from '../Icon'
-import Row from '../Row'
 import Content from '../Content'
+import Div from '../Div'
 import Br from '../Br'
 import TextInput from '../forms/TextInput'
 import {
@@ -70,7 +70,7 @@ import CustomIconExample from './CustomIconExample.svg'
 const [numSize, setNumSize] = useState('80')
 return (
   <Content>
-    <Row align='around'>
+    <Div row align='around'>
       <Icon size='xs' icon={faShareAlt} />
       <Icon size='s' icon={faHouseUser} />
       <Icon icon={faTable} />
@@ -78,7 +78,7 @@ return (
       <Icon size='xl' icon={faHouseUser} />
       <Icon size='xxl' icon={faTable} />
       <Icon style={{ width: 40, height: 32 }} icon={CustomIconExample} />
-    </Row>
+    </Div>
     <Br />
     <TextInput
       label='Type in number to change icon size'
@@ -118,11 +118,11 @@ import {
 
 ```jsx example
 return (
-  <Row align='around'>
+  <Div row align='around'>
     <Icon icon={faShareAlt} styleName='icon orange'/>
     <Icon icon={faHouseUser} styleName='icon primary'/>
     <Icon icon={faTable} styleName='icon success'/>
-  </Row>
+  </Div>
 )
 ```
 
