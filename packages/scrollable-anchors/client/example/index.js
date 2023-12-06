@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { pug, observer } from 'startupjs'
-import { Span, Br, Div, H1, H3, H4, Divider, Row, Button } from '@startupjs/ui'
+import { Span, Br, Div, H1, H3, H4, Divider, Button } from '@startupjs/ui'
 import { useHistory } from '@startupjs/app'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { ScrollableArea, Anchor } from '../components'
@@ -36,7 +36,7 @@ function Example () {
       Button.extraButton(
         onPress=()=> setExtraContentVisibility(!extraContentVisibility)
       )= extraContentVisibility ? 'Hide extra content' : 'Render extra content'
-      Row
+      Div(row)
         each anchorId in ANCHORS
           Button.anchorBtn(
             key=anchorId
@@ -68,7 +68,7 @@ function Example () {
             variant='flat'
             onPress=() => scrollToAnchor({ anchorId, areaId: ANOTHER_AREA_ID })
           )= anchorId
-      Row
+      Div(row)
         Div.flex
           Span= LOREM
         Divider(variant='vertical')
@@ -143,7 +143,7 @@ function Example () {
       Br
       Anchor(id=ANCHORS[3])
         H3= ANCHORS[3]
-        Row
+        Div(row)
           Span= LOREM
           Divider(variant='vertical')
           Span= LOREM

@@ -1,6 +1,6 @@
 import React from 'react'
 import { pug, observer, emit, useValue, useLocal } from 'startupjs'
-import { Button, Div, H1, Layout, Menu, Row, SmartSidebar } from '@startupjs/ui'
+import { Button, Div, H1, Layout, Menu, SmartSidebar } from '@startupjs/ui'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import APP from '../../app.json'
 import './index.styl'
@@ -36,7 +36,7 @@ export default observer(function ({ children }) {
         $open=$opened
         renderContent=renderSidebar
       )
-        Row.menu
+        Div.menu(row)
           Button(color='secondaryText' icon=faBars onPress=() => $opened.set(!opened))
           H1.logo= APP_NAME
 

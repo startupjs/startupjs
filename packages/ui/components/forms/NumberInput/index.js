@@ -4,7 +4,6 @@ import pick from 'lodash/pick'
 import PropTypes from 'prop-types'
 import TextInput from '../TextInput'
 import Div from './../../Div'
-import Row from './../../Row'
 import Span from './../../typography/Span'
 import Buttons from './Buttons'
 import './index.styl'
@@ -104,8 +103,9 @@ function NumberInput ({
   const renderWrapper = ({ style }, children) => {
     return pug`
       Div(style=style)
-        Row.input-wrapper(
+        Div.input-wrapper(
           styleName=[extraStyleName, { readonly }]
+          row
         )
           if units
             Span.input-units(

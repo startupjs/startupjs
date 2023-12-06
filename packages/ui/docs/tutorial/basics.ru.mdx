@@ -16,8 +16,6 @@
 2. Все элементы `position: relative`
 3. Выравнивание элементов во flex-контейнере по умолчанию `flex-direction: column`
 
-> Вы можете не переопределять свойство `flex-direction` у компонента `Div` на `flex-direction: row`, а просто использовать готовый компонент `Row`
-
 
 ## Добавляем первый компонент
 
@@ -202,7 +200,7 @@ const [todos, $todos] = useQuery('todos', {})
 </Content>
 ```
 
-Как вы можете заметить, теперь чекбокс и кнопка появились на странице, но разместились снизу под текстом нашей задачи. Давайте с помощью обёртки `Row` разместим текст, чекбокс и кнопку в один ряд и объединим чекбокс с кнопкой в одну обертку по аналогии:
+Как вы можете заметить, теперь чекбокс и кнопка появились на странице, но разместились снизу под текстом нашей задачи. Давайте с помощью обёртки `Div` разместим текст, чекбокс и кнопку в один ряд и объединим чекбокс с кнопкой в одну обертку по аналогии:
 
 ```jsx
 const [todos, $todos] = useQuery('todos', {})
@@ -211,19 +209,19 @@ const [todos, $todos] = useQuery('todos', {})
   <H1>TODO List</H1>
     {todos.map(todo => (
       <Card key={todo.id}>
-        <Row align='between' vAlign='center'>
+        <Div row align='between' vAlign='center'>
           <Span>{todo.title}</Span>
-            <Row align='between' vAlign='center'>
+            <Div row align='between' vAlign='center'>
               <Checkbox />
               <Button />
-            </Row>
-        </Row>
+            </Div>
+        </Div>
       </Card>
     ))}
 </Content>
 ```
 
-> `align='between' vAlign='center'` - пропсы из [документации компонента Row](/docs/components/Row), аналог `justify-content: space-between; align-items: center;`
+> `align='between' vAlign='center'` - пропсы из [документации компонента Div](/docs/components/Div), аналог `justify-content: space-between; align-items: center;`
 
 
 ## Управление состоянием компонента
@@ -308,9 +306,9 @@ const [todos, $todos] = useQuery('todos', {})
   <H1>TODO List</H1>
     {todos.map(todo => (
       <Card key={todo.id}>
-        <Row align='between' vAlign='center'>
+        <Div row align='between' vAlign='center'>
           <Span>{todo.title}</Span>
-            <Row align='between' vAlign='center'>
+            <Div row align='between' vAlign='center'>
               <Checkbox
                 value={todo.completed}
                 onChange={value => changeStatus(todo.id, value)}
@@ -321,14 +319,14 @@ const [todos, $todos] = useQuery('todos', {})
                 size='s'
                 onPress={() => removeTodo(todo.id)}
               />
-            </Row>
-        </Row>
+            </Div>
+        </Div>
       </Card>
     ))}
-    <Row align='between' vAlign='center'>
+    <Div row align='between' vAlign='center'>
       <TextInput />
       <Button>Add</Button>
-    </Row>
+    </Div>
 </Content>
 ```
 

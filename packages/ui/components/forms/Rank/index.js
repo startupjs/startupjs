@@ -8,7 +8,6 @@ import {
   Draggable,
   Droppable,
   Span,
-  Row,
   Icon,
   Input,
   Div
@@ -84,7 +83,7 @@ const RankInput = observer(function ({
         dragId=dragId
         onDragEnd=onDragEnd
       )
-        Row
+        Div(row)
           Input(
             size='s'
             disabled=disabled
@@ -118,7 +117,7 @@ const RankReadonly = observer(function ({ value, style }) {
   return pug`
     Div(style=style)
       each option, index in value
-        Row.readonly(key=index)
+        Div.readonly(key=index row)
           Div.readonly-index
             Span #{index + 1}.&nbsp;
           Div.readonly-text

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { $root, useValue } from 'startupjs'
 import Pagination from '../Pagination'
-import Row from '../Row'
+import Div from '../Div'
 import { Sandbox } from '@startupjs/docs'
 
 # Pagination (пагинация)
@@ -20,13 +20,13 @@ import { Pagination } from '@startupjs/ui'
 ```jsx example
 const [page, setPage] = useState()
 return (
-  <Row align='center'>
+  <Div row align='center'>
     <Pagination
       page={page}
       pages={10}
       onChangePage={setPage}
     />
-  </Row>
+  </Div>
 )
 ```
 
@@ -46,14 +46,14 @@ const COUNT = 100
 const LIMIT = 10
 const [skip, setSkip] = useState(0)
 return (
-  <Row align='center'>
+  <Div row align='center'>
     <Pagination
       count={COUNT}
       limit={LIMIT}
       skip={skip}
       onChangePage={(val) => setSkip(val * LIMIT)}
     />
-  </Row>
+  </Div>
 )
 ```
 
@@ -64,12 +64,12 @@ return (
 ```jsx example
 const [, $page] = useValue(0)
 return (
-  <Row align='center'>
+  <Div row align='center'>
     <Pagination
       $page={$page}
       pages={10}
     />
-  </Row>
+  </Div>
 )
 ```
 
@@ -77,14 +77,14 @@ return (
 const LIMIT = 10
 const [, $skip] = useValue(0)
 return (
-  <Row align='center'>
+  <Div row align='center'>
     <Pagination
       pages={10}
       limit={LIMIT}
       $skip={$skip}
       onChangePage={(val) => $skip.set(val * LIMIT)}
     />
-  </Row>
+  </Div>
 )
 ```
 
@@ -99,7 +99,7 @@ return (
 ```jsx example
 const [page, setPage] = useState()
 return (
-  <Row align='center'>
+  <Div row align='center'>
     <Pagination
       page={page}
       pages={10}
@@ -109,7 +109,7 @@ return (
       showLastButton
       onChangePage={setPage}
     />
-  </Row>
+  </Div>
 )
 ```
 
@@ -120,14 +120,14 @@ return (
 ```jsx example
 const [page, setPage] = useState()
 return (
-  <Row align='center'>
+  <Div row align='center'>
     <Pagination
       variant='compact'
       page={page}
       pages={10}
       onChangePage={setPage}
     />
-  </Row>
+  </Div>
 )
 ```
 
@@ -141,7 +141,7 @@ return (
 ```jsx example
 const [page, setPage] = useState(5)
 return (
-  <Row align='center'>
+  <Div row align='center'>
     <Pagination
       page={page}
       boundaryCount={2}
@@ -149,7 +149,7 @@ return (
       pages={10}
       onChangePage={setPage}
     />
-  </Row>
+  </Div>
 )
 ```
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { pug, observer, u, useSession } from 'startupjs'
-import { Row, Span } from '@startupjs/ui'
+import { Div, Span } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { onLogin } from '../../helpers'
 import IDG from './img/IDG.svg'
@@ -24,9 +24,10 @@ function AuthButton ({
   }
 
   return pug`
-    Row.button(
+    Div.button(
       style=style
       onPress=_onLogin
+      row
     )
       IDG(
         viewBox="2 4 40 40"

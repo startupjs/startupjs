@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Platform } from 'react-native'
 import { pug, observer, useValue, useError, useSession } from 'startupjs'
-import { Alert, Br, Row, Div, Span, Button, ObjectInput } from '@startupjs/ui'
+import { Alert, Br, Div, Span, Button, ObjectInput } from '@startupjs/ui'
 import { clientFinishAuth, CookieManager } from '@startupjs/auth'
 import {
   REQUEST_CONFIRMATION_SLIDE,
@@ -192,7 +192,7 @@ function RegisterForm ({
           variant='flat'
           color='primary'
         ) Sign Up
-        Row.actionChoice
+        Div.actionChoice(row)
           Span.actionText Have an account?
           Button.login(
             onPress=() => onChangeSlide(SIGN_IN_SLIDE)

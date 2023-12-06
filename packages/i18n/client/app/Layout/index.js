@@ -1,7 +1,7 @@
 /* eslint-disable no-unreachable */
 import React from 'react'
 import { pug, $root, observer, styl } from 'startupjs'
-import { Layout as UILayout, Button, Row } from '@startupjs/ui'
+import { Layout as UILayout, Button, Div } from '@startupjs/ui'
 // import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import Sidebar from './Sidebar'
 import { useConfig } from './../../config'
@@ -34,7 +34,7 @@ export default observer(function Layout ({ children }) {
   return pug`
     UILayout
       Sidebar
-        Row.header(align='right')
+        Div.header(align='right' row)
           Button(
             color='primary'
             variant='flat'

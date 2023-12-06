@@ -82,9 +82,9 @@ const [todos, $todos] = useQuery('todos', {})
   <H1>TODOList</H1>
     {todos.map(todo => (
       <Card key={todo.id}>
-        <Row align='between' vAlign='center'>
+        <Div row align='between' vAlign='center'>
           <Span>{todo.title}</Span>
-            <Row align='between' vAlign='center'>
+            <Div row align='between' vAlign='center'>
               <Checkbox
                 value={todo.completed}
                 onChange={value => changeStatus(todo.id, value)}
@@ -95,14 +95,14 @@ const [todos, $todos] = useQuery('todos', {})
                 size='s'
                 onPress={() => removeTodo(todo.id)}
               />
-            </Row>
-        </Row>
+            </Div>
+        </Div>
       </Card>
     ))}
-    <Row align='between' vAlign='center'>
+    <Div row align='between' vAlign='center'>
       <TextInput />
       <Button>Add</Button>
-    </Row>
+    </Div>
 </Content>
 ```
 
@@ -127,9 +127,9 @@ function Todo({id}) {
 
   return(
     <Card key={todo.id}>
-      <Row align='between' vAlign='center'>
+      <Div row align='between' vAlign='center'>
         <Span>{todo.title}</Span>
-          <Row align='between' vAlign='center'>
+          <Div row align='between' vAlign='center'>
             <Checkbox
               value={todo.completed}
               onChange={value => changeStatus(todo.id, value)}
@@ -140,8 +140,8 @@ function Todo({id}) {
               size='s'
               onPress={() => removeTodo(todo.id)}
             />
-          </Row>
-      </Row>
+          </Div>
+      </Div>
     </Card>
   )
 }
@@ -252,7 +252,7 @@ Or to remove it:
     return pug`
       Div
         Span= counter
-        Row
+        Div(row)
           Button(onPress=addCounter) Add
           Button(onPress=reduceCounter) Reduce
           Button(onPress=addUser) Add async

@@ -6,7 +6,6 @@ import {
   FlatList,
   Icon,
   Popover,
-  Row,
   Span
 } from '@startupjs/ui'
 import {
@@ -45,8 +44,8 @@ export default observer(function Header ({
     : false
 
   return pug`
-    Row.header
-      Row(vAlign='center')
+    Div.header(row)
+      Div(vAlign='center' row)
         Span.month(bold)= monthName
         Years.years(
           timezone=timezone
@@ -54,7 +53,7 @@ export default observer(function Header ({
           maxDate=maxDate
           $uiDate=$uiDate
         )
-      Row.actions
+      Div.actions(row)
         Button.button(
           color='text-description'
           variant='text'
@@ -142,7 +141,7 @@ const Years = observer(function YearsComponent ({
         renderContent=renderYears
         attachmentStyleName='years-popover'
       )
-        Row(vAlign='center')
+        Div(vAlign='center' row)
           Span.year(bold)= moment.tz($uiDate.get(), timezone).year()
           Icon(icon=faCaretDown)
   `

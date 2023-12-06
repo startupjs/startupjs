@@ -1,6 +1,6 @@
 import React from 'react'
 import { pug, observer } from 'startupjs'
-import { themed, Row, Div } from '@startupjs/ui'
+import { themed, Div } from '@startupjs/ui'
 import GridVisualizer from './GridVisualizer'
 
 export default observer(themed(function Renderer ({
@@ -19,12 +19,13 @@ export default observer(themed(function Renderer ({
   style
 }) {
   let Wrapper
-  let extraProps = {}
+  const extraProps = {}
   if (showSizes) {
     Wrapper = GridVisualizer
     extraProps.block = block
   } else {
-    Wrapper = block ? Div : Row
+    Wrapper = Div
+    extraProps.row = !block
   }
 
   return pug`

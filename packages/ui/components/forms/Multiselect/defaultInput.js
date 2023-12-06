@@ -1,6 +1,6 @@
 import React, { useEffect, useImperativeHandle } from 'react'
 import { pug, observer } from 'startupjs'
-import Row from './../../Row'
+import Div from './../../Div'
 import Span from './../../typography/Span'
 import themed from '../../../theming/themed'
 import './index.styl'
@@ -30,11 +30,12 @@ function DefaultInput ({
     if readonly
       Span= value.join(', ')
     else
-      Row.input(
+      Div.input(
         style=style
         styleName={ disabled, focused, readonly, error: _hasError }
         onPress=disabled || readonly ? void 0 : onOpen
         wrap
+        row
       )
         if !value.length
           Span.placeholder= placeholder || '-'

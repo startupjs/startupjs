@@ -19,7 +19,6 @@ import {
   Div,
   Input,
   Link,
-  Row,
   ScrollView,
   Span,
   H5,
@@ -105,7 +104,8 @@ const Sub = observer(({ $value, $foo, title }) => {
       Button(onPress=() => $number.set(~~$number.get() + 1)) Increment #{$number.path()} as Signal
       Br
       Sub2($value=$value)
-      Row(
+      Div(
+        row
         part='root'
         align='center'
         vAlign='center'
@@ -193,12 +193,12 @@ const Game = observer(({ $gameId }) => {
       Player(key=$player.id.get() $player=$player index=index)
     Button(onPress=newPlayer) + New player
     Br
-    Row(vAlign='center')
+    Div(vAlign='center' row)
       Span Round scores: #{' '}
-      Row
+      Div(row)
         Button(onPress=addRoundScore) +
         Button(onPress=removeRoundScore) -
-    Row(wrap)
+    Div(wrap row)
       each $score, index in $gameData.roundsData
         Score(key=index $score=$score index=index)
   `
@@ -242,12 +242,12 @@ const GameHOC = subscribe$(({ $gameId }) => {
       Player(key=$player.id.get() $player=$player index=index)
     Button(onPress=newPlayer) + New player
     Br
-    Row(vAlign='center')
+    Div(vAlign='center' row)
       Span Round scores: #{' '}
-      Row
+      Div(row)
         Button(onPress=addRoundScore) +
         Button(onPress=removeRoundScore) -
-    Row(wrap)
+    Div(wrap row)
       each $score, index in $gameData.roundsData
         Score(key=index $score=$score index=index)
   `

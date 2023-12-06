@@ -9,7 +9,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import usePagination from './usePagination'
 import Span from './../typography/Span'
-import Row from './../Row'
 import Div from './../Div'
 import Icon from './../Icon'
 import themed from '../../theming/themed'
@@ -26,7 +25,7 @@ function Pagination (props) {
   const items = usePagination(props)
 
   return pug`
-    Row
+    Div(row)
       each item, index in items
         React.Fragment(key=index)
           - const { type, value, selected, disabled, ...itemProps } = item
@@ -53,7 +52,7 @@ function Pagination (props) {
             Div.item
               Span ...
           else if type === 'status'
-            Row.status(vAlign='center')
+            Div.status(vAlign='center' row)
               Span= item.value
     `
 }

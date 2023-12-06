@@ -6,7 +6,6 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import Div from '../Div'
 import Span from '../typography/Span'
 import Icon from '../Icon'
-import Row from '../Row'
 import './index.mdx.styl'
 
 # Div
@@ -81,12 +80,12 @@ This property just sets `flex: 1` to it.
 
 ```jsx example
 return (
-  <Row vAlign='center'>
+  <Div row vAlign='center'>
     <Div full>
       <Span>Tesla Model S</Span>
     </Div>
     <Span description>1000 HP</Span>
-  </Row>
+  </Div>
 )
 ```
 
@@ -103,7 +102,7 @@ const divStyle = {
   backgroundColor: '#00AED6'
 }
 return (
-  <Row>
+  <Div row>
     <Div style={divStyle}>
       <Span>Div 1</Span>
     </Div>
@@ -116,7 +115,7 @@ return (
     <Div pushed='l' style={divStyle}>
       <Span>Div 4</Span>
     </Div>
-  </Row>
+  </Div>
 )
 ```
 
@@ -137,14 +136,14 @@ const divStyle = {
   backgroundColor: '#00AED6'
 }
 return (
-  <Row>
+  <Div row>
     <Div style={divStyle} onPress={() => {}}>
       <Span>Div opacity variant</Span>
     </Div>
     <Div style={divStyle} variant='highlight' pushed onPress={() => {}}>
       <Span>Div highlight variant</Span>
     </Div>
-  </Row>
+  </Div>
 )
 ```
 
@@ -162,14 +161,14 @@ const divStyle = {
   backgroundColor: 'white'
 }
 return (
-  <Row>
+  <Div row>
     <Div style={divStyle} level={1}>
       <Span>Div level 1</Span>
     </Div>
     <Div style={divStyle} level={4} pushed>
       <Span>Div level 4</Span>
     </Div>
-  </Row>
+  </Div>
 )
 ```
 

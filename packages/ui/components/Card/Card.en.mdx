@@ -2,7 +2,6 @@ import { useState } from 'react'
 import Card from '../Card'
 import { H4 } from '../typography'
 import Br from '../Br'
-import Row from '../Row'
 import Button from '../Button'
 import Collapse from '../Collapse'
 import Span from '../typography/Span'
@@ -104,7 +103,7 @@ return (
       The cat (Felis catus) is a domestic species of small carnivorous mammal.
     </Span>
     <Br />
-    <Row align='between'>
+    <Div row align='between'>
       <Button
         onPress={() => setCollapsed(!collapsed)}
         variant='flat'
@@ -117,7 +116,7 @@ return (
       >
         Share
       </Button>
-    </Row>
+    </Div>
     <Br />
     <Collapse open={collapsed} variant='pure' icon={false}>
       <Collapse.Content>

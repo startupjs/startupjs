@@ -3,7 +3,6 @@ import { faTimesCircle, faStopCircle } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 import Br from '../Br'
 import Div from '../Div'
-import Row from '../Row'
 import Tag from '../Tag'
 import './index.mdx.styl'
 
@@ -21,9 +20,9 @@ import { Tag } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Tag>Тег</Tag>
-  </Row>
+  </Div>
 )
 ```
 
@@ -33,12 +32,12 @@ return (
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Tag pushed='s'>Primary (default)</Tag>
     <Tag color='success' pushed='s'>Success</Tag>
     <Tag color='warning' pushed='s'>Warning</Tag>
     <Tag color='error' pushed='s'>Error</Tag>
-  </Row>
+  </Div>
 )
 ```
 
@@ -62,10 +61,10 @@ return (
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Tag variant='outlined'>Контурный тег</Tag>
     <Tag variant='outlined-bg' pushed='s'>Контурный тег с фоном</Tag>
-  </Row>
+  </Div>
 )
 ```
 
@@ -75,10 +74,10 @@ return (
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Tag>Круглая форма (по умолчанию)</Tag>
     <Tag shape='rounded' pushed='s'>Закругленная форма</Tag>
-  </Row>
+  </Div>
 )
 ```
 
@@ -96,7 +95,7 @@ In `.styl` file
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Tag icon={faStopCircle}>
       Иконка слева
     </Tag>
@@ -117,7 +116,7 @@ return (
     >
       Две иконки
     </Tag>
-  </Row>
+  </Div>
 )
 ```
 

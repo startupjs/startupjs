@@ -11,7 +11,6 @@ import {
   Divider,
   Span,
   Br,
-  Row,
   Link,
   Icon,
   Table,
@@ -30,6 +29,7 @@ import { BASE_URL } from '@env'
 import './index.styl'
 import Code from '../Code'
 
+const RowComponent = props => pug`Div(...props row)`
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
 const ListLevelContext = React.createContext()
 const BlockquoteContext = React.createContext()
@@ -72,7 +72,7 @@ function MDXAnchor ({
     Anchor.anchor(
       style=style
       id=anchorKebab
-      Component=Row
+      Component=RowComponent
       vAlign='center'
       onMouseEnter=() => setHover(true)
       onMouseLeave=() => setHover()
@@ -196,7 +196,7 @@ export default {
         return child
       })
     return pug`
-      Row
+      Div(row)
         Span.listIndex= listIndex
         Div.listContent
           if hasTextChild
@@ -308,7 +308,7 @@ export default {
         if example
           Collapse.code-collapse(open=open variant='pure')
             Collapse.Header.code-collapse-header(icon=false onPress=null)
-              Row.code-actions(align='right')
+              Div.code-actions(align='right' row)
                 Div.code-action(
                   tooltip=open ? 'Hide code' : 'Show code'
                   onPress=()=> setOpen(!open)

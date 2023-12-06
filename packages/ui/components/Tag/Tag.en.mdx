@@ -3,7 +3,6 @@ import { faTimesCircle, faStopCircle } from '@fortawesome/free-solid-svg-icons'
 import { Sandbox } from '@startupjs/docs'
 import Br from '../Br'
 import Div from '../Div'
-import Row from '../Row'
 import Tag from '../Tag'
 import './index.mdx.styl'
 
@@ -21,9 +20,9 @@ import { Tag } from '@startupjs/ui'
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Tag>Tag</Tag>
-  </Row>
+  </Div>
 )
 ```
 
@@ -33,12 +32,12 @@ Color is `primary` by default. It can be changed by passing color name from the 
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Tag>Primary (default)</Tag>
     <Tag color='success' pushed='s'>Success</Tag>
     <Tag color='warning' pushed='s'>Warning</Tag>
     <Tag color='error' pushed='s'>Error</Tag>
-  </Row>
+  </Div>
 )
 ```
 
@@ -62,10 +61,10 @@ Outlined tags offer an alternative style, in property `variant` need to pass `ou
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Tag variant='outlined'>Outlined tag</Tag>
     <Tag variant='outlined-bg' pushed='s' onPress={() => {}}>Outlined tag with a background</Tag>
-  </Row>
+  </Div>
 )
 ```
 
@@ -75,10 +74,10 @@ Tags can have different corner shapes. It can be changed by changing `shape` pro
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Tag>Circle shape</Tag>
     <Tag shape='rounded' pushed='s'>Rounded shape</Tag>
-  </Row>
+  </Div>
 )
 ```
 
@@ -96,7 +95,7 @@ In `.styl` file
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Tag icon={faStopCircle}>
       Icon on the left
     </Tag>
@@ -117,7 +116,7 @@ return (
     >
       Two icons
     </Tag>
-  </Row>
+  </Div>
 )
 ```
 

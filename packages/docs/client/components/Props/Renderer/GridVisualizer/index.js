@@ -1,6 +1,6 @@
 import React from 'react'
 import { pug, observer, useModel, useLocal } from 'startupjs'
-import { themed, Div, Span, Row } from '@startupjs/ui'
+import { themed, Div, Span } from '@startupjs/ui'
 import './index.styl'
 
 const GRID_SIZE = 8
@@ -17,16 +17,16 @@ export default observer(function GridVisualizer ({
   style,
   children
 }) {
-  let $componentSize = useModel('_session.Renderer.componentSize')
+  const $componentSize = useModel('_session.Renderer.componentSize')
 
   function onLayout (e) {
-    let { width, height } = e.nativeEvent.layout
+    const { width, height } = e.nativeEvent.layout
     $componentSize.setDiffDeep({ width, height })
   }
 
   // TODO: Bring back width check as an option. For now it's commented out.
   return pug`
-    Row.vertical
+    Div.vertical(row)
       LeftBar(
         allowHalfUnit=allowHalfUnit
         validate=validateHeight
@@ -45,13 +45,13 @@ export default observer(function GridVisualizer ({
 })
 
 const LeftBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
-  let [height = 0] = useLocal('_session.Renderer.componentSize.height')
-  let units = toUnits(height)
-  let valid = validate ? validateGrid(height, allowHalfUnit) : true
+  const [height = 0] = useLocal('_session.Renderer.componentSize.height')
+  const units = toUnits(height)
+  const valid = validate ? validateGrid(height, allowHalfUnit) : true
 
   return pug`
     Div.leftBar
-      Row.leftBarWrapper(style={ width: height })
+      Div.leftBarWrapper(style={ width: height } row)
         Div.leftBarLine(styleName=[theme, { valid }])
         Span.leftBarText(styleName=[theme, { valid }])= units
         Div.leftBarLine(styleName=[theme, { valid }])

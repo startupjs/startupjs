@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Button from '../Button'
 import Div from '../Div'
-import Row from '../Row'
 import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
 import {
@@ -160,14 +159,14 @@ __Никогда__ не ставьте несколько кнопок `Приз
 Когда вы ставите несколько кнопок в ряд, придерживайтесь такого их порядка, к которому привыкли пользователи в операционных системах. Сначала должна идти кнопка `Отмена` и после нее — `OK`
 
 ```jsx example
-<Row align='right'>
+<Div align='right'>
   <Button>
     Cancel
   </Button>
   <Button pushed color='primary' variant='flat'>
     OK
   </Button>
-</Row>
+</Div>
 ```
 
 ## Песочница
