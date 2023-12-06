@@ -107,7 +107,6 @@ module.exports = function (babel, opts) {
         fileContent[commonTranslationsKey] = merge({}, keys, ...withKeys)
       }
 
-      console.log(fs.writeFileSync, JSON.stringify(fileContent))
       fs.writeFileSync(
         TRANSLATIONS_FILE_PATH,
         JSON.stringify(fileContent),
