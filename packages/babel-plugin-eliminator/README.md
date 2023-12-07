@@ -260,7 +260,7 @@ This plugin is a fork of [egoist/babel-plugin-eliminator](https://github.com/ego
 
 1. refactor to pure JS
 2. rename `namedExports` to `removeExports`
-3. add an alternative `keepExports` option. If specified, only these one are gonna be kept and all other exports will be removed
+3. add an alternative `keepExports` option. If specified, only these ones are gonna be kept and all other exports will be removed
 4. handle `default` export
 5. add feature to remove object keys within magic function calls
 
