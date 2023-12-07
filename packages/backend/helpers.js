@@ -21,10 +21,11 @@ async function getSqliteDb (filename) {
 }
 
 async function loadSqliteDbToMingo (sqliteDb, mingo) {
+  console.log('loadSqliteDbToMingoloadSqliteDbToMingoloadSqliteDbToMingo')
   return new Promise((resolve, reject) => {
     sqliteDb.all('SELECT collection, id, data FROM documents', [], (err, rows) => {
       if (err) return reject(err)
-
+      console.log(rows)
       for (const row of rows) {
         if (!mingo.docs[row.collection]) {
           mingo.docs[row.collection] = {}
