@@ -20,7 +20,7 @@ async function getSqliteDb (filename) {
   })
 }
 
-async function loadDataToMingo (sqliteDb, mingo) {
+async function loadSqliteDbToMingo (sqliteDb, mingo) {
   return new Promise((resolve, reject) => {
     sqliteDb.all('SELECT collection, id, data FROM documents', [], (err, rows) => {
       if (err) return reject(err)
@@ -54,4 +54,4 @@ async function cloneSqliteDb (source, target) {
   })
 }
 
-export { getSqliteDb, loadDataToMingo, cloneSqliteDb }
+export { getSqliteDb, loadSqliteDbToMingo, cloneSqliteDb }

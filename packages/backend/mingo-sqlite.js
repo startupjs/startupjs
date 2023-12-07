@@ -1,7 +1,7 @@
 import ShareDbMingoMemory from 'sharedb-mingo-memory'
 import path from 'path'
 import sqlite3 from 'sqlite3'
-import { cloneSqliteDb, getSqliteDb, loadDataToMingo } from './helpers.js'
+import { cloneSqliteDb, getSqliteDb, loadSqliteDbToMingo } from './helpers.js'
 
 // override the commit method to save changes to SQLite
 function patchMingoForSQLitePersistence (sqliteDb, shareDbMingo) {
@@ -39,7 +39,7 @@ if (sourceSqliteDbPath) {
   await cloneSqliteDb(sourceSqliteDb, targetSqliteDb)
 }
 
-await loadDataToMingo(targetSqliteDb, db)
+await loadSqliteDbToMingo(targetSqliteDb, db)
 
 patchMingoForSQLitePersistence(targetSqliteDb, db)
 
