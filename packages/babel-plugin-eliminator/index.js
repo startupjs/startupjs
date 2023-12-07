@@ -1,4 +1,4 @@
-const REMOVAL_INDICATOR = '1'
+const REMOVAL_INDICATOR = 'undefined'
 
 module.exports = function babelPluginEliminator ({ template }) {
   const buildIndicator = template(REMOVAL_INDICATOR)
