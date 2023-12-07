@@ -11,8 +11,21 @@ import racer from 'racer'
 import Redlock from 'redlock'
 import shareDbHooks from 'sharedb-hooks'
 import db from './db.js'
-import { mongo, mongoClient, createMongoIndex } from './mongo.js'
 import { redisClient, redisObserver, redisLock } from './redis.js'
+
+let mongo
+let mongoClient
+let createMongoIndex = () => console.error('Database MongoDB is not connected')
+
+const { MONGO_URL, NO_MONGO } = process.env
+
+if (MONGO_URL && !NO_MONGO) {
+  const mongoDb = await import('./mongo.js')
+
+  mongo = mongoDb.mongo
+  mongoClient = mongoDb.mongoClient
+  createMongoIndex = mongoDb.createMongoIndex
+}
 
 const usersConnectionCounter = {}
 
