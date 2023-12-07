@@ -8,9 +8,9 @@ import { TheColor } from './TheColor'
 export function getPaletteMeta (palette) {
   const res = {}
   const high = getPaletteLength(palette) - 1
-  res.low = 0 // darkest colorful color
-  res.high = high // lightest colorful color
-  res.middle = Math.floor(high / 2) + 1 // first light color
+  res.low = 0 // lightest colorful color
+  res.high = high // darkest colorful color
+  res.middle = Math.floor(high / 2) // last light color
   return res
 }
 
@@ -143,20 +143,20 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   if (transformedOverrides) Object.assign(C, transformedOverrides)
 
   // base colors
-  C[Colors['text-on-color']]                ??= Color('coolGray', high)
-  C[Colors.shadow]                          ??= Color('coolGray', low - 1, { alpha: 0.2 })
-  C[Colors.bg]                              ??= Color('coolGray', high)
-  C[Colors.contrast]                        ??= Color('coolGray', low + 2)
-  C[Colors.text]                            ??= Color('coolGray', low + 2)
-  C[Colors.border]                          ??= Color('coolGray', high - 2)
+  C[Colors['text-on-color']]                ??= Color('coolGray', low)
+  C[Colors.shadow]                          ??= Color('coolGray', high + 1, { alpha: 0.2 })
+  C[Colors.bg]                              ??= Color('coolGray', low)
+  C[Colors.contrast]                        ??= Color('coolGray', high - 2)
+  C[Colors.text]                            ??= Color('coolGray', high - 2)
+  C[Colors.border]                          ??= Color('coolGray', low + 2)
   C[Colors.primary]                         ??= Color('blue', middle)
-  C[Colors.secondary]                       ??= Color('coolGray', low + 2)
+  C[Colors.secondary]                       ??= Color('coolGray', high - 2)
   C[Colors.error]                           ??= Color('red', middle)
   C[Colors.success]                         ??= Color('green', middle)
-  C[Colors.warning]                         ??= Color('yellow', middle + 2)
-  C[Colors.info]                            ??= Color('cyan', middle + 1)
+  C[Colors.warning]                         ??= Color('yellow', middle - 2)
+  C[Colors.info]                            ??= Color('cyan', middle - 1)
   C[Colors.attention]                       ??= Color('orange', middle)
-  C[Colors.special]                         ??= Color('purple', middle - 1)
+  C[Colors.special]                         ??= Color('purple', middle + 1)
 
   // all other colors are generated from the base colors
 
