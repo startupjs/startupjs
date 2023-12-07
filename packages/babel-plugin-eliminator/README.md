@@ -242,9 +242,9 @@ type PluginOpts = {
       /** Array of module import paths which identify the function as a 'magic' function */
       magicImports: string[],
       /** JSON path to the object within the function where the keys are located */
-      targetObjectJsonPath: string,
+      targetObjectJsonPath?: string,
       /** List of all possible keys within the object (for validation purposes) */
-      ensureOnlyKeys: string[],
+      ensureOnlyKeys?: string[],
       /** Array of keys that should be kept in the final output */
       keepKeys: string[]
     }
