@@ -11,18 +11,15 @@ import racer from 'racer'
 import Redlock from 'redlock'
 import shareDbHooks from 'sharedb-hooks'
 import db from './db.js'
-import { mongo, mongoClient, createMongoIndex } from './mongo.js'
 import { redisClient, redisObserver, redisLock } from './redis.js'
 
 const usersConnectionCounter = {}
 
 global.__clients = {}
 
+export * from './db.js'
 export {
   db,
-  mongo,
-  mongoClient,
-  createMongoIndex,
   redisClient,
   redisObserver,
   redisLock

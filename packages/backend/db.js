@@ -1,74 +1,40 @@
 import ShareDbMongo from 'sharedb-mongo'
-import ShareDbMingoMemory from 'sharedb-mingo-memory'
-import sqlite3 from 'sqlite3'
-import { mongoClient } from './mongo.js'
 
-const { MONGO_URL, NO_MONGO } = process.env
+const { MONGO_URL, NO_MONGO, DB_READONLY } = process.env
 
 let db
+let mongo
+let mongoClient
+let createMongoIndex = () => {}
 
+// use mongo
 if (MONGO_URL && !NO_MONGO) {
+  console.log('Database: mongo')
+  const mongoDb = await import('./mongo.js')
+
   db = ShareDbMongo(
     {
-      mongo: callback => callback(null, mongoClient),
+      mongo: callback => callback(null, mongoDb.mongoClient),
       allowAllQueries: true
     }
   )
+  mongo = mongoDb.mongo
+  mongoClient = mongoDb.mongoClient
+  createMongoIndex = mongoDb.createMongoIndex
+// use mingo without persist data
+} else if (DB_READONLY) {
+  console.log('Database: mingo')
+  db = await import('./mingo.js').default
+// all other cases use mingo with sqlite persist
 } else {
-  db = await new Promise((resolve, reject) => {
-    const db = new sqlite3.Database('sqlite.db')
-    const shareDbMingo = new ShareDbMingoMemory()
-
-    db.run(
-      'CREATE TABLE IF NOT EXISTS documents (' +
-      'collection TEXT, ' +
-      'id TEXT, ' +
-      'data TEXT, ' +
-      'PRIMARY KEY (collection, id))',
-      (err) => {
-        if (err) return reject(err)
-
-        // Load data from SQLite
-        db.all('SELECT collection, id, data FROM documents', [], (err, rows) => {
-          if (err) return reject(err)
-
-          for (const row of rows) {
-            if (!shareDbMingo.docs[row.collection]) {
-              shareDbMingo.docs[row.collection] = {}
-            }
-            shareDbMingo.docs[row.collection][row.id] = JSON.parse(row.data)
-          }
-
-          console.log('Documents loaded from SQLite to shareDbMingo')
-        })
-
-        // override the commit method to save changes to SQLite
-        const originalCommit = shareDbMingo.commit
-
-        shareDbMingo.commit = function (collection, docId, op, snapshot, options, callback) {
-          originalCommit.call(this, collection, docId, op, snapshot, options, (err) => {
-            if (err) return callback(err)
-
-            db.run(
-              'REPLACE INTO documents (collection, id, data) VALUES (?, ?, ?)',
-              [collection, docId, JSON.stringify(snapshot)],
-              (err) => {
-                if (err) {
-                  console.error(err.message)
-                  return callback(err)
-                }
-
-                console.log(`Document with id ${docId} saved to SQLite`)
-                callback()
-              }
-            )
-          })
-        }
-
-        resolve(shareDbMingo)
-      }
-    )
-  })
+  console.log('Database: mingo persistance sqlite')
+  db = await import('./mingo-sqlite.js').default
 }
 
 export default db
+
+export {
+  mongo,
+  mongoClient,
+  createMongoIndex
+}
