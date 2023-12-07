@@ -1,6 +1,6 @@
 import sqlite3 from 'sqlite3'
 
-async function createSqlDb (filename) {
+async function getSqliteDb (filename) {
   const sqliteDb = new sqlite3.Database(filename)
 
   return new Promise((resolve, reject) => {
@@ -37,7 +37,7 @@ async function loadDataToMingo (sqliteDb, mingo) {
   })
 }
 
-async function cloneSqlDb (source, target) {
+async function cloneSqliteDb (source, target) {
   return new Promise((resolve, reject) => {
     source.serialize(() => {
       source.all('SELECT * FROM documents', [], (err, rows) => {
@@ -54,4 +54,4 @@ async function cloneSqlDb (source, target) {
   })
 }
 
-export { createSqlDb, loadDataToMingo, cloneSqlDb }
+export { getSqliteDb, loadDataToMingo, cloneSqliteDb }
