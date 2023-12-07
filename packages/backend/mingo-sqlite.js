@@ -34,8 +34,6 @@ const sourceSqliteDbPath = DB_LOAD_SNAPSHOT ? path.join(process.cwd(), DB_LOAD_S
 const targetSqliteDbPath = path.join(process.cwd(), DB_PATH || 'sqlite.db')
 const targetSqliteDb = await getSqliteDb(targetSqliteDbPath)
 
-console.log(targetSqliteDbPath, sourceSqliteDbPath)
-
 if (sourceSqliteDbPath) {
   const sourceSqliteDb = new sqlite3.Database(sourceSqliteDbPath)
   await cloneSqliteDb(sourceSqliteDb, targetSqliteDb)
