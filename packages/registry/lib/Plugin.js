@@ -9,9 +9,12 @@ export default class Plugin {
     this.initialized = false
   }
 
-  init (config = {}) {
+  init (init, options = {}) {
     if (this.initialized) throw Error(`Plugin "${this.name}" for module "${this.parent.name}" already registered`)
-    this.config = config
+    if (!(init && typeof init === 'function')) {
+      throw Error(`Plugin "${this.name}" for module "${this.parent.name}" is missing init function`)
+    }
+    this.config = init(options, this)
     this.initialized = true
   }
 

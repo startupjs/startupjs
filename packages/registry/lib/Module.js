@@ -8,44 +8,27 @@ export default class Module {
   constructor (name) {
     this.name = name
     this.plugins = new Map()
-    this.initialized = false
-  }
-
-  init (config = {}) {
-    if (this.initialized) throw Error(`Module "${this.name}" already registered`)
-    this.config = config
-    this.initialized = true
-  }
-
-  validate () {
-    if (!this.initialized) throw Error(`Module "${this.name}" is not initialized`)
   }
 
   getPlugin (pluginName) {
+    if (!pluginName) throw Error('[@startupjs/registry] You must pass plugin name into getPlugin()')
     if (!this.plugins.has(pluginName)) {
       this.plugins.set(pluginName, new Plugin(this, pluginName))
     }
     return this.plugins.get(pluginName)
   }
 
-  registerPlugin (pluginName, pluginConfig) {
+  registerPlugin (pluginName, pluginInit, pluginOptions) {
     const plugin = this.getPlugin(pluginName)
-    plugin.init(pluginConfig)
+    plugin.init(pluginInit, pluginOptions)
   }
 
   // ------------------------------------------
   //   Execution
   // ------------------------------------------
 
-  getContext () {
-    // TODO: Construct some useful context in future
-    return {}
-  }
-
   // Run hook for each plugin and return an array of results
   hook (hookName, ...args) {
-    // TODO: Init validation my not by needed by design
-    this.validate()
     const results = []
     for (const pluginName in this.plugins) {
       const plugin = this.getPlugin(pluginName)
@@ -58,8 +41,6 @@ export default class Module {
 
   // Works the same as Array.reduce but for the list of plugins
   reduceHook (hookName, initialValue, ...args) {
-    // TODO: Init validation my not by needed by design
-    this.validate()
     let value = initialValue
     for (const pluginName in this.plugins) {
       const plugin = this.getPlugin(pluginName)

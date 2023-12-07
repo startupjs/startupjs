@@ -14,23 +14,15 @@ export default class Registry {
   }
 
   getModule (moduleName) {
-    if (typeof moduleName !== 'string') {
-      moduleName = moduleName && moduleName.name
-    }
-    if (!moduleName) throw Error('[@startupjs/registry] You must pass the module name or the content of startupjs.json into the getModule()')
+    if (!moduleName) throw Error('[@startupjs/registry] You must pass module name into getModule()')
     if (!this.modules.has(moduleName)) {
       this.modules.set(moduleName, new Module(moduleName))
     }
     return this.modules.get(moduleName)
   }
 
-  registerModule (moduleName, moduleConfig) {
+  registerPlugin (moduleName, pluginName, pluginInit, pluginOptions) {
     const aModule = this.getModule(moduleName)
-    aModule.init(moduleConfig)
-  }
-
-  registerPlugin (moduleName, pluginName, pluginConfig) {
-    const aModule = this.getModule(moduleName)
-    aModule.registerPlugin(pluginName, pluginConfig)
+    aModule.registerPlugin(pluginName, pluginInit, pluginOptions)
   }
 }

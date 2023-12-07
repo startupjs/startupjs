@@ -1,4 +1,4 @@
-import { redirectToPromoIfNotLoggedIn } from '../isomorphic'
+import { redirectToPromoIfNotLoggedIn } from '../client'
 
 export default ({
   autoFilterHome = true,

@@ -111,6 +111,136 @@ pluginTester({
         keepExports: ['foo', 'default']
       },
       code: LONGER_EXAMPLE
+    },
+    'object in magic function. Only parse magic function': {
+      pluginOptions: {
+        keepObjectKeysOfFunction: {
+          createProject: {
+            magicImports: ['startupjs/registry', '@startupjs/registry'],
+            targetObjectJsonPath: '$.plugins.*',
+            ensureOnlyKeys: ['client', 'isomorphic', 'server', 'build'],
+            keepKeys: ['client']
+          }
+        }
+      },
+      code: /* js */`
+        import { createProject2 } from 'startupjs/registry'
+        export default createProject2({
+          plugins: {
+            'serve-static-promo': {
+              client: {
+                redirectUrl: '/promo',
+              },
+              server: {
+                testServer: 'hello server',
+              }
+            }
+          }
+        })
+      `
+    },
+    'object in magic function. Throw error if there are keys other than `ensureOnlyKeys`': {
+      pluginOptions: {
+        keepObjectKeysOfFunction: {
+          createProject: {
+            magicImports: ['startupjs/registry', '@startupjs/registry'],
+            targetObjectJsonPath: '$.plugins.*',
+            ensureOnlyKeys: ['client', 'isomorphic', 'server', 'build'],
+            keepKeys: ['client']
+          }
+        }
+      },
+      error: true,
+      code: /* js */`
+        import { createProject } from 'startupjs/registry'
+        export default createProject({
+          plugins: {
+            'serve-static-promo': {
+              client: {
+                redirectUrl: '/promo'
+              }
+            },
+            permissions: {
+              client: {
+                roles: ['admin', 'user']
+              },
+              magic: {
+                testMagic: 'hello magic'
+              }
+            }
+          }
+        })
+      `
+    },
+    // Removing keys from object within magic function call
+    'object in magic function. Keep keys `client` and `isomorphic`': {
+      pluginOptions: {
+        keepObjectKeysOfFunction: {
+          createProject: {
+            magicImports: ['startupjs/registry', '@startupjs/registry'],
+            targetObjectJsonPath: '$.plugins.*',
+            ensureOnlyKeys: ['client', 'isomorphic', 'server', 'build'],
+            keepKeys: ['client', 'isomorphic']
+          }
+        }
+      },
+      code: /* js */`
+        import { createProject } from 'startupjs/registry'
+        import { clientLib, clientLib2 } from 'client-lib'
+        import { serverLib, serverLib2 } from 'server-lib'
+        import buildLib from 'build-lib'
+        import isomorphicLib from 'isomorphic-lib'
+
+        const clientVar = clientLib()
+        const clientVar2 = clientLib2()
+        const serverVar = serverLib()
+        const serverVar2 = serverLib2()
+        const buildVar = buildLib()
+        const isomorphicVar = isomorphicLib()
+
+        export default createProject({
+          plugins: {
+            'serve-static-promo': {
+              client: {
+                redirectUrl: '/promo',
+                testClient: 'hello client',
+                clientVar
+              },
+              server: {
+                testServer: 'hello server',
+                serverVar
+              },
+              build: {
+                testBuild: 'hello build',
+                buildVar
+              },
+              isomorphic: {
+                testIsomorphic: 'hello isomorphic',
+                isomorphicVar
+              }
+            },
+            permissions: {
+              client: {
+                testClient: 'permissions client',
+                clientVar2
+              },
+              server: {
+                testServer: 'permissions server',
+                roles: ['admin', 'user'],
+                serverVar2
+              },
+              build: {
+                testBuild: 'permissions build',
+                buildVar
+              },
+              isomorphic: {
+                testIsomorphic: 'permissions isomorphic',
+                isomorphicVar
+              }
+            }
+          }
+        })
+      `
     }
   }
 })
