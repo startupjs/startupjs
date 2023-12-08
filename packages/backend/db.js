@@ -24,11 +24,13 @@ if (MONGO_URL && !NO_MONGO) {
 // use mingo without persist data
 } else if (DB_READONLY) {
   console.log('Database: mingo')
-  db = await import('./mingo.js').default
+  const _db = await import('./mingo.js')
+  db = _db.default
 // all other cases use mingo with sqlite persist
 } else {
   console.log('Database: mingo persistance sqlite')
-  db = await import('./mingo-sqlite.js').default
+  const _db = await import('./mingo-sqlite.js')
+  db = _db.default
 }
 
 export default db
