@@ -1,3 +1,21 @@
+## [0.55.1](https://github.com/startupjs/startupjs/compare/v0.55.0...v0.55.1) (2023-12-08)
+
+
+### Bug Fixes
+
+* **ui colors:** improve handling of black and white colors ([#1126](https://github.com/startupjs/startupjs/issues/1126)) ([bc158c1](https://github.com/startupjs/startupjs/commit/bc158c1e15b24bf9bb9bede68e3022a83306296c))
+
+
+### Features
+
+* **babel-plugin-eliminator:** Add babel plugin to remove or keep particular exports from the file ([#1119](https://github.com/startupjs/startupjs/issues/1119)) ([2aa7fa5](https://github.com/startupjs/startupjs/commit/2aa7fa5b4fbc71ab250dcd058e3e67f54670dfcd))
+* **backend:** add ability to load snapshots to mingo ([#1121](https://github.com/startupjs/startupjs/issues/1121)) ([90c207f](https://github.com/startupjs/startupjs/commit/90c207fd81bf0108b6c388d9a7b2fd762aac15b9))
+* **pm:** get default branch from github -- this covers for main/master or any other branch being the default one for making PRs and to get code from. ([c68c8a1](https://github.com/startupjs/startupjs/commit/c68c8a1c658e210553887d78500fdf4b07d7aef3))
+* **pm:** support both git: and https: for github 'origin' ([0c0a70c](https://github.com/startupjs/startupjs/commit/0c0a70c62dcc50c01bc00b296d77d43f7cb513cc))
+* **test:** add default roles for components. Playwright CI ([#1107](https://github.com/startupjs/startupjs/issues/1107)) ([28fc11c](https://github.com/startupjs/startupjs/commit/28fc11ce33686756a9aa6168957cffb28418a571))
+
+
+
 # [0.55.0](https://github.com/startupjs/startupjs/compare/v0.55.0-alpha.25...v0.55.0) (2023-11-29)
 
 
