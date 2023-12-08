@@ -1,6 +1,6 @@
 import handlers from './handlers.js'
 import { getRootModel } from './model.js'
-import { WeakRef, FinalizationRegistry } from './shim.js'
+import { WeakRef, FinalizationRegistry } from './weakRefShim.js'
 
 export const SEGMENTS = Symbol('path segments')
 export const MODEL = Symbol('scoped model')

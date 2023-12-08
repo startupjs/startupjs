@@ -1,3 +1,7 @@
+// ref: https://github.com/ungap/weakrefs
+// get code library and refactor to if/else condition
+// because the try/catch in this library did not work in Expo
+
 if (
   typeof globalThis.WeakRef === 'undefined' ||
   typeof globalThis.FinalizationRegistry === 'undefined'
