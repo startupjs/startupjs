@@ -160,8 +160,9 @@ task () {
   # Check that gh cli is present and login if needed
   _checkAndInitGh
 
-  git checkout master
-  git pull origin master
+  _defaultBranch=$(_getDefaultBranch)
+  git checkout $_defaultBranch
+  git pull origin $_defaultBranch
   git fetch origin $_issue 2>/dev/null || true
 
   if git show-ref --verify --quiet refs/heads/$_issue || git show-ref --verify --quiet refs/remotes/origin/$_issue ; then
@@ -234,6 +235,10 @@ _getOwner () {
 
 _getRepo () {
   git remote get-url origin | sed -n 's/.*github\.com[:\/][^\/]*\/\([^\/]*\).git/\1/p'
+}
+
+_getDefaultBranch () {
+  gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name' | cat
 }
 
 # project url example: https://github.com/orgs/dmstartups/projects/4
@@ -521,7 +526,7 @@ _setFieldValue () {
 
 _convertIssueToPr () {
   _issue=$1
-  gh api "repos/$(_getOwner)/$(_getRepo)/pulls" --silent -f head="$_issue" -f base=master -F issue="$_issue"
+  gh api "repos/$(_getOwner)/$(_getRepo)/pulls" --silent -f head="$_issue" -f base="$(_getDefaultBranch)" -F issue="$_issue"
 }
 
 _getFieldOptionId () {
