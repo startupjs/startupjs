@@ -11,8 +11,7 @@
     "test": "node --expose-gc -r ./test/_init.cjs --test"
   },
   "dependencies": {
-    "@startupjs/model": "^0.55.0",
-    "@ungap/weakrefs": "^0.2.0"
+    "@startupjs/model": "^0.55.0"
   },
   "license": "MIT"
 }
