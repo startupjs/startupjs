@@ -5967,7 +5967,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/docker@npm:^0.54.0, @startupjs/docker@workspace:docker":
+"@startupjs/docker@workspace:docker":
   version: 0.0.0-use.local
   resolution: "@startupjs/docker@workspace:docker"
   languageName: unknown
@@ -29002,7 +29002,6 @@ __metadata:
     "@startupjs/backend": "npm:^0.55.0"
     "@startupjs/bundler": "npm:^0.55.0"
     "@startupjs/cli": "npm:^0.55.0"
-    "@startupjs/docker": "npm:^0.54.0"
     "@startupjs/hooks": "npm:^0.55.0"
     "@startupjs/i18n": "npm:^0.55.0"
     "@startupjs/init": "npm:^0.55.0"

@@ -14,7 +14,6 @@
     "@startupjs/backend": "^0.55.0",
     "@startupjs/bundler": "^0.55.0",
     "@startupjs/cli": "^0.55.0",
-    "@startupjs/docker": "^0.54.0",
     "@startupjs/hooks": "^0.55.0",
     "@startupjs/i18n": "^0.55.0",
     "@startupjs/init": "^0.55.0",
