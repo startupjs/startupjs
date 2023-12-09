@@ -8,7 +8,7 @@ export {preload} from './'
       ↓ ↓ ↓ ↓ ↓ ↓
 
 export const a = 1;
-export var preload = 1;
+export var preload = undefined;
 
 
 `;
@@ -47,7 +47,7 @@ export const foo = () => {
 export default () => {
   return usedByDefault(varInDefault);
 };
-export var bar = 1;
+export var bar = undefined;
 
 
 `;
@@ -81,8 +81,8 @@ const varInFoo = "var-in-foo";
 export const foo = () => {
   return usedByFoo(varInFoo);
 };
-export default 1;
-export var bar = 1;
+export default undefined;
+export var bar = undefined;
 
 
 `;
@@ -113,8 +113,8 @@ export function bar () {
 
 import usedByBar from "used-by-bar";
 const varInBar = "var-in-bar";
-export var foo = 1;
-export default 1;
+export var foo = undefined;
+export default undefined;
 export function bar() {
   return usedByBar(varInBar);
 }
@@ -150,7 +150,7 @@ import usedByDefault from "used-by-default";
 import usedByBar from "used-by-bar";
 const varInDefault = "var-in-default";
 const varInBar = "var-in-bar";
-export var foo = 1;
+export var foo = undefined;
 export default () => {
   return usedByDefault(varInDefault);
 };
@@ -341,7 +341,7 @@ export const preload = () => {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-export var preload = 1;
+export var preload = undefined;
 
 
 `;
@@ -354,7 +354,7 @@ export function preload() {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-export var preload = 1;
+export var preload = undefined;
 
 
 `;
@@ -367,7 +367,7 @@ export function staticPreload() {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-export var staticPreload = 1;
+export var staticPreload = undefined;
 
 
 `;
@@ -380,7 +380,7 @@ export var preload= function() {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-export var preload = 1;
+export var preload = undefined;
 
 
 `;
@@ -391,7 +391,7 @@ export {preload} from './'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-export var preload = 1;
+export var preload = undefined;
 
 
 `;
@@ -420,7 +420,7 @@ import { getStaticProps } from "./";
 var shouldHeep = 2;
 var alsoShouldKeep = 3;
 console.log(alsoShouldKepp);
-export var preload = 1;
+export var preload = undefined;
 
 
 `;

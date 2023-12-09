@@ -6279,7 +6279,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/registry@workspace:packages/registry":
+"@startupjs/registry@npm:^0.55.0, @startupjs/registry@workspace:packages/registry":
   version: 0.0.0-use.local
   resolution: "@startupjs/registry@workspace:packages/registry"
   dependencies:
@@ -6301,6 +6301,7 @@ __metadata:
   resolution: "@startupjs/serve-static-promo@workspace:packages/serve-static-promo"
   dependencies:
     serve-static-zip: "npm:1.0.3"
+    startupjs: "npm:^0.55.0"
   peerDependencies:
     express: 4.x
   languageName: unknown
@@ -29119,6 +29120,7 @@ __metadata:
     "@startupjs/orm": "npm:^0.55.0"
     "@startupjs/patches": "npm:^0.55.0"
     "@startupjs/react-sharedb": "npm:^0.55.0"
+    "@startupjs/registry": "npm:^0.55.0"
     "@startupjs/server": "npm:^0.55.0"
     babel-preset-startupjs: "npm:^0.55.0"
     react-native-web: "npm:^0.18.0"
