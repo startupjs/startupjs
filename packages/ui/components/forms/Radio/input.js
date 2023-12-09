@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import { Animated, Easing, Platform } from 'react-native'
 import { pug, observer, useDidUpdate } from 'startupjs'
-import Row from '../../Row'
 import Div from '../../Div'
 import Span from '../../typography/Span'
 import themed from '../../../theming/themed'
@@ -55,12 +54,13 @@ const RadioInput = function ({
   }, [checked])
 
   return pug`
-    Row.input-input(
+    Div.input-input(
       style=style
       vAlign='center'
       disabled=disabled || readonly
       onPress=() => onChange && onChange(parseValue(value))
       accessibilityRole='radio'
+      row
     )
       Div.radio(
         styleName=[{ checked, error }]

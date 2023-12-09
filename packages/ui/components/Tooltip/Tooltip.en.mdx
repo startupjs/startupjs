@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Text, View } from 'react-native'
 import Alert from '../Alert'
 import Button from '../Button'
-import Row from '../Row'
 import Span from '../typography/Span'
 import Div from '../Div'
 import Tooltip from './'
@@ -26,11 +25,11 @@ Before use you need to configure [Portal](/docs/components/Portal)
 
 ```jsx example
 return (
-  <Row>
+  <Div row>
     <Tooltip content="tooltip">
       <Span>Content</Span>
     </Tooltip>
-  </Row>
+  </Div>
 )
 ```
 

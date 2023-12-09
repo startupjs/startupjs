@@ -7,7 +7,6 @@ import {
   Button,
   Div,
   ObjectInput,
-  Row,
   Span
 } from '@startupjs/ui'
 import {
@@ -201,7 +200,7 @@ function LoginForm ({
         ) Forgot your password?
 
         if localSignUpEnabled
-          Row.actionChoice
+          Div.actionChoice(row)
             Span.actionText Don't have an account?
             Button.signUp(
               onPress=()=> onChangeSlide(SIGN_UP_SLIDE)

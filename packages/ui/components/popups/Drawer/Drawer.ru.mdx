@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDrawerDismiss } from '@startupjs/ui/hooks'
 import { View, TouchableWithoutFeedback, Text } from 'react-native'
 import { useHistory } from 'react-router-native'
-import Row from '../../Row'
+import Div from '../../Div'
 import Button from '../../Button'
 import Drawer from './index.js'
 
@@ -65,7 +65,7 @@ const data = {
 }
 
 return (
-  <Row style={{ width: '100%', flexWrap: 'wrap' }}>
+  <Div row style={{ width: '100%', flexWrap: 'wrap' }}>
     {
       Object.keys(data).map((key, index) => (
         <View key={index}>
@@ -86,7 +86,7 @@ return (
         </View>
       ))
     }
-  </Row>
+  </Div>
 )
 ```
 
@@ -96,7 +96,7 @@ return (
 const [visible, setVisible] = useState('')
 
 return (
-  <Row style={{ width: '100%', flexWrap: 'wrap' }}>
+  <Div row style={{ width: '100%', flexWrap: 'wrap' }}>
     <Drawer
       visible={visible === 'zone'}
       onDismiss={() => setVisible('')}
@@ -118,7 +118,7 @@ return (
       style={{ width: 280, marginTop: 16 }}
       onPress={() => setVisible('custom')}
     >Кастомная зона свайпа</Button>
-  </Row>
+  </Div>
 )
 ```
 
@@ -142,7 +142,7 @@ const [onDismiss, setOnDismiss] = useDrawerDismiss({
 })
 
 return (
-  <Row style={{ width: '100%', flexWrap: 'wrap' }}>
+  <Div row style={{ width: '100%', flexWrap: 'wrap' }}>
     <Drawer
       visible={rightDrawer}
       position='right'
@@ -184,6 +184,6 @@ return (
       onPress={()=> setLeftDrawer(true)}
       style={{ width: 280, marginRight: 24, marginTop: 16 }}
     >С хуком</Button>
-  </Row>
+  </Div>
 )
 ```

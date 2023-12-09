@@ -1,4 +1,5 @@
-import { rootModule } from 'startupjs/registry.js'
+import { rootModule } from '@startupjs/registry'
+import { mongoClient } from '@startupjs/backend'
 import _defaults from 'lodash/defaults.js'
 import _cloneDeep from 'lodash/cloneDeep.js'
 import conf from 'nconf'
@@ -26,7 +27,7 @@ function getDefaultSessionUpdateInterval (sessionMaxAge) {
   return Math.floor(sessionMaxAge / 1000 / 10)
 }
 
-export default (backend, mongoClient, error, options) => {
+export default (backend, error, options) => {
   const connectMongoOptions = { client: mongoClient }
 
   if (options.sessionMaxAge) {
@@ -35,7 +36,7 @@ export default (backend, mongoClient, error, options) => {
   }
 
   let sessionStore
-  if (conf.get('MONGO_URL') && !conf.get('NO_MONGO')) {
+  if (mongoClient) {
     sessionStore = MongoStore.create(connectMongoOptions)
   }
 

@@ -4,7 +4,6 @@ import Content from '../Content'
 import Div from '../Div'
 import DrawerSidebar from '../DrawerSidebar'
 import Menu from '../Menu'
-import Row from '../Row'
 import Span from '../typography/Span'
 import { $root, useSession } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
@@ -59,9 +58,9 @@ return (
         width='full'
         style={{ backgroundColor: 'white' }}
       >
-        <Row>
+        <Div>
           <Button onPress={() => $open.set(true)}>Открыть</Button>
-        </Row>
+        </Div>
         <Br />
         <Span>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
@@ -117,9 +116,9 @@ return (
         width='full'
         style={{ backgroundColor: 'white' }}
       >
-        <Row>
+        <Div>
           <Button onPress={() => $open.set(true)}>Открыть</Button>
-        </Row>
+        </Div>
         <Br />
         <Span>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { pug, observer } from 'startupjs'
-import { Div, Button, TextInput, Row, Span } from '@startupjs/ui'
+import { Div, Button, TextInput, Span } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { checkToken } from '../../helpers'
 import './index.styl'
@@ -26,7 +26,7 @@ function CheckToken ({
   return pug`
     Div.root(style=style)
       Span.label= label
-      Row.inputContainer
+      Div.inputContainer(row)
         TextInput.input(
           value=text
           onChangeText=setText

@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react'
 import { pug } from 'startupjs'
 import Avatar from '../Avatar'
-import Row from '../Row'
 import Div from '../Div'
 import Span from '../typography/Span'
 import Br from '../Br'
@@ -29,7 +28,7 @@ return pug`
 
 ```jsx example
 return pug`
-  Row
+  Div(row)
     Div(pushed)
       Avatar(
         size='s'
@@ -59,7 +58,7 @@ return pug`
 
 ```jsx example
 return pug`
-  Row
+  Div(row)
     Div
       Avatar(
         status='online'
@@ -117,7 +116,7 @@ styl`
 
 ```jsx example
 return pug`
-  Row
+  Div(row)
     Div
       Avatar(src='/img/non-existen-image.jpeg')
     Div(pushed)

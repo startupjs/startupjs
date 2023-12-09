@@ -1,5 +1,4 @@
 import Sidebar from '../Sidebar'
-import Row from '../Row'
 import Div from '../Div'
 import Menu from '../Menu'
 import Button from '../Button'
@@ -73,14 +72,14 @@ return (
         backgroundColor: 'white'
       }}
     >
-      <Row>
+      <Div row>
         <Button
           variant='flat'
           onPress={() => { $open.set(!open) }}
         >
           Toggle right sidebar
         </Button>
-      </Row>
+      </Div>
       <Br />
       <Span>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
@@ -144,11 +143,11 @@ return (
         backgroundColor: 'white'
       }}
     >
-      <Row>
+      <Div row>
         <Button variant='flat' onPress={() => $open.set(!open)}>
           Toggle sidebar
         </Button>
-      </Row>
+      </Div>
       <Br />
       <Span>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.

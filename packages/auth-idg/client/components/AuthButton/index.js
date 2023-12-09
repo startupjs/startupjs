@@ -1,7 +1,7 @@
 import React from 'react'
 import { WebView } from 'react-native-webview'
 import { pug, observer, u, useValue, useSession } from 'startupjs'
-import { Modal, Row, Span } from '@startupjs/ui'
+import { Modal, Div, Span } from '@startupjs/ui'
 import { clientFinishAuth, CookieManager } from '@startupjs/auth'
 import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'
@@ -41,9 +41,10 @@ function AuthButton ({
   }
 
   return pug`
-    Row.button(
+    Div.button(
       style=style
       onPress=showLoginModal
+      row
     )
       IDG(
         viewBox="2 4 40 40"

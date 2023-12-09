@@ -32,9 +32,6 @@ Since **StartupJS** is based on React Native, all the elements by default have s
 2.	All elements `position: relative`
 3.	Default alignment of items in a flex container `flex-direction: column`
 
-> You do not have to override the `flex-direction` property of the `Div` component to `flex-direction: row`, just use the ready-made `Row` component.
-
-
 ## Adding the first component
 
 Let us add the first component to the page.
@@ -227,7 +224,7 @@ const [todos, $todos] = useQuery('todos', {})
 </Content>
 ```
 
-As you can see, the checkbox and the button have appeared on the page, but they are located below the text of our task. Let us use the `Row` wrapper to place the text, checkbox and button in one row and unite the checkbox with the button into one wrapper by analogy:
+As you can see, the checkbox and the button have appeared on the page, but they are located below the text of our task. Let us use the `Div` wrapper to place the text, checkbox and button in one row and unite the checkbox with the button into one wrapper by analogy:
 
 ```jsx
 const [todos, $todos] = useQuery('todos', {})
@@ -236,19 +233,19 @@ const [todos, $todos] = useQuery('todos', {})
   <H1>TODO List</H1>
     {todos.map(todo => (
       <Card key={todo.id}>
-        <Row align='between' vAlign='center'>
+        <Div row align='between' vAlign='center'>
           <Span>{todo.title}</Span>
-            <Row align='between' vAlign='center'>
+            <Div row align='between' vAlign='center'>
               <Checkbox />
               <Button />
-            </Row>
-        </Row>
+            </Div>
+        </Div>
       </Card>
     ))}
 </Content>
 ```
 
-> `align='between' vAlign='center'` – props from [Row component documentation](/docs/components/Row), analogue `justify-content: space-between; align-items: center;`
+> `align='between' vAlign='center'` – props from [Div component documentation](/docs/components/Div), analogue `justify-content: space-between; align-items: center;`
 
 ## Component state management
 
@@ -335,9 +332,9 @@ const [todos, $todos] = useQuery('todos', {})
   <H1>TODO List</H1>
     {todos.map(todo => (
       <Card key={todo.id}>
-        <Row align='between' vAlign='center'>
+        <Div row align='between' vAlign='center'>
           <Span>{todo.title}</Span>
-            <Row align='between' vAlign='center'>
+            <Div row align='between' vAlign='center'>
               <Checkbox
                 value={todo.completed}
                 onChange={value => changeStatus(todo.id, value)}
@@ -348,14 +345,14 @@ const [todos, $todos] = useQuery('todos', {})
                 size='s'
                 onPress={() => removeTodo(todo.id)}
               />
-            </Row>
-        </Row>
+            </Div>
+        </Div>
       </Card>
     ))}
-    <Row align='between' vAlign='center'>
+    <Div row align='between' vAlign='center'>
       <TextInput />
       <Button>Add</Button>
-    </Row>
+    </Div>
 </Content>
 ```
 

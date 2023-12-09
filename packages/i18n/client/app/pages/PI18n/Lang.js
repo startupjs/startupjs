@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { pug, observer, useLocal, useModel } from 'startupjs'
-import { Div, Row, Span, TextInput, Icon } from '@startupjs/ui'
+import { Div, Span, TextInput, Icon } from '@startupjs/ui'
 import { faUndoAlt, faSave } from '@fortawesome/free-solid-svg-icons'
 import debounce from 'lodash/debounce'
 import { getLangMeta, useForceUpdateFiltersCounters } from './../../helpers'
@@ -60,14 +60,14 @@ export default observer(function Lang ({ style, meta }) {
   }
 
   return pug`
-    Row.root(style=style vAlign='center')
-      Row.info(vAlign='center')
-        Row
+    Div.root(style=style vAlign='center' row)
+      Div.info(vAlign='center' row)
+        Div(row)
           Div
             - const statusMeta = FILTERS_META[langMeta.state]
             Icon(style=statusMeta.style icon=statusMeta.icon)
           if langMeta.statuses[PENDING_STATUS]
-            Row.pending
+            Div.pending(row)
               Div(onPress=onUndo)
                 Icon.pending-icon(icon=faUndoAlt)
               Div(pushed onPress=onSave)

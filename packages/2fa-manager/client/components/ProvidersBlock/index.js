@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { pug, observer } from 'startupjs'
-import { Div, TextInput, Button, Row } from '@startupjs/ui'
+import { Div, TextInput, Button } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import { useProviders } from '../../hooks'
 import { send } from '../../helpers'
@@ -53,7 +53,7 @@ function ProvidersBlock ({ providerNames, onSubmit }) {
           value=code
           onChangeText=setCode
         )
-        Row.row(vAlign='center')
+        Div.row(vAlign='center' row)
           Button(onPress=submit) Check
           Button(onPress=onBack) Back
   `

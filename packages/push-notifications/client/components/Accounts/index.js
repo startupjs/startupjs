@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { pug, observer, useQuery, useValue } from 'startupjs'
 import {
-  Row,
   Span,
   Table,
   Thead,
@@ -72,7 +71,7 @@ function Accounts () {
 
   return pug`
     Div.root
-      Row.sendButton
+      Div.sendButton(row)
         Button(disabled=!selectedUserIds.length onPress=openModal) Send to selected
       Table.table
         Thead
@@ -97,7 +96,7 @@ function Accounts () {
                 - let user = users.find(user => user.id === push.userId)
                 Span= user ? user.email : 'Unauthorized'
               Td= Object.keys(push.platforms).join(', ')
-      Row.pagination(align='center')
+      Div.pagination(align='center' row)
         Pagination(
           count=pushsCount
           limit=LIMIT

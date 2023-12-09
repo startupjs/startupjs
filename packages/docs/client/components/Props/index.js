@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { pug, observer, $root, useComponentId } from 'startupjs'
-import { themed, Button, Row, Div, ScrollView } from '@startupjs/ui'
+import { themed, Button, Div, ScrollView } from '@startupjs/ui'
 import parsePropTypesModule from 'parse-prop-types'
 import Constructor from './Constructor'
 import Renderer from './Renderer'
@@ -41,7 +41,7 @@ function useEntries ({ Component, props, extraParams }) {
 
 function parseEntries (entries) {
   return entries.map(entry => {
-    let meta = entry[1]
+    const meta = entry[1]
     return {
       name: entry[0],
       type: meta.type.name,
@@ -133,7 +133,7 @@ export default observer(themed(function PComponent ({
             showSizes=showSizes
             block=block
           )
-        Row.display(align='right')
+        Div.display(align='right' row)
           Button(
             size='s'
             variant='text'

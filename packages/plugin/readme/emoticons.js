@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { pug, observer } from 'startupjs'
-import { alert, Div, Row, Span } from '@startupjs/ui'
+import { alert, Div, Span } from '@startupjs/ui'
 
 export default {
   name: 'emoticons',
@@ -11,7 +11,7 @@ export default {
     const { size } = useOptions()
 
     const emoticons = useMemo(() => {
-      let emoticons = ['😀', '😃', '😄', '😁', '😅', '😆', '😂', '🤣', '😉', '😊']
+      const emoticons = ['😀', '😃', '😄', '😁', '😅', '😆', '😂', '🤣', '😉', '😊']
       if (love) emoticons.push('😘', '😍', '🥰')
       if (angry) emoticons.push('😡', '🤬', '😈', '👿')
       return emoticons
@@ -38,7 +38,7 @@ function renderEmoticons ({ emoticons, size }) {
   const style = { fontSize: size, lineHeight: size }
 
   return pug`
-    Row(wrap)
+    Div(wrap row)
       each emoticon, index in emoticons
         Div(
           key=index

@@ -5,7 +5,6 @@ import {
   Br,
   Card,
   Div,
-  Row,
   Span
 } from '@startupjs/ui'
 import PropTypes from 'prop-types'
@@ -25,7 +24,7 @@ function List ({ collection, tableId }) {
   }
 
   return pug`
-    Row(align="right")
+    Div(align="right" row)
       Button(
         variant='flat'
         color='primary'

@@ -2,7 +2,6 @@ import React from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../Div'
-import Row from './../Row'
 import { H6 } from './../typography'
 import Star from './Star'
 import themed from '../../theming/themed'
@@ -18,7 +17,7 @@ function Rating ({
   onChange
 }) {
   return pug`
-    Row(style=style vAlign='center')
+    Div(style=style vAlign='center' row)
       if readonly
         Star(active)
         H6.value(bold)= value.toFixed(1)

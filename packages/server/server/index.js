@@ -1,6 +1,5 @@
 import getBackend, {
   mongo,
-  mongoClient,
   createMongoIndex,
   redisClient
 } from '@startupjs/backend'
@@ -25,7 +24,7 @@ export default async (options) => {
   // Init error handling route
   const error = options.error(options)
 
-  const { expressApp, session } = express(backend, mongoClient, error, options)
+  const { expressApp, session } = express(backend, error, options)
 
   const { wss, upgrade } = racerHighway(backend, { session }, { timeout: 5000, timeoutIncrement: 8000 })
   wsServer = wss

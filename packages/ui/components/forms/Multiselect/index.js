@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
-import Row from '../../Row'
 import Span from '../../typography/Span'
 import Div from '../../Div'
 import Icon from './../../Icon'
@@ -80,7 +79,7 @@ const Multiselect = ({
         if renderListItem
           = renderListItem({ item, index, selected })
         else
-          Row.suggestionItem
+          Div.suggestionItem(row)
             Span.label= label
             Div.check
               if selected

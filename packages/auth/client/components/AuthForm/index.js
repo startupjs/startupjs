@@ -1,6 +1,6 @@
 import React from 'react'
 import { pug, observer } from 'startupjs'
-import { Row, Content, Div, Span } from '@startupjs/ui'
+import { Content, Div, Span } from '@startupjs/ui'
 import { BASE_URL } from '@env'
 import PropTypes from 'prop-types'
 import OrDivider from '../OrDivider'
@@ -58,7 +58,7 @@ function AuthForm ({
     return renderForm({
       slide,
       socialButtons: pug`
-        Row.buttons= prepereSocialButtons
+        Div.buttons(row)= prepereSocialButtons
       `,
       localActiveForm: prepereLocalActiveForm
     })
@@ -73,7 +73,7 @@ function AuthForm ({
           = DEFAULT_FORMS_DESCRIPTIONS[slide]
 
       if [SIGN_IN_SLIDE, SIGN_UP_SLIDE].includes(slide)
-        Row.buttons
+        Div.buttons(row)
           = prepereSocialButtons
 
       if isNeedOrLine

@@ -7,7 +7,6 @@ import colorToRGBA from '../../helpers/colorToRGBA'
 import Div from '../Div'
 import Icon from '../Icon'
 import Loader from '../Loader'
-import Row from '../Row'
 import Span from '../typography/Span'
 import Colors, { ColorValues } from '../../theming/Colors'
 import themed from '../../theming/themed'
@@ -122,7 +121,8 @@ function Button ({
   rootStyle.paddingRight = padding
 
   return pug`
-    Row.root(
+    Div.root(
+      row
       style=[rootStyle, style]
       styleName=[
         size,
