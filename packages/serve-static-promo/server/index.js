@@ -2,7 +2,7 @@ import express from 'express'
 import createServeZip from 'serve-static-zip'
 import fs from 'fs'
 import path from 'path'
-import { PLUGIN_MODEL_PATH } from '../constants'
+import { PLUGIN_MODEL_PATH } from '../constants.js'
 
 const HOUR = 1000 * 60 * 60
 

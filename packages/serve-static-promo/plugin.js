@@ -1,5 +1,5 @@
-import { createPlugin } from 'startupjs/registry'
-import { serveStaticPromo } from '../server'
+import { createPlugin } from 'startupjs/registry.js'
+import { serveStaticPromo } from './server/index.js'
 // import { redirectToPromoIfNotLoggedIn } from '../client'
 
 export default createPlugin({
