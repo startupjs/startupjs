@@ -7,20 +7,15 @@ export default class Module {
 
   constructor (name) {
     this.name = name
-    this.plugins = new Map()
+    this.plugins = {}
   }
 
   getPlugin (pluginName) {
     if (!pluginName) throw Error('[@startupjs/registry] You must pass plugin name into getPlugin()')
-    if (!this.plugins.has(pluginName)) {
-      this.plugins.set(pluginName, new Plugin(this, pluginName))
+    if (!this.plugins[pluginName]) {
+      this.plugins[pluginName] = new Plugin(this, pluginName)
     }
-    return this.plugins.get(pluginName)
-  }
-
-  registerPlugin (pluginName, pluginInit, pluginOptions) {
-    const plugin = this.getPlugin(pluginName)
-    plugin.init(pluginInit, pluginOptions)
+    return this.plugins[pluginName]
   }
 
   // ------------------------------------------

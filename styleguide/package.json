@@ -49,6 +49,7 @@
     "@startupjs/push-notifications": "^0.55.0",
     "@startupjs/recaptcha": "^0.55.0",
     "@startupjs/scrollable-anchors": "^0.55.0",
+    "@startupjs/serve-static-promo": "^0.55.0",
     "@startupjs/ui": "^0.55.0",
     "axios": "^0.21.1",
     "js-cookie": "^2.2.1",

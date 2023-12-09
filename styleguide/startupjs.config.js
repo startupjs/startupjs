@@ -1,8 +1,9 @@
 import { createProject } from 'startupjs/registry'
+import serveStaticPromo from '@startupjs/serve-static-promo/plugin'
 
 export default createProject({
   plugins: {
-    'serve-static-promo': {
+    [serveStaticPromo]: {
       client: {
         redirectUrl: '/promo',
         testClient: 'hello client'

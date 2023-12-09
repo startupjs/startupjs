@@ -9,20 +9,55 @@ export default class Registry {
   //   Registration and initialization
   // ------------------------------------------
 
-  constructor () {
-    this.modules = new Map()
+  constructor ({ rootModuleName } = {}) {
+    this.modules = {}
+    this.rootModuleName = rootModuleName
+    this.initialized = false
   }
 
   getModule (moduleName) {
     if (!moduleName) throw Error('[@startupjs/registry] You must pass module name into getModule()')
-    if (!this.modules.has(moduleName)) {
-      this.modules.set(moduleName, new Module(moduleName))
+    if (!this.modules[moduleName]) {
+      this.modules[moduleName] = new Module(moduleName)
     }
-    return this.modules.get(moduleName)
+    return this.modules[moduleName]
   }
 
-  registerPlugin (moduleName, pluginName, pluginInit, pluginOptions) {
-    const aModule = this.getModule(moduleName)
-    aModule.registerPlugin(pluginName, pluginInit, pluginOptions)
+  // init all plugins for all modules
+  init (pluginsOptions = {}) {
+    const handedPluginsOptions = new Set()
+    if (this.initialized) throw Error('[@startupjs/registry] Registry already initialized')
+    for (const moduleName in this.modules) {
+      const plugins = this.modules[moduleName].plugins
+      for (const pluginName in plugins) {
+        const plugin = plugins[pluginName]
+        const optionsKey = findOptionsKeyForPlugin({
+          pluginsOptions, moduleName, pluginName, rootModuleName: this.rootModuleName
+        })
+        if (optionsKey) handedPluginsOptions.add(optionsKey)
+        plugin.init(pluginsOptions[optionsKey] || {})
+      }
+    }
+    // Check if there are any plugins options which were not used
+    const unusedPluginsOptions = Object.keys(pluginsOptions)
+      .filter(pluginOptionsName => !handedPluginsOptions.has(pluginOptionsName))
+    if (unusedPluginsOptions.length) {
+      throw Error('[@startupjs/registry] You\'ve specified options for plugins which ' +
+        'are not present in the registry.\nYou\'ve probably forgot to import these plugins into the project:' +
+        unusedPluginsOptions.join('\n  - ')
+      )
+    }
   }
+}
+
+// full plugin name is 'moduleName/pluginName'
+function findOptionsKeyForPlugin ({ pluginsOptions, moduleName, pluginName, rootModuleName }) {
+  let pluginOptionsName
+  // plugin for the root module might be specified as 'pluginName' instead of 'rootModuleName/pluginName'
+  if (moduleName === rootModuleName && pluginsOptions[pluginName]) {
+    pluginOptionsName = pluginName
+  } else if (pluginsOptions[`${moduleName}/${pluginName}`]) {
+    pluginOptionsName = `${moduleName}/${pluginName}`
+  }
+  return pluginOptionsName
 }

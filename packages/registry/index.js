@@ -6,7 +6,7 @@ import Registry from './lib/Registry.js'
 
 export const ROOT_MODULE_NAME = 'startupjs'
 
-const registry = new Registry()
+const registry = new Registry({ rootModuleName: ROOT_MODULE_NAME })
 export default registry
 
 export const rootModule = registry.getModule(ROOT_MODULE_NAME)
@@ -18,17 +18,6 @@ export const rootModule = registry.getModule(ROOT_MODULE_NAME)
  */
 export function getModule (moduleName) {
   return registry.getModule(moduleName)
-}
-
-/**
- * Register plugin for a module
- * @param {string} moduleName - name of the module to extend
- * @param {string} pluginName - name of the plugin
- * @param {function} pluginInit - function that returns plugin config
- * @param {object} pluginOptions - options to pass to pluginInit
- */
-export function registerPlugin (moduleName, pluginName, pluginInit, pluginOptions) {
-  return registry.registerPlugin(moduleName, pluginName, pluginInit, pluginOptions)
 }
 
 /**
@@ -45,10 +34,12 @@ export function registerPlugin (moduleName, pluginName, pluginInit, pluginOption
  * @param {function} props.build - function that returns build plugin config
  * @returns {Plugin} plugin instance
  */
-export function createPlugin (props) {
-  if (!props?.name) throw Error('[@startupjs/registry] Plugin "name" is required')
-  if (!props?.for) props.for = ROOT_MODULE_NAME
-  return registry.getModule(props.for).getPlugin(props.name)
+export function createPlugin ({ name, for: _for, ...envInits }) {
+  if (!name) throw Error('[@startupjs/registry] Plugin "name" is required')
+  if (!_for) _for = ROOT_MODULE_NAME
+  const plugin = registry.getModule(_for).getPlugin(name)
+  plugin.create(envInits)
+  return plugin
 }
 
 /**
@@ -58,9 +49,9 @@ export function createPlugin (props) {
  * @param {string} props.name - name of the module
  * @returns {Module} module instance
  */
-export function createModule (props) {
-  if (!props?.name) throw Error('[@startupjs/registry] Module "name" is required')
-  return registry.getModule(props.name)
+export function createModule ({ name }) {
+  if (!name) throw Error('[@startupjs/registry] Module "name" is required')
+  return registry.getModule(name)
 }
 
 /**
@@ -71,7 +62,8 @@ export function createModule (props) {
  * which will keep only the code relevant for a specific env (client/server/isomorphic/build)
  * in the plugin options.
  */
-export function createProject (props) {
-  // TODO: Make a separate class for project which will extend Registry
+export function createProject ({ plugins: pluginsOptions } = {}) {
+  // TODO: Think whether it makes sense to make a separate class for project which will extend Registry
+  registry.init(pluginsOptions)
   return registry
 }

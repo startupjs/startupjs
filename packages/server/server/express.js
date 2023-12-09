@@ -1,3 +1,4 @@
+import { rootModule } from 'startupjs/registry.js'
 import _defaults from 'lodash/defaults.js'
 import _cloneDeep from 'lodash/cloneDeep.js'
 import conf from 'nconf'
@@ -135,6 +136,8 @@ export default (backend, mongoClient, error, options) => {
 
   // ----------------------------------------------------->    middleware    <#
   options.ee.emit('middleware', expressApp)
+
+  rootModule.hook('api', expressApp)
 
   // Server routes
   // ----------------------------------------------------->      routes      <#

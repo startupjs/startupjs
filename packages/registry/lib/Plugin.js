@@ -5,52 +5,79 @@ export default class Plugin {
 
   constructor (parentModule, name) {
     this.name = name
-    this.parent = parentModule
+    this.module = parentModule
     this.initialized = false
+    this.created = false
   }
 
-  init (init, options = {}) {
-    if (this.initialized) throw Error(`Plugin "${this.name}" for module "${this.parent.name}" already registered`)
-    if (!(init && typeof init === 'function')) {
-      throw Error(`Plugin "${this.name}" for module "${this.parent.name}" is missing init function`)
+  create (envInits = {}) {
+    if (this.created) throw Error(`Plugin "${this.name}" for module "${this.module.name}" already created`)
+    this.envInits = envInits
+    this.created = true
+  }
+
+  // TODO: For 'client' env we want to support dynamic plugins initialization
+  //       at the moment the react component is created (if client part is a react component)
+  // TODO: Think whether it makes sense to just merge all env options into a single object
+  //       and pass all options to each env init()
+  init (envOptions = {}) {
+    if (this.initialized) throw Error(`Plugin "${this.name}" for module "${this.module.name}" already registered`)
+    this.envOptions = envOptions
+    this.config = {}
+    for (const env in this.envInits) {
+      const options = envOptions[env] || {}
+      const init = this.envInits[env]
+      if (typeof init !== 'function') {
+        throw Error(`Plugin "${this.name}" for module "${this.module.name}" is not a function`)
+      }
+      Object.assign(this.config, init(options, this))
     }
-    this.config = init(options, this)
     this.initialized = true
   }
 
   validate () {
-    if (!this.initialized) throw Error(`Plugin "${this.name}" for module "${this.parent.name}" is not initialized`)
+    if (!this.created) {
+      throw Error(`Plugin "${this.name}" for module "${this.module.name}" is not created ` +
+        '(no createPlugin() was executed for this plugin)')
+    }
+    if (!this.initialized) throw Error(`Plugin "${this.name}" for module "${this.module.name}" is not initialized`)
   }
 
   // ------------------------------------------
   //   Execution
   // ------------------------------------------
 
-  getContext () {
-    // TODO: Construct some useful context in future
-    return {}
-  }
-
-  hasHook (hookName) {
-    return Boolean(this.config[hookName])
+  // Run hook if it exists in config
+  runHook (hookName, ...args) {
+    this.validateHook(hookName)
+    // TODO: Pass current context as `this`
+    return this.config[hookName].apply(this.getContext(), args)
   }
 
   validateHook (hookName) {
     this.validate()
     if (!this.hasHook(hookName)) {
       throw Error(`
-        Hook is not defined.
-          Module: ${this.parent.name}
+        No such hook exists:
+          Module: ${this.module.name}
           Plugin: ${this.name}
           Hook: ${hookName}
       `)
     }
   }
 
-  // Run hook if it exists in config
-  runHook (hookName, ...args) {
-    this.validateHook(hookName)
-    // TODO: Pass current context as `this`
-    return this.config[hookName].apply(this.getContext(), args)
+  hasHook (hookName) {
+    return Boolean(this.config[hookName])
+  }
+
+  getContext () {
+    // TODO: Construct some useful hook execution context in future.
+    //       For now just return the plugin instance itself.
+    return this
+  }
+
+  // to be able to use plugin as a key in the plugins options object of registry.init()
+  toString () {
+    return `${this.module.name}/${this.name}`
   }
 }

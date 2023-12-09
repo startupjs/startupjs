@@ -6296,7 +6296,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/serve-static-promo@workspace:packages/serve-static-promo":
+"@startupjs/serve-static-promo@npm:^0.55.0, @startupjs/serve-static-promo@workspace:packages/serve-static-promo":
   version: 0.0.0-use.local
   resolution: "@startupjs/serve-static-promo@workspace:packages/serve-static-promo"
   dependencies:
@@ -6399,6 +6399,7 @@ __metadata:
     "@startupjs/push-notifications": "npm:^0.55.0"
     "@startupjs/recaptcha": "npm:^0.55.0"
     "@startupjs/scrollable-anchors": "npm:^0.55.0"
+    "@startupjs/serve-static-promo": "npm:^0.55.0"
     "@startupjs/ui": "npm:^0.55.0"
     axios: "npm:^0.21.1"
     js-cookie: "npm:^2.2.1"
