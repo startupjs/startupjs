@@ -7,6 +7,7 @@ const stylusToCssLoader = require('./stylusToCssLoader')
 const cssToReactNativeLoader = require('./cssToReactNativeLoader')
 const mdxExamplesLoader = require('./mdxExamplesLoader')
 const getMDXLoader = require('./getMDXLoader')
+const eliminatorLoader = require('./eliminatorLoader')
 const callLoader = require('./callLoader')
 
 module.exports.transform = async function ({ src, filename, options = {} }) {
@@ -22,7 +23,13 @@ module.exports.transform = async function ({ src, filename, options = {} }) {
     return upstreamTransformer.transform({ src, filename, options })
   } else if (/\.svg$/.test(filename)) {
     return svgTransformer.transform({ src, filename, options })
+  } else if (/(?:[./]plugin\.js|startupjs\.config\.js)$/.test(filename)) {
+    src = callLoader(eliminatorLoader, src, filename, { envs: ['client', 'isomorphic'] })
+    return upstreamTransformer.transform({ src, filename, options })
   } else if (/\.[cm]?jsx?$/.test(filename) && /['"]startupjs['"]/.test(src)) {
+    // TODO: This particular check and transform is probably not needed anymore since default one
+    //       will handle all .js files anyways no matter whether 'startupjs' library
+    //       is used inside or not.
     return upstreamTransformer.transform({ src, filename, options })
   } else if (/\.mdx?$/.test(filename)) {
     const mdxLoader = await getMDXLoader()

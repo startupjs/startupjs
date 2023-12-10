@@ -205,22 +205,35 @@ module.exports = function getConfig (env, {
       rules: [
         {
           test: /\.[mc]?[jt]sx?$/,
-          resolve: {
-            fullySpecified: false
-          },
-          exclude: /node_modules/,
-          use: [
-            { loader: 'babel-loader' }
-          ]
-        },
-        {
-          test: /\.[mc]?[jt]sx?$/,
-          resolve: {
-            fullySpecified: false
-          },
-          include: forceCompileModulesExpression,
-          use: [
-            { loader: 'babel-loader' }
+          oneOf: [
+            {
+              // process code elimination of other envs for *.plugin.js and startupjs.config.js
+              test: /(?:[./]plugin\.js|startupjs\.config\.js)$/,
+              resolve: { fullySpecified: false },
+              use: [
+                { loader: 'babel-loader' },
+                {
+                  loader: require.resolve('./lib/eliminatorLoader.js'),
+                  options: {
+                    envs: ['client', 'isomorphic']
+                  }
+                }
+              ]
+            },
+            {
+              exclude: /node_modules/,
+              resolve: { fullySpecified: false },
+              use: [
+                { loader: 'babel-loader' }
+              ]
+            },
+            {
+              include: forceCompileModulesExpression,
+              resolve: { fullySpecified: false },
+              use: [
+                { loader: 'babel-loader' }
+              ]
+            }
           ]
         },
         {

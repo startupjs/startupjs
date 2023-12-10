@@ -1,4 +1,4 @@
-import { createProject } from 'startupjs/registry.js'
+import { createProject } from 'startupjs/registry'
 import serveStaticPromo from '@startupjs/serve-static-promo/plugin.js'
 
 export default createProject({

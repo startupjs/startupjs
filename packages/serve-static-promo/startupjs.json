@@ -1,13 +1,9 @@
 {
   "type": "module",
-  "name": "serve-static-promo",
   "bundler": {
     "forceCompile": {
       "web": true,
       "server": true
     }
-  },
-  "imports": [
-    "./startupjs-plugin-serve-static-promo"
-  ]
+  }
 }
