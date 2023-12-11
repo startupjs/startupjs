@@ -9,7 +9,6 @@ const {
   MONGO_SSL_CERT_PATH,
   MONGO_SSL_CA_PATH
 } = process.env
-
 const options = { useUnifiedTopology: true }
 
 if (isString(MONGO_OPTS)) {
