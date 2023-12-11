@@ -28,5 +28,10 @@ export default (components = {}) => [
     path: '/playgroundSignals',
     exact: true,
     component: components.PPlaygroundSignals
+  },
+  {
+    path: '/playwright-e2e-test',
+    exact: true,
+    component: components.PPlaywrightExample
   }
 ]
