@@ -24,22 +24,20 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
   return new Promise((resolve, reject) => {
     sqliteDb.all('SELECT collection, id, data FROM documents', [], (err, rows) => {
       if (err) return reject(err)
-      const commits = []
+
       for (const row of rows) {
-        commits.push(new Promise((resolve, reject) => {
-          mingo.commit(row.collection, row.id, {}, JSON.parse(row.data), null, (err) => {
-            if (err) return reject(err)
-
-            resolve()
-          })
-        }))
+        if (!mingo.docs[row.collection]) {
+          mingo.docs[row.collection] = {}
+          mingo.ops[row.collection] = {}
+        }
+        mingo.docs[row.collection][row.id] = JSON.parse(row.data)
+        mingo.ops[row.collection][row.id] = [{
+          v: 0,
+          create: {}
+        }]
       }
-
-      Promise.all(commits).then(() => {
-        console.log('DB data was loaded from SQLite to shareDbMingo')
-
-        resolve()
-      }).catch(reject)
+      resolve()
+      console.log('DB data was loaded from SQLite to shareDbMingo')
     })
   })
 }
