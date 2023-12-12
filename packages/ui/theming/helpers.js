@@ -135,6 +135,9 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   if (transformedOverrides) Object.assign(C, transformedOverrides)
 
   // base colors
+  // we don't want shadow to change to a light color in a dark theme, that's why we are creating it as
+  // a separate color
+  C[Colors['shadow-main']]                  ??= Color('main', high + 1, { alpha: 0.2 })
   C[Colors.main]                            ??= Color('main', low)
   C[Colors.contrast]                        ??= Color('main', high - 2)
   C[Colors.primary]                         ??= Color('primary', middle)
@@ -148,7 +151,6 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   // all other colors are generated from the base colors
 
   // shadow colors
-  C[Colors['shadow-main']]                  ??= C[Colors.main].highContrast().setAlpha(0.2)
   C[Colors['shadow-main-strong']]           ??= C[Colors['shadow-main']].setAlpha(0.15)
   C[Colors['shadow-main-subtle']]           ??= C[Colors['shadow-main']].setAlpha(0.25)
 
