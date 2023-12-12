@@ -6,6 +6,7 @@ import './index.styl'
 
 export default observer(function TestComponent () {
   const [testThing, $testThing] = useDoc('testThings', 'first')
+  if (!testThing) throw $testThing.addSelf()
 
   async function increment () {
     await $testThing.increment('counter', 1)
