@@ -1,5 +1,7 @@
 import { getPaletteMeta, rgba, getPaletteLength } from './helpers'
 
+const BLACK = '#000000'
+const WHITE = '#ffffff'
 export class TheColor {
   constructor (name, level, palette, { alpha } = {}) {
     const isBlackOrWhite = this.isBlack(name, level, palette) || this.isWhite(name, level)
@@ -10,12 +12,11 @@ export class TheColor {
 
     const meta = {
       name,
+      level,
       palette,
       ...getPaletteMeta(palette)
     }
 
-    // 'black' and 'white' do not have levels
-    if (level != null) meta.level = level
     if (alpha != null) meta.alpha = alpha
 
     Object.assign(this, meta)
@@ -34,9 +35,9 @@ export class TheColor {
     let stringColor
 
     if (this.isBlack()) {
-      stringColor = this.palette.black
+      stringColor = BLACK
     } else if (this.isWhite()) {
-      stringColor = this.palette.white
+      stringColor = WHITE
     } else {
       stringColor = this.palette[this.name][this.level]
     }
@@ -49,11 +50,11 @@ export class TheColor {
   }
 
   isBlack (name = this.name, level = this.level, palette = this.palette) {
-    return name === 'black' || level === getPaletteLength(palette)
+    return name === 'main' && level === getPaletteLength(palette)
   }
 
-  isWhite (name = this.name, level = this.level, palette = this.palette) {
-    return name === 'white' || level === -1
+  isWhite (name = this.name, level = this.level) {
+    return name === 'main' && level === -1
   }
 
   setAlpha (alpha) {
@@ -63,20 +64,10 @@ export class TheColor {
 
   isDark () { return this.level > this.middle }
   isLight () { return !this.isDark() }
+  highContrast () { return this.clone(this.name, this.isLight() ? this.high : this.low) }
+  stronger (offset = 1) { return this.subtler(-offset) }
 
-  highContrast () {
-    const isBlackOrWhite = this.name === 'black' || this.name === 'white'
-    // since 'black' or 'white' are not arrays there is no point in cloning or changing level
-    return isBlackOrWhite ? this : this.clone(this.name, this.isLight() ? this.high : this.low)
-  }
-
-  stronger (offset = 1) { return this.dimmer(-offset) }
-
-  dimmer (offset = 1) {
-    const isBlackOrWhite = this.name === 'black' || this.name === 'white'
-    // since 'black' or 'white' are not arrays there is no point in cloning or changing level
-    if (isBlackOrWhite) return this
-
+  subtler (offset = 1) {
     if (this.isDark()) offset = -offset
     let level = this.level + offset
     level = Math.min(this.high + 1, Math.max(this.low - 1, level))

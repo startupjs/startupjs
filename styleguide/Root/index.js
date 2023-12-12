@@ -51,11 +51,11 @@ const { Color, generateColors } = palette
 
 const THEMES = {
   dark: generateColors({
-    [Colors.bg]: Color('coolGray', 9),
-    [Colors.text]: Color('coolGray', 0),
-    [Colors.border]: Color('coolGray', 7),
-    [Colors.secondary]: Color('coolGray', 0),
-    [Colors.contrast]: Color('coolGray', 0)
+    [Colors['bg-main']]: Color('main', 9),
+    [Colors['text-main']]: Color('main', 0),
+    [Colors['border-main']]: Color('main', 7),
+    [Colors.secondary]: Color('main', 0),
+    [Colors.contrast]: Color('main', 0)
   })
 }
 

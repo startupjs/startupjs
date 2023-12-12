@@ -90,15 +90,7 @@ export function findColorInPalette (color, palette) {
 }
 
 export function getPaletteLength (palette) {
-  let res
-  for (const name of Object.keys(palette)) {
-    // 'black' and 'white' keys in our default palette are not arrays
-    if (Array.isArray(palette[name])) {
-      res = palette[name].length
-      break
-    }
-  }
-  return res
+  return Object.values(palette)[0].length
 }
 
 export function transformOverrides (overrides, palette, Color) {
@@ -115,10 +107,10 @@ export function transformOverrides (overrides, palette, Color) {
     // First check already overriden colors in local 'res' variable to allow reuse of overriden variables immediately
     // e.g.,
     // :root
-    //    --palette-blue-4: #000099
-    //    --color-primary: var(--palette-blue-4)
-    //    --color-secondary: var(--palette-red-4)
-    //    --color-bg: var(--color-primary)
+    //    --palette-primary-4: #000099
+    //    --color-primary: var(--palette-primary-4)
+    //    --color-secondary: var(--palette-error-4)
+    //    --color-bg-main: var(--color-primary-bg)
     } else if (/(--color|--palette)/.test(color)) {
       const colorVar = color.replace(/var\(\s*(--[A-Za-z0-9_-]+)\s*\)/, (match, varName) => {
         return varName
@@ -143,28 +135,25 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   if (transformedOverrides) Object.assign(C, transformedOverrides)
 
   // base colors
-  C[Colors['text-on-color']]                ??= Color('coolGray', low)
-  C[Colors.shadow]                          ??= Color('coolGray', high + 1, { alpha: 0.2 })
-  C[Colors.bg]                              ??= Color('coolGray', low)
-  C[Colors.contrast]                        ??= Color('coolGray', high - 2)
-  C[Colors.text]                            ??= Color('coolGray', high - 2)
-  C[Colors.border]                          ??= Color('coolGray', low + 2)
-  C[Colors.primary]                         ??= Color('blue', middle)
-  C[Colors.secondary]                       ??= Color('coolGray', high - 2)
-  C[Colors.error]                           ??= Color('red', middle)
-  C[Colors.success]                         ??= Color('green', middle)
-  C[Colors.warning]                         ??= Color('yellow', middle - 2)
-  C[Colors.info]                            ??= Color('cyan', middle - 1)
-  C[Colors.attention]                       ??= Color('orange', middle)
-  C[Colors.special]                         ??= Color('purple', middle + 1)
+  C[Colors.main]                            ??= Color('main', low)
+  C[Colors.contrast]                        ??= Color('main', high - 2)
+  C[Colors.primary]                         ??= Color('primary', middle)
+  C[Colors.secondary]                       ??= Color('secondary', high - 2)
+  C[Colors.error]                           ??= Color('error', middle)
+  C[Colors.success]                         ??= Color('success', middle)
+  C[Colors.warning]                         ??= Color('warning', middle - 2)
+  C[Colors.info]                            ??= Color('info', middle - 1)
+  C[Colors.attention]                       ??= Color('attention', middle)
 
   // all other colors are generated from the base colors
 
   // shadow colors
-  C[Colors['shadow-strong']]                ??= C[Colors.shadow].setAlpha(0.15)
-  C[Colors['shadow-dim']]                   ??= C[Colors.shadow].setAlpha(0.25)
+  C[Colors['shadow-main']]                  ??= C[Colors.main].highContrast().setAlpha(0.2)
+  C[Colors['shadow-main-strong']]           ??= C[Colors['shadow-main']].setAlpha(0.15)
+  C[Colors['shadow-main-subtle']]           ??= C[Colors['shadow-main']].setAlpha(0.25)
 
   // main bg colors
+  C[Colors['bg-main']]                      ??= C[Colors.main]
   C[Colors['bg-primary']]                   ??= C[Colors.primary]
   C[Colors['bg-secondary']]                 ??= C[Colors.secondary]
   C[Colors['bg-error']]                     ??= C[Colors.error]
@@ -172,32 +161,26 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['bg-warning']]                   ??= C[Colors.warning]
   C[Colors['bg-info']]                      ??= C[Colors.info]
   C[Colors['bg-attention']]                 ??= C[Colors.attention]
-  C[Colors['bg-special']]                   ??= C[Colors.special]
 
   // extra bg colors
   C[Colors['bg-contrast']]                  ??= C[Colors.contrast]
   C[Colors['bg-contrast-alt']]              ??= C[Colors.contrast].stronger(1)
   C[Colors['bg-contrast-transparent']]      ??= C[Colors['bg-contrast']].setAlpha(0.05)
-  C[Colors['bg-dim']]                       ??= C[Colors.bg].dimmer(1)
-  C[Colors['bg-dim-alt']]                   ??= C[Colors.bg].dimmer(2)
-  C[Colors['bg-strong']]                    ??= C[Colors.bg].stronger(1)
+  C[Colors['bg-main-subtle']]               ??= C[Colors['bg-main']].subtler(1)
+  C[Colors['bg-main-subtle-alt']]           ??= C[Colors['bg-main']].subtler(2)
+  C[Colors['bg-main-strong']]               ??= C[Colors['bg-main']].stronger(1)
   C[Colors['bg-primary-contrast']]          ??= C[Colors.primary].stronger(4)
-  C[Colors['bg-primary-dim']]               ??= C[Colors.primary].dimmer(3)
+  C[Colors['bg-primary-subtle']]            ??= C[Colors.primary].subtler(3)
   C[Colors['bg-primary-transparent']]       ??= C[Colors.primary].setAlpha(0.05)
   C[Colors['bg-secondary-contrast']]        ??= C[Colors.secondary].highContrast()
-  C[Colors['bg-error-contrast']]            ??= C[Colors.error].stronger(4)
   C[Colors['bg-error-transparent']]         ??= C[Colors.error].setAlpha(0.05)
-  C[Colors['bg-success-contrast']]          ??= C[Colors.success].stronger(4)
   C[Colors['bg-success-transparent']]       ??= C[Colors.success].setAlpha(0.05)
-  C[Colors['bg-warning-contrast']]          ??= C[Colors.warning].stronger(2)
   C[Colors['bg-warning-transparent']]       ??= C[Colors.warning].setAlpha(0.05)
-  C[Colors['bg-info-contrast']]             ??= C[Colors.info].stronger(3)
-  C[Colors['bg-attention-contrast']]        ??= C[Colors.attention].stronger(4)
-  C[Colors['bg-special-contrast']]          ??= C[Colors.special].highContrast()
 
   // text
-  C[Colors['text-description']]             ??= C[Colors.text].dimmer(2)
-  C[Colors['text-placeholder']]             ??= C[Colors.text].dimmer(4)
+  C[Colors['text-main']]                    ??= C[Colors.main].subtler(7)
+  C[Colors['text-description']]             ??= C[Colors['text-main']].subtler(2)
+  C[Colors['text-placeholder']]             ??= C[Colors['text-main']].subtler(4)
   C[Colors['text-primary']]                 ??= C[Colors.primary]
   C[Colors['text-secondary']]               ??= C[Colors.secondary]
   C[Colors['text-error']]                   ??= C[Colors.error]
@@ -205,14 +188,14 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['text-warning']]                 ??= C[Colors.warning]
   C[Colors['text-info']]                    ??= C[Colors.info]
   C[Colors['text-attention']]               ??= C[Colors.attention]
-  C[Colors['text-special']]                 ??= C[Colors.special]
 
   // extra text colors
   C[Colors['text-success-strong']]          ??= C[Colors.success].stronger(2)
   C[Colors['text-info-strong']]             ??= C[Colors.info].stronger(2)
 
   // text on different backgrounds
-  C[Colors['text-on-contrast']]             ??= C[Colors.text].dimmer(5)
+  C[Colors['text-on-color']]                ??= C[Colors.main]
+  C[Colors['text-on-contrast']]             ??= C[Colors['text-main']].subtler(5)
   C[Colors['text-on-primary']]              ??= C[Colors.primary].stronger(4)
   C[Colors['text-on-secondary']]            ??= C[Colors.secondary].highContrast()
   C[Colors['text-on-error']]                ??= C[Colors.error].stronger(4)
@@ -220,10 +203,10 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['text-on-warning']]              ??= C[Colors['text-on-color']]
   C[Colors['text-on-info']]                 ??= C[Colors.info].stronger(3)
   C[Colors['text-on-attention']]            ??= C[Colors.attention].stronger(4)
-  C[Colors['text-on-special']]              ??= C[Colors.special].highContrast()
 
   // border
-  C[Colors['border-strong']]                ??= C[Colors.border].stronger(3)
+  C[Colors['border-main']]                  ??= C[Colors.main].subtler(2)
+  C[Colors['border-strong']]                ??= C[Colors['border-main']].stronger(3)
   C[Colors['border-primary']]               ??= C[Colors.primary]
   C[Colors['border-secondary']]             ??= C[Colors.secondary]
   C[Colors['border-error']]                 ??= C[Colors.error]
@@ -231,23 +214,17 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['border-warning']]               ??= C[Colors.warning]
   C[Colors['border-info']]                  ??= C[Colors.info]
   C[Colors['border-attention']]             ??= C[Colors.attention]
-  C[Colors['border-special']]               ??= C[Colors.special]
 
   // extra border colors
-  C[Colors['border-contrast']]              ??= C[Colors.border].dimmer(5)
-  C[Colors['border-dim']]                   ??= C[Colors.border].dimmer(1)
-  C[Colors['border-strong-alt']]            ??= C[Colors.border].stronger(1)
+  C[Colors['border-contrast']]              ??= C[Colors['border-main']].subtler(5)
+  C[Colors['border-main-subtle']]           ??= C[Colors['border-main']].subtler(1)
+  C[Colors['border-main-strong-alt']]       ??= C[Colors['border-main']].stronger(1)
 
   // add palette colors
   for (const colorName in palette) {
     const colors = palette[colorName]
-    // 'black' and 'white' keys in our default palette are not arrays
-    if (Array.isArray(colors)) {
-      for (let i = 0; i < colors.length; i++) {
-        P[`${colorName}-${i}`] = Color(colorName, i)
-      }
-    } else {
-      P[colorName] = Color(colorName)
+    for (let i = 0; i < colors.length; i++) {
+      P[`${colorName}-${i}`] = Color(colorName, i)
     }
   }
 }

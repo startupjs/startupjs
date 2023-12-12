@@ -30,7 +30,7 @@ function MenuItem ({
   const iconPosition = props.iconPosition || context.iconPosition || 'left'
 
   // TODO: prevent click if already active (for link and for div)
-  color = active ? activeColor || getColor('text-primary') : color || getColor('text-secondary')
+  color = active ? activeColor || getColor('text-primary') : color || getColor('text-main')
   const borderStyle = { backgroundColor: activeColor || getColor('border-primary') }
 
   return pug`

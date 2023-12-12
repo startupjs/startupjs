@@ -1,21 +1,12 @@
-import cloneDeep from 'lodash/cloneDeep'
 import { TheColor } from './TheColor'
 import { getPaletteMeta, fillColorsObject } from './helpers'
 import defaultPalette from './palette.json'
 
 export default class Palette {
   constructor (palette = defaultPalette) {
-    if (Array.isArray(palette.black) || Array.isArray(palette.white)) {
-      throw Error("'black' and 'white' colors can't be arrays in a palette")
-    }
+    this.colors = palette
 
-    const paletteCopy = cloneDeep(palette)
-    if (!palette.black) paletteCopy.black = defaultPalette.black
-    if (!palette.white) paletteCopy.white = defaultPalette.white
-
-    this.colors = paletteCopy
-
-    Object.assign(this, getPaletteMeta(paletteCopy))
+    Object.assign(this, getPaletteMeta(palette))
   }
 
   generateColors = (overrides) => {
