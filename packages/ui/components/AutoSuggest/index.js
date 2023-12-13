@@ -180,7 +180,7 @@ function AutoSuggest ({
             renderItem=_renderItem
             keyExtractor=item => stringifyValue(item)
             scrollEventThrottle=500
-            keyboardShouldPersistTaps="always"
+            keyboardShouldPersistTaps='always'
             onScroll=onScroll
             onLayout=onLayoutWrapper
             onContentSizeChange=onChangeSizeScroll

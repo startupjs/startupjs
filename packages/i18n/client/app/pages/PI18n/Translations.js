@@ -38,7 +38,7 @@ export default observer(function Translations () {
         padding-right @padding-left
 
         &.even
-          background-color var(--color-bg)
+          background-color var(--color-bg-main)
     `
   }, [])
 

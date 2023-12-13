@@ -67,7 +67,7 @@ const RankInput = observer(function ({
     // through style object
     const extraStyle = disabled ? { backgroundColor: getColor('bg-contrast-transparent') } : STYLES.cursor
     const style = [
-      { ...STYLES.draggable, backgroundColor: getColor('bg-strong'), borderColor: getColor('border') },
+      { ...STYLES.draggable, backgroundColor: getColor('bg-main-strong'), borderColor: getColor('border-main') },
       { width },
       extraStyle
     ]

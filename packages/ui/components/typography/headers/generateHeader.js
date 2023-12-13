@@ -44,7 +44,7 @@ styl`
 
   .root
     fontFamily('heading')
-    color var(--color-text)
+    color var(--color-text-main)
 
     for tag in _tags
       &.{tag}

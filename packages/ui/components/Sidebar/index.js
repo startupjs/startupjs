@@ -39,7 +39,8 @@ function Sidebar ({
   }
 
   let backgroundColor
-  ;({ backgroundColor = getColor('bg-strong'), ...style } = StyleSheet.flatten(style))
+  // eslint-disable-next-line prefer-const
+  ;({ backgroundColor = getColor('bg-main-strong'), ...style } = StyleSheet.flatten(style))
 
   let open
   let onChange

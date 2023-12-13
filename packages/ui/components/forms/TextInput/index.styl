@@ -22,14 +22,12 @@ $this = merge({
 
 // ----- COMPONENT
 
-$inputBg = var(--color-bg-strong)
-$inputBorderColor = var(--color-border)
+$inputBg = var(--color-bg-main-strong)
+$inputBorderColor = var(--color-border-main)
 $inputBgDisabled = var(--color-bg-contrast-transparent)
 $inputBorderWidth = 1px
 $inputCaretColor = var($this.caretColor)
 $inputTextColor = var(--color-text-secondary)
-$focusedColor = var(--color-primary)
-$errorColor = var(--color-error)
 
 .input-input
   margin 0 // important for safari
@@ -43,7 +41,7 @@ $errorColor = var(--color-error)
   background-color $inputBg
   border-width $inputBorderWidth
   border-style solid
-  border-color var(--color-border)
+  border-color var(--color-border-main)
   min-width 8u
   radius()
 
@@ -67,10 +65,10 @@ $errorColor = var(--color-error)
       cursor default
 
   &.focused
-    border-color $focusedColor
+    border-color var(--color-border-primary)
 
   &.error
-    border-color $errorColor
+    border-color var(--color-border-error)
 
   for side in (left right)
     &.icon-{side}

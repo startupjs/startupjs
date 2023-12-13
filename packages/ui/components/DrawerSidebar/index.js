@@ -42,21 +42,23 @@ function DrawerSidebar ({
   }
 
   let backgroundColor
-  ;({ backgroundColor = getColor('bg-strong'), ...style } = StyleSheet.flatten(style))
+  // eslint-disable-next-line prefer-const
+  ;({ backgroundColor = getColor('bg-main-strong'), ...style } = StyleSheet.flatten(style))
 
   let open
   let onChange
+  // eslint-disable-next-line prefer-const
   ;({ open, onChange } = useBind({
     $open,
     open,
     onChange
   }))
 
-  let drawerRef = useRef()
+  const drawerRef = useRef()
 
   useDidUpdate(() => {
     if (disabled) return
-    let drawer = drawerRef.current
+    const drawer = drawerRef.current
 
     isEffectRunning = true
 
