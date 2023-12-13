@@ -1,4 +1,5 @@
 import sqlite3 from 'sqlite3'
+import { v1 as uuid } from 'uuid'
 
 async function getSqliteDb (filename) {
   const sqliteDb = new sqlite3.Database(filename)
@@ -25,17 +26,56 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
   return new Promise((resolve, reject) => {
     sqliteDb.all('SELECT collection, id, data, ops FROM documents', [], (err, rows) => {
       if (err) return reject(err)
+      const commits = []
+      for (const _row of rows) {
+        const row = JSON.parse(_row.data)
+        row.v = 1
 
-      for (const row of rows) {
-        if (!mingo.docs[row.collection]) {
-          mingo.docs[row.collection] = {}
-          mingo.ops[row.collection] = {}
+        const nowMs = Date.now()
+        const snapshot = {
+          id: row.id,
+          v: 1,
+          type: row.type,
+          data: row.data,
+          m: {
+            ctime: nowMs,
+            mtime: nowMs
+          }
         }
-        mingo.docs[row.collection][row.id] = JSON.parse(row.data)
-        mingo.ops[row.collection][row.id] = JSON.parse(row.ops)
+        const op = {
+          src: uuid().replaceAll('-', ''),
+          seq: 1,
+          v: 0,
+          create: {
+            type: row.type,
+            data: row.data
+          },
+          m: {
+            ts: nowMs
+          }
+        }
+
+        commits.push(new Promise((resolve, reject) => {
+          mingo.commit(_row.collection, _row.id, op, snapshot, null, (err, commited) => {
+            if (err) return reject(err)
+
+            if (commited) {
+              if (!mingo.docs[_row.collection]) {
+                mingo.docs[_row.collection] = {}
+              }
+              mingo.docs[_row.collection][_row.id] = row
+            }
+
+            resolve(commited)
+          })
+        }))
       }
-      resolve()
-      console.log('DB data was loaded from SQLite to shareDbMingo')
+
+      Promise.all(commits).then((res) => {
+        console.log('DB data was loaded from SQLite to shareDbMingo', res)
+
+        resolve()
+      }).catch(reject)
     })
   })
 }
