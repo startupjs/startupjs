@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/react-sharedb-hooks",
   "type": "module",
-  "version": "0.55.0",
+  "version": "0.55.2",
   "engines": {
     "node": ">= 14"
   },
@@ -17,7 +17,7 @@
     "@startupjs/debug": "^0.55.0",
     "@startupjs/model": "^0.55.0",
     "@startupjs/react-sharedb-util": "^0.55.0",
-    "@startupjs/signals": "^0.55.0",
+    "@startupjs/signals": "^0.55.2",
     "co": "~4.6.0",
     "lodash": "^4.17.20"
   },

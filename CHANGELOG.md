@@ -1,3 +1,12 @@
+## [0.55.2](https://github.com/startupjs/startupjs/compare/v0.55.1...v0.55.2) (2023-12-13)
+
+
+### Bug Fixes
+
+* **AutoSuggest:** missing import in docs ([eb1c7b9](https://github.com/startupjs/startupjs/commit/eb1c7b9b4a5b54178e82229526eceb807d19ff44))
+
+
+
 ## [0.55.1](https://github.com/startupjs/startupjs/compare/v0.55.0...v0.55.1) (2023-12-08)
 
 
