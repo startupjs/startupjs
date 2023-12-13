@@ -9,6 +9,7 @@ async function getSqliteDb (filename) {
       'collection TEXT, ' +
       'id TEXT, ' +
       'data TEXT, ' +
+      'ops TEXT, ' +
       'PRIMARY KEY (collection, id))',
       (err) => {
         if (err) return reject(err)
@@ -22,7 +23,7 @@ async function getSqliteDb (filename) {
 
 async function loadSqliteDbToMingo (sqliteDb, mingo) {
   return new Promise((resolve, reject) => {
-    sqliteDb.all('SELECT collection, id, data FROM documents', [], (err, rows) => {
+    sqliteDb.all('SELECT collection, id, data, ops FROM documents', [], (err, rows) => {
       if (err) return reject(err)
 
       for (const row of rows) {
@@ -31,10 +32,7 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
           mingo.ops[row.collection] = {}
         }
         mingo.docs[row.collection][row.id] = JSON.parse(row.data)
-        mingo.ops[row.collection][row.id] = [{
-          v: 0,
-          create: {}
-        }]
+        mingo.ops[row.collection][row.id] = JSON.parse(row.ops)
       }
       resolve()
       console.log('DB data was loaded from SQLite to shareDbMingo')
@@ -49,7 +47,7 @@ async function cloneSqliteDb (source, target) {
         if (err) return reject(err)
 
         rows.forEach((row) => {
-          target.run('INSERT INTO documents (collection, id, data) VALUES (?, ?, ?)', [row.collection, row.id, row.data], (err) => {
+          target.run('INSERT INTO documents (collection, id, data, ops) VALUES (?, ?, ?, ?)', [row.collection, row.id, row.data, row.ops], (err) => {
             if (err) return reject(err)
           })
         })

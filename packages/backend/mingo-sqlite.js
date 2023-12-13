@@ -11,19 +11,25 @@ function patchMingoForSQLitePersistence (sqliteDb, shareDbMingo) {
     originalCommit.call(this, collection, docId, op, snapshot, options, (err) => {
       if (err) return callback(err)
 
-      sqliteDb.run(
-        'REPLACE INTO documents (collection, id, data) VALUES (?, ?, ?)',
-        [collection, docId, JSON.stringify(snapshot)],
-        (err) => {
-          if (err) {
-            console.error(err.message)
-            return callback(err)
-          }
+      this.getOps(collection, docId, 0, undefined, {
+        metadata: true
+      }, (err, data) => {
+        if (err) return callback(err)
 
-          console.log(`Document with id ${docId} saved to SQLite`)
-          callback()
-        }
-      )
+        sqliteDb.run(
+          'REPLACE INTO documents (collection, id, data, ops) VALUES (?, ?, ?, ?)',
+          [collection, docId, JSON.stringify(snapshot), JSON.stringify(data)],
+          (err) => {
+            if (err) {
+              console.error(err.message)
+              return callback(err)
+            }
+
+            console.log(`Document with id ${docId} saved to SQLite`)
+            callback()
+          }
+        )
+      })
     })
   }
 }
