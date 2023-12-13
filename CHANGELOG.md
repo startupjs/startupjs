@@ -1,3 +1,12 @@
+## [0.55.3](https://github.com/startupjs/startupjs/compare/v0.55.2...v0.55.3) (2023-12-13)
+
+
+### Bug Fixes
+
+* **auth-facebook:** typo ([ab17ab8](https://github.com/startupjs/startupjs/commit/ab17ab81205564c18eab66ec686de4a5f6431d23))
+
+
+
 ## [0.55.2](https://github.com/startupjs/startupjs/compare/v0.55.1...v0.55.2) (2023-12-13)
 
 
