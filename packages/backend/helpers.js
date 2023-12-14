@@ -1,5 +1,4 @@
 import sqlite3 from 'sqlite3'
-import { v1 as uuid } from 'uuid'
 
 async function getSqliteDb (filename) {
   const sqliteDb = new sqlite3.Database(filename)
@@ -27,14 +26,23 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
     sqliteDb.all('SELECT collection, id, data, ops FROM documents', [], (err, rows) => {
       if (err) return reject(err)
       const commits = []
-      for (const _row of rows) {
+      for (const [index, _row] of rows.entries()) {
         const row = JSON.parse(_row.data)
-        row.v = 1
+        const ops = JSON.parse(_row.ops)
+        const lastOp = ops.slice(-1)[0]
+
+        if (!mingo.ops[_row.collection]) {
+          mingo.ops[_row.collection] = {}
+        }
+
+        // action required for expected result from db._getVersionSync()
+        // commit version of snapshot shold be equal length of all ops
+        mingo.ops[_row.collection][_row.id] = new Array(lastOp.v)
 
         const nowMs = Date.now()
         const snapshot = {
           id: row.id,
-          v: 1,
+          v: row.v,
           type: row.type,
           data: row.data,
           m: {
@@ -43,9 +51,9 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
           }
         }
         const op = {
-          src: uuid().replaceAll('-', ''),
-          seq: 1,
-          v: 0,
+          src: lastOp.src,
+          seq: index,
+          v: lastOp.v,
           create: {
             type: row.type,
             data: row.data
@@ -56,17 +64,10 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
         }
 
         commits.push(new Promise((resolve, reject) => {
-          mingo.commit(_row.collection, _row.id, op, snapshot, null, (err, commited) => {
+          mingo.commit(_row.collection, _row.id, op, snapshot, null, (err, committed) => {
             if (err) return reject(err)
 
-            if (commited) {
-              if (!mingo.docs[_row.collection]) {
-                mingo.docs[_row.collection] = {}
-              }
-              mingo.docs[_row.collection][_row.id] = row
-            }
-
-            resolve(commited)
+            resolve(committed)
           })
         }))
       }
