@@ -25,28 +25,34 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
   return new Promise((resolve, reject) => {
     sqliteDb.all('SELECT collection, id, data, ops FROM documents', [], (err, rows) => {
       if (err) return reject(err)
-      const commits = []
-      for (const [index, _row] of rows.entries()) {
-        const row = JSON.parse(_row.data)
-        const lastOp = JSON.parse(_row.lastOp)
 
-        if (!mingo.ops[_row.collection]) {
-          mingo.ops[_row.collection] = {}
+      const commits = []
+
+      for (const [index, row] of rows.entries()) {
+        const lastSnapshot = JSON.parse(row.data)
+        const lastOp = JSON.parse(row.lastOp)
+
+        if (!mingo.ops[row.collection]) {
+          mingo.ops[row.collection] = {}
         }
 
-        // action required for expected result from db._getVersionSync()
-        // commit version of snapshot shold be equal length of all ops
-        mingo.ops[_row.collection][_row.id] = new Array(lastOp.v)
+        // This segment ensures continuous client operation after a server restart.
+        // During updates in sharedb, there's a version check using db._getVersionSync(collection, id),
+        // which returns the length of the document's operation array.
+        // This check prevents adding data with an incorrect version if the document's operations are empty.
+        // Our solution circumvents this check so that a client,
+        // remaining connected during a server restart, can retrieve the latest version and continue functioning.
+        mingo.ops[row.collection][row.id] = new Array(lastOp.v)
 
-        const nowMs = Date.now()
+        const nowTs = Date.now()
         const snapshot = {
-          id: row.id,
-          v: row.v,
-          type: row.type,
-          data: row.data,
+          id: lastSnapshot.id,
+          v: lastSnapshot.v,
+          type: lastSnapshot.type,
+          data: lastSnapshot.data,
           m: {
-            ctime: nowMs,
-            mtime: nowMs
+            ctime: nowTs,
+            mtime: nowTs
           }
         }
         const op = {
@@ -54,16 +60,16 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
           seq: index,
           v: lastOp.v,
           create: {
-            type: row.type,
-            data: row.data
+            type: lastSnapshot.type,
+            data: lastSnapshot.data
           },
           m: {
-            ts: nowMs
+            ts: nowTs
           }
         }
 
         commits.push(new Promise((resolve, reject) => {
-          mingo.commit(_row.collection, _row.id, op, snapshot, null, (err, committed) => {
+          mingo.commit(row.collection, row.id, op, snapshot, null, (err, committed) => {
             if (err) return reject(err)
 
             resolve(committed)
