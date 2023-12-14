@@ -26,8 +26,6 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
     sqliteDb.all('SELECT collection, id, data, lastOp FROM documents', [], (err, rows) => {
       if (err) return reject(err)
 
-      const commits = []
-
       for (const [index, row] of rows.entries()) {
         const lastSnapshot = JSON.parse(row.data)
         const lastOp = JSON.parse(row.lastOp)
@@ -71,11 +69,8 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
         mingo.docs[row.collection][row.id] = snapshot
       }
 
-      Promise.all(commits).then((res) => {
-        console.log('DB data was loaded from SQLite to shareDbMingo', res)
-
-        resolve()
-      }).catch(reject)
+      console.log('DB data was loaded from SQLite to shareDbMingo')
+      resolve()
     })
   })
 }
