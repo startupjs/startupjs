@@ -23,7 +23,7 @@ async function getSqliteDb (filename) {
 
 async function loadSqliteDbToMingo (sqliteDb, mingo) {
   return new Promise((resolve, reject) => {
-    sqliteDb.all('SELECT collection, id, data, ops FROM documents', [], (err, rows) => {
+    sqliteDb.all('SELECT collection, id, data, lastOp FROM documents', [], (err, rows) => {
       if (err) return reject(err)
 
       const commits = []
@@ -34,15 +34,8 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
 
         if (!mingo.ops[row.collection]) {
           mingo.ops[row.collection] = {}
+          mingo.docs[row.collection] = {}
         }
-
-        // This segment ensures continuous client operation after a server restart.
-        // During updates in sharedb, there's a version check using db._getVersionSync(collection, id),
-        // which returns the length of the document's operation array.
-        // This check prevents adding data with an incorrect version if the document's operations are empty.
-        // Our solution circumvents this check so that a client,
-        // remaining connected during a server restart, can retrieve the latest version and continue functioning.
-        mingo.ops[row.collection][row.id] = new Array(lastOp.v)
 
         const nowTs = Date.now()
         const snapshot = {
@@ -68,13 +61,14 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
           }
         }
 
-        commits.push(new Promise((resolve, reject) => {
-          mingo.commit(row.collection, row.id, op, snapshot, null, (err, committed) => {
-            if (err) return reject(err)
-
-            resolve(committed)
-          })
-        }))
+        // This segment ensures continuous client operation after a server restart.
+        // During updates in sharedb, there's a version check using db._getVersionSync(collection, id),
+        // which returns the length of the document's operation array.
+        // This check prevents adding data with an incorrect version if the document's operations are empty.
+        // Our solution circumvents this check so that a client,
+        // remaining connected during a server restart, can retrieve the latest version and continue functioning.
+        mingo.ops[row.collection][row.id] = [...new Array(lastOp.v), op]
+        mingo.docs[row.collection][row.id] = snapshot
       }
 
       Promise.all(commits).then((res) => {
