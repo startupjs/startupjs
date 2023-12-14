@@ -9,7 +9,7 @@ async function getSqliteDb (filename) {
       'collection TEXT, ' +
       'id TEXT, ' +
       'data TEXT, ' +
-      'ops TEXT, ' +
+      'lastOp TEXT, ' +
       'PRIMARY KEY (collection, id))',
       (err) => {
         if (err) return reject(err)
@@ -28,8 +28,7 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
       const commits = []
       for (const [index, _row] of rows.entries()) {
         const row = JSON.parse(_row.data)
-        const ops = JSON.parse(_row.ops)
-        const lastOp = ops.slice(-1)[0]
+        const lastOp = JSON.parse(_row.lastOp)
 
         if (!mingo.ops[_row.collection]) {
           mingo.ops[_row.collection] = {}
@@ -88,7 +87,7 @@ async function cloneSqliteDb (source, target) {
         if (err) return reject(err)
 
         rows.forEach((row) => {
-          target.run('INSERT INTO documents (collection, id, data, ops) VALUES (?, ?, ?, ?)', [row.collection, row.id, row.data, row.ops], (err) => {
+          target.run('INSERT INTO documents (collection, id, data, lastOp) VALUES (?, ?, ?, ?)', [row.collection, row.id, row.data, row.lastOp], (err) => {
             if (err) return reject(err)
           })
         })
