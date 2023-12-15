@@ -208,7 +208,7 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
 
   // border
   C[Colors['border-main']]                  ??= C[Colors.main].subtler(2)
-  C[Colors['border-strong']]                ??= C[Colors['border-main']].stronger(3)
+  C[Colors['border-main-strong']]           ??= C[Colors['border-main']].stronger(3)
   C[Colors['border-primary']]               ??= C[Colors.primary]
   C[Colors['border-secondary']]             ??= C[Colors.secondary]
   C[Colors['border-error']]                 ??= C[Colors.error]

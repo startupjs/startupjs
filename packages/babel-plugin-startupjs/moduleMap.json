@@ -84,6 +84,7 @@
     "TheColor": "/theming/TheColor.js",
     "ThemeContext": "/theming/ThemeContext.js",
     "ThemeProvider": "/theming/ThemeProvider.js",
+    "actualPalette": "/theming/actualPalette.js",
     "defaultPalette": "/theming/defaultPalette.js",
     "defaultUiVariables": "/theming/defaultUiVariables.js",
     "generateColors": "/theming/generateColors.js",
