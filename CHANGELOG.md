@@ -1,3 +1,12 @@
+## [0.55.5](https://github.com/startupjs/startupjs/compare/v0.55.4...v0.55.5) (2023-12-15)
+
+
+### Bug Fixes
+
+* **babel-plugin-startupjs:** fix moduleMap ([83557ac](https://github.com/startupjs/startupjs/commit/83557ac6671a30c0bb79a188ce063826e27ac233))
+
+
+
 ## [0.55.4](https://github.com/startupjs/startupjs/compare/v0.55.3...v0.55.4) (2023-12-15)
 
 
