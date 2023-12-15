@@ -9,7 +9,15 @@ export default function createRegistry ({ RegistryClass = Registry, rootModuleNa
 
   return {
     registry,
-    rootModule: registry.getModule(rootModuleName),
+
+    /**
+     * Alias for rootModule which is a preferred way to access it.
+     * Having it a capital letter is useful since when
+     * using client-side hooks RenderHook and RenderNestedHook
+     * we can just write <M.RenderHook /> and not have React
+     * complain that component name can't start with the lowercase
+     */
+    M: registry.getModule(rootModuleName),
 
     /**
      * Get module by name

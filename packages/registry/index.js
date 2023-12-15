@@ -15,7 +15,7 @@ const { RegistryClass = ClientRegistry } = getImportProps()
 
 export const {
   registry,
-  rootModule,
+  M, // root module ('startupjs' framework itself)
   getModule,
   createPlugin,
   createModule,
