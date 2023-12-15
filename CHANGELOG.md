@@ -1,3 +1,12 @@
+## [0.55.4](https://github.com/startupjs/startupjs/compare/v0.55.3...v0.55.4) (2023-12-15)
+
+
+### Bug Fixes
+
+* **colors:** typo ([f363e28](https://github.com/startupjs/startupjs/commit/f363e28950af0209c5f49c673a649a4efb783673))
+
+
+
 ## [0.55.3](https://github.com/startupjs/startupjs/compare/v0.55.2...v0.55.3) (2023-12-13)
 
 
