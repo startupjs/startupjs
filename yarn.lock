@@ -6288,6 +6288,8 @@ __metadata:
   resolution: "@startupjs/registry@workspace:packages/registry"
   dependencies:
     resolve: "npm:^1.20.0"
+  peerDependencies:
+    react: "*"
   languageName: unknown
   linkType: soft
 

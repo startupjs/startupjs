@@ -9,18 +9,22 @@ export default class Registry {
   //   Registration and initialization
   // ------------------------------------------
 
-  constructor ({ rootModuleName } = {}) {
-    this.modules = {}
+  constructor ({ rootModuleName = 'root' } = {}) {
     this.rootModuleName = rootModuleName
+    this.modules = {}
     this.initialized = false
   }
 
   getModule (moduleName) {
     if (!moduleName) throw Error('[@startupjs/registry] You must pass module name into getModule()')
     if (!this.modules[moduleName]) {
-      this.modules[moduleName] = new Module(moduleName)
+      this.modules[moduleName] = this.newModule(this, moduleName)
     }
     return this.modules[moduleName]
+  }
+
+  newModule (...args) {
+    return new Module(...args)
   }
 
   // init all plugins for all modules

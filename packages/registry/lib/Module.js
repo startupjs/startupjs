@@ -5,17 +5,22 @@ export default class Module {
   //   Registration and initialization
   // ------------------------------------------
 
-  constructor (name) {
+  constructor (parentRegistry, name) {
     this.name = name
+    this.registry = parentRegistry
     this.plugins = {}
   }
 
   getPlugin (pluginName) {
     if (!pluginName) throw Error('[@startupjs/registry] You must pass plugin name into getPlugin()')
     if (!this.plugins[pluginName]) {
-      this.plugins[pluginName] = new Plugin(this, pluginName)
+      this.plugins[pluginName] = this.newPlugin(this, pluginName)
     }
     return this.plugins[pluginName]
+  }
+
+  newPlugin (...args) {
+    return new Plugin(...args)
   }
 
   // ------------------------------------------

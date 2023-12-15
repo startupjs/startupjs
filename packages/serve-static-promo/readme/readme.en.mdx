@@ -1,7 +1,7 @@
 import { Dependencies } from './../../_helpers'
 import deps from '../package'
 
-# @dmapper/serve-static-promo
+# @startupjs/serve-static-promo
 
 This package is used to serve static promo page from the `.zip` file inside `/promo` folder in the root of your project.
 
@@ -12,7 +12,7 @@ This package is used to serve static promo page from the `.zip` file inside `/pr
 ## Installation
 
 ```
-yarn add @dmapper/serve-static-promo
+yarn add @startupjs/serve-static-promo
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ yarn add @dmapper/serve-static-promo
   ```js
   // server/index.js
 
-  import { serveStaticPromo } from '@dmapper/serve-static-promo/server'
+  import { serveStaticPromo } from '@startupjs/serve-static-promo/server'
 
   // ...
 
@@ -38,7 +38,7 @@ yarn add @dmapper/serve-static-promo
   ```js
   // main/routes.js
 
-  import { redirectToPromoIfNotLoggedIn } from '@dmapper/serve-static-promo/isomorphic'
+  import { redirectToPromoIfNotLoggedIn } from '@startupjs/serve-static-promo/client'
 
   // ...
   {

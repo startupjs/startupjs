@@ -14,7 +14,7 @@ export function serveStaticPromo ({ url = DEFAULT_URL, zipPath } = {}) {
   try {
     if (!zipPath) zipPath = findDefaultZipPath()
   } catch (err) {
-    console.warn(`WARNING!!! [@dmapper/promo]: ${err.message}`)
+    console.warn(`WARNING!!! [@startupjs/serve-static-promo]: ${err.message}`)
     return router
   }
   const zip = createServeZip('/', { maxAge: HOUR })

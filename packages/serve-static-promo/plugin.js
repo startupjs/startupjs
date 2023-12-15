@@ -28,18 +28,8 @@ export default createPlugin({
         }
       }
     },
-    routes (pages) {
-      console.log({ testClient }, 'routes')
-      return [{
-        path: '/promo',
-        source: {
-          type: 'module',
-          moduleName: 'serve-static-promo'
-        },
-        exact: true,
-        filters: [permissionsFilter],
-        component: pages.PPermission
-      }]
+    renderSidebarBlock: () => {
+
     }
   })
 })

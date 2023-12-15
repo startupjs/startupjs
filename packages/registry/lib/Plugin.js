@@ -16,16 +16,12 @@ export default class Plugin {
     this.created = true
   }
 
-  // TODO: For 'client' env we want to support dynamic plugins initialization
-  //       at the moment the react component is created (if client part is a react component)
-  // TODO: Think whether it makes sense to just merge all env options into a single object
-  //       and pass all options to each env init()
   init (envOptions = {}) {
     if (this.initialized) throw Error(`Plugin "${this.name}" for module "${this.module.name}" already registered`)
     this.envOptions = envOptions
     this.config = {}
     for (const env in this.envInits) {
-      const options = envOptions[env] || {}
+      const options = this.envOptions[env] || {}
       const init = this.envInits[env]
       if (typeof init !== 'function') {
         throw Error(`Plugin "${this.name}" for module "${this.module.name}" is not a function`)
@@ -67,7 +63,7 @@ export default class Plugin {
   }
 
   hasHook (hookName) {
-    return Boolean(this.config[hookName])
+    return Boolean(this.config?.[hookName])
   }
 
   getContext () {

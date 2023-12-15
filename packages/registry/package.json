@@ -7,11 +7,23 @@
   },
   "description": "StartupJS Registry of modules and plugins",
   "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./*": "./*.js",
+    "./lib/*": "./lib/*.js",
+    "./client/*": "./client/*.js",
+    "./startupjs.config": "./startupjs.config.cjs",
+    "./startupjs.config.cjs": "./startupjs.config.cjs",
+    "./package.json": "./package.json"
+  },
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "dependencies": {
     "resolve": "^1.20.0"
+  },
+  "peerDependencies": {
+    "react": "*"
   }
 }
