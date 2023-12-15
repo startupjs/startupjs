@@ -13,12 +13,12 @@ function patchMingoForSQLitePersistence (sqliteDb, shareDbMingo) {
 
       this.getOps(collection, docId, 0, undefined, {
         metadata: true
-      }, (err, data) => {
+      }, (err, ops) => {
         if (err) return callback(err)
 
         sqliteDb.run(
           'REPLACE INTO documents (collection, id, data, ops) VALUES (?, ?, ?, ?)',
-          [collection, docId, JSON.stringify(snapshot), JSON.stringify(data)],
+          [collection, docId, JSON.stringify(snapshot), JSON.stringify(ops)],
           (err) => {
             if (err) {
               console.error(err.message)
