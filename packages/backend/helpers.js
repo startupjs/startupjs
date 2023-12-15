@@ -1,5 +1,7 @@
 import sqlite3 from 'sqlite3'
 
+const EXPIRED_PERIOD_MS = 24 * 60 * 60 * 1000
+
 async function getSqliteDb (filename) {
   const sqliteDb = new sqlite3.Database(filename)
 
@@ -25,58 +27,21 @@ async function loadSqliteDbToMingo (sqliteDb, mingo) {
   return new Promise((resolve, reject) => {
     sqliteDb.all('SELECT collection, id, data, ops FROM documents', [], (err, rows) => {
       if (err) return reject(err)
-      const commits = []
-      for (const [index, _row] of rows.entries()) {
-        const row = JSON.parse(_row.data)
-        const ops = JSON.parse(_row.ops)
-        const lastOp = ops.slice(-1)[0]
 
-        if (!mingo.ops[_row.collection]) {
-          mingo.ops[_row.collection] = {}
+      for (const row of rows) {
+        if (!mingo.ops[row.collection]) {
+          mingo.ops[row.collection] = {}
+          mingo.docs[row.collection] = {}
         }
 
-        // action required for expected result from db._getVersionSync()
-        // commit version of snapshot shold be equal length of all ops
-        mingo.ops[_row.collection][_row.id] = new Array(lastOp.v)
-
-        const nowMs = Date.now()
-        const snapshot = {
-          id: row.id,
-          v: row.v,
-          type: row.type,
-          data: row.data,
-          m: {
-            ctime: nowMs,
-            mtime: nowMs
-          }
-        }
-        const op = {
-          src: lastOp.src,
-          seq: index,
-          v: lastOp.v,
-          create: {
-            type: row.type,
-            data: row.data
-          },
-          m: {
-            ts: nowMs
-          }
-        }
-
-        commits.push(new Promise((resolve, reject) => {
-          mingo.commit(_row.collection, _row.id, op, snapshot, null, (err, committed) => {
-            if (err) return reject(err)
-
-            resolve(committed)
-          })
-        }))
+        const expiredDateMs = Date.now() - EXPIRED_PERIOD_MS
+        const ops = JSON.parse(row.ops)
+        const lastIndex = ops.length - 1
+        mingo.ops[row.collection][row.id] = ops.map((op, i) => op !== null && (op.m.ts >= expiredDateMs || i === lastIndex) ? op : null)
+        mingo.docs[row.collection][row.id] = JSON.parse(row.data)
       }
 
-      Promise.all(commits).then((res) => {
-        console.log('DB data was loaded from SQLite to shareDbMingo', res)
-
-        resolve()
-      }).catch(reject)
+      resolve()
     })
   })
 }
