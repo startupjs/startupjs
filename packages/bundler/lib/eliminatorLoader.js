@@ -8,9 +8,11 @@ module.exports = function eliminatorLoader (source) {
   if (!envs) throw Error("getEliminatorLoader: envs not provided (for example ['client', 'isomorphic'])")
   const filename = this.resourcePath
 
+  let code = source
+
   // first we need to transform pug to jsx
   // so that eliminator doesn't think that there are unused variables
-  let code = babel.transformSync(source, {
+  code = babel.transformSync(code, {
     filename,
     babelrc: false,
     configFile: false,
@@ -26,11 +28,12 @@ module.exports = function eliminatorLoader (source) {
   }).code
 
   // then we run the actual eliminator to remove env-specific stuff
-  code = babel.transformSync(source, {
+  code = babel.transformSync(code, {
     filename,
     babelrc: false,
     configFile: false,
     plugins: [
+      require('@babel/plugin-syntax-jsx'),
       [require('@startupjs/babel-plugin-eliminator'), {
         keepObjectKeysOfFunction: {
           createProject: {

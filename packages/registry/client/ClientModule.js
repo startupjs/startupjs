@@ -1,8 +1,8 @@
-import { createContext, useContext, memo, useMemo, createElement as el } from 'react'
+import { createContext, useContext, memo, useMemo, Fragment, createElement as el } from 'react'
 import Module from '../lib/Module.js'
 import ClientPlugin from './ClientPlugin.js'
 
-export const DynamicPluginsContext = createContext({})
+export const DynamicPluginsContext = createContext()
 
 export default class ClientModule extends Module {
   constructor (...args) {
@@ -88,7 +88,7 @@ export default class ClientModule extends Module {
       const dynamicConfig = dynamicPluginsConfigs?.[pluginName]
       const plugin = this.plugins[pluginName]
       if (!plugin.hasHook(name)) continue
-      res.push(plugin.runDynamicHook(dynamicConfig, name, props))
+      res.push(el(Fragment, { key: plugin.name }, plugin.runDynamicHook(dynamicConfig, name, props)))
     }
     return res
   }

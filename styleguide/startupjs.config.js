@@ -1,5 +1,6 @@
 import { createProject } from 'startupjs/registry'
 import serveStaticPromo from '@startupjs/serve-static-promo/plugin.js'
+import playgroundPlugin1 from './main/pages/PPlaygroundPlugins/plugin1.plugin.js'
 
 export default createProject({
   plugins: {
@@ -16,6 +17,11 @@ export default createProject({
       },
       isomorphic: {
         testIsomorphic: 'hello isomorphic'
+      }
+    },
+    [playgroundPlugin1]: {
+      client: {
+        important: true
       }
     }
   }

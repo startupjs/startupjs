@@ -231,6 +231,9 @@ module.exports = function babelPluginEliminator ({ template }) {
           }
 
           cleanUnusedReferences($this, state)
+
+          // TODO: remove this hardcode
+          removeDummyImports($this)
         }
       }
     }
@@ -410,4 +413,25 @@ function createMarkImport (state) {
       state.refs.add(local)
     }
   }
+}
+
+// TODO: remove this hardcode
+const MAGIC_LIBRARY = 'startupjs'
+const compilers = ['pug']
+function removeDummyImports ($program) {
+  const res = {}
+  for (const $import of $program.get('body')) {
+    if (!$import.isImportDeclaration()) continue
+    if ($import.node.source.value !== MAGIC_LIBRARY) continue
+    for (const $specifier of $import.get('specifiers')) {
+      if (!$specifier.isImportSpecifier()) continue
+      const { local, imported } = $specifier.node
+      if (compilers.includes(imported.name)) {
+        res[local.name] = true
+        $specifier.remove()
+      }
+    }
+    if ($import.get('specifiers').length === 0) $import.remove()
+  }
+  return res
 }
