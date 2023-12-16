@@ -63,8 +63,8 @@ function parsePackage (root, packagePath, _pluginImports = new Set(), _handledPa
   for (const exportPath in (packageJson.exports || {})) {
     if (!/[./]plugin$/.test(exportPath)) continue
     if (packagePath === root) {
-      // if we are on the project level itself, then we don't need to add the package name
-      _pluginImports.add(exportPath)
+      // if we are on the project level itself, then we just import the file itself
+      _pluginImports.add(packageJson.exports[exportPath])
     } else {
       _pluginImports.add(fsPath.join(packageName, exportPath))
     }
