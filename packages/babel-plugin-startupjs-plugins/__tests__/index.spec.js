@@ -7,19 +7,33 @@ pluginTester({
   pluginName,
   snapshot: true,
   pluginOptions: {
-    env: 'server',
     root: process.cwd() + '/fixtures'
   },
   tests: {
-    'Ignores files without a magic import': /* js */`
-      import something from 'startupjs/something'
+    'Ignores files without a magic import with magic function': /* js */`
+      import { createPlugin } from 'startupjs/registry'
     `,
-    'Processes files with a magic import': /* js */`
-      import plugins from 'startupjs/plugins'
-      import init from 'startupjs/init'
-      import orm from '../model'
+    'Processes files with a magic import with magic function': /* js */`
+      import { createProject } from 'startupjs/registry'
+      import dummy from '@dummy/dummy'
 
-      init({ orm, plugins })
+      const x = 'xxx'
+      dummy(x)
+
+      export default createProject({
+        plugins: {
+          'module-1': {
+            server: {
+              bar: 'World'
+            }
+          },
+          'module-1/module-1-plugin': {
+            server: {
+              thing: 'Hello'
+            }
+          }
+        }
+      })
     `
   }
 })

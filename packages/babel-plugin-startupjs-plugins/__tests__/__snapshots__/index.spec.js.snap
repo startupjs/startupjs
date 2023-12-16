@@ -1,57 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`@startupjs/babel-plugin-startupjs-plugins Ignores files without a magic import: Ignores files without a magic import 1`] = `
+exports[`@startupjs/babel-plugin-startupjs-plugins Ignores files without a magic import with magic function: Ignores files without a magic import with magic function 1`] = `
 
-import something from 'startupjs/something'
+import { createPlugin } from 'startupjs/registry'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import something from "startupjs/something";
+import { createPlugin } from "startupjs/registry";
 
 
 `;
 
-exports[`@startupjs/babel-plugin-startupjs-plugins Processes files with a magic import: Processes files with a magic import 1`] = `
+exports[`@startupjs/babel-plugin-startupjs-plugins Processes files with a magic import with magic function: Processes files with a magic import with magic function 1`] = `
 
-import plugins from 'startupjs/plugins'
-import init from 'startupjs/init'
-import orm from '../model'
+import { createProject } from 'startupjs/registry'
+import dummy from '@dummy/dummy'
 
-init({ orm, plugins })
+const x = 'xxx'
+dummy(x)
+
+export default createProject({
+  plugins: {
+    'module-1': {
+      server: {
+        bar: 'World'
+      }
+    },
+    'module-1/module-1-plugin': {
+      server: {
+        thing: 'Hello'
+      }
+    }
+  }
+})
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import init from "startupjs/init";
-import orm from "../model";
-import _default from "/Users/cray0000/ws/www/startupjs/packages/babel-plugin-startupjs-plugins/fixtures/node_modules/module-1/startupjs-plugin-module-1/isomorphic.js";
-import _default2 from "/Users/cray0000/ws/www/startupjs/packages/babel-plugin-startupjs-plugins/fixtures/node_modules/module-1/startupjs-plugin-module-1/server.js";
-import _default3 from "/Users/cray0000/ws/www/startupjs/packages/babel-plugin-startupjs-plugins/fixtures/startupjs.config/startupjs-plugin-module-1/server.js";
-const plugins = [
-  {
-    type: "module",
-    name: "module-1",
-  },
-  {
-    type: "plugin",
-    name: "startupjs-plugin-module-1",
-    for: "startupjs",
-    inits: [
-      {
-        env: "isomorphic",
-        init: _default,
-        config: {},
+import { createProject } from "startupjs/registry";
+import dummy from "@dummy/dummy";
+import _default from "module-1/plugin";
+import _default2 from "module-1-plugin/thePlugin.plugin";
+import _default3 from "./dummyPlugin.plugin";
+(() => {})([_default, _default2, _default3]);
+const x = "xxx";
+dummy(x);
+export default createProject({
+  plugins: {
+    "module-1": {
+      server: {
+        bar: "World",
       },
-      {
-        env: "server",
-        init: _default2,
-        config: _default3,
+    },
+    "module-1/module-1-plugin": {
+      server: {
+        thing: "Hello",
       },
-    ],
+    },
   },
-];
-init({
-  orm,
-  plugins,
 });
 
 

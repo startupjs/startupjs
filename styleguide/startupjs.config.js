@@ -1,5 +1,5 @@
 import { createProject } from 'startupjs/registry'
-import serveStaticPromo from '@startupjs/serve-static-promo/plugin.js'
+import serveStaticPromo from '@startupjs/serve-static-promo/plugin'
 import playgroundPlugin1 from './main/pages/PPlaygroundPlugins/plugin1.plugin.js'
 
 export default createProject({

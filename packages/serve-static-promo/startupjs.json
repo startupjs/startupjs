@@ -1,9 +1,0 @@
-{
-  "type": "module",
-  "bundler": {
-    "forceCompile": {
-      "web": true,
-      "server": true
-    }
-  }
-}
