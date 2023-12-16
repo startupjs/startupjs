@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/model",
-  "version": "0.55.7",
+  "version": "0.55.8",
   "description": "Initializes model connection and retrieves the singleton client-side model",
   "main": "lib/index.js",
   "type": "module",
