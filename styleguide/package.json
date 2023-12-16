@@ -5,6 +5,9 @@
     "*.css",
     "*.styl"
   ],
+  "exports": {
+    "playground.plugin1.plugin": "./main/pages/PPlaygroundPlugins/plugin1.plugin.js"
+  },
   "private": true,
   "scripts": {
     "start": "startupjs start",

@@ -1,10 +1,8 @@
 import { createProject } from 'startupjs/registry'
-import serveStaticPromo from '@startupjs/serve-static-promo/plugin'
-import playgroundPlugin1 from './main/pages/PPlaygroundPlugins/plugin1.plugin.js'
 
 export default createProject({
   plugins: {
-    [serveStaticPromo]: {
+    'serve-static-promo': {
       client: {
         redirectUrl: '/promo',
         testClient: 'hello client'
@@ -19,7 +17,7 @@ export default createProject({
         testIsomorphic: 'hello isomorphic'
       }
     },
-    [playgroundPlugin1]: {
+    'playground/plugin1': {
       client: {
         important: true
       }

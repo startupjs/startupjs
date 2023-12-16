@@ -4,22 +4,18 @@ import { redirectToPromoIfNotLoggedIn } from './client/index.js'
 
 export default createPlugin({
   name: 'serve-static-promo',
-  for: 'startupjs',
-  server: ({ testServer = 'default' }) => ({
+  server: () => ({
     api (expressApp) {
-      console.log({ testServer })
-      console.log('> plugin: serve-static-promo')
       expressApp.use(serveStaticPromo())
     }
   }),
   client: ({
     autoFilterHome = true,
     redirectUrl,
-    permissionsFilter,
-    testClient = 'default'
+    permissionsFilter
   }) => ({
+    // TODO
     modifyRoute (route) {
-      console.log({ testClient }, 'modifyRoute')
       if (!autoFilterHome) return
       if (route.path === '/') {
         return {
@@ -27,9 +23,6 @@ export default createPlugin({
           filters: [redirectToPromoIfNotLoggedIn(redirectUrl), ...(route.filters || [])]
         }
       }
-    },
-    renderSidebarBlock: () => {
-
     }
   })
 })

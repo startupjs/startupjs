@@ -5820,7 +5820,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-startupjs-plugins@workspace:packages/babel-plugin-startupjs-plugins":
+"@startupjs/babel-plugin-startupjs-plugins@npm:^0.55.0, @startupjs/babel-plugin-startupjs-plugins@workspace:packages/babel-plugin-startupjs-plugins":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs-plugins@workspace:packages/babel-plugin-startupjs-plugins"
   dependencies:
@@ -5902,6 +5902,7 @@ __metadata:
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.1"
     "@startupjs/babel-plugin-react-css-modules": "npm:^6.5.4-1"
     "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.55.0"
+    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.55.0"
     "@startupjs/css-to-react-native-transform": "npm:^1.9.0-2"
     "@startupjs/plugin": "npm:^0.55.1"
     "@svgr/webpack": "npm:~7.0.0"

@@ -23,7 +23,8 @@ module.exports = function eliminatorLoader (source) {
       }],
       [require('@startupjs/babel-plugin-react-pug-classnames'), {
         classAttribute: 'styleName'
-      }]
+      }],
+      require('@startupjs/babel-plugin-startupjs-plugins')
     ]
   }).code
 
