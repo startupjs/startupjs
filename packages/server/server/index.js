@@ -69,24 +69,23 @@ export default async (options) => {
 }
 
 // Handle graceful shutdown of the server
-
-function gracefulShutdown (signaleName, code) {
+let shuttingDown = false
+async function gracefulShutdown (exitCode = 0) {
+  if (shuttingDown) return
+  shuttingDown = true
   console.log('Exiting...')
-  if (server) {
-    console.log('Http server closing...')
-    server.close(() => {
-      console.log('Http server closed')
-    })
+  const promises = []
+  if (server) promises.push(new Promise(resolve => server.close(resolve)))
+  if (wsServer?._server) promises.push(new Promise(resolve => wsServer._server.close(resolve)))
+  // delay exit by 3000 ms for extra safety in production.
+  // In development this is also used as a force exit timeout
+  setTimeout(() => process.exit(exitCode), 3000)
+  // in development we exit as soon as the http server is closed
+  if (process.env.NODE_ENV !== 'production') {
+    await Promise.all(promises)
+    console.log(`Closed everything. Exiting... (exit code: ${exitCode})`)
+    process.exit(exitCode)
   }
-  if (wsServer && wsServer._server) {
-    console.log('Ws server closing...')
-    wsServer._server.close(() => {
-      console.log('Ws server closed')
-    })
-  }
-  setTimeout(() => {
-    process.exit(code)
-  }, 3000)
 }
 
 function printStarted () {
@@ -105,13 +104,13 @@ function printStarted () {
   }
 }
 
-process.on('SIGTERM', gracefulShutdown)
-process.on('SIGINT', gracefulShutdown)
-process.on('SIGQUIT', gracefulShutdown)
+process.on('SIGTERM', () => gracefulShutdown())
+process.on('SIGINT', () => gracefulShutdown())
+process.on('SIGQUIT', () => gracefulShutdown())
 
 process.on('uncaughtException', (err) => {
   console.log('uncaught:', err, err.stack)
-  gracefulShutdown(100)
+  gracefulShutdown(1)
 })
 
 const WARN_DEPRECATED_BEFORE_START = `
