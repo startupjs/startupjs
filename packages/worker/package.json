@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/worker",
-  "version": "0.55.1",
+  "version": "0.55.7",
   "type": "module",
   "description": "Worker to perform specified actions",
   "publishConfig": {
@@ -12,8 +12,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@startupjs/backend": "^0.55.1",
-    "@startupjs/orm": "^0.55.0",
+    "@startupjs/backend": "^0.55.7",
+    "@startupjs/orm": "^0.55.7",
     "lodash": "^4.17.20",
     "redlock": "^3.0.0"
   },

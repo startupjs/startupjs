@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-eliminator",
-  "version": "0.55.6",
+  "version": "0.55.7",
   "publishConfig": {
     "access": "public"
   },
