@@ -1,3 +1,17 @@
+## [0.55.6](https://github.com/startupjs/startupjs/compare/v0.55.5...v0.55.6) (2023-12-16)
+
+
+### Bug Fixes
+
+* **server:** update graceful shoutdown logic to exit immediately in development and to not try to run the same shutdown logic multiple times when Ctrl+C is pressed (make this logic a singleton) ([9568c60](https://github.com/startupjs/startupjs/commit/9568c609d30b3c9b9dbb1ff04261251174ad7b21))
+
+
+### Features
+
+* **registry:** implement isomorphic plugins system for startupjs itself and for custom modules ([#1123](https://github.com/startupjs/startupjs/issues/1123)) ([f609af0](https://github.com/startupjs/startupjs/commit/f609af07fd6e403b12bead7a9a05a6010d4c9e03))
+
+
+
 ## [0.55.5](https://github.com/startupjs/startupjs/compare/v0.55.4...v0.55.5) (2023-12-15)
 
 

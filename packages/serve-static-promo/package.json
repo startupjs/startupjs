@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/serve-static-promo",
   "description": "Serve static html website from /promo folder",
-  "version": "0.55.0",
+  "version": "0.55.6",
   "type": "module",
   "main": "server/index.js",
   "exports": {
