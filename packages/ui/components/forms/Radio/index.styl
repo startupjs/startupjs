@@ -1,6 +1,4 @@
 $uncheckedColor = var(--color-border-contrast)
-$checkedColor = var(--color-primary)
-$errorColor = var(--color-error)
 $radioSize = 2u
 
 .root
@@ -22,7 +20,6 @@ $radioSize = 2u
 .radio
   width 2u
   height @width
-
   border-color $uncheckedColor
   radius(circle)
   border-width 0.25u
@@ -30,19 +27,19 @@ $radioSize = 2u
   align-items center
 
   &.checked
-    border-color $checkedColor
+    border-color var(--color-border-primary)
 
   &.error
-    border-color $errorColor
+    border-color var(--color-border-error)
 
 .circle
   radius(circle)
   width ($radioSize / 2)
   height @width
-  background-color $checkedColor
+  background-color var(--color-bg-primary)
 
   &.error
-    background-color $errorColor
+    background-color var(--color-bg-error)
 
 .container
   margin-left 1u

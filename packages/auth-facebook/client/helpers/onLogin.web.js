@@ -1,4 +1,3 @@
-import { Linking } from 'react-native'
 import { $root } from 'startupjs'
 import { CookieManager } from '@startupjs/auth'
 import { BASE_URL } from '@env'
@@ -21,5 +20,5 @@ export default async function onLogin ({
     })
   }
 
-  Lwindow.location.href = WEB_LOGIN_URL
+  window.location.href = WEB_LOGIN_URL
 }

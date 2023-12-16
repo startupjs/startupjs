@@ -35,11 +35,11 @@ To use these color variables in your styles, refer to them with the `var` functi
 
 ```styl
 .card
-  background-color var(--color-bg-strong)
-  border-color var(--color-border)
+  background-color var(--color-bg-main-strong)
+  border-color var(--color-border-main)
 
 .text
-  color var(--color-text)
+  color var(--color-text-main)
 ```
 ## Using color variables in JavaScript
 
@@ -47,7 +47,7 @@ To use these color variables in your styles, refer to them with the `var` functi
 import { useColors } from '@startupjs/ui'
 
 const getColor = useColors()
-const bgColor = getColor('bg')
+const bgColor = getColor('bg-main')
 ```
 
 ## Base colors
@@ -66,7 +66,7 @@ Text colors are defined to offer optimal readability on various backgrounds whil
 
 ```jsx pure-example noscroll
 return pug`
-  = renderColorCards(TextColors, BaseColors.text)
+  = renderColorCards(TextColors, BaseColors['text-main'])
 `
 ```
 
@@ -86,7 +86,7 @@ Background colors are used across different UI components and layouts to delinea
 
 ```jsx pure-example noscroll
 return pug`
-  = renderColorCards(BgColors, BaseColors.bg)
+  = renderColorCards(BgColors, BaseColors['bg-main'])
 `
 ```
 
@@ -96,7 +96,7 @@ Border colors define the boundaries of elements, such as input fields, cards, an
 
 ```jsx pure-example noscroll
 return pug`
-  = renderColorCards(BorderColors, BaseColors.border)
+  = renderColorCards(BorderColors, BaseColors['border-main'])
 `
 ```
 

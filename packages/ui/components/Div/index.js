@@ -10,6 +10,7 @@ import pick from 'lodash/pick'
 import omit from 'lodash/omit'
 import PropTypes from 'prop-types'
 import colorToRGBA from '../../helpers/colorToRGBA'
+import { getColor } from '../../hooks/useColors'
 import useTooltip from './useTooltip'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
@@ -282,7 +283,7 @@ function getDefaultStyle (style, type, variant) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultHoverOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: 'rgba(0, 0, 0, 0.05)' }
+        return { backgroundColor: getColor('bg-contrast-transparent') }
       }
     }
 

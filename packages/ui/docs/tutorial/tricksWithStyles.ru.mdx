@@ -41,13 +41,13 @@
 React Native имеет свои особенности в работе с тенями (`box-shadow`). Чтобы избежать этих сложностей в повседневной жизни `StartupJS/UI` предоставляет набор готовых стилей теней для ваших компонентов.
 Миксин `shadow()` имеет 5 уровней теней и принимает в себя себя число от `0` до `4`, по умолчанию `1`, которые и регулируют уровень тени, и разворачивает в селектор набор стилей `box-shadow` по следующей схеме:
 
-| Значение | Стили                                                            |
-| -------- | ---------------------------------------------------------------- |
-| 0        | box-shadow: none и elevation: 0                                  |
-| 1        | box-shadow: 0 1px 2px var(--color-shadow) и elevation: 3         |
-| 2        | box-shadow: 0 3px 5px var(--color-shadow-strong) и elevation: 6  |
-| 3        | box-shadow: 0 5px 8px var(--color-shadow-strong) и elevation: 12 |
-| 4        | box-shadow: 0 8px 12px var(--color-shadow) и elevation: 18       |
+| Значение | Стили                                                                 |
+| -------- | --------------------------------------------------------------------- |
+| 0        | box-shadow: none и elevation: 0                                       |
+| 1        | box-shadow: 0 1px 2px var(--color-shadow-main) и elevation: 3         |
+| 2        | box-shadow: 0 3px 5px var(--color-shadow-main-strong) и elevation: 6  |
+| 3        | box-shadow: 0 5px 8px var(--color-shadow-main-strong) и elevation: 12 |
+| 4        | box-shadow: 0 8px 12px var(--color-shadow-main) и elevation: 18       |
 
 > Наглядные примеры, как каждый уровень тени будет выглядеть смотрите справа
 

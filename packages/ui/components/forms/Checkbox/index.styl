@@ -1,7 +1,5 @@
-$checkboxBorderColor = var(--color-border)
-$checkedColor = var(--color-primary)
+$checkboxBorderColor = var(--color-border-main)
 $checkedIconColor = var(--color-text-on-primary)
-$errorColor = var(--color-error)
 $switchBg = var(--color-bg-contrast)
 $height = 2u
 
@@ -29,11 +27,11 @@ $height = 2u
   // then we need to change it for the checkbox-animation class too
   // IMPORTANT: checked modifier should overlaps error modifier
   &.error
-    border-color $errorColor
+    border-color var(--color-border-error)
 
   &.checked
-    background-color $checkedColor
-    border-color $checkedColor
+    background-color var(--color-bg-primary)
+    border-color var(--color-border-primary)
 
 .checkbox-icon
   display none
@@ -51,7 +49,7 @@ $height = 2u
   top 0
   bottom 0
   right 0
-  background-color $checkedColor
+  background-color var(--color-bg-primary)
 
   &.animated
     opacity 1
@@ -66,13 +64,13 @@ $height = 2u
 
   // IMPORTANT: checked modifier should overlap error modifier
   &.error
-    background-color $errorColor
+    background-color var(--color-bg-error)
 
   &.checked
-    background-color $checkedColor
+    background-color var(--color-bg-primary)
 
 .switch-animation
   width 10px
   height @width
-  background-color var(--color-bg-strong)
+  background-color var(--color-bg-main-strong)
   radius(circle)

@@ -1,3 +1,39 @@
+## [0.55.5](https://github.com/startupjs/startupjs/compare/v0.55.4...v0.55.5) (2023-12-15)
+
+
+### Bug Fixes
+
+* **babel-plugin-startupjs:** fix moduleMap ([83557ac](https://github.com/startupjs/startupjs/commit/83557ac6671a30c0bb79a188ce063826e27ac233))
+
+
+
+## [0.55.4](https://github.com/startupjs/startupjs/compare/v0.55.3...v0.55.4) (2023-12-15)
+
+
+### Bug Fixes
+
+* **colors:** typo ([f363e28](https://github.com/startupjs/startupjs/commit/f363e28950af0209c5f49c673a649a4efb783673))
+
+
+
+## [0.55.3](https://github.com/startupjs/startupjs/compare/v0.55.2...v0.55.3) (2023-12-13)
+
+
+### Bug Fixes
+
+* **auth-facebook:** typo ([ab17ab8](https://github.com/startupjs/startupjs/commit/ab17ab81205564c18eab66ec686de4a5f6431d23))
+
+
+
+## [0.55.2](https://github.com/startupjs/startupjs/compare/v0.55.1...v0.55.2) (2023-12-13)
+
+
+### Bug Fixes
+
+* **AutoSuggest:** missing import in docs ([eb1c7b9](https://github.com/startupjs/startupjs/commit/eb1c7b9b4a5b54178e82229526eceb807d19ff44))
+
+
+
 ## [0.55.1](https://github.com/startupjs/startupjs/compare/v0.55.0...v0.55.1) (2023-12-08)
 
 
