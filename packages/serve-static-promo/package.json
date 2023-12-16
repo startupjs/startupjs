@@ -3,6 +3,9 @@
   "description": "Serve static html website from /promo folder",
   "version": "0.55.7",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "server/index.js",
   "exports": {
     "./plugin": "./plugin.js",
