@@ -33,7 +33,7 @@ export async function load (url, context, nextLoad) {
   }
 
   // process code elimination of other envs for *.plugin.js and startupjs.config.js
-  if (/(?:[./]plugin\.js|startupjs\.config\.js)$/.test(url)) {
+  if (/(?:[./]plugin\.[mc]?[jt]sx?|startupjs\.config\.js)$/.test(url)) {
     const filePath = fileURLToPath(url)
     let source = await readFile(filePath, 'utf8')
     source = callLoader(eliminatorLoader, source, filePath, { envs: ['server', 'isomorphic'] })

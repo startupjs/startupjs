@@ -208,7 +208,7 @@ module.exports = function getConfig (env, {
           oneOf: [
             {
               // process code elimination of other envs for *.plugin.js and startupjs.config.js
-              test: /(?:[./]plugin\.js|startupjs\.config\.js)$/,
+              test: /(?:[./]plugin\.[mc]?[jt]sx?|startupjs\.config\.js)$/,
               resolve: { fullySpecified: false },
               use: [
                 { loader: 'babel-loader' },

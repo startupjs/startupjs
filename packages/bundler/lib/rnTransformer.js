@@ -23,7 +23,7 @@ module.exports.transform = async function ({ src, filename, options = {} }) {
     return upstreamTransformer.transform({ src, filename, options })
   } else if (/\.svg$/.test(filename)) {
     return svgTransformer.transform({ src, filename, options })
-  } else if (/(?:[./]plugin\.js|startupjs\.config\.js)$/.test(filename)) {
+  } else if (/(?:[./]plugin\.[mc]?[jt]sx?|startupjs\.config\.js)$/.test(filename)) {
     src = callLoader(eliminatorLoader, src, filename, { envs: ['client', 'isomorphic'] })
     return upstreamTransformer.transform({ src, filename, options })
   } else if (/\.[cm]?jsx?$/.test(filename) && /['"]startupjs['"]/.test(src)) {
