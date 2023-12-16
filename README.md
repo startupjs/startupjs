@@ -40,8 +40,12 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 > [!WARNING]
 > StartupJS does not yet support the latest version of React Native.
+> 
 > When creating a new project please specify the `0.72` version:
-> `npx startupjs@latest init myapp --react-native 0.72`
+>
+>    ```
+>    npx startupjs@latest init myapp --react-native 0.72
+>    ```
 
 1. Initialize a default [`ui` template](#official-app-templates) project, change `myapp` to your project name (use lower case):
 
