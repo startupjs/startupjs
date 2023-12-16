@@ -1,6 +1,8 @@
+const REMOVAL_INDICATOR = 'undefined'
+
 module.exports = function babelPluginEliminator ({ template }) {
-  const buildNamedExportIndicator = template('export var %%name%% = 1')
-  const buildDefaultExportIndicatorValue = template('1')
+  const buildIndicator = template(REMOVAL_INDICATOR)
+  const buildNamedExportIndicator = template(`export var %%name%% = ${REMOVAL_INDICATOR}`)
   const insertIndicator = ($path, name) => $path.insertBefore(buildNamedExportIndicator({ name }))
 
   return {
@@ -9,6 +11,7 @@ module.exports = function babelPluginEliminator ({ template }) {
         enter ($this, state) {
           state.refs = new Set()
           state.removedExports = new Set()
+          state.removedFunctionKeys = new Set()
 
           const shouldRemoveExport = name => {
             const removeExports = state.opts.removeExports || []
@@ -23,6 +26,9 @@ module.exports = function babelPluginEliminator ({ template }) {
 
           const markImport = createMarkImport(state)
           const markFunction = createMarkFunction(state)
+
+          const functionsMeta = state.opts.keepObjectKeysOfFunction || {}
+          const usedFunctions = {}
 
           // Keep variables that're referenced
           $this.traverse({
@@ -118,12 +124,104 @@ module.exports = function babelPluginEliminator ({ template }) {
               if (!shouldRemoveExport(name)) return
               // Replace only the value of the export default
               state.removedExports.add(name)
-              $this.get('declaration').replaceWith(buildDefaultExportIndicatorValue())
+              $this.get('declaration').replaceWith(buildIndicator())
+            },
+
+            // find magic functions used in this file
+            ImportDeclaration ($this) {
+              for (const functionName in functionsMeta) {
+                const { magicImports } = functionsMeta[functionName]
+                if (!magicImports.includes($this.node.source.value)) continue
+                for (const $specifier of $this.get('specifiers')) {
+                  if (!$specifier.isImportSpecifier()) continue
+                  if ($specifier.get('imported').node.name !== functionName) continue
+                  const localName = $specifier.get('local').node.name
+                  usedFunctions[localName] = functionName
+                }
+              }
+            },
+
+            // remove specific object keys from magic functions
+            CallExpression ($this) {
+              const $callee = $this.get('callee')
+              if (!$callee.isIdentifier()) return
+              const originalFunctionName = usedFunctions[$callee.node.name]
+              if (!originalFunctionName) return
+              const {
+                keepKeys = [],
+                targetObjectJsonPath = '$',
+                ensureOnlyKeys = []
+              } = functionsMeta[originalFunctionName]
+
+              // get first argument of the magic function
+              const $arg = $this.get('arguments.0')
+              if (!($arg.isObjectExpression() || $arg.isArrayExpression())) return
+
+              // find the object to remove keys from - go down the json path
+              const sections = targetObjectJsonPath.trim().split('.') // $.plugins.*
+              let res = [$arg]
+              for (const section of sections) {
+                const newRes = []
+                for (const $item of res) {
+                  // if section is '$' - use the item itself
+                  if (section === '$') {
+                    newRes.push($item)
+                  // if section is '*' - use all items of the array or all properties of the object
+                  } else if (section === '*') {
+                    if ($item.isObjectExpression()) {
+                      newRes.push(...$item.get('properties').map($prop => $prop.get('value')))
+                    } else if ($item.isArrayExpression()) {
+                      newRes.push(...$item.get('elements'))
+                    }
+                  // if section is a string - use the property (or array index) with the name (index) matching the section
+                  } else if (section.length > 0 && section.trim() === section) {
+                    if ($item.isObjectExpression()) {
+                      // Find a property with the name matching the section
+                      const $prop = $item.get('properties').find($prop =>
+                        $prop.get('key').isIdentifier({ name: section })
+                      )
+                      if ($prop) newRes.push($prop.get('value'))
+                    } else if ($item.isArrayExpression()) {
+                      // If the section is a numeric index, access the array element
+                      const index = parseInt(section, 10)
+                      if (isNaN(index)) continue
+                      const $element = $item.get('elements')[index]
+                      if ($element) newRes.push($element)
+                    }
+                  // if section is not '$', '*' or a string - throw an error since this JSON path section is not supported
+                  } else {
+                    throw Error(`targetObjectJsonPath is not supported: ${targetObjectJsonPath}.\n` +
+                      "It can only contain '$', '*', or string sections separated by dots.")
+                  }
+                }
+                res = newRes
+              }
+
+              // remove keys from objects we found
+              for (const $targetObject of res) {
+                if (!$targetObject.isObjectExpression()) {
+                  throw $targetObject.buildCodeFrameError('item at targetObjectJsonPath must be an object')
+                }
+                for (const $property of $targetObject.get('properties')) {
+                  const $key = $property.get('key')
+                  if (!$key.isIdentifier()) continue
+                  const keyName = $key.node.name
+                  if (ensureOnlyKeys.length > 0 && !ensureOnlyKeys.includes(keyName)) {
+                    throw $property.buildCodeFrameError(`\n${originalFunctionName}(): key is not listed in ensureOnlyKeys: '${keyName}'.\n` +
+                      'You can only use keys listed in `ensureOnlyKeys`:\n' +
+                      ensureOnlyKeys.map(k => `  - ${k}`).join('\n'))
+                  }
+                  if (keepKeys.length > 0 && !keepKeys.includes(keyName)) {
+                    state.removedFunctionKeys.add(originalFunctionName + '/' + keyName)
+                    $property.remove()
+                  }
+                }
+              }
             }
           })
 
-          if (state.removedExports.size === 0) {
-            // No server-specific exports found
+          if (state.removedExports.size === 0 && state.removedFunctionKeys.size === 0) {
+            // No server-specific exports found and no object keys from magic functions removed
             // No need to clean unused references then
             return
           }
@@ -133,6 +231,9 @@ module.exports = function babelPluginEliminator ({ template }) {
           }
 
           cleanUnusedReferences($this, state)
+
+          // TODO: remove this hardcode
+          removeDummyImports($this)
         }
       }
     }
@@ -312,4 +413,25 @@ function createMarkImport (state) {
       state.refs.add(local)
     }
   }
+}
+
+// TODO: remove this hardcode
+const MAGIC_LIBRARY = 'startupjs'
+const compilers = ['pug']
+function removeDummyImports ($program) {
+  const res = {}
+  for (const $import of $program.get('body')) {
+    if (!$import.isImportDeclaration()) continue
+    if ($import.node.source.value !== MAGIC_LIBRARY) continue
+    for (const $specifier of $import.get('specifiers')) {
+      if (!$specifier.isImportSpecifier()) continue
+      const { local, imported } = $specifier.node
+      if (compilers.includes(imported.name)) {
+        res[local.name] = true
+        $specifier.remove()
+      }
+    }
+    if ($import.get('specifiers').length === 0) $import.remove()
+  }
+  return res
 }

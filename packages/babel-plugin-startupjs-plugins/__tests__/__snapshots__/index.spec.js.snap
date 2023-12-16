@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@startupjs/babel-plugin-startupjs-plugins Ignores files without a magic import with magic function: Ignores files without a magic import with magic function 1`] = `
+
+import { createPlugin } from 'startupjs/registry'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { createPlugin } from "startupjs/registry";
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs-plugins Processes files with a magic import with magic function: Processes files with a magic import with magic function 1`] = `
+
+import { createProject } from 'startupjs/registry'
+import dummy from '@dummy/dummy'
+
+const x = 'xxx'
+dummy(x)
+
+export default createProject({
+  plugins: {
+    'module-1': {
+      server: {
+        bar: 'World'
+      }
+    },
+    'module-1/module-1-plugin': {
+      server: {
+        thing: 'Hello'
+      }
+    }
+  }
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { createProject } from "startupjs/registry";
+import dummy from "@dummy/dummy";
+import _default from "module-1/plugin";
+import _default2 from "module-1-plugin/thePlugin.plugin";
+import _default3 from "./dummyPlugin.plugin";
+(() => {})([_default, _default2, _default3]);
+const x = "xxx";
+dummy(x);
+export default createProject({
+  plugins: {
+    "module-1": {
+      server: {
+        bar: "World",
+      },
+    },
+    "module-1/module-1-plugin": {
+      server: {
+        thing: "Hello",
+      },
+    },
+  },
+});
+
+
+`;

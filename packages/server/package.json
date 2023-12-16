@@ -9,6 +9,7 @@
   "main": "index.js",
   "dependencies": {
     "@startupjs/backend": "^0.55.1",
+    "@startupjs/registry": "^0.55.0",
     "body-parser": "1.20.0",
     "compression": "^1.6.0",
     "connect-mongo": "^4.4.1",

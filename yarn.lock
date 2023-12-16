@@ -5820,6 +5820,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@startupjs/babel-plugin-startupjs-plugins@npm:^0.55.0, @startupjs/babel-plugin-startupjs-plugins@workspace:packages/babel-plugin-startupjs-plugins":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/babel-plugin-startupjs-plugins@workspace:packages/babel-plugin-startupjs-plugins"
+  dependencies:
+    "@babel/helper-module-imports": "npm:^7.0.0"
+    babel-plugin-tester: "npm:^9.1.0"
+    jest: "npm:^26.0.1"
+  languageName: unknown
+  linkType: soft
+
 "@startupjs/babel-plugin-startupjs-utils@npm:^0.55.0, @startupjs/babel-plugin-startupjs-utils@workspace:packages/babel-plugin-startupjs-utils":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs-utils@workspace:packages/babel-plugin-startupjs-utils"
@@ -5884,17 +5894,22 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:packages/bundler"
   dependencies:
+    "@babel/core": "npm:^7.9.0"
+    "@babel/plugin-syntax-jsx": "npm:^7.0.0"
     "@babel/polyfill": "npm:^7.8.0"
     "@mdx-js/loader": "npm:^2.3.0"
     "@mdx-js/mdx": "npm:^2.3.0"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.1"
     "@startupjs/babel-plugin-react-css-modules": "npm:^6.5.4-1"
+    "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.55.0"
+    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.55.0"
     "@startupjs/css-to-react-native-transform": "npm:^1.9.0-2"
     "@startupjs/plugin": "npm:^0.55.1"
     "@svgr/webpack": "npm:~7.0.0"
     assets-webpack-plugin: "npm:^7.1.1"
     autoprefixer: "npm:^10.4.0"
     babel-loader: "npm:^8.2.3"
+    babel-plugin-transform-react-pug: "npm:^7.0.1"
     babel-preset-startupjs: "npm:^0.55.5"
     css-loader: "npm:^6.5.0"
     css-minimizer-webpack-plugin: "npm:^5.0.0"
@@ -6266,12 +6281,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@startupjs/registry@npm:^0.55.0, @startupjs/registry@workspace:packages/registry":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/registry@workspace:packages/registry"
+  dependencies:
+    resolve: "npm:^1.20.0"
+  peerDependencies:
+    react: "*"
+  languageName: unknown
+  linkType: soft
+
 "@startupjs/scrollable-anchors@npm:^0.55.0, @startupjs/scrollable-anchors@npm:^0.55.5, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
   version: 0.0.0-use.local
   resolution: "@startupjs/scrollable-anchors@workspace:packages/scrollable-anchors"
   dependencies:
     "@startupjs/ui": "npm:^0.55.4"
     startupjs: "npm:^0.55.5"
+  languageName: unknown
+  linkType: soft
+
+"@startupjs/serve-static-promo@npm:^0.55.0, @startupjs/serve-static-promo@workspace:packages/serve-static-promo":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/serve-static-promo@workspace:packages/serve-static-promo"
+  dependencies:
+    serve-static-zip: "npm:1.0.3"
+  peerDependencies:
+    express: "*"
+    startupjs: "*"
   languageName: unknown
   linkType: soft
 
@@ -6288,6 +6324,7 @@ __metadata:
   resolution: "@startupjs/server@workspace:packages/server"
   dependencies:
     "@startupjs/backend": "npm:^0.55.1"
+    "@startupjs/registry": "npm:^0.55.0"
     body-parser: "npm:1.20.0"
     compression: "npm:^1.6.0"
     connect-mongo: "npm:^4.4.1"
@@ -6366,6 +6403,7 @@ __metadata:
     "@startupjs/push-notifications": "npm:^0.55.0"
     "@startupjs/recaptcha": "npm:^0.55.0"
     "@startupjs/scrollable-anchors": "npm:^0.55.0"
+    "@startupjs/serve-static-promo": "npm:^0.55.0"
     "@startupjs/ui": "npm:^0.55.0"
     axios: "npm:^0.21.1"
     js-cookie: "npm:^2.2.1"
@@ -7265,6 +7303,16 @@ __metadata:
     "@types/mime": "npm:*"
     "@types/node": "npm:*"
   checksum: 061b38993bf8f2b5033f57147c8ec90e1d1a0d6f734958ceb531ba7cc31192fd272c999cdbc57ede8672787e3aa171ec142dc65a467c04078e43823e7476eb49
+  languageName: node
+  linkType: hard
+
+"@types/serve-static@npm:~1.13.2":
+  version: 1.13.10
+  resolution: "@types/serve-static@npm:1.13.10"
+  dependencies:
+    "@types/mime": "npm:^1"
+    "@types/node": "npm:*"
+  checksum: 7f3de245cbb11f3a9d7977b6e763585c6022ebfc079fa746f8d824411bb6b343521c1cff5407edc0d5196f4b7d6fea431fb36455843f4a6717d295c235065cf2
   languageName: node
   linkType: hard
 
@@ -9417,6 +9465,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"base64-js@npm:0.0.2":
+  version: 0.0.2
+  resolution: "base64-js@npm:0.0.2"
+  checksum: a6bcc66ac39cf0643c11fa1af0c22fc9b393fe89f0760977961d2ac05fcfa80f9bcb25d42bbaa2057ebe2c720bdf7fd2c009cda4c9c8c93d7e2a5af940e52c70
+  languageName: node
+  linkType: hard
+
 "base64-js@npm:^1.1.2, base64-js@npm:^1.3.0, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
@@ -9635,6 +9690,16 @@ __metadata:
   version: 1.0.0
   resolution: "boolbase@npm:1.0.0"
   checksum: e4b53deb4f2b85c52be0e21a273f2045c7b6a6ea002b0e139c744cb6f95e9ec044439a52883b0d74dedd1ff3da55ed140cfdddfed7fb0cccbed373de5dce1bcf
+  languageName: node
+  linkType: hard
+
+"bops@npm:~0.1.1":
+  version: 0.1.1
+  resolution: "bops@npm:0.1.1"
+  dependencies:
+    base64-js: "npm:0.0.2"
+    to-utf8: "npm:0.0.1"
+  checksum: 6ead75c7cd90b8f53532cc3669172ce221f99cac6ccbef75ac0e35554c569d8a549fc5ff98997dd3bf8380ad7bfa45e2ad91c6556f20c2eb7a61df7c5c26e4f0
   languageName: node
   linkType: hard
 
@@ -16602,6 +16667,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"http-errors@npm:~1.7.1":
+  version: 1.7.3
+  resolution: "http-errors@npm:1.7.3"
+  dependencies:
+    depd: "npm:~1.1.2"
+    inherits: "npm:2.0.4"
+    setprototypeof: "npm:1.1.1"
+    statuses: "npm:>= 1.5.0 < 2"
+    toidentifier: "npm:1.0.0"
+  checksum: 5c3443c340d35b2f18ce908266c4ae93305b7d900bef765ac8dc56fa90125b9fe18a1ed9ebf6af23dc3ba7763731921a2682bf968e199eccf383eb8f508be6c2
+  languageName: node
+  linkType: hard
+
 "http-parser-js@npm:>=0.5.1":
   version: 0.5.8
   resolution: "http-parser-js@npm:0.5.8"
@@ -20347,7 +20425,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.11.2, lodash@npm:^4.17.10, lodash@npm:^4.17.11, lodash@npm:^4.17.12, lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.2.1, lodash@npm:^4.3.0, lodash@npm:^4.7.0":
+"lodash@npm:^4.11.2, lodash@npm:^4.17.10, lodash@npm:^4.17.11, lodash@npm:^4.17.12, lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.2.1, lodash@npm:^4.3.0, lodash@npm:^4.7.0, lodash@npm:~4.17.11":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
@@ -22760,6 +22838,13 @@ __metadata:
   version: 2.0.0
   resolution: "ms@npm:2.0.0"
   checksum: f8fda810b39fd7255bbdc451c46286e549794fcc700dc9cd1d25658bbc4dc2563a5de6fe7c60f798a16a60c6ceb53f033cb353f493f0cf63e5199b702943159d
+  languageName: node
+  linkType: hard
+
+"ms@npm:2.1.1":
+  version: 2.1.1
+  resolution: "ms@npm:2.1.1"
+  checksum: 056140c631e740369fa21142417aba1bd629ab912334715216c666eb681c8f015c622dd4e38bc1d836b30852b05641331661703af13a0397eb0ca420fc1e75d9
   languageName: node
   linkType: hard
 
@@ -26349,7 +26434,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"range-parser@npm:^1.2.1, range-parser@npm:~1.2.1":
+"range-parser@npm:^1.2.1, range-parser@npm:~1.2.0, range-parser@npm:~1.2.1":
   version: 1.2.1
   resolution: "range-parser@npm:1.2.1"
   checksum: 96c032ac2475c8027b7a4e9fe22dc0dfe0f6d90b85e496e0f016fbdb99d6d066de0112e680805075bd989905e2123b3b3d002765149294dce0c1f7f01fcc2ea0
@@ -28157,6 +28242,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"serve-static-zip@npm:1.0.3":
+  version: 1.0.3
+  resolution: "serve-static-zip@npm:1.0.3"
+  dependencies:
+    "@types/serve-static": "npm:~1.13.2"
+    debug: "npm:2.6.9"
+    depd: "npm:~2.0.0"
+    encodeurl: "npm:~1.0.2"
+    escape-html: "npm:~1.0.3"
+    etag: "npm:~1.8.1"
+    fresh: "npm:0.5.2"
+    http-errors: "npm:~1.7.1"
+    lodash: "npm:~4.17.11"
+    mime: "npm:1.6.0"
+    ms: "npm:2.1.1"
+    parseurl: "npm:~1.3.2"
+    range-parser: "npm:~1.2.0"
+    statuses: "npm:~1.5.0"
+    tslib: "npm:~1.9.3"
+    zip: "npm:~1.2.0"
+  checksum: e8c4486a2441233b778b60cf4bdd74d0f6d4f8d031d2166e57b3276d568fb3b4546fe5cf558b4fbb2df4aad51718b09d2bf3e7f2a3f06b2764e86878f2677ad1
+  languageName: node
+  linkType: hard
+
 "serve-static@npm:1.15.0, serve-static@npm:^1.13.1":
   version: 1.15.0
   resolution: "serve-static@npm:1.15.0"
@@ -28222,6 +28331,13 @@ __metadata:
   version: 1.1.0
   resolution: "setprototypeof@npm:1.1.0"
   checksum: a77b20876689c6a89c3b42f0c3596a9cae02f90fc902570cbd97198e9e8240382086c9303ad043e88cee10f61eae19f1004e51d885395a1e9bf49f9ebed12872
+  languageName: node
+  linkType: hard
+
+"setprototypeof@npm:1.1.1":
+  version: 1.1.1
+  resolution: "setprototypeof@npm:1.1.1"
+  checksum: 1084b783f2d77908b0a593619e1214c2118c44c7c3277f6099dd7ca8acfc056c009e5d1b2860eae5e8b0ba9bc0a978c15613ff102ccc1093bb48aa6e0ed75e2f
   languageName: node
   linkType: hard
 
@@ -29001,6 +29117,7 @@ __metadata:
     "@startupjs/orm": "npm:^0.55.0"
     "@startupjs/patches": "npm:^0.55.0"
     "@startupjs/react-sharedb": "npm:^0.55.2"
+    "@startupjs/registry": "npm:^0.55.0"
     "@startupjs/server": "npm:^0.55.1"
     babel-preset-startupjs: "npm:^0.55.5"
     react-native-web: "npm:^0.18.0"
@@ -29026,7 +29143,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"statuses@npm:>= 1.4.0 < 2, statuses@npm:~1.5.0":
+"statuses@npm:>= 1.4.0 < 2, statuses@npm:>= 1.5.0 < 2, statuses@npm:~1.5.0":
   version: 1.5.0
   resolution: "statuses@npm:1.5.0"
   checksum: e433900956357b3efd79b1c547da4d291799ac836960c016d10a98f6a810b1b5c0dcc13b5a7aa609a58239b5190e1ea176ad9221c2157d2fd1c747393e6b2940
@@ -30088,6 +30205,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"to-utf8@npm:0.0.1":
+  version: 0.0.1
+  resolution: "to-utf8@npm:0.0.1"
+  checksum: f04e6fa701ad56f103c575d20d4a6a5b65ea52449b7c0846382c4219b8017541fecbec8c49bf4563fb10700d9a23cb03d4857d8de91de00baabb0b4d4b8f9c46
+  languageName: node
+  linkType: hard
+
+"toidentifier@npm:1.0.0":
+  version: 1.0.0
+  resolution: "toidentifier@npm:1.0.0"
+  checksum: 27a37b8b21126e7216d40c02f410065b1de35b0f844368d0ccaabba7987595703006d45e5c094b086220cbbc5864d4b99766b460110e4bc15b9db574c5c58be2
+  languageName: node
+  linkType: hard
+
 "toidentifier@npm:1.0.1":
   version: 1.0.1
   resolution: "toidentifier@npm:1.0.1"
@@ -30243,6 +30374,13 @@ __metadata:
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: e03a8a4271152c8b26604ed45535954c0a45296e32445b4b87f8a5abdb2421f40b59b4ca437c4346af0f28179780d604094eb64546bee2019d903d01c6c19bdb
+  languageName: node
+  linkType: hard
+
+"tslib@npm:~1.9.3":
+  version: 1.9.3
+  resolution: "tslib@npm:1.9.3"
+  checksum: 752ee37e2cb12193732494d465241e7297dacf20b20f34a7591ab03713a4939183543d30d51fe2313ce3ae478044ac1fa10e4f19ad826ca5c81552372879c5a2
   languageName: node
   linkType: hard
 
@@ -32446,6 +32584,15 @@ __metadata:
     compress-commons: "npm:^5.0.1"
     readable-stream: "npm:^3.6.0"
   checksum: 18b4ecf28824bd165709de5056d53cf611f07e0b7578508fa94c497f17164722dc19a0739ea8b2c1a296de7d3f70f7ad558e7a3a4929240fb2730afc5fd60679
+  languageName: node
+  linkType: hard
+
+"zip@npm:~1.2.0":
+  version: 1.2.0
+  resolution: "zip@npm:1.2.0"
+  dependencies:
+    bops: "npm:~0.1.1"
+  checksum: ba9e9bbb14783196d6defa3293bc3261587ac5e9405178940ebc2b73a3d0067535ab1cb133a2e77485ede515d6fd23493c647532421835af98e5332cf3945e4d
   languageName: node
   linkType: hard
 

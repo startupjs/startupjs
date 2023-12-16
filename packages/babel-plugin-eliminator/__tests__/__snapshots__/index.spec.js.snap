@@ -8,7 +8,7 @@ export {preload} from './'
       ↓ ↓ ↓ ↓ ↓ ↓
 
 export const a = 1;
-export var preload = 1;
+export var preload = undefined;
 
 
 `;
@@ -47,7 +47,7 @@ export const foo = () => {
 export default () => {
   return usedByDefault(varInDefault);
 };
-export var bar = 1;
+export var bar = undefined;
 
 
 `;
@@ -81,8 +81,8 @@ const varInFoo = "var-in-foo";
 export const foo = () => {
   return usedByFoo(varInFoo);
 };
-export default 1;
-export var bar = 1;
+export default undefined;
+export var bar = undefined;
 
 
 `;
@@ -113,8 +113,8 @@ export function bar () {
 
 import usedByBar from "used-by-bar";
 const varInBar = "var-in-bar";
-export var foo = 1;
-export default 1;
+export var foo = undefined;
+export default undefined;
 export function bar() {
   return usedByBar(varInBar);
 }
@@ -150,7 +150,7 @@ import usedByDefault from "used-by-default";
 import usedByBar from "used-by-bar";
 const varInDefault = "var-in-default";
 const varInBar = "var-in-bar";
-export var foo = 1;
+export var foo = undefined;
 export default () => {
   return usedByDefault(varInDefault);
 };
@@ -158,6 +158,176 @@ export function bar() {
   return usedByBar(varInBar);
 }
 
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator object in magic function. Keep keys \`client\` and \`isomorphic\`: object in magic function. Keep keys \`client\` and \`isomorphic\` 1`] = `
+
+import { createProject } from 'startupjs/registry'
+import { clientLib, clientLib2 } from 'client-lib'
+import { serverLib, serverLib2 } from 'server-lib'
+import buildLib from 'build-lib'
+import isomorphicLib from 'isomorphic-lib'
+
+const clientVar = clientLib()
+const clientVar2 = clientLib2()
+const serverVar = serverLib()
+const serverVar2 = serverLib2()
+const buildVar = buildLib()
+const isomorphicVar = isomorphicLib()
+
+export default createProject({
+  plugins: {
+    'serve-static-promo': {
+      client: {
+        redirectUrl: '/promo',
+        testClient: 'hello client',
+        clientVar
+      },
+      server: {
+        testServer: 'hello server',
+        serverVar
+      },
+      build: {
+        testBuild: 'hello build',
+        buildVar
+      },
+      isomorphic: {
+        testIsomorphic: 'hello isomorphic',
+        isomorphicVar
+      }
+    },
+    permissions: {
+      client: {
+        testClient: 'permissions client',
+        clientVar2
+      },
+      server: {
+        testServer: 'permissions server',
+        roles: ['admin', 'user'],
+        serverVar2
+      },
+      build: {
+        testBuild: 'permissions build',
+        buildVar
+      },
+      isomorphic: {
+        testIsomorphic: 'permissions isomorphic',
+        isomorphicVar
+      }
+    }
+  }
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { createProject } from "startupjs/registry";
+import { clientLib, clientLib2 } from "client-lib";
+import isomorphicLib from "isomorphic-lib";
+const clientVar = clientLib();
+const clientVar2 = clientLib2();
+const isomorphicVar = isomorphicLib();
+export default createProject({
+  plugins: {
+    "serve-static-promo": {
+      client: {
+        redirectUrl: "/promo",
+        testClient: "hello client",
+        clientVar,
+      },
+      isomorphic: {
+        testIsomorphic: "hello isomorphic",
+        isomorphicVar,
+      },
+    },
+    permissions: {
+      client: {
+        testClient: "permissions client",
+        clientVar2,
+      },
+      isomorphic: {
+        testIsomorphic: "permissions isomorphic",
+        isomorphicVar,
+      },
+    },
+  },
+});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator object in magic function. Only parse magic function: object in magic function. Only parse magic function 1`] = `
+
+import { createProject2 } from 'startupjs/registry'
+export default createProject2({
+  plugins: {
+    'serve-static-promo': {
+      client: {
+        redirectUrl: '/promo',
+      },
+      server: {
+        testServer: 'hello server',
+      }
+    }
+  }
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { createProject2 } from "startupjs/registry";
+export default createProject2({
+  plugins: {
+    "serve-static-promo": {
+      client: {
+        redirectUrl: "/promo",
+      },
+      server: {
+        testServer: "hello server",
+      },
+    },
+  },
+});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator object in magic function. Throw error if there are keys other than \`ensureOnlyKeys\`: object in magic function. Throw error if there are keys other than \`ensureOnlyKeys\` 1`] = `
+
+import { createProject } from 'startupjs/registry'
+export default createProject({
+  plugins: {
+    'serve-static-promo': {
+      client: {
+        redirectUrl: '/promo'
+      }
+    },
+    permissions: {
+      client: {
+        roles: ['admin', 'user']
+      },
+      magic: {
+        testMagic: 'hello magic'
+      }
+    }
+  }
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+SyntaxError: unknown file: 
+createProject(): key is not listed in ensureOnlyKeys: 'magic'.
+You can only use keys listed in \`ensureOnlyKeys\`:
+  - client
+  - isomorphic
+  - server
+  - build
+[0m [90m 11 |[39m         roles[33m:[39m [[32m'admin'[39m[33m,[39m [32m'user'[39m][0m
+[0m [90m 12 |[39m       }[33m,[39m[0m
+[0m[31m[1m>[22m[39m[90m 13 |[39m       magic[33m:[39m {[0m
+[0m [90m    |[39m       [31m[1m^[22m[39m[0m
+[0m [90m 14 |[39m         testMagic[33m:[39m [32m'hello magic'[39m[0m
+[0m [90m 15 |[39m       }[0m
+[0m [90m 16 |[39m     }[0m
 
 `;
 
@@ -171,7 +341,7 @@ export const preload = () => {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-export var preload = 1;
+export var preload = undefined;
 
 
 `;
@@ -184,7 +354,7 @@ export function preload() {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-export var preload = 1;
+export var preload = undefined;
 
 
 `;
@@ -197,7 +367,7 @@ export function staticPreload() {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-export var staticPreload = 1;
+export var staticPreload = undefined;
 
 
 `;
@@ -210,7 +380,7 @@ export var preload= function() {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-export var preload = 1;
+export var preload = undefined;
 
 
 `;
@@ -221,7 +391,7 @@ export {preload} from './'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-export var preload = 1;
+export var preload = undefined;
 
 
 `;
@@ -250,7 +420,7 @@ import { getStaticProps } from "./";
 var shouldHeep = 2;
 var alsoShouldKeep = 3;
 console.log(alsoShouldKepp);
-export var preload = 1;
+export var preload = undefined;
 
 
 `;
