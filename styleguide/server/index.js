@@ -1,5 +1,6 @@
 import init from 'startupjs/init/server.js'
 import startupjsServer from 'startupjs/server.js'
+import { ROOT_MODULE as APP } from 'startupjs/registry'
 import { initApp } from 'startupjs/app/server.js'
 import { initI18n } from 'startupjs/i18n/server.js'
 import { getUiHead, initUi } from '@startupjs/ui/server/index.js'
@@ -40,6 +41,10 @@ startupjsServer({
   getHead,
   secure: false // turn on when we add plugins for access, schema in orm
 }, (ee, options) => {
+  // TODO: remove this test
+  APP.on('routes', expressApp => {
+    console.log('[test] hook on routes. expressApp env:', expressApp?.locals?.settings?.env)
+  })
   initApp(ee, {
     ios: conf.get('CRITICAL_VERSION_IOS'),
     android: conf.get('CRITICAL_VERSION_ANDROID'),

@@ -1,11 +1,13 @@
+import EventEmitter from './EventEmitter.js'
 import Plugin from './Plugin.js'
 
-export default class Module {
+export default class Module extends EventEmitter {
   // ------------------------------------------
   //   Registration and initialization
   // ------------------------------------------
 
   constructor (parentRegistry, name) {
+    super()
     this.name = name
     this.registry = parentRegistry
     this.plugins = {}
@@ -36,6 +38,7 @@ export default class Module {
       const pluginResult = plugin.runHook(hookName, ...args)
       if (pluginResult != null) results.push(pluginResult)
     }
+    this.emit(hookName, ...args)
     return results
   }
 

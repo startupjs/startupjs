@@ -62,6 +62,7 @@ export default (backend, error, options) => {
 
   // ----------------------------------------------------->    logs    <#
   options.ee.emit('logs', expressApp)
+  MODULE.hook('logs', expressApp)
 
   function shouldCompress (req, res) {
     if (req.headers['x-no-compression']) {
@@ -103,6 +104,7 @@ export default (backend, error, options) => {
 
   // ----------------------------------------------------->    static    <#
   options.ee.emit('static', expressApp)
+  MODULE.hook('static', expressApp)
 
   expressApp
     .use(express.static(options.publicPath, { maxAge: '1h' }))
@@ -116,6 +118,7 @@ export default (backend, error, options) => {
 
   // ----------------------------------------------------->    afterSession    <#
   options.ee.emit('afterSession', expressApp)
+  MODULE.hook('afterSession', expressApp)
 
   // userId
   expressApp.use((req, res, next) => {
@@ -137,12 +140,14 @@ export default (backend, error, options) => {
 
   // ----------------------------------------------------->    middleware    <#
   options.ee.emit('middleware', expressApp)
+  MODULE.hook('middleware', expressApp)
 
   MODULE.hook('api', expressApp)
 
   // Server routes
   // ----------------------------------------------------->      routes      <#
   options.ee.emit('routes', expressApp)
+  MODULE.hook('routes', expressApp)
 
   const appMiddleware = app(options)
 
