@@ -5,7 +5,6 @@ import { Content, ScrollView } from '@startupjs/ui'
 import TestComponent from './TestComponent'
 
 export default observer(function PPlaywrightExample () {
-  console.log('PPlaywrightExamplePPlaywrightExamplePPlaywrightExample')
   return pug`
     ScrollView.root
       Content
