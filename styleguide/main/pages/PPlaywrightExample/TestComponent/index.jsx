@@ -28,8 +28,7 @@ export default observer(function TestComponent () {
       Br
       Div(row)
         Button(
-          variant='flat'
-          color='bg-success'
+          color='success'
           size='l'
           onPress=increment
           icon=faPlus
@@ -37,8 +36,7 @@ export default observer(function TestComponent () {
         )
         Button(
           pushed
-          variant='flat'
-          color='bg-error'
+          color='error'
           size='l'
           onPress=decrement
           icon=faMinus
