@@ -23,8 +23,8 @@
     "log-android-color": "react-native log-android | ccze -m ansi -C -o nolookups",
     "build": "startupjs build --async",
     "start-production": "startupjs start-production",
-    "test-e2e": "NO_MONGO=true DB_PATH='' TEST_E2E_DIR=test/e2e startupjs test-e2e",
-    "codegen-test-e2e": "NO_MONGO=true DB_PATH='' startupjs codegen-test-e2e"
+    "test-e2e": "NO_MONGO=true DB_READONLY=true DB_LOAD_SNAPSHOT='test/snapshots/test.db' TEST_E2E_DIR=test/e2e startupjs test-e2e",
+    "codegen-test-e2e": "NO_MONGO=true startupjs codegen-test-e2e"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
