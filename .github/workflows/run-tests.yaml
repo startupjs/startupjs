@@ -45,7 +45,7 @@ jobs:
       run: sleep 30s
 
     - name: Run Playwright tests
-      run: yarn playwright test
+      run: yarn test-e2e
 
     - uses: actions/upload-artifact@v3
       if: always()
