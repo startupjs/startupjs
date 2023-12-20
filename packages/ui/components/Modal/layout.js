@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import { pug, observer } from 'startupjs'
 import ModalHeader from './ModalHeader'
 import ModalContent from './ModalContent'
 import ModalActions from './ModalActions'
+import useColors from '../../hooks/useColors'
 import themed from '../../theming/themed'
 import './index.styl'
 
@@ -25,6 +26,12 @@ function Modal ({
   onCancel,
   onConfirm
 }) {
+  const getColor = useColors()
+
+  const overlayBgColor = useMemo(() => {
+    return getColor('main-7', { prefix: '--palette', convertToString: false }).setAlpha(0.25).toString()
+  }, [])
+
   // DEPRECATED
   if (dismissLabel) {
     console.warn(
@@ -149,6 +156,7 @@ function Modal ({
     View.root(style=style styleName=[variant])
       if isWindowLayout
         TouchableOpacity.overlay(
+          style={ backgroundColor: overlayBgColor }
           activeOpacity=1
           onPress=enableBackdropPress ? _onBackdropPress : undefined
         )

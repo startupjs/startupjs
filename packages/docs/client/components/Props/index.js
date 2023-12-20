@@ -79,7 +79,6 @@ export default observer(themed(function PComponent ({
   showGrid,
   validateWidth,
   showSizes,
-  theme,
   noScroll,
   block: defaultBlock
 }) {
@@ -115,14 +114,14 @@ export default observer(themed(function PComponent ({
 
   return pug`
     Div.root(style=style)
-      Div.top(styleName=[theme])
+      Div.top
         Constructor(
           Component=Component
           $props=$theProps
           entries=entries
         )
 
-      Div.bottom(styleName=[theme])
+      Div.bottom
         Wrapper
           Renderer(
             style=rendererStyle

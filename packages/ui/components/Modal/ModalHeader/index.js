@@ -14,7 +14,7 @@ function ModalHeader ({
   onCrossPress // @private
 }) {
   return pug`
-    Div.root(row style=style align=children ? 'between' : 'right' vAlign='center')
+    Div.root(row style=style styleName=children ? 'between' : 'right' vAlign='center')
       if typeof children === 'string'
         Span.title(numberOfLines=1)= children
       else

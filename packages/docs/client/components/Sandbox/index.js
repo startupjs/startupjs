@@ -5,8 +5,7 @@ import Props from '../Props'
 import {
   useShowGrid,
   useShowSizes,
-  useValidateWidth,
-  useDarkTheme
+  useValidateWidth
 } from '../../clientHelpers'
 import './index.styl'
 
@@ -20,7 +19,6 @@ export default observer(function Sandbox ({
   const [showGrid] = useShowGrid()
   const [showSizes] = useShowSizes()
   const [validateWidth] = useValidateWidth()
-  const [darkTheme] = useDarkTheme()
 
   if (!Component) {
     return pug`
@@ -32,7 +30,6 @@ export default observer(function Sandbox ({
     Props.root(
       Component=Component
       $props=$props || getUniqModel(Component)
-      theme=darkTheme ? 'dark' : undefined
       showSizes=showSizes
       showGrid=showGrid
       validateWidth=validateWidth

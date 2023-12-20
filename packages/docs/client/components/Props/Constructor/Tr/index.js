@@ -3,8 +3,8 @@ import { pug, observer } from 'startupjs'
 import { themed, Div } from '@startupjs/ui'
 import './index.styl'
 
-export default observer(themed(function Tr ({ children, style, theme }) {
+export default observer(themed(function Tr ({ children, style }) {
   return pug`
-    Div.root(style=style styleName=[theme])= children
+    Div.root(style=style)= children
   `
 }))

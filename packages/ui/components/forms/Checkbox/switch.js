@@ -52,6 +52,7 @@ function SwitchInput ({
             })
           }]
         }
+        styleName={ checked: value }
       )
   `
 }

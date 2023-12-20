@@ -6,8 +6,8 @@ import { DialogsProvider } from './components/dialogs'
 import Portal from './components/Portal'
 import CssVariables from './theming/CssVariables'
 import defaultPalette from './theming/defaultPalette'
-import { transformOverrides } from './theming/helpers'
 import defaultVariables from './theming/defaultUiVariables'
+import { transformOverrides } from './theming/helpers'
 import StyleContext from './StyleContext'
 
 // set default css variables as early as possible

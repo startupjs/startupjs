@@ -15,17 +15,16 @@ export default observer(themed(function Constructor ({
   Component,
   entries,
   $props,
-  style,
-  theme
+  style
 }) {
   return pug`
     Table.table(style=style)
       Thead.thead
         Tr
-          Td: Span.header(styleName=[theme]) PROP
-          Td: Span.header(styleName=[theme]) TYPE
-          Td: Span.header(styleName=[theme]) DEFAULT
-          Td: Span.header.right(styleName=[theme]) VALUE
+          Td: Span.header PROP
+          Td: Span.header TYPE
+          Td: Span.header DEFAULT
+          Td: Span.header.right VALUE
       Tbody
         each entry, index in entries
           - const { name, type, defaultValue, possibleValues, isRequired } = entry
@@ -44,7 +43,7 @@ export default observer(themed(function Constructor ({
                   shape='rounded'
                 ) Required
             Td: TypeCell(possibleValues=possibleValues type=type)
-            Td: Span.value(styleName=[theme])= JSON.stringify(defaultValue)
+            Td: Span.value= JSON.stringify(defaultValue)
             Td.vCenter: ValueCell(entry=entry $props=$props)
   `
 }))

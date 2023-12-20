@@ -54,8 +54,7 @@ const THEMES = {
     [Colors['bg-main']]: Color('main', 9),
     [Colors['text-main']]: Color('main', 0),
     [Colors['border-main']]: Color('main', 7),
-    [Colors.secondary]: Color('main', 0),
-    [Colors.contrast]: Color('main', 0)
+    [Colors.secondary]: Color('main', 0)
   })
 }
 

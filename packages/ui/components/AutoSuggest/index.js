@@ -4,7 +4,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native'
-import { pug, observer } from 'startupjs'
+import { $, pug, observer } from 'startupjs'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'
@@ -15,6 +15,7 @@ import AbstractPopover from '../AbstractPopover'
 import Loader from '../Loader'
 import FlatList from '../FlatList'
 import useKeyboard from './useKeyboard'
+import useColors from '../../hooks/useColors'
 import themed from '../../theming/themed'
 import './index.styl'
 
@@ -70,6 +71,19 @@ function AutoSuggest ({
     return getLabelFromValue(value, options)
   }, [value])
 
+  const getColor = useColors()
+
+  const activeColor = useMemo(() => {
+    const colorInstance = getColor('bg-main', { convertToString: false })
+
+    return colorInstance.clone(
+      colorInstance.name,
+      colorInstance.getHighContrastLevel(),
+      colorInstance.palette,
+      { alpha: 0.05 }
+    ).toString()
+  }, [$.session.Ui.colorScheme.get()])
+
   useEffect(() => {
     setInputValue(selectedLabel)
   }, [selectedLabel])
@@ -104,10 +118,13 @@ function AutoSuggest ({
       `
     }
 
+    const itemStyle = {}
+    if (selectIndexValue === index) itemStyle.backgroundColor = activeColor
+
     return pug`
       Menu.Item.item(
         key=index
-        styleName={ selectMenu: selectIndexValue === index }
+        style=itemStyle
         onPress=() => _onPress(item)
         active=stringifyValue(item) === stringifyValue(value)
       )= getLabelFromValue(item, options)

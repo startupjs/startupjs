@@ -15,6 +15,7 @@ import {
   faAngleUp,
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
+import useColors from '../../hooks/useColors'
 import themed from '../../theming/themed'
 import './index.styl'
 
@@ -385,6 +386,12 @@ function Carousel ({
     return { panHandlers: {} }
   }, [isAnimate, rootInfo, isSwipe])
 
+  const getColor = useColors()
+
+  const arrowWrapperBgColor = useMemo(() => {
+    return getColor('main-9', { prefix: '--palette', convertToString: false }).setAlpha(0.1).toString()
+  }, [])
+
   const renderChildren = React.Children.toArray(validChildren).map((child, index, arr) => {
     const _style = StyleSheet.flatten([child.props.style])
 
@@ -467,7 +474,7 @@ function Carousel ({
       Div.carousel(styleName=variant)
         if hasArrows
           Div.arrow.arrowBack(
-            style=arrowBackStyle
+            style=[{ backgroundColor: arrowWrapperBgColor }, arrowBackStyle]
             styleName=variant
             onPress=onBack
           )
@@ -497,7 +504,7 @@ function Carousel ({
           )= renderChildren
         if hasArrows
           Div.arrow.arrowNext(
-            style=arrowNextStyle
+            style=[{ backgroundColor: arrowWrapperBgColor }, arrowNextStyle]
             styleName=variant
             onPress=onNext
           )

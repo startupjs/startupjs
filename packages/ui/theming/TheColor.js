@@ -65,6 +65,7 @@ export class TheColor {
   isDark () { return this.level > this.middle }
   isLight () { return !this.isDark() }
   highContrast () { return this.clone(this.name, this.isLight() ? this.high : this.low) }
+  getHighContrastLevel () { return this.isLight() ? this.high : this.low }
   stronger (offset = 1) { return this.subtler(-offset) }
 
   subtler (offset = 1) {

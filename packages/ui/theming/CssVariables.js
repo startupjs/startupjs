@@ -6,7 +6,14 @@ import singletonVariables from '@startupjs/babel-plugin-rn-stylename-to-style/va
 import transformColors from './transformColors'
 
 export default function CssVariables ({ meta, clear = true, children }) {
+  const $colorScheme = $.session.Ui.colorScheme
+
   function setColorScheme (value = '') {
+    if (value) {
+      $colorScheme.set(value)
+    } else {
+      $colorScheme.del()
+    }
     document.documentElement.style.colorScheme = value
   }
 
