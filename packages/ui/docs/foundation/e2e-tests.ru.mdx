@@ -18,15 +18,16 @@ yarn create playwright
 startupjs codegen-test-e2e
 ```
 Эта команда сначала инициирует сборку приложения. После завершения сборки, запускается приложение, далее - playwright codegen.
+[Полный список параметров](https://playwright.dev/docs/codegen#running-codegen)
 
 ## Запуск тестов
-
 Для запуска тестов, выполните команду:
 
 ```bash
 startupjs test-e2e
 ```
 Эта команда аналогично собирает и запсукает приложение. После запуска приложения, запускаются playwright тесты.
+[Полный список параметров](https://playwright.dev/docs/test-cli)
 
 
 ## Работа с снапшотами для E2E тестов
@@ -49,7 +50,7 @@ startupjs test-e2e
 ### Запуск теста
 7. Запустите тесты с помощью команды:
 ```bash
-  NO_MONGO=true DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db TEST_E2E_DIR=test/e2e startupjs test-e2e
+  NO_MONGO=true DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs test-e2e path/to/e2e-tests
 ```
 
 ## Интеграция с CI

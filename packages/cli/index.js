@@ -150,13 +150,13 @@ SCRIPTS_ORIG.postinstall = () => oneLine(`
 
 SCRIPTS_ORIG.testE2E = ({ inspect } = {}) => {
   return oneLine(`
-  startupjs build --async && npx concurrently "startupjs start-production" "sleep 15s && npx playwright test ${process.env.TEST_E2E_DIR || ''}" --kill-others --success first
+  startupjs build --async && npx concurrently "startupjs start-production" "sleep 15s && npx playwright test $@" --kill-others --success first
 `)
 }
 
 SCRIPTS_ORIG.codegenTestE2E = ({ inspect } = {}) => {
   return oneLine(`
-  startupjs build --async && npx concurrently "startupjs start-production" "npx playwright codegen http://localhost:3000/"
+  startupjs build --async && npx concurrently "startupjs start-production" "npx playwright codegen $@"
 `)
 }
 
