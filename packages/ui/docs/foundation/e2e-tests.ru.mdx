@@ -12,29 +12,49 @@ yarn create playwright
 
 ## Генерация тестов с помощью Playwright
 
-Для запуска генератора тестов, используйте команду:
+Для генерации тестов, используйте команду:
 
 ```bash
-yarn playwright codegen http://localhost:3000
+startupjs codegen-test-e2e
 ```
-
-Результат будет записан в папку `tests`.
+Эта команда сначала инициирует сборку приложения. После завершения сборки, запускается приложение, далее - playwright codegen.
 
 ## Запуск тестов
 
 Для запуска тестов, выполните команду:
 
 ```bash
-yarn playwright test
+startupjs test-e2e
+```
+Эта команда аналогично собирает и запсукает приложение. После запуска приложения, запускаются playwright тесты.
+
+
+## Работа с снапшотами для E2E тестов
+
+Снапшоты в StartupJS работают в сочетании с MingoDB, позволяя сохранять и восстанавливать состояния данных для тестирования. Для создания E2E теста с снапшотами данных, выполните следующие шаги. Полная информация о флагах доступна в [README раздела backend](https://github.com/startupjs/startupjs/tree/master/packages/backend).
+
+### Создание снапшота
+1. Установите флаг `NO_MONGO` в `true`.
+2. В конфиге укажите `DB_PATH` имя для снапшота - `test.db`.
+3. Запустите приложение и создайте снапшот для тестов.
+
+### Создание теста
+4. Скопируйте снапшот в папку тестов.
+5. Запустите генератор тестов с помощью команды:
+    ```bash
+   NO_MONGO=true DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs codegen-test-e2e
+   ```
+6. Сохраните сгенерированный тест в папку E2E тестов.
+
+### Запуск теста
+7. Запустите тесты с помощью команды:
+```bash
+  NO_MONGO=true DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db TEST_E2E_DIR=test/e2e startupjs test-e2e
 ```
 
 ## Интеграция с CI
 
 Для примера интеграции Playwright с CI с использованием GitHub Actions обратитесь к файлу [workflows/run-tests.yaml](https://github.com/startupjs/startupjs/blob/master/.github/workflows/run-tests.yaml) в репозитории StartupJS.
-
-## Генерация тестов
-тут будет расписан пример как с кли запустить кодген на снапшоте и запустить сам тест на этом же снапшоте
-
 
 ## Дополнительная информация
 

@@ -36,6 +36,19 @@ The backend toggles between MongoDB and Mingo for database operations, influence
 This setup ensures flexibility in database management based on environment configurations.
 Data persistence can be disabled by setting `DB_READONLY` to `true`.
 
+### Cloning Existing SQLite Snapshots
+
+In scenarios where there is a need to create new SQLite database snapshots based on existing ones, the combination of `DB_LOAD_SNAPSHOT` and `DB_PATH` environment variables can be effectively utilized for cloning. This feature is particularly useful for initializing new environments or testing purposes.
+
+To clone an existing snapshot, set `DB_LOAD_SNAPSHOT` to the path of the existing snapshot file (e.g., `snapshot.db`) and specify a new file name in `DB_PATH` for the cloned database (e.g., `clone-snapshot.db`).
+
+For example:
+```bash
+NO_MONGO=true DB_LOAD_SNAPSHOT=snapshot.db DB_PATH=clone-snapshot.db startupjs server
+```
+
+Upon server initialization with these settings, the system will clone the data from `snapshot.db` into a new database file named `clone-snapshot.db`. Subsequently, the server will continue operations using the new `clone-snapshot.db` as its database source. This cloning process provides a seamless way to replicate and utilize existing database states in new instances.
+
 ## Usage
 
 To use the backend package in your StartupJS project, import and initialize it as follows:
