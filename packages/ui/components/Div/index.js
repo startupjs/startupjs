@@ -1,16 +1,16 @@
-import React, { useRef, useState, useImperativeHandle, useMemo } from 'react'
+import React, { useRef, useState, useImperativeHandle } from 'react'
 import {
   View,
   TouchableWithoutFeedback,
   Platform,
   StyleSheet
 } from 'react-native'
-import { pug, observer, u, useDidUpdate, $ } from 'startupjs'
+import { pug, observer, u, useDidUpdate } from 'startupjs'
 import pick from 'lodash/pick'
 import omit from 'lodash/omit'
 import PropTypes from 'prop-types'
 import colorToRGBA from '../../helpers/colorToRGBA'
-import useColors from '../../hooks/useColors'
+import { getColor } from '../../hooks/useColors'
 import useTooltip from './useTooltip'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
@@ -80,28 +80,6 @@ function Div ({
   const isClickable = hasPressHandler(props)
   const [hover, setHover] = useState(false)
   const [active, setActive] = useState(false)
-
-  const getColor = useColors()
-
-  const { hoverColor, activeColor } = useMemo(() => {
-    const hoverColorInstance = getColor('bg-main', { convertToString: false })
-    const activeColorInstance = getColor('bg-main', { convertToString: false })
-
-    return {
-      hoverColor: hoverColorInstance.clone(
-        hoverColorInstance.name,
-        hoverColorInstance.getHighContrastLevel(),
-        hoverColorInstance.palette,
-        { alpha: 0.05 }
-      ).toString(),
-      activeColor: activeColorInstance.clone(
-        activeColorInstance.name,
-        activeColorInstance.getHighContrastLevel(),
-        activeColorInstance.palette,
-        { alpha: 0.2 }
-      ).toString()
-    }
-  }, [$.session.Ui.colorScheme.get()])
 
   let extraStyle = {}
   const viewRef = useRef()
@@ -181,9 +159,9 @@ function Div ({
   // hover or active state styles
   // active state takes precedence over hover state
   if (active) {
-    extraStyle = activeStyle || getDefaultStyle(style, 'active', variant, activeColor)
+    extraStyle = activeStyle || getDefaultStyle(style, 'active', variant)
   } else if (hover) {
-    extraStyle = hoverStyle || getDefaultStyle(style, 'hover', variant, hoverColor)
+    extraStyle = hoverStyle || getDefaultStyle(style, 'hover', variant)
   }
 
   function maybeWrapToClickable (children) {
@@ -291,7 +269,7 @@ Div.propTypes = {
 
 export default observer(themed('Div', Div), { forwardRef: true })
 
-function getDefaultStyle (style, type, variant, defaultColor) {
+function getDefaultStyle (style, type, variant) {
   if (variant === 'opacity') {
     if (type === 'hover') return { opacity: defaultHoverOpacity }
     if (type === 'active') return { opacity: defaultActiveOpacity }
@@ -305,7 +283,7 @@ function getDefaultStyle (style, type, variant, defaultColor) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultHoverOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: defaultColor }
+        return { backgroundColor: getColor('--Div-hoverBg', { addPrefix: false }) }
       }
     }
 
@@ -314,7 +292,7 @@ function getDefaultStyle (style, type, variant, defaultColor) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultActiveOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: defaultColor }
+        return { backgroundColor: getColor('--Div-activeBg', { addPrefix: false }) }
       }
     }
   }

@@ -77,13 +77,28 @@ export const ShadowColors = {
   'shadow-main-subtle': 'shadow-main-subtle'
 }
 
+export const ComponentColors = {
+  'autoSuggest-itemBg': '--AutoSuggest-itemBg',
+  'carousel-arrowWrapperBg': '--Carousel-arrowWrapperBg',
+  'div-hoverBg': '--Div-hoverBg',
+  'div-activeBg': '--Div-activeBg',
+  'div-tooltipBg': '--Div-tooltipBg',
+  'div-tooltipText': '--Div-tooltipText',
+  'modal-overlayBg': '--Modal-overlayBg',
+  'checkbox-switchBg': '--Checkbox-switchBg',
+  'checkbox-switchBulletBg': '--Checkbox-switchBulletBg',
+  'range-labelBg': '--Range-labelBg',
+  'range-labelText': '--Range-labelText'
+}
+
 const Colors = {
   ...BaseColors,
   ...BgColors,
   ...TextColors,
   ...TextOnColors,
   ...BorderColors,
-  ...ShadowColors
+  ...ShadowColors,
+  ...ComponentColors
 }
 
 export default Colors

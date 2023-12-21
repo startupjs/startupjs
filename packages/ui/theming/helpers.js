@@ -111,7 +111,7 @@ export function transformOverrides (overrides, palette, Color) {
     //    --color-primary: var(--palette-primary-4)
     //    --color-secondary: var(--palette-error-4)
     //    --color-bg-main: var(--color-primary-bg)
-    } else if (/(--color|--palette)/.test(color)) {
+    } else if (/^var\(--/.test(color)) {
       const colorVar = color.replace(/var\(\s*(--[A-Za-z0-9_-]+)\s*\)/, (match, varName) => {
         return varName
       })
@@ -130,7 +130,8 @@ export function transformOverrides (overrides, palette, Color) {
 }
 
 /* eslint-disable dot-notation, no-multi-spaces */
-export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, low, middle }) {
+export function prepareColorsObject (palette, Color, { overrides = {}, high, low, middle }) {
+  const C = {}
   const transformedOverrides = transformOverrides(overrides, palette, Color)
   if (transformedOverrides) Object.assign(C, transformedOverrides)
 
@@ -217,12 +218,29 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['border-main-subtle']]           ??= C[Colors['border-main']].subtler(1)
   C[Colors['border-main-strong-alt']]       ??= C[Colors['border-main']].stronger(1)
 
+  // generate component colors
+  const CC = {}
+  CC[Colors['autoSuggest-itemBg']]          ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
+  CC[Colors['carousel-arrowWrapperBg']]     ??= Color('main', high, { alpha: 0.1 })
+  CC[Colors['div-hoverBg']]                 ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
+  CC[Colors['div-activeBg']]                ??= C[Colors['bg-main']].highContrast().setAlpha(0.2)
+  CC[Colors['div-tooltipBg']]               ??= C[Colors['bg-main']].subtler(7)
+  CC[Colors['div-tooltipText']]             ??= C[Colors['text-main']].subtler(7)
+  CC[Colors['modal-overlayBg']]             ??= Color('main', high - 2, { alpha: 0.25 })
+  CC[Colors['checkbox-switchBg']]           ??= Color('main', middle)
+  CC[Colors['checkbox-switchBulletBg']]     ??= Color('main', low)
+  CC[Colors['range-labelBg']]               ??= C[Colors['bg-main']].subtler(7)
+  CC[Colors['range-labelText']]             ??= C[Colors['text-main']].subtler(7)
+
   // add palette colors
+  const P = {}
   for (const colorName in palette) {
     const colors = palette[colorName]
     for (let i = 0; i < colors.length; i++) {
       P[`${colorName}-${i}`] = Color(colorName, i)
     }
   }
+
+  return { colors: C, palette: P, componentColors: CC }
 }
 /* eslint-enable dot-notation, no-multi-spaces */
