@@ -43,14 +43,14 @@ Snapshots in StartupJS work in combination with MingoDB, allowing you to save an
 4. Copy the snapshot into the test folder.
 5. Start the test generator using the command:
  ```bash
-NO_MONGO=true DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs codegen-test-e2e
+DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs codegen-test-e2e
    ```
 6. Save the generated test in the E2E tests folder.
 
 ### Running the Test
 7. Run the tests using the command:
 ```bash
-  NO_MONGO=true DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs test-e2e path/to/e2e-tests
+DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs test-e2e path/to/e2e-tests
 ```
 
 ## CI Integration

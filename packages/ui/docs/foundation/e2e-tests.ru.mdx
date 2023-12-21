@@ -42,15 +42,15 @@ startupjs test-e2e
 ### Создание теста
 4. Скопируйте снапшот в папку тестов.
 5. Запустите генератор тестов с помощью команды:
-    ```bash
-   NO_MONGO=true DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs codegen-test-e2e
-   ```
+```bash
+DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs codegen-test-e2e
+```
 6. Сохраните сгенерированный тест в папку E2E тестов.
 
 ### Запуск теста
 7. Запустите тесты с помощью команды:
 ```bash
-  NO_MONGO=true DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs test-e2e path/to/e2e-tests
+DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs test-e2e path/to/e2e-tests
 ```
 
 ## Интеграция с CI
