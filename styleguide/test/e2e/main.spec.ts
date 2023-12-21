@@ -27,3 +27,25 @@ test('Sidebar navigate is working', async ({ page }) => {
   await page.getByRole('link', { name: 'Rank' }).click()
   await expect(page.getByRole('heading', { name: 'Rank' })).toBeVisible()
 })
+
+test('Mingo correctly restore shanpshot data', async ({ page }) => {
+  await page.goto('http://localhost:3000/playwright-e2e-test')
+  await expect(page.getByRole('button').first()).toBeVisible()
+  await expect(page.getByRole('button').nth(1)).toBeVisible()
+  await expect(page.getByRole('button', { name: 'RESET' })).toBeVisible()
+  await expect(page.locator('span')).toContainText('7')
+  await page.getByRole('button').first().click()
+  await page.getByRole('button').first().click()
+  await page.getByRole('button').first().click()
+  await page.getByRole('button').first().click()
+  await expect(page.locator('span')).toContainText('11')
+  await page.getByRole('button').nth(1).click({
+    clickCount: 3
+  })
+  await expect(page.locator('span')).toContainText('8')
+  await page.getByRole('button', { name: 'RESET' }).click()
+  await expect(page.locator('span')).toContainText('0')
+  await page.getByRole('button').first().dblclick()
+  await page.getByRole('button').first().dblclick()
+  await page.getByRole('button').first().click()
+})

@@ -12,20 +12,46 @@ yarn create playwright
 
 ## Генерация тестов с помощью Playwright
 
-Для запуска генератора тестов, используйте команду:
+Для генерации тестов, используйте команду:
 
 ```bash
-yarn playwright codegen http://localhost:3000
+startupjs codegen-test-e2e
 ```
-
-Результат будет записан в папку `tests`.
+Эта команда сначала инициирует сборку приложения. После завершения сборки, запускается приложение, далее - playwright codegen.
+[Полный список параметров](https://playwright.dev/docs/codegen#running-codegen)
 
 ## Запуск тестов
-
 Для запуска тестов, выполните команду:
 
 ```bash
-yarn playwright test
+startupjs test-e2e
+```
+Эта команда аналогично собирает и запсукает приложение. После запуска приложения, запускаются playwright тесты.
+[Полный список параметров](https://playwright.dev/docs/test-cli)
+
+
+## Работа с снапшотами для E2E тестов
+
+> Для корректной работы тестов в приложении, где MongoDB задействована по умолчанию, установите флаг `NO_MONGO` в `true`.
+
+Снапшоты в StartupJS работают в сочетании с MingoDB, позволяя сохранять и восстанавливать состояния данных для тестирования. Для создания E2E теста с снапшотами данных, выполните следующие шаги. Полная информация о флагах доступна в [README раздела backend](https://github.com/startupjs/startupjs/tree/master/packages/backend).
+
+### Создание снапшота
+1. В конфиге укажите `DB_PATH` имя для снапшота - `test.db`.
+2. Запустите приложение и создайте снапшот для тестов.
+
+### Создание теста
+1. Скопируйте снапшот в папку тестов.
+2. Запустите генератор тестов с помощью команды:
+```bash
+DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs codegen-test-e2e
+```
+3. Сохраните сгенерированный тест в папку E2E тестов.
+
+### Запуск теста
+1. Запустите тесты с помощью команды:
+```bash
+DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs test-e2e path/to/e2e-tests
 ```
 
 ## Интеграция с CI

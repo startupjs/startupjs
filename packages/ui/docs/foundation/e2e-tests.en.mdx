@@ -1,6 +1,6 @@
 # E2E Testing in StartupJS
 
-StartupJS utilizes the **Playwright** tool for writing E2E (End-to-End) tests. Below are the steps to get started with Playwright in your project.
+StartupJS uses the **Playwright** tool for writing E2E (End-to-End) tests. Below are the steps to get started with Playwright in your project.
 
 ## Installing Playwright
 
@@ -10,22 +10,48 @@ To start working with Playwright, you need to install it in your project's repos
 yarn create playwright
 ```
 
-## Generating Tests with Playwright
+## Generating Tests Using Playwright
 
-To launch the test generator, use the command:
+To generate tests, use the command:
 
 ```bash
-yarn playwright codegen http://localhost:3000
+startupjs codegen-test-e2e
 ```
-
-The result will be recorded in the `tests` folder.
+This command first initiates the application build. After the build is complete, the application starts, followed by playwright codegen.
+[Full list of arguments](https://playwright.dev/docs/codegen#running-codegen)
 
 ## Running Tests
 
-To run the tests, execute the command:
+To run tests, execute the command:
 
 ```bash
-yarn playwright test
+startupjs test-e2e
+```
+This command similarly builds and starts the application. After launching the application, playwright tests are executed.
+[Full list of arguments](https://playwright.dev/docs/test-cli)
+
+## Working with Snapshots for E2E Tests
+
+> To ensure proper functioning of tests in an application where MongoDB is used by default, set the `NO_MONGO` flag to `true`.
+
+Snapshots in StartupJS work in combination with MingoDB, allowing you to save and restore data states for testing. To create an E2E test with data snapshots, follow these steps. Full information about the flags is available in the [backend section README](https://github.com/startupjs/startupjs/tree/master/packages/backend).
+
+### Creating a Snapshot
+1. In the config, specify `DB_PATH` name for the snapshot - `test.db`.
+2. Start the application and create a snapshot for tests.
+
+### Creating a Test
+1. Copy the snapshot into the test folder.
+2. Start the test generator using the command:
+```bash
+DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs codegen-test-e2e
+```
+3. Save the generated test in the E2E tests folder.
+
+### Running the Test
+1. Run the tests using the command:
+```bash
+DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs test-e2e path/to/e2e-tests
 ```
 
 ## CI Integration

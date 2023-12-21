@@ -35,17 +35,8 @@ jobs:
     - name: Install Playwright Browsers
       run: yarn playwright install --with-deps
 
-    - name: Build production app
-      run: yarn build
-
-    - name: Start production app
-      run: yarn start-production &
-
-    - name: Wait for 30 seconds
-      run: sleep 30s
-
     - name: Run Playwright tests
-      run: yarn playwright test
+      run: yarn test-e2e
 
     - uses: actions/upload-artifact@v3
       if: always()

@@ -33,5 +33,10 @@ export default (components = {}) => [
     path: '/playgroundPlugins',
     exact: true,
     component: components.PPlaygroundPlugins
+  },
+  {
+    path: '/playwright-e2e-test',
+    exact: true,
+    component: components.PPlaywrightExample
   }
 ]
