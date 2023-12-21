@@ -1,16 +1,14 @@
 $input = var(--color-border-main)
 $header = var(--color-text-description)
-$darkHeader = var(--color-text-on-contrast)
 $value = var(--color-text-success)
 $type = var(--color-text-info)
-$valueDark = var(--color-text-success-strong)
-$typeDark = var(--color-text-info-strong)
 
 .header
   font-size 12px
   letter-spacing 1px
   fontFamily('normal', 600)
   color $header
+
   &.right
     text-align right
 
@@ -24,14 +22,6 @@ $typeDark = var(--color-text-info-strong)
 .type
   color $type
   font-style italic
-
-.dark
-  &.header
-    color $darkHeader
-  &.value
-    color $valueDark
-  &.type
-    color $typeDark
 
 .checkbox
   align-self flex-end

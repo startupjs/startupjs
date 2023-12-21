@@ -1,9 +1,9 @@
 // refs:
 // https://accessiblepalette.com/?lightness=98,93.3,88.6,79.9,71.2,60.5,49.8,38.4,27,15.6&e94c49=1,0&F1903C=1,-10&f3e203=1,-15&89BF1D=0,0&64c273=0,15&007DCC=0,0&808080=0,0&EAE8DE=0,0&768092=0,0
 // https://www.ibm.com/design/language/color/
-import { getColor } from '../hooks/useColors'
 import Colors from './Colors'
 import { TheColor } from './TheColor'
+import getCssVariable from './getCssVariable'
 
 export function getPaletteMeta (palette) {
   const res = {}
@@ -111,11 +111,11 @@ export function transformOverrides (overrides, palette, Color) {
     //    --color-primary: var(--palette-primary-4)
     //    --color-secondary: var(--palette-error-4)
     //    --color-bg-main: var(--color-primary-bg)
-    } else if (/(--color|--palette)/.test(color)) {
+    } else if (/^var\(--/.test(color)) {
       const colorVar = color.replace(/var\(\s*(--[A-Za-z0-9_-]+)\s*\)/, (match, varName) => {
         return varName
       })
-      const colorValue = res[colorVar] || getColor(colorVar, { addPrefix: false, convertToString: false })
+      const colorValue = res[colorVar] || getCssVariable(colorVar, { convertToString: false })
       if (!colorValue) throw Error(`'${colorName}' does not exist.`)
       res[colorName] = colorValue.clone()
     // Find color in a palette by hex or rgb(a) string
@@ -130,7 +130,8 @@ export function transformOverrides (overrides, palette, Color) {
 }
 
 /* eslint-disable dot-notation, no-multi-spaces */
-export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, low, middle }) {
+export function prepareColorsObject (palette, Color, { overrides = {}, high, low, middle }) {
+  const C = {}
   const transformedOverrides = transformOverrides(overrides, palette, Color)
   if (transformedOverrides) Object.assign(C, transformedOverrides)
 
@@ -139,7 +140,6 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   // a separate color
   C[Colors['shadow-main']]                  ??= Color('main', high + 1, { alpha: 0.2 })
   C[Colors.main]                            ??= Color('main', low)
-  C[Colors.contrast]                        ??= Color('main', high - 2)
   C[Colors.primary]                         ??= Color('primary', middle)
   C[Colors.secondary]                       ??= Color('secondary', high - 2)
   C[Colors.error]                           ??= Color('error', middle)
@@ -165,16 +165,13 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['bg-attention']]                 ??= C[Colors.attention]
 
   // extra bg colors
-  C[Colors['bg-contrast']]                  ??= C[Colors.contrast]
-  C[Colors['bg-contrast-alt']]              ??= C[Colors.contrast].stronger(1)
-  C[Colors['bg-contrast-transparent']]      ??= C[Colors['bg-contrast']].setAlpha(0.05)
   C[Colors['bg-main-subtle']]               ??= C[Colors['bg-main']].subtler(1)
   C[Colors['bg-main-subtle-alt']]           ??= C[Colors['bg-main']].subtler(2)
   C[Colors['bg-main-strong']]               ??= C[Colors['bg-main']].stronger(1)
-  C[Colors['bg-primary-contrast']]          ??= C[Colors.primary].stronger(4)
+  C[Colors['bg-primary-strong']]            ??= C[Colors.primary].stronger(4)
   C[Colors['bg-primary-subtle']]            ??= C[Colors.primary].subtler(3)
   C[Colors['bg-primary-transparent']]       ??= C[Colors.primary].setAlpha(0.05)
-  C[Colors['bg-secondary-contrast']]        ??= C[Colors.secondary].highContrast()
+  C[Colors['bg-secondary-subtle']]          ??= C[Colors.secondary].highContrast()
   C[Colors['bg-error-transparent']]         ??= C[Colors.error].setAlpha(0.05)
   C[Colors['bg-success-transparent']]       ??= C[Colors.success].setAlpha(0.05)
   C[Colors['bg-warning-transparent']]       ??= C[Colors.warning].setAlpha(0.05)
@@ -183,6 +180,7 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['text-main']]                    ??= C[Colors.main].subtler(7)
   C[Colors['text-description']]             ??= C[Colors['text-main']].subtler(2)
   C[Colors['text-placeholder']]             ??= C[Colors['text-main']].subtler(4)
+  C[Colors['text-subtle']]                  ??= C[Colors['text-main']].subtler(4)
   C[Colors['text-primary']]                 ??= C[Colors.primary]
   C[Colors['text-secondary']]               ??= C[Colors.secondary]
   C[Colors['text-error']]                   ??= C[Colors.error]
@@ -197,7 +195,6 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
 
   // text on different backgrounds
   C[Colors['text-on-color']]                ??= C[Colors.main]
-  C[Colors['text-on-contrast']]             ??= C[Colors['text-main']].subtler(5)
   C[Colors['text-on-primary']]              ??= C[Colors.primary].stronger(4)
   C[Colors['text-on-secondary']]            ??= C[Colors.secondary].highContrast()
   C[Colors['text-on-error']]                ??= C[Colors.error].stronger(4)
@@ -218,16 +215,32 @@ export function fillColorsObject (C, P, palette, Color, { overrides = {}, high, 
   C[Colors['border-attention']]             ??= C[Colors.attention]
 
   // extra border colors
-  C[Colors['border-contrast']]              ??= C[Colors['border-main']].subtler(5)
   C[Colors['border-main-subtle']]           ??= C[Colors['border-main']].subtler(1)
   C[Colors['border-main-strong-alt']]       ??= C[Colors['border-main']].stronger(1)
 
+  // generate component colors
+  const CC = {}
+  CC[Colors['--AutoSuggest-itemBg']]          ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
+  CC[Colors['--Carousel-arrowWrapperBg']]     ??= Color('main', high, { alpha: 0.1 })
+  CC[Colors['--Div-hoverBg']]                 ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
+  CC[Colors['--Div-activeBg']]                ??= C[Colors['bg-main']].highContrast().setAlpha(0.2)
+  CC[Colors['--Div-tooltipBg']]               ??= C[Colors['bg-main']].subtler(7)
+  CC[Colors['--Div-tooltipText']]             ??= C[Colors['text-main']].subtler(7)
+  CC[Colors['--Modal-overlayBg']]             ??= Color('main', high - 2, { alpha: 0.25 })
+  CC[Colors['--Checkbox-switchBg']]           ??= Color('main', middle)
+  CC[Colors['--Checkbox-switchBulletBg']]     ??= Color('main', low)
+  CC[Colors['--Range-labelBg']]               ??= C[Colors['bg-main']].subtler(7)
+  CC[Colors['--Range-labelText']]             ??= C[Colors['text-main']].subtler(7)
+
   // add palette colors
+  const P = {}
   for (const colorName in palette) {
     const colors = palette[colorName]
     for (let i = 0; i < colors.length; i++) {
       P[`${colorName}-${i}`] = Color(colorName, i)
     }
   }
+
+  return { colors: C, palette: P, componentColors: CC }
 }
 /* eslint-enable dot-notation, no-multi-spaces */

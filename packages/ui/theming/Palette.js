@@ -1,5 +1,5 @@
 import { TheColor } from './TheColor'
-import { getPaletteMeta, fillColorsObject } from './helpers'
+import { getPaletteMeta, prepareColorsObject } from './helpers'
 import defaultPalette from './palette.json'
 
 export default class Palette {
@@ -10,13 +10,8 @@ export default class Palette {
   }
 
   generateColors = (overrides) => {
-    const C = {}
-    const P = {}
-
     const { low, high, middle } = this
-    fillColorsObject(C, P, this.colors, this.Color, { overrides, low, middle, high })
-
-    return { colors: C, palette: P }
+    return prepareColorsObject(this.colors, this.Color, { overrides, low, middle, high })
   }
 
   Color = (name, level, { alpha } = {}) => {

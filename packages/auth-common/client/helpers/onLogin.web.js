@@ -1,4 +1,3 @@
-import { Linking } from 'react-native'
 import { CookieManager } from '@startupjs/auth'
 import { BASE_URL } from '@env'
 import moment from 'moment'

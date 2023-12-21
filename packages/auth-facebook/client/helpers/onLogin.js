@@ -29,7 +29,7 @@ export default async function onLogin ({
     const result = await LoginManager.logInWithPermissions(PERMISSIONS)
 
     if (result.isCancelled) {
-      console.log('[@dmapper/auth] Facebook login cancelled')
+      console.log('[@startupjs/auth-facebook]: login cancelled')
       return
     }
 
@@ -41,6 +41,6 @@ export default async function onLogin ({
 
     clientFinishAuth(res.request.responseURL.replace(baseUrl, ''))
   } catch (error) {
-    console.log('[@dmapper/auth] Error, FacebookAuth', error)
+    console.log('[@startupjs/auth-facebook] Error: ', error)
   }
 }

@@ -5,7 +5,7 @@ import Button from '../Button'
 import Br from '../Br'
 import Content from '../Content'
 import Span from '../typography/Span'
-import { $root, useSession } from 'startupjs'
+import { $root, useSession, pug } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
 import { Sandbox } from '@startupjs/docs'
 import './index.mdx.styl'
@@ -162,24 +162,23 @@ return (
 <Sandbox Component={Sidebar}
   props={{
     $open: $root.scope('_session.Sandbox.Sidebar'),
-    renderContent: () => (
-      <Div styleName='sidebar'>
-        <Span styleName='sidebar-text'>Sidebar content</Span>
-      </Div>
-    ),
-    children: (
-      <Div styleName='content'>
-        <Button
-          styleName='button'
-          onPress={()=> {
+    renderContent: () => {
+      return pug`
+        Div.sidebar
+          Span Sidebar content
+      `
+    },
+    children: pug`
+      Div.content
+        Button.button(
+          onPress=() => {
             const value = $root.get('_session.Sandbox.Sidebar')
             $root.scope('_session.Sandbox.Sidebar').set(!value)
-          }}
-        >Toggle</Button>
-        <Br />
-        <Span>Children content</Span>
-      </Div>
-    )
+          }
+        ) Toggle
+        Br
+        Span Children content
+    `
   }}
   block
 />

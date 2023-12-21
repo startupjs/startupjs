@@ -6,23 +6,23 @@ import { DialogsProvider } from './components/dialogs'
 import Portal from './components/Portal'
 import CssVariables from './theming/CssVariables'
 import defaultPalette from './theming/defaultPalette'
-import { transformOverrides } from './theming/helpers'
 import defaultVariables from './theming/defaultUiVariables'
+import { transformOverrides } from './theming/helpers'
 import StyleContext from './StyleContext'
 
 // set default css variables as early as possible
 setDefaultVariables(defaultVariables)
 
-export default observer(function UiProvider ({ children, style, palette, colors }) {
+export default observer(function UiProvider ({ children, style, palette, colors, componentColors }) {
   const staticOverrides = style?.[':root']
 
   const cssVariablesMeta = useMemo(() => {
     // dynamic overrides take priority over static
-    if (palette || colors) return { palette, colors }
+    if (palette || colors || componentColors) return { palette, colors, componentColors }
 
     if (!staticOverrides) return
 
-    const meta = { palette: {}, colors: {} }
+    const meta = { palette: {}, colors: {}, componentColors: {} }
 
     const transformedOverrides = transformOverrides(staticOverrides, defaultPalette.colors, defaultPalette.Color)
 
@@ -30,23 +30,19 @@ export default observer(function UiProvider ({ children, style, palette, colors 
       const isColor = key.includes('--color')
       const isPaletteColor = key.includes('--palette')
 
-      if (!isColor && !isPaletteColor) {
-        console.error("[UiProvider]: incorrect key format in 'style' object - must begin --color or --palette")
-        continue
-      }
-
       const value = transformedOverrides[key]
 
-      try {
-        const path = isPaletteColor
-          ? 'palette'
-          : 'colors'
-        meta[path][key] = value
-      } catch (err) {}
+      const path = isPaletteColor
+        ? 'palette'
+        : isColor
+          ? 'colors'
+          : 'componentColors'
+
+      meta[path][key] = value
     }
 
     return meta
-  }, [JSON.stringify(style?.overrides), JSON.stringify(palette), JSON.stringify(colors)])
+  }, [JSON.stringify(style?.overrides), JSON.stringify(palette), JSON.stringify(colors), JSON.stringify(componentColors)])
 
   return pug`
     if cssVariablesMeta

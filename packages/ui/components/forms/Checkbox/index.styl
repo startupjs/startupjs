@@ -1,6 +1,5 @@
 $checkboxBorderColor = var(--color-border-main)
 $checkedIconColor = var(--color-text-on-primary)
-$switchBg = var(--color-bg-contrast)
 $height = 2u
 
 .readonly
@@ -59,7 +58,7 @@ $height = 2u
   height $height
   radius(circle)
   justify-content center
-  background-color $switchBg
+  background-color var(--Checkbox-switchBg)
   padding 0 3px
 
   // IMPORTANT: checked modifier should overlap error modifier
@@ -72,5 +71,8 @@ $height = 2u
 .switch-animation
   width 10px
   height @width
-  background-color var(--color-bg-main-strong)
+  background-color var(--Checkbox-switchBulletBg)
   radius(circle)
+
+  &.checked
+    background-color $checkedIconColor
