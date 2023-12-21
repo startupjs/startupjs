@@ -1,3 +1,17 @@
+## [0.55.10](https://github.com/startupjs/startupjs/compare/v0.55.9...v0.55.10) (2023-12-21)
+
+
+### Bug Fixes
+
+* **backend/mingo:** fix persisting data to sqlite ([#1135](https://github.com/startupjs/startupjs/issues/1135)) ([e9e4998](https://github.com/startupjs/startupjs/commit/e9e49980973cce19cdf32d23cef2653127d71902))
+
+
+### Features
+
+* **registry:** add basic EventEmitter (on/once/emit) to Module. Now you can add listeners on hooks directly without writing a plugin ([ae1fa38](https://github.com/startupjs/startupjs/commit/ae1fa38ec0b77b652319ade349db832ade7eca74))
+
+
+
 ## [0.55.9](https://github.com/startupjs/startupjs/compare/v0.55.8...v0.55.9) (2023-12-16)
 
 

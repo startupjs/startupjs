@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/registry",
-  "version": "0.55.8",
+  "version": "0.55.10",
   "type": "module",
   "engines": {
     "node": ">= 14"
