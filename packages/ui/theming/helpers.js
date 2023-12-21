@@ -220,17 +220,17 @@ export function prepareColorsObject (palette, Color, { overrides = {}, high, low
 
   // generate component colors
   const CC = {}
-  CC[Colors['--AutoSuggest-itemBg']]          ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
-  CC[Colors['--Carousel-arrowWrapperBg']]     ??= Color('main', high, { alpha: 0.1 })
-  CC[Colors['--Div-hoverBg']]                 ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
-  CC[Colors['--Div-activeBg']]                ??= C[Colors['bg-main']].highContrast().setAlpha(0.2)
-  CC[Colors['--Div-tooltipBg']]               ??= C[Colors['bg-main']].subtler(7)
-  CC[Colors['--Div-tooltipText']]             ??= C[Colors['text-main']].subtler(7)
-  CC[Colors['--Modal-overlayBg']]             ??= Color('main', high - 2, { alpha: 0.25 })
-  CC[Colors['--Checkbox-switchBg']]           ??= Color('main', middle)
-  CC[Colors['--Checkbox-switchBulletBg']]     ??= Color('main', low)
-  CC[Colors['--Range-labelBg']]               ??= C[Colors['bg-main']].subtler(7)
-  CC[Colors['--Range-labelText']]             ??= C[Colors['text-main']].subtler(7)
+  CC[Colors['--AutoSuggest-itemBg']]        ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
+  CC[Colors['--Carousel-arrowWrapperBg']]   ??= Color('main', high, { alpha: 0.1 })
+  CC[Colors['--Div-hoverBg']]               ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
+  CC[Colors['--Div-activeBg']]              ??= C[Colors['bg-main']].highContrast().setAlpha(0.2)
+  CC[Colors['--Div-tooltipBg']]             ??= C[Colors['bg-main']].subtler(7)
+  CC[Colors['--Div-tooltipText']]           ??= C[Colors['text-main']].subtler(7)
+  CC[Colors['--Modal-overlayBg']]           ??= Color('main', high - 2, { alpha: 0.25 })
+  CC[Colors['--Checkbox-switchBg']]         ??= Color('main', middle)
+  CC[Colors['--Checkbox-switchBulletBg']]   ??= Color('main', low)
+  CC[Colors['--Range-labelBg']]             ??= C[Colors['bg-main']].subtler(7)
+  CC[Colors['--Range-labelText']]           ??= C[Colors['text-main']].subtler(7)
 
   // add palette colors
   const P = {}
