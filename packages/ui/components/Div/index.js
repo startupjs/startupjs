@@ -10,9 +10,9 @@ import pick from 'lodash/pick'
 import omit from 'lodash/omit'
 import PropTypes from 'prop-types'
 import colorToRGBA from '../../helpers/colorToRGBA'
-import { getColor } from '../../hooks/useColors'
-import useTooltip from './useTooltip'
+import getCssVariable from '../../theming/getCssVariable'
 import themed from '../../theming/themed'
+import useTooltip from './useTooltip'
 import STYLES from './index.styl'
 
 const DEPRECATED_PUSHED_VALUES = ['xs', 'xl', 'xxl']
@@ -283,7 +283,7 @@ function getDefaultStyle (style, type, variant) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultHoverOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: getColor('--Div-hoverBg', { addPrefix: false }) }
+        return { backgroundColor: getCssVariable('--Div-hoverBg') }
       }
     }
 
@@ -292,7 +292,7 @@ function getDefaultStyle (style, type, variant) {
         return { backgroundColor: colorToRGBA(backgroundColor, defaultActiveOpacity) }
       } else {
         // If no color exists, we treat it as a light background and just dim it a bit
-        return { backgroundColor: getColor('--Div-activeBg', { addPrefix: false }) }
+        return { backgroundColor: getCssVariable('--Div-activeBg') }
       }
     }
   }

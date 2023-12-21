@@ -1,9 +1,9 @@
 // refs:
 // https://accessiblepalette.com/?lightness=98,93.3,88.6,79.9,71.2,60.5,49.8,38.4,27,15.6&e94c49=1,0&F1903C=1,-10&f3e203=1,-15&89BF1D=0,0&64c273=0,15&007DCC=0,0&808080=0,0&EAE8DE=0,0&768092=0,0
 // https://www.ibm.com/design/language/color/
-import { getColor } from '../hooks/useColors'
 import Colors from './Colors'
 import { TheColor } from './TheColor'
+import getCssVariable from './getCssVariable'
 
 export function getPaletteMeta (palette) {
   const res = {}
@@ -115,7 +115,7 @@ export function transformOverrides (overrides, palette, Color) {
       const colorVar = color.replace(/var\(\s*(--[A-Za-z0-9_-]+)\s*\)/, (match, varName) => {
         return varName
       })
-      const colorValue = res[colorVar] || getColor(colorVar, { addPrefix: false, convertToString: false })
+      const colorValue = res[colorVar] || getCssVariable(colorVar, { convertToString: false })
       if (!colorValue) throw Error(`'${colorName}' does not exist.`)
       res[colorName] = colorValue.clone()
     // Find color in a palette by hex or rgb(a) string
@@ -220,17 +220,17 @@ export function prepareColorsObject (palette, Color, { overrides = {}, high, low
 
   // generate component colors
   const CC = {}
-  CC[Colors['autoSuggest-itemBg']]          ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
-  CC[Colors['carousel-arrowWrapperBg']]     ??= Color('main', high, { alpha: 0.1 })
-  CC[Colors['div-hoverBg']]                 ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
-  CC[Colors['div-activeBg']]                ??= C[Colors['bg-main']].highContrast().setAlpha(0.2)
-  CC[Colors['div-tooltipBg']]               ??= C[Colors['bg-main']].subtler(7)
-  CC[Colors['div-tooltipText']]             ??= C[Colors['text-main']].subtler(7)
-  CC[Colors['modal-overlayBg']]             ??= Color('main', high - 2, { alpha: 0.25 })
-  CC[Colors['checkbox-switchBg']]           ??= Color('main', middle)
-  CC[Colors['checkbox-switchBulletBg']]     ??= Color('main', low)
-  CC[Colors['range-labelBg']]               ??= C[Colors['bg-main']].subtler(7)
-  CC[Colors['range-labelText']]             ??= C[Colors['text-main']].subtler(7)
+  CC[Colors['--AutoSuggest-itemBg']]          ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
+  CC[Colors['--Carousel-arrowWrapperBg']]     ??= Color('main', high, { alpha: 0.1 })
+  CC[Colors['--Div-hoverBg']]                 ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
+  CC[Colors['--Div-activeBg']]                ??= C[Colors['bg-main']].highContrast().setAlpha(0.2)
+  CC[Colors['--Div-tooltipBg']]               ??= C[Colors['bg-main']].subtler(7)
+  CC[Colors['--Div-tooltipText']]             ??= C[Colors['text-main']].subtler(7)
+  CC[Colors['--Modal-overlayBg']]             ??= Color('main', high - 2, { alpha: 0.25 })
+  CC[Colors['--Checkbox-switchBg']]           ??= Color('main', middle)
+  CC[Colors['--Checkbox-switchBulletBg']]     ??= Color('main', low)
+  CC[Colors['--Range-labelBg']]               ??= C[Colors['bg-main']].subtler(7)
+  CC[Colors['--Range-labelText']]             ??= C[Colors['text-main']].subtler(7)
 
   // add palette colors
   const P = {}

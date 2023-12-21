@@ -87,6 +87,7 @@
     "defaultPalette": "/theming/defaultPalette.js",
     "defaultUiVariables": "/theming/defaultUiVariables.js",
     "generateColors": "/theming/generateColors.js",
+    "getCssVariable": "/theming/getCssVariable.js",
     "themed": "/theming/themed.js",
     "transformColors": "/theming/transformColors.js",
     "UiProvider": "/UiProvider.js",

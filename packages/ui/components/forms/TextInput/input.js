@@ -9,6 +9,7 @@ import { TextInput, Platform } from 'react-native'
 import { pug, observer, useDidUpdate } from 'startupjs'
 import Div from './../../Div'
 import Icon from './../../Icon'
+import getCssVariable from '../../../theming/getCssVariable'
 import themed from '../../../theming/themed'
 import { useColors } from '../../../hooks'
 import STYLES from './index.styl'
@@ -152,7 +153,7 @@ function TextInputInput ({
         lineHeight: lH
       }]
       styleName=inputStyleName
-      selectionColor=getColor(caretColor, { addPrefix: false })
+      selectionColor=getCssVariable(caretColor)
       placeholder=placeholder
       placeholderTextColor=getColor('text-placeholder')
       value=value

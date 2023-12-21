@@ -78,17 +78,17 @@ export const ShadowColors = {
 }
 
 export const ComponentColors = {
-  'autoSuggest-itemBg': '--AutoSuggest-itemBg',
-  'carousel-arrowWrapperBg': '--Carousel-arrowWrapperBg',
-  'div-hoverBg': '--Div-hoverBg',
-  'div-activeBg': '--Div-activeBg',
-  'div-tooltipBg': '--Div-tooltipBg',
-  'div-tooltipText': '--Div-tooltipText',
-  'modal-overlayBg': '--Modal-overlayBg',
-  'checkbox-switchBg': '--Checkbox-switchBg',
-  'checkbox-switchBulletBg': '--Checkbox-switchBulletBg',
-  'range-labelBg': '--Range-labelBg',
-  'range-labelText': '--Range-labelText'
+  '--AutoSuggest-itemBg': '--AutoSuggest-itemBg',
+  '--Carousel-arrowWrapperBg': '--Carousel-arrowWrapperBg',
+  '--Div-hoverBg': '--Div-hoverBg',
+  '--Div-activeBg': '--Div-activeBg',
+  '--Div-tooltipBg': '--Div-tooltipBg',
+  '--Div-tooltipText': '--Div-tooltipText',
+  '--Modal-overlayBg': '--Modal-overlayBg',
+  '--Checkbox-switchBg': '--Checkbox-switchBg',
+  '--Checkbox-switchBulletBg': '--Checkbox-switchBulletBg',
+  '--Range-labelBg': '--Range-labelBg',
+  '--Range-labelText': '--Range-labelText'
 }
 
 const Colors = {
