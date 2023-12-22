@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/bundler",
-  "version": "0.55.9",
+  "version": "0.55.11",
   "description": "Opinionated scripts and configs to develop a react-native-web project",
   "main": "index.js",
   "publishConfig": {
@@ -32,7 +32,7 @@
     "autoprefixer": "^10.4.0",
     "babel-loader": "^8.2.3",
     "babel-plugin-transform-react-pug": "^7.0.1",
-    "babel-preset-startupjs": "^0.55.9",
+    "babel-preset-startupjs": "^0.55.11",
     "css-loader": "^6.5.0",
     "css-minimizer-webpack-plugin": "^5.0.0",
     "file-loader": "^6.2.0",
