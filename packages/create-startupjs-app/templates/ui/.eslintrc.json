@@ -1,0 +1,59 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "standard",
+    "standard-react",
+    "plugin:react/recommended",
+    "plugin:react-pug/all"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "legacyDecorators": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "react-pug",
+    "eslint-plugin-import-helpers"
+  ],
+  "rules": {
+    "prefer-const": "error",
+    "eol-last": "error",
+    "react/jsx-handler-names": "off",
+    "react/prop-types": "off",
+    "react-pug/empty-lines": "off",
+    "react-pug/no-interpolation": "off",
+    "react-pug/prop-types": "off",
+    "react-pug/quotes": "off",
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "ignore",
+        "groups": [
+          "/^react$/",
+          "/react-native/",
+          "/^react.*/",
+          "/^startupjs/",
+          "/^@?startupjs.*/",
+          "/^@?dmapper.*/",
+          "module",
+          "/^components/",
+          ["/^helpers/", "/^hooks/"],
+          ["sibling", "parent"],
+          "/.\/index.styl/"
+        ]
+      }
+    ]
+  }
+}
