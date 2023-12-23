@@ -65,7 +65,7 @@ export default class PackageManager {
 
 async function completeYarn () {
   await this.$project`corepack use 'yarn@*'`
-  await this.$project`yarn config set nodeLinker node_modules`
+  await this.$project`yarn config set nodeLinker node-modules`
 }
 
 async function initYarn () {
