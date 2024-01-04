@@ -1,6 +1,4 @@
 module.exports = (api, { platform, env } = {}) => {
-  api.cache(true)
-
   return {
     plugins: [
       // support JSX syntax

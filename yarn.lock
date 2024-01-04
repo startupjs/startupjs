@@ -16059,6 +16059,7 @@ __metadata:
     react-native-screens: "npm:~3.27.0"
     react-native-web: "npm:~0.19.6"
     react-test-renderer: "npm:18.2.0"
+    startupjs: "npm:^0.55.11"
     typescript: "npm:^5.1.3"
   languageName: unknown
   linkType: soft

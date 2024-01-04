@@ -1,15 +1,14 @@
-import { StyleSheet } from 'react-native'
 import { pug, styl } from 'startupjs'
 
 import EditScreenInfo from '@/components/EditScreenInfo'
 import { Text, View } from '@/components/Themed'
 
-export default function TabTwoScreen() {
+export default function TabThreeScreen () {
   return pug`
     View.container
-      Text.title Tab Two
-      View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
-      EditScreenInfo(path="app/(tabs)/two.tsx")
+      Text.title Tab Three
+      View.separator(lightColor='#eee' darkColor='rgba(255,255,255,0.1)')
+      EditScreenInfo(path='app/(tabs)/three.js')
   `
 }
 

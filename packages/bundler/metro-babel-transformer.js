@@ -31,10 +31,12 @@ module.exports.transform = async function startupjsMetroBabelTransform ({
   }
 
   // js transformations
-  if (/(?:[./]plugin\.[mc]?[jt]sx?|startupjs\.config\.js)$/.test(filename)) {
+  if (/(?:[./]plugin\.[mc]?[jt]sx?|startupjs\.config\.[mc]?[jt]sx?)$/.test(filename)) {
     src = callLoader(eliminatorLoader, src, filename, { envs: ['client', 'isomorphic'] })
   }
-  src = callLoader(startupjsLoader, src, filename, { platform })
+  if ((/\.mdx?$/.test(filename) || /\.[mc]?[jt]sx?$/.test(filename)) && /['"]startupjs['"]/.test(src)) {
+    src = callLoader(startupjsLoader, src, filename, { platform })
+  }
 
   return upstreamTransformer.transform({ src, filename, options })
 }

@@ -1,10 +1,7 @@
+const { getDefaultConfig } = require('startupjs/metro-config')
 const { resolve } = require('path')
-const { getDefaultConfig } = require('expo/metro-config')
 
-const config = getDefaultConfig(__dirname, { isCSSEnabled: false })
-
-config.resolver.sourceExts.push('md', 'mdx', 'css', 'styl', 'yaml', 'yml')
-config.transformer.babelTransformerPath = require.resolve('./metro.transformer.js')
+const config = getDefaultConfig(__dirname)
 
 config.watchFolders = [resolve(__dirname, '../')]
 config.resolver.nodeModulesPaths = [

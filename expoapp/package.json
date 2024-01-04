@@ -28,7 +28,8 @@
     "react-native": "0.73.1",
     "react-native-safe-area-context": "4.7.4",
     "react-native-screens": "~3.27.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "startupjs": "^0.55.11"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
