@@ -1,4 +1,5 @@
 // ref: https://github.com/kristerkari/react-native-stylus-transformer
+// TODO: Refactor `platform` to be just passed externally as an option in metro and in webpack
 const platformSingleton = require(
   '@startupjs/babel-plugin-rn-stylename-inline/platformSingleton'
 )
