@@ -6,6 +6,9 @@
   "workspaces": [
     "packages/*",
     "docker",
+    "expoapp"
+  ],
+  "//workspaces": [
     "styleguide"
   ],
   "scripts": {
@@ -14,7 +17,8 @@
     "generate-module-map": "echo 'Creating moduleMap.json...' && node ./scripts/babel/createModuleMap.js && git add ./packages/babel-plugin-startupjs/moduleMap.json && echo '...success'",
     "android": "cd styleguide && yarn android",
     "ios": "cd styleguide && yarn ios",
-    "start": "cd styleguide && yarn start",
+    "_start": "cd styleguide && yarn start",
+    "start": "cd expoapp && yarn start",
     "metro": "cd styleguide && yarn metro",
     "web": "cd styleguide && yarn web",
     "server": "cd styleguide && yarn server",
