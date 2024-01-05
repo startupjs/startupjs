@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   View,
   Animated,
@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ScrollView
 } from 'react-native'
-import { pug, observer, useValue } from 'startupjs'
+import { pug, observer, useValue, useIsomorphicLayoutEffect } from 'startupjs'
 import PropTypes from 'prop-types'
 import Arrow from './Arrow'
 import Portal from '../../../Portal'
@@ -81,7 +81,7 @@ function Popover ({
   })
 
   // reset state after change dimensions
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     let mounted = true
 
     const handleDimensions = () => {
@@ -192,7 +192,7 @@ function Popover ({
 
   // parse children
   let caption = null
-  let content = []
+  const content = []
   const onLayoutCaption = e => {
     captionInfo.current = e.nativeEvent.layout
   }

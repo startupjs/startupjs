@@ -1,16 +1,16 @@
-import { pug, styl } from 'startupjs'
+import { pug, styl, observer } from 'startupjs'
 
 import EditScreenInfo from '@/components/EditScreenInfo'
 import { Text, View } from '@/components/Themed'
 
-export default function TabThreeScreen () {
+export default observer(function TabThreeScreen () {
   return pug`
     View.container
       Text.title Tab Three
       View.separator(lightColor='#eee' darkColor='rgba(255,255,255,0.1)')
       EditScreenInfo(path='app/(tabs)/three.js')
   `
-}
+})
 
 styl`
   .container

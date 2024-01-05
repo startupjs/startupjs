@@ -7970,6 +7970,7 @@ __metadata:
     "@babel/preset-stage-0": "npm:^7.0.0"
     "@babel/register": "npm:^7.0.0"
     "@babel/runtime": "npm:^7.0.0"
+    "@startupjs/utils": "npm:^0.55.8"
     babel-plugin-add-module-exports: "npm:^0.1.2"
     babel-plugin-transform-decorators-legacy: "npm:^1.3.5"
   peerDependencies:
@@ -8008,6 +8009,7 @@ __metadata:
     "@babel/register": "npm:^7.0.0"
     "@babel/runtime": "npm:^7.0.0"
     "@startupjs/react-sharedb": "npm:^0.55.8"
+    "@startupjs/utils": "npm:^0.55.8"
     babel-plugin-add-module-exports: "npm:^0.1.2"
     babel-plugin-transform-decorators-legacy: "npm:^1.3.5"
     racer: "npm:1.0.1"
@@ -8057,6 +8059,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@startupjs/model@workspace:packages/model"
   dependencies:
+    "@startupjs/utils": "npm:^0.55.8"
     racer: "npm:1.0.1"
     racer-highway: "npm:^10.0.1"
   languageName: unknown
@@ -8156,6 +8159,7 @@ __metadata:
     "@startupjs/model": "npm:^0.55.8"
     "@startupjs/react-sharedb-util": "npm:^0.55.8"
     "@startupjs/signals": "npm:^0.55.8"
+    "@startupjs/utils": "npm:^0.55.8"
     co: "npm:~4.6.0"
     lodash: "npm:^4.17.20"
   peerDependencies:
@@ -8356,6 +8360,17 @@ __metadata:
     react-native-svg: "*"
     react-native-tab-view: "*"
     startupjs: "*"
+  languageName: unknown
+  linkType: soft
+
+"@startupjs/utils@npm:^0.55.8, @startupjs/utils@workspace:packages/utils":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/utils@workspace:packages/utils"
+  peerDependencies:
+    react: "*"
+  peerDependenciesMeta:
+    react:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -30723,6 +30738,7 @@ __metadata:
     "@startupjs/react-sharedb": "npm:^0.55.8"
     "@startupjs/registry": "npm:^0.55.10"
     "@startupjs/server": "npm:^0.55.10"
+    "@startupjs/utils": "npm:^0.55.8"
     babel-preset-startupjs: "npm:^0.55.11"
     react-native-web: "npm:^0.18.0"
   bin:

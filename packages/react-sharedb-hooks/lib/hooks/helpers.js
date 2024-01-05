@@ -1,4 +1,5 @@
-import { useMemo, useLayoutEffect } from 'react'
+import { useMemo } from 'react'
+import useIsomorphicLayoutEffect from '@startupjs/utils/useIsomorphicLayoutEffect'
 import $root from '@startupjs/model'
 import { blockCache, unblockCache } from '@startupjs/cache'
 import { useQuery, useLocal, useBatchQuery, useAsyncQuery, useLocal$ } from './types.js'
@@ -13,7 +14,7 @@ export function useModel (...args) {
 }
 
 export function useOn (...args) {
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const [eventName] = args
     const listener = $root.on(...args)
     return () => {

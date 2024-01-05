@@ -1,12 +1,11 @@
 import React, {
   useState,
   useMemo,
-  useLayoutEffect,
   useRef,
   useImperativeHandle
 } from 'react'
 import { TextInput, Platform } from 'react-native'
-import { pug, observer, useDidUpdate } from 'startupjs'
+import { pug, observer, useIsomorphicLayoutEffect, useDidUpdate } from 'startupjs'
 import Div from './../../Div'
 import Icon from './../../Icon'
 import getCssVariable from '../../../theming/getCssVariable'
@@ -71,7 +70,7 @@ function TextInputInput ({
     `
   }
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (resize) {
       const numberOfLinesInValue = value.split('\n').length
       if (numberOfLinesInValue >= numberOfLines) {
@@ -86,7 +85,7 @@ function TextInputInput ({
     // test mobile device behaviour
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
       if (focused && disabled) {
         inputRef.current.blur()
         setFocused(false)
@@ -95,7 +94,7 @@ function TextInputInput ({
     // fix minWidth on web
     // ref: https://stackoverflow.com/a/29990524/1930491
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
       inputRef.current?.setNativeProps({ size: '1' })
     }, [])
   }

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@startupjs/react-sharedb": "^0.55.8",
+    "@startupjs/utils": "^0.55.8",
     "racer": "1.0.1",
     "rich-text": "^4.0.0",
     "sharedb": "^2.0.0"

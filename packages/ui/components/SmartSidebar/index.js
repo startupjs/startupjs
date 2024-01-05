@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { Dimensions } from 'react-native'
 import {
   pug,
@@ -6,7 +6,8 @@ import {
   useValue,
   useComponentId,
   useLocal,
-  useBind
+  useBind,
+  useIsomorphicLayoutEffect
 } from 'startupjs'
 import PropTypes from 'prop-types'
 import Sidebar from '../Sidebar'
@@ -43,18 +44,18 @@ function SmartSidebar ({
 
   let open
   let onChange
-  ;({ open, onChange } = useBind({ $open, open, onChange }))
+  ;({ open, onChange } = useBind({ $open, open, onChange })) // eslint-disable-line prefer-const
 
-  let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
+  const [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!fixedLayout) return
     // or we can save open state before disabling
     // to open it with this state when enabling
     $open.setDiff(defaultOpen)
   }, [disabled])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (disabled) return
     if (fixedLayout) {
       // when change dimensions from mobile
@@ -69,7 +70,7 @@ function SmartSidebar ({
     }
   }, [fixedLayout])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     Dimensions.addEventListener('change', handleWidthChange)
     return () => Dimensions.removeEventListener('change', handleWidthChange)
   }, [])
@@ -128,6 +129,6 @@ SmartSidebar.propTypes = {
 export default observer(themed('SmartSidebar', SmartSidebar))
 
 function isFixedLayout (fixedLayoutBreakpoint) {
-  let dim = Dimensions.get('window')
+  const dim = Dimensions.get('window')
   return dim.width > fixedLayoutBreakpoint
 }

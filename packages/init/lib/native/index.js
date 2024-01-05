@@ -1,14 +1,15 @@
 // React Native requires manual configuration of the ShareDB client.
 // Here we patch the connection options to work in RN environment.
 
-// Make RN behave like a browser to trick Racer
-import mockBrowser from './mockBrowser'
+// Make RN behave like a browserify bundle to trick Racer and ShareDB
+// IMPORTANT: This must be called before any calls to ShareDB or Racer on the client
+import mockBrowserify from '@startupjs/utils/mockBrowserify'
 
 import ShareDB from 'sharedb/lib/client'
+import axios from 'axios'
 import commonInit from '../util/common'
 import connectModel from '../util/connectModel'
 import patchRacerHighway from './patchRacerHighway'
-import axios from 'axios'
 
 const DEFAULT_BASE_URL = 'http://127.0.0.1:3000'
 
@@ -28,10 +29,6 @@ export default (options = {}) => {
     options.baseUrl = DEFAULT_BASE_URL
   }
 
-  // This module is actually pure side-effects, so we force
-  // its usage to prevent tree-shaking algos from removing the import
-  mockBrowser()
-
   axios.defaults.baseURL = options.baseUrl
   patchRacerHighway(options.baseUrl)
   commonInit(ShareDB, options)
@@ -40,3 +37,7 @@ export default (options = {}) => {
   }
   connectModel()
 }
+
+// This module is actually pure side-effects, so we force
+// its usage to prevent tree-shaking algos from removing the import
+mockBrowserify()

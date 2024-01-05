@@ -9,6 +9,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@startupjs/utils": "^0.55.8",
     "racer": "1.0.1",
     "racer-highway": "^10.0.1"
   }
