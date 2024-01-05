@@ -3462,6 +3462,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@egjs/hammerjs@npm:^2.0.17":
+  version: 2.0.17
+  resolution: "@egjs/hammerjs@npm:2.0.17"
+  dependencies:
+    "@types/hammerjs": "npm:^2.0.36"
+  checksum: dbedc15a0e633f887c08394bd636faf6a3abd05726dc0909a0e01209d5860a752d9eca5e512da623aecfabe665f49f1d035de3103eb2f9022c5cea692f9cc9be
+  languageName: node
+  linkType: hard
+
 "@eslint-community/eslint-utils@npm:^4.1.2, @eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.4.0":
   version: 4.4.0
   resolution: "@eslint-community/eslint-utils@npm:4.4.0"
@@ -6484,6 +6493,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-picker/picker@npm:2.5.1":
+  version: 2.5.1
+  resolution: "@react-native-picker/picker@npm:2.5.1"
+  peerDependencies:
+    react: ">=16"
+    react-native: ">=0.57"
+  checksum: 98acf94b72f3af01db1a189e3b2bd3004d92c9e8403596d25f2665de38fdf86c58abf84b0bec77195a85946fae8f327422fbd0f4fa0a3d362814491076fc8102
+  languageName: node
+  linkType: hard
+
 "@react-native/assets-registry@npm:^0.73.1, @react-native/assets-registry@npm:~0.73.1":
   version: 0.73.1
   resolution: "@react-native/assets-registry@npm:0.73.1"
@@ -8329,7 +8348,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/ui@npm:^0.55.11, @startupjs/ui@workspace:packages/ui":
+"@startupjs/ui@npm:^0.55.0, @startupjs/ui@npm:^0.55.11, @startupjs/ui@workspace:packages/ui":
   version: 0.0.0-use.local
   resolution: "@startupjs/ui@workspace:packages/ui"
   dependencies:
@@ -8346,19 +8365,19 @@ __metadata:
     prop-types: "npm:^15.7.2"
     randomcolor: "npm:^0.5.4"
     react-datepicker: "npm:^3.3.0"
+    react-native-collapsible: "npm:^1.6.1"
+    react-native-color-picker: "npm:^0.6.0"
     react-native-drawer-layout-polyfill: "npm:^2.0.0"
+    react-native-tab-view: "npm:^3.0.0"
     react-router-dom: "npm:^5.1.2"
     react-router-native: "npm:^5.1.2"
   peerDependencies:
     "@react-native-picker/picker": "*"
     react: "*"
     react-native: "*"
-    react-native-collapsible: "*"
-    react-native-color-picker: "*"
     react-native-gesture-handler: "*"
     react-native-pager-view: "*"
     react-native-svg: "*"
-    react-native-tab-view: "*"
     startupjs: "*"
   languageName: unknown
   linkType: soft
@@ -8913,6 +8932,13 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 235d2fc69741448e853333b7c3d1180a966dd2b8972c8cbcd6b2a0c6cd7f8d582ab2b8e58219dbc62cce8f1b40aa317ff78ea2201cdd8249da5025adebed6f0b
+  languageName: node
+  linkType: hard
+
+"@types/hammerjs@npm:^2.0.36":
+  version: 2.0.45
+  resolution: "@types/hammerjs@npm:2.0.45"
+  checksum: 1f01e3d0260e3cb824fd0ae32c9a8e1b3727e53ef31682612a0a282c4a84bb758dd30b04749b2ae91e621443c80bfe541b38e91e33308f9dea5d9ac92bd0e854
   languageName: node
   linkType: hard
 
@@ -16055,7 +16081,9 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.20.0"
     "@expo/vector-icons": "npm:^13.0.0"
+    "@react-native-picker/picker": "npm:2.5.1"
     "@react-navigation/native": "npm:^6.0.2"
+    "@startupjs/ui": "npm:^0.55.0"
     "@types/react": "npm:~18.2.45"
     expo: "npm:^50.0.0-preview.7"
     expo-font: "npm:~11.10.0"
@@ -16070,8 +16098,11 @@ __metadata:
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-native: "npm:0.73.1"
+    react-native-gesture-handler: "npm:~2.14.0"
+    react-native-pager-view: "npm:6.2.2"
     react-native-safe-area-context: "npm:4.7.4"
     react-native-screens: "npm:~3.27.0"
+    react-native-svg: "npm:14.0.0"
     react-native-web: "npm:~0.19.6"
     react-test-renderer: "npm:18.2.0"
     startupjs: "npm:^0.55.11"
@@ -18224,7 +18255,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.1.0":
+"hoist-non-react-statics@npm:^3.1.0, hoist-non-react-statics@npm:^3.3.0":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -27380,7 +27411,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.10, prop-types@npm:^15.6.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -28152,6 +28183,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-collapsible@npm:^1.6.1":
+  version: 1.6.1
+  resolution: "react-native-collapsible@npm:1.6.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: e6f1abede070d9cfe88b11e858b00ce16945f189766ac786a72e024636c45722fbe00d9c09d63c2d9426e522729268a6cc585a8339afcf020f78ecfe3c40b115
+  languageName: node
+  linkType: hard
+
+"react-native-color-picker@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "react-native-color-picker@npm:0.6.0"
+  dependencies:
+    prop-types: "npm:^15.5.10"
+    tinycolor2: "npm:^1.4.1"
+  checksum: 8fe96e0ea51dd52f445df3782bd4e65aaf1322e9cae90d74fb443a7903518c6aa77a278f765f200ba8d0a86cd90b5ff2e1f3e9ed81c98c0f58710d36829e94fc
+  languageName: node
+  linkType: hard
+
 "react-native-css-media-query-processor@npm:^0.21.1":
   version: 0.21.3
   resolution: "react-native-css-media-query-processor@npm:0.21.3"
@@ -28198,6 +28249,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-gesture-handler@npm:~2.14.0":
+  version: 2.14.0
+  resolution: "react-native-gesture-handler@npm:2.14.0"
+  dependencies:
+    "@egjs/hammerjs": "npm:^2.0.17"
+    hoist-non-react-statics: "npm:^3.3.0"
+    invariant: "npm:^2.2.4"
+    lodash: "npm:^4.17.21"
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: d567c26756aefc85fb6056efc6be4cdf0c1e7fd45a9d92f4bf0dc0fd94d3e099207398978bac8bdf3fa731f1020d41a7576566b552c525dc71bf7bc270bad25f
+  languageName: node
+  linkType: hard
+
+"react-native-pager-view@npm:6.2.2":
+  version: 6.2.2
+  resolution: "react-native-pager-view@npm:6.2.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 013cad9c99a5613088e627f83da33f3ebb407d3a7cad7ea0e758ee7b269f3fcc17685c521b333d89232134db6ad2e293eddb52d207dc76d2630afacb439428f8
+  languageName: node
+  linkType: hard
+
 "react-native-safe-area-context@npm:4.7.4":
   version: 4.7.4
   resolution: "react-native-safe-area-context@npm:4.7.4"
@@ -28233,6 +28310,32 @@ __metadata:
     react-native: ">=0.45.0"
     react-native-svg: ">=6.5.1"
   checksum: 4e5277d381a110a97f0f1b3f56ef039b7cddc1b0dc5e67170c418b747e3e86d5c960e28266680b3ebe0b4e8d866837e539b98712076da7d9c55db97c5b504b1a
+  languageName: node
+  linkType: hard
+
+"react-native-svg@npm:14.0.0":
+  version: 14.0.0
+  resolution: "react-native-svg@npm:14.0.0"
+  dependencies:
+    css-select: "npm:^5.1.0"
+    css-tree: "npm:^1.1.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: ab5a85d852f3668c1651f1541840fa35333904ce21748026d913cf44c53382de2e11147560ee97092a4fe3e89f7a4b260b3a2469d53422f0095fa21d7a4f466d
+  languageName: node
+  linkType: hard
+
+"react-native-tab-view@npm:^3.0.0":
+  version: 3.5.2
+  resolution: "react-native-tab-view@npm:3.5.2"
+  dependencies:
+    use-latest-callback: "npm:^0.1.5"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-pager-view: "*"
+  checksum: f243afcb1ee49642f6d13039725634cd3cc4205cef611b27fc305d99a0064566fbaabeea8ef12367fbf4c13095f5b48e20b517ad3885ced3827fd57c6190e3e4
   languageName: node
   linkType: hard
 
@@ -31762,6 +31865,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tinycolor2@npm:^1.4.1":
+  version: 1.6.0
+  resolution: "tinycolor2@npm:1.6.0"
+  checksum: 9aa79a36ba2c2a87cb221453465cabacd04b9e35f9694373e846fdc78b1c768110f81e581ea41440106c0f24d9a023891d0887e8075885e790ac40eb0e74a5c1
+  languageName: node
+  linkType: hard
+
 "tmp@npm:^0.0.33":
   version: 0.0.33
   resolution: "tmp@npm:0.0.33"
@@ -32756,7 +32866,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-latest-callback@npm:^0.1.7":
+"use-latest-callback@npm:^0.1.5, use-latest-callback@npm:^0.1.7":
   version: 0.1.9
   resolution: "use-latest-callback@npm:0.1.9"
   peerDependencies:

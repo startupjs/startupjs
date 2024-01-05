@@ -4,7 +4,7 @@ import { pug, styl, observer, $, useValue, useValue$ } from 'startupjs'
 
 import EditScreenInfo from '@/components/EditScreenInfo'
 import { Text, View } from '@/components/Themed'
-import { Button } from 'react-native'
+import { Button } from '@startupjs/ui'
 
 export default observer(function TabTwoScreen() {
   const [count, $count] = useValue(0)
@@ -16,19 +16,15 @@ export default observer(function TabTwoScreen() {
   }, [])
   return pug`
     View.container
-      Text.title Tab Two or yes? no? what's 60
+      Text.title Tab Two or yes? no? what's 61
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
       EditScreenInfo(path="app/(tabs)/two.tsx")
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
-      Button(
-        onPress=() => $count.increment()
-        title='Model count: ' + count
-      )
+      Button(onPress=() => $count.increment())
+        | Model count: #{count}
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
-      Button(
-        onPress=() => setStateCount(stateCount + 1)
-        title='State count: ' + stateCount
-      )
+      Button(onPress=() => setStateCount(stateCount + 1))
+        | State count: #{stateCount}
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
       Text Random id: #{randomId}
   `

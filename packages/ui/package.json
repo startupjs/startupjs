@@ -22,7 +22,10 @@
     "prop-types": "^15.7.2",
     "randomcolor": "^0.5.4",
     "react-datepicker": "^3.3.0",
+    "react-native-collapsible": "^1.6.1",
+    "react-native-color-picker": "^0.6.0",
     "react-native-drawer-layout-polyfill": "^2.0.0",
+    "react-native-tab-view": "^3.0.0",
     "react-router-dom": "^5.1.2",
     "react-router-native": "^5.1.2"
   },
@@ -30,12 +33,9 @@
     "@react-native-picker/picker": "*",
     "react": "*",
     "react-native": "*",
-    "react-native-collapsible": "*",
-    "react-native-color-picker": "*",
     "react-native-gesture-handler": "*",
     "react-native-pager-view": "*",
     "react-native-svg": "*",
-    "react-native-tab-view": "*",
     "startupjs": "*"
   }
 }

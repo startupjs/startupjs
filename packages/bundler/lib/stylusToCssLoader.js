@@ -8,6 +8,11 @@ const path = require('path')
 const stylus = require('stylus')
 const STYLES_PATH = path.join(process.cwd(), 'styles/index.styl')
 
+let UI_STYLES_PATH
+try {
+  UI_STYLES_PATH = require.resolve('@startupjs/ui/styles/index.styl')
+} catch (err) {}
+
 function renderToCSS (src, filename) {
   let compiled
   const compiler = stylus(src)
@@ -17,6 +22,10 @@ function renderToCSS (src, filename) {
   if (platform) {
     compiler.define('$PLATFORM', platform)
     compiler.define(`__${platform.toUpperCase()}__`, true)
+  }
+
+  if (fs.existsSync(UI_STYLES_PATH)) {
+    compiler.import(UI_STYLES_PATH)
   }
 
   // TODO: Make this a setting
