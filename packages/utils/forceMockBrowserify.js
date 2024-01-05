@@ -1,4 +1,4 @@
-import mockBrowserify from './mockBrowserify'
+import mockBrowserify from './mockBrowserify.js'
 
 mockBrowserify(true)
 
