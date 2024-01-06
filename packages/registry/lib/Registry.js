@@ -28,7 +28,7 @@ export default class Registry {
   }
 
   // init all plugins for all modules
-  init (pluginsOptions = {}) {
+  init (pluginsOptions = {}, { allowUnusedPluginOptions } = {}) {
     const handedPluginsOptions = new Set()
     if (this.initialized) throw Error('[@startupjs/registry] Registry already initialized')
     for (const moduleName in this.modules) {
@@ -42,14 +42,16 @@ export default class Registry {
         plugin.init(pluginsOptions[optionsKey] || {})
       }
     }
-    // Check if there are any plugins options which were not used
-    const unusedPluginsOptions = Object.keys(pluginsOptions)
-      .filter(pluginOptionsName => !handedPluginsOptions.has(pluginOptionsName))
-    if (unusedPluginsOptions.length) {
-      throw Error('[@startupjs/registry] You\'ve specified options for plugins which ' +
-        'are not present in the registry.\nYou\'ve probably forgot to import these plugins into the project:' +
-        unusedPluginsOptions.join('\n  - ')
-      )
+    if (!allowUnusedPluginOptions) {
+      // Check if there are any plugins options which were not used
+      const unusedPluginsOptions = Object.keys(pluginsOptions)
+        .filter(pluginOptionsName => !handedPluginsOptions.has(pluginOptionsName))
+      if (unusedPluginsOptions.length) {
+        throw Error('[@startupjs/registry] You\'ve specified options for plugins which ' +
+          'are not present in the registry.\nYou\'ve probably forgot to import these plugins into the project:' +
+          unusedPluginsOptions.join('\n  - ')
+        )
+      }
     }
   }
 }

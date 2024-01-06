@@ -70,9 +70,9 @@ export default function createRegistry ({ RegistryClass = Registry, rootModuleNa
      * which will keep only the code relevant for a specific env (client/server/isomorphic/build)
      * in the plugin options.
      */
-    createProject ({ plugins: pluginsOptions } = {}) {
+    createProject ({ plugins: pluginsOptions, ...registryOptions } = {}) {
       // TODO: Think whether it makes sense to make a separate class for project which will extend Registry
-      registry.init(pluginsOptions)
+      registry.init(pluginsOptions, registryOptions)
       return registry
     }
   }

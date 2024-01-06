@@ -16,7 +16,7 @@ export default observer(function TabTwoScreen() {
   }, [])
   return pug`
     View.container
-      Text.title Tab Two or yes? no? what's 61
+      Text.title Tab Two or yes? no? what's 78
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
       EditScreenInfo(path="app/(tabs)/two.tsx")
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
