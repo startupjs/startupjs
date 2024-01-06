@@ -8,6 +8,8 @@
     "./index.js": "./index.js",
     "./pure": "./pure.js",
     "./pure.js": "./pure.js",
+    "./full": "./full.js",
+    "./full.js": "./full.js",
     "./constants": "./constants.json",
     "./constants.json": "./constants.json"
   },

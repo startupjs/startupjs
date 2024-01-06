@@ -38,6 +38,26 @@ module.exports.transform = async function startupjsMetroBabelTransform ({
     src = callLoader(startupjsLoader, src, filename, { platform })
   }
 
+  // NOTE: this is using:
+  //   - @startupjs/bundler/full.js
+  //   - @startupjs/bundler/skippablePreset.js
+  //   - ./lib/startupjsFullLoader.js
+  // Following is an experiment for combining all startupjs-related babel plugins into one preset
+  // and running it all together in one babel transform.
+  // The 'babel-preset-startupjs/full' preset also does check for the magic libraries within
+  // babel itself through the skippablePreset.js hack.
+  // Drawbacks of this approach:
+  //   it still requires running transformation separately from the underlying expo/metro babel transform
+  //   and just putting this preset into babel config doesn't work.
+  //
+  // if (/['"]@?startupjs(?:\/registry)?['"]/.test(src)) {
+  //   if (/['"]@?startupjs\/registry['"]/.test(src)) {
+  //     console.log('>>> with registry 88')
+  //   }
+  //   // src = callLoader(startupjsFullLoader, src, filename, { platform, envs: ['client', 'isomorphic'] })
+  // }
+  // src = callLoader(startupjsFullLoader, src, filename, { platform, envs: ['client', 'isomorphic'] })
+
   return upstreamTransformer.transform({ src, filename, options })
 }
 
