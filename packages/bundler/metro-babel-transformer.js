@@ -43,11 +43,14 @@ module.exports.transform = async function startupjsMetroBabelTransform ({
 
 function getUpstreamTransformer () {
   try {
+    // Expo
     return require('@expo/metro-config/babel-transformer')
   } catch (err) {
     try {
+      // React Native 0.73+
       return require('@react-native/metro-babel-transformer')
     } catch (err) {
+      // React Native <0.73
       return require('metro-react-native-babel-transformer')
     }
   }
