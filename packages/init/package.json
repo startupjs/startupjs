@@ -7,6 +7,11 @@
   },
   "description": "Init sharedb connection on client web, native or server side",
   "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./client-auto": "./client-auto.js"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

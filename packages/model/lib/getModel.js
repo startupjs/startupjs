@@ -5,7 +5,7 @@ import racer from 'racer'
 const DEFAULT_CLIENT_OPTIONS = {
   base: '/channel',
   reconnect: true,
-  browserChannelOnly: false,
+  forceBrowserChannel: true, // TODO: change to false later when we expo check is implemented
   srvProtocol: undefined,
   srvHost: undefined,
   srvPort: undefined,
@@ -19,9 +19,10 @@ if (!isServer) monkeyPatch()
 
 function monkeyPatch () {
   racer.Model.prototype._createSocket = function () {
-    const clientOptions =
-      (typeof window !== 'undefined' && window.__racerHighwayClientOptions) ||
-      DEFAULT_CLIENT_OPTIONS
+    const clientOptions = {
+      ...DEFAULT_CLIENT_OPTIONS,
+      ...(typeof window !== 'undefined' && window.__racerHighwayClientOptions)
+    }
     return new Socket(clientOptions)
   }
 }

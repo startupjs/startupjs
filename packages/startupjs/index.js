@@ -1,5 +1,6 @@
 // Make ShareDB client and Racer client work in React Native and in Webpack
 import dummyMockBrowserify from '@startupjs/utils/mockBrowserify'
+import dummyInit from '@startupjs/init/client-auto'
 
 export * from '@startupjs/react-sharedb'
 export { default as $, signal } from '@startupjs/signals'
@@ -17,3 +18,4 @@ export { default as t } from '@startupjs/i18n/client/t.js'
 // this library is pure side-effects, so we force usage of a dummy function
 // to prevent dead-code elimination
 dummyMockBrowserify()
+dummyInit() // prevent dead-code elimination

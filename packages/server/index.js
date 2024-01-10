@@ -10,7 +10,7 @@ const defaultOptions = {
   publicPath: './public',
   loginUrl: '/login',
   bodyParserLimit: '10mb',
-  secure: true,
+  secure: false,
   dirname: process.env.ROOT_PATH || process.cwd()
 }
 

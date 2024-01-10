@@ -11,7 +11,7 @@ import commonInit from '../util/common'
 import connectModel from '../util/connectModel'
 import patchRacerHighway from './patchRacerHighway'
 
-const DEFAULT_BASE_URL = 'http://127.0.0.1:3000'
+const DEFAULT_BASE_URL = (typeof window !== 'undefined' && window.location && window.location.origin) || 'http://127.0.0.1:3000'
 
 const NO_BASE_URL_WARN = `
   !!!WARNING!!! baseUrl option is not specified.

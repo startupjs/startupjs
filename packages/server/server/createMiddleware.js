@@ -4,10 +4,10 @@ import express from 'express'
 /**
  * A connect middleware with core startupjs functionality. You can plug this into your
  * existing node server.
- * @returns {express.Router}
+ * @returns {express.Application}
  */
 export default function createMiddleware ({ backend, session, channel, options }) {
-  const app = express.Router()
+  const app = express()
 
   MODULE.hook('beforeSession', app)
 

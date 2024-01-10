@@ -30,7 +30,6 @@ function patchMingoForSQLitePersistence (sqliteDb, shareDbMingo) {
                 return callback(err)
               }
 
-              console.log(`Document with id ${docId} saved to SQLite`)
               callback()
             }
           )

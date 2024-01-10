@@ -24,4 +24,15 @@ function mockBrowserify () {
   }
 }
 
+// TODO: maybe use this if we have to do server-side rendering
+// Mock 'window' object to have client-side libs working for server rendering,
+// like browserchannel which requires 'window.location' to exist.
+// function mockWindow () {
+//   if (typeof window === 'undefined') globalThis.window = {}
+//   globalThis.window.location = globalThis.window.location || {}
+//   globalThis.window.location.protocol = globalThis.window.location.protocol || 'http:'
+//   globalThis.window.location.hostname = globalThis.window.location.hostname || 'localhost'
+//   globalThis.window.location.port = globalThis.window.location.port || '3000'
+// }
+
 module.exports = () => {}
