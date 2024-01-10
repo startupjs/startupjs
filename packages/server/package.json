@@ -20,9 +20,7 @@
     "express-session": "^1.17.2",
     "hsts": "^2.1.0",
     "lodash": "^4.17.20",
-    "method-override": "~2.3.10"
-  },
-  "peerDependencies": {
-    "nconf": "*"
+    "method-override": "~2.3.10",
+    "nconf": "^0.11.4"
   }
 }

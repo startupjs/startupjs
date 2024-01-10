@@ -8321,8 +8321,7 @@ __metadata:
     hsts: "npm:^2.1.0"
     lodash: "npm:^4.17.20"
     method-override: "npm:~2.3.10"
-  peerDependencies:
-    nconf: "*"
+    nconf: "npm:^0.11.4"
   languageName: unknown
   linkType: soft
 
@@ -10612,6 +10611,13 @@ __metadata:
   version: 3.2.3
   resolution: "async@npm:3.2.3"
   checksum: 109780c846f05109dde14412d916ae4ed6daf6f9aad0c4aa1dcf0d4da775a3a9e35e0e06e4e06ad9fed66f99ca15549da16f2f243c56103b346e9d3bcd9c943f
+  languageName: node
+  linkType: hard
+
+"async@npm:^1.4.0":
+  version: 1.5.2
+  resolution: "async@npm:1.5.2"
+  checksum: 9ee84592c393aad1047d1223004317ecc65a9a3f76101e0f4614a0818eac962e666510353400a3c9ea158df540579a293f486f3578e918c5e90a0f5ed52e8aea
   languageName: node
   linkType: hard
 
@@ -18857,6 +18863,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ini@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "ini@npm:2.0.0"
+  checksum: 2e0c8f386369139029da87819438b20a1ff3fe58372d93fb1a86e9d9344125ace3a806b8ec4eb160a46e64cbc422fe68251869441676af49b7fc441af2389c25
+  languageName: node
+  linkType: hard
+
 "init-package-json@npm:^1.10.3":
   version: 1.10.3
   resolution: "init-package-json@npm:1.10.3"
@@ -24765,6 +24778,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nconf@npm:^0.11.4":
+  version: 0.11.4
+  resolution: "nconf@npm:0.11.4"
+  dependencies:
+    async: "npm:^1.4.0"
+    ini: "npm:^2.0.0"
+    secure-keys: "npm:^1.0.0"
+    yargs: "npm:^16.1.1"
+  checksum: fd02949f0104068c9c5e3c6c3e7dd99a789886e9965f558c1ac0234298848653552858a1ad2f7a9f350680ed3d0b1fd27bd56b411731bd6bb007b09ef1438f23
+  languageName: node
+  linkType: hard
+
 "ncp@npm:~2.0.0":
   version: 2.0.0
   resolution: "ncp@npm:2.0.0"
@@ -29763,6 +29788,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"secure-keys@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "secure-keys@npm:1.0.0"
+  checksum: 5a239502cd1af4daede26db476cf6d6be9ae4b6512ec9bb74bb9254be82e039938407486582fbbbdfe2d1a03a95c3a35f2005ec21172a60236ba3dff1788d603
+  languageName: node
+  linkType: hard
+
 "select-hose@npm:^2.0.0":
   version: 2.0.0
   resolution: "select-hose@npm:2.0.0"
@@ -34186,7 +34218,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:16.2.0, yargs@npm:^16.2.0":
+"yargs@npm:16.2.0, yargs@npm:^16.1.1, yargs@npm:^16.2.0":
   version: 16.2.0
   resolution: "yargs@npm:16.2.0"
   dependencies:

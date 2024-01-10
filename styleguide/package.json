@@ -58,7 +58,6 @@
     "@startupjs/ui": "^0.55.0",
     "axios": "^0.21.1",
     "js-cookie": "^2.2.1",
-    "nconf": "^0.11.4",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-native": "0.63.5",

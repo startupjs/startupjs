@@ -9,7 +9,7 @@ function getDefaultSessionUpdateInterval (sessionMaxAge) {
   return Math.floor(sessionMaxAge / 1000 / 10)
 }
 
-export function createSession (options) {
+export default function createSession (options) {
   let sessionStore
   if (mongoClient) {
     const connectMongoOptions = { client: mongoClient }

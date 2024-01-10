@@ -36,7 +36,8 @@ export async function createMiddleware (options = {}) {
   let backend, session, channel
   ({ backend, session, channel, options } = await commonInit(options))
   const { default: createMiddleware } = await import('./server/createMiddleware.js')
-  return createMiddleware({ backend, session, channel, options })
+  const middleware = createMiddleware({ backend, session, channel, options })
+  return { middleware, backend, session, channel }
 }
 
 async function commonInit (options = {}) {

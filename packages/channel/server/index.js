@@ -1,8 +1,8 @@
 import WebSocket from 'ws'
 import { server as BrowserChannelServer } from 'browserchannel'
 import crypto from 'crypto'
-import createBrowserChannelStream from './createBrowserChannelStream'
-import createWebSocketStream from './createWebSocketStream'
+import createBrowserChannelStream from './createBrowserChannelStream.js'
+import createWebSocketStream from './createWebSocketStream.js'
 
 const defaultServerOptions = {
   session: null,
