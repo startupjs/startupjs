@@ -6,7 +6,7 @@ export default function createWebSocketStream (client) {
 }
 
 export class WebSocketClientStream extends ClientStream {
-  static get _type () { return 'WebSocket' }
+  static get _type () { return 'websocket' }
 
   _write (chunk, encoding, cb) {
     // Silently drop messages after the session is closed

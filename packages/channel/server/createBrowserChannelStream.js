@@ -5,7 +5,7 @@ export default function createBrowserChannelStream (client) {
 }
 
 export class BrowserChannelClientStream extends ClientStream {
-  static get _type () { return 'BrowserChannel' }
+  static get _type () { return 'browserchannel' }
 
   _write (chunk, encoding, cb) {
     // Silently drop messages after the session is closed

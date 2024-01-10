@@ -1,42 +1,16 @@
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
-import getBackend, {
-  mongo,
-  createMongoIndex,
-  redisClient
-} from '@startupjs/backend'
-import initChannel from '@startupjs/channel/server'
 import http from 'http'
 import https from 'https'
 import conf from 'nconf'
-import { createSession } from './session.js'
 import { createExpress } from './express.js'
 
 let server = null
 
-export { mongo, createMongoIndex }
-export const redis = redisClient
-
-export default async (options) => {
-  options = Object.assign({ secure: true }, options)
-
-  // Init backend and all apps
-  const backend = await getBackend(options)
-
-  // Init error handling route
-  const error = options.error(options)
-
-  // Init session
-  const session = createSession(options)
-
-  // Init connection
-  const { wss, upgrade: sharedbWebSocket, middleware: sharedbBrowserChannel } = initChannel(backend, { session })
-  MODULE.hook('createWss', wss)
-  MODULE.on('afterSession', app => app.use(sharedbBrowserChannel))
-  MODULE.on('serverUpgrade', function (req) {
-    if (req.url === '/channel') sharedbWebSocket(...arguments)
-  })
-
-  const expressApp = createExpress({ backend, session, error, options })
+/**
+ * Creates a dev/prod server with all the startupjs functionality
+ */
+export default async function createServer ({ backend, session, channel, options }) {
+  const expressApp = createExpress({ backend, session, channel, options })
 
   // Create server and setup websockets connection
   if (options.https) {
@@ -50,7 +24,8 @@ export default async (options) => {
     server.timeout = ~~conf.get('SERVER_REQUEST_TIMEOUT')
   }
 
-  server.on('upgrade', function () {
+  server.on('upgrade', function (req) {
+    if (req.url === '/channel') channel.upgrade(...arguments)
     MODULE.hook('serverUpgrade', ...arguments)
   })
 
@@ -66,18 +41,43 @@ export default async (options) => {
     }, props))
   }
   options.ee.emit('beforeStart', props)
+  // TODO: asyncHook does not wait for MODULE.on's to complete. Fix it
   await MODULE.asyncHook('beforeStart', props)
 
-  // Start server
-  server.listen(conf.get('PORT'), (err) => {
-    if (err) {
-      console.error('Server failed to start. Exiting...')
-      return process.exit()
+  server.listen = getListen(server, options)
+
+  return { server, expressApp }
+}
+
+function getListen (server, options) {
+  const oldListen = server.listen
+  return function listen (...args) {
+    const defaultCb = (err) => {
+      if (err) {
+        console.error('Server failed to start\n', err)
+        throw Error('ERROR! Server failed to start')
+      }
+      printStarted()
+      // ----------------------------------------------->       done       <#
+      options.ee.emit('done')
     }
-    printStarted()
-    // ----------------------------------------------->       done       <#
-    options.ee.emit('done')
-  })
+    const wrapCb = cb => {
+      return function () {
+        defaultCb.apply(this, arguments)
+        cb?.apply(this, arguments)
+      }
+    }
+    if (args.length === 0) {
+      args = [conf.get('PORT'), defaultCb]
+    } else if (args.length === 1 && typeof args[0] === 'function') {
+      args = [conf.get('PORT'), wrapCb(args[0])]
+    } else if (args.length === 1 && typeof args[0] === 'number') {
+      args = [args[0], defaultCb]
+    } else {
+      args.map(arg => typeof arg === 'function' ? wrapCb(arg) : arg)
+    }
+    return oldListen.apply(server, args)
+  }
 }
 
 // Handle graceful shutdown of the server

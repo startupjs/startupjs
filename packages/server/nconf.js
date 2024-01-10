@@ -61,11 +61,14 @@ function initNconf (dirname) {
     })
   }
 
-  // Copy public env vars into global.env
+  // Copy public env vars into global.publicEnv
   if (isArray(nconf.get('PUBLIC'))) {
-    global.env = global.env || {}
+    global.publicEnv = global.publicEnv || {}
     each(nconf.get('PUBLIC'), (option) => {
-      global.env[option] = nconf.get(option)
+      global.publicEnv[option] = nconf.get(option)
     })
   }
 }
+
+// to prevent dead code elimination
+export default () => {}

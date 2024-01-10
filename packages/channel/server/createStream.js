@@ -30,7 +30,7 @@ export function createStream (client, ClientStream) {
 }
 
 export class ClientStream extends Duplex {
-  /** @return {string} type of stream, e.g. 'WebSocket' or 'BrowserChannel' */
+  /** @return {string} type of stream, e.g. 'websocket' or 'browserchannel' */
   static get _type () { throw Error('not implemented') }
 
   constructor (client) {
@@ -39,7 +39,7 @@ export class ClientStream extends Duplex {
 
     this.on('error', (error) => {
       // log stream type and error
-      console.warn(`${this.constructor._type} client message stream error`, error)
+      console.warn(`[@startupjs/channel] ${this.constructor._type} client message stream error`, error)
       this._stopClient()
     })
 

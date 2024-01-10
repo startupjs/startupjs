@@ -8,7 +8,9 @@ import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import methodOverride from 'method-override'
 import hsts from 'hsts'
-import app from './app/index.js'
+import createMiddleware from './createMiddleware.js'
+import renderApp from '../renderApp/index.js'
+import renderError from '../renderError/index.js'
 
 const FORCE_HTTPS = conf.get('FORCE_HTTPS_REDIRECT')
 const DEFAULT_BODY_PARSER_OPTIONS = {
@@ -18,7 +20,7 @@ const DEFAULT_BODY_PARSER_OPTIONS = {
 }
 const WWW_REGEXP = /www\./
 
-export function createExpress ({ backend, error, options, session }) {
+export default function createExpress ({ backend, session, channel, options = {} }) {
   const expressApp = express()
 
   // Required to be able to determine whether the protocol is 'http' or 'https'
@@ -66,7 +68,6 @@ export function createExpress ({ backend, error, options, session }) {
     next()
   })
 
-  // ----------------------------------------------------->    static    <#
   options.ee.emit('static', expressApp)
   MODULE.hook('static', expressApp)
 
@@ -77,53 +78,20 @@ export function createExpress ({ backend, error, options, session }) {
     .use(bodyParser.json(getBodyParserOptionsByType('json', options.bodyParser)))
     .use(bodyParser.urlencoded(getBodyParserOptionsByType('urlencoded', options.bodyParser)))
     .use(methodOverride())
-    .use(session)
-    .use(backend.modelMiddleware())
 
-  // ----------------------------------------------------->    afterSession    <#
-  options.ee.emit('afterSession', expressApp)
-  MODULE.hook('afterSession', expressApp)
+  const startupjsMiddleware = createMiddleware({ backend, session, channel, options })
+  expressApp.use(startupjsMiddleware)
 
-  // userId
-  expressApp.use((req, res, next) => {
-    const model = req.model
-    // Set anonymous userId unless it was set by some end-user auth middleware
-    if (req.session.userId == null) req.session.userId = model.id()
-    // Set userId into model
-    model.set('_session.userId', req.session.userId)
-    next()
+  expressApp.use(renderApp(options))
+
+  expressApp.use(function (err, req, res, next) {
+    if (err.name === 'MongoError' && err.message === 'Topology was destroyed') {
+      process.exit()
+    }
+    next(err)
   })
 
-  // Pipe env to client through the model
-  expressApp.use((req, res, next) => {
-    if (req.xhr) return next()
-    const model = req.model
-    model.set('_session.env', global.env)
-    next()
-  })
-
-  // ----------------------------------------------------->    middleware    <#
-  options.ee.emit('middleware', expressApp)
-  MODULE.hook('middleware', expressApp)
-
-  MODULE.hook('api', expressApp)
-
-  // Server routes
-  // ----------------------------------------------------->      routes      <#
-  options.ee.emit('routes', expressApp)
-  MODULE.hook('routes', expressApp)
-
-  const appMiddleware = app(options)
-
-  expressApp
-    .use(appMiddleware)
-    .use(function (err, req, res, next) {
-      if (err.name === 'MongoError' && err.message === 'Topology was destroyed') {
-        process.exit()
-      }
-      next(err)
-    })
-    .use(error)
+  expressApp.use((options.error || renderError)(options))
 
   return expressApp
 }

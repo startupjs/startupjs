@@ -13,11 +13,11 @@ const { BASE_URL, MONGO_URL, REDIS_OPTS, REDIS_URL, NO_REDIS } = process.env
 // it's run on localhost or on the production server.
 // ref: https://github.com/share/sharedb/issues/420
 const PREFIX = '_' + simpleNumericHash(MONGO_URL + BASE_URL)
-let redisClient
+let redis
 let redisObserver
 
 if (NO_REDIS) {
-  ({ redisClient, redisObserver } = getMockedRedis())
+  ({ redis, redisObserver } = getMockedRedis())
 } else if (isString(REDIS_OPTS)) {
   const redisOpts = JSON.parse(REDIS_OPTS)
   let tls = {}
@@ -40,32 +40,28 @@ if (NO_REDIS) {
     keyPrefix: PREFIX
   }
 
-  redisClient = new Redis(options)
+  redis = new Redis(options)
   redisObserver = new Redis(options)
 } else if (REDIS_URL) {
-  redisClient = new Redis(REDIS_URL, { keyPrefix: PREFIX })
+  redis = new Redis(REDIS_URL, { keyPrefix: PREFIX })
   redisObserver = new Redis(REDIS_URL, { keyPrefix: PREFIX })
 } else {
-  ({ redisClient, redisObserver } = getMockedRedis())
+  ({ redis, redisObserver } = getMockedRedis())
 }
 
-const defaultRedlock = new Redlock([redisClient], {
-  retryCount: 0
+const redlock = new Redlock([redis], {
+  driftFactor: 0.01,
+  retryCount: 2,
+  retryDelay: 10,
+  retryJitter: 10
 })
 
-function redisLock (key, timeout = 5000, options) {
-  const redlock = options
-    ? new Redlock([redisClient], options)
-    : defaultRedlock
-  return redlock.lock(key, timeout)
-}
-
-export { redisClient, redisObserver, redisLock }
+export { redis, redisObserver, redlock, Redlock }
 
 function getMockedRedis () {
   const options = { keyPrefix: PREFIX }
   return {
-    redisClient: new RedisMock(options),
+    redis: new RedisMock(options),
     redisObserver: new RedisMock(options)
   }
 }
