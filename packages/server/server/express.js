@@ -1,20 +1,16 @@
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
-import { mongoClient } from '@startupjs/backend'
 import _defaults from 'lodash/defaults.js'
 import _cloneDeep from 'lodash/cloneDeep.js'
 import conf from 'nconf'
 import express from 'express'
-import expressSession from 'express-session'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import methodOverride from 'method-override'
-import MongoStore from 'connect-mongo'
 import hsts from 'hsts'
 import app from './app/index.js'
 
 const FORCE_HTTPS = conf.get('FORCE_HTTPS_REDIRECT')
-const DEFAULT_SESSION_MAX_AGE = 1000 * 60 * 60 * 24 * 365 * 2 // 2 years
 const DEFAULT_BODY_PARSER_OPTIONS = {
   urlencoded: {
     extended: true
@@ -22,39 +18,7 @@ const DEFAULT_BODY_PARSER_OPTIONS = {
 }
 const WWW_REGEXP = /www\./
 
-function getDefaultSessionUpdateInterval (sessionMaxAge) {
-  // maxAge is in ms. Return in s. So it's 1/10nth of maxAge.
-  return Math.floor(sessionMaxAge / 1000 / 10)
-}
-
-export default (backend, error, options) => {
-  const connectMongoOptions = { client: mongoClient }
-
-  if (options.sessionMaxAge) {
-    connectMongoOptions.touchAfter = options.sessionUpdateInterval ||
-        getDefaultSessionUpdateInterval(options.sessionMaxAge)
-  }
-
-  let sessionStore
-  if (mongoClient) {
-    sessionStore = MongoStore.create(connectMongoOptions)
-  }
-
-  const session = expressSession({
-    secret: conf.get('SESSION_SECRET'),
-    store: sessionStore,
-    cookie: {
-      maxAge: options.sessionMaxAge || DEFAULT_SESSION_MAX_AGE,
-      secure: options.cookiesSecure || false,
-      sameSite: options.sameSite
-    },
-    saveUninitialized: true,
-    resave: false,
-    // when sessionMaxAge is set, we want to update cookie expiration time
-    // on each request
-    rolling: !!options.sessionMaxAge
-  })
-
+export function createExpress ({ backend, error, options, session }) {
   const expressApp = express()
 
   // Required to be able to determine whether the protocol is 'http' or 'https'
@@ -161,7 +125,7 @@ export default (backend, error, options) => {
     })
     .use(error)
 
-  return { expressApp, session }
+  return expressApp
 }
 
 function getBodyParserOptionsByType (type, options = {}) {

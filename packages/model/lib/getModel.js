@@ -1,6 +1,6 @@
 import isServer from '@startupjs/utils/isServer'
+import Socket from '@startupjs/channel'
 import racer from 'racer'
-import Socket from 'racer-highway/lib/browser/socket.js'
 
 const DEFAULT_CLIENT_OPTIONS = {
   base: '/channel',

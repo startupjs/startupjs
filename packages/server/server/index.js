@@ -1,16 +1,17 @@
+import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import getBackend, {
   mongo,
   createMongoIndex,
   redisClient
 } from '@startupjs/backend'
+import initChannel from '@startupjs/channel/server'
 import http from 'http'
 import https from 'https'
 import conf from 'nconf'
-import racerHighway from 'racer-highway'
-import express from './express.js'
+import { createSession } from './session.js'
+import { createExpress } from './express.js'
 
 let server = null
-let wsServer = null
 
 export { mongo, createMongoIndex }
 export const redis = redisClient
@@ -24,10 +25,18 @@ export default async (options) => {
   // Init error handling route
   const error = options.error(options)
 
-  const { expressApp, session } = express(backend, error, options)
+  // Init session
+  const session = createSession(options)
 
-  const { wss, upgrade } = racerHighway(backend, { session }, { timeout: 5000, timeoutIncrement: 8000 })
-  wsServer = wss
+  // Init connection
+  const { wss, upgrade: sharedbWebSocket, middleware: sharedbBrowserChannel } = initChannel(backend, { session })
+  MODULE.hook('createWss', wss)
+  MODULE.on('afterSession', app => app.use(sharedbBrowserChannel))
+  MODULE.on('serverUpgrade', function (req) {
+    if (req.url === '/channel') sharedbWebSocket(...arguments)
+  })
+
+  const expressApp = createExpress({ backend, session, error, options })
 
   // Create server and setup websockets connection
   if (options.https) {
@@ -35,12 +44,14 @@ export default async (options) => {
   } else {
     server = http.createServer(expressApp)
   }
+  MODULE.hook('createServer', server)
+
   if (conf.get('SERVER_REQUEST_TIMEOUT') != null) {
     server.timeout = ~~conf.get('SERVER_REQUEST_TIMEOUT')
   }
 
-  server.on('upgrade', function (req) {
-    if (req.url === '/channel') upgrade.apply(this, arguments)
+  server.on('upgrade', function () {
+    MODULE.hook('serverUpgrade', ...arguments)
   })
 
   const props = { backend, server, expressApp, session }
@@ -55,6 +66,7 @@ export default async (options) => {
     }, props))
   }
   options.ee.emit('beforeStart', props)
+  await MODULE.asyncHook('beforeStart', props)
 
   // Start server
   server.listen(conf.get('PORT'), (err) => {
@@ -76,7 +88,6 @@ async function gracefulShutdown (exitCode = 0) {
   console.log('Exiting...')
   const promises = []
   if (server) promises.push(new Promise(resolve => server.close(resolve)))
-  if (wsServer?._server) promises.push(new Promise(resolve => wsServer._server.close(resolve)))
   // delay exit by 3000 ms for extra safety in production.
   // In development this is also used as a force exit timeout
   setTimeout(() => process.exit(exitCode), 3000)

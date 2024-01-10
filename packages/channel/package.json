@@ -1,0 +1,19 @@
+{
+  "name": "@startupjs/channel",
+  "type": "module",
+  "version": "0.55.8",
+  "description": "WebSocket/BrowserChannel 2-way communication channel",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./server": "./server/index.js"
+  },
+  "dependencies": {
+    "browserchannel": "^2.0",
+    "ws": "^1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT"
+}

@@ -7915,6 +7915,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@startupjs/channel@npm:^0.55.8, @startupjs/channel@workspace:packages/channel":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/channel@workspace:packages/channel"
+  dependencies:
+    browserchannel: "npm:^2.0"
+    ws: "npm:^1.1"
+  languageName: unknown
+  linkType: soft
+
 "@startupjs/cli@npm:^0.55.10, @startupjs/cli@workspace:packages/cli":
   version: 0.0.0-use.local
   resolution: "@startupjs/cli@workspace:packages/cli"
@@ -8078,9 +8087,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@startupjs/model@workspace:packages/model"
   dependencies:
+    "@startupjs/channel": "npm:^0.55.8"
     "@startupjs/utils": "npm:^0.55.8"
     racer: "npm:1.0.1"
-    racer-highway: "npm:^10.0.1"
   languageName: unknown
   linkType: soft
 
@@ -8214,6 +8223,7 @@ __metadata:
     "@babel/runtime": "npm:^7.0.0"
     "@nx-js/observer-util": "npm:^4.1.3"
     "@oskarer/enzyme-wait": "npm:^1.3.0"
+    "@startupjs/channel": "npm:^0.55.8"
     "@startupjs/model": "npm:^0.55.8"
     "@startupjs/react-sharedb-classes": "npm:^0.55.8"
     "@startupjs/react-sharedb-hooks": "npm:^0.55.8"
@@ -8231,7 +8241,6 @@ __metadata:
     lodash: "npm:^4.17.20"
     mocha: "npm:^3.5.3"
     racer: "npm:1.0.1"
-    racer-highway: "npm:^10.0.1"
     racer-rpc: "npm:0.1.9"
     raf: "npm:^3.4.1"
     react: "npm:^16.9.0"
@@ -8300,6 +8309,7 @@ __metadata:
   resolution: "@startupjs/server@workspace:packages/server"
   dependencies:
     "@startupjs/backend": "npm:^0.55.10"
+    "@startupjs/channel": "npm:^0.55.8"
     "@startupjs/registry": "npm:^0.55.10"
     body-parser: "npm:1.20.0"
     compression: "npm:^1.6.0"
@@ -8310,7 +8320,6 @@ __metadata:
     hsts: "npm:^2.1.0"
     lodash: "npm:^4.17.20"
     method-override: "npm:~2.3.10"
-    racer-highway: "npm:^10.0.1"
   peerDependencies:
     express: 4.x
     nconf: "*"
@@ -10488,6 +10497,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ascii-json@npm:~0.2":
+  version: 0.2.0
+  resolution: "ascii-json@npm:0.2.0"
+  checksum: dad6a01acedd15b01c9b690b4acdd77bc5a405721d01761808ed7323cbcc1bb87a7932e7f84705ddbfbc0c28ce44910675d3448f1d4d47f4b48ca978a4866c53
+  languageName: node
+  linkType: hard
+
 "asn1.js@npm:^5.4.1":
   version: 5.4.1
   resolution: "asn1.js@npm:5.4.1"
@@ -11565,6 +11581,17 @@ __metadata:
   version: 1.3.1
   resolution: "browser-stdout@npm:1.3.1"
   checksum: c40e482fd82be872b6ea7b9f7591beafbf6f5ba522fe3dade98ba1573a1c29a11101564993e4eb44e5488be8f44510af072df9a9637c739217eb155ceb639205
+  languageName: node
+  linkType: hard
+
+"browserchannel@npm:^2.0":
+  version: 2.1.0
+  resolution: "browserchannel@npm:2.1.0"
+  dependencies:
+    ascii-json: "npm:~0.2"
+    hat: "npm:*"
+    request: "npm:~2"
+  checksum: 35974e4e3062a02bd2d2cf166a3748c15616137de43ea5a473be99f7134b46278dba647ee876dbf90cbaa5dfdb037694a1074dba4f0fc5aeb140636e9663d164
   languageName: node
   linkType: hard
 
@@ -16191,13 +16218,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"extend@npm:^2.0.0":
-  version: 2.0.2
-  resolution: "extend@npm:2.0.2"
-  checksum: 5d14709b28a5fd3eddd177ec4238603ff8f951d7883d7f37240476bfd758807e37cab3fdb8adf4e2cafbf2d9acaa0182428aaaec4561c81d9fedf689124e01b8
-  languageName: node
-  linkType: hard
-
 "extend@npm:^3.0.0, extend@npm:^3.0.2, extend@npm:~3.0.2":
   version: 3.0.2
   resolution: "extend@npm:3.0.2"
@@ -18161,7 +18181,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hat@npm:0.0.3":
+"hat@npm:*, hat@npm:0.0.3":
   version: 0.0.3
   resolution: "hat@npm:0.0.3"
   checksum: 9d502b26b612ed3e66491296873119574e61a4ef99dfc5501f7bf86115fde35d0f76b1167257c8224c88092eda04e40feda805ad5b86c3b90203f4e15fd99f53
@@ -27952,17 +27972,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"racer-highway@npm:^10.0.1":
-  version: 10.0.1
-  resolution: "racer-highway@npm:10.0.1"
-  dependencies:
-    extend: "npm:^2.0.0"
-    through: "npm:^2.3.4"
-    ws: "npm:^1.1.5"
-  checksum: b982a3198bce8918f39511d30e30ca52a095478abbafbb9d10974e3be3a72dce676324b2b0b99b8e356a589a3f103be0641cd106a3ea87386468740f66a08e3d
-  languageName: node
-  linkType: hard
-
 "racer-rpc@npm:0.1.9":
   version: 0.1.9
   resolution: "racer-rpc@npm:0.1.9"
@@ -29152,7 +29161,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"request@npm:^2.81.0, request@npm:^2.87.0, request@npm:^2.88.0, request@npm:^2.88.2":
+"request@npm:^2.81.0, request@npm:^2.87.0, request@npm:^2.88.0, request@npm:^2.88.2, request@npm:~2":
   version: 2.88.2
   resolution: "request@npm:2.88.2"
   dependencies:
@@ -33876,7 +33885,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^1.1.5":
+"ws@npm:^1.1":
   version: 1.1.5
   resolution: "ws@npm:1.1.5"
   dependencies:

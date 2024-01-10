@@ -1,15 +1,15 @@
 import 'babel-register'
+import racerHighway from '@startupjs/channel/server'
 import http from 'http'
 import express from 'express'
 import racer, { Model } from 'racer'
 import shareDbMongo from 'sharedb-mongo'
-import racerHighway from 'racer-highway'
 import { exec } from 'child_process'
 import yaml from 'js-yaml'
 import fs from 'fs'
 import { promisifyAll } from 'bluebird'
-import initRpc from './initRpc'
 import path from 'path'
+import initRpc from './initRpc'
 
 const MONGO_DB = process.env.MONGO_DB || 'test_react-sharedb'
 const MONGO_URL = 'mongodb://localhost:27017/' + MONGO_DB
@@ -33,14 +33,14 @@ async function initDb () {
 }
 
 async function populateDbWithFixtures () {
-  let model = backend.createModel()
-  let files = fs.readdirSync(FIXTURES_PATH)
-  for (let file of files) {
+  const model = backend.createModel()
+  const files = fs.readdirSync(FIXTURES_PATH)
+  for (const file of files) {
     if (!/\.ya?ml$/.test(file)) continue
-    let collection = file.replace(/\.ya?ml$/, '')
-    let items = yaml.safeLoad(fs.readFileSync(`${FIXTURES_PATH}/${file}`))
-    let promises = []
-    for (let id in items) {
+    const collection = file.replace(/\.ya?ml$/, '')
+    const items = yaml.safeLoad(fs.readFileSync(`${FIXTURES_PATH}/${file}`))
+    const promises = []
+    for (const id in items) {
       promises.push(model.add(collection, { id, ...items[id] }))
     }
     await Promise.all(promises)
@@ -49,7 +49,7 @@ async function populateDbWithFixtures () {
 }
 
 async function initServer () {
-  let hwHandlers = racerHighway(
+  const hwHandlers = racerHighway(
     backend,
     {},
     { timeout: 5000, timeoutIncrement: 8000 }
@@ -58,10 +58,10 @@ async function initServer () {
   // init RPC
   initRpc(backend)
 
-  let expressApp = express()
+  const expressApp = express()
   expressApp.use(backend.modelMiddleware())
 
-  let server = http.createServer(expressApp)
+  const server = http.createServer(expressApp)
   server.on('upgrade', hwHandlers.upgrade)
   server.listen(PORT, err => {
     if (err) {
