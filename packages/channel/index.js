@@ -1,4 +1,9 @@
-import { BCSocket } from 'browserchannel/dist/bcsocket-uncompressed'
+// import { BCSocket } from 'browserchannel/dist/bcsocket-uncompressed'
+import SockJS from './SockJS.cjs'
+
+const useSockJS = true
+
+const WebSocket = useSockJS ? SockJS : globalThis.WebSocket
 
 export default class Socket {
   constructor (options) {
@@ -6,18 +11,18 @@ export default class Socket {
     this._messageQueue = []
     this._connectedOnce = false
     this._attemptNum = 0
-    this._url = getWebSocketURL(options)
+    this._url = getWebSocketURL(options).replace('ws:', useSockJS ? 'http:' : 'ws:')
 
-    if (typeof WebSocket !== 'undefined' && !options.forceBrowserChannel) {
-      this._createWebSocket()
-    } else if (!options.forceWebSocket) {
-      this._createBrowserChannel()
-    }
+    // if (typeof WebSocket !== 'undefined' && !options.forceBrowserChannel) {
+    this._createWebSocket()
+    // } else if (!options.forceWebSocket) {
+    //   this._createBrowserChannel()
+    // }
   }
 
   _createWebSocket () {
     this._type = 'websocket'
-    this._socket = new WebSocket(this._url)
+    this._socket = useSockJS ? new WebSocket(this._url, undefined, { transports: 'xhr-polling' }) : new WebSocket(this._url)
 
     this.open = this._createWebSocket.bind(this)
     this._syncState()
@@ -29,7 +34,7 @@ export default class Socket {
 
   _createBrowserChannel () {
     this._type = 'browserchannel'
-    this._socket = BCSocket(this._options.base, this._options)
+    // this._socket = BCSocket(this._options.base, this._options)
 
     this.open = this._createBrowserChannel.bind(this)
     this._syncState()
@@ -41,6 +46,7 @@ export default class Socket {
 
   _ws_onmessage (message) {
     this._syncState()
+    console.log('>>> received message', message)
     this.onmessage && this.onmessage(message)
   }
 
@@ -56,13 +62,13 @@ export default class Socket {
 
   _ws_onclose (event) {
     this._syncState()
-    console.log('WebSocket: connection is broken', event)
+    console.log('SockJS: connection is broken', this._url, event)
 
     this.onclose && this.onclose(event)
 
-    if (!this._connectedOnce) {
-      return this._createBrowserChannel()
-    }
+    // if (!this._connectedOnce) {
+    //   return this._createBrowserChannel()
+    // }
 
     const socket = this
 

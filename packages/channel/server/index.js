@@ -1,7 +1,7 @@
+import sockjs from 'sockjs'
 import WebSocket from 'ws'
-import { server as BrowserChannelServer } from 'browserchannel'
 import crypto from 'crypto'
-import createBrowserChannelStream from './createBrowserChannelStream.js'
+import createSockJsStream from './createSockJsStream.js'
 import createWebSocketStream from './createWebSocketStream.js'
 
 const defaultServerOptions = {
@@ -18,37 +18,56 @@ export default function (backend, serverOptions = {}) {
   serverOptions.path = serverOptions.base
   serverOptions.noServer = true
 
-  const middleware = BrowserChannelServer(serverOptions, function (client, connectRequest) {
-    if (serverOptions.session) {
-      // https://github.com/expressjs/session/pull/57
-      if (!connectRequest.originalUrl) connectRequest.originalUrl = connectRequest.url
-      serverOptions.session(connectRequest, {}, startBrowserChannel)
-    } else {
-      startBrowserChannel()
+  const echo = sockjs.createServer({ prefix: '/channel', transports: ['xhr-polling'] })
+
+  let syncTempConnectSession
+  let syncReq
+  echo.on('connection', function (client) {
+    client.id = crypto.randomBytes(16).toString('hex')
+
+    let rejected = false
+    let rejectReason
+
+    function reject (reason) {
+      rejected = true
+      if (reason) rejectReason = reason
     }
 
-    function startBrowserChannel () {
-      let rejected = false
-      let rejectReason
-      function reject (reason) {
-        rejected = true
-        if (reason) rejectReason = reason
-      }
+    client.connectSession = syncTempConnectSession
+    client.session = syncTempConnectSession
+    syncTempConnectSession = undefined
 
-      if (connectRequest.session) client.connectSession = connectRequest.session
+    const req = syncReq
+    syncReq = undefined
+    client.upgradeReq = req
 
-      backend.emit('client', client, reject)
-      if (rejected) {
-        // Tell the client to stop trying to connect
-        client.stop(function () {
-          client.close(rejectReason)
-        })
-        return
-      }
-      const stream = createBrowserChannelStream(client)
-      doneInitialization(backend, stream, connectRequest)
+    backend.emit('client', client, reject)
+    if (rejected) {
+      // Tell the client to stop trying to connect
+      client.close(1001, rejectReason)
+      return
     }
+
+    const stream = createSockJsStream(client)
+    doneInitialization(backend, stream, req, client.connectSession)
   })
+
+  const middleware = (req, res, next) => {
+    if (/\/channel/.test(req.url)) {
+      if (serverOptions.session) {
+        serverOptions.session(req, {}, next)
+      } else {
+        next()
+      }
+      function next () {
+        syncTempConnectSession = req.session
+        syncReq = req
+        echo.handler(req, res)
+      }
+    } else {
+      next()
+    }
+  }
 
   const wss = new WebSocket.Server(serverOptions)
 
@@ -126,10 +145,14 @@ export default function (backend, serverOptions = {}) {
   return { upgrade, middleware, wss }
 }
 
-function doneInitialization (backend, stream, request) {
+function doneInitialization (backend, stream, request, session) {
   backend.on('connect', function (data) {
     const agent = data.agent
-    if (request.session) agent.connectSession = request.session
+    if (session) {
+      agent.connectSession = session
+    } else if (request.session) {
+      agent.connectSession = request.session
+    }
     backend.emit('share agent', agent, stream)
   })
 

@@ -1,5 +1,10 @@
-import EventEmitter from './EventEmitter.js'
+// TODO: Maybe use a simple native implementation in future.
+//       Problem was that EventTarget was not available in expo on android
+// import EventEmitter from './EventEmitter.js'
+import fbemitter from 'fbemitter'
 import Plugin from './Plugin.js'
+
+const { EventEmitter } = fbemitter
 
 export default class Module extends EventEmitter {
   // ------------------------------------------

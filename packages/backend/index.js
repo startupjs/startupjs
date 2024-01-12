@@ -146,7 +146,7 @@ export default async options => {
     const req = client.upgradeReq
     if (!req) return
 
-    const userId = req.session && req.session.userId
+    const userId = client.session?.userId || req.session?.userId
 
     if (!global.__clients[userId]) {
       const model = backend.createModel()

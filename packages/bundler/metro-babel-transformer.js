@@ -34,7 +34,7 @@ module.exports.transform = async function startupjsMetroBabelTransform ({
   if (/(?:[./]plugin\.[mc]?[jt]sx?|startupjs\.config\.[mc]?[jt]sx?)$/.test(filename)) {
     src = callLoader(eliminatorLoader, src, filename, { envs: ['client', 'isomorphic'] })
   }
-  if ((/\.mdx?$/.test(filename) || /\.[mc]?[jt]sx?$/.test(filename)) && /['"]startupjs['"]/.test(src)) {
+  if ((/\.mdx?$/.test(filename) || /\.[mc]?[jt]sx?$/.test(filename)) && /['"](?:startupjs|@env)['"]/.test(src)) {
     src = callLoader(startupjsLoader, src, filename, { platform })
   }
 

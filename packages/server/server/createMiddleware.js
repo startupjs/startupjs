@@ -11,9 +11,9 @@ export default function createMiddleware ({ backend, session, channel, options }
 
   MODULE.hook('beforeSession', app)
 
-  app.use(session)
-  app.use(backend.modelMiddleware())
   app.use(channel.middleware)
+  app.use(backend.modelMiddleware())
+  app.use(session)
 
   options.ee.emit('afterSession', app) // DEPRECATED (use 'afterSession' hook instead)
   MODULE.hook('afterSession', app)

@@ -1,5 +1,6 @@
-import WebSocket from 'ws'
 import { Duplex } from 'stream'
+
+const OPEN = 1 // WebSocket.OPEN
 
 /**
  * @param {EventEmitter} client is a websocket client session for each
@@ -9,9 +10,9 @@ import { Duplex } from 'stream'
  * @return {Duplex} stream
  */
 export default function createStream (client) {
-  const stream = new WebSocketClientStream(client)
+  const stream = new SockJsClientStream(client)
 
-  client.on('message', function onMessage (message) {
+  client.on('data', function onMessage (message) {
     let data
     try {
       data = JSON.parse(message)
@@ -23,6 +24,7 @@ export default function createStream (client) {
   })
 
   client.on('close', function () {
+    console.log('>>> closed client')
     // Signal data writing is complete. Emits the 'end' event
     stream.push(null)
   })
@@ -30,16 +32,16 @@ export default function createStream (client) {
   return stream
 }
 
-export class WebSocketClientStream extends Duplex {
-  static _type = 'websocket'
+export class SockJsClientStream extends Duplex {
+  static _type = 'sockjs'
 
   constructor (client) {
     super({ objectMode: true })
     this.client = client
 
-    this.on('error', (error) => {
+    this.on('error', err => {
       // log stream type and error
-      console.warn(`[@startupjs/channel] ${this.constructor._type} client message stream error`, error)
+      console.warn(`[@startupjs/channel] ${this.constructor._type} client message stream error`, err)
       this._stopClient()
     })
 
@@ -54,14 +56,22 @@ export class WebSocketClientStream extends Duplex {
 
   _write (chunk, encoding, cb) {
     // Silently drop messages after the session is closed
-    if (this.client.readyState !== WebSocket.OPEN) return cb()
-    this.client.send(JSON.stringify(chunk), (err) => {
-      if (err) console.error('[@startupjs/channel] send:', err)
-    })
+    if (this.client.readyState !== OPEN) {
+      console.log('>>>> TRIED TO SEND MESSAGE AFTER CLOSED')
+      return cb()
+    }
+    try {
+      // console.log('>>>> send message', this.client.connectSession.userId, chunk)
+      console.log('>>>> send message', chunk)
+      this.client.write(JSON.stringify(chunk))
+    } catch (err) {
+      console.error(`[@startupjs/channel] ${this.constructor._type} send:`, err)
+    }
     cb()
   }
 
   _stopClient () {
+    console.log('>>>> CLOSE STREAM')
     this.client.close()
   }
 }
