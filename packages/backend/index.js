@@ -6,24 +6,17 @@ import sharedbSchema from '@startupjs/sharedb-schema'
 import serverAggregate from '@startupjs/server-aggregate'
 import isArray from 'lodash/isArray.js'
 import isPlainObject from 'lodash/isPlainObject.js'
-import redisPubSub from 'sharedb-redis-pubsub'
 import racer from 'racer'
 import shareDbHooks from 'sharedb-hooks'
-import db from './db.js'
-import { redis, redisObserver, redlock } from './redis.js'
-import maybeFlushRedis from './maybeFlushRedis.js'
+import { pubsub } from './redis/index.js'
+import { db } from './db/index.js'
+import maybeFlushRedis from './redis/maybeFlushRedis.js'
+
+export { redis, redlock, Redlock } from './redis/index.js'
+export { db, mongo, mongoClient, createMongoIndex } from './db/index.js'
 
 const usersConnectionCounter = {}
-
 global.__clients = {}
-
-export * from './db.js'
-export {
-  db,
-  redis,
-  redisObserver,
-  redlock
-}
 
 export default async options => {
   options = Object.assign({ secure: true }, options)
@@ -37,11 +30,6 @@ export default async options => {
   // When running in cluster this should only run on one instance and once a day
   // so redlock is used to guarantee that.
   if (options.flushRedis !== false) maybeFlushRedis()
-
-  const pubsub = redisPubSub({
-    client: redis,
-    observer: redisObserver
-  })
 
   const backend = racer.createBackend({
     db,

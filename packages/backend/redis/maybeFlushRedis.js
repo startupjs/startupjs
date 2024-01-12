@@ -1,4 +1,4 @@
-import { redis, redlock, Redlock } from './redis.js'
+import { redis, redlock, Redlock } from './index.js'
 
 export default function maybeFlushRedis () {
   redis.once('connect', _maybeFlushRedis)
