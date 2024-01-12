@@ -13,7 +13,7 @@ export default observer(function TabTwoScreen() {
   const $countDoc = useDoc$('testCounts', 'magicCount1')
   if (!$countDoc.get()) throw $countDoc.create({ value: 0 })
   const $count = $countDoc.value
-  // const $count = useValue$(0)
+  const $localCount = useValue$(0)
   const [stateCount, setStateCount] = useState(0)
   const idRef = useRef()
   const randomId = useMemo(() => {
@@ -22,7 +22,7 @@ export default observer(function TabTwoScreen() {
   }, [])
   return pug`
     View.container
-      Text.title Tab Two or yes? no? what's 82
+      Text.title Tab Two or yes? no? what's 84
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
       EditScreenInfo(path="app/(tabs)/two.tsx")
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
@@ -31,8 +31,11 @@ export default observer(function TabTwoScreen() {
         Button(pushed onPress=() => $count.increment())
           | Model count: #{$count.get()}
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
-      Button(onPress=() => setStateCount(stateCount + 1))
-        | State count: #{stateCount}
+      Div(row)
+        Button(onPress=() => setStateCount(stateCount + 1))
+          | State count: #{stateCount}
+        Button(pushed onPress=() => $localCount.increment())
+          | Local count: #{$localCount.get()}
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
       Text Random id: #{randomId}
   `
