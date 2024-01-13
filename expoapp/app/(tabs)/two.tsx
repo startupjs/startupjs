@@ -7,7 +7,7 @@ import { pug, styl, observer, $,
 
 import EditScreenInfo from '@/components/EditScreenInfo'
 import { Text, View } from '@/components/Themed'
-import { Button, Div } from '@startupjs/ui'
+import { H1, Button, Div, Br } from '@startupjs/ui'
 
 export default observer(function TabTwoScreen() {
   const $countDoc = useDoc$('testCounts', 'magicCount1')
@@ -27,9 +27,12 @@ export default observer(function TabTwoScreen() {
       EditScreenInfo(path="app/(tabs)/two.tsx")
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
       Div(row)
-        Button(onPress=() => $count.increment(-1)) -
-        Button(pushed onPress=() => $count.increment())
+        Button(color='error' onPress=() => $count.increment(-1)) -
+        Button(color='primary' variant='flat' pushed onPress=() => $count.increment())
           | Model count: #{$count.get()}
+      Br
+      H1.count #{$count.get()}
+      Br
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
       Div(row)
         Button(onPress=() => setStateCount(stateCount + 1))
@@ -42,6 +45,8 @@ export default observer(function TabTwoScreen() {
 })
 
 styl`
+  .count
+    color red
   .container
     flex 1
     align-items center

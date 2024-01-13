@@ -2,6 +2,7 @@
 //   config = getDefaultConfig(__dirname, { upstreamConfig })
 exports.getDefaultConfig = function getDefaultConfig (projectRoot, { upstreamConfig } = {}) {
   upstreamConfig ??= getUpstreamConfig(projectRoot)
+  const isExpo = checkIfExpo(upstreamConfig)
   return {
     ...upstreamConfig,
     transformer: {
@@ -12,6 +13,7 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, { upstreamCon
       ...upstreamConfig.resolver,
       assetExts: upstreamConfig.resolver.assetExts.filter(ext => ext !== 'svg'),
       sourceExts: Array.from(new Set([
+        ...(isExpo ? ['expo.ts', 'expo.tsx', 'expo.js', 'expo.jsx', 'expo.mjs', 'expo.cjs'] : []),
         ...(upstreamConfig.resolver.sourceExts || []),
         ...['mjs', 'cjs', 'md', 'mdx', 'css', 'styl', 'svg']
       ]))
@@ -34,5 +36,17 @@ function getUpstreamConfig (projectRoot) {
       // React Native <0.73
       return require('metro-config').getDefaultConfig()
     }
+  }
+}
+
+function checkIfExpo (upstreamConfig) {
+  if (/[\\/]@expo[\\/]metro-config[\\/]/.test(upstreamConfig?.transformer?.babelTransformerPath)) {
+    return true
+  }
+  try {
+    const path = require.resolve('expo/metro-config')
+    return Boolean(path)
+  } catch (err) {
+    return false
   }
 }

@@ -5,17 +5,16 @@
 // IMPORTANT: This must be called before any calls to ShareDB or Racer on the client
 import mockBrowserify from '@startupjs/utils/mockBrowserify'
 
+import DEFAULT_BASE_URL from '@startupjs/utils/BASE_URL'
+import axios from '@startupjs/utils/axios'
 import ShareDB from 'sharedb/lib/client'
-import axios from 'axios'
 import commonInit from '../util/common'
 import connectModel from '../util/connectModel'
 import patchRacerHighway from './patchRacerHighway'
 
-const DEFAULT_BASE_URL = (typeof window !== 'undefined' && window.location && window.location.origin) || 'http://127.0.0.1:8081'
-
 const NO_BASE_URL_WARN = `
   !!!WARNING!!! baseUrl option is not specified.
-  Defaulting to http://127.0.0.1:3000
+  Defaulting to ${DEFAULT_BASE_URL}
 
   StartupJS on React Native must know baseUrl of the server to connect to.
 

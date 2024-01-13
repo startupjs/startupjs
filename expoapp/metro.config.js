@@ -12,6 +12,14 @@ config.resolver.nodeModulesPaths = [
 config.server.enhanceMiddleware = (metroMiddleware) => {
   return connect()
     .use(metroMiddleware)
+    .use((req, res, next) => {
+      if (req.url === '/test-url') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' })
+        res.end('Hello from test')
+      } else {
+        next()
+      }
+    })
     .use(startupjsMiddleware)
 }
 
