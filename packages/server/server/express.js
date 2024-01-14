@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import methodOverride from 'method-override'
 import MongoStore from 'connect-mongo'
+import SQLiteStore from 'connect-sqlite3'
 import hsts from 'hsts'
 import app from './app/index.js'
 
@@ -38,6 +39,15 @@ export default (backend, error, options) => {
   let sessionStore
   if (mongoClient) {
     sessionStore = MongoStore.create(connectMongoOptions)
+  } else if (!process.env.DB_READONLY) {
+    const Store = SQLiteStore(expressSession)
+    const options = {
+      db: process.env.DB_PATH || 'sqlite.db',
+      table: 'session',
+      dir: process.cwd()
+    }
+
+    sessionStore = new Store(options)
   }
 
   const session = expressSession({
