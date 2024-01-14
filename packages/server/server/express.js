@@ -43,7 +43,7 @@ export default (backend, error, options) => {
     const Store = SQLiteStore(expressSession)
     const options = {
       db: process.env.DB_PATH || 'sqlite.db',
-      table: 'session',
+      table: 'sessions',
       dir: process.cwd()
     }
 

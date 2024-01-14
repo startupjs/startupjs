@@ -3,7 +3,7 @@ import sqlite3 from 'sqlite3'
 async function getSqliteDb (filename) {
   const sqliteDb = new sqlite3.Database(filename)
 
-  return new Promise((resolve, reject) => {
+  const dataTables = new Promise((resolve, reject) => {
     sqliteDb.run(
       'CREATE TABLE IF NOT EXISTS documents (' +
       'collection TEXT, ' +
@@ -22,13 +22,31 @@ async function getSqliteDb (filename) {
           (err) => {
             if (err) return reject(err)
 
-            console.log('DB SQLite was created from file', filename)
-            resolve(sqliteDb)
+            resolve()
           }
         )
       }
     )
   })
+
+  const sessionsTable = new Promise((resolve, reject) => {
+    sqliteDb.run(
+      'CREATE TABLE IF NOT EXISTS sessions (' +
+      'sid TEXT PRIMARY KEY, ' +
+      'expired TEXT, ' +
+      'sess TEXT)',
+      (err) => {
+        if (err) return reject(err)
+
+        resolve()
+      }
+    )
+  })
+
+  await Promise.all([dataTables, sessionsTable])
+  console.log('DB SQLite was created from file', filename)
+
+  return sqliteDb
 }
 
 async function loadSqliteDbToMingo (sqliteDb, mingo) {
