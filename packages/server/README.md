@@ -31,6 +31,12 @@ const getHead = () => `
 `
 ```
 
+## User Session Storage
+
+- With MongoDB: Sessions are stored in a MongoDB database.
+- Without MongoDB and `DB_READONLY` unset, sessions are saved in the 'sessions' table of a SQLite database.
+
+
 ## `@startupjs/sharedb-access` connection
 
 Add `accessControl: true` in options of your `startupjsServer`. For example:
