@@ -18,6 +18,7 @@
     "@startupjs/model": "^0.55.8",
     "@startupjs/react-sharedb-util": "^0.55.8",
     "@startupjs/signals": "^0.55.8",
+    "@startupjs/utils": "^0.55.8",
     "co": "~4.6.0",
     "lodash": "^4.17.20"
   },

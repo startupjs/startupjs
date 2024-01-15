@@ -6,24 +6,17 @@ import sharedbSchema from '@startupjs/sharedb-schema'
 import serverAggregate from '@startupjs/server-aggregate'
 import isArray from 'lodash/isArray.js'
 import isPlainObject from 'lodash/isPlainObject.js'
-import redisPubSub from 'sharedb-redis-pubsub'
 import racer from 'racer'
-import Redlock from 'redlock'
 import shareDbHooks from 'sharedb-hooks'
-import db from './db.js'
-import { redisClient, redisObserver, redisLock } from './redis.js'
+import { pubsub } from './redis/index.js'
+import { db } from './db/index.js'
+import maybeFlushRedis from './redis/maybeFlushRedis.js'
+
+export { redis, redlock, Redlock } from './redis/index.js'
+export { db, mongo, mongoClient, createMongoIndex } from './db/index.js'
 
 const usersConnectionCounter = {}
-
 global.__clients = {}
-
-export * from './db.js'
-export {
-  db,
-  redisClient,
-  redisObserver,
-  redisLock
-}
 
 export default async options => {
   options = Object.assign({ secure: true }, options)
@@ -33,63 +26,10 @@ export default async options => {
   // pollDebounce is the minimum time in ms between query polls in sharedb
   if (options.pollDebounce) db.pollDebounce = options.pollDebounce
 
-  // Flush redis when starting the app.
-  // When running in cluster this should only run on the first instance.
-  // Currently only the detection of the first instance of deis.com cluster
-  // is supported.
-  // TODO: Implement detection of the first instance on kubernetes and azure
-  if (options.flushRedis !== false) {
-    const flushRedis = () => {
-      return new Promise(resolve => {
-        redisClient.flushdb((err, didSucceed) => {
-          if (err) {
-            console.error('Redis flushdb err:', err)
-          } else {
-            console.log('Redis flushdb success:', didSucceed)
-          }
-          resolve()
-        })
-      })
-    }
-
-    redisClient.on('connect', () => {
-      // Always flush redis db in development or if a force env flag is specified.
-      if (process.env.NODE_ENV !== 'production' || process.env.FORCE_REDIS_FLUSH) {
-        flushRedis()
-        return
-      }
-      // In production we flush redis db once a day using locking in redis itself.
-      const redlock = new Redlock([redisClient], {
-        driftFactor: 0.01,
-        retryCount: 0
-      })
-      const ONE_DAY = 1000 * 60 * 60 * 24
-      const LOCK_FLUSH_DB_KEY = 'startupjs_service_flushdb'
-      redlock.lock(LOCK_FLUSH_DB_KEY, ONE_DAY)
-        .then(() => {
-          console.log('>>> FLUSHING REDIS DB (this should happen only once a day)')
-          return flushRedis()
-        })
-        .then(() => {
-          // Re-lock right away.
-          console.log('>>> RE-LOCK REDIS DB FLUSH CHECK (for one day)')
-          redlock.lock(LOCK_FLUSH_DB_KEY, ONE_DAY)
-            .catch(err => console.error('Error while re-locking flushdb redis lock!\n' + err))
-        })
-        .catch(err => {
-          if (err instanceof Redlock.LockError) {
-            console.log('>> No need to do Redis Flush DB yet (lock for one day is still present)')
-          } else {
-            console.error('Error while checking flushdb redis lock!\n' + err)
-          }
-        })
-    })
-  }
-
-  const pubsub = redisPubSub({
-    client: redisClient,
-    observer: redisObserver
-  })
+  // Maybe flush redis when starting the app.
+  // When running in cluster this should only run on one instance and once a day
+  // so redlock is used to guarantee that.
+  if (options.flushRedis !== false) maybeFlushRedis()
 
   const backend = racer.createBackend({
     db,
@@ -194,7 +134,7 @@ export default async options => {
     const req = client.upgradeReq
     if (!req) return
 
-    const userId = req.session && req.session.userId
+    const userId = client.session?.userId || req.session?.userId
 
     if (!global.__clients[userId]) {
       const model = backend.createModel()

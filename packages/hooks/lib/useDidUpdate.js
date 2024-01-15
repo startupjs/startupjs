@@ -1,8 +1,9 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useRef } from 'react'
+import useIsomorphicLayoutEffect from '@startupjs/utils/useIsomorphicLayoutEffect'
 
 export default function useDidUpdate (fn, inputs) {
   const rendered = useRef()
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (rendered.current) return fn()
     rendered.current = true
   }, inputs)

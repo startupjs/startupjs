@@ -1,3 +1,3 @@
 import getModel from './getModel.js'
-var singletonModel = getModel()
+const singletonModel = getModel()
 export default singletonModel

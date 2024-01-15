@@ -1,4 +1,5 @@
-import { useLayoutEffect, useMemo, useRef } from 'react'
+import { useMemo, useRef } from 'react'
+import useIsomorphicLayoutEffect from '@startupjs/utils/useIsomorphicLayoutEffect'
 
 export default function useSyncEffect (fn, inputs) {
   const destroy = useRef()
@@ -16,7 +17,7 @@ export default function useSyncEffect (fn, inputs) {
   }, inputs)
 
   // final destroy when component gets unmounted
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     return destroyFn
   }, [])
 }

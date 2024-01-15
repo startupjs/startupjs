@@ -1,33 +1,68 @@
-import './nconf.js'
-import defaults from 'lodash/defaults.js'
+// IMPORTANT! nconf import must go first
+import dummyNconf from './nconf.js' // eslint-disable-line
+
 import path from 'path'
 import { EventEmitter } from 'events'
-import errorApp from './error/index.js'
-import server from './server/index.js'
-const ROOT_PATH = process.env.ROOT_PATH || process.cwd()
 
-export * from './server/index.js'
+export { mongo, mongoClient, createMongoIndex, redis, redlock } from '@startupjs/backend'
 
-export default (options = {}, cb) => {
-  // Set project dir to process.cwd(). In future we may want to allow to
-  // allow the customization of this parameter.
-  options.dirname = ROOT_PATH
+const defaultOptions = {
+  publicPath: './public',
+  loginUrl: '/login',
+  bodyParserLimit: '10mb',
+  secure: false,
+  dirname: process.env.ROOT_PATH || process.cwd()
+}
 
-  defaults(options, {
-    publicPath: './public',
-    loginUrl: '/login',
-    error: errorApp,
-    bodyParserLimit: '10mb'
+export default async function startServer (options) {
+  const props = await createServer(options)
+  return new Promise((resolve, reject) => {
+    props.server.listen(err => {
+      if (err) return reject(err)
+      resolve(props)
+    })
   })
+}
+
+export async function createServer (options = {}) {
+  let backend, session, channel
+  ({ backend, session, channel, options } = await commonInit(options))
+  const { default: createServer } = await import('./server/createServer.js')
+  const { server, expressApp } = createServer({ backend, session, channel, options })
+  return { server, backend, session, channel, expressApp }
+}
+
+export async function createMiddleware (options = {}) {
+  let backend, session, channel
+  ({ backend, session, channel, options } = await commonInit(options))
+  const { default: createMiddleware } = await import('./server/createMiddleware.js')
+  const middleware = createMiddleware({ backend, session, channel, options })
+  return { middleware, backend, session, channel }
+}
+
+async function commonInit (options = {}) {
+  options = { ...defaultOptions, ...options }
 
   // Transform public path to be absolute
   options.publicPath = path.resolve(options.dirname, options.publicPath)
 
-  // Run cb to setup additional options that require initialized nconf
-  // and do event handling
+  // DEPRECATED. Use hooks system (plugins) instead of EventEmitter
   options.ee = new EventEmitter()
-  cb && cb(options.ee, options)
 
-  // Run app
-  server(options)
+  const [
+    { default: createBackend },
+    { default: createSession },
+    { default: createChannel }
+  ] = await Promise.all([
+    import('@startupjs/backend'),
+    import('./server/createSession.js'),
+    import('@startupjs/channel/server')
+  ])
+  const backend = await createBackend(options)
+  const session = createSession(options)
+  const channel = createChannel(backend, { session })
+
+  return { backend, channel, session, options }
 }
+
+;((...args) => {})(dummyNconf) // prevent dead code elimination

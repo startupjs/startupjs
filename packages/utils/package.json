@@ -1,0 +1,46 @@
+{
+  "name": "@startupjs/utils",
+  "type": "module",
+  "version": "0.55.8",
+  "description": "Isomorphic utils for internal cross-package usage",
+  "main": "index.js",
+  "exports": {
+    "./mockBrowserify": {
+      "node": "./mockBrowserify.server.cjs",
+      "default": "./mockBrowserify.js"
+    },
+    "./mockBrowserify.js": "./mockBrowserify.js",
+    "./forceMockBrowserify": "./forceMockBrowserify.js",
+    "./forceMockBrowserify.js": "./forceMockBrowserify.js",
+    "./isServer": "./isServer.js",
+    "./isServer.js": "./isServer.js",
+    "./useIsomorphicLayoutEffect": "./useIsomorphicLayoutEffect.js",
+    "./useIsomorphicLayoutEffect.js": "./useIsomorphicLayoutEffect.js",
+    "./axios": "./axios.js",
+    "./axios.js": "./axios.js",
+    "./BASE_URL": {
+      "node": "./BASE_URL.server.js",
+      "default": "./BASE_URL.js"
+    },
+    "./BASE_URL.js": "./BASE_URL.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "expo-linking": "*",
+    "react": "*"
+  },
+  "peerDependenciesMeta": {
+    "expo-linking": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  },
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.5"
+  }
+}

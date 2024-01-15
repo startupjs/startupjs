@@ -1,4 +1,5 @@
 // ref: https://github.com/kristerkari/react-native-stylus-transformer
+// TODO: Refactor `platform` to be just passed externally as an option in metro and in webpack
 const platformSingleton = require(
   '@startupjs/babel-plugin-rn-stylename-inline/platformSingleton'
 )
@@ -6,6 +7,11 @@ const fs = require('fs')
 const path = require('path')
 const stylus = require('stylus')
 const STYLES_PATH = path.join(process.cwd(), 'styles/index.styl')
+
+let UI_STYLES_PATH
+try {
+  UI_STYLES_PATH = require.resolve('@startupjs/ui/styles/index.styl')
+} catch (err) {}
 
 function renderToCSS (src, filename) {
   let compiled
@@ -16,6 +22,10 @@ function renderToCSS (src, filename) {
   if (platform) {
     compiler.define('$PLATFORM', platform)
     compiler.define(`__${platform.toUpperCase()}__`, true)
+  }
+
+  if (fs.existsSync(UI_STYLES_PATH)) {
+    compiler.import(UI_STYLES_PATH)
   }
 
   // TODO: Make this a setting

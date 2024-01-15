@@ -11,6 +11,9 @@
     "access": "public"
   },
   "license": "MIT",
+  "dependencies": {
+    "@startupjs/utils": "^0.55.8"
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",

@@ -52,7 +52,7 @@ const LOCAL_DIR = process.env.LOCAL_DIR || '.'
 const DEPENDENCIES = [
   // Install alpha version of startupjs when running the alpha of cli
   `startupjs@${STARTUPJS_VERSION}`,
-  'react-native-svg@^12.1.0',
+  'react-native-svg@^14.0.0',
   'nconf@^0.10.0',
   'react',
   'react-dom',
@@ -203,11 +203,8 @@ const TEMPLATES = {
       // === START UI PEER PEDS ===
       `@startupjs/ui@${STARTUPJS_VERSION}`,
       '@react-native-picker/picker@^1.16.1',
-      'react-native-collapsible@^1.6.0',
-      'react-native-color-picker@^0.6.0',
-      'react-native-gesture-handler@1.10.3',
-      'react-native-pager-view@^6.2.0',
-      'react-native-tab-view@^3.0.0'
+      'react-native-gesture-handler@^2.14.0',
+      'react-native-pager-view@^6.2.0'
       // === END UI PEER DEPS ===
     ]
   }

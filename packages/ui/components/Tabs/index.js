@@ -1,6 +1,6 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { TabView } from 'react-native-tab-view'
-import { pug, observer, useValue } from 'startupjs'
+import { pug, observer, useValue, useIsomorphicLayoutEffect } from 'startupjs'
 import { Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import findIndex from 'lodash/findIndex'
@@ -26,7 +26,7 @@ function Tabs ({
   const tabBarProps = pick(props, Object.keys(Bar.propTypes))
   const tabViewProps = pick(props, Object.keys(ObservedTabs.propTypes))
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!$value) return
     $localValue.ref($value)
     return () => $localValue.removeRef()

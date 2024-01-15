@@ -1,21 +1,23 @@
 import {
   useMemo,
-  useLayoutEffect,
   useRef,
-  useCallback,
+  useEffect,
   useState
 } from 'react'
+import useIsomorphicLayoutEffect from '@startupjs/utils/useIsomorphicLayoutEffect'
+import { batching } from '@startupjs/react-sharedb-util'
+import { blockCache, unblockCache } from '@startupjs/cache'
+import { signal, enabled as signalsEnabled } from '@startupjs/signals'
+import $root from '@startupjs/model'
+import isArray from 'lodash/isArray.js'
 import Doc from '../types/Doc.js'
 import Query from '../types/Query.js'
 import QueryExtra from '../types/QueryExtra.js'
 import Local from '../types/Local.js'
 import Value from '../types/Value.js'
 import Api from '../types/Api.js'
-import { batching } from '@startupjs/react-sharedb-util'
-import { blockCache, unblockCache } from '@startupjs/cache'
 import { markAsync } from './asyncCatcher.js'
 // signals are only returned for the use$ hooks and only if they are globally enabled in babel-preset-startupjs
-import { signal, enabled as signalsEnabled } from '@startupjs/signals'
 
 import {
   subDoc,
@@ -24,9 +26,7 @@ import {
   subQuery,
   subApi
 } from '../subscriptionTypeFns.js'
-import $root from '@startupjs/model'
 import destroyer from './destroyer.js'
-import isArray from 'lodash/isArray.js'
 import promiseBatcher from './promiseBatcher.js'
 
 const HOOKS_COLLECTION = '$hooks'
@@ -34,6 +34,15 @@ const $hooks = $root.scope(HOOKS_COLLECTION)
 const WARNING_MESSAGE = "[react-sharedb] Warning. Item couldn't initialize. " +
   'This might be normal if several resubscriptions happened ' +
   'quickly one after another. Error:'
+
+// Hot-reload friendly hooks
+// In production they are just aliases to the original hooks
+let useHotReloadMemo = _useHotReloadMemo
+let useHotReloadUnmount = _useHotReloadUnmount
+if (typeof process !== 'undefined' && process?.env?.NODE_ENV && process.env.NODE_ENV !== 'development') {
+  useHotReloadMemo = useMemo
+  useHotReloadUnmount = useUnmount
+}
 
 export const useDoc = generateUseItemOfType(subDoc)
 export const useDoc$ = generateUseItemOfType(subDoc, { modelOnly: true })
@@ -75,8 +84,8 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
     blockCache()
 
     const [, forceUpdate] = useState()
-    const hookId = useMemo(() => $root.id(), [])
-    const hashedArgs = useMemo(() => {
+    const hookId = useHotReloadMemo(() => $root.id(), [])
+    const hashedArgs = useHotReloadMemo(() => {
       // do initialization once for 'subValue' typeFn
       // to make it work like useState in react
       return typeFn === subValue ? '' : JSON.stringify(args)
@@ -87,22 +96,24 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
     const itemRef = useRef()
     const destructorsRef = useRef([])
 
-    const destroy = useCallback(() => {
-      if (cancelInitRef.current) cancelInitRef.current.value = true
-      itemRef.current = undefined
-      destructorsRef.current.forEach(destroy => destroy())
-      destructorsRef.current.length = 0
-      $hooks.destroy(hookId)
+    const destroy = useHotReloadMemo(() => {
+      return () => {
+        if (cancelInitRef.current) cancelInitRef.current.value = true
+        itemRef.current = undefined
+        destructorsRef.current.forEach(destroy => destroy())
+        destructorsRef.current.length = 0
+        $hooks.destroy(hookId)
+      }
     }, [])
 
     // For normal component destruction process
-    useUnmount(destroy)
+    useHotReloadUnmount(destroy)
 
     // Manual destruction handling for the case of
     // throwing Promise out of hook
-    useSync(() => destroyer.add(destroy), [])
+    useHotReloadMemo(() => destroyer.add(destroy), [])
 
-    const params = useMemo(() => typeFn(...args), [hashedArgs])
+    const params = useHotReloadMemo(() => typeFn(...args), [hashedArgs])
 
     function finishInit () {
       // destroy the previous item and all unsuccessful item inits which happened until now.
@@ -176,7 +187,7 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
           // since we only care about gathering subscription promises
           if (initPromise && initPromise.type === 'batch') {
             markAsync()
-            return
+            return undefined
           // Async variant
           } else if (initPromise) {
             markAsync()
@@ -204,7 +215,7 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
       }
     }
 
-    useSync(() => initItem(params), [hashedArgs])
+    useHotReloadMemo(() => initItem(params), [hashedArgs])
 
     // ----- model -----
 
@@ -213,14 +224,14 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
     // to update items with: $queryCollection.at(itemId).set('title', 'FooBar')
 
     // TODO: for signals there is no need to tie ourselves to collectionName
-    const collectionName = useMemo(
+    const collectionName = useHotReloadMemo(
       () => {
         if (!isQuery) return
         return getCollectionName(params)
       },
       [hashedArgs]
     )
-    const $queryCollection = useMemo(
+    const $queryCollection = useHotReloadMemo(
       () => {
         if (!isQuery) return
         if (signalsEnabled && modelOnly) {
@@ -234,7 +245,7 @@ function generateUseItemOfType (typeFn, { optional, batch, modelOnly } = {}) {
     // For Doc, Local, Value return the model scoped to the hook path
     // But only after the initialization actually finished, otherwise
     // the ORM won't be able to properly resolve the path which was not referenced yet
-    const $model = useMemo(
+    const $model = useHotReloadMemo(
       () => {
         if (isQuery || !initsCountRef.current) return
         // For Doc and Local return original path
@@ -343,12 +354,28 @@ function getItemConstructor (type) {
   }
 }
 
-function useUnmount (fn) {
-  useLayoutEffect(() => fn, [])
+const UNMOUNT_TIMEOUT = 5000
+function _useHotReloadUnmount (fn) {
+  const timeoutRef = useRef()
+
+  useEffect(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    return () => {
+      timeoutRef.current = setTimeout(fn, UNMOUNT_TIMEOUT)
+    }
+  }, [])
 }
 
-function useSync (fn, inputs) {
-  useMemo(() => {
-    fn()
-  }, inputs)
+function useUnmount (fn) {
+  useIsomorphicLayoutEffect(() => fn, [])
+}
+
+function _useHotReloadMemo (fn, inputs = []) {
+  const ref = useRef()
+  const prevInputs = useRef()
+  if (JSON.stringify(prevInputs.current) !== JSON.stringify(inputs)) {
+    prevInputs.current = inputs
+    ref.current = fn()
+  }
+  return ref.current
 }

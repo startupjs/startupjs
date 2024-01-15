@@ -7,12 +7,18 @@
   },
   "description": "Init sharedb connection on client web, native or server side",
   "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./client-auto": "./client-auto.js"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
     "@startupjs/react-sharedb": "^0.55.8",
+    "@startupjs/utils": "^0.55.8",
     "racer": "1.0.1",
     "rich-text": "^4.0.0",
     "sharedb": "^2.0.0"

@@ -14,8 +14,7 @@
   "dependencies": {
     "@startupjs/backend": "^0.55.12",
     "@startupjs/orm": "^0.55.8",
-    "lodash": "^4.17.20",
-    "redlock": "^3.0.0"
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
     "mocha": "^8.1.3"

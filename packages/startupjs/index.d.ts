@@ -1,4 +1,6 @@
+export { default as axios } from '@startupjs/utils/axios'
 export * from '@startupjs/react-sharedb'
+export { default as $, signal } from '@startupjs/signals'
 export * from '@startupjs/hooks'
 // HINT: `isomorphic` means that the code can be executed both
 //        on the server and on the client

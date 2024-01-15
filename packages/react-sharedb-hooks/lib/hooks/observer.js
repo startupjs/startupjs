@@ -1,13 +1,14 @@
 // ref: https://github.com/mobxjs/mobx-react-lite/blob/master/src/observer.ts
 import * as React from 'react'
-import { observe, unobserve } from '@nx-js/observer-util'
+import useIsomorphicLayoutEffect from '@startupjs/utils/useIsomorphicLayoutEffect'
 import { batching } from '@startupjs/react-sharedb-util'
 import { createCaches } from '@startupjs/cache'
-import _throttle from 'lodash/throttle.js'
 import { __increment, __decrement } from '@startupjs/debug'
+import $root from '@startupjs/model'
+import { observe, unobserve } from '@nx-js/observer-util'
+import _throttle from 'lodash/throttle.js'
 import destroyer from './destroyer.js'
 import promiseBatcher from './promiseBatcher.js'
-import $root from '@startupjs/model'
 import { ComponentMetaContext, useCache } from './meta.js'
 
 const DEFAULT_OPTIONS = {
@@ -127,11 +128,11 @@ function wrapObserverMeta (
     //   createdAt: Date.now(),
     //   cache
     // })
-    var componentMeta = React.useMemo(function () {
+    const componentMeta = React.useMemo(function () {
       return {
         componentId: $root.id(),
         createdAt: Date.now(),
-        cache: cache
+        cache
       }
     }, [])
 
@@ -201,12 +202,13 @@ function wrapBaseComponent (baseComponent, blockUpdate, cache) {
 function useForceUpdate (throttle) {
   const [, setTick] = React.useState()
   if (throttle) {
-    const timeout = typeof(throttle) === 'number' ? +throttle : DEFAULT_THROTTLE_TIMEOUT
+    const timeout = typeof (throttle) === 'number' ? +throttle : DEFAULT_THROTTLE_TIMEOUT
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     return React.useCallback(
       _throttle(() => {
         setTick(Math.random())
       }, timeout)
-    , [])
+      , [])
   } else {
     return () => setTick(Math.random())
   }
@@ -214,7 +216,7 @@ function useForceUpdate (throttle) {
 
 // TODO: Might change to just `useEffect` in future. Don't know which one fits here better yet.
 function useUnmount (fn) {
-  React.useLayoutEffect(() => fn, [])
+  useIsomorphicLayoutEffect(() => fn, [])
 }
 
 function NullComponent () {

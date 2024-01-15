@@ -1,33 +1,16 @@
-import getBackend, {
-  mongo,
-  createMongoIndex,
-  redisClient
-} from '@startupjs/backend'
+import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import http from 'http'
 import https from 'https'
 import conf from 'nconf'
-import racerHighway from 'racer-highway'
-import express from './express.js'
+import { createExpress } from './express.js'
 
 let server = null
-let wsServer = null
 
-export { mongo, createMongoIndex }
-export const redis = redisClient
-
-export default async (options) => {
-  options = Object.assign({ secure: true }, options)
-
-  // Init backend and all apps
-  const backend = await getBackend(options)
-
-  // Init error handling route
-  const error = options.error(options)
-
-  const { expressApp, session } = express(backend, error, options)
-
-  const { wss, upgrade } = racerHighway(backend, { session }, { timeout: 5000, timeoutIncrement: 8000 })
-  wsServer = wss
+/**
+ * Creates a dev/prod server with all the startupjs functionality
+ */
+export default async function createServer ({ backend, session, channel, options }) {
+  const expressApp = createExpress({ backend, session, channel, options })
 
   // Create server and setup websockets connection
   if (options.https) {
@@ -35,12 +18,15 @@ export default async (options) => {
   } else {
     server = http.createServer(expressApp)
   }
+  MODULE.hook('createServer', server)
+
   if (conf.get('SERVER_REQUEST_TIMEOUT') != null) {
     server.timeout = ~~conf.get('SERVER_REQUEST_TIMEOUT')
   }
 
   server.on('upgrade', function (req) {
-    if (req.url === '/channel') upgrade.apply(this, arguments)
+    if (req.url === '/channel') channel.upgrade(...arguments)
+    MODULE.hook('serverUpgrade', ...arguments)
   })
 
   const props = { backend, server, expressApp, session }
@@ -55,17 +41,43 @@ export default async (options) => {
     }, props))
   }
   options.ee.emit('beforeStart', props)
+  // TODO: asyncHook does not wait for MODULE.on's to complete. Fix it
+  await MODULE.asyncHook('beforeStart', props)
 
-  // Start server
-  server.listen(conf.get('PORT'), (err) => {
-    if (err) {
-      console.error('Server failed to start. Exiting...')
-      return process.exit()
+  server.listen = getListen(server, options)
+
+  return { server, expressApp }
+}
+
+function getListen (server, options) {
+  const oldListen = server.listen
+  return function listen (...args) {
+    const defaultCb = (err) => {
+      if (err) {
+        console.error('Server failed to start\n', err)
+        throw Error('ERROR! Server failed to start')
+      }
+      printStarted()
+      // ----------------------------------------------->       done       <#
+      options.ee.emit('done')
     }
-    printStarted()
-    // ----------------------------------------------->       done       <#
-    options.ee.emit('done')
-  })
+    const wrapCb = cb => {
+      return function () {
+        defaultCb.apply(this, arguments)
+        cb?.apply(this, arguments)
+      }
+    }
+    if (args.length === 0) {
+      args = [conf.get('PORT'), defaultCb]
+    } else if (args.length === 1 && typeof args[0] === 'function') {
+      args = [conf.get('PORT'), wrapCb(args[0])]
+    } else if (args.length === 1 && typeof args[0] === 'number') {
+      args = [args[0], defaultCb]
+    } else {
+      args.map(arg => typeof arg === 'function' ? wrapCb(arg) : arg)
+    }
+    return oldListen.apply(server, args)
+  }
 }
 
 // Handle graceful shutdown of the server
@@ -76,7 +88,6 @@ async function gracefulShutdown (exitCode = 0) {
   console.log('Exiting...')
   const promises = []
   if (server) promises.push(new Promise(resolve => server.close(resolve)))
-  if (wsServer?._server) promises.push(new Promise(resolve => wsServer._server.close(resolve)))
   // delay exit by 3000 ms for extra safety in production.
   // In development this is also used as a force exit timeout
   setTimeout(() => process.exit(exitCode), 3000)

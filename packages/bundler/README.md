@@ -4,7 +4,7 @@
 ## Requirements
 
 ```
-react-native-svg: >= 12.1.0
+react-native-svg: >= 14.0.0
 ```
 
 ## Usage
