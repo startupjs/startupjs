@@ -4,10 +4,10 @@
     "access": "public"
   },
   "description": "Immitation of scrollable anchors",
-  "version": "0.55.11",
+  "version": "0.55.12",
   "main": "index.js",
   "dependencies": {
     "@startupjs/ui": "^0.55.11",
-    "startupjs": "^0.55.11"
+    "startupjs": "^0.55.12"
   }
 }
