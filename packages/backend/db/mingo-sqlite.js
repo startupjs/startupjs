@@ -61,7 +61,7 @@ function patchMingoForSQLitePersistence (sqliteDb, shareDbMingo) {
                 return callback(err)
               }
 
-              callback()
+              callback(null, true)
             }
           )
         }
