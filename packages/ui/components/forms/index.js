@@ -12,6 +12,6 @@ export { default as ObjectInput } from './ObjectInput'
 export { default as PasswordInput } from './PasswordInput'
 export { default as Radio } from './Radio'
 export { default as RangeInput } from './RangeInput'
-export { default as Rank } from './Rank' // TODO: fix draggable and uncomment
+export { default as Rank } from './Rank'
 export { default as Select } from './Select'
 export { default as TextInput } from './TextInput'
