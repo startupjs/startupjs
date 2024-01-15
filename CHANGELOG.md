@@ -1,3 +1,12 @@
+## [0.55.12](https://github.com/startupjs/startupjs/compare/v0.55.11...v0.55.12) (2024-01-15)
+
+
+### Bug Fixes
+
+* **backend/mingo-sqlite:** fix reactivity ([#1149](https://github.com/startupjs/startupjs/issues/1149)) ([0af42bc](https://github.com/startupjs/startupjs/commit/0af42bc5e9d083d7b4170a0f69c4639939edf0e7))
+
+
+
 ## [0.55.11](https://github.com/startupjs/startupjs/compare/v0.55.10...v0.55.11) (2023-12-22)
 
 
