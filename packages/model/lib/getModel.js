@@ -2,14 +2,12 @@ import isServer from '@startupjs/utils/isServer'
 import Socket from '@startupjs/channel'
 import racer from 'racer'
 
-const DEFAULT_CLIENT_OPTIONS = {
+const DEFAULT_SOCKET_OPTIONS = {
   base: '/channel',
   reconnect: true,
-  forceBrowserChannel: true, // TODO: change to false later when we expo check is implemented
-  srvProtocol: undefined,
-  srvHost: undefined,
-  srvPort: undefined,
-  srvSecurePort: undefined,
+  allowXhrFallback: false,
+  forceXhrFallback: false,
+  baseUrl: undefined,
   timeout: 10000,
   timeoutIncrement: 10000
 }
@@ -20,8 +18,8 @@ if (!isServer) monkeyPatch()
 function monkeyPatch () {
   racer.Model.prototype._createSocket = function () {
     const clientOptions = {
-      ...DEFAULT_CLIENT_OPTIONS,
-      ...(typeof window !== 'undefined' && window.__racerHighwayClientOptions)
+      ...DEFAULT_SOCKET_OPTIONS,
+      ...globalThis.__startupjsChannelOptions
     }
     return new Socket(clientOptions)
   }
@@ -32,7 +30,7 @@ export default function getModel () {
 
   // Specify the time it takes before unsubscribe actually fires
   const unloadDelay =
-    (typeof window !== 'undefined' && window.__racerUnloadDelay) ||
+    (globalThis.__racerUnloadDelay) ||
     DEFAULT_UNLOAD_DELAY
   model.root.unloadDelay = unloadDelay
   return model

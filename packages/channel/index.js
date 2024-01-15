@@ -1,9 +1,4 @@
-// import { BCSocket } from 'browserchannel/dist/bcsocket-uncompressed'
 import SockJS from './SockJS.cjs'
-
-const useSockJS = true
-
-const WebSocket = useSockJS ? SockJS : globalThis.WebSocket
 
 export default class Socket {
   constructor (options) {
@@ -11,18 +6,23 @@ export default class Socket {
     this._messageQueue = []
     this._connectedOnce = false
     this._attemptNum = 0
-    this._url = getWebSocketURL(options).replace('ws:', useSockJS ? 'http:' : 'ws:')
+    this._url = getWebSocketURL(options)
+    this._useXhrFallback = options.forceXhrFallback
+    this._allowXhrFallback = this._useXhrFallback || options.allowXhrFallback
 
-    // if (typeof WebSocket !== 'undefined' && !options.forceBrowserChannel) {
     this._createWebSocket()
-    // } else if (!options.forceWebSocket) {
-    //   this._createBrowserChannel()
-    // }
   }
 
   _createWebSocket () {
-    this._type = 'websocket'
-    this._socket = useSockJS ? new WebSocket(this._url, undefined, { transports: 'xhr-polling' }) : new WebSocket(this._url)
+    if (this._useXhrFallback) {
+      this._type = 'xhr'
+      this._url = this._url.replace(/^ws/, 'http')
+      this._socket = new SockJS(this._url, undefined, { transports: 'xhr-polling' })
+    } else {
+      this._type = 'websocket'
+      this._url = this._url.replace(/^http/, 'ws')
+      this._socket = new WebSocket(this._url)
+    }
 
     this.open = this._createWebSocket.bind(this)
     this._syncState()
@@ -32,21 +32,8 @@ export default class Socket {
     this._socket.onclose = this._ws_onclose.bind(this)
   }
 
-  _createBrowserChannel () {
-    this._type = 'browserchannel'
-    // this._socket = BCSocket(this._options.base, this._options)
-
-    this.open = this._createBrowserChannel.bind(this)
-    this._syncState()
-
-    this._socket.onmessage = this._bc_onmessage.bind(this)
-    this._socket.onopen = this._bc_onopen.bind(this)
-    this._socket.onclose = this._bc_onclose.bind(this)
-  }
-
   _ws_onmessage (message) {
     this._syncState()
-    console.log('>>> received message', message)
     this.onmessage && this.onmessage(message)
   }
 
@@ -62,22 +49,16 @@ export default class Socket {
 
   _ws_onclose (event) {
     this._syncState()
-    console.log('SockJS: connection is broken', this._url, event)
 
     this.onclose && this.onclose(event)
 
-    // if (!this._connectedOnce) {
-    //   return this._createBrowserChannel()
-    // }
-
-    const socket = this
+    if (!this._useXhrFallback && this._allowXhrFallback && !this._connectedOnce) {
+      this._useXhrFallback = true
+      return this._createWebSocket()
+    }
 
     if (this._options.reconnect && !event.wasClean) {
-      setTimeout(() => {
-        if (socket.readyState === socket.CLOSED) {
-          socket._createWebSocket()
-        }
-      }, this._getTimeout())
+      setTimeout(() => this.reconnect(), this._getTimeout())
     }
     this._attemptNum++
   }
@@ -89,21 +70,6 @@ export default class Socket {
     return getRandom(maxTimeout / 3, maxTimeout)
   }
 
-  _bc_onmessage (data) {
-    this._syncState()
-    this.onmessage && this.onmessage(data)
-  }
-
-  _bc_onopen (event) {
-    this._syncState()
-    this.onopen && this.onopen(event)
-  }
-
-  _bc_onclose (event) {
-    this._syncState()
-    this.onclose && this.onclose(event)
-  }
-
   _flushQueue () {
     while (this._messageQueue.length !== 0) {
       const data = this._messageQueue.shift()
@@ -112,7 +78,7 @@ export default class Socket {
   }
 
   _send (data) {
-    if (this._type === 'websocket' && typeof data !== 'string') {
+    if (typeof data !== 'string') {
       data = JSON.stringify(data)
     }
 
@@ -120,14 +86,10 @@ export default class Socket {
   }
 
   send (data) {
-    if (this._type === 'websocket') {
-      if (this._socket.readyState === WebSocket.OPEN && this._messageQueue.length === 0) {
-        this._send(data)
-      } else {
-        this._messageQueue.push(data)
-      }
-    } else {
+    if (this._socket.readyState === this.OPEN && this._messageQueue.length === 0) {
       this._send(data)
+    } else {
+      this._messageQueue.push(data)
     }
   }
 
@@ -140,7 +102,7 @@ export default class Socket {
   }
 
   reconnect () {
-    if (this._type === 'websocket' && this.readyState === this.CLOSED) {
+    if (this.readyState === this.CLOSED) {
       this._createWebSocket()
     }
   }
@@ -163,22 +125,12 @@ function getRandom (min, max) {
 }
 
 function getWebSocketURL (options) {
-  let port = typeof window !== 'undefined' && window.location && window.location.port
-  let host = typeof window !== 'undefined' && window.location && window.location.hostname
-  let protocol = typeof window !== 'undefined' && window.location && window.location.protocol
-
-  host = options.srvHost || host
-  protocol = options.srvProtocol || protocol
-
-  if (protocol === 'https:' || protocol === 'wss:') {
-    protocol = 'wss:'
-    port = options.srvSecurePort || options.srvPort || port
-  } else {
-    protocol = 'ws:'
-    port = options.srvPort || port
-  }
-
-  return protocol + '//' + host + (port ? ':' + port : '') + options.base
+  let baseUrl
+  baseUrl ??= options.baseUrl
+  if (typeof window !== 'undefined') baseUrl ??= window.location?.origin
+  if (!baseUrl) throw Error('[@startupjs/channel] No baseUrl provided to connect to the server')
+  baseUrl.replace(/\/$/, '')
+  return baseUrl + options.base
 }
 
 // Maybe need to use reconnection timing algorithm from

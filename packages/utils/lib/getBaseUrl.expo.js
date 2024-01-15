@@ -4,7 +4,7 @@ const EXPO_DEFAULT_PORT = 8081
 
 export default function getBaseUrl () {
   let url
-  if (typeof window !== 'undefined') url = window.location?.origin
+  if (typeof window !== 'undefined') url ??= window.location?.origin
   try {
     url ??= createURL('/')
   } catch (err) {}

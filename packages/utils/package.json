@@ -9,20 +9,20 @@
       "node": "./mockBrowserify.server.cjs",
       "default": "./mockBrowserify.js"
     },
-    "./mockBrowserify.js": "./mockBrowserify.js",
     "./forceMockBrowserify": "./forceMockBrowserify.js",
-    "./forceMockBrowserify.js": "./forceMockBrowserify.js",
     "./isServer": "./isServer.js",
-    "./isServer.js": "./isServer.js",
+    "./isExpo": {
+      "node": "./isExpo.server.js",
+      "default": "./isExpo.js"
+    },
+    "./isWeb": "./isWeb.js",
+    "./isDevelopment": "./isDevelopment.js",
     "./useIsomorphicLayoutEffect": "./useIsomorphicLayoutEffect.js",
-    "./useIsomorphicLayoutEffect.js": "./useIsomorphicLayoutEffect.js",
     "./axios": "./axios.js",
-    "./axios.js": "./axios.js",
     "./BASE_URL": {
       "node": "./BASE_URL.server.js",
       "default": "./BASE_URL.js"
-    },
-    "./BASE_URL.js": "./BASE_URL.js"
+    }
   },
   "publishConfig": {
     "access": "public"

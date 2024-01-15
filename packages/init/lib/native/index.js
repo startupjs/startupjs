@@ -6,34 +6,48 @@
 import mockBrowserify from '@startupjs/utils/mockBrowserify'
 
 import DEFAULT_BASE_URL from '@startupjs/utils/BASE_URL'
+import isDevelopment from '@startupjs/utils/isDevelopment'
+import isExpo from '@startupjs/utils/isExpo'
+import isWeb from '@startupjs/utils/isWeb'
 import axios from '@startupjs/utils/axios'
 import ShareDB from 'sharedb/lib/client'
 import commonInit from '../util/common'
 import connectModel from '../util/connectModel'
-import patchRacerHighway from './patchRacerHighway'
 
 const NO_BASE_URL_WARN = `
-  !!!WARNING!!! baseUrl option is not specified.
+  !!! WARNING !!! baseUrl option is not specified.
   Defaulting to ${DEFAULT_BASE_URL}
 
-  StartupJS on React Native must know baseUrl of the server to connect to.
-
-  IMPORTANT!!! You must provide proper baseUrl in production. Your app
-  won't be able to automatically find out the server IP address.
+  !!! IMPORTANT !!!
+  This might only work fine in development mode or if you are on Web.
+  In order for the app to work in production on React Native (iOS and Android),
+  you MUST explicitly provide the baseUrl option because the app can't guess it.
+  The simplest way to do it is to create a file \`.env.production\`
+  and put \`BASE_URL=https://mydomain.com\` there.
 `
 
 export default (options = {}) => {
   if (!options.baseUrl) {
-    console.warn(NO_BASE_URL_WARN)
+    if (!(isWeb || (isExpo && isDevelopment))) console.warn(NO_BASE_URL_WARN)
     options.baseUrl = DEFAULT_BASE_URL
   }
 
   axios.defaults.baseURL = options.baseUrl
-  patchRacerHighway(options.baseUrl)
+  globalThis.__startupjsChannelOptions = {
+    baseUrl: options.baseUrl,
+    // In dev we embed startupjs server as middleware into Metro server itself.
+    // We have to use XHR since there is no way to easily access Metro's WebSocket endpoints.
+    // In production we run our own server and can use WebSocket without any problems.
+    forceXhrFallback: isDevelopment
+  }
+
   commonInit(ShareDB, options)
   for (const plugin of options.plugins || []) {
     plugin(options)
   }
+
+  // Connect model to the server
+  // TODO: Connect model ONLY if startupjs server exists
   connectModel()
 }
 
