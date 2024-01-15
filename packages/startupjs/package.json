@@ -53,7 +53,6 @@
     "@startupjs/registry": "^0.55.10",
     "@startupjs/server": "^0.55.10",
     "@startupjs/utils": "^0.55.8",
-    "babel-preset-startupjs": "^0.55.11",
-    "react-native-web": "^0.18.0"
+    "babel-preset-startupjs": "^0.55.11"
   }
 }

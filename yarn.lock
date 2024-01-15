@@ -13797,16 +13797,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-react-class@npm:^15.7.0":
-  version: 15.7.0
-  resolution: "create-react-class@npm:15.7.0"
-  dependencies:
-    loose-envify: "npm:^1.3.1"
-    object-assign: "npm:^4.1.1"
-  checksum: bce4b46e6d85b424cb50ca8089266c7664fcecfd81abaafb829680fae2e2e60dc6999cac88f5a16a38473ed284859f2328935a42fc5cd1b7cc48888fdd8363c9
-  languageName: node
-  linkType: hard
-
 "cross-env@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-env@npm:7.0.3"
@@ -25524,13 +25514,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"normalize-css-color@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "normalize-css-color@npm:1.0.2"
-  checksum: 48655c9113d35c9e49d71e63ef636556b807692fdc536cfb3de2b51827ab9d75998c76d671576268e40dc3d89af91b750b2d1c889aa98856dd6181924add1712
-  languageName: node
-  linkType: hard
-
 "normalize-package-data@npm:^2.0.0, normalize-package-data@npm:^2.3.0, normalize-package-data@npm:^2.3.2, normalize-package-data@npm:^2.3.4, normalize-package-data@npm:^2.3.5, normalize-package-data@npm:^2.4.0, normalize-package-data@npm:^2.5.0":
   version: 2.5.0
   resolution: "normalize-package-data@npm:2.5.0"
@@ -28759,24 +28742,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-web@npm:^0.18.0":
-  version: 0.18.12
-  resolution: "react-native-web@npm:0.18.12"
-  dependencies:
-    "@babel/runtime": "npm:^7.18.6"
-    create-react-class: "npm:^15.7.0"
-    fbjs: "npm:^3.0.4"
-    inline-style-prefixer: "npm:^6.0.1"
-    normalize-css-color: "npm:^1.0.2"
-    postcss-value-parser: "npm:^4.2.0"
-    styleq: "npm:^0.1.2"
-  peerDependencies:
-    react: ^17.0.2 || ^18.0.0
-    react-dom: ^17.0.2 || ^18.0.0
-  checksum: 845bbe1061e0c80cc998a75345ca4ebee4972fb39c8344fb96faec1c8961c38c015df047d9c3a7ebab2f74151aba9fe930b0da49c55b710549ba93bf577a1696
-  languageName: node
-  linkType: hard
-
 "react-native-web@npm:~0.19.6":
   version: 0.19.10
   resolution: "react-native-web@npm:0.19.10"
@@ -31310,7 +31275,6 @@ __metadata:
     "@startupjs/server": "npm:^0.55.10"
     "@startupjs/utils": "npm:^0.55.8"
     babel-preset-startupjs: "npm:^0.55.11"
-    react-native-web: "npm:^0.18.0"
   bin:
     startupjs: ./cli.js
   languageName: unknown
@@ -31800,7 +31764,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"styleq@npm:^0.1.2, styleq@npm:^0.1.3":
+"styleq@npm:^0.1.3":
   version: 0.1.3
   resolution: "styleq@npm:0.1.3"
   checksum: 975d951792e65052f1f6e41aaad46492642ce4922b3dc36d4b49b37c8509f9a776794d8f275360f00116a5e6ab1e31514bdcd5840656c4e3213da6803fa12941
