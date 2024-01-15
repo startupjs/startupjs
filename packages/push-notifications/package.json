@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/push-notifications",
-  "version": "0.55.11",
+  "version": "0.56.0-alpha.0",
   "type": "module",
   "description": "Push notifications module",
   "main": "index.js",
