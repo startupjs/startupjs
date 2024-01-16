@@ -3,7 +3,6 @@
   "PORT": 3000,
   "SESSION_SECRET": "!!! IMPORTANT !!! SPECIFY UNIQUE SESSION SECRET",
   "BASE_URL": "http://localhost:3000",
-  "MONGO_URL": "mongodb://localhost:27017/expoapp",
 
   "CRITICAL_VERSION_IOS": 1,
   "CRITICAL_VERSION_ANDROID": 1,

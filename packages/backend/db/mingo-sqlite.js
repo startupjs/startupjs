@@ -1,9 +1,8 @@
 import ShareDbMingoMemory from 'sharedb-mingo-memory'
-import path from 'path'
-import fs from 'fs'
+import { resolve } from 'path'
 import sqlite3 from 'sqlite3'
 import { v4 as uuid } from 'uuid'
-import { loadSqliteDbToMingo } from './utils.js'
+import { loadSqliteDbToMingo, getExistingSqliteDb } from './utils.js'
 
 const DEFAULT_DB_PATH = './sqlite.db'
 
@@ -14,23 +13,19 @@ export const db = await getMingoSqliteDb({
 
 async function getMingoSqliteDb ({ dbPath, loadSnapshotPath }) {
   const db = new ShareDbMingoMemory()
-  const sourceSqliteDbPath = loadSnapshotPath ? path.join(process.cwd(), loadSnapshotPath) : undefined
-  if (!fs.existsSync(sourceSqliteDbPath)) {
-    throw Error(`[mingo] Snapshot file ${sourceSqliteDbPath} doesn't exist`)
-  }
-  const targetSqliteDbPath = path.join(process.cwd(), dbPath || DEFAULT_DB_PATH)
-  const targetSqliteDb = await getOrCreateSqliteDb(targetSqliteDbPath)
+  dbPath = resolve(dbPath || DEFAULT_DB_PATH)
+  const sqliteDb = await getOrCreateSqliteDb(dbPath)
 
-  await deleteExpiredDocumentsOps(targetSqliteDb)
+  await deleteExpiredDocumentsOps(sqliteDb)
 
   if (loadSnapshotPath) {
-    const sourceSqliteDb = new sqlite3.Database(sourceSqliteDbPath)
-    await cloneSqliteDb(sourceSqliteDb, targetSqliteDb)
+    const snapshotSqliteDb = getExistingSqliteDb(loadSnapshotPath)
+    await cloneSqliteDb(snapshotSqliteDb, sqliteDb)
   }
 
-  await loadSqliteDbToMingo(targetSqliteDb, db)
+  await loadSqliteDbToMingo(sqliteDb, db)
 
-  patchMingoForSQLitePersistence(targetSqliteDb, db)
+  patchMingoForSQLitePersistence(sqliteDb, db)
 
   return db
 }
