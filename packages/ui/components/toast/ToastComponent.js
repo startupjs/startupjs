@@ -96,7 +96,8 @@ function ToastComponent ({
           Div(onPress=onHide)
             Icon(icon=faTimes)
 
-        Span.text= text
+        if text
+          Span.text= text
 
         if onAction
           Div.actions(row)
