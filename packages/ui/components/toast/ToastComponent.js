@@ -85,7 +85,7 @@ function ToastComponent ({
       onLayout=e=> onLayout(e.nativeEvent.layout)
     )
       Div.toast(styleName=[type])
-        Div.toast-area(vAlign='center' row)
+        Div.header(vAlign='center' row)
           Div(vAlign='center' row)
             Icon.icon(
               icon=icon ? icon : ICONS[type]
