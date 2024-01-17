@@ -85,11 +85,7 @@ function ToastComponent ({
       onLayout=e=> onLayout(e.nativeEvent.layout)
     )
       Div.toast(styleName=[type])
-        Div(
-          align='between'
-          vAlign='center'
-          row
-        )
+        Div.header(vAlign='center' row)
           Div(vAlign='center' row)
             Icon.icon(
               icon=icon ? icon : ICONS[type]
@@ -100,7 +96,8 @@ function ToastComponent ({
           Div(onPress=onHide)
             Icon(icon=faTimes)
 
-        Span.text= text
+        if text
+          Span.text= text
 
         if onAction
           Div.actions(row)

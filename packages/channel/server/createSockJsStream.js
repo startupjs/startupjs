@@ -3,7 +3,7 @@ import { Duplex } from 'stream'
 const OPEN = 1 // WebSocket.OPEN
 
 /**
- * @param {EventEmitter} client is a websocket client session for each
+ * @param {EventEmitter} client is a SockJS client session for each
  *   browser window/tab which connects to the server
  * @param {ClientStream} ClientStream is a stream class that is used to create
  *   the stream. It is passed in as a parameter to allow for different stream implementations
@@ -24,7 +24,6 @@ export default function createStream (client) {
   })
 
   client.on('close', function () {
-    console.log('>>> closed client')
     // Signal data writing is complete. Emits the 'end' event
     stream.push(null)
   })
@@ -56,13 +55,8 @@ export class SockJsClientStream extends Duplex {
 
   _write (chunk, encoding, cb) {
     // Silently drop messages after the session is closed
-    if (this.client.readyState !== OPEN) {
-      console.log('>>>> TRIED TO SEND MESSAGE AFTER CLOSED')
-      return cb()
-    }
+    if (this.client.readyState !== OPEN) return cb()
     try {
-      // console.log('>>>> send message', this.client.connectSession.userId, chunk)
-      console.log('>>>> send message', chunk)
       this.client.write(JSON.stringify(chunk))
     } catch (err) {
       console.error(`[@startupjs/channel] ${this.constructor._type} send:`, err)
@@ -71,7 +65,6 @@ export class SockJsClientStream extends Duplex {
   }
 
   _stopClient () {
-    console.log('>>>> CLOSE STREAM')
     this.client.close()
   }
 }

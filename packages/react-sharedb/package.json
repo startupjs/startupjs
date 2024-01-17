@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/react-sharedb",
   "type": "module",
-  "version": "0.55.8",
+  "version": "0.56.0-alpha.0",
   "engines": {
     "node": ">= 14"
   },
@@ -17,10 +17,10 @@
   "license": "MIT",
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",
-    "@startupjs/model": "^0.55.8",
-    "@startupjs/react-sharedb-classes": "^0.55.8",
-    "@startupjs/react-sharedb-hooks": "^0.55.8",
-    "@startupjs/react-sharedb-util": "^0.55.8",
+    "@startupjs/model": "^0.56.0-alpha.0",
+    "@startupjs/react-sharedb-classes": "^0.56.0-alpha.0",
+    "@startupjs/react-sharedb-hooks": "^0.56.0-alpha.0",
+    "@startupjs/react-sharedb-util": "^0.56.0-alpha.0",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "^4.17.20",
     "racer": "1.0.1",
@@ -37,7 +37,7 @@
     "@babel/register": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "@oskarer/enzyme-wait": "^1.3.0",
-    "@startupjs/channel": "^0.55.8",
+    "@startupjs/channel": "^0.56.0-alpha.0",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "bluebird": "^3.5.1",

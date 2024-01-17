@@ -17,7 +17,7 @@
     "@expo/vector-icons": "^14.0.0",
     "@react-native-picker/picker": "2.6.1",
     "@react-navigation/native": "^6.0.2",
-    "@startupjs/ui": "^0.55.0",
+    "@startupjs/ui": "^0.56.0-alpha.0",
     "expo": "^50.0.0-preview.10",
     "expo-font": "~11.10.1",
     "expo-linking": "~6.2.2",
@@ -35,7 +35,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-svg": "14.1.0",
     "react-native-web": "~0.19.6",
-    "startupjs": "^0.55.11"
+    "startupjs": "^0.56.0-alpha.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
