@@ -91,10 +91,7 @@ async function createOrUpdateCertificate (backend, domain) {
       accountKey: await acme.crypto.createPrivateKey()
     })
 
-    const [key, csr] = await acme.crypto.createCsr({
-      commonName: `*.${domain}`,
-      altNames: [domain]
-    })
+    const [key, csr] = await acme.crypto.createCsr({ commonName: domain })
 
     const autoParams = {
       csr,
@@ -148,7 +145,7 @@ function setSslCertificatesAccess (backend) {
 }
 
 export async function init (backend, expressApp) {
-  const domains = process.env.DOMAINS?.split?.(',')
+  const domains = process.env.HTTPS_DOMAINS?.split?.(',')
   if (!domains?.length) return
 
   setSslCertificatesAccess(backend)

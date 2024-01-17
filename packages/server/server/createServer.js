@@ -14,13 +14,19 @@ export default async function createServer ({ backend, session, channel, options
   const expressApp = createExpress({ backend, session, channel, options })
 
   // Create server and setup websockets connection
-  if (process.env.USE_HTTPS || options.https) {
-    await initCertificateManager(backend, expressApp)
+  if (process.env.HTTPS_DOMAINS || options.https) {
+    const createServerOptions = options.https ? { ...options.https } : {}
 
-    server = https.createServer({
-      SNICallback: (domain, cb) => { cb(null, getSecureContext(backend, domain)) },
-      ...(options.https || {})
-    }, expressApp)
+    if (process.env.HTTPS_DOMAINS) {
+      await initCertificateManager(backend, expressApp)
+      if (!createServerOptions.SNICallback) {
+        createServerOptions.SNICallback = (domain, cb) => {
+          cb(null, process.env.HTTPS_DOMAINS.split(',').includes(domain) ? getSecureContext(backend, domain) : null)
+        }
+      }
+    }
+
+    server = https.createServer(createServerOptions, expressApp)
   } else {
     server = http.createServer(expressApp)
   }
