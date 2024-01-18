@@ -3,7 +3,7 @@ import { Linking, Platform } from 'react-native'
 import RNRestart from 'react-native-restart'
 import { useLocation, useHistory } from 'react-router-native'
 import { matchPath } from 'react-router'
-import { pug, emit, $root, observer, useSyncEffect } from 'startupjs'
+import { pug, $root, observer, useSyncEffect } from 'startupjs'
 import { Slot } from '@startupjs/plugin'
 import { BASE_URL } from '@env'
 import axios from 'axios'
@@ -67,13 +67,9 @@ const AppsFactory = observer(function AppsFactoryComponent ({
 
   function _goTo (url, options = {}) {
     const route = getRouteMeta(url.replace(/[?#].*$/, ''), routes)
-
-    if (!route) return emit('error', 404)
-
-    const app = route.app
     const { replace } = options
 
-    if (app) {
+    if (route?.app) {
       history[replace ? 'replace' : 'push'](url)
     } else {
       isWeb
