@@ -11,11 +11,18 @@ const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24
 
 let secureContextTimeout
 
-export function http01TokensMiddleware (req, res, next) {
-  for (const tokenPath in HTTP_01_TOKENS) {
-    if (req.url === tokenPath) return res.send(HTTP_01_TOKENS[tokenPath])
+export function getToken (req, res) {
+  const token = HTTP_01_TOKENS[req.url]
+  let status
+  let text
+  if (token) {
+    status = 200
+    text = token
+  } else {
+    status = 404
+    text = 'Not found'
   }
-  return next()
+  res.status(status).type('text/plain').send(text)
 }
 
 function createSecureContext (domain, credentials) {
@@ -63,7 +70,7 @@ async function validateCertificate (certificate) {
 async function createOrUpdateCertificate (backend, domain) {
   try {
     // lock for 1 min
-    const lock = redlock.lock(`createOrUpdateCertificate:${domain}`, 1000 * 60)
+    const lock = await redlock.lock(`createOrUpdateCertificate:${domain}`, 1000 * 60)
 
     const model = backend.createModel()
 
@@ -114,7 +121,19 @@ async function createOrUpdateCertificate (backend, domain) {
 
     if (ACME_CLIENT_EMAIL) autoParams.email = ACME_CLIENT_EMAIL
 
-    const { cert } = await client.auto(autoParams)
+    let cert
+    try {
+      // NEED TO TEST RETURN TYPE
+      const autoRes = await client.auto(autoParams)
+      cert = autoRes.cert
+    } catch (err) {
+      console.log(`[@startupjs/server] certificateManager: failed to refresh TLS certificate for ${domain} `, err)
+    }
+
+    if (!cert) {
+      await done()
+      return
+    }
 
     createSecureContext(domain, { cert, key })
     if (certificate) {
@@ -126,7 +145,7 @@ async function createOrUpdateCertificate (backend, domain) {
     await done()
   } catch (err) {
     if (!(err instanceof Redlock.LockError)) {
-      console.log(`[@startupjs/server] certificateManager: failed to refresh TLS certificate for ${domain}`)
+      console.log(`[@startupjs/server] certificateManager: failed to refresh TLS certificate for ${domain} `, err)
     }
   }
 }
@@ -144,12 +163,11 @@ function setSslCertificatesAccess (backend) {
   backend.allowDelete('sslCertificates', () => false)
 }
 
-export async function init (backend, expressApp) {
+export async function init (backend, options) {
   const domains = process.env.HTTPS_DOMAINS?.split?.(',')
   if (!domains?.length) return
 
-  setSslCertificatesAccess(backend)
-  expressApp.use(http01TokensMiddleware)
+  if (options.secure || options.accessControl) setSslCertificatesAccess(backend)
 
   setInterval(() => {
     handleDomains(backend, domains)

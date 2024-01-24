@@ -18,7 +18,7 @@ export default async function createServer ({ backend, session, channel, options
     const createServerOptions = options.https ? { ...options.https } : {}
 
     if (process.env.HTTPS_DOMAINS) {
-      await initCertificateManager(backend, expressApp)
+      await initCertificateManager(backend, options)
       if (!createServerOptions.SNICallback) {
         createServerOptions.SNICallback = (domain, cb) => {
           cb(null, process.env.HTTPS_DOMAINS.split(',').includes(domain) ? getSecureContext(backend, domain) : null)

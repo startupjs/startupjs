@@ -1,5 +1,6 @@
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import express from 'express'
+import { getToken } from './certificateManager.js'
 
 /**
  * A connect middleware with core startupjs functionality. You can plug this into your
@@ -43,6 +44,7 @@ export default function createMiddleware ({ backend, session, channel, options }
 
   options.ee.emit('routes', app) // DEPRECATED (use 'serverRoutes' hook instead)
   MODULE.hook('serverRoutes', app)
+  if (process.env.HTTPS_DOMAINS || options.https) app.get('/.well-known/acme-challenge/:token', getToken)
 
   app.use(function (err, req, res, next) {
     if (err.name === 'MongoError' && err.message === 'Topology was destroyed') {

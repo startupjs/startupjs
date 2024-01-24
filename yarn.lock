@@ -8523,6 +8523,7 @@ __metadata:
     "@startupjs/backend": "npm:^0.56.0-alpha.0"
     "@startupjs/channel": "npm:^0.56.0-alpha.0"
     "@startupjs/registry": "npm:^0.56.0-alpha.0"
+    acme-client: "npm:^5.0.0"
     body-parser: "npm:1.20.0"
     compression: "npm:^1.6.0"
     connect-mongo: "npm:^4.4.1"
@@ -17144,7 +17145,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.15.4":
+"follow-redirects@npm:^1.14.9, follow-redirects@npm:^1.15.4":
   version: 1.15.5
   resolution: "follow-redirects@npm:1.15.5"
   peerDependenciesMeta:

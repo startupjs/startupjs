@@ -28,7 +28,7 @@ export async function createServer (options = {}) {
   let backend, session, channel
   ({ backend, session, channel, options } = await commonInit(options))
   const { default: createServer } = await import('./server/createServer.js')
-  const { server, expressApp } = createServer({ backend, session, channel, options })
+  const { server, expressApp } = await createServer({ backend, session, channel, options })
   return { server, backend, session, channel, expressApp }
 }
 
