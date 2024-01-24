@@ -2,7 +2,7 @@ import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import http from 'http'
 import https from 'https'
 import conf from 'nconf'
-import { createExpress } from './express.js'
+import createExpress from './createExpress.js'
 
 let server = null
 
