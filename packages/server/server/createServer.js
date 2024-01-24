@@ -2,6 +2,7 @@ import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import http from 'http'
 import https from 'https'
 import conf from 'nconf'
+import { init as initCertificateManager, getSecureContext } from './certificateManager.js'
 import createExpress from './createExpress.js'
 
 let server = null
@@ -13,8 +14,19 @@ export default async function createServer ({ backend, session, channel, options
   const expressApp = createExpress({ backend, session, channel, options })
 
   // Create server and setup websockets connection
-  if (options.https) {
-    server = https.createServer(options.https, expressApp)
+  if (process.env.HTTPS_DOMAINS || options.https) {
+    const createServerOptions = options.https ? { ...options.https } : {}
+
+    if (process.env.HTTPS_DOMAINS) {
+      await initCertificateManager(backend, options)
+      if (!createServerOptions.SNICallback) {
+        createServerOptions.SNICallback = (domain, cb) => {
+          cb(null, process.env.HTTPS_DOMAINS.split(',').includes(domain) ? getSecureContext(backend, domain) : null)
+        }
+      }
+    }
+
+    server = https.createServer(createServerOptions, expressApp)
   } else {
     server = http.createServer(expressApp)
   }
