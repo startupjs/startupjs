@@ -1,10 +1,8 @@
 // TODO: Maybe use a simple native implementation in future.
 //       Problem was that EventTarget was not available in expo on android
 // import EventEmitter from './EventEmitter.js'
-import fbemitter from 'fbemitter'
+import EventEmitter from './FbEventEmitter.js'
 import Plugin from './Plugin.js'
-
-const { EventEmitter } = fbemitter
 
 export default class Module extends EventEmitter {
   // ------------------------------------------
@@ -19,10 +17,6 @@ export default class Module extends EventEmitter {
     super()
     this.name = name
     this.registry = parentRegistry
-  }
-
-  on (...args) {
-    return this.addListener(...args)
   }
 
   getPlugin (pluginName) {
