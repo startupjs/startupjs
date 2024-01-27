@@ -99,12 +99,11 @@ export default class ClientModule extends Module {
    * The resulting jsx will be from outermost to innermost plugin (from left to right).
    * In order to achieve the correct nesting order, we need to reverse the array.
    */
-  RenderNestedHook ({ name, ...props }) {
+  RenderNestedHook ({ name, children, ...props }) {
     validateRenderHook(name)
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const dynamicPluginsHooks = useContext(DynamicPluginsContext) // may be undefined
     const usedPlugins = dynamicPluginsHooks ? Object.keys(dynamicPluginsHooks) : Object.keys(this.plugins)
-    let children = null
     for (const pluginName of usedPlugins.reverse()) {
       const dynamicHooks = dynamicPluginsHooks?.[pluginName]
       const plugin = this.plugins[pluginName]

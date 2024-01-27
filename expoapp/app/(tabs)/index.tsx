@@ -12,7 +12,7 @@ export default function TabOneScreen() {
   function fetchSomething () {
     async function fetchText() {
       try {
-        const response = await axios.get('/test-url');
+        const response = await axios.get('/hello');
         setText(response.data)
       } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
