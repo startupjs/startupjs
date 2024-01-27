@@ -18,7 +18,7 @@ export { db, mongo, mongoClient, createMongoIndex } from './db/index.js'
 const usersConnectionCounter = {}
 global.__clients = {}
 
-export default async options => {
+export default options => {
   options = Object.assign({ secure: true }, options)
 
   if (options.ee != null) options.ee.emit('storeUse', racer)

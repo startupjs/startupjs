@@ -1,6 +1,12 @@
 // Make ShareDB client and Racer client work in React Native and in Webpack
 import dummyMockBrowserify from '@startupjs/utils/mockBrowserify'
-import dummyInit from '@startupjs/init/client-auto'
+import dummyLoadConfig from '@startupjs/registry/loadStartupjsConfig.auto'
+// - init connection to ShareDB server
+// - setup baseUrl for axios
+// - add rich-text support to ShareDB
+import dummyInit from '@startupjs/init/client.auto'
+
+;(_ => _)([dummyInit, dummyLoadConfig, dummyMockBrowserify]) // prevent dead-code elimination
 
 export { default as axios } from '@startupjs/utils/axios'
 export * from '@startupjs/react-sharedb'
@@ -14,9 +20,5 @@ export function css (cssString) { return cssString }
 export function styl (stylString) { return stylString }
 // dummy pug function (it gets compiled to jsx by babel pug plugin)
 export function pug (pugString) { return pugString }
+export { default as StartupjsProvider } from './StartupjsProvider.js'
 export { default as t } from '@startupjs/i18n/client/t.js'
-
-// this library is pure side-effects, so we force usage of a dummy function
-// to prevent dead-code elimination
-dummyMockBrowserify()
-dummyInit() // prevent dead-code elimination

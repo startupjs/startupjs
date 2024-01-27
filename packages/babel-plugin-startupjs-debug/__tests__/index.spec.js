@@ -7,12 +7,8 @@ pluginTester({
   pluginName,
   snapshot: true,
   babelOptions: {
-    plugins: ['@babel/plugin-syntax-jsx']
-  },
-  pluginOptions: {
-    __test__: {
-      filename: '/ws/dummy-project/component.js'
-    }
+    plugins: ['@babel/plugin-syntax-jsx'],
+    filename: '/ws/dummy-project/component.js'
   },
   tests: {
     'Doesn\'t execute without magic observer import': /* js */`

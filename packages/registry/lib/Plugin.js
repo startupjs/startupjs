@@ -3,55 +3,70 @@ export default class Plugin {
   //   Registration and initialization
   // ------------------------------------------
 
+  _options = {}
+  _optionsByEnv = {}
+  _hooks = {}
+  initialized = false
+  created = false
+  initsByEnv = {}
+
   constructor (parentModule, name) {
     this.name = name
     this.module = parentModule
-    this.initialized = false
-    this.created = false
   }
 
-  create (envInits = {}) {
+  create (initsByEnv = {}) {
     if (this.created) throw Error(`Plugin "${this.name}" for module "${this.module.name}" already created`)
-    this.envInits = envInits
+    Object.assign(this.initsByEnv, initsByEnv)
     this.created = true
   }
 
-  init (envOptions = {}) {
+  get options () {
+    if (!this.initialized) throw Error(`Plugin "${this.name}" for module "${this.module.name}" is not initialized yet`)
+    return this._options
+  }
+
+  get optionsByEnv () {
+    if (!this.initialized) throw Error(`Plugin "${this.name}" for module "${this.module.name}" is not initialized yet`)
+    return this._optionsByEnv
+  }
+
+  get hooks () {
+    if (!this.initialized) throw Error(`Plugin "${this.name}" for module "${this.module.name}" is not initialized yet`)
+    return this._hooks
+  }
+
+  init (optionsByEnv = {}) {
     if (this.initialized) throw Error(`Plugin "${this.name}" for module "${this.module.name}" already registered`)
-    this.envOptions = envOptions
-    this.config = {}
-    for (const env in this.envInits) {
-      const options = this.envOptions[env] || {}
-      const init = this.envInits[env]
+    this.initialized = true
+    Object.assign(this.optionsByEnv, optionsByEnv)
+    for (const env in this.initsByEnv) {
+      const options = this.optionsByEnv[env] || {}
+      const init = this.initsByEnv[env]
       if (typeof init !== 'function') {
         throw Error(`Plugin "${this.name}" for module "${this.module.name}" is not a function`)
       }
-      Object.assign(this.config, init(options, this))
+      Object.assign(this.hooks, init(options, this))
     }
-    this.initialized = true
-  }
-
-  validate () {
-    if (!this.created) {
-      throw Error(`Plugin "${this.name}" for module "${this.module.name}" is not created ` +
-        '(no createPlugin() was executed for this plugin)')
-    }
-    if (!this.initialized) throw Error(`Plugin "${this.name}" for module "${this.module.name}" is not initialized`)
   }
 
   // ------------------------------------------
   //   Execution
   // ------------------------------------------
 
-  // Run hook if it exists in config
+  // Run hook if it exists in hooks
   runHook (hookName, ...args) {
     this.validateHook(hookName)
     // TODO: Pass current context as `this`
-    return this.config[hookName].apply(this.getContext(), args)
+    return this.hooks[hookName].apply(this.getContext(), args)
   }
 
   validateHook (hookName) {
-    this.validate()
+    if (!this.created) {
+      throw Error(`Plugin "${this.name}" for module "${this.module.name}" is not created ` +
+        '(no createPlugin() was executed for this plugin)')
+    }
+    if (!this.initialized) throw Error(`Plugin "${this.name}" for module "${this.module.name}" is not initialized`)
     if (!this.hasHook(hookName)) {
       throw Error(`
         No such hook exists:
@@ -63,7 +78,7 @@ export default class Plugin {
   }
 
   hasHook (hookName) {
-    return Boolean(this.config?.[hookName])
+    return Boolean(this.hooks?.[hookName])
   }
 
   getContext () {

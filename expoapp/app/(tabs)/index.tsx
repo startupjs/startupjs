@@ -12,7 +12,7 @@ export default function TabOneScreen() {
   function fetchSomething () {
     async function fetchText() {
       try {
-        const response = await axios.get('/test-url');
+        const response = await axios.get('/hello');
         setText(response.data)
       } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
@@ -30,8 +30,8 @@ export default function TabOneScreen() {
       <Br />
       <Button onPress={fetchSomething}>Fetch stuff</Button>
       <Br />
-      {text && <Text>Text: {text}</Text>}
-      {error && <Text>Error: {error}</Text>}
+      {text ? <Text>Text: {text}</Text> : undefined}
+      {error ? <Text>Error: {error}</Text> : undefined}
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="app/(tabs)/index.tsx" />
     </View>

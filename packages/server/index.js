@@ -1,8 +1,13 @@
+/* eslint-disable import-helpers/order-imports */
 // IMPORTANT! nconf import must go first
-import dummyNconf from './nconf.js' // eslint-disable-line
+import dummyNconf from './nconf.js'
 
-import path from 'path'
+import { resolve } from 'path'
 import { EventEmitter } from 'events'
+import dummyLoadConfig from '@startupjs/registry/loadStartupjsConfig.auto'
+import createBackend from '@startupjs/backend'
+import createSession from './server/createSession.js'
+import createChannel from '@startupjs/channel/server'
 
 export { mongo, mongoClient, createMongoIndex, redis, redlock } from '@startupjs/backend'
 
@@ -26,7 +31,7 @@ export default async function startServer (options) {
 
 export async function createServer (options = {}) {
   let backend, session, channel
-  ({ backend, session, channel, options } = await commonInit(options))
+  ({ backend, session, channel, options } = commonInit(options))
   const { default: createServer } = await import('./server/createServer.js')
   const { server, expressApp } = await createServer({ backend, session, channel, options })
   return { server, backend, session, channel, expressApp }
@@ -34,35 +39,26 @@ export async function createServer (options = {}) {
 
 export async function createMiddleware (options = {}) {
   let backend, session, channel
-  ({ backend, session, channel, options } = await commonInit(options))
+  ({ backend, session, channel, options } = commonInit(options))
   const { default: createMiddleware } = await import('./server/createMiddleware.js')
   const middleware = createMiddleware({ backend, session, channel, options })
   return { middleware, backend, session, channel }
 }
 
-async function commonInit (options = {}) {
+function commonInit (options = {}) {
   options = { ...defaultOptions, ...options }
 
   // Transform public path to be absolute
-  options.publicPath = path.resolve(options.dirname, options.publicPath)
+  options.publicPath = resolve(options.dirname, options.publicPath)
 
   // DEPRECATED. Use hooks system (plugins) instead of EventEmitter
   options.ee = new EventEmitter()
 
-  const [
-    { default: createBackend },
-    { default: createSession },
-    { default: createChannel }
-  ] = await Promise.all([
-    import('@startupjs/backend'),
-    import('./server/createSession.js'),
-    import('@startupjs/channel/server')
-  ])
-  const backend = await createBackend(options)
+  const backend = createBackend(options)
   const session = createSession(options)
   const channel = createChannel(backend, { session })
 
   return { backend, channel, session, options }
 }
 
-;((...args) => {})(dummyNconf) // prevent dead code elimination
+;((...args) => {})(dummyNconf, dummyLoadConfig) // prevent dead code elimination
