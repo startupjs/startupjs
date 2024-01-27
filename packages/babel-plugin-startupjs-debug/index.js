@@ -48,7 +48,7 @@ module.exports = function (babel, opts) {
     },
     visitor: {
       Program ($this, state) {
-        FILENAME = state.file?.opts?.filename || opts.__test__?.filename
+        FILENAME = state.file?.opts?.filename
         $this.traverse(earlyVisitor)
       }
     }

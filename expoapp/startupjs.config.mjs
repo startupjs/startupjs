@@ -1,7 +1,17 @@
-import { createProject } from 'startupjs/registry'
-
-export default createProject({
-  allowUnusedPluginOptions: true,
+export default {
+  isomorphic: {
+    allowUnusedPlugins: true,
+    server: true
+  },
+  server: {
+    init: options => ({
+      api: expressApp => {
+        expressApp.get('/hello', (req, res) => {
+          res.send('Hello from server')
+        })
+      }
+    })
+  },
   plugins: {
     dummy: {
       server: (() => {
@@ -22,4 +32,4 @@ export default createProject({
       })()
     }
   }
-})
+}

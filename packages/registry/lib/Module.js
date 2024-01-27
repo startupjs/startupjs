@@ -11,11 +11,18 @@ export default class Module extends EventEmitter {
   //   Registration and initialization
   // ------------------------------------------
 
+  _options = {}
+  plugins = {}
+  initialized = false
+
   constructor (parentRegistry, name) {
     super()
     this.name = name
     this.registry = parentRegistry
-    this.plugins = {}
+  }
+
+  on (...args) {
+    return this.addListener(...args)
   }
 
   getPlugin (pluginName) {
@@ -28,6 +35,27 @@ export default class Module extends EventEmitter {
 
   newPlugin (...args) {
     return new Plugin(...args)
+  }
+
+  get options () {
+    if (!this.initialized) throw Error(`Module "${this.name}" is not initialized yet`)
+    return this._options
+  }
+
+  init (optionsByEnv = {}) {
+    if (this.initialized) throw Error(`Module "${this.name}" already initialized`)
+    this.initialized = true
+    for (const env in optionsByEnv) {
+      const {
+        init,
+        ...options
+      } = optionsByEnv[env] || {}
+      Object.assign(this.options, options)
+      const hooks = init?.(options, this)
+      if (typeof hooks === 'object') {
+        for (const hookName in hooks) this.on(hookName, hooks[hookName])
+      }
+    }
   }
 
   // ------------------------------------------

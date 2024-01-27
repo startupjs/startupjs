@@ -1,0 +1,23 @@
+{
+  "name": "@startupjs/config",
+  "version": "0.56.0-alpha.0",
+  "type": "module",
+  "description": "StartupJS global config and modules/plugins management",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./*": "./*.js",
+    "./lib/*": "./lib/*.js",
+    "./client/*": "./client/*.js",
+    "./startupjs.config": "./startupjs.config.cjs",
+    "./startupjs.config.cjs": "./startupjs.config.cjs",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@startupjs/registry": "^0.56.0-alpha.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT"
+}

@@ -12,35 +12,24 @@ config.resolver.nodeModulesPaths = [
 config.server.enhanceMiddleware = (metroMiddleware) => {
   return connect()
     .use(metroMiddleware)
-    .use((req, res, next) => {
-      if (req.url === '/test-url') {
-        res.writeHead(200, { 'Content-Type': 'text/plain' })
-        res.end('Hello from test')
-      } else {
-        next()
-      }
-    })
-    .use(startupjsMiddleware)
+    .use(getStartupjsMiddleware())
 }
 
 module.exports = config
 
-function startupjsMiddleware (req, res, next) {
-  const middleware = getStartupjsMiddleware()
-  if (middleware) {
-    middleware.apply(this, arguments)
-  } else {
-    next()
-  }
-}
-
-let middlewareInstance
 function getStartupjsMiddleware () {
-  if (middlewareInstance?.then) return
-  if (middlewareInstance) return middlewareInstance
-  middlewareInstance = (async () => {
-    const { createMiddleware } = await import('@startupjs/server')
-    const { middleware } = await createMiddleware()
-    middlewareInstance = middleware
+  const middleware = (async () => {
+    await import('startupjs/nodeRegister')
+    const { createMiddleware } = await import('startupjs/server')
+    return (await createMiddleware()).middleware
   })()
+  return function startupjsMiddleware (req, res, next) {
+    (async () => {
+      try {
+        (await middleware).apply(this, arguments)
+      } catch (err) {
+        next(err)
+      }
+    })()
+  }
 }

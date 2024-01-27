@@ -25,13 +25,13 @@ export default class ClientModule extends Module {
       onlyPlugins,
       ...props
     }) {
-      const dynamicPluginsConfigs = useMemo(
-        () => self.getDynamicPluginsConfigs(plugins, onlyPlugins),
+      const dynamicPluginsHooks = useMemo(
+        () => self.getDynamicPluginsHooks(plugins, onlyPlugins),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [simpleNumericHash(JSON.stringify([plugins, onlyPlugins]))]
       )
       return (
-        el(DynamicPluginsContext.Provider, { value: dynamicPluginsConfigs },
+        el(DynamicPluginsContext.Provider, { value: dynamicPluginsHooks },
           el(Component, props,
             children
           )
@@ -40,19 +40,19 @@ export default class ClientModule extends Module {
     })
   }
 
-  getDynamicPluginsConfigs (plugins, onlyPlugins) {
+  getDynamicPluginsHooks (plugins, onlyPlugins) {
     // if neither 'plugins' nor 'onlyPlugins' are passed, we just fallback to static plugins
     if (!plugins && !onlyPlugins) return
-    const dynamicPluginsConfigs = {}
+    const dynamicPluginsHooks = {}
     const isOnly = onlyPlugins != null
     const dynamicPluginsOptions = normalizePluginsOptions(isOnly ? onlyPlugins : plugins)
     const enabledPlugins = this.getEnabledPlugins(dynamicPluginsOptions, isOnly)
 
     for (const pluginName of enabledPlugins) {
       const plugin = this.plugins[pluginName]
-      dynamicPluginsConfigs[pluginName] = plugin.getDynamicConfig(dynamicPluginsOptions[pluginName])
+      dynamicPluginsHooks[pluginName] = plugin.getDynamicHooks(dynamicPluginsOptions[pluginName])
     }
-    return dynamicPluginsConfigs
+    return dynamicPluginsHooks
   }
 
   /**
@@ -81,14 +81,14 @@ export default class ClientModule extends Module {
   RenderHook ({ name, ...props }) {
     validateRenderHook(name)
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const dynamicPluginsConfigs = useContext(DynamicPluginsContext) // may be undefined
-    const usedPlugins = dynamicPluginsConfigs ? Object.keys(dynamicPluginsConfigs) : Object.keys(this.plugins)
+    const dynamicPluginsHooks = useContext(DynamicPluginsContext) // may be undefined
+    const usedPlugins = dynamicPluginsHooks ? Object.keys(dynamicPluginsHooks) : Object.keys(this.plugins)
     const res = []
     for (const pluginName of usedPlugins) {
-      const dynamicConfig = dynamicPluginsConfigs?.[pluginName]
+      const dynamicHooks = dynamicPluginsHooks?.[pluginName]
       const plugin = this.plugins[pluginName]
       if (!plugin.hasHook(name)) continue
-      res.push(el(Fragment, { key: plugin.name }, plugin.runDynamicHook(dynamicConfig, name, props)))
+      res.push(el(Fragment, { key: plugin.name }, plugin.runDynamicHook(dynamicHooks, name, props)))
     }
     return res
   }
@@ -102,14 +102,14 @@ export default class ClientModule extends Module {
   RenderNestedHook ({ name, ...props }) {
     validateRenderHook(name)
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const dynamicPluginsConfigs = useContext(DynamicPluginsContext) // may be undefined
-    const usedPlugins = dynamicPluginsConfigs ? Object.keys(dynamicPluginsConfigs) : Object.keys(this.plugins)
+    const dynamicPluginsHooks = useContext(DynamicPluginsContext) // may be undefined
+    const usedPlugins = dynamicPluginsHooks ? Object.keys(dynamicPluginsHooks) : Object.keys(this.plugins)
     let children = null
     for (const pluginName of usedPlugins.reverse()) {
-      const dynamicConfig = dynamicPluginsConfigs?.[pluginName]
+      const dynamicHooks = dynamicPluginsHooks?.[pluginName]
       const plugin = this.plugins[pluginName]
       if (!plugin.hasHook(name)) continue
-      children = plugin.runDynamicHook(dynamicConfig, name, { ...props, children })
+      children = plugin.runDynamicHook(dynamicHooks, name, { ...props, children })
     }
     return children
   }
@@ -118,13 +118,13 @@ export default class ClientModule extends Module {
   useHook (hookName, ...args) {
     validateUseHook(hookName)
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const dynamicPluginsConfigs = useContext(DynamicPluginsContext) // may be undefined
+    const dynamicPluginsHooks = useContext(DynamicPluginsContext) // may be undefined
     const results = []
     for (const pluginName in this.plugins) {
-      const dynamicConfig = dynamicPluginsConfigs?.[pluginName]
+      const dynamicHooks = dynamicPluginsHooks?.[pluginName]
       const plugin = this.getPlugin(pluginName)
       if (!plugin.hasHook(hookName)) continue
-      const pluginResult = plugin.runDynamicHook(dynamicConfig, hookName, ...args)
+      const pluginResult = plugin.runDynamicHook(dynamicHooks, hookName, ...args)
       if (pluginResult != null) results.push(pluginResult)
     }
     return results
@@ -134,13 +134,13 @@ export default class ClientModule extends Module {
   useReduceHook (hookName, initialValue, ...args) {
     validateUseHook(hookName)
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const dynamicPluginsConfigs = useContext(DynamicPluginsContext) // may be undefined
+    const dynamicPluginsHooks = useContext(DynamicPluginsContext) // may be undefined
     let value = initialValue
     for (const pluginName in this.plugins) {
-      const dynamicConfig = dynamicPluginsConfigs?.[pluginName]
+      const dynamicHooks = dynamicPluginsHooks?.[pluginName]
       const plugin = this.getPlugin(pluginName)
       if (!plugin.hasHook(hookName)) continue
-      value = plugin.runDynamicHook(dynamicConfig, hookName, value, ...args)
+      value = plugin.runDynamicHook(dynamicHooks, hookName, value, ...args)
     }
     return value
   }

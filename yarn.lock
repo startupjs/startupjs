@@ -7894,7 +7894,7 @@ __metadata:
   resolution: "@startupjs/babel-plugin-eliminator@workspace:packages/babel-plugin-eliminator"
   dependencies:
     babel-plugin-tester: "npm:^9.1.0"
-    jest: "npm:^26.0.1"
+    jest: "npm:^29.2.1"
   languageName: unknown
   linkType: soft
 
@@ -8005,7 +8005,8 @@ __metadata:
   dependencies:
     "@babel/helper-module-imports": "npm:^7.0.0"
     babel-plugin-tester: "npm:^9.1.0"
-    jest: "npm:^26.0.1"
+    jest: "npm:^29.2.1"
+    resolve: "npm:^1.20.0"
   languageName: unknown
   linkType: soft
 
@@ -8154,6 +8155,14 @@ __metadata:
     webpack: "npm:^5.60.0"
     webpack-cli: "npm:^4.9.1"
     webpack-dev-server: "npm:^4.4.0"
+  languageName: unknown
+  linkType: soft
+
+"@startupjs/config@workspace:packages/config":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/config@workspace:packages/config"
+  dependencies:
+    "@startupjs/registry": "npm:^0.56.0-alpha.0"
   languageName: unknown
   linkType: soft
 
@@ -8482,7 +8491,6 @@ __metadata:
   resolution: "@startupjs/registry@workspace:packages/registry"
   dependencies:
     fbemitter: "npm:^3.0.0"
-    resolve: "npm:^1.20.0"
   peerDependencies:
     react: "*"
   languageName: unknown

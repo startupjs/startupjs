@@ -35,7 +35,7 @@ export async function loadSqliteDbToMingo (sqliteDb, mingo) {
   })
 }
 
-export async function getExistingSqliteDb (dbPath) {
+export function getExistingSqliteDb (dbPath) {
   dbPath = resolve(dbPath)
   console.log('[mingo] Getting existing sqlite db from:', dbPath)
   if (!existsSync(dbPath)) {

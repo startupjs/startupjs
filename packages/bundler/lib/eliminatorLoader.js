@@ -1,17 +1,20 @@
+// TODO: add support for source maps
 const babel = require('@babel/core')
+const { isStartupjsPluginEcosystemFile, CONFIG_FILENAME_REGEX } = require('./utils')
 
 const PLUGIN_KEYS = ['name', 'for']
+const PROJECT_KEYS = ['plugins', 'modules']
 const ALL_ENVS = ['client', 'isomorphic', 'server', 'build']
 const MAGIC_IMPORTS = ['startupjs/registry', '@startupjs/registry']
-const MAGIC_IMPORTS_REGEX = /['"]@?startupjs\/registry['"]/
 
 module.exports = function eliminatorLoader (source) {
-  // ensure that this loader is only used when the magic import is present
-  if (!MAGIC_IMPORTS_REGEX.test(source)) return source
+  const filename = this.resourcePath
+
+  // ensure that this loader is only used on plugins, startupjs.config.js and loadStartupjsConfig.js files
+  if (!(isStartupjsPluginEcosystemFile(filename))) return source
 
   const envs = this.query.envs
   if (!envs) throw Error("eliminatorLoader: envs not provided (for example ['client', 'isomorphic'])")
-  const filename = this.resourcePath
 
   let code = source
 
@@ -50,19 +53,31 @@ module.exports = function eliminatorLoader (source) {
       // For example, only keep code related to 'client' and 'isomorphic' envs
       // (in which case any code related to 'server' and 'build' envs will be removed)
       [require('@startupjs/babel-plugin-eliminator'), {
-        keepObjectKeysOfFunction: {
-          createProject: {
-            magicImports: MAGIC_IMPORTS,
-            targetObjectJsonPath: '$.plugins.*',
-            ensureOnlyKeys: ALL_ENVS,
-            keepKeys: envs
-          },
-          createPlugin: {
-            magicImports: MAGIC_IMPORTS,
-            ensureOnlyKeys: [...PLUGIN_KEYS, ...ALL_ENVS],
-            keepKeys: [...PLUGIN_KEYS, ...envs]
-          }
-        }
+        trimObjects: [{
+          magicFilenameRegex: CONFIG_FILENAME_REGEX,
+          magicExport: 'default',
+          targetObjectJsonPath: '$.modules.*',
+          ensureOnlyKeys: ALL_ENVS,
+          keepKeys: envs
+        }, {
+          magicFilenameRegex: CONFIG_FILENAME_REGEX,
+          magicExport: 'default',
+          targetObjectJsonPath: '$.plugins.*',
+          ensureOnlyKeys: ALL_ENVS,
+          keepKeys: envs
+        }, {
+          magicFilenameRegex: CONFIG_FILENAME_REGEX,
+          magicExport: 'default',
+          targetObjectJsonPath: '$',
+          // envs on the top level are the alias for '$.modules.startupjs'
+          ensureOnlyKeys: [...PROJECT_KEYS, ...ALL_ENVS],
+          keepKeys: [...PROJECT_KEYS, ...envs]
+        }, {
+          functionName: 'createPlugin',
+          magicImports: MAGIC_IMPORTS,
+          ensureOnlyKeys: [...PLUGIN_KEYS, ...ALL_ENVS],
+          keepKeys: [...PLUGIN_KEYS, ...envs]
+        }]
       }]
     ]
   }).code

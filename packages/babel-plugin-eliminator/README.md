@@ -248,9 +248,7 @@ type PluginOpts = {
       /** Array of keys that should be kept in the final output */
       keepKeys: string[]
     }
-  },
-  /** Called at the end of transpiling */
-  done?: (state: PluginState) => void
+  }
 }
 ```
 

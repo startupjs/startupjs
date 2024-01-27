@@ -30,8 +30,8 @@ export default function TabOneScreen() {
       <Br />
       <Button onPress={fetchSomething}>Fetch stuff</Button>
       <Br />
-      {text && <Text>Text: {text}</Text>}
-      {error && <Text>Error: {error}</Text>}
+      {text ? <Text>Text: {text}</Text> : undefined}
+      {error ? <Text>Error: {error}</Text> : undefined}
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="app/(tabs)/index.tsx" />
     </View>

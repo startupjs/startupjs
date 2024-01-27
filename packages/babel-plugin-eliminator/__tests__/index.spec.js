@@ -31,6 +31,9 @@ pluginTester({
   pluginOptions: {
     removeExports: ['preload', 'staticPreload']
   },
+  babelOptions: {
+    filename: '/ws/dummy/index.js'
+  },
   tests: {
     'removes export function declaration. 1': /* js */`
       export function preload() {
@@ -114,14 +117,13 @@ pluginTester({
     },
     'object in magic function. Only parse magic function': {
       pluginOptions: {
-        keepObjectKeysOfFunction: {
-          createProject: {
-            magicImports: ['startupjs/registry', '@startupjs/registry'],
-            targetObjectJsonPath: '$.plugins.*',
-            ensureOnlyKeys: ['client', 'isomorphic', 'server', 'build'],
-            keepKeys: ['client']
-          }
-        }
+        trimObjects: [{
+          functionName: 'createProject',
+          magicImports: ['startupjs/registry', '@startupjs/registry'],
+          targetObjectJsonPath: '$.plugins.*',
+          ensureOnlyKeys: ['client', 'isomorphic', 'server', 'build'],
+          keepKeys: ['client']
+        }]
       },
       code: /* js */`
         import { createProject2 } from 'startupjs/registry'
@@ -141,14 +143,13 @@ pluginTester({
     },
     'object in magic function. Throw error if there are keys other than `ensureOnlyKeys`': {
       pluginOptions: {
-        keepObjectKeysOfFunction: {
-          createProject: {
-            magicImports: ['startupjs/registry', '@startupjs/registry'],
-            targetObjectJsonPath: '$.plugins.*',
-            ensureOnlyKeys: ['client', 'isomorphic', 'server', 'build'],
-            keepKeys: ['client']
-          }
-        }
+        trimObjects: [{
+          functionName: 'createProject',
+          magicImports: ['startupjs/registry', '@startupjs/registry'],
+          targetObjectJsonPath: '$.plugins.*',
+          ensureOnlyKeys: ['client', 'isomorphic', 'server', 'build'],
+          keepKeys: ['client']
+        }]
       },
       error: true,
       code: /* js */`
@@ -175,14 +176,13 @@ pluginTester({
     // Removing keys from object within magic function call
     'object in magic function. Keep keys `client` and `isomorphic`': {
       pluginOptions: {
-        keepObjectKeysOfFunction: {
-          createProject: {
-            magicImports: ['startupjs/registry', '@startupjs/registry'],
-            targetObjectJsonPath: '$.plugins.*',
-            ensureOnlyKeys: ['client', 'isomorphic', 'server', 'build'],
-            keepKeys: ['client', 'isomorphic']
-          }
-        }
+        trimObjects: [{
+          functionName: 'createProject',
+          magicImports: ['startupjs/registry', '@startupjs/registry'],
+          targetObjectJsonPath: '$.plugins.*',
+          ensureOnlyKeys: ['client', 'isomorphic', 'server', 'build'],
+          keepKeys: ['client', 'isomorphic']
+        }]
       },
       code: /* js */`
         import { createProject } from 'startupjs/registry'
@@ -240,6 +240,102 @@ pluginTester({
             }
           }
         })
+      `
+    },
+    // Removing keys from object within default export of the magic filename
+    'object in default export of magic filename. Keep keys `client` and `isomorphic`': {
+      pluginOptions: {
+        trimObjects: [{
+          magicFilenameRegex: /startupjs\.config\.js/,
+          magicExport: 'default',
+          targetObjectJsonPath: '$.modules.*',
+          ensureOnlyKeys: ['client', 'isomorphic', 'server', 'build'],
+          keepKeys: ['client', 'isomorphic']
+        }, {
+          magicFilenameRegex: /startupjs\.config\.js/,
+          magicExport: 'default',
+          targetObjectJsonPath: '$.plugins.*',
+          ensureOnlyKeys: ['client', 'isomorphic', 'server', 'build'],
+          keepKeys: ['client', 'isomorphic']
+        }, {
+          magicFilenameRegex: /startupjs\.config\.js/,
+          magicExport: 'default',
+          targetObjectJsonPath: '$',
+          ensureOnlyKeys: ['plugins', 'modules', 'client', 'isomorphic', 'server', 'build'],
+          keepKeys: ['plugins', 'modules', 'client', 'isomorphic']
+        }]
+      },
+      babelOptions: {
+        filename: '/ws/dummy/startupjs.config.js'
+      },
+      code: /* js */`
+        import { clientLib, clientLib2 } from 'client-lib'
+        import { serverLib, serverLib2 } from 'server-lib'
+        import buildLib from 'build-lib'
+        import isomorphicLib from 'isomorphic-lib'
+
+        const clientVar = clientLib()
+        const clientVar2 = clientLib2()
+        const serverVar = serverLib()
+        const serverVar2 = serverLib2()
+        const buildVar = buildLib()
+        const isomorphicVar = isomorphicLib()
+
+        export default {
+          isomorphic: {
+            allowUnusedPlugins: true,
+            server: true
+          },
+          server: {
+            init: options => ({
+              api: expressApp => {
+                expressApp.get('/hello', (req, res) => {
+                  res.send('Hello from server')
+                })
+              }
+            })
+          },
+          plugins: {
+            'serve-static-promo': {
+              client: {
+                redirectUrl: '/promo',
+                testClient: 'hello client',
+                clientVar
+              },
+              server: {
+                testServer: 'hello server',
+                serverVar
+              },
+              build: {
+                testBuild: 'hello build',
+                buildVar
+              },
+              isomorphic: {
+                testIsomorphic: 'hello isomorphic',
+                isomorphicVar
+              }
+            },
+            permissions: {
+              client: {
+                testClient: 'permissions client',
+                clientVar2
+              },
+              server: {
+                testServer: 'permissions server',
+                roles: ['admin', 'user'],
+                serverVar2
+              },
+              build: {
+                testBuild: 'permissions build',
+                buildVar
+              },
+              isomorphic: {
+                testIsomorphic: 'permissions isomorphic',
+                isomorphicVar
+              }
+            }
+          }
+        }
       `
     }
   }

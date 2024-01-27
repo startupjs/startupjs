@@ -1,63 +1,64 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`@startupjs/babel-plugin-startupjs-plugins Ignores files without a magic import with magic function: Ignores files without a magic import with magic function 1`] = `
+exports[`@startupjs/babel-plugin-startupjs-plugins Ignores files without a magic import: Ignores files without a magic import 1`] = `
 
-import { createPlugin } from 'startupjs/registry'
+import config from './startupjs.config.js'
+console.log(config)
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { createPlugin } from "startupjs/registry";
+import config from "./startupjs.config.js";
+console.log(config);
 
 
 `;
 
-exports[`@startupjs/babel-plugin-startupjs-plugins Processes files with a magic import with magic function: Processes files with a magic import with magic function 1`] = `
+exports[`@startupjs/babel-plugin-startupjs-plugins Processes files with a magic import: Processes files with a magic import 1`] = `
 
-import { createProject } from 'startupjs/registry'
+import { registry } from 'startupjs/registry'
+import config from './startupjs.config.magic.js'
 import dummy from '@dummy/dummy'
+
+registry.init(config)
 
 const x = 'xxx'
 dummy(x)
 
-export default createProject({
-  plugins: {
-    'module-1': {
-      server: {
-        bar: 'World'
-      }
-    },
-    'module-1/module-1-plugin': {
-      server: {
-        thing: 'Hello'
-      }
-    }
-  }
-})
+export default () => {}
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { createProject } from "startupjs/registry";
+import { registry } from "startupjs/registry";
+import config from "../../startupjs.config.js";
 import dummy from "@dummy/dummy";
 import _default from "module-1/plugin";
 import _default2 from "module-1-plugin/thePlugin.plugin";
-import _default3 from "./dummyPlugin.plugin";
+import _default3 from "../../dummyPlugin.plugin.js";
 (() => {})([_default, _default2, _default3]);
+registry.init(config);
 const x = "xxx";
 dummy(x);
-export default createProject({
-  plugins: {
-    "module-1": {
-      server: {
-        bar: "World",
-      },
-    },
-    "module-1/module-1-plugin": {
-      server: {
-        thing: "Hello",
-      },
-    },
-  },
-});
+export default () => {};
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs-plugins Test sample file from fixtures which loads config: Test sample file from fixtures which loads config 1`] = `
+
+import { registry } from 'startupjs/registry'
+import config from './startupjs.config.magic.js'
+
+registry.init(config)
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { registry } from "startupjs/registry";
+import config from "../../startupjs.config.js";
+import _default from "module-1/plugin";
+import _default2 from "module-1-plugin/thePlugin.plugin";
+import _default3 from "../../dummyPlugin.plugin.js";
+(() => {})([_default, _default2, _default3]);
+registry.init(config);
 
 
 `;
