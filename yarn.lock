@@ -8158,14 +8158,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/config@workspace:packages/config":
-  version: 0.0.0-use.local
-  resolution: "@startupjs/config@workspace:packages/config"
-  dependencies:
-    "@startupjs/registry": "npm:^0.56.0-alpha.0"
-  languageName: unknown
-  linkType: soft
-
 "@startupjs/css-to-react-native-transform@npm:^1.9.0-2":
   version: 1.9.0-2
   resolution: "@startupjs/css-to-react-native-transform@npm:1.9.0-2"
