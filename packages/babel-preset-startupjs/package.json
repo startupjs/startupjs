@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-startupjs",
-  "version": "0.56.0-alpha.0",
+  "version": "0.56.0-alpha.1",
   "description": "Babel preset for compiling StartupJS app on server, web, native",
   "main": "index.js",
   "exports": {
@@ -36,12 +36,12 @@
     "@startupjs/babel-plugin-import-to-react-lazy": "^0.56.0-alpha.0",
     "@startupjs/babel-plugin-react-css-modules": "^6.5.4-1",
     "@startupjs/babel-plugin-react-pug-classnames": "^0.56.0-alpha.0",
-    "@startupjs/babel-plugin-rn-stylename-inline": "^0.56.0-alpha.0",
+    "@startupjs/babel-plugin-rn-stylename-inline": "^0.56.0-alpha.1",
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.56.0-alpha.0",
     "@startupjs/babel-plugin-startupjs": "^0.56.0-alpha.0",
-    "@startupjs/babel-plugin-startupjs-debug": "^0.56.0-alpha.0",
+    "@startupjs/babel-plugin-startupjs-debug": "^0.56.0-alpha.1",
     "@startupjs/babel-plugin-startupjs-utils": "^0.56.0-alpha.0",
-    "@startupjs/bundler": "^0.56.0-alpha.0",
+    "@startupjs/bundler": "^0.56.0-alpha.1",
     "babel-plugin-module-resolver": "^5.0.0",
     "babel-plugin-react-native-platform-specific-extensions": "^1.1.1",
     "babel-plugin-react-native-web-pass-classname": "^0.2.1",

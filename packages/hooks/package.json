@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/hooks",
   "type": "module",
-  "version": "0.56.0-alpha.0",
+  "version": "0.56.0-alpha.1",
   "engines": {
     "node": ">= 14"
   },
@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@startupjs/utils": "^0.56.0-alpha.0"
+    "@startupjs/utils": "^0.56.0-alpha.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",

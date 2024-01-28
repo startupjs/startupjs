@@ -1,3 +1,23 @@
+# [0.56.0-alpha.1](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.0...v0.56.0-alpha.1) (2024-01-28)
+
+
+### Bug Fixes
+
+* **app/emit:** dont check for page existence ([#1156](https://github.com/startupjs/startupjs/issues/1156)) ([d574c0d](https://github.com/startupjs/startupjs/commit/d574c0dfc0d9b504cff5bd786c3b0891aaa119ca))
+* **backend:** fix mingo-sqlite reactivity ([774b2de](https://github.com/startupjs/startupjs/commit/774b2de40f6da6d0d64600721c497ad03e717259))
+* **bundler/metro-config:** plug in startupjs server automatically if it's enabled in startupjs.config.js ([280801b](https://github.com/startupjs/startupjs/commit/280801b4275c7daf01976da6a1d4d69a6d1245e6))
+* **server:** typos ([cc7e3b9](https://github.com/startupjs/startupjs/commit/cc7e3b9fffa681eb2be54831552a8cb40713f935))
+* **ui/Toast:** fix header alignment ([#1151](https://github.com/startupjs/startupjs/issues/1151)) ([a22b264](https://github.com/startupjs/startupjs/commit/a22b264560e5f9cd529a42794815d9a30cac5f74))
+
+
+### Features
+
+* **cli:** add expo support for 'build' and 'start-production' cli commands ([cf62414](https://github.com/startupjs/startupjs/commit/cf624144f02cbf3199f63d312f31a0f0aa025966))
+* **expo:** make production build - implement 'build' and 'start-production' commands ([#1161](https://github.com/startupjs/startupjs/issues/1161)) ([bda73c4](https://github.com/startupjs/startupjs/commit/bda73c4675bdad9ef2125ffef4d53f854f0d54f2))
+* **registry:** allow passing options to modules ([#1160](https://github.com/startupjs/startupjs/issues/1160)) ([23c0be9](https://github.com/startupjs/startupjs/commit/23c0be9b8c0021609b09a85a7fcd6faf8ca57b0b))
+
+
+
 # [0.56.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.55.12...v0.56.0-alpha.0) (2024-01-15)
 
 
