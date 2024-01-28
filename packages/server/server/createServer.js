@@ -4,6 +4,8 @@ import https from 'https'
 import conf from 'nconf'
 import createExpress from './createExpress.js'
 
+const PORT = process.env.PORT || conf.get('PORT') || 3000
+
 let server = null
 
 /**
@@ -68,9 +70,9 @@ function getListen (server, options) {
       }
     }
     if (args.length === 0) {
-      args = [conf.get('PORT'), defaultCb]
+      args = [PORT, defaultCb]
     } else if (args.length === 1 && typeof args[0] === 'function') {
-      args = [conf.get('PORT'), wrapCb(args[0])]
+      args = [PORT, wrapCb(args[0])]
     } else if (args.length === 1 && typeof args[0] === 'number') {
       args = [args[0], defaultCb]
     } else {
@@ -100,7 +102,7 @@ async function gracefulShutdown (exitCode = 0) {
 }
 
 function printStarted () {
-  const port = conf.get('PORT')
+  const port = PORT
   // Support for the `dev` shell script which runs startupjs app inside a Docker container
   const dockerHostPort = conf.get('DOCKER_HOST_PORT')
   if (dockerHostPort) {

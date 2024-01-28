@@ -8,6 +8,8 @@ import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import methodOverride from 'method-override'
 import hsts from 'hsts'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 import createMiddleware from './createMiddleware.js'
 import renderApp from '../renderApp/index.js'
 import renderError from '../renderError/index.js'
@@ -82,7 +84,12 @@ export default function createExpress ({ backend, session, channel, options = {}
   const startupjsMiddleware = createMiddleware({ backend, session, channel, options })
   expressApp.use(startupjsMiddleware)
 
-  expressApp.use(renderApp(options))
+  if (options.isExpo) {
+    const indexFile = readFileSync(join(options.publicPath, 'index.html'), 'utf8')
+    expressApp.use((req, res, next) => { res.status(200).send(indexFile) })
+  } else {
+    expressApp.use(renderApp(options))
+  }
 
   expressApp.use(function (err, req, res, next) {
     if (err.name === 'MongoError' && err.message === 'Topology was destroyed') {

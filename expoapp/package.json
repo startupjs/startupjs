@@ -7,6 +7,8 @@
     "android": "EXPO_USE_METRO_WORKSPACE_ROOT=1 npx expo start --android",
     "ios": "EXPO_USE_METRO_WORKSPACE_ROOT=1 npx expo start --ios",
     "web": "EXPO_USE_METRO_WORKSPACE_ROOT=1 npx expo start --web",
+    "build": "npx expo export -p web",
+    "start-production": "NODE_ENV=production node --import=startupjs/nodeRegister -e \"import('startupjs/startServer')\"",
     "test": "jest --watchAll"
   },
   "jest": {

@@ -5,18 +5,24 @@ import dummyNconf from './nconf.js'
 import { resolve } from 'path'
 import { EventEmitter } from 'events'
 import dummyLoadConfig from '@startupjs/registry/loadStartupjsConfig.auto'
+import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import createBackend from '@startupjs/backend'
 import createSession from './server/createSession.js'
 import createChannel from '@startupjs/channel/server'
+import { readFileSync } from 'fs'
 
 export { mongo, mongoClient, createMongoIndex, redis, redlock } from '@startupjs/backend'
 
+const IS_EXPO = isExpo(process.env.ROOT_PATH || process.cwd())
+
 const defaultOptions = {
-  publicPath: './public',
+  publicPath: IS_EXPO ? './dist' : './public',
   loginUrl: '/login',
   bodyParserLimit: '10mb',
   secure: false,
-  dirname: process.env.ROOT_PATH || process.cwd()
+  dirname: process.env.ROOT_PATH || process.cwd(),
+  isExpo: IS_EXPO,
+  ...MODULE.options
 }
 
 export default async function startServer (options) {
@@ -59,6 +65,12 @@ function commonInit (options = {}) {
   const channel = createChannel(backend, { session })
 
   return { backend, channel, session, options }
+}
+
+function isExpo (rootPath) {
+  const packageJson = readFileSync(resolve(rootPath, './package.json'), 'utf8')
+  const { dependencies = {} } = JSON.parse(packageJson)
+  return Boolean(dependencies.expo)
 }
 
 ;((...args) => {})(dummyNconf, dummyLoadConfig) // prevent dead code elimination
