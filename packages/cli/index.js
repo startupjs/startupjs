@@ -127,9 +127,18 @@ SCRIPTS_ORIG.build = ({ async } = {}) => oneLine(`
   npx webpack --config webpack.web.config.cjs
 `)
 
+SCRIPTS_ORIG.expoBuild = ({ async } = {}) => oneLine(`
+  npx expo export -p web
+`)
+
 SCRIPTS_ORIG.startProduction = oneLine(`
   npx cross-env NODE_ENV=production
   node --experimental-detect-module server.js
+`)
+
+SCRIPTS_ORIG.expoStartProduction = oneLine(`
+  npx cross-env NODE_ENV=production
+  node --experimental-detect-module --import='startupjs/nodeRegister' -e 'import("startupjs/startServer")'
 `)
 
 // Etc
@@ -414,7 +423,7 @@ commander
   .option('-a, --async', 'Build with splitting code into async chunks loaded dynamically')
   .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.build(options),
+      isExpo() ? SCRIPTS_ORIG.expoBuild(options) : SCRIPTS_ORIG.build(options),
       { stdio: 'inherit', shell: true }
     )
   })
@@ -424,7 +433,7 @@ commander
   .description('Start production')
   .action(async (options) => {
     await execa.command(
-      SCRIPTS_ORIG.startProduction,
+      isExpo() ? SCRIPTS_ORIG.expoStartProduction : SCRIPTS_ORIG.startProduction,
       { stdio: 'inherit', shell: true }
     )
   })
@@ -664,6 +673,16 @@ function getSuccessInstructions (projectName) {
 // Replace all new lines with spaces to properly handle cli-commands
 function oneLine (str) {
   return str.replace(/\s+/g, ' ')
+}
+
+function isExpo (rootPath = process.cwd()) {
+  try {
+    const packageJson = fs.readFileSync(path.resolve(rootPath, './package.json'), 'utf8')
+    const { dependencies = {} } = JSON.parse(packageJson)
+    return Boolean(dependencies.expo)
+  } catch {
+    return false
+  }
 }
 
 exports.run = (options = {}) => {
