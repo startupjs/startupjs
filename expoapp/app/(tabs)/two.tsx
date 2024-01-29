@@ -7,7 +7,7 @@ import { pug, styl, observer, $,
 
 import EditScreenInfo from '@/components/EditScreenInfo'
 import { Text, View } from '@/components/Themed'
-import { H1, Button, Div, Br } from '@startupjs/ui'
+import { H1, Button, Div, Br, alert } from '@startupjs/ui'
 
 export default observer(function TabTwoScreen() {
   const $countDoc = useDoc$('testCounts', 'magicCount1')
@@ -39,6 +39,7 @@ export default observer(function TabTwoScreen() {
           | State count: #{stateCount}
         Button(pushed onPress=() => $localCount.increment())
           | Local count: #{$localCount.get()}
+        Button(pushed onPress=() => alert('Test alert!')) Alert
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
       Text Random id: #{randomId}
   `

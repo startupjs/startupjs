@@ -1,7 +1,7 @@
 import React from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Input from './input'
+import InputComponent from './input'
 import Span from './../../typography/Span'
 import './index.styl'
 
@@ -17,7 +17,7 @@ function TextInput ({
   }
 
   return pug`
-    Input(
+    InputComponent(
       ref=ref
       value=value
       ...props

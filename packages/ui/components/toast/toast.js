@@ -1,91 +1,133 @@
-import { $root } from 'startupjs'
-import { getToastsModel } from './helpers'
+import React, { useEffect, useState } from 'react'
+import { Animated } from 'react-native'
+import { pug, observer } from 'startupjs'
+import PropTypes from 'prop-types'
+import {
+  faExclamationCircle,
+  faTimes,
+  faCheckCircle,
+  faExclamationTriangle,
+  faInfoCircle
+} from '@fortawesome/free-solid-svg-icons'
+import Button from '../Button'
+import Div from '../Div'
+import Icon from '../Icon'
+import Span from '../typography/Span'
+import themed from '../../theming/themed'
+import './index.styl'
 
-const MAX_SHOW_LENGTH = 3
+const DURATION_OPEN = 300
+const DURATION_CLOSE = 150
 
-// NOTE
-// Is this the best way to update position of toasts?
-// Is there a better way to do this?
-// We want to remove unnecessary props from toast
-// component that are added by these calculations.
-const updateMatrixPositions = () => {
-  const $toasts = getToastsModel()
-  const toasts = $toasts.get()
-
-  const updateToasts = toasts.map((toast, index) => {
-    const prevToast = toasts[index - 1]
-
-    if (prevToast) {
-      toast.topPosition = prevToast.topPosition + prevToast.height
-    } else {
-      toast.topPosition = 0
-    }
-
-    return toast
-  })
-
-  $toasts.set(updateToasts)
+const ICONS = {
+  info: faInfoCircle,
+  error: faExclamationCircle,
+  warning: faExclamationTriangle,
+  success: faCheckCircle
 }
 
-export default function toast ({
-  alert,
+const TITLES = {
+  info: 'Info',
+  error: 'Error',
+  warning: 'Warning',
+  success: 'Success'
+}
+
+function Toast ({
+  type,
+  topPosition,
+  height,
+  show,
   icon,
   text,
-  type,
   title,
   actionLabel,
   onAction,
-  onClose
+  onClose,
+  onLayout
 }) {
-  const toastId = $root.id()
-  const $toasts = getToastsModel()
+  const [showAnimation] = useState(new Animated.Value(0))
+  const [topAnimation] = useState(new Animated.Value(topPosition))
 
-  if ($toasts.get()?.length === MAX_SHOW_LENGTH) {
-    $toasts.set(`${MAX_SHOW_LENGTH - 1}.show`, false)
+  useEffect(() => {
+    Animated
+      .timing(topAnimation, { toValue: topPosition, duration: DURATION_OPEN })
+      .start()
+  }, [topPosition])
+
+  useEffect(() => {
+    if (show && height) onShow()
+    if (!show) onHide()
+  }, [show, height])
+
+  function onShow () {
+    Animated
+      .timing(showAnimation, { toValue: 1, duration: DURATION_OPEN })
+      .start()
   }
 
-  if (!alert) {
-    setTimeout(() => {
-      const index = getValidIndex()
-      if (index !== -1) $toasts.set(`${index}.show`, false)
-    }, 5000)
+  function onHide () {
+    Animated
+      .timing(showAnimation, { toValue: 0, duration: DURATION_CLOSE })
+      .start(onClose)
   }
 
-  function onRemove () {
-    const index = getValidIndex()
-    if (index === -1) return
+  return pug`
+    Animated.View.root(
+      style={
+        opacity: showAnimation,
+        right: showAnimation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [-48, 0]
+        }),
+        top: topAnimation
+      }
+      onLayout=e=> onLayout(e.nativeEvent.layout)
+    )
+      Div.toast(styleName=[type])
+        Div.header(vAlign='center' row)
+          Div(vAlign='center' row)
+            Icon.icon(
+              icon=icon ? icon : ICONS[type]
+              styleName=[type]
+            )
+            Span.title(styleName=[type])
+              = title ? title : TITLES[type]
+          Div(onPress=onHide)
+            Icon(icon=faTimes)
 
-    $toasts.remove(index)
-    updateMatrixPositions()
-    onClose && onClose()
-  }
+        if text
+          Span.text= text
 
-  // toastId ensures that the correct index is found at the current moment
-  function getValidIndex () {
-    return $toasts.get().findIndex(toast => toast.key === toastId)
-  }
-
-  // NOTE
-  // Think about using context instead of model
-  // We can provide registerToast function in context
-  // Which will be better? model or context?
-  function onLayout (layout) {
-    $toasts.set(`${getValidIndex()}.height`, layout.height)
-    updateMatrixPositions()
-  }
-
-  $toasts.unshift({
-    key: toastId,
-    show: true,
-    topPosition: 0,
-    alert,
-    icon,
-    type,
-    text,
-    title,
-    actionLabel,
-    onAction,
-    onClose: onRemove,
-    onLayout
-  })
+        if onAction
+          Div.actions(row)
+            Button(
+              size='s'
+              onPress=() => {
+                onAction()
+                onHide()
+              }
+            )= actionLabel
+  `
 }
+
+Toast.defaultProps = {
+  type: 'info',
+  actionLabel: 'View'
+}
+
+Toast.propTypes = {
+  type: PropTypes.string,
+  topPosition: PropTypes.number,
+  height: PropTypes.number,
+  show: PropTypes.bool,
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  text: PropTypes.string,
+  title: PropTypes.string,
+  actionLabel: PropTypes.string,
+  onAction: PropTypes.func,
+  onClose: PropTypes.func,
+  onLayout: PropTypes.func
+}
+
+export default observer(themed(Toast, 'Toast'))

@@ -1,8 +1,9 @@
 import React from 'react'
 import { Text } from 'react-native'
-import { pug, observer, styl } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../../theming/themed'
+import './index.styl'
 
 function Span ({
   style,
@@ -47,40 +48,3 @@ Span.propTypes = {
 }
 
 export default observer(themed('Span', Span))
-
-styl`
-  // ----- CONFIG: $UI.Span
-
-  $this = merge({
-    color: var(--color-text-main),
-    descriptionColor: var(--color-text-description)
-  }, $UI.Span, true)
-
-  // ----- COMPONENT
-
-  _variants = ('default' 'h1' 'h2' 'h3' 'h4' 'h5' 'h6' 'description') // H1-H6, description is DEPRECATED
-
-  .root
-    font()
-    fontFamily('normal')
-    color: $this.color
-
-    for variant in _variants
-      &.{variant}
-        font(variant)
-
-    &.bold
-      fontFamily('normal', $UI.fontWeights.normalBold)
-
-    &.italic
-      fontFamily('normal', $UI.fontWeights.normal, italic)
-
-    &.bold.italic
-      fontFamily('normal', $UI.fontWeights.normalBold, italic)
-
-    &.description
-      color: $this.descriptionColor
-
-    &.full
-      flex: 1
-`

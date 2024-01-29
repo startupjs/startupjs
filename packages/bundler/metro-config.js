@@ -18,7 +18,8 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, { upstreamCon
         ...(isExpo ? ['expo.ts', 'expo.tsx', 'expo.js', 'expo.jsx', 'expo.mjs', 'expo.cjs'] : []),
         ...(upstreamConfig.resolver.sourceExts || []),
         ...['mjs', 'cjs', 'md', 'mdx', 'css', 'styl', 'svg']
-      ]))
+      ])),
+      unstable_enablePackageExports: true
     },
     server: {
       ...upstreamConfig.server,
