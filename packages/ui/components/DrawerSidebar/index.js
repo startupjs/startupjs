@@ -43,7 +43,7 @@ function DrawerSidebar ({
 
   let backgroundColor
   // eslint-disable-next-line prefer-const
-  ;({ backgroundColor = getColor('bg-main-strong'), ...style } = StyleSheet.flatten(style))
+  ;({ backgroundColor = getColor('bg-main'), ...style } = StyleSheet.flatten(style))
 
   let open
   let onChange

@@ -65,9 +65,9 @@ const RankInput = observer(function ({
 
     // HACK: Draggable component has some visual bugs if styles are not passed
     // through style object
-    const extraStyle = disabled ? { backgroundColor: getColor('bg-main-subtle') } : STYLES.cursor
+    const extraStyle = disabled ? { backgroundColor: getColor('bg-main-strong') } : STYLES.cursor
     const style = [
-      { ...STYLES.draggable, backgroundColor: getColor('bg-main-strong'), borderColor: getColor('border-main') },
+      { ...STYLES.draggable, backgroundColor: getColor('bg-main'), borderColor: getColor('border-main') },
       { width },
       extraStyle
     ]

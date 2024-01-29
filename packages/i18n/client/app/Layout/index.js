@@ -58,7 +58,7 @@ export default observer(function Layout ({ children }) {
     .header
       padding 1u 2u
       border-bottom-width 1px
-      border-bottom-color var(--color-border-main-subtle)
+      border-bottom-color var(--color-border-main)
     // .menu
     //   margin-left 1u
   `

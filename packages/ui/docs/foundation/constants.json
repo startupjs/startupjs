@@ -1,0 +1,245 @@
+{
+  "COLOR_TYPES": [
+    {
+      "label": "Base",
+      "colors": [
+        {
+          "name": "main",
+          "description": "Use as a default background color for pages."
+        },
+        {
+          "name": "primary",
+          "description": "Use for primary elements, such as buttons, links, interactive elements."
+        },
+        {
+          "name": "secondary",
+          "description": "Use for elements with secondary importance, such as additional buttons."
+        },
+        {
+          "name": "error",
+          "description": "Use for parts of interface communicating critical information, such as error messages, input validation."
+        },
+        {
+          "name": "success",
+          "description": "Use for parts of interface communicating a favorable outcome, such as success messages, input validation."
+        },
+        {
+          "name": "warning",
+          "description": "Use for parts of interface communicating caution, notifying user about upcoming consequences."
+        },
+        {
+          "name": "attention",
+          "description": "Use for parts of interface communicating high importance, such as warning messages, requiring action."
+        },
+        {
+          "name": "info",
+          "description": "Use for parts of interface communicating communicating change or something new, such as onboarding."
+        }
+      ]
+    },
+    {
+      "label": "Main",
+      "colors": [
+        {
+          "name": "bg-main",
+          "description": "Use as a default background color for pages or content sections."
+        },
+        {
+          "name": "bg-main-strong",
+          "description": "Use for backgrounds or content sections when you want to draw more attention."
+        },
+        {
+          "name": "bg-main-subtle",
+          "description": "Use for backgrounds or content sections when you want only a hint of color."
+        },
+        {
+          "name": "text-main",
+          "description": "Use for primary text, such as body copy, sentence case headers."
+        },
+        {
+          "name": "border-main",
+          "description": "Use to visually group or separate UI elements, such as input field borders."
+        }
+      ]
+    },
+    {
+      "label": "Primary",
+      "colors": [
+        {
+          "name": "bg-primary",
+          "description": "Use as a default background color for content sections you want to highlight."
+        },
+        {
+          "name": "bg-primary-strong",
+          "description": "Use as a default background color for content sections you want to highlight strongly."
+        },
+        {
+          "name": "bg-primary-subtle",
+          "description": "Use as a default background color for content sections you want to highlight lightly."
+        },
+        {
+          "name": "text-primary",
+          "description": "Use for highlighted text on primary backgrounds."
+        },
+        {
+          "name": "border-primary",
+          "description": "Use for content sections borders you want to highlight."
+        }
+      ]
+    },
+    {
+      "label": "Success",
+      "colors": [
+        {
+          "name": "bg-success",
+          "description": "Use as a default background color for content sections communication success."
+        },
+        {
+          "name": "bg-success-strong",
+          "description": "Use as a default background color for content sections communication success strongly."
+        },
+        {
+          "name": "bg-success-subtle",
+          "description": "Use as a default background color for content sections communication success lightly."
+        },
+        {
+          "name": "text-success",
+          "description": "Use for highlighted text on success backgrounds."
+        },
+        {
+          "name": "border-success",
+          "description": "Use for borders of content sections communication success."
+        }
+      ]
+    },
+    {
+      "label": "Warning",
+      "colors": [
+        {
+          "name": "bg-warning",
+          "description": "Use as a default background color for content sections communication warning."
+        },
+        {
+          "name": "bg-warning-strong",
+          "description": "Use as a default background color for content sections communication warning strongly."
+        },
+        {
+          "name": "bg-warning-subtle",
+          "description": "Use as a default background color for content sections communication warning lightly."
+        },
+        {
+          "name": "text-warning",
+          "description": "Use for highlighted text on warning backgrounds."
+        },
+        {
+          "name": "border-warning",
+          "description": "Use for borders of content sections communication warning."
+        }
+      ]
+    },
+    {
+      "label": "Warning",
+      "colors": [
+        {
+          "name": "bg-attention",
+          "description": "Use as a default background color for content sections communication attention."
+        },
+        {
+          "name": "bg-attention-strong",
+          "description": "Use as a default background color for content sections communication attention strongly."
+        },
+        {
+          "name": "bg-attention-subtle",
+          "description": "Use as a default background color for content sections communication attention lightly."
+        },
+        {
+          "name": "text-attention",
+          "description": "Use for highlighted text on attention backgrounds."
+        },
+        {
+          "name": "border-attention",
+          "description": "Use for borders of content sections communication attention."
+        }
+      ]
+    },
+    {
+      "label": "Error",
+      "colors": [
+        {
+          "name": "bg-error",
+          "description": "Use as a default background color for content sections communication error."
+        },
+        {
+          "name": "bg-error-strong",
+          "description": "Use as a default background color for content sections communication error strongly."
+        },
+        {
+          "name": "bg-error-subtle",
+          "description": "Use as a default background color for content sections communication error lightly."
+        },
+        {
+          "name": "text-error",
+          "description": "Use for highlighted text on error backgrounds."
+        },
+        {
+          "name": "border-error",
+          "description": "Use for borders of content sections communication error."
+        }
+      ]
+    },
+    {
+      "label": "Secondary",
+      "colors": [
+        {
+          "name": "bg-secondary",
+          "description": "Use as a default background color for content sections with secondary importance."
+        },
+        {
+          "name": "bg-secondary-strong",
+          "description": "Use for background of content sections with secondary importance with a stronger color."
+        },
+        {
+          "name": "bg-secondary-subtle",
+          "description": "Use for background of content sections with secondary importance with a lighter color."
+        },
+        {
+          "name": "text-secondary",
+          "description": "Use for highlighted text on secondary backgrounds."
+        },
+        {
+          "name": "border-secondary",
+          "description": "Use for content sections borders for secondary content sections."
+        }
+      ]
+    },
+    {
+      "label": "Shadow",
+      "colors": [
+        {
+          "name": "shadow-main",
+          "description": "description..."
+        },
+        {
+          "name": "shadow-main-strong",
+          "description": "description..."
+        },
+        {
+          "name": "shadow-main-subtle",
+          "description": "description..."
+        }
+      ]
+    },
+    {
+      "label": "Other",
+      "colors": [
+        {
+          "name": "text-description", "description": "Use for secondary text, such as secondary text, breadcrumbs and helper text."
+        },
+        {
+          "name": "text-placeholder",
+          "description": "Use for placeholders text in inputs."
+        }
+      ]
+    }
+  ]
+}
