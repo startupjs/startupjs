@@ -1,11 +1,10 @@
 import { createElement as el } from 'react'
 import { createPlugin } from 'startupjs/registry'
-import UiProvider from './UiProvider.js'
+import UiProvider from './UiProvider'
 
 export default createPlugin({
   name: 'ui',
   client: (props) => ({
-    // TODO
     renderRoot ({ children }) {
       return el(UiProvider, props, children)
     }
