@@ -183,7 +183,6 @@ export function prepareColorsObject (palette, Color, { overrides = {}, high, low
   // C[Colors['bg-error-transparent']]         ??= C[Colors.error].setAlpha(0.05)
   // C[Colors['bg-success-transparent']]       ??= C[Colors.success].setAlpha(0.05)
   // C[Colors['bg-warning-transparent']]       ??= C[Colors.warning].setAlpha(0.05)
-  // C[Colors['bg-main-subtle-alt']]           ??= C[Colors['bg-main']].subtler(2)
 
   // text
   C[Colors['text-main']]                    ??= Color('main', high - 1)
@@ -198,10 +197,6 @@ export function prepareColorsObject (palette, Color, { overrides = {}, high, low
   // C[Colors['text-info']]                    ??= C[Colors.info]
   C[Colors['text-attention']]               ??= C[Colors.attention]
 
-  // extra text colors
-  // C[Colors['text-success-strong']]          ??= C[Colors.success].stronger(2)
-  // C[Colors['text-info-strong']]             ??= C[Colors.info].stronger(2)
-
   // text on different backgrounds
   // C[Colors['text-on-color']]                ??= C[Colors.main]
   // C[Colors['text-on-primary']]              ??= C[Colors.primary].stronger(4)
@@ -214,18 +209,12 @@ export function prepareColorsObject (palette, Color, { overrides = {}, high, low
 
   // border
   C[Colors['border-main']]                  ??= Color('main', middle - 1)
-  // C[Colors['border-main-strong']]           ??= C[Colors['border-main']].stronger(3)
   C[Colors['border-primary']]               ??= C[Colors.primary].subtler(2)
   C[Colors['border-secondary']]             ??= C[Colors.secondary].subtler(2)
   C[Colors['border-error']]                 ??= C[Colors.error].subtler(2)
   C[Colors['border-success']]               ??= C[Colors.success].subtler(2)
   C[Colors['border-warning']]               ??= C[Colors.warning].subtler(2)
-  // C[Colors['border-info']]                  ??= C[Colors.info].subtler(2)
   C[Colors['border-attention']]             ??= C[Colors.attention].subtler(2)
-
-  // extra border colors
-  // C[Colors['border-main-subtle']]           ??= C[Colors['border-main']].subtler(1)
-  // C[Colors['border-main-strong-alt']]       ??= C[Colors['border-main']].stronger(1)
 
   // generate component colors
   const CC = {}

@@ -35,7 +35,6 @@ export const BgColors = {
   'bg-attention-strong': 'bg-attention-strong',
   'bg-error-subtle': 'bg-error-subtle',
   'bg-error-strong': 'bg-error-strong'
-  // 'bg-main-subtle-alt': 'bg-main-subtle-alt',
   // 'bg-primary-transparent': 'bg-primary-transparent',
   // 'bg-error-transparent': 'bg-error-transparent',
   // 'bg-success-transparent': 'bg-success-transparent',
@@ -53,8 +52,6 @@ export const TextColors = {
   'text-warning': 'text-warning',
   // 'text-info': 'text-info',
   'text-attention': 'text-attention'
-  // 'text-success-strong': 'text-success-strong',
-  // 'text-info-strong': 'text-info-strong'
 }
 
 export const TextOnColors = {
@@ -69,15 +66,11 @@ export const TextOnColors = {
 }
 
 export const BorderColors = {
-  // 'border-main-strong': 'border-main-strong',
-  // 'border-main-strong-alt': 'border-main-strong-alt',
-  // 'border-main-subtle': 'border-main-subtle',
   'border-primary': 'border-primary',
   'border-secondary': 'border-secondary',
   'border-error': 'border-error',
   'border-success': 'border-success',
   'border-warning': 'border-warning',
-  // 'border-info': 'border-info',
   'border-attention': 'border-attention'
 }
 

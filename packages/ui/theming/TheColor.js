@@ -73,12 +73,4 @@ export class TheColor {
     level = Math.min(this.high + 1, Math.max(this.low - 1, level))
     return this.clone(this.name, level)
   }
-  // subtler (offset = 1) { return this.stronger(-offset) }
-
-  // stronger (offset = 1) {
-  //   if (this.isDark()) offset = -offset
-  //   let level = this.level + offset
-  //   level = Math.min(this.high + 1, Math.max(this.low - 1, level))
-  //   return this.clone(this.name, level)
-  // }
 }
