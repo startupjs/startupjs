@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useContext } from 'react'
 import { View, StatusBar } from 'react-native'
 import { pug, observer, useValue } from 'startupjs'
-import { DragDropContext } from './DragDropContext'
+import { DragDropContext } from './DragDropProvider'
 
 export default observer(function Droppable ({
   children,

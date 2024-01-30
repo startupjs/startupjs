@@ -4,10 +4,18 @@
  */
 import Registry from './lib/Registry.js'
 
+// force registry to be singleton
+// This is required to prevent multiple instances of registry created because of the
+// import loop between registry, plugins and loadStartupjsConfig
+// TODO: figure out why the loop happens and how to avoid it
+let singleton
+
 export default function createRegistry ({ RegistryClass = Registry, rootModuleName }) {
+  if (singleton) return singleton
+
   const registry = new RegistryClass({ rootModuleName })
 
-  return {
+  return (singleton = {
     registry,
 
     /**
@@ -75,5 +83,5 @@ export default function createRegistry ({ RegistryClass = Registry, rootModuleNa
       registry.init(config)
       return registry
     }
-  }
+  })
 }

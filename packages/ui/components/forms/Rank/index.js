@@ -3,15 +3,13 @@ import { StyleSheet } from 'react-native'
 import { pug, observer, $root, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons'
-import {
-  DragDropProvider,
-  Draggable,
-  Droppable,
-  Span,
-  Icon,
-  Input,
-  Div
-} from '../../..'
+import DragDropProvider from '../../draggable/DragDropProvider'
+import Draggable from '../../draggable/Draggable'
+import Droppable from '../../draggable/Droppable'
+import Span from '../../typography/Span'
+import Icon from '../../Icon'
+import Input from '../Input'
+import Div from '../../Div'
 import { useColors } from '../../../hooks'
 import { getOptionValue, getOptionLabel, stringifyValue, move } from './helpers'
 import STYLES from './index.styl'

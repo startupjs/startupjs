@@ -26,10 +26,10 @@ function MultiselectInput ({
     ? value.slice(tagLimit, value.length).length
     : 0
 
-  const Input = InputComponent || DefaultInput
+  InputComponent ??= DefaultInput
 
   return pug`
-    Input(
+    InputComponent(
       ref=ref
       part='root'
       value=values

@@ -5,7 +5,7 @@ import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 import merge from 'lodash/merge'
 import Div from './../../Div'
 import Icon from './../../Icon'
-import { Span } from './../../typography'
+import Span from './../../typography/Span'
 import { useLayout } from './../../../hooks'
 import themed from '../../../theming/themed'
 

@@ -3,7 +3,7 @@ import { Animated, View, StyleSheet } from 'react-native'
 import { State, PanGestureHandler } from 'react-native-gesture-handler'
 import { pug, observer } from 'startupjs'
 import { Portal } from '@startupjs/ui'
-import { DragDropContext } from './DragDropContext'
+import { DragDropContext } from './DragDropProvider'
 import './index.styl'
 
 export default observer(function Draggable ({

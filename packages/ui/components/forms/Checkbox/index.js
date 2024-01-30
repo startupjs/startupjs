@@ -29,7 +29,7 @@ function Checkbox ({
   onBlur, // skip due to pointless triggering when clicked on the View
   ...props
 }, ref) {
-  const Input = INPUT_COMPONENTS[variant]
+  const InputComponent = INPUT_COMPONENTS[variant]
 
   function onPress () {
     onChange && onChange(!value)
@@ -40,7 +40,7 @@ function Checkbox ({
       if readonly
         Span.readonly=value ? READONLY_ICONS.TRUE : READONLY_ICONS.FALSE
       else
-        Input(
+        InputComponent(
           style=inputStyle
           value=value
           onPress=onPress

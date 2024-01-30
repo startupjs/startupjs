@@ -18,15 +18,24 @@ pluginTester({
     'Transforms multiple imports': /* js */`
       import { Button, Span, TextInput, Collapse } from '@startupjs/ui'
     `,
-    'Doesn\'t touch unknown imports': /* js */`
-      import { Button, UnknownComponent } from '@startupjs/ui'
-    `,
     'Doesn\'t touch grep imports': /* js */`
       import * as UI from '@startupjs/ui'
     `,
     'Transforms export': /* js */`
       export { observer } from 'startupjs'
-      export { Button, UnknownComponent, Span, TextInput } from '@startupjs/ui'
-    `
+      export { Button, Span, TextInput } from '@startupjs/ui'
+    `,
+    'Throws when unknown component found in import': {
+      code: /* js */`
+        import { Button, UnknownComponent } from '@startupjs/ui'
+      `,
+      error: true
+    },
+    'Throws when unknown component found in export': {
+      code: /* js */`
+        export { Button, UnknownComponent } from '@startupjs/ui'
+      `,
+      error: true
+    }
   }
 })

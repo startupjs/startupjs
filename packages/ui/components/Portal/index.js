@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react'
-import { pug, useComponentId, useValue, observer } from 'startupjs'
+import { pug, useComponentId, useValue$, observer } from 'startupjs'
 
 const PortalContext = React.createContext()
 
 const Provider = observer(({ children }) => {
-  const [, $state] = useValue({ order: [], nodes: {} })
+  const $state = useValue$({ order: [], nodes: {} })
   return pug`
     PortalContext.Provider(value=$state)
       = children

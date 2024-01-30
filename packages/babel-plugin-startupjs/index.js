@@ -1,77 +1,73 @@
-const moduleMap = require('./moduleMap.json')
+const { readFileSync } = require('fs')
+const { join } = require('path')
 
-function getDistLocation (moduleName, importName) {
-  if (!(moduleMap[moduleName] && moduleMap[moduleName][importName])) {
-    console.warn('>>>>>>\n>>>>>\n>>>>>>\n>>>>>> NO MODULE FOUND', moduleName, importName)
-    return
-  }
-  return moduleName + moduleMap[moduleName][importName]
-}
+const MAGIC_MODULE_NAME = '@startupjs/ui'
 
-const canProcess = ({ source, specifiers }) =>
-  source && moduleMap[source.value] && specifiers.length
+module.exports = function ({ template, types: t }) {
+  const buildImport = template('import %%name%% from %%source%%')
+  const buildExport = template('export { default as %%name%% } from %%source%%')
 
-module.exports = function ({ types: t }) {
   return {
     name: 'Unwrap imports for tree shaking.',
     visitor: {
-      ImportDeclaration (path, state) {
-        const { specifiers } = path.node
-        if (canProcess(path.node)) {
-          const moduleName = path.node.source.value
-          const transformed = specifiers
-            .map(specifier => {
-              if (t.isImportSpecifier(specifier)) {
-                const importName = specifier.imported.name
-                const distLocation = getDistLocation(moduleName, importName)
-
-                if (distLocation) {
-                  return t.importDeclaration(
-                    [t.importDefaultSpecifier(t.identifier(specifier.local.name))],
-                    t.stringLiteral(distLocation)
-                  )
-                }
+      ImportDeclaration ($this) {
+        if ($this.get('source').node.value !== MAGIC_MODULE_NAME) return
+        let transformed = false // needed to prevent infinite loops
+        const theImports = $this.get('specifiers')
+          .map($specifier => {
+            // pluck out into a separate import
+            if ($specifier.isImportSpecifier()) {
+              transformed = true
+              const originalName = $specifier.get('imported').node.name
+              if (!checkNamedExportExists(originalName)) {
+                throw $specifier.buildCodeFrameError(
+                  `Named export "${originalName}" does not exist in "${MAGIC_MODULE_NAME}" "exports" field in package.json`
+                )
               }
-              return t.importDeclaration(
-                [specifier],
-                t.stringLiteral(moduleName + '/index')
-              )
-            })
-            .filter(Boolean)
-
-          path.replaceWithMultiple(transformed)
-        }
+              const importedName = $specifier.get('local').node.name
+              return buildImport({
+                name: importedName,
+                source: `${MAGIC_MODULE_NAME}/${originalName}`
+              })
+            }
+            // pass as is
+            return t.importDeclaration([$specifier.node], t.stringLiteral(MAGIC_MODULE_NAME))
+          })
+        if (!transformed) return
+        $this.replaceWithMultiple(theImports)
       },
-      ExportNamedDeclaration (path, state) {
-        const { specifiers } = path.node
-        if (canProcess(path.node)) {
-          const moduleName = path.node.source.value
-          const transformed = specifiers
-            .map(specifier => {
-              if (t.isExportSpecifier(specifier)) {
-                const exportName = specifier.exported.name
-                const localName = specifier.local.name
-                const distLocation = getDistLocation(moduleName, localName)
-
-                if (distLocation) {
-                  return t.exportNamedDeclaration(
-                    null,
-                    [t.exportSpecifier(t.identifier('default'), t.identifier(exportName))],
-                    t.stringLiteral(distLocation)
-                  )
-                }
-              }
-              return t.exportNamedDeclaration(
-                null,
-                [specifier],
-                t.stringLiteral(moduleName + '/index')
+      ExportNamedDeclaration ($this) {
+        if ($this.get('source').node.value !== MAGIC_MODULE_NAME) return
+        const theExports = $this.get('specifiers')
+          .map($specifier => {
+            const originalName = $specifier.get('local').node.name
+            if (!checkNamedExportExists(originalName)) {
+              throw $specifier.buildCodeFrameError(
+                `Named export "${originalName}" does not exist in "${MAGIC_MODULE_NAME}" "exports" field in package.json`
               )
+            }
+            const exportedName = $specifier.get('exported').node.name
+            return buildExport({
+              name: exportedName,
+              source: `${MAGIC_MODULE_NAME}/${originalName}`
             })
-            .filter(Boolean)
+          })
 
-          path.replaceWithMultiple(transformed)
-        }
+        $this.replaceWithMultiple(theExports)
       }
     }
+  }
+}
+
+let namedExports
+function checkNamedExportExists (name) {
+  try {
+    if (!namedExports) {
+      const packageJsonPath = join(require.resolve(MAGIC_MODULE_NAME), '../package.json')
+      namedExports = JSON.parse(readFileSync(packageJsonPath, 'utf8')).exports
+    }
+    return !!namedExports['./' + name]
+  } catch {
+    return false
   }
 }

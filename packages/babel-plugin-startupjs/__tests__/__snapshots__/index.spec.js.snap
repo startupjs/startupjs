@@ -6,19 +6,7 @@ import * as UI from '@startupjs/ui'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import * as UI from "@startupjs/ui/index";
-
-
-`;
-
-exports[`@startupjs/babel-plugin-startupjs Doesn't touch unknown imports: Doesn't touch unknown imports 1`] = `
-
-import { Button, UnknownComponent } from '@startupjs/ui'
-
-      ↓ ↓ ↓ ↓ ↓ ↓
-
-import Button from "@startupjs/ui/components/Button";
-import { UnknownComponent } from "@startupjs/ui/index";
+import * as UI from "@startupjs/ui";
 
 
 `;
@@ -36,18 +24,41 @@ import App from "startupjs/app";
 
 `;
 
+exports[`@startupjs/babel-plugin-startupjs Throws when unknown component found in export: Throws when unknown component found in export 1`] = `
+
+export { Button, UnknownComponent } from '@startupjs/ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+SyntaxError: unknown file: Named export "UnknownComponent" does not exist in "@startupjs/ui" "exports" field in package.json
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mexport[39m { [33mButton[39m[33m,[39m [33mUnknownComponent[39m } [36mfrom[39m [32m'@startupjs/ui'[39m[0m
+[0m [90m   |[39m                  [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Throws when unknown component found in import: Throws when unknown component found in import 1`] = `
+
+import { Button, UnknownComponent } from '@startupjs/ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+SyntaxError: unknown file: Named export "UnknownComponent" does not exist in "@startupjs/ui" "exports" field in package.json
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { [33mButton[39m[33m,[39m [33mUnknownComponent[39m } [36mfrom[39m [32m'@startupjs/ui'[39m[0m
+[0m [90m   |[39m                  [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+
+`;
+
 exports[`@startupjs/babel-plugin-startupjs Transforms export: Transforms export 1`] = `
 
 export { observer } from 'startupjs'
-export { Button, UnknownComponent, Span, TextInput } from '@startupjs/ui'
+export { Button, Span, TextInput } from '@startupjs/ui'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
 export { observer } from "startupjs";
-export { default as Button } from "@startupjs/ui/components/Button";
-export { UnknownComponent } from "@startupjs/ui/index";
-export { default as Span } from "@startupjs/ui/components/typography/Span";
-export { default as TextInput } from "@startupjs/ui/components/forms/TextInput";
+export { default as Button } from "@startupjs/ui/Button";
+export { default as Span } from "@startupjs/ui/Span";
+export { default as TextInput } from "@startupjs/ui/TextInput";
 
 
 `;
@@ -58,7 +69,7 @@ import { Button } from '@startupjs/ui'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import Button from "@startupjs/ui/components/Button";
+import Button from "@startupjs/ui/Button";
 
 
 `;
@@ -69,10 +80,10 @@ import { Button, Span, TextInput, Collapse } from '@startupjs/ui'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import Button from "@startupjs/ui/components/Button";
-import Span from "@startupjs/ui/components/typography/Span";
-import TextInput from "@startupjs/ui/components/forms/TextInput";
-import Collapse from "@startupjs/ui/components/Collapse";
+import Button from "@startupjs/ui/Button";
+import Span from "@startupjs/ui/Span";
+import TextInput from "@startupjs/ui/TextInput";
+import Collapse from "@startupjs/ui/Collapse";
 
 
 `;

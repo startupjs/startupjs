@@ -36,7 +36,7 @@ import { pug, useValue } from 'startupjs'
 
 export const DragDropContext = React.createContext({})
 
-export function DragDropProvider ({ children }) {
+export default function DragDropProvider ({ children }) {
   const [context, $context] = useValue({
     dropHoverId: '',
     dragHoverIndex: null,

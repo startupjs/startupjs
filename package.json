@@ -14,7 +14,6 @@
   "scripts": {
     "init-local": "./scripts/tasks.sh local-init",
     "testapp": "cd testapp && yarn",
-    "generate-module-map": "echo 'Creating moduleMap.json...' && node ./scripts/babel/createModuleMap.js && git add ./packages/babel-plugin-startupjs/moduleMap.json && echo '...success'",
     "android": "cd styleguide && yarn android",
     "ios": "cd styleguide && yarn ios",
     "//": "// NOTE: this is temporary, until we get styleguide working with expo",
@@ -67,7 +66,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn generate-module-map"
+      "pre-commit": "lint-staged"
     }
   },
   "license": "MIT",
