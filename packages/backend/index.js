@@ -13,7 +13,7 @@ import { db } from './db/index.js'
 import maybeFlushRedis from './redis/maybeFlushRedis.js'
 
 export { redis, redlock, Redlock } from './redis/index.js'
-export { db, mongo, mongoClient, createMongoIndex } from './db/index.js'
+export { db, mongo, mongoClient, createMongoIndex, sqlite } from './db/index.js'
 
 const usersConnectionCounter = {}
 global.__clients = {}

@@ -2,7 +2,8 @@ export const {
   db,
   mongo, // (optional, only if mongo is used) mongoClient.db()
   mongoClient, // (optional, only if mongo is used)
-  createMongoIndex = () => {} // (optional, only if mongo is used; mock provided) create mongo indexes
+  createMongoIndex = () => {}, // (optional, only if mongo is used; mock provided) create mongo indexes
+  sqlite // (optional, only if mingo-sqlite is used) sqlite3 db instance
 } = await getDb({
   mongoUrl: process.env.MONGO_URL,
   disableMongo: process.env.NO_MONGO,
