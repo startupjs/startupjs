@@ -1,3 +1,12 @@
+# [0.56.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.2...v0.56.0-alpha.3) (2024-01-30)
+
+
+### Features
+
+* **server:** add sqlite sessions support when mingo-sqlite is used ([#1164](https://github.com/startupjs/startupjs/issues/1164)) ([524ebd9](https://github.com/startupjs/startupjs/commit/524ebd9723beac2f9225d23e650511f7c47edfc7))
+
+
+
 # [0.56.0-alpha.2](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.1...v0.56.0-alpha.2) (2024-01-30)
 
 
