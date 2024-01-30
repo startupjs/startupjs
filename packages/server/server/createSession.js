@@ -1,7 +1,8 @@
-import { mongoClient } from '@startupjs/backend'
+import { mongoClient, sqlite } from '@startupjs/backend'
 import MongoStore from 'connect-mongo'
 import expressSession from 'express-session'
 import conf from 'nconf'
+import SQLiteStore from '../utils/SQLiteSessionStore.js'
 
 const DEFAULT_SESSION_MAX_AGE = 1000 * 60 * 60 * 24 * 365 * 2 // 2 years
 function getDefaultSessionUpdateInterval (sessionMaxAge) {
@@ -18,6 +19,8 @@ export default function createSession (options) {
           getDefaultSessionUpdateInterval(options.sessionMaxAge)
     }
     sessionStore = MongoStore.create(connectMongoOptions)
+  } else if (sqlite) {
+    sessionStore = new SQLiteStore({ db: sqlite })
   }
 
   return expressSession({

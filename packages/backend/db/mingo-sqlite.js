@@ -6,7 +6,7 @@ import { loadSqliteDbToMingo, getExistingSqliteDb } from './utils.js'
 
 const DEFAULT_DB_PATH = './sqlite.db'
 
-export const db = await getMingoSqliteDb({
+export const { db, sqlite } = await getMingoSqliteDb({
   dbPath: process.env.DB_PATH,
   loadSnapshotPath: process.env.DB_LOAD_SNAPSHOT
 })
@@ -27,7 +27,7 @@ async function getMingoSqliteDb ({ dbPath, loadSnapshotPath }) {
 
   patchMingoForSQLitePersistence(sqliteDb, db)
 
-  return db
+  return { db, sqlite: sqliteDb }
 }
 
 // override the commit method to save changes to SQLite
