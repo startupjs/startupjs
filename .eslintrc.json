@@ -10,7 +10,7 @@
     "standard",
     "standard-react",
     "plugin:react/recommended",
-    "plugin:react-pug/all"
+    "plugin:@startupjs/react-pug/all"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -25,7 +25,7 @@
   },
   "plugins": [
     "react",
-    "react-pug",
+    "@startupjs/react-pug",
     "eslint-plugin-import-helpers"
   ],
   "rules": {
@@ -33,10 +33,10 @@
     "eol-last": "error",
     "react/jsx-handler-names": "off",
     "react/prop-types": "off",
-    "react-pug/empty-lines": "off",
-    "react-pug/no-interpolation": "off",
-    "react-pug/prop-types": "off",
-    "react-pug/quotes": "off",
+    "@startupjs/react-pug/empty-lines": "off",
+    "@startupjs/react-pug/no-interpolation": "off",
+    "@startupjs/react-pug/prop-types": "off",
+    "@startupjs/react-pug/quotes": "off",
     "import-helpers/order-imports": [
       "warn",
       {

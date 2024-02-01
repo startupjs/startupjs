@@ -28,7 +28,7 @@ module.exports = function eliminatorLoader (source) {
       require('@babel/plugin-syntax-jsx'),
       // transform pug to jsx. This generates a bunch of new AST nodes
       // (it's important to do this first before any dead code elimination runs)
-      [require('babel-plugin-transform-react-pug'), {
+      [require('@startupjs/babel-plugin-transform-react-pug'), {
         classAttribute: 'styleName'
       }],
       // support calling sub-components in pug (like <Modal.Header />)

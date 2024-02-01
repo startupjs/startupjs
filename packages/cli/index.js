@@ -69,7 +69,7 @@ const DEV_DEPENDENCIES = [
   'eslint-plugin-n',
   'eslint-plugin-promise',
   'eslint-plugin-react',
-  'eslint-plugin-react-pug',
+  '@startupjs/eslint-plugin-react-pug',
   'eslint-plugin-react-hooks',
   'eslint-plugin-standard',
   'husky@^4.3.0',

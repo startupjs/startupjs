@@ -32,9 +32,9 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.0.0",
+    "@startupjs/babel-plugin-transform-react-pug": "^7.0.1-0",
     "@startupjs/css-to-react-native-transform": "^1.9.0-2",
     "babel-plugin-tester": "^9.1.0",
-    "babel-plugin-transform-react-pug": "^7.0.1",
     "jest": "^26.0.1",
     "mocha": "^8.1.1"
   }
