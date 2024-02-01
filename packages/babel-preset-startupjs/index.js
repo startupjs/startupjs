@@ -26,7 +26,7 @@ const basePlugins = ({ alias, observerCache, signals } = {}) => [
       ...alias
     }
   }],
-  [require('babel-plugin-transform-react-pug'), {
+  [require('@startupjs/babel-plugin-transform-react-pug'), {
     classAttribute: 'styleName'
   }],
   [require('@startupjs/babel-plugin-react-pug-classnames'), {
