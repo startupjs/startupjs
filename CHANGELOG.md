@@ -1,3 +1,12 @@
+# [0.56.0-alpha.4](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.3...v0.56.0-alpha.4) (2024-02-01)
+
+
+### Bug Fixes
+
+* fork pug-related libraries and update them to allow for latest EcmaScript ([#1166](https://github.com/startupjs/startupjs/issues/1166)) ([eb80ea6](https://github.com/startupjs/startupjs/commit/eb80ea69898049006fbfec2944b4f54f094f0d6d))
+
+
+
 # [0.56.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.2...v0.56.0-alpha.3) (2024-01-30)
 
 
