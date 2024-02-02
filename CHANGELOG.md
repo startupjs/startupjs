@@ -5,6 +5,35 @@
 
 * fork pug-related libraries and update them to allow for latest EcmaScript ([#1166](https://github.com/startupjs/startupjs/issues/1166)) ([eb80ea6](https://github.com/startupjs/startupjs/commit/eb80ea69898049006fbfec2944b4f54f094f0d6d))
 
+### BREAKING CHANGES
+
+Update the eslint plugin and related eslint configuration the following way:
+
+1. change the react-pug eslint plugin to another one in your `package.json`:
+    
+    ```diff
+    - "eslint-plugin-react-pug": "*",
+    + "@startupjs/eslint-plugin-react-pug": "^0.8.3-3",
+    ```
+
+2. update your `.eslintrc.json` the following way:
+
+    ```diff
+    - "plugin:react-pug/all"
+    + "plugin:@startupjs/react-pug/all"
+    ...
+    - "react-pug",
+    + "@startupjs/react-pug",
+    ...
+    - "react-pug/empty-lines": "off",
+    - "react-pug/no-interpolation": "off",
+    - "react-pug/prop-types": "off",
+    - "react-pug/quotes": "off",
+    + "@startupjs/react-pug/empty-lines": "off",
+    + "@startupjs/react-pug/no-interpolation": "off",
+    + "@startupjs/react-pug/prop-types": "off",
+    + "@startupjs/react-pug/quotes": "off",
+    ```
 
 
 # [0.56.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.2...v0.56.0-alpha.3) (2024-01-30)
