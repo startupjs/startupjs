@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/utils",
   "type": "module",
-  "version": "0.56.0-alpha.1",
+  "version": "0.56.0-alpha.5",
   "description": "Isomorphic utils for internal cross-package usage",
   "main": "index.js",
   "exports": {

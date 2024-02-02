@@ -1,3 +1,12 @@
+# [0.56.0-alpha.5](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.4...v0.56.0-alpha.5) (2024-02-02)
+
+
+### Bug Fixes
+
+* **bundler:** Fix TypeScript support. Refactor and fix eslint config to support .tsx properly ([3cb9d27](https://github.com/startupjs/startupjs/commit/3cb9d279728c63205382bdb9d2aa6e05ffcb019a))
+
+
+
 # [0.56.0-alpha.4](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.3...v0.56.0-alpha.4) (2024-02-01)
 
 
