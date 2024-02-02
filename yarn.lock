@@ -8164,7 +8164,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/cli@npm:^0.56.0-alpha.5, @startupjs/cli@workspace:packages/cli":
+"@startupjs/cli@npm:^0.56.0-alpha.6, @startupjs/cli@workspace:packages/cli":
   version: 0.0.0-use.local
   resolution: "@startupjs/cli@workspace:packages/cli"
   dependencies:
@@ -8214,8 +8214,8 @@ __metadata:
   resolution: "@startupjs/docs@workspace:packages/docs"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
-    "@startupjs/mdx": "npm:^0.56.0-alpha.5"
-    "@startupjs/scrollable-anchors": "npm:^0.56.0-alpha.5"
+    "@startupjs/mdx": "npm:^0.56.0-alpha.6"
+    "@startupjs/scrollable-anchors": "npm:^0.56.0-alpha.6"
     "@startupjs/ui": "npm:^0.56.0-alpha.4"
     parse-prop-types: "npm:^0.3.0"
   peerDependencies:
@@ -8336,12 +8336,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/mdx@npm:^0.56.0-alpha.5, @startupjs/mdx@workspace:packages/mdx":
+"@startupjs/mdx@npm:^0.56.0-alpha.6, @startupjs/mdx@workspace:packages/mdx":
   version: 0.0.0-use.local
   resolution: "@startupjs/mdx@workspace:packages/mdx"
   dependencies:
     "@mdx-js/react": "npm:~2.3.0"
-    "@startupjs/scrollable-anchors": "npm:^0.56.0-alpha.5"
+    "@startupjs/scrollable-anchors": "npm:^0.56.0-alpha.6"
     "@startupjs/ui": "npm:^0.56.0-alpha.4"
     refractor: "npm:^3.0.0"
   peerDependencies:
@@ -8589,12 +8589,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/scrollable-anchors@npm:^0.56.0-alpha.5, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
+"@startupjs/scrollable-anchors@npm:^0.56.0-alpha.6, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
   version: 0.0.0-use.local
   resolution: "@startupjs/scrollable-anchors@workspace:packages/scrollable-anchors"
   dependencies:
     "@startupjs/ui": "npm:^0.56.0-alpha.4"
-    startupjs: "npm:^0.56.0-alpha.5"
+    startupjs: "npm:^0.56.0-alpha.6"
   languageName: unknown
   linkType: soft
 
@@ -31462,14 +31462,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.56.0-alpha.0, startupjs@npm:^0.56.0-alpha.5, startupjs@workspace:packages/startupjs":
+"startupjs@npm:^0.56.0-alpha.0, startupjs@npm:^0.56.0-alpha.6, startupjs@workspace:packages/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:packages/startupjs"
   dependencies:
     "@startupjs/app": "npm:^0.56.0-alpha.4"
     "@startupjs/backend": "npm:^0.56.0-alpha.3"
     "@startupjs/bundler": "npm:^0.56.0-alpha.5"
-    "@startupjs/cli": "npm:^0.56.0-alpha.5"
+    "@startupjs/cli": "npm:^0.56.0-alpha.6"
     "@startupjs/hooks": "npm:^0.56.0-alpha.5"
     "@startupjs/i18n": "npm:^0.56.0-alpha.0"
     "@startupjs/init": "npm:^0.56.0-alpha.5"

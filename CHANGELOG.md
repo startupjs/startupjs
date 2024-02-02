@@ -1,3 +1,12 @@
+# [0.56.0-alpha.6](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.5...v0.56.0-alpha.6) (2024-02-02)
+
+
+### Features
+
+* **eslint-config-startupjs:** Move eslint config into a separate package ([#1167](https://github.com/startupjs/startupjs/issues/1167)) ([de15d86](https://github.com/startupjs/startupjs/commit/de15d868e28b2c57fcb0e4de66b23fd119536d81))
+
+
+
 # [0.56.0-alpha.5](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.4...v0.56.0-alpha.5) (2024-02-02)
 
 
