@@ -60,17 +60,8 @@ const DEPENDENCIES = [
 ]
 
 const DEV_DEPENDENCIES = [
-  '@startupjs/eslint-plugin-react-pug',
-  '@typescript-eslint/eslint-plugin',
   'eslint@latest',
-  'eslint-config-standard',
-  'eslint-config-standard-with-typescript',
-  'eslint-plugin-import',
-  'eslint-plugin-import-helpers',
-  'eslint-plugin-n',
-  'eslint-plugin-promise',
-  'eslint-plugin-react',
-  'eslint-plugin-react-hooks',
+  'eslint-config-startupjs',
   'husky@^4.3.0',
   'lint-staged'
 ]
