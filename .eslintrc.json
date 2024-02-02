@@ -2,31 +2,25 @@
   "root": true,
   "env": {
     "browser": true,
-    "es6": true,
     "node": true,
     "mocha": true
   },
   "extends": [
     "standard",
-    "standard-react",
     "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
     "plugin:@startupjs/react-pug/all"
   ],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
-  "parserOptions": {
-    "ecmaFeatures": {
-      "legacyDecorators": true
-    },
-    "ecmaVersion": "latest",
-    "sourceType": "module"
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   },
   "plugins": [
     "react",
     "@startupjs/react-pug",
-    "eslint-plugin-import-helpers"
+    "import-helpers"
   ],
   "rules": {
     "prefer-const": "error",
@@ -56,5 +50,18 @@
         ]
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": [
+        "standard-with-typescript"
+      ],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/no-unsafe-argument": "off"
+      }
+    }
+  ]
 }

@@ -7,8 +7,13 @@ export default observer(function TabThreeScreen () {
   const address1 = { city: { street: { building: 42, isFlat: true } } }
   const address2 = {}
 
+  const renderDummy = () => {
+    return <Text>dummy jsx</Text>
+  }
+
   return pug`
     View.container
+      = renderDummy()
       Text.title Tab Three
       View
         Text= address2.something ?? 'nullish coalescing'

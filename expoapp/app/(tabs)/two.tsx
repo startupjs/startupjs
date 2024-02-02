@@ -1,25 +1,29 @@
 import { useState, useMemo, useRef } from 'react'
 
-import { pug, styl, observer, $,
+import {
+  pug, styl, observer, $,
   useDoc$,
   useValue$
 } from 'startupjs'
 
+import { H1, Button, Div, Br, alert } from '@startupjs/ui'
 import EditScreenInfo from '@/components/EditScreenInfo'
 import { Text, View } from '@/components/Themed'
-import { H1, Button, Div, Br, alert } from '@startupjs/ui'
 
-export default observer(function TabTwoScreen() {
+export default observer(function TabTwoScreen () {
   const $countDoc = useDoc$('testCounts', 'magicCount1')
   if (!$countDoc.get()) throw $countDoc.create({ value: 0 })
   const $count = $countDoc.value
   const $localCount = useValue$(0)
   const [stateCount, setStateCount] = useState(0)
   const idRef = useRef()
-  const randomId = useMemo(() => {
-    if (!idRef.current) idRef.current = $.id()
+
+  const generateRandomId = (): string | undefined => {
+    if (idRef.current == null) idRef.current = $.id()
     return idRef.current
-  }, [])
+  }
+
+  const randomId = useMemo(generateRandomId, [])
   return pug`
     View.container
       Text.title Tab Two or yes? no? what's 84

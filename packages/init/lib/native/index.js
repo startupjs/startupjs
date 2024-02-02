@@ -11,6 +11,7 @@ import isExpo from '@startupjs/utils/isExpo'
 import isWeb from '@startupjs/utils/isWeb'
 import axios from '@startupjs/utils/axios'
 import ShareDB from 'sharedb/lib/client'
+import projectAxios from 'axios'
 import commonInit from '../util/common'
 import connectModel from '../util/connectModel'
 
@@ -33,6 +34,15 @@ export default (options = {}) => {
   }
 
   axios.defaults.baseURL = options.baseUrl
+
+  // Patch project-level axios.
+  // People might be using it directly in their project already.
+  // This also works fine if there is no axios on the project level.
+  // We specify it in this package as a peerDependency,
+  // while @startupjs/utils/axios specifies it as a dependency,
+  // so it's guaranteed to be installed in the project.
+  projectAxios.defaults.baseURL = options.baseUrl
+
   globalThis.__startupjsChannelOptions = {
     baseUrl: options.baseUrl,
     // In dev we embed startupjs server as middleware into Metro server itself.
