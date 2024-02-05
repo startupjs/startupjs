@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/init",
   "type": "module",
-  "version": "0.56.0-alpha.5",
+  "version": "0.56.0-alpha.7",
   "engines": {
     "node": ">= 14"
   },

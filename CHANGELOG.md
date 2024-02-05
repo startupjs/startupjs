@@ -1,3 +1,12 @@
+# [0.56.0-alpha.7](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.6...v0.56.0-alpha.7) (2024-02-05)
+
+
+### Features
+
+* **init): connect to server only if isomorphic.server is true in startupjs.config.js. fix(ui): Refactor all icons usage to use granular file import to prevent bloating the bundle. feat(expoapp:** implement a sample 'banner' plugin which demonstrates how to easily add reactive functionality to startupjs through the new plugins system ([9bc9d68](https://github.com/startupjs/startupjs/commit/9bc9d68e1c3b6dff95e53d61703b0f927c166fc0))
+
+
+
 # [0.56.0-alpha.6](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.5...v0.56.0-alpha.6) (2024-02-02)
 
 
