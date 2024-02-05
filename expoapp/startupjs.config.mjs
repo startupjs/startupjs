@@ -35,7 +35,7 @@ export default {
 function createPlugins () {
   return {
     banner: createPlugin({
-      name: 'dummy-root',
+      name: 'demo-banner',
       client: ({
         message = 'default banner message',
         defaultVisible = true
