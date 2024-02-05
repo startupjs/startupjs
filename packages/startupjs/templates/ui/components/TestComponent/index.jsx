@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { pug, observer, useApi, useDoc } from 'startupjs'
 import { Br, Button, Card, Div, Span } from '@startupjs/ui'
 import axios from 'axios'
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
+import { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus'
 import './index.styl'
 
 export default observer(function TestComponent ({ style }) {

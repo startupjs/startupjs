@@ -2,7 +2,7 @@
 import React from 'react'
 import { pug, $root, observer, styl } from 'startupjs'
 import { Layout as UILayout, Button, Div } from '@startupjs/ui'
-// import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+// import { faEllipsisV } from '@fortawesome/free-solid-svg-icons/faEllipsisV'
 import Sidebar from './Sidebar'
 import { useConfig } from './../../config'
 import { useForceUpdatePageInit } from './../helpers'

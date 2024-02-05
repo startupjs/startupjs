@@ -1,5 +1,5 @@
 /* @asyncImports */
-import { faLandmark } from '@fortawesome/free-solid-svg-icons'
+import { faLandmark } from '@fortawesome/free-solid-svg-icons/faLandmark'
 import BorderRadius from './borderRadius.mdx'
 import CollectionTypesRu from './collectionTypes.ru.mdx'
 import Colors from './colors.mdx'

@@ -1,11 +1,9 @@
 import React from 'react'
 import { pug, observer } from 'startupjs'
-import {
-  faAngleDown,
-  faAngleUp,
-  faMinus,
-  faPlus
-} from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons/faAngleDown'
+import { faAngleUp } from '@fortawesome/free-solid-svg-icons/faAngleUp'
+import { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus'
+import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
 import Button from '../../Button'
 import themed from '../../../theming/themed'
 import './index.styl'

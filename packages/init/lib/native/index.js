@@ -10,6 +10,7 @@ import isDevelopment from '@startupjs/utils/isDevelopment'
 import isExpo from '@startupjs/utils/isExpo'
 import isWeb from '@startupjs/utils/isWeb'
 import axios from '@startupjs/utils/axios'
+import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import ShareDB from 'sharedb/lib/client'
 import projectAxios from 'axios'
 import commonInit from '../util/common'
@@ -28,6 +29,8 @@ const NO_BASE_URL_WARN = `
 `
 
 export default (options = {}) => {
+  options.baseUrl ??= MODULE.options.baseUrl
+
   if (!options.baseUrl) {
     if (!(isWeb || (isExpo && isDevelopment))) console.warn(NO_BASE_URL_WARN)
     options.baseUrl = DEFAULT_BASE_URL
@@ -58,7 +61,7 @@ export default (options = {}) => {
 
   // Connect model to the server
   // TODO: Connect model ONLY if startupjs server exists
-  connectModel()
+  if (MODULE.options.server) connectModel()
 }
 
 // This module is actually pure side-effects, so we force

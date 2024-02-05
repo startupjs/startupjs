@@ -9,12 +9,10 @@ import { Animated, PanResponder, StyleSheet, View } from 'react-native'
 import { pug, observer } from 'startupjs'
 import { Div, Icon } from '@startupjs/ui'
 import PropTypes from 'prop-types'
-import {
-  faAngleLeft,
-  faAngleRight,
-  faAngleUp,
-  faAngleDown
-} from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight'
+import { faAngleUp } from '@fortawesome/free-solid-svg-icons/faAngleUp'
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons/faAngleDown'
 import themed from '../../theming/themed'
 import './index.styl'
 

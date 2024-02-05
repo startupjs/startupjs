@@ -1,8 +1,6 @@
-import {
-  faCheckCircle,
-  faExclamationCircle,
-  faHourglassHalf
-} from '@fortawesome/free-solid-svg-icons'
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle'
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle'
+import { faHourglassHalf } from '@fortawesome/free-solid-svg-icons/faHourglassHalf'
 import ICONS_STYLES from './icons.styl'
 
 export const TRANSLATED_STATE = 'translated'

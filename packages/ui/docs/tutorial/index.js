@@ -1,5 +1,5 @@
 /* @asyncImports */
-import { faBook } from '@fortawesome/free-solid-svg-icons'
+import { faBook } from '@fortawesome/free-solid-svg-icons/faBook'
 import FoundationRu from './foundation.ru.mdx'
 import FoundationEn from './foundation.en.mdx'
 import BasicsRu from './basics.ru.mdx'

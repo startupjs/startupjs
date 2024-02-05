@@ -5,7 +5,7 @@ import {
   View
 } from 'react-native'
 import { pug, observer } from 'startupjs'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'lodash/escapeRegExp'
 import { parseValue, stringifyValue, getLabelFromValue } from './../forms/Radio/helpers'

@@ -1,5 +1,7 @@
 import docs from '@startupjs/docs'
-import { faSortNumericUpAlt, faProjectDiagram, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
+import { faSortNumericUpAlt } from '@fortawesome/free-solid-svg-icons/faSortNumericUpAlt'
+import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons/faProjectDiagram'
+import { faLayerGroup } from '@fortawesome/free-solid-svg-icons/faLayerGroup'
 import uiDocs from '../../packages/ui/docs'
 import AuthMainRu from '../../packages/auth/docs/readme.ru.mdx'
 import AuthMainEn from '../../packages/auth/docs/readme.en.mdx'

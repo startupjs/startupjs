@@ -5,6 +5,8 @@ import debounce from 'lodash/debounce'
 import isPlainObject from 'lodash/isPlainObject'
 import keys from 'lodash/keys'
 import omit from 'lodash/omit'
+// TODO: IMPORTANT! Refactor this to NOT import all icons
+//       since it HUGELY bloats the bundle size
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import '../index.styl'
 
@@ -33,7 +35,7 @@ const IconSelect = observer(function ({ $value, value }) {
 
 const JSONInput = observer(function ({ $value, type }) {
   const _JSONValue = useMemo(() => {
-    let value = $value.get()
+    const value = $value.get()
     return value ? JSON.stringify(value) : ''
   }, [$value])
 

@@ -1,13 +1,11 @@
 import React from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import {
-  faExclamationCircle,
-  faTimes,
-  faCheckCircle,
-  faExclamationTriangle,
-  faInfoCircle
-} from '@fortawesome/free-solid-svg-icons'
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle'
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle'
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons/faExclamationTriangle'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle'
 import Div from '../Div'
 import Span from '../typography/Span'
 import Icon from '../Icon'

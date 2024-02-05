@@ -1,6 +1,6 @@
 import React from 'react'
 import { pug, observer } from 'startupjs'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import Icon from './../../Icon'
 import themed from '../../../theming/themed'
 import './index.styl'

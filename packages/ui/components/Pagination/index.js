@@ -1,12 +1,10 @@
 import React from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import {
-  faAngleLeft,
-  faAngleDoubleLeft,
-  faAngleRight,
-  faAngleDoubleRight
-} from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft'
+import { faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons/faAngleDoubleLeft'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight'
+import { faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons/faAngleDoubleRight'
 import usePagination from './usePagination'
 import Span from './../typography/Span'
 import Div from './../Div'

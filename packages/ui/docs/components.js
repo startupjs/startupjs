@@ -1,5 +1,5 @@
 /* @asyncImports */
-import { faShapes } from '@fortawesome/free-solid-svg-icons'
+import { faShapes } from '@fortawesome/free-solid-svg-icons/faShapes'
 import AlertEn from '../components/Alert/Alert.en.mdx'
 import AlertRu from '../components/Alert/Alert.ru.mdx'
 import AutoSuggestRu from '../components/AutoSuggest/AutoSuggest.ru.mdx'

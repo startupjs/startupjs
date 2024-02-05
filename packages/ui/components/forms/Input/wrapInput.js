@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { pug, styl, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle'
 import merge from 'lodash/merge'
 import Div from './../../Div'
 import Icon from './../../Icon'

@@ -1,5 +1,5 @@
 /* @asyncImports */
-import { faSpellCheck } from '@fortawesome/free-solid-svg-icons'
+import { faSpellCheck } from '@fortawesome/free-solid-svg-icons/faSpellCheck'
 import ArrayInputEn from '../components/forms/ArrayInput/ArrayInput.en.mdx'
 import ArrayInputRu from '../components/forms/ArrayInput/ArrayInput.ru.mdx'
 import CheckboxEn from '../components/forms/Checkbox/Checkbox.en.mdx'

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { Animated, Easing } from 'react-native'
 import { pug, observer, useDidUpdate } from 'startupjs'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck'
 import Icon from './../../Icon'
 import Div from './../../Div'
 import themed from '../../../theming/themed'

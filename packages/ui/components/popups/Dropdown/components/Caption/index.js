@@ -1,7 +1,7 @@
 import React from 'react'
 import { pug, observer } from 'startupjs'
 import propTypes from 'prop-types'
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons/faAngleDown'
 import Div from '../../../../Div'
 import Span from '../../../../typography/Span'
 import Icon from '../../../../Icon'

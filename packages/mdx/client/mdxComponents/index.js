@@ -22,7 +22,9 @@ import {
   Collapse
 } from '@startupjs/ui'
 import { Anchor, scrollTo } from '@startupjs/scrollable-anchors'
-import { faLink, faCode, faCopy } from '@fortawesome/free-solid-svg-icons'
+import { faLink } from '@fortawesome/free-solid-svg-icons/faLink'
+import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
+import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
 import _kebabCase from 'lodash/kebabCase'
 import _get from 'lodash/get'
 import { BASE_URL } from '@env'

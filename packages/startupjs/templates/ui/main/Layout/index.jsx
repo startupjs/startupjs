@@ -1,7 +1,7 @@
 import React from 'react'
 import { pug, observer, emit, useValue, useLocal } from 'startupjs'
 import { Button, Div, H1, Layout, Menu, SmartSidebar } from '@startupjs/ui'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons/faBars'
 import APP from '../../app.json'
 import './index.styl'
 

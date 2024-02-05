@@ -1,7 +1,7 @@
 import React from 'react'
 import { pug, observer, useValue, $ } from 'startupjs'
 import { Br, Input, Button, Modal } from '@startupjs/ui'
-import { faSlidersH } from '@fortawesome/free-solid-svg-icons'
+import { faSlidersH } from '@fortawesome/free-solid-svg-icons/faSlidersH'
 import {
   useShowGrid,
   useShowSizes

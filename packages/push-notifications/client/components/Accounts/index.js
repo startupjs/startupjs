@@ -14,7 +14,7 @@ import {
   Div,
   Button
 } from '@startupjs/ui'
-import { faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus'
 import SendMessageForm from '../SendMessageForm'
 import './index.styl'
 

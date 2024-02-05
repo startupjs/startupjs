@@ -1,5 +1,5 @@
 /* @asyncImports */
-import { faWindowRestore } from '@fortawesome/free-solid-svg-icons'
+import { faWindowRestore } from '@fortawesome/free-solid-svg-icons/faWindowRestore'
 import DrawerRu from '../components/popups/Drawer/Drawer.ru.mdx'
 import DrawerEn from '../components/popups/Drawer/Drawer.en.mdx'
 import PopoverRu from '../components/popups/Popover/Popover.ru.mdx'

@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Animated } from 'react-native'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import {
-  faExclamationCircle,
-  faTimes,
-  faCheckCircle,
-  faExclamationTriangle,
-  faInfoCircle
-} from '@fortawesome/free-solid-svg-icons'
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle'
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle'
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons/faExclamationTriangle'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle'
 import Button from '../Button'
 import Div from '../Div'
 import Icon from '../Icon'

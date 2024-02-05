@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck'
 import Span from '../../typography/Span'
 import Div from '../../Div'
 import Icon from './../../Icon'

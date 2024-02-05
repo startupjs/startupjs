@@ -7,7 +7,7 @@ import {
   Icon
 } from '@startupjs/ui'
 import PropTypes from 'prop-types'
-import { faBell } from '@fortawesome/free-solid-svg-icons'
+import { faBell } from '@fortawesome/free-solid-svg-icons/faBell'
 import './index.styl'
 
 function MessageBlock ({ $options }) {

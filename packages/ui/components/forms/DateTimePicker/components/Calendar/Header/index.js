@@ -8,11 +8,9 @@ import {
   Popover,
   Span
 } from '@startupjs/ui'
-import {
-  faAngleLeft,
-  faAngleRight,
-  faCaretDown
-} from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight'
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown'
 import moment from 'moment'
 import STYLES from './index.styl'
 

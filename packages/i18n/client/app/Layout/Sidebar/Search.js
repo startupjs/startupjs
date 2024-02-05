@@ -2,7 +2,7 @@
 import React, { useCallback } from 'react'
 import { pug, observer, useValue, styl } from 'startupjs'
 import { TextInput } from '@startupjs/ui'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
 import usePage from './../../../usePage'
 
 export default observer(function Search () {

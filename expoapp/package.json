@@ -17,6 +17,7 @@
   "dependencies": {
     "@expo/ngrok": "^4.1.0",
     "@expo/vector-icons": "^14.0.0",
+    "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@react-native-picker/picker": "2.6.1",
     "@react-navigation/native": "^6.0.2",
     "@startupjs/ui": "^0.56.0-alpha.0",

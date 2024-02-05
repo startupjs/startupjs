@@ -1,6 +1,7 @@
 import React from 'react'
 import { pug, observer } from 'startupjs'
-import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
 import Button from '../../Button'
