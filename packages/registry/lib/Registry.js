@@ -27,6 +27,8 @@ export default class Registry {
       // if modules would support some initialization logic or extra runtime options
       _module.create()
       this._allModules[moduleName] = _module
+      // for now we auto-enable any module by default. In future we'll probably keep them disabled
+      _module.enable()
     }
     return this._allModules[moduleName]
   }
