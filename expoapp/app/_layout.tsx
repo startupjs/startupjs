@@ -1,52 +1,53 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 import { StartupjsProvider } from 'startupjs'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
+import { useFonts } from 'expo-font'
+import { Stack } from 'expo-router'
+import * as SplashScreen from 'expo-splash-screen'
 
-import { useColorScheme } from '@/components/useColorScheme';
+import { useColorScheme } from '@/components/useColorScheme'
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
+  ErrorBoundary
+} from 'expo-router'
 
+/* eslint-disable-next-line @typescript-eslint/naming-convention */
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
+  initialRouteName: '(tabs)'
+}
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync()
 
-export default function RootLayout() {
+export default function RootLayout () {
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
-  });
+    ...FontAwesome.font
+  })
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+    if (error) throw error
+  }, [error])
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      SplashScreen.hideAsync()
     }
-  }, [loaded]);
+  }, [loaded])
 
   if (!loaded) {
-    return null;
+    return null
   }
 
-  return <RootLayoutNav />;
+  return <RootLayoutNav />
 }
 
-function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+function RootLayoutNav () {
+  const colorScheme = useColorScheme()
 
   return (
     <StartupjsProvider>
@@ -57,5 +58,5 @@ function RootLayoutNav() {
         </Stack>
       </ThemeProvider>
     </StartupjsProvider>
-  );
+  )
 }

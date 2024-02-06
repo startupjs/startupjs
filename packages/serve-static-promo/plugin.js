@@ -4,6 +4,8 @@ import { redirectToPromoIfNotLoggedIn } from './client/index.js'
 
 export default createPlugin({
   name: 'serve-static-promo',
+  enabled: true,
+  order: 'before session',
   server: () => ({
     api (expressApp) {
       expressApp.use(serveStaticPromo())

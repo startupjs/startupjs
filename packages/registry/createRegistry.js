@@ -37,6 +37,21 @@ export default function createRegistry ({ RegistryClass = Registry, rootModuleNa
     },
 
     /**
+     * Get plugin by name.
+     * If moduleName is not specified, it will be a plugin for the root module.
+     * @param {string} moduleName - name of the module
+     * @param {string} pluginName - name of the plugin
+     * @returns {Plugin} plugin instance
+     */
+    getPlugin (moduleName = rootModuleName, pluginName) {
+      if (!pluginName) {
+        pluginName = moduleName
+        moduleName = rootModuleName
+      }
+      return registry.getModule(moduleName).getPlugin(pluginName)
+    },
+
+    /**
      * This runs basic metadata validation for the plugin,
      * but it's mostly used as a marker to trigger the babel-plugin-eliminator,
      * which will keep only the code relevant for a specific env (client/server/isomorphic/build).
@@ -50,11 +65,11 @@ export default function createRegistry ({ RegistryClass = Registry, rootModuleNa
      * @param {function} props.build - function that returns build plugin config
      * @returns {Plugin} plugin instance
      */
-    createPlugin ({ name, for: _for, ...envInits }) {
+    createPlugin ({ name, for: _for, ...props }) {
       if (!name) throw Error('[@startupjs/registry] Plugin "name" is required')
       if (!_for) _for = rootModuleName
       const plugin = registry.getModule(_for).getPlugin(name)
-      plugin.create(envInits)
+      plugin.create(props) // this ensures that the plugin of this name is created only once
       return plugin
     },
 
@@ -67,7 +82,8 @@ export default function createRegistry ({ RegistryClass = Registry, rootModuleNa
      */
     createModule ({ name }) {
       if (!name) throw Error('[@startupjs/registry] Module "name" is required')
-      return registry.getModule(name)
+      const _module = registry.getModule(name)
+      return _module
     },
 
     /**
