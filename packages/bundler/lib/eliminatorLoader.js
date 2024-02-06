@@ -2,7 +2,7 @@
 const babel = require('@babel/core')
 const { isStartupjsPluginEcosystemFile, CONFIG_FILENAME_REGEX } = require('./utils')
 
-const PLUGIN_KEYS = ['name', 'for']
+const PLUGIN_KEYS = ['name', 'for', 'order', 'enabled']
 const PROJECT_KEYS = ['plugins', 'modules']
 const ALL_ENVS = ['client', 'isomorphic', 'server', 'build']
 const MAGIC_IMPORTS = ['startupjs/registry', '@startupjs/registry']

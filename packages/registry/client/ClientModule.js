@@ -82,13 +82,16 @@ export default class ClientModule extends Module {
     validateRenderHook(name)
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const dynamicPluginsHooks = useContext(DynamicPluginsContext) // may be undefined
-    const usedPlugins = dynamicPluginsHooks ? Object.keys(dynamicPluginsHooks) : Object.keys(this.plugins)
     const res = []
-    for (const pluginName of usedPlugins) {
+    const enabledPlugins = this.sortPlugins(
+      dynamicPluginsHooks ? Object.keys(dynamicPluginsHooks) : Object.keys(this.plugins)
+    )
+    for (const pluginName of enabledPlugins) {
       const dynamicHooks = dynamicPluginsHooks?.[pluginName]
       const plugin = this.plugins[pluginName]
       if (!plugin.hasHook(name)) continue
-      res.push(el(Fragment, { key: plugin.name }, plugin.runDynamicHook(dynamicHooks, name, props)))
+      const pluginResult = plugin.runDynamicHook(dynamicHooks, name, props)
+      if (pluginResult != null) res.push(el(Fragment, { key: plugin.name }, pluginResult))
     }
     return res
   }
@@ -103,8 +106,10 @@ export default class ClientModule extends Module {
     validateRenderHook(name)
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const dynamicPluginsHooks = useContext(DynamicPluginsContext) // may be undefined
-    const usedPlugins = dynamicPluginsHooks ? Object.keys(dynamicPluginsHooks) : Object.keys(this.plugins)
-    for (const pluginName of usedPlugins.reverse()) {
+    const enabledPlugins = this.sortPlugins(
+      dynamicPluginsHooks ? Object.keys(dynamicPluginsHooks) : Object.keys(this.plugins)
+    )
+    for (const pluginName of enabledPlugins.reverse()) {
       const dynamicHooks = dynamicPluginsHooks?.[pluginName]
       const plugin = this.plugins[pluginName]
       if (!plugin.hasHook(name)) continue
@@ -114,32 +119,38 @@ export default class ClientModule extends Module {
   }
 
   // Run hook for each plugin and return an array of results
-  useHook (hookName, ...args) {
-    validateUseHook(hookName)
+  useHook (name, ...args) {
+    validateUseHook(name)
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const dynamicPluginsHooks = useContext(DynamicPluginsContext) // may be undefined
-    const results = []
-    for (const pluginName in this.plugins) {
+    const res = []
+    const enabledPlugins = this.sortPlugins(
+      dynamicPluginsHooks ? Object.keys(dynamicPluginsHooks) : Object.keys(this.plugins)
+    )
+    for (const pluginName of enabledPlugins) {
       const dynamicHooks = dynamicPluginsHooks?.[pluginName]
-      const plugin = this.getPlugin(pluginName)
-      if (!plugin.hasHook(hookName)) continue
-      const pluginResult = plugin.runDynamicHook(dynamicHooks, hookName, ...args)
-      if (pluginResult != null) results.push(pluginResult)
+      const plugin = this.plugins[pluginName]
+      if (!plugin.hasHook(name)) continue
+      const pluginResult = plugin.runDynamicHook(dynamicHooks, name, ...args)
+      if (pluginResult != null) res.push(pluginResult)
     }
-    return results
+    return res
   }
 
   // Works the same as Array.reduce but for the list of plugins
-  useReduceHook (hookName, initialValue, ...args) {
-    validateUseHook(hookName)
+  useReduceHook (name, initialValue, ...args) {
+    validateUseHook(name)
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const dynamicPluginsHooks = useContext(DynamicPluginsContext) // may be undefined
     let value = initialValue
-    for (const pluginName in this.plugins) {
+    const enabledPlugins = this.sortPlugins(
+      dynamicPluginsHooks ? Object.keys(dynamicPluginsHooks) : Object.keys(this.plugins)
+    )
+    for (const pluginName of enabledPlugins) {
       const dynamicHooks = dynamicPluginsHooks?.[pluginName]
-      const plugin = this.getPlugin(pluginName)
-      if (!plugin.hasHook(hookName)) continue
-      value = plugin.runDynamicHook(dynamicHooks, hookName, value, ...args)
+      const plugin = this.plugins[pluginName]
+      if (!plugin.hasHook(name)) continue
+      value = plugin.runDynamicHook(dynamicHooks, name, value, ...args)
     }
     return value
   }

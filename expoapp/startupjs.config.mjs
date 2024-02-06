@@ -1,8 +1,9 @@
 import React from 'react'
 import { createPlugin } from 'startupjs/registry'
 import { pug, styl, $, observer } from 'startupjs'
-import { Span, Div, Button } from '@startupjs/ui'
+import { Span, Div, Button, alert } from '@startupjs/ui'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle'
 
 const $banner = $.session.banner
 
@@ -36,6 +37,7 @@ function createPlugins () {
   return {
     banner: createPlugin({
       name: 'demo-banner',
+      order: 'ui',
       client: ({
         message = 'default banner message',
         defaultVisible = true
@@ -62,8 +64,16 @@ function createPlugins () {
 const Banner = observer(({ children, message }) => {
   return pug`
     Div.root(row vAlign='center' styleName={ hide: !$banner.visible.get() })
-      Span.text= message
-      Button(color='text-description' variant='text' icon=faTimes onPress=() => $banner.visible.setDiff(false))
+      Div(full row vAlign='center')
+        Span= message
+        Button(
+          color='text-description' variant='text' icon=faInfoCircle
+          onPress=() => alert({ title: 'Banner', message })
+        )
+      Button(
+        color='text-description' variant='text' icon=faTimes
+        onPress=() => $banner.visible.setDiff(false)
+      )
   `
   /* eslint-disable */styl`
     .root
@@ -72,7 +82,5 @@ const Banner = observer(({ children, message }) => {
       color var(--color-text-description)
       &.hide
         display none
-    .text
-      flex 1
   `
 })

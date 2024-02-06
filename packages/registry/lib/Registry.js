@@ -9,18 +9,45 @@ export default class Registry {
   //   Registration and initialization
   // ------------------------------------------
 
+  _allModules = {} // all modules added to the registry (including disabled ones)
+  modules = {} // when you call module.enable() it moves from _allModules to modules
+  initialized = false
+
   constructor ({ rootModuleName = 'root' } = {}) {
     this.rootModuleName = rootModuleName
-    this.modules = {}
-    this.initialized = false
   }
 
+  // this method provides support for extremely late binding of modules and works as
+  // a factory for singletons (modules are singletons)
   getModule (moduleName) {
     if (!moduleName) throw Error('[@startupjs/registry] You must pass module name into getModule()')
-    if (!this.modules[moduleName]) {
-      this.modules[moduleName] = this.newModule(this, moduleName)
+    if (!this._allModules[moduleName]) {
+      const _module = this.newModule(this, moduleName)
+      // for now we just create module immediately. In future we might want to delay this
+      // if modules would support some initialization logic or extra runtime options
+      _module.create()
+      this._allModules[moduleName] = _module
     }
-    return this.modules[moduleName]
+    return this._allModules[moduleName]
+  }
+
+  enableModule (moduleName) {
+    if (typeof moduleName !== 'string') moduleName = moduleName.name
+    // can enable multiple times, just ignore subsequent calls
+    if (this.modules[moduleName]) return
+    const _module = this._allModules[moduleName]
+    if (!_module) throw Error(`[@startupjs/registry] Module "${moduleName}" is not found`)
+    this.modules[moduleName] = _module
+    _module.enable()
+  }
+
+  disableModule (moduleName) {
+    if (typeof moduleName !== 'string') moduleName = moduleName.name
+    // can disable multiple times, just ignore subsequent calls
+    if (!this.modules[moduleName]) return
+    const _module = this.modules[moduleName]
+    delete this.modules[moduleName]
+    _module.disable()
   }
 
   newModule (...args) {
@@ -34,7 +61,12 @@ export default class Registry {
     ...rootModuleOptions
   } = {}) {
     if (this.initialized) throw Error('[@startupjs/registry] Registry already initialized')
-    const { isomorphic: { allowUnusedPlugins } = {} } = rootModuleOptions
+    const {
+      isomorphic: {
+        // automatically enable modules and plugins which have options specified
+        autoEnableWithOptions = true
+      } = {}
+    } = rootModuleOptions
 
     // create modules which might not have been created yet (code didn't reach `createModule` yet)
     for (const moduleName in modulesOptions) this.getModule(moduleName)
@@ -42,28 +74,41 @@ export default class Registry {
     this.getModule(this.rootModuleName)
 
     // init modules
-    for (const moduleName in this.modules) {
+    for (const moduleName in this._allModules) {
+      const _module = this._allModules[moduleName]
       const moduleOptions = findOptionsForModule({
         moduleName, modulesOptions, rootModuleOptions, rootModuleName: this.rootModuleName
       })
-      this.modules[moduleName].init(moduleOptions)
+      if (autoEnableWithOptions && moduleOptions) _module.enable()
+      if (!_module.enabled) continue
+      _module.init(moduleOptions)
     }
 
     // init plugins
     const handledPlugins = new Set()
     for (const moduleName in this.modules) {
-      const plugins = this.modules[moduleName].plugins
-      for (const pluginName in plugins) {
-        const plugin = plugins[pluginName]
-        const [fullPluginName, pluginOptions = {}] = findOptionsForPlugin({
+      const allPlugins = this.modules[moduleName]._allPlugins
+      for (const pluginName in allPlugins) {
+        const plugin = allPlugins[pluginName]
+        let [fullPluginName, pluginOptions] = findOptionsForPlugin({
           moduleName, pluginName, pluginsOptions, rootModuleName: this.rootModuleName
         })
+        if (pluginOptions === true) {
+          plugin.enable()
+          pluginOptions = {}
+        }
+        if (autoEnableWithOptions && pluginOptions) plugin.enable()
+        if (pluginOptions === false) {
+          plugin.disable()
+          pluginOptions = {}
+        }
+        if (!plugin.enabled) continue
         if (fullPluginName) handledPlugins.add(fullPluginName)
         // always init plugin even if options are not specified
         plugin.init(pluginOptions)
       }
     }
-    if (!allowUnusedPlugins) {
+    if (!autoEnableWithOptions) {
       // Check if there are any plugins options which were not used
       const unusedPluginsOptions = Object.keys(pluginsOptions)
         .filter(pluginOptionsName => !handledPlugins.has(pluginOptionsName))
