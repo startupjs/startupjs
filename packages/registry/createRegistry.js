@@ -25,7 +25,7 @@ export default function createRegistry ({ RegistryClass = Registry, rootModuleNa
      * we can just write <MODULE.RenderHook /> and not have React
      * complain that component name can't start with the lowercase
      */
-    ROOT_MODULE: registry.getModule(rootModuleName),
+    ROOT_MODULE: registry.rootModule,
 
     /**
      * Get module by name
@@ -43,10 +43,10 @@ export default function createRegistry ({ RegistryClass = Registry, rootModuleNa
      * @param {string} pluginName - name of the plugin
      * @returns {Plugin} plugin instance
      */
-    getPlugin (moduleName = rootModuleName, pluginName) {
+    getPlugin (moduleName, pluginName) {
       if (!pluginName) {
         pluginName = moduleName
-        moduleName = rootModuleName
+        moduleName = registry.rootModule.name
       }
       return registry.getModule(moduleName).getPlugin(pluginName)
     },
@@ -67,7 +67,7 @@ export default function createRegistry ({ RegistryClass = Registry, rootModuleNa
      */
     createPlugin ({ name, for: _for, ...props }) {
       if (!name) throw Error('[@startupjs/registry] Plugin "name" is required')
-      if (!_for) _for = rootModuleName
+      if (!_for) _for = registry.rootModule.name
       const plugin = registry.getModule(_for).getPlugin(name)
       plugin.create(props) // this ensures that the plugin of this name is created only once
       return plugin

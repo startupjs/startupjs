@@ -18,7 +18,10 @@
     "./isWeb": "./isWeb.js",
     "./isDevelopment": "./isDevelopment.js",
     "./useIsomorphicLayoutEffect": "./useIsomorphicLayoutEffect.js",
-    "./axios": "./axios.js",
+    "./axios": {
+      "node": "./axios.server.cjs",
+      "default": "./axios.cjs"
+    },
     "./BASE_URL": {
       "node": "./BASE_URL.server.js",
       "default": "./BASE_URL.js"

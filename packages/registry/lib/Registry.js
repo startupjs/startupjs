@@ -11,10 +11,13 @@ export default class Registry {
 
   _allModules = {} // all modules added to the registry (including disabled ones)
   modules = {} // when you call module.enable() it moves from _allModules to modules
+  autoEnableWithOptions = true
   initialized = false
 
   constructor ({ rootModuleName = 'root' } = {}) {
-    this.rootModuleName = rootModuleName
+    this.rootModule = this.getModule(rootModuleName)
+    this.rootModule.create()
+    this.rootModule.enable()
   }
 
   // this method provides support for extremely late binding of modules and works as
@@ -22,13 +25,7 @@ export default class Registry {
   getModule (moduleName) {
     if (!moduleName) throw Error('[@startupjs/registry] You must pass module name into getModule()')
     if (!this._allModules[moduleName]) {
-      const _module = this.newModule(this, moduleName)
-      // for now we just create module immediately. In future we might want to delay this
-      // if modules would support some initialization logic or extra runtime options
-      _module.create()
-      this._allModules[moduleName] = _module
-      // for now we auto-enable any module by default. In future we'll probably keep them disabled
-      _module.enable()
+      this._allModules[moduleName] = this.newModule(this, moduleName)
     }
     return this._allModules[moduleName]
   }
@@ -63,27 +60,36 @@ export default class Registry {
     ...rootModuleOptions
   } = {}) {
     if (this.initialized) throw Error('[@startupjs/registry] Registry already initialized')
-    const {
-      isomorphic: {
-        // automatically enable modules and plugins which have options specified
-        autoEnableWithOptions = true
-      } = {}
-    } = rootModuleOptions
+    // automatically enable modules and plugins which have options specified
+    this.autoEnableWithOptions = rootModuleOptions?.isomorphic?.autoEnableWithOptions ?? this.autoEnableWithOptions
 
-    // create modules which might not have been created yet (code didn't reach `createModule` yet)
-    for (const moduleName in modulesOptions) this.getModule(moduleName)
-    // create root module in case its `createModule` was not called yet
-    this.getModule(this.rootModuleName)
+    // load modules which might not have been created yet (code didn't reach `createModule` yet)
+    // TODO: This is temporarily. We should implement the same logic as for plugins.
+    //       We should auto-load .module.js files which have createModule() calls in them.
+    //       For now the modules don't actually hold any config, so as a temporary solution
+    //       we don't need to bother with this.
+    //       Later on .getModule() should NOT automatically run .create() and automatically enable the module
+    for (const moduleName in modulesOptions) {
+      this.getModule(moduleName)
+    }
 
     // init modules
     for (const moduleName in this._allModules) {
       const _module = this._allModules[moduleName]
-      const moduleOptions = findOptionsForModule({
-        moduleName, modulesOptions, rootModuleOptions, rootModuleName: this.rootModuleName
+      // for now we just auto-create module ourselves if it's not created yet
+      if (!_module.created) _module.create()
+      // for now we auto-enable any module by default. In future we'll have it disabled by default
+      if (!_module.enabled) _module.enable()
+
+      const moduleOptions = this.findOptionsForModule({
+        moduleName, modulesOptions, rootModuleOptions
       })
-      if (autoEnableWithOptions && moduleOptions) _module.enable()
-      if (!_module.enabled) continue
-      _module.init(moduleOptions)
+      _module.beforeInit(moduleOptions)
+      if (_module.enabled) {
+        _module.init(moduleOptions)
+      } else {
+        _module.delayInit(moduleOptions)
+      }
     }
 
     // init plugins
@@ -92,57 +98,56 @@ export default class Registry {
       const allPlugins = this.modules[moduleName]._allPlugins
       for (const pluginName in allPlugins) {
         const plugin = allPlugins[pluginName]
-        let [fullPluginName, pluginOptions] = findOptionsForPlugin({
-          moduleName, pluginName, pluginsOptions, rootModuleName: this.rootModuleName
+        const [fullPluginName, pluginOptions] = this.findOptionsForPlugin({
+          moduleName, pluginName, pluginsOptions
         })
-        if (pluginOptions === true) {
-          plugin.enable()
-          pluginOptions = {}
-        }
-        if (autoEnableWithOptions && pluginOptions) plugin.enable()
-        if (pluginOptions === false) {
-          plugin.disable()
-          pluginOptions = {}
-        }
-        if (!plugin.enabled) continue
+        plugin.beforeInit(pluginOptions)
         if (fullPluginName) handledPlugins.add(fullPluginName)
-        // always init plugin even if options are not specified
-        plugin.init(pluginOptions)
+        if (plugin.enabled) {
+          plugin.init(pluginOptions)
+        } else {
+          plugin.delayInit(pluginOptions)
+        }
       }
     }
-    if (!autoEnableWithOptions) {
-      // Check if there are any plugins options which were not used
-      const unusedPluginsOptions = Object.keys(pluginsOptions)
-        .filter(pluginOptionsName => !handledPlugins.has(pluginOptionsName))
-      if (unusedPluginsOptions.length) {
-        throw Error('[@startupjs/registry] You\'ve specified options for plugins which ' +
-          'are not present in the registry.\nYou\'ve probably forgot to import these plugins into the project:' +
-          unusedPluginsOptions.join('\n  - ')
-        )
+
+    // Check if there are any plugins options which were not used
+    const unusedPluginsOptions = Object.keys(pluginsOptions)
+      .filter(pluginOptionsName => !handledPlugins.has(pluginOptionsName))
+    if (unusedPluginsOptions.length) {
+      throw Error('[@startupjs/registry] You\'ve specified options for plugins which ' +
+        'are not present in the registry.\nYou\'ve probably forgot to import these plugins into the project:' +
+        unusedPluginsOptions.join('\n  - ')
+      )
+    }
+
+    // trigger init hook on all enabled modules
+    for (const moduleName in this.modules) {
+      const _module = this.modules[moduleName]
+      _module.triggerInitHook()
+    }
+  }
+
+  // full plugin name is 'moduleName/pluginName'
+  findOptionsForPlugin ({ pluginsOptions, moduleName, pluginName }) {
+    let pluginOptionsName
+    // plugin for the root module might be specified as 'pluginName' instead of 'rootModuleName/pluginName'
+    if (moduleName === this.rootModule.name && pluginsOptions[pluginName]) {
+      pluginOptionsName = pluginName
+    } else if (pluginsOptions[`${moduleName}/${pluginName}`]) {
+      pluginOptionsName = `${moduleName}/${pluginName}`
+    }
+    return [pluginOptionsName, pluginsOptions[pluginOptionsName]]
+  }
+
+  findOptionsForModule ({ moduleName, modulesOptions, rootModuleOptions }) {
+    if (moduleName === this.rootModule.name) {
+      if (modulesOptions[this.rootModule.name]) {
+        throw Error(`[@startupjs/registry] Options for the root module "${this.rootModule.name}" ` +
+          'should be specified in the root of the options object, not under "modules" key')
       }
+      return rootModuleOptions
     }
+    return modulesOptions[moduleName]
   }
-}
-
-// full plugin name is 'moduleName/pluginName'
-function findOptionsForPlugin ({ pluginsOptions, moduleName, pluginName, rootModuleName }) {
-  let pluginOptionsName
-  // plugin for the root module might be specified as 'pluginName' instead of 'rootModuleName/pluginName'
-  if (moduleName === rootModuleName && pluginsOptions[pluginName]) {
-    pluginOptionsName = pluginName
-  } else if (pluginsOptions[`${moduleName}/${pluginName}`]) {
-    pluginOptionsName = `${moduleName}/${pluginName}`
-  }
-  return [pluginOptionsName, pluginsOptions[pluginOptionsName]]
-}
-
-function findOptionsForModule ({ moduleName, modulesOptions, rootModuleOptions, rootModuleName }) {
-  if (moduleName === rootModuleName) {
-    if (modulesOptions[rootModuleName]) {
-      throw Error(`[@startupjs/registry] Options for the root module "${rootModuleName}" ` +
-        'should be specified in the root of the options object, not under "modules" key')
-    }
-    return rootModuleOptions
-  }
-  return modulesOptions[moduleName]
 }

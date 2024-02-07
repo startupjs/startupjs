@@ -92,6 +92,7 @@ function parsePackage (root, packagePath, _pluginImports = new Set(), _handledPa
 }
 
 function isPartOfFramework (packageJson) {
+  if (/^(?:startupjs|@startupjs\/)/.test(packageJson.name)) return true
   for (const deps of ['peerDependencies', 'dependencies', 'devDependencies']) {
     if (packageJson[deps]?.[MAGIC_DEPENDENCY]) return true
   }

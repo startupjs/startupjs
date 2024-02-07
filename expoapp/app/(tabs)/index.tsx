@@ -2,13 +2,11 @@ import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import { axios, useValue$, observer, $ } from 'startupjs'
-import { Br, Button, Div } from '@startupjs/ui'
-import EditScreenInfo from '@/components/EditScreenInfo'
+import { Br, Button, Div, Span } from '@startupjs/ui'
 import { Text, View } from '@/components/Themed'
 
-const $banner = $.session.banner
-
 export default observer(function TabOneScreen () {
+  const { $banner, $userId } = $.session
   const $count = useValue$(0)
   const [text, setText] = useState('')
   const [error, setError] = useState('')
@@ -41,10 +39,10 @@ export default observer(function TabOneScreen () {
         </Button>
       </Div>
       <Br />
+      <Span>userId: {$userId.get()}</Span>
+      <Br />
       {text ? <Text>Text: {text}</Text> : undefined}
       {error ? <Text>Error: {error}</Text> : undefined}
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
     </View>
   )
 })
