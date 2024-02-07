@@ -12,6 +12,8 @@ export default class Module extends EventEmitter {
 
   _options = {}
   _allPlugins = {} // all plugins added to the module (including disabled ones)
+  _pendingInitArgs = undefined
+  initHookTriggered = false
   plugins = {} // when you call plugin.enable() it moves from _allPlugins to plugins
   created = false
   initialized = false
@@ -71,6 +73,15 @@ export default class Module extends EventEmitter {
     if (this.enabled) return this // module can be enabled multiple times (we just ignore subsequent calls)
     this.enabled = true
     this.registry.enableModule(this)
+
+    // delayed initialization
+    if (this._pendingInitArgs) {
+      const args = this._pendingInitArgs
+      delete this._pendingInitArgs
+      this.init(...args)
+      this.triggerInitHook()
+    }
+
     return this
   }
 
@@ -81,8 +92,10 @@ export default class Module extends EventEmitter {
     return this
   }
 
+  beforeInit (moduleOptions) {}
+
   init (optionsByEnv = {}) {
-    if (!this.created) throw Error(`Module "${this.name}" is not created (no module.create() was called yet)`)
+    if (!this.created) throw Error(`Module "${this.name}" is not created (no createModule() was called yet)`)
     if (this.initialized) throw Error(`Module "${this.name}" already initialized`)
     this.initialized = true
     for (const env in optionsByEnv) {
@@ -97,6 +110,17 @@ export default class Module extends EventEmitter {
       }
     }
     return this
+  }
+
+  // in case module is not enabled yet, we store the args and init the module later if it ever gets enabled
+  delayInit (...args) {
+    this._pendingInitArgs = args
+  }
+
+  triggerInitHook () {
+    if (this.initHookTriggered) return
+    this.initHookTriggered = true
+    this.hook('init')
   }
 
   // ------------------------------------------
@@ -136,6 +160,10 @@ export default class Module extends EventEmitter {
   }
 
   sortPlugins (pluginNames) {
-    return sortPlugins(pluginNames, pluginName => this._allPlugins[pluginName].order)
+    return sortPlugins(pluginNames, pluginName => this._allPlugins[pluginName].config.order)
+  }
+
+  toString () {
+    return this.name
   }
 }

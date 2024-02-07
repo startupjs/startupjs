@@ -1,6 +1,5 @@
 import { pug, styl, observer } from 'startupjs'
 
-import EditScreenInfo from '@/components/EditScreenInfo'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabThreeScreen () {
@@ -26,8 +25,6 @@ export default observer(function TabThreeScreen () {
           Text address 2 is flat
         else
           Text address 2 is NOT flat
-      View.separator(lightColor='#eee' darkColor='rgba(255,255,255,0.1)')
-      EditScreenInfo(path='app/(tabs)/three.js')
   `
 })
 

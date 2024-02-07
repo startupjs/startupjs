@@ -6,6 +6,7 @@ export const ORDER_GROUPS = [
   'first',
   'root',
   'session',
+  'auth',
   'api',
   'pure', // for pure startupjs plugins which don't depend on 'ui' or 'router' being present
   'ui', // for plugins which depend on 'ui' being present and initialized

@@ -3,9 +3,10 @@ export default class Plugin {
   //   Registration and initialization
   // ------------------------------------------
 
-  _options = {}
-  _optionsByEnv = {}
+  _config = {} // stuff passed to createPlugin()
+  _optionsByEnv = {} // stuff passed to init()
   _hooks = {}
+  _pendingInitArgs = undefined
   initsByEnv = {}
   order = undefined
   created = false
@@ -17,9 +18,9 @@ export default class Plugin {
     this.module = parentModule
   }
 
-  get options () {
-    if (!this.initialized) throw ERRORS.notInitialized(this)
-    return this._options
+  get config () {
+    if (!this.created) throw ERRORS.notCreated(this)
+    return this._config
   }
 
   get optionsByEnv () {
@@ -32,12 +33,12 @@ export default class Plugin {
     return this._hooks
   }
 
-  create ({ order, enabled, ...initsByEnv } = {}) {
+  create (config = {}) {
     if (this.created) throw ERRORS.alreadyCreated(this)
-    this.order = order
-    Object.assign(this.initsByEnv, initsByEnv)
     this.created = true
-    if (enabled) this.enable()
+    const { order, enabled, ...initsByEnv } = config
+    Object.assign(this.config, config)
+    Object.assign(this.initsByEnv, initsByEnv)
     return this
   }
 
@@ -45,6 +46,16 @@ export default class Plugin {
     if (this.enabled) return // plugin can be enabled multiple times (we just ignore subsequent calls)
     this.enabled = true
     this.module.enablePlugin(this)
+
+    // delayed initialization
+    if (this._pendingInitArgs) {
+      const args = this._pendingInitArgs
+      delete this._pendingInitArgs
+      this.init(...args)
+      // if module's 'init' hook was already triggered, we need to manually run it for this plugin
+      if (this.module.initHookTriggered && this.hasHook('init')) this.runHook('init')
+    }
+
     return this
   }
 
@@ -55,7 +66,13 @@ export default class Plugin {
     return this
   }
 
-  init (optionsByEnv = {}) {
+  beforeInit (pluginOptions) {
+    if (!this.created) throw ERRORS.notCreated(this)
+    if (this._shouldEnable(pluginOptions)) this.enable()
+  }
+
+  init (optionsByEnv) {
+    if (typeof optionsByEnv !== 'object') optionsByEnv = {}
     if (!this.created) throw ERRORS.notCreated(this)
     if (this.initialized) throw ERRORS.alreadyInitialized(this)
     this.initialized = true
@@ -67,6 +84,22 @@ export default class Plugin {
       Object.assign(this.hooks, init(options, this))
     }
     return this
+  }
+
+  // in case plugin is not enabled yet, we store the args and init the module later if it ever gets enabled
+  delayInit (...args) {
+    this._pendingInitArgs = args
+  }
+
+  _shouldEnable (pluginOptions) {
+    if (pluginOptions === false) return false
+    if (pluginOptions === true) return true
+    const { autoEnableWithOptions } = this.module.registry
+    if (autoEnableWithOptions && pluginOptions) return true
+    const { enabled } = this.config
+    if (enabled === true) return true
+    if (typeof enabled === 'function' && enabled.apply(this, pluginOptions)) return true
+    return false
   }
 
   // ------------------------------------------
@@ -107,7 +140,7 @@ const ERRORS = {
   alreadyCreated: _ => Error(`Plugin "${_.name}" for module "${_.module.name}" already created.`),
   alreadyInitialized: _ => Error(`Plugin "${_.name}" for module "${_.module.name}" already initialized`),
   notCreated: _ => Error(`Plugin "${_.name}" for module "${_.module.name}" is not created ` +
-    '(no plugin.create() was executed for this plugin)'),
+    '(no createPlugin() was executed for this plugin)'),
   disabled: _ => Error(`Plugin "${_.name}" for module "${_.module.name}" is disabled. This should never happen.`),
   notInitialized: _ => Error(`Plugin "${_.name}" for module "${_.module.name}" is not initialized`),
   notAFunction: _ => Error(`Plugin "${_.name}" for module "${_.module.name}" is not a function`),

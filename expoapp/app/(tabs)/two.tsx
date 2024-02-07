@@ -7,7 +7,6 @@ import {
 } from 'startupjs'
 
 import { H1, Button, Div, Br, alert } from '@startupjs/ui'
-import EditScreenInfo from '@/components/EditScreenInfo'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabTwoScreen () {
@@ -27,8 +26,6 @@ export default observer(function TabTwoScreen () {
   return pug`
     View.container
       Text.title Tab Two or yes? no? what's 84
-      View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
-      EditScreenInfo(path="app/(tabs)/two.tsx")
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
       Div(row)
         Button(color='error' onPress=() => $count.increment(-1)) -
