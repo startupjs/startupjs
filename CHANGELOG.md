@@ -1,3 +1,13 @@
+# [0.56.0-alpha.8](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.7...v0.56.0-alpha.8) (2024-02-07)
+
+
+### Features
+
+* **registry:** Support defining plugin's order. Implement dynamic enabling/disabling of plugins; by default plugin is disabled ([#1170](https://github.com/startupjs/startupjs/issues/1170)) ([9711e74](https://github.com/startupjs/startupjs/commit/9711e7407c4011c38ab62ce741831858c3815c22))
+* **registry:** support delayed initialization of plugins to handle cases when the plugin is initially disabled. Support function in 'enabled' setting of plugin to dynamically decide whether to enable the plugin before initialization. ([#1172](https://github.com/startupjs/startupjs/issues/1172)) ([57c5a13](https://github.com/startupjs/startupjs/commit/57c5a13c801c7b69bf05819c895694b44eba6f58))
+
+
+
 # [0.56.0-alpha.7](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.6...v0.56.0-alpha.7) (2024-02-05)
 
 
