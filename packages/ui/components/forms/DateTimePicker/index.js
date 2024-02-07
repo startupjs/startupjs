@@ -25,6 +25,7 @@ import './index.styl'
 // What about rename date property to value property like in other inputs?
 function DateTimePicker ({
   style,
+  inputStyle,
   dateFormat,
   timeInterval,
   is24Hour,
@@ -153,6 +154,7 @@ function DateTimePicker ({
 
   const inputProps = {
     style,
+    inputStyle,
     ref: inputRef,
     disabled,
     readonly,
@@ -258,6 +260,7 @@ DateTimePicker.defaultProps = {
 
 DateTimePicker.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   timeInterval: PropTypes.number,
   is24Hour: PropTypes.bool,
   date: PropTypes.number,
