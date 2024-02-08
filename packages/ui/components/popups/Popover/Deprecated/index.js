@@ -94,10 +94,16 @@ function Popover ({
       onDismiss()
     }
 
-    Dimensions.addEventListener('change', handleDimensions)
+    const listener = Dimensions.addEventListener('change', handleDimensions)
+
     return () => {
       mounted = false
-      Dimensions.removeEventListener('change', handleDimensions)
+
+      if (Dimensions.removeEventListener) {
+        Dimensions.removeEventListener('change', handleDimensions)
+      } else {
+        listener?.remove()
+      }
     }
   }, [])
 

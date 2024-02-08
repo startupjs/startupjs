@@ -64,10 +64,16 @@ function Dropdown ({
   }
 
   useEffect(() => {
-    Dimensions.addEventListener('change', handleWidthChange)
+    const listener = Dimensions.addEventListener('change', handleWidthChange)
+
     return () => {
       $isShow.del()
-      Dimensions.removeEventListener('change', handleWidthChange)
+
+      if (Dimensions.removeEventListener) {
+        Dimensions.removeEventListener('change', handleWidthChange)
+      } else {
+        listener?.remove()
+      }
     }
   }, [])
 

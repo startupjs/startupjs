@@ -71,8 +71,15 @@ function SmartSidebar ({
   }, [fixedLayout])
 
   useIsomorphicLayoutEffect(() => {
-    Dimensions.addEventListener('change', handleWidthChange)
-    return () => Dimensions.removeEventListener('change', handleWidthChange)
+    const listener = Dimensions.addEventListener('change', handleWidthChange)
+
+    return () => {
+      if (Dimensions.removeEventListener) {
+        Dimensions.removeEventListener('change', handleWidthChange)
+      } else {
+        listener?.remove()
+      }
+    }
   }, [])
 
   function handleWidthChange () {
