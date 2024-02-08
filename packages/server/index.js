@@ -4,7 +4,7 @@ import dummyNconf from './nconf.js'
 
 import { resolve } from 'path'
 import { EventEmitter } from 'events'
-import dummyLoadConfig from '@startupjs/registry/loadStartupjsConfig.auto'
+import dummyInitServer from './initServer.auto.js'
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import createBackend from '@startupjs/backend'
 import createSession from './server/createSession.js'
@@ -73,4 +73,4 @@ function isExpo (rootPath) {
   return Boolean(dependencies.expo)
 }
 
-;((...args) => {})(dummyNconf, dummyLoadConfig) // prevent dead code elimination
+;((...args) => {})(dummyNconf, dummyInitServer) // prevent dead code elimination

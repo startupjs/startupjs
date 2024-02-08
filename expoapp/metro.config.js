@@ -3,10 +3,11 @@ const { resolve } = require('path')
 
 const config = getDefaultConfig(__dirname)
 
-config.watchFolders = [resolve(__dirname, '../')]
+config.watchFolders = [resolve(__dirname, '..')]
 config.resolver.nodeModulesPaths = [
   resolve(__dirname, 'node_modules'),
   resolve(__dirname, '../node_modules')
 ]
+config.resolver.unstable_enableSymlinks = true
 
 module.exports = config

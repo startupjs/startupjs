@@ -1,4 +1,4 @@
-import init from './client.js'
+import init from './server.js'
 
 init()
 

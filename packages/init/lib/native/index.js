@@ -29,7 +29,10 @@ const NO_BASE_URL_WARN = `
 
 export default (options = {}) => {
   options.baseUrl ??= MODULE.options.baseUrl
+  const hasExplicitBaseUrl = Boolean(options.baseUrl)
 
+  // on web we always use the default base url
+  if (isWeb) options.baseUrl = DEFAULT_BASE_URL
   if (!options.baseUrl) {
     if (!(isWeb || (isExpo && isDevelopment))) console.warn(NO_BASE_URL_WARN)
     options.baseUrl = DEFAULT_BASE_URL
@@ -42,11 +45,13 @@ export default (options = {}) => {
     // In dev we embed startupjs server as middleware into Metro server itself.
     // We have to use XHR since there is no way to easily access Metro's WebSocket endpoints.
     // In production we run our own server and can use WebSocket without any problems.
-    forceXhrFallback: isDevelopment
+    forceXhrFallback: isDevelopment || (isExpo && !isWeb && !hasExplicitBaseUrl)
   }
 
   commonInit(ShareDB, options)
+  // TODO: DEPRECATED: Use new plugins system instead
   for (const plugin of options.plugins || []) {
+    console.error('DEPRECATED: Passing plugins to init() is deprecated. Use new plugins system instead')
     plugin(options)
   }
 

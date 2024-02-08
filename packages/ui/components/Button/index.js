@@ -41,8 +41,8 @@ function Button ({
   const [asyncActive, setAsyncActive] = useState(false)
   const getColor = useColors()
 
-  function getFlatTextColor () {
-    return getColor(`text-on-${color}`) || getColor('text-on-color')
+  function getFlatTextColorName () {
+    return getColor(`text-on-${color}`) ? `text-on-${color}` : 'text-on-color'
   }
 
   async function _onPress (event) {
@@ -62,6 +62,8 @@ function Button ({
 
   const isFlat = variant === 'flat'
   const _color = getColor(color)
+  const textColor = isFlat ? getFlatTextColorName() : color
+  const _textColor = getColor(textColor)
   const hasChildren = React.Children.count(children)
   const height = heights[size]
   const rootStyle = { height }
@@ -71,11 +73,11 @@ function Button ({
   let extraActiveStyle
 
   textStyle = StyleSheet.flatten([
-    { color: isFlat ? getFlatTextColor() : _color },
+    { color: _textColor },
     textStyle
   ])
   iconStyle = StyleSheet.flatten([
-    { color: isFlat ? getFlatTextColor() : _color },
+    { color: _textColor },
     iconStyle
   ])
 
@@ -141,7 +143,7 @@ function Button ({
     )
       if asyncActive
         Div.loader
-          Loader(size='s' color=isFlat ? getFlatTextColor() : color)
+          Loader(size='s' color=textColor)
       if icon
         Div.iconWrapper(
           style=iconWrapperStyle

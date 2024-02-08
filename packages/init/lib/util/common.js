@@ -1,10 +1,11 @@
-import ormPlugin from '@startupjs/orm'
+import orm from '@startupjs/orm'
+import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import richText from 'rich-text'
 import Racer from 'racer'
 import RacerRemoteDoc from 'racer/lib/Model/RemoteDoc.js'
 import batch from './batch.js'
 
-export default (ShareDB, { orm } = {}) => {
+export default (ShareDB, { orm: ormModels } = {}) => {
   // Register rich-text type in ShareDB
   ShareDB.types.register(richText.type)
 
@@ -18,8 +19,8 @@ export default (ShareDB, { orm } = {}) => {
   // Add batching method
   Racer.Model.prototype.batch = batch
 
-  if (orm) {
-    Racer.use(ormPlugin)
-    Racer.use(orm)
-  }
+  Racer.use(orm)
+  // TODO: DEPRECATED: Use new plugins system instead
+  if (ormModels) Racer.use(ormModels)
+  MODULE.hook('orm', Racer)
 }

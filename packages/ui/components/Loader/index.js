@@ -10,11 +10,12 @@ const SIZES = { s: 'small', m: 'large' }
 
 function Loader ({ color, size }) {
   const getColor = useColors()
-  if (!getColor(color)) console.error('Loader component: Color for color property is incorrect. Use colors from Colors')
+  const _color = getColor(color)
+  if (!_color) console.error('Loader component: Color for color property is incorrect. Use colors from Colors')
 
   return pug`
     ActivityIndicator(
-      color=getColor(color)
+      color=_color
       size=SIZES[size]
     )
   `

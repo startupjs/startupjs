@@ -3,7 +3,8 @@ import { useState, useMemo, useRef } from 'react'
 import {
   pug, styl, observer, $,
   useDoc$,
-  useValue$
+  useValue$,
+  axios
 } from 'startupjs'
 
 import { H1, Button, Div, Br, alert } from '@startupjs/ui'
@@ -11,7 +12,7 @@ import { Text, View } from '@/components/Themed'
 
 export default observer(function TabTwoScreen () {
   const $countDoc = useDoc$('testCounts', 'magicCount1')
-  if (!$countDoc.get()) throw $countDoc.create({ value: 0 })
+  if (!$countDoc.get()) throw $countDoc.addSelf()
   const $count = $countDoc.value
   const $localCount = useValue$(0)
   const [stateCount, setStateCount] = useState(0)
@@ -34,6 +35,9 @@ export default observer(function TabTwoScreen () {
       Br
       H1.count #{$count.get()}
       Br
+      Div(row)
+        Button(color='text-description' onPress=() => $countDoc.reset()) Reset
+        Button(pushed color='text-description' onPress=() => axios.post('/api/reset-counter')) Server Reset
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
       Div(row)
         Button(onPress=() => setStateCount(stateCount + 1))

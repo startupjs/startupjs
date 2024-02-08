@@ -3,6 +3,7 @@ import dummyMockBrowserify from '@startupjs/utils/mockBrowserify'
 
 ;(_ => _)([dummyMockBrowserify]) // prevent dead-code elimination
 
+export { default as BASE_URL } from '@startupjs/utils/BASE_URL'
 export { default as axios } from '@startupjs/utils/axios'
 export * from '@startupjs/react-sharedb'
 export { default as $, signal } from '@startupjs/signals'

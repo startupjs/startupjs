@@ -57,7 +57,7 @@ function initSession () {
       $.session.setEach(session)
       sessionInitialized = true
     } catch (err) {
-      sessionError = new Error('[@startupjs/app] Error retrieving _session from server: ' + err.message)
+      sessionError = new Error('[@startupjs] Error retrieving _session from server:\n' + err.message)
     } finally {
       sessionPromise = undefined
     }

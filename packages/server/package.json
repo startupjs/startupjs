@@ -16,12 +16,12 @@
   "dependencies": {
     "@startupjs/backend": "^0.56.0-alpha.3",
     "@startupjs/channel": "^0.56.0-alpha.1",
+    "@startupjs/init": "^0.56.0-alpha.0",
     "@startupjs/registry": "^0.56.0-alpha.8",
     "body-parser": "1.20.0",
     "compression": "^1.6.0",
     "connect-mongo": "^4.4.1",
     "cookie-parser": "~1.3.2",
-    "cors": "^2.8.5",
     "express": "^4.0",
     "express-session": "^1.17.2",
     "hsts": "^2.1.0",

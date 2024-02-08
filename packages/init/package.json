@@ -10,7 +10,9 @@
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
-    "./client.auto": "./client.auto.js"
+    "./client.auto": "./client.auto.js",
+    "./server": "./server.js",
+    "./server.auto": "./server.auto.js"
   },
   "license": "MIT",
   "publishConfig": {
