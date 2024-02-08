@@ -14,9 +14,15 @@ const debouncedChangeDimensions = debounce(({ window }) => {
 
 export default function useMediaUpdate () {
   useEffect(() => {
-    Dimensions.addEventListener('change', debouncedChangeDimensions)
+    const listener = Dimensions
+      .addEventListener('change', debouncedChangeDimensions)
+
     return () => {
-      Dimensions.removeEventListener('change', debouncedChangeDimensions)
+      if (Dimensions.removeEventListener) {
+        Dimensions.removeEventListener('change', debouncedChangeDimensions)
+      } else {
+        listener?.remove()
+      }
     }
   }, [])
 }

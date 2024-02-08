@@ -94,10 +94,16 @@ function Popover ({
       onDismiss()
     }
 
-    Dimensions.addEventListener('change', handleDimensions)
+    const listener = Dimensions.addEventListener('change', handleDimensions)
+
     return () => {
       mounted = false
-      Dimensions.removeEventListener('change', handleDimensions)
+
+      if (Dimensions.removeEventListener) {
+        Dimensions.removeEventListener('change', handleDimensions)
+      } else {
+        listener?.remove()
+      }
     }
   }, [])
 
@@ -192,7 +198,7 @@ function Popover ({
 
   // parse children
   let caption = null
-  let content = []
+  const content = []
   const onLayoutCaption = e => {
     captionInfo.current = e.nativeEvent.layout
   }

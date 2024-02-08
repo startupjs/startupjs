@@ -43,9 +43,10 @@ function SmartSidebar ({
 
   let open
   let onChange
-  ;({ open, onChange } = useBind({ $open, open, onChange }))
+  // eslint-disable-next-line prefer-const
+  ({ open, onChange } = useBind({ $open, open, onChange }))
 
-  let [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
+  const [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
 
   useLayoutEffect(() => {
     if (!fixedLayout) return
@@ -70,8 +71,15 @@ function SmartSidebar ({
   }, [fixedLayout])
 
   useLayoutEffect(() => {
-    Dimensions.addEventListener('change', handleWidthChange)
-    return () => Dimensions.removeEventListener('change', handleWidthChange)
+    const listener = Dimensions.addEventListener('change', handleWidthChange)
+
+    return () => {
+      if (Dimensions.removeEventListener) {
+        Dimensions.removeEventListener('change', handleWidthChange)
+      } else {
+        listener?.remove()
+      }
+    }
   }, [])
 
   function handleWidthChange () {
@@ -128,6 +136,6 @@ SmartSidebar.propTypes = {
 export default observer(themed('SmartSidebar', SmartSidebar))
 
 function isFixedLayout (fixedLayoutBreakpoint) {
-  let dim = Dimensions.get('window')
+  const dim = Dimensions.get('window')
   return dim.width > fixedLayoutBreakpoint
 }
