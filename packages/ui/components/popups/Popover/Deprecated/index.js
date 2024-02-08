@@ -120,11 +120,35 @@ function Popover ({
   }, [visible])
   // -
 
-  function runShow () {
-    if (!refCaption.current) return
+  async function waitForCaptionRef () {
+    let attemps = 0
+
+    while (attemps < 5) {
+      if (refCaption.current) return true
+      await new Promise(resolve => setTimeout(resolve, 30))
+      attemps--
+    }
+
+    return !!refCaption.current
+  }
+
+  async function waitForPopoverRef () {
+    let attemps = 0
+
+    while (attemps < 5) {
+      if (refPopover.current) return true
+      await new Promise(resolve => setTimeout(resolve, 30))
+      attemps--
+    }
+
+    return !!refCaption.current
+  }
+
+  async function runShow () {
+    await waitForCaptionRef()
     // x, y, width, height, pageX, pageY
-    getValidNode(refCaption.current).measure((cx, cy, cWidth, cHeight, cpx, cpy) => {
-      if (!refPopover.current) return
+    getValidNode(refCaption.current).measure(async (cx, cy, cWidth, cHeight, cpx, cpy) => {
+      await waitForPopoverRef()
       getValidNode(refPopover.current).measure((px, py, pWidth, pHeight, ppx, ppy) => {
         const _captionInfo = { x: cpx, y: cpy, width: cWidth, height: cHeight }
 
