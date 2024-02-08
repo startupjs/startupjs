@@ -1,4 +1,6 @@
 export const BaseColors = {
+  white: 'white',
+  black: 'black',
   main: 'main',
   'bg-main': 'bg-main',
   'text-main': 'text-main',
@@ -35,35 +37,20 @@ export const BgColors = {
   'bg-attention-strong': 'bg-attention-strong',
   'bg-error-subtle': 'bg-error-subtle',
   'bg-error-strong': 'bg-error-strong'
-  // 'bg-primary-transparent': 'bg-primary-transparent',
-  // 'bg-error-transparent': 'bg-error-transparent',
-  // 'bg-success-transparent': 'bg-success-transparent',
-  // 'bg-warning-transparent': 'bg-warning-transparent'
 }
 
 export const TextColors = {
   'text-description': 'text-description',
   'text-placeholder': 'text-placeholder',
-  // 'text-subtle': 'text-subtle',
   'text-primary': 'text-primary',
   'text-secondary': 'text-secondary',
   'text-error': 'text-error',
   'text-success': 'text-success',
   'text-warning': 'text-warning',
-  // 'text-info': 'text-info',
   'text-attention': 'text-attention'
 }
 
-export const TextOnColors = {
-  // 'text-on-color': 'text-on-color',
-  // 'text-on-primary': 'text-on-primary',
-  // 'text-on-secondary': 'text-on-secondary',
-  // 'text-on-error': 'text-on-error',
-  // 'text-on-success': 'text-on-success',
-  // 'text-on-warning': 'text-on-warning',
-  // 'text-on-info': 'text-on-info',
-  // 'text-on-attention': 'text-on-attention'
-}
+export const TextOnColors = {}
 
 export const BorderColors = {
   'border-primary': 'border-primary',

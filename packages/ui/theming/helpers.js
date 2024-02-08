@@ -139,6 +139,8 @@ export function prepareColorsObject (palette, Color, { overrides = {}, high, low
   // we don't want shadow to change to a light color in a dark theme, that's why we are creating it as
   // a separate color
   C[Colors['shadow-main']]                  ??= Color('main', high + 1, { alpha: 0.2 })
+  C[Colors.white]                           ??= Color('white')
+  C[Colors.black]                           ??= Color('black')
   C[Colors.main]                            ??= Color('main', low)
   C[Colors.primary]                         ??= Color('primary', middle)
   C[Colors.secondary]                       ??= Color('secondary', middle)
@@ -179,33 +181,17 @@ export function prepareColorsObject (palette, Color, { overrides = {}, high, low
   C[Colors['bg-attention-strong']]          ??= C[Colors['bg-attention']].stronger(1)
   C[Colors['bg-error-subtle']]              ??= C[Colors['bg-error']].subtler(1)
   C[Colors['bg-error-strong']]              ??= C[Colors['bg-error']].stronger(1)
-  // C[Colors['bg-primary-transparent']]       ??= C[Colors.primary].setAlpha(0.05)
-  // C[Colors['bg-error-transparent']]         ??= C[Colors.error].setAlpha(0.05)
-  // C[Colors['bg-success-transparent']]       ??= C[Colors.success].setAlpha(0.05)
-  // C[Colors['bg-warning-transparent']]       ??= C[Colors.warning].setAlpha(0.05)
 
   // text
   C[Colors['text-main']]                    ??= Color('main', high - 1)
   C[Colors['text-description']]             ??= Color('main', middle + 2)
   C[Colors['text-placeholder']]             ??= Color('main', middle + 1)
-  // C[Colors['text-subtle']]                  ??= C[Colors['text-main']].subtler(4)
   C[Colors['text-primary']]                 ??= C[Colors.primary]
   C[Colors['text-secondary']]               ??= C[Colors.secondary]
   C[Colors['text-error']]                   ??= C[Colors.error]
   C[Colors['text-success']]                 ??= C[Colors.success]
   C[Colors['text-warning']]                 ??= C[Colors.warning]
-  // C[Colors['text-info']]                    ??= C[Colors.info]
   C[Colors['text-attention']]               ??= C[Colors.attention]
-
-  // text on different backgrounds
-  // C[Colors['text-on-color']]                ??= C[Colors.main]
-  // C[Colors['text-on-primary']]              ??= C[Colors.primary].stronger(4)
-  // C[Colors['text-on-secondary']]            ??= C[Colors.secondary].highContrast()
-  // C[Colors['text-on-error']]                ??= C[Colors.error].stronger(4)
-  // C[Colors['text-on-success']]              ??= C[Colors.success].stronger(4)
-  // C[Colors['text-on-warning']]              ??= C[Colors['text-on-color']]
-  // C[Colors['text-on-info']]                 ??= C[Colors.info].stronger(3)
-  // C[Colors['text-on-attention']]            ??= C[Colors.attention].stronger(4)
 
   // border
   C[Colors['border-main']]                  ??= Color('main', middle - 1)

@@ -15,7 +15,7 @@ export default class Palette {
     return prepareColorsObject(this.colors, this.Color, { overrides, low, middle, high })
   }
 
-  Color = (name, level, { alpha } = {}) => {
+  Color = (name, level = 0, { alpha } = {}) => {
     return new TheColor(name, level, this.colors, { alpha })
   }
 }
