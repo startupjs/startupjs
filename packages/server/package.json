@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Express.js with plugged in ShareDB",
-  "version": "0.56.0-alpha.8",
+  "version": "0.56.0-alpha.9",
   "type": "module",
   "main": "index.js",
   "exports": {
@@ -16,7 +16,7 @@
   "dependencies": {
     "@startupjs/backend": "^0.56.0-alpha.3",
     "@startupjs/channel": "^0.56.0-alpha.1",
-    "@startupjs/init": "^0.56.0-alpha.0",
+    "@startupjs/init": "^0.56.0-alpha.9",
     "@startupjs/registry": "^0.56.0-alpha.8",
     "body-parser": "1.20.0",
     "compression": "^1.6.0",

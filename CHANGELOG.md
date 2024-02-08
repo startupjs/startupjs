@@ -1,3 +1,14 @@
+# [0.56.0-alpha.9](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.8...v0.56.0-alpha.9) (2024-02-08)
+
+
+### Bug Fixes
+
+* change removing listener from Dimensions for RN 0.70.4+ ([f402301](https://github.com/startupjs/startupjs/commit/f4023012d8dbda82c589ccc4036b8e2de4f10bce))
+* **Deprecated popover:** fix popover opening ([b4b2704](https://github.com/startupjs/startupjs/commit/b4b2704d338b1410f577d853c293a35f75bb079f))
+* **orm:** properly support orm in new plugins architecture ([1c5c7fd](https://github.com/startupjs/startupjs/commit/1c5c7fd9f6ca08d5f7e90583ed1571be238084e0))
+
+
+
 # [0.56.0-alpha.8](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.7...v0.56.0-alpha.8) (2024-02-07)
 
 
