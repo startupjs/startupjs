@@ -18,8 +18,8 @@
  *                   }
  * 4. scan all dependencies and repeat for each of them
  *
- * The plugins found in "exports" are going to be automatically imported in the main startupjs.config.js file
- * where createProject() is called
+ * The plugins found in "exports" are going to be automatically imported in
+ * @startupjs/registry/loadStartupjsConfig.js file
  */
 const { existsSync, readFileSync, readdirSync } = require('fs')
 const { join, dirname, relative, resolve: pathResolve } = require('path')

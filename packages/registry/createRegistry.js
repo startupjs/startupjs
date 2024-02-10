@@ -87,15 +87,14 @@ export default function createRegistry ({ RegistryClass = Registry, rootModuleNa
     },
 
     /**
-     * Create a project with global configuration.
-     * This is also used to initialize the registry with all the modules and plugins.
-     * And a way to pass options to plugins.
-     * `createProject` is also used as a marker to trigger the babel-plugin-eliminator,
-     * which will keep only the code relevant for a specific env (client/server/isomorphic/build)
-     * in the plugin options.
+     * Initialize the registry with all the modules, plugins and ORM models.
+     * This will also pass options to plugins.
      */
-    createProject (config = {}) {
-      // TODO: Think whether it makes sense to make a separate class for project which will extend Registry
+    initRegistry (config = {}, { plugins, models = {} } = {}) {
+      // TODO: only load models if 'isomorphic' env is present
+      registry.rootModule.on('orm', racer => {
+        for (const modelPattern in models) racer.orm(modelPattern, models[modelPattern])
+      })
       registry.init(config)
       return registry
     }

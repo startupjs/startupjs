@@ -1,7 +1,6 @@
 import React from 'react'
 import { createPlugin } from 'startupjs/registry'
 import { pug, styl, $, observer } from 'startupjs'
-import { BaseModel } from 'startupjs/orm'
 import { Span, Div, Button, alert } from '@startupjs/ui'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle'
@@ -12,12 +11,7 @@ const plugins = createPlugins()
 
 export default {
   isomorphic: {
-    server: true,
-    init: options => ({
-      orm: racer => {
-        racer.orm('testCounts.*', TestCountModel)
-      }
-    })
+    server: true
   },
   server: {
     init: options => ({
@@ -98,16 +92,3 @@ const Banner = observer(({ children, message }) => {
         display none
   `
 })
-
-class TestCountModel extends BaseModel {
-  async addSelf () {
-    await this.root.add(this.getCollection(), {
-      id: this.getId(),
-      value: 0
-    })
-  }
-
-  async reset () {
-    await this.set('value', 0)
-  }
-}
