@@ -23,7 +23,8 @@ pluginTester({
     `,
     'Processes files with a magic import': /* js */`
       import { registry } from 'startupjs/registry'
-      import config from './startupjs.config.magic.js'
+      import config from './startupjs.config.virtual.js'
+      import plugins from './startupjs.plugins.virtual.js'
       import dummy from '@dummy/dummy'
 
       registry.init(config)
@@ -32,6 +33,8 @@ pluginTester({
       dummy(x)
 
       export default () => {}
+
+      ;(() => {})(plugins)
     `,
     'Test sample file from fixtures which loads config':
       readFileSync(join(FIXTURES_PATH, './node_modules/config/index.js'), 'utf8')

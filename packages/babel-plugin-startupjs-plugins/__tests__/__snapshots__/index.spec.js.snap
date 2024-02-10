@@ -16,7 +16,8 @@ console.log(config);
 exports[`@startupjs/babel-plugin-startupjs-plugins Processes files with a magic import: Processes files with a magic import 1`] = `
 
 import { registry } from 'startupjs/registry'
-import config from './startupjs.config.magic.js'
+import config from './startupjs.config.virtual.js'
+import plugins from './startupjs.plugins.virtual.js'
 import dummy from '@dummy/dummy'
 
 registry.init(config)
@@ -26,19 +27,24 @@ dummy(x)
 
 export default () => {}
 
+;(() => {})(plugins)
+
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import { registry } from "startupjs/registry";
 import config from "../../startupjs.config.js";
 import dummy from "@dummy/dummy";
-import _default from "module-1/plugin";
-import _default2 from "module-1-plugin/thePlugin.plugin";
-import _default3 from "../../dummyPlugin.plugin.js";
-(() => {})([_default, _default2, _default3]);
+import _default from "@startupjs/server/plugins/clientSession.plugin";
+import _default2 from "@startupjs/ui/plugin";
+import _default3 from "module-1/plugin";
+import _default4 from "module-1-plugin/thePlugin.plugin";
+import _default5 from "../../dummyPlugin.plugin.js";
+const plugins = [_default, _default2, _default3, _default4, _default5];
 registry.init(config);
 const x = "xxx";
 dummy(x);
 export default () => {};
+(() => {})(plugins);
 
 
 `;
@@ -46,19 +52,25 @@ export default () => {};
 exports[`@startupjs/babel-plugin-startupjs-plugins Test sample file from fixtures which loads config: Test sample file from fixtures which loads config 1`] = `
 
 import { registry } from 'startupjs/registry'
-import config from './startupjs.config.magic.js'
+import config from './startupjs.config.virtual.js'
+import plugins from './startupjs.plugins.virtual.js'
 
 registry.init(config)
+
+;(() => {})(plugins)
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import { registry } from "startupjs/registry";
 import config from "../../startupjs.config.js";
-import _default from "module-1/plugin";
-import _default2 from "module-1-plugin/thePlugin.plugin";
-import _default3 from "../../dummyPlugin.plugin.js";
-(() => {})([_default, _default2, _default3]);
+import _default from "@startupjs/server/plugins/clientSession.plugin";
+import _default2 from "@startupjs/ui/plugin";
+import _default3 from "module-1/plugin";
+import _default4 from "module-1-plugin/thePlugin.plugin";
+import _default5 from "../../dummyPlugin.plugin.js";
+const plugins = [_default, _default2, _default3, _default4, _default5];
 registry.init(config);
+(() => {})(plugins);
 
 
 `;
