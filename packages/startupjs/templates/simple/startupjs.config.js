@@ -1,5 +1,3 @@
-import { createProject } from 'startupjs/registry'
-
-export default createProject({
+export default {
   plugins: {}
-})
+}

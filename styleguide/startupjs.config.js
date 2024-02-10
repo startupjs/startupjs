@@ -1,6 +1,4 @@
-import { createProject } from 'startupjs/registry'
-
-export default createProject({
+export default {
   plugins: {
     'serve-static-promo': {
       client: {
@@ -23,4 +21,4 @@ export default createProject({
       }
     }
   }
-})
+}

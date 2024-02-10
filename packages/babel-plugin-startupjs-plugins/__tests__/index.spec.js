@@ -23,10 +23,12 @@ pluginTester({
     `,
     'Processes files with a magic import': /* js */`
       import { registry } from 'startupjs/registry'
-      import config from './startupjs.config.magic.js'
+      import config from './startupjs.config.virtual.js'
+      import models from './startupjs.models.virtual.js'
+      import plugins from './startupjs.plugins.virtual.js'
       import dummy from '@dummy/dummy'
 
-      registry.init(config)
+      registry.init(config, { plugins, models })
 
       const x = 'xxx'
       dummy(x)

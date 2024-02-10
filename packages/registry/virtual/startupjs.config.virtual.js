@@ -2,7 +2,7 @@
 //
 // Babel plugin '@startupjs/babel-plugin-startupjs-plugins' will transform
 // ```
-// import './startupjs.config.magic.js'
+// import config from './startupjs.config.virtual.js'
 // ```
 // into the relative path to the actual config file.
 //

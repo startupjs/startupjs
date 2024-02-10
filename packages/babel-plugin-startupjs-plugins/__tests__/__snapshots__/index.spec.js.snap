@@ -16,10 +16,12 @@ console.log(config);
 exports[`@startupjs/babel-plugin-startupjs-plugins Processes files with a magic import: Processes files with a magic import 1`] = `
 
 import { registry } from 'startupjs/registry'
-import config from './startupjs.config.magic.js'
+import config from './startupjs.config.virtual.js'
+import models from './startupjs.models.virtual.js'
+import plugins from './startupjs.plugins.virtual.js'
 import dummy from '@dummy/dummy'
 
-registry.init(config)
+registry.init(config, { plugins, models })
 
 const x = 'xxx'
 dummy(x)
@@ -31,11 +33,26 @@ export default () => {}
 import { registry } from "startupjs/registry";
 import config from "../../startupjs.config.js";
 import dummy from "@dummy/dummy";
-import _default from "module-1/plugin";
-import _default2 from "module-1-plugin/thePlugin.plugin";
-import _default3 from "../../dummyPlugin.plugin.js";
-(() => {})([_default, _default2, _default3]);
-registry.init(config);
+import _default from "../../model/_session.games.[id].js";
+import _default2 from "../../model/_session.games.js";
+import _default3 from "../../model/users.[id].js";
+import _default4 from "../../model/users.js";
+import _default5 from "@startupjs/server/plugins/clientSession.plugin";
+import _default6 from "@startupjs/ui/plugin";
+import _default7 from "module-1/plugin";
+import _default8 from "module-1-plugin/thePlugin.plugin";
+import _default9 from "../../dummyPlugin.plugin.js";
+const plugins = [_default5, _default6, _default7, _default8, _default9];
+const models = {
+  "_session.games.*": _default,
+  "_session.games": _default2,
+  "users.*": _default3,
+  users: _default4,
+};
+registry.init(config, {
+  plugins,
+  models,
+});
 const x = "xxx";
 dummy(x);
 export default () => {};
@@ -46,19 +63,36 @@ export default () => {};
 exports[`@startupjs/babel-plugin-startupjs-plugins Test sample file from fixtures which loads config: Test sample file from fixtures which loads config 1`] = `
 
 import { registry } from 'startupjs/registry'
-import config from './startupjs.config.magic.js'
+import config from './startupjs.config.virtual.js'
+import models from './startupjs.models.virtual.js'
+import plugins from './startupjs.plugins.virtual.js'
 
-registry.init(config)
+registry.init(config, { plugins, models })
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import { registry } from "startupjs/registry";
 import config from "../../startupjs.config.js";
-import _default from "module-1/plugin";
-import _default2 from "module-1-plugin/thePlugin.plugin";
-import _default3 from "../../dummyPlugin.plugin.js";
-(() => {})([_default, _default2, _default3]);
-registry.init(config);
+import _default from "../../model/_session.games.[id].js";
+import _default2 from "../../model/_session.games.js";
+import _default3 from "../../model/users.[id].js";
+import _default4 from "../../model/users.js";
+import _default5 from "@startupjs/server/plugins/clientSession.plugin";
+import _default6 from "@startupjs/ui/plugin";
+import _default7 from "module-1/plugin";
+import _default8 from "module-1-plugin/thePlugin.plugin";
+import _default9 from "../../dummyPlugin.plugin.js";
+const plugins = [_default5, _default6, _default7, _default8, _default9];
+const models = {
+  "_session.games.*": _default,
+  "_session.games": _default2,
+  "users.*": _default3,
+  users: _default4,
+};
+registry.init(config, {
+  plugins,
+  models,
+});
 
 
 `;

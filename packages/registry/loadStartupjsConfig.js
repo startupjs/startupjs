@@ -1,5 +1,10 @@
-import config from './startupjs.config.magic.js'
-import { registry } from './index.js'
+// will import: { ... }
+import config from './virtual/startupjs.config.virtual.js'
+// will import: { 'users': $1, 'users.*': $2, '_session.games': $3, '_session.games.*': $4 }
+import models from './virtual/startupjs.models.virtual.js'
+// will import: [$1, $2, $3, ...]
+import plugins from './virtual/startupjs.plugins.virtual.js'
+import { initRegistry } from './index.js'
 
 let loaded = false
 let wasCustomConfig = false
@@ -16,5 +21,5 @@ export default function loadStartupjsConfig (customConfig) {
   }
   if (customConfig) wasCustomConfig = true
   loaded = true
-  registry.init(customConfig || config || {})
+  initRegistry(customConfig || config || {}, { plugins, models })
 }

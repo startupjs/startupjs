@@ -9,7 +9,8 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, { upstreamCon
     ...upstreamConfig,
     transformer: {
       ...upstreamConfig.transformer,
-      babelTransformerPath: require.resolve('./metro-babel-transformer.js')
+      babelTransformerPath: require.resolve('./metro-babel-transformer.js'),
+      unstable_allowRequireContext: true
     },
     resolver: {
       ...upstreamConfig.resolver,

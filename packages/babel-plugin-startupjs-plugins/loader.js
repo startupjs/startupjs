@@ -18,10 +18,10 @@
  *                   }
  * 4. scan all dependencies and repeat for each of them
  *
- * The plugins found in "exports" are going to be automatically imported in the main startupjs.config.js file
- * where createProject() is called
+ * The plugins found in "exports" are going to be automatically imported in
+ * @startupjs/registry/loadStartupjsConfig.js file
  */
-const { existsSync, readFileSync } = require('fs')
+const { existsSync, readFileSync, readdirSync } = require('fs')
 const { join, dirname, relative, resolve: pathResolve } = require('path')
 const resolve = require('resolve')
 
@@ -43,6 +43,21 @@ exports.getRelativeConfigImport = (sourceFilename, root = ROOT) => {
   const relativePath = relative(dirname(pathResolve(root, sourceFilename)), configFilePath)
   if (!relativePath.startsWith('.')) return './' + relativePath
   return relativePath
+}
+
+exports.getRelativeModelImports = (sourceFilename, root = ROOT) => {
+  // find model folder
+  const modelFolder = join(root, 'model')
+  if (!existsSync(modelFolder)) return {}
+  // find all files in the model folder
+  const modelImports = {}
+  for (const filename of readdirSync(modelFolder)) {
+    if (!/\.[mc]?[jt]sx?$/.test(filename)) continue
+    // ignore index.js file if it exists
+    if (/index\.[mc]?[jt]sx?$/.test(filename)) continue
+    modelImports[filename] = relative(dirname(pathResolve(root, sourceFilename)), join(modelFolder, filename))
+  }
+  return modelImports
 }
 
 exports.getRelativePluginImports = (sourceFilename, root = ROOT) => {
