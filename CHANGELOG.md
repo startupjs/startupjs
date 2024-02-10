@@ -1,3 +1,12 @@
+# [0.56.0-alpha.10](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.9...v0.56.0-alpha.10) (2024-02-10)
+
+
+### Features
+
+* **orm:** Autoload orm models from 'model' folder ([#1173](https://github.com/startupjs/startupjs/issues/1173)) ([5d61f56](https://github.com/startupjs/startupjs/commit/5d61f5689981acba3fde59d86aec131d03b43e0c))
+
+
+
 # [0.56.0-alpha.9](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.8...v0.56.0-alpha.9) (2024-02-08)
 
 
