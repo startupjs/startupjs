@@ -22,7 +22,7 @@ const DEFAULT_BODY_PARSER_OPTIONS = {
 }
 const WWW_REGEXP = /www\./
 
-export default function createExpress ({ backend, session, channel, options = {} }) {
+export default async function createExpress ({ backend, session, channel, options = {} }) {
   const expressApp = express()
 
   // Required to be able to determine whether the protocol is 'http' or 'https'
@@ -81,7 +81,7 @@ export default function createExpress ({ backend, session, channel, options = {}
     .use(bodyParser.urlencoded(getBodyParserOptionsByType('urlencoded', options.bodyParser)))
     .use(methodOverride())
 
-  const startupjsMiddleware = createMiddleware({ backend, session, channel, options })
+  const startupjsMiddleware = await createMiddleware({ backend, session, channel, options })
   expressApp.use(startupjsMiddleware)
 
   if (options.isExpo) {

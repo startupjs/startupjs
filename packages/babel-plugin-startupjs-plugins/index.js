@@ -1,12 +1,14 @@
 const { statSync } = require('fs')
 const { addDefault } = require('@babel/helper-module-imports')
 const {
-  getRelativePluginImports, getRelativeConfigImport, getConfigFilePaths, getRelativeModelImports
+  getRelativePluginImports, getRelativeConfigImport, getConfigFilePaths,
+  getRelativeModelImports, getFeatures
 } = require('./loader')
 
 const VIRTUAL_CONFIG_IMPORT_REGEX = /(?:^|\/)startupjs\.config\.virtual\.js$/
 const VIRTUAL_MODELS_IMPORT_REGEX = /(?:^|\/)startupjs\.models\.virtual\.js$/
 const VIRTUAL_PLUGINS_IMPORT_REGEX = /(?:^|\/)startupjs\.plugins\.virtual\.js$/
+const VIRTUAL_FEATURES_IMPORT_REGEX = /(?:^|\/)startupjs\.features\.virtual\.js$/
 const MODEL_PATTERN_REGEX = /^[a-zA-Z0-9$_*.]+$/
 
 module.exports = function (api, options) {
@@ -38,6 +40,8 @@ module.exports = function (api, options) {
           return loadVirtualPlugins($this, { $program, filename, t, template, root: options.root })
         } else if (isVirtualImport($this, VIRTUAL_MODELS_IMPORT_REGEX)) {
           return loadVirtualModels($this, { $program, filename, t, template, root: options.root })
+        } else if (isVirtualImport($this, VIRTUAL_FEATURES_IMPORT_REGEX)) {
+          return loadVirtualFeatures($this, { $program, t, template, root: options.root })
         }
       }
     }
@@ -46,6 +50,7 @@ module.exports = function (api, options) {
 
 // if startupjs.config.js exists in the project, replace the magic import with it
 function loadVirtualConfig ($import, { $program, filename, t, root }) {
+  validateConfigImport($import)
   const configFileImport = getRelativeConfigImport(filename, root)
 
   if (configFileImport) {
@@ -55,9 +60,9 @@ function loadVirtualConfig ($import, { $program, filename, t, root }) {
 
 function loadVirtualPlugins ($import, { $program, filename, t, template, root }) {
   const buildPluginsConst = template('const %%name%% = %%plugins%%')
+  validatePluginsImport($import)
 
   // remove the original magic import
-  validatePluginsImport($import)
   const name = $import.get('specifiers.0.local').node.name
   $import.remove()
 
@@ -76,6 +81,7 @@ function loadVirtualPlugins ($import, { $program, filename, t, template, root })
 
 function loadVirtualModels ($import, { $program, filename, t, template, root }) {
   const buildModelsConst = template('const %%name%% = %%models%%')
+  validateModelsImport($import)
 
   // find all models in the project's `models` directory
   const modelImports = getRelativeModelImports(filename, root)
@@ -90,12 +96,31 @@ function loadVirtualModels ($import, { $program, filename, t, template, root }) 
   }
 
   // remove the original magic import
-  validateModelsImport($import)
   const name = $import.get('specifiers.0.local').node.name
   $import.remove()
 
   // dummy usage of plugins to make sure they are not removed by dead code elimination
   const modelsConst = buildModelsConst({ name, models })
+  const $lastImport = $program.get('body').filter($i => $i.isImportDeclaration()).pop()
+  $lastImport.insertAfter(modelsConst)
+}
+
+function loadVirtualFeatures ($import, { $program, t, template, root }) {
+  const buildFeaturesConst = template('const %%name%% = %%features%%')
+  validateFeaturesImport($import)
+
+  const featuresData = getFeatures(root)
+  const features = t.objectExpression([])
+  for (const key in featuresData) {
+    features.properties.push(t.objectProperty(t.stringLiteral(key), t.valueToNode(featuresData[key])))
+  }
+
+  // remove the original magic import
+  const name = $import.get('specifiers.0.local').node.name
+  $import.remove()
+
+  // dummy usage of plugins to make sure they are not removed by dead code elimination
+  const modelsConst = buildFeaturesConst({ name, features })
   const $lastImport = $program.get('body').filter($i => $i.isImportDeclaration()).pop()
   $lastImport.insertAfter(modelsConst)
 }
@@ -120,6 +145,13 @@ function addDefaultImport ($program, sourceName) {
   })
 }
 
+function validateConfigImport ($import) {
+  const $specifiers = $import.get('specifiers')
+  if ($specifiers.length === 0 || $specifiers.length > 1 || !$specifiers[0].isImportDefaultSpecifier()) {
+    throw $import.buildCodeFrameError('Virtual config import must have a single default import')
+  }
+}
+
 function validatePluginsImport ($import) {
   const $specifiers = $import.get('specifiers')
   if ($specifiers.length === 0 || $specifiers.length > 1 || !$specifiers[0].isImportDefaultSpecifier()) {
@@ -131,6 +163,13 @@ function validateModelsImport ($import) {
   const $specifiers = $import.get('specifiers')
   if ($specifiers.length === 0 || $specifiers.length > 1 || !$specifiers[0].isImportDefaultSpecifier()) {
     throw $import.buildCodeFrameError('Virtual models import must have a single default import')
+  }
+}
+
+function validateFeaturesImport ($import) {
+  const $specifiers = $import.get('specifiers')
+  if ($specifiers.length === 0 || $specifiers.length > 1 || !$specifiers[0].isImportDefaultSpecifier()) {
+    throw $import.buildCodeFrameError('Virtual features import must have a single default import')
   }
 }
 

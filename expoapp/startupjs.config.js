@@ -10,26 +10,6 @@ const $banner = $.session.banner
 const plugins = createPlugins()
 
 export default {
-  isomorphic: {
-    server: true
-  },
-  server: {
-    init: options => ({
-      api: expressApp => {
-        expressApp.get('/hello', (req, res) => {
-          res.send('Hello from server')
-        })
-
-        expressApp.post('/api/reset-counter', async (req, res) => {
-          const { model: $root } = req
-          const $count = $root.at('testCounts.magicCount1')
-          await $count.subscribe()
-          await $count.reset()
-          res.json(true)
-        })
-      }
-    })
-  },
   plugins: {
     [plugins.banner]: {
       client: {

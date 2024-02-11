@@ -2,6 +2,7 @@
   "name": "expoapp",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "start": "EXPO_USE_METRO_WORKSPACE_ROOT=1 npx expo start",
     "android": "expo run:android",

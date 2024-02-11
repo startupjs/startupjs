@@ -4,7 +4,7 @@ const { isStartupjsPluginEcosystemFile, CONFIG_FILENAME_REGEX } = require('./uti
 
 const PLUGIN_KEYS = ['name', 'for', 'order', 'enabled']
 const PROJECT_KEYS = ['plugins', 'modules']
-const ALL_ENVS = ['client', 'isomorphic', 'server', 'build']
+const ALL_ENVS = ['features', 'isomorphic', 'client', 'server', 'build']
 const MAGIC_IMPORTS = ['startupjs/registry', '@startupjs/registry']
 
 module.exports = function eliminatorLoader (source) {
@@ -14,7 +14,7 @@ module.exports = function eliminatorLoader (source) {
   if (!(isStartupjsPluginEcosystemFile(filename))) return source
 
   const envs = this.query.envs
-  if (!envs) throw Error("eliminatorLoader: envs not provided (for example ['client', 'isomorphic'])")
+  if (!envs) throw Error("eliminatorLoader: envs not provided (for example ['features', 'isomorphic', 'client'])")
 
   let code = source
 

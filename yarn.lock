@@ -8112,7 +8112,6 @@ __metadata:
     "@startupjs/babel-plugin-transform-react-pug": "npm:^7.0.1-0"
     "@startupjs/css-to-react-native-transform": "npm:^1.9.0-2"
     "@startupjs/plugin": "npm:^0.56.0-alpha.0"
-    "@startupjs/registry": "npm:^0.56.0-alpha.10"
     "@startupjs/server": "npm:^0.56.0-alpha.10"
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
@@ -8631,6 +8630,7 @@ __metadata:
     connect-mongo: "npm:^4.4.1"
     cookie-parser: "npm:~1.3.2"
     express: "npm:^4.0"
+    express-file-routing: "npm:3.0.3"
     express-session: "npm:^1.17.2"
     hsts: "npm:^2.1.0"
     lodash: "npm:^4.17.20"
@@ -16686,6 +16686,15 @@ __metadata:
   version: 3.1.1
   resolution: "exponential-backoff@npm:3.1.1"
   checksum: 160456d2d647e6019640bd07111634d8c353038d9fa40176afb7cd49b0548bdae83b56d05e907c2cce2300b81cae35d800ef92fefb9d0208e190fa3b7d6bb579
+  languageName: node
+  linkType: hard
+
+"express-file-routing@npm:3.0.3":
+  version: 3.0.3
+  resolution: "express-file-routing@npm:3.0.3"
+  peerDependencies:
+    express: ">4.1.2"
+  checksum: a541120e9a3d3e667ede7e4046ca7b2e01806e9310111d5f47b463f2d26959d600f248717174724f9f9cf1892112473e033b685530f0eb62a94f96f41dc12362
   languageName: node
   linkType: hard
 

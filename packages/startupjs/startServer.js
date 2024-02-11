@@ -1,3 +1,2 @@
 import startServer from '@startupjs/server'
-await startServer()
-export default () => {}
+export const { server, backend, session, channel, expressApp } = await startServer()

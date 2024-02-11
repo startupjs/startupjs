@@ -1,12 +1,17 @@
-import { ROOT_MODULE as MODULE } from '@startupjs/registry'
+import { ROOT_MODULE as MODULE, ROOT_MODULE } from '@startupjs/registry'
+import { existsSync } from 'fs'
+import { join } from 'path'
 import express from 'express'
+import { router } from 'express-file-routing'
+
+const SERVER_ROUTES_FOLDER = 'server'
 
 /**
  * A connect middleware with core startupjs functionality. You can plug this into your
  * existing node server.
  * @returns {express.Application}
  */
-export default function createMiddleware ({ backend, session, channel, options }) {
+export default async function createMiddleware ({ backend, session, channel, options }) {
   const app = express()
 
   MODULE.hook('beforeSession', app)
@@ -41,6 +46,16 @@ export default function createMiddleware ({ backend, session, channel, options }
 
   MODULE.hook('api', app)
 
+  // filesystem-based routing
+  if (ROOT_MODULE.options.enableServer && existsSync(join(options.dirname, SERVER_ROUTES_FOLDER))) {
+    try {
+      app.use('/', await router({ directory: join(options.dirname, SERVER_ROUTES_FOLDER) }))
+    } catch (err) {
+      console.error(ERRORS.serverRoutes)
+      throw err
+    }
+  }
+
   options.ee.emit('routes', app) // DEPRECATED (use 'serverRoutes' hook instead)
   MODULE.hook('serverRoutes', app)
 
@@ -52,4 +67,11 @@ export default function createMiddleware ({ backend, session, channel, options }
   })
 
   return app
+}
+
+const ERRORS = {
+  serverRoutes: `
+    [@startupjs/server] Error auto-loading server routes. Make sure that you either use \`.mjs\` file extensions
+    or set \`"type": "module"\` in your package.json so that \`.js\` files are treated as ESM.
+  `
 }
