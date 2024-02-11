@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-startupjs-plugins",
-  "version": "0.56.0-alpha.10",
+  "version": "0.56.0-alpha.11",
   "type": "commonjs",
   "publishConfig": {
     "access": "public"

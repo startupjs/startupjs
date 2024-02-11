@@ -1,3 +1,12 @@
+# [0.56.0-alpha.11](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.10...v0.56.0-alpha.11) (2024-02-11)
+
+
+### Features
+
+* **server:** auto-load server api routes using file-system routing for express ([#1176](https://github.com/startupjs/startupjs/issues/1176)) ([8031484](https://github.com/startupjs/startupjs/commit/8031484c2e44e4c97191c190b3936d513965f4b6))
+
+
+
 # [0.56.0-alpha.10](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.9...v0.56.0-alpha.10) (2024-02-10)
 
 

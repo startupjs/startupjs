@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.56.0-alpha.10",
+  "version": "0.56.0-alpha.11",
   "engines": {
     "node": ">= 14"
   },
@@ -41,18 +41,18 @@
   "dependencies": {
     "@startupjs/app": "^0.56.0-alpha.9",
     "@startupjs/backend": "^0.56.0-alpha.3",
-    "@startupjs/bundler": "^0.56.0-alpha.10",
+    "@startupjs/bundler": "^0.56.0-alpha.11",
     "@startupjs/cli": "^0.56.0-alpha.6",
     "@startupjs/hooks": "^0.56.0-alpha.9",
     "@startupjs/i18n": "^0.56.0-alpha.7",
-    "@startupjs/init": "^0.56.0-alpha.10",
+    "@startupjs/init": "^0.56.0-alpha.11",
     "@startupjs/isomorphic-helpers": "^0.56.0-alpha.0",
     "@startupjs/orm": "^0.56.0-alpha.0",
     "@startupjs/patches": "^0.56.0-alpha.0",
     "@startupjs/react-sharedb": "^0.56.0-alpha.9",
-    "@startupjs/registry": "^0.56.0-alpha.10",
-    "@startupjs/server": "^0.56.0-alpha.10",
+    "@startupjs/registry": "^0.56.0-alpha.11",
+    "@startupjs/server": "^0.56.0-alpha.11",
     "@startupjs/utils": "^0.56.0-alpha.9",
-    "babel-preset-startupjs": "^0.56.0-alpha.10"
+    "babel-preset-startupjs": "^0.56.0-alpha.11"
   }
 }
