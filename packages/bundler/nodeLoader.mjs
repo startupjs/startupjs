@@ -37,7 +37,7 @@ export async function load (url, context, nextLoad) {
   if (isStartupjsPluginEcosystemFile(url)) {
     const filePath = fileURLToPath(url)
     let source = await readFile(filePath, 'utf8')
-    source = callLoader(eliminatorLoader, source, filePath, { envs: ['server', 'isomorphic'] })
+    source = callLoader(eliminatorLoader, source, filePath, { envs: ['features', 'isomorphic', 'server'] })
     return {
       format: 'module',
       shortCircuit: true,

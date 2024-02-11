@@ -25,9 +25,11 @@ pluginTester({
       import { registry } from 'startupjs/registry'
       import config from './startupjs.config.virtual.js'
       import models from './startupjs.models.virtual.js'
+      import features from './startupjs.features.virtual.js'
       import plugins from './startupjs.plugins.virtual.js'
       import dummy from '@dummy/dummy'
 
+      config.features = features
       registry.init(config, { plugins, models })
 
       const x = 'xxx'

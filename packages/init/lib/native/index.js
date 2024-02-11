@@ -56,8 +56,8 @@ export default (options = {}) => {
   }
 
   // Connect model to the server
-  // TODO: Connect model ONLY if startupjs server exists
-  if (MODULE.options.server) connectModel()
+  // TODO: Connect model ONLY if startupjs server exists and is enabled
+  if (MODULE.options.enableServer) connectModel()
 }
 
 // This module is actually pure side-effects, so we force

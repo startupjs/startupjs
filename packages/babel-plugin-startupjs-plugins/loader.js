@@ -60,6 +60,21 @@ exports.getRelativeModelImports = (sourceFilename, root = ROOT) => {
   return modelImports
 }
 
+exports.getFeatures = (root = ROOT) => {
+  const features = {}
+  const serverFolder = join(root, 'server')
+  if (existsSync(serverFolder)) {
+    for (const filename of readdirSync(serverFolder)) {
+      // enable server if there is at least one JS file in the 'server' folder
+      if (/\.[mc]?[jt]sx?$/.test(filename)) {
+        features.enableServer = true
+        break
+      }
+    }
+  }
+  return features
+}
+
 exports.getRelativePluginImports = (sourceFilename, root = ROOT) => {
   if (!existsSync(join(root, 'package.json'))) {
     throw Error('Can\'t find package.json in the root of the project. ' +

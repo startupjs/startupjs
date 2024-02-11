@@ -12,7 +12,7 @@ let server = null
  * Creates a dev/prod server with all the startupjs functionality
  */
 export default async function createServer ({ backend, session, channel, options }) {
-  const expressApp = createExpress({ backend, session, channel, options })
+  const expressApp = await createExpress({ backend, session, channel, options })
 
   // Create server and setup websockets connection
   if (options.https) {

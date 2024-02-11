@@ -1,11 +1,13 @@
+const { getFeatures } = require('@startupjs/babel-plugin-startupjs-plugins/loader')
 const connect = require('connect')
 
 // To pass existing config for modification, pass it as 'upstreamConfig' in options:
 //   config = getDefaultConfig(__dirname, { upstreamConfig })
 exports.getDefaultConfig = function getDefaultConfig (projectRoot, { upstreamConfig } = {}) {
+  const features = getFeatures(projectRoot)
   upstreamConfig ??= getUpstreamConfig(projectRoot)
   const isExpo = checkIfExpo(upstreamConfig)
-  return {
+  const config = {
     ...upstreamConfig,
     transformer: {
       ...upstreamConfig.transformer,
@@ -21,20 +23,16 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, { upstreamCon
         ...['mjs', 'cjs', 'md', 'mdx', 'css', 'styl', 'svg']
       ])),
       unstable_enablePackageExports: true
-    },
-    server: {
-      ...upstreamConfig.server,
-      // TODO: implement a simple parsing of startupjs.config.js
-      //       to figure out whether we need to load 'server' and 'isomorphic'
-      //       envs or only the 'build' one.
-      //       If $.isomorphic.server is turned off then we don't need the enhanceMiddleware at all
-      enhanceMiddleware: metroMiddleware => {
-        return connect()
-          .use(metroMiddleware)
-          .use(getStartupjsMiddleware())
-      }
     }
   }
+  if (features.enableServer) {
+    config.server ??= {}
+    config.server.enhanceMiddleware = metroMiddleware =>
+      connect()
+        .use(metroMiddleware)
+        .use(getStartupjsMiddleware())
+  }
+  return config
 }
 
 function getUpstreamConfig (projectRoot) {
@@ -70,9 +68,6 @@ function checkIfExpo (upstreamConfig) {
 function getStartupjsMiddleware () {
   const middlewarePromise = (async () => {
     await import('./nodeRegister.mjs')
-    await import('@startupjs/registry/loadStartupjsConfig.auto')
-    const { ROOT_MODULE: MODULE } = await import('@startupjs/registry')
-    if (!MODULE.options.server) return
     const { createMiddleware } = await import('@startupjs/server')
     return (await createMiddleware()).middleware
   })()
