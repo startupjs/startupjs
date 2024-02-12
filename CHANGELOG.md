@@ -1,3 +1,12 @@
+# [0.56.0-alpha.12](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.11...v0.56.0-alpha.12) (2024-02-12)
+
+
+### Bug Fixes
+
+* **server:** Make server filesystem routing more strict ([#1177](https://github.com/startupjs/startupjs/issues/1177)) ([a309f5e](https://github.com/startupjs/startupjs/commit/a309f5ee34f03c23ebfb3795788343bc91eff5e5))
+
+
+
 # [0.56.0-alpha.11](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.10...v0.56.0-alpha.11) (2024-02-11)
 
 
