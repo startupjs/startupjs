@@ -6,7 +6,7 @@ import { Br, Button, Div, Span } from '@startupjs/ui'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabOneScreen () {
-  const { $banner, $userId } = $.session
+  const { $banner, $userId, $serverHello } = $.session
   const $count = useValue$(0)
   const [text, setText] = useState('')
   const [error, setError] = useState('')
@@ -14,7 +14,7 @@ export default observer(function TabOneScreen () {
   async function fetchSomething (): Promise<void> {
     async function fetchText () {
       try {
-        const response = await axios.get('/hello')
+        const response = await axios.get('/api/hello')
         setText(response.data)
       } catch (error: any) {
         setError(error.message)
@@ -40,6 +40,7 @@ export default observer(function TabOneScreen () {
       </Div>
       <Br />
       <Span>userId: {$userId.get()}</Span>
+      <Span>{$serverHello.get()}</Span>
       <Br />
       {text ? <Text>Text: {text}</Text> : undefined}
       {error ? <Text>Error: {error}</Text> : undefined}
