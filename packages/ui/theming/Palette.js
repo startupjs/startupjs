@@ -5,6 +5,7 @@ import defaultPalette from './palette.json'
 export default class Palette {
   constructor (palette = defaultPalette) {
     this.colors = palette
+    if (!this.colors.secondary) this.colors.secondary = this.colors.main
 
     Object.assign(this, getPaletteMeta(palette))
   }
@@ -14,7 +15,7 @@ export default class Palette {
     return prepareColorsObject(this.colors, this.Color, { overrides, low, middle, high })
   }
 
-  Color = (name, level, { alpha } = {}) => {
+  Color = (name, level = 0, { alpha } = {}) => {
     return new TheColor(name, level, this.colors, { alpha })
   }
 }

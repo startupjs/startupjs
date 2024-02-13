@@ -30,7 +30,7 @@ export default observer(function i18nSidebar ({ children }) {
 
       &:part(sidebar)
         border-right-width 1px
-        border-right-color var(--color-border-main-subtle)
+        border-right-color var(--color-border-main)
 
     .sidebarContent
       padding 2u

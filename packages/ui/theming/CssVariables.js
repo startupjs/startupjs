@@ -39,7 +39,7 @@ export default function CssVariables ({ meta, clear = true, children }) {
       }
 
       if (isWeb) {
-        if (singletonVariables['--color-bg-main']?.isDark?.()) {
+        if (singletonVariables['--color-bg-main-subtle']?.isDark?.()) {
           if (!isDark) setColorScheme('dark')
         } else {
           setColorScheme()

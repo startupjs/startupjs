@@ -22,7 +22,8 @@
     "sharedb-mingo-memory": "^1.2.0",
     "sharedb-mongo": "1.0.0-beta.21",
     "sharedb-redis-pubsub": "^2.0.1",
-    "sqlite3": "^5.1.6"
+    "sqlite3": "^5.1.6",
+    "uuid": "^9.0.1"
   },
   "peerDependencies": {
     "mongodb": ">=4.0.0",

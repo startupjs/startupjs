@@ -4,6 +4,7 @@ const REGEX = /(```jsx +(?:example|pure-example)[\s\S]*?\n)([\s\S]*?)(```)/g
 const FLAGS = [
   'example',
   'noscroll',
+  'nostyle',
   'pure-example'
 ]
 

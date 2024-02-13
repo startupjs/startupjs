@@ -40,9 +40,11 @@ function Button ({
   const isMountedRef = useIsMountedRef()
   const [asyncActive, setAsyncActive] = useState(false)
   const getColor = useColors()
+  const _color = getColor(color)
+  const isFlat = variant === 'flat'
 
-  function getFlatTextColor () {
-    return getColor(`text-on-${color}`) || getColor('text-on-color')
+  function getColorByVariant () {
+    return isFlat ? getColor('white') : _color
   }
 
   async function _onPress (event) {
@@ -60,8 +62,6 @@ function Button ({
 
   if (!getColor(color)) console.error('Button component: Color for color property is incorrect. Use colors from Colors')
 
-  const isFlat = variant === 'flat'
-  const _color = getColor(color)
   const hasChildren = React.Children.count(children)
   const height = heights[size]
   const rootStyle = { height }
@@ -71,11 +71,12 @@ function Button ({
   let extraActiveStyle
 
   textStyle = StyleSheet.flatten([
-    { color: isFlat ? getFlatTextColor() : _color },
+    { color: isFlat ? getColorByVariant() : _color },
     textStyle
   ])
+
   iconStyle = StyleSheet.flatten([
-    { color: isFlat ? getFlatTextColor() : _color },
+    { color: isFlat ? getColorByVariant() : _color },
     iconStyle
   ])
 
@@ -141,7 +142,7 @@ function Button ({
     )
       if asyncActive
         Div.loader
-          Loader(size='s' color=isFlat ? getFlatTextColor() : color)
+          Loader(size='s' color=isFlat ? 'white' : color)
       if icon
         Div.iconWrapper(
           style=iconWrapperStyle

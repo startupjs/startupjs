@@ -1,4 +1,6 @@
 export const BaseColors = {
+  white: 'white',
+  black: 'black',
   main: 'main',
   'bg-main': 'bg-main',
   'text-main': 'text-main',
@@ -13,61 +15,49 @@ export const BaseColors = {
 }
 
 export const BgColors = {
-  'bg-main-subtle': 'bg-main-subtle',
-  'bg-main-subtle-alt': 'bg-main-subtle-alt',
-  'bg-main-strong': 'bg-main-strong',
+  'bg-main': 'bg-main',
   'bg-primary': 'bg-primary',
   'bg-secondary': 'bg-secondary',
-  'bg-error': 'bg-error',
   'bg-success': 'bg-success',
   'bg-warning': 'bg-warning',
-  'bg-info': 'bg-info',
   'bg-attention': 'bg-attention',
+  'bg-error': 'bg-error',
+  'bg-info': 'bg-info',
+  'bg-main-subtle': 'bg-main-subtle',
+  'bg-main-strong': 'bg-main-strong',
   'bg-primary-strong': 'bg-primary-strong',
   'bg-primary-subtle': 'bg-primary-subtle',
-  'bg-primary-transparent': 'bg-primary-transparent',
   'bg-secondary-subtle': 'bg-secondary-subtle',
-  'bg-error-transparent': 'bg-error-transparent',
-  'bg-success-transparent': 'bg-success-transparent',
-  'bg-warning-transparent': 'bg-warning-transparent'
+  'bg-secondary-strong': 'bg-secondary-strong',
+  'bg-success-subtle': 'bg-success-subtle',
+  'bg-success-strong': 'bg-success-strong',
+  'bg-warning-subtle': 'bg-warning-subtle',
+  'bg-warning-strong': 'bg-warning-strong',
+  'bg-attention-subtle': 'bg-attention-subtle',
+  'bg-attention-strong': 'bg-attention-strong',
+  'bg-error-subtle': 'bg-error-subtle',
+  'bg-error-strong': 'bg-error-strong'
 }
 
 export const TextColors = {
   'text-description': 'text-description',
   'text-placeholder': 'text-placeholder',
-  'text-subtle': 'text-subtle',
   'text-primary': 'text-primary',
   'text-secondary': 'text-secondary',
   'text-error': 'text-error',
   'text-success': 'text-success',
   'text-warning': 'text-warning',
-  'text-info': 'text-info',
-  'text-attention': 'text-attention',
-  'text-success-strong': 'text-success-strong',
-  'text-info-strong': 'text-info-strong'
+  'text-attention': 'text-attention'
 }
 
-export const TextOnColors = {
-  'text-on-color': 'text-on-color',
-  'text-on-primary': 'text-on-primary',
-  'text-on-secondary': 'text-on-secondary',
-  'text-on-error': 'text-on-error',
-  'text-on-success': 'text-on-success',
-  'text-on-warning': 'text-on-warning',
-  'text-on-info': 'text-on-info',
-  'text-on-attention': 'text-on-attention'
-}
+export const TextOnColors = {}
 
 export const BorderColors = {
-  'border-main-strong': 'border-main-strong',
-  'border-main-strong-alt': 'border-main-strong-alt',
-  'border-main-subtle': 'border-main-subtle',
   'border-primary': 'border-primary',
   'border-secondary': 'border-secondary',
   'border-error': 'border-error',
   'border-success': 'border-success',
   'border-warning': 'border-warning',
-  'border-info': 'border-info',
   'border-attention': 'border-attention'
 }
 
@@ -95,7 +85,7 @@ const Colors = {
   ...BaseColors,
   ...BgColors,
   ...TextColors,
-  ...TextOnColors,
+  // ...TextOnColors,
   ...BorderColors,
   ...ShadowColors,
   ...ComponentColors

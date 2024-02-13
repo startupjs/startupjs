@@ -5476,7 +5476,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/app@npm:^0.55.8, @startupjs/app@workspace:packages/app":
+"@startupjs/app@npm:^0.55.13, @startupjs/app@workspace:packages/app":
   version: 0.0.0-use.local
   resolution: "@startupjs/app@workspace:packages/app"
   dependencies:
@@ -5820,6 +5820,7 @@ __metadata:
     sharedb-mongo: "npm:1.0.0-beta.21"
     sharedb-redis-pubsub: "npm:^2.0.1"
     sqlite3: "npm:^5.1.6"
+    uuid: "npm:^9.0.1"
   peerDependencies:
     mongodb: ">=4.0.0"
     nconf: "*"
@@ -5930,9 +5931,9 @@ __metadata:
   resolution: "@startupjs/docs@workspace:packages/docs"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
-    "@startupjs/mdx": "npm:^0.55.12"
-    "@startupjs/scrollable-anchors": "npm:^0.55.12"
-    "@startupjs/ui": "npm:^0.55.11"
+    "@startupjs/mdx": "npm:^0.55.13"
+    "@startupjs/scrollable-anchors": "npm:^0.55.13"
+    "@startupjs/ui": "npm:^0.55.13"
     parse-prop-types: "npm:^0.3.0"
   peerDependencies:
     react: "*"
@@ -6023,13 +6024,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/mdx@npm:^0.55.0, @startupjs/mdx@npm:^0.55.12, @startupjs/mdx@workspace:packages/mdx":
+"@startupjs/mdx@npm:^0.55.0, @startupjs/mdx@npm:^0.55.13, @startupjs/mdx@workspace:packages/mdx":
   version: 0.0.0-use.local
   resolution: "@startupjs/mdx@workspace:packages/mdx"
   dependencies:
     "@mdx-js/react": "npm:~2.3.0"
-    "@startupjs/scrollable-anchors": "npm:^0.55.12"
-    "@startupjs/ui": "npm:^0.55.11"
+    "@startupjs/scrollable-anchors": "npm:^0.55.13"
+    "@startupjs/ui": "npm:^0.55.13"
     refractor: "npm:^3.0.0"
   peerDependencies:
     "@react-native-clipboard/clipboard": "*"
@@ -6228,12 +6229,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/scrollable-anchors@npm:^0.55.0, @startupjs/scrollable-anchors@npm:^0.55.12, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
+"@startupjs/scrollable-anchors@npm:^0.55.0, @startupjs/scrollable-anchors@npm:^0.55.13, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
   version: 0.0.0-use.local
   resolution: "@startupjs/scrollable-anchors@workspace:packages/scrollable-anchors"
   dependencies:
-    "@startupjs/ui": "npm:^0.55.11"
-    startupjs: "npm:^0.55.12"
+    "@startupjs/ui": "npm:^0.55.13"
+    startupjs: "npm:^0.55.13"
   languageName: unknown
   linkType: soft
 
@@ -6363,7 +6364,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/ui@npm:^0.55.0, @startupjs/ui@npm:^0.55.11, @startupjs/ui@workspace:packages/ui":
+"@startupjs/ui@npm:^0.55.0, @startupjs/ui@npm:^0.55.13, @startupjs/ui@workspace:packages/ui":
   version: 0.0.0-use.local
   resolution: "@startupjs/ui@workspace:packages/ui"
   dependencies:
@@ -27346,11 +27347,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.55.0, startupjs@npm:^0.55.12, startupjs@workspace:packages/startupjs":
+"startupjs@npm:^0.55.0, startupjs@npm:^0.55.13, startupjs@workspace:packages/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:packages/startupjs"
   dependencies:
-    "@startupjs/app": "npm:^0.55.8"
+    "@startupjs/app": "npm:^0.55.13"
     "@startupjs/backend": "npm:^0.55.12"
     "@startupjs/bundler": "npm:^0.55.11"
     "@startupjs/cli": "npm:^0.55.10"
@@ -29355,7 +29356,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^9.0.0":
+"uuid@npm:^9.0.0, uuid@npm:^9.0.1":
   version: 9.0.1
   resolution: "uuid@npm:9.0.1"
   bin:

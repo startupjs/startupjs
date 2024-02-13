@@ -36,7 +36,7 @@ function Badge ({
     badgeStyle
   ])
 
-  const textAndIconColor = getColor(Colors[`text-on-${color}`]) || getColor(Colors['text-on-color'])
+  const textAndIconColor = getColor(Colors[`bg-${color}`]) || getColor(Colors['bg-main'])
 
   const hasLabel = useMemo(() => {
     return variant === 'default'

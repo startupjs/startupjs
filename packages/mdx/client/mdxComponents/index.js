@@ -245,16 +245,20 @@ export default {
         Image(style=style source={ uri: src })
     `
   },
-  section: ({ children, noscroll }) => {
-    const Wrapper = noscroll
+  section: ({ children, nostyle, noscroll }) => {
+    const Wrapper = nostyle
       ? ({ children }) => pug`
-        Div.example.padding= children
-      `
-      : ({ children }) => pug`
-        ScrollView.example(
-          contentContainerStyleName=['exampleContent', 'padding']
-          horizontal
-        )= children
+        Div= children
+        `
+      : noscroll
+        ? ({ children }) => pug`
+          Div.example.padding= children
+        `
+        : ({ children }) => pug`
+          ScrollView.example(
+            contentContainerStyleName=['exampleContent', 'padding']
+            horizontal
+          )= children
       `
 
     return pug`

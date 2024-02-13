@@ -51,10 +51,24 @@ const { Color, generateColors } = palette
 
 const THEMES = {
   dark: generateColors({
-    [Colors['bg-main']]: Color('main', 9),
+    [Colors.main]: Color('main', 11),
+    [Colors['bg-main']]: Color('main', 11),
+    [Colors['bg-primary']]: Color('primary', 9),
+    [Colors['bg-success']]: Color('success', 9),
+    [Colors['bg-warning']]: Color('warning', 9),
+    [Colors['bg-attention']]: Color('attention', 9),
+    [Colors['bg-error']]: Color('error', 9),
+    [Colors['bg-secondary']]: Color('secondary', 9),
     [Colors['text-main']]: Color('main', 0),
-    [Colors['border-main']]: Color('main', 7),
-    [Colors.secondary]: Color('main', 0)
+    [Colors['text-description']]: Color('main', 5),
+    [Colors['text-placeholder']]: Color('main', 6),
+    [Colors['border-main']]: Color('main', 8),
+    [Colors['border-primary']]: Color('primary', 7),
+    [Colors['border-success']]: Color('success', 7),
+    [Colors['border-warning']]: Color('warning', 7),
+    [Colors['border-attention']]: Color('attention', 7),
+    [Colors['border-error']]: Color('error', 7),
+    [Colors['border-secondary']]: Color('secondary', 7)
   })
 }
 

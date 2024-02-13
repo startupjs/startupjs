@@ -1,12 +1,12 @@
 .root
   flex-grow 1
-  background-color var(--color-bg-main-strong)
+  background-color var(--color-bg-main)
 
   &:part(contentContainer)
     flex-grow 1
 
   +desktop()
-    background-color var(--color-bg-main-subtle)
+    background-color var(--color-bg-main-strong)
 
     &:part(contentContainer)
       justify-content center
@@ -22,5 +22,5 @@
   +desktop()
     flex-grow 0
     width 50u
-    background-color var(--color-bg-main-strong)
+    background-color var(--color-bg-main)
     box-shadow 0 1u 1.5u var(--color-shadow-main-subtle)
