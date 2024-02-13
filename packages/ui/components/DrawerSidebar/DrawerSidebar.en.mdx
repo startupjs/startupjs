@@ -22,7 +22,7 @@ import { DrawerSidebar } from '@startupjs/ui'
 ```jsx example
 const [open, $open] = useSession('SimpleExampleDrawerSidebar')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='simpleExample'>
     <DrawerSidebar
       $open={$open}
       renderContent={() => (
@@ -44,7 +44,7 @@ The `position` property specifies the side of the window from which the drawer w
 ```jsx example noscroll
 const [open, $open] = useSession('ExampleRightDrawerSidebar')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='positionExample'>
     <DrawerSidebar
       $open={$open}
       position='right'
@@ -82,7 +82,7 @@ By default the drawer content are not destroyed when it is closed. To change thi
 ```jsx example
 const [open, $open] = useSession('ExampleLazyDrawerSidebar')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='simpleExample'>
     <DrawerSidebar
       $open={$open}
       renderContent={() => (
@@ -103,7 +103,7 @@ return (
 ```jsx example noscroll
 const [open, $open] = useSession('ExampleDrawerSidebar')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='positionExample'>
     <DrawerSidebar
       $open={$open}
       renderContent={() => (
