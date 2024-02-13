@@ -27,6 +27,35 @@ pluginTester({
       export { default as PHome } from './PHome'
       export { default as PGames } from './PGames'
       console.log('Hello World')
+    `,
+    'Processes files with multiple import and export declarations': /* js */ `
+      /* @asyncImports */
+      import PHome from './PHome';
+      import PGames from './PGames';
+      export { default as PHome } from './PHome';
+      export { default as PGames } from './PGames';
+      console.log('Hello World');
+    `,
+    'Processes files with multiple exports and a mix of imports and exports': /* js */ `
+      /* @asyncImports */
+      import PHome from './PHome';
+      import PGames from './PGames';
+      export { PHome, PGames };
+      export { default as PProfile } from './PProfile';
+      console.log('Hello World');
+    `,
+    'Ignores named imports and exports': /* js */ `
+      /* @asyncImports */
+      import { Home } from './PHome';
+      export { Home };
+      console.log('Hello World');
+    `,
+    'Ignores files with import and export declarations without default specifier': /* js */ `
+      /* @asyncImports */
+      import { PHome } from './PHome';
+      import { PGames } from './PGames';
+      export { PHome, PGames };
+      console.log('Hello World');
     `
   }
 })

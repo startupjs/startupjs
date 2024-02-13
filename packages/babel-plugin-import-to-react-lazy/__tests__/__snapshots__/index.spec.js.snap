@@ -1,11 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`@startupjs/babel-plugin-import-to-react-lazy Ignores files with import and export declarations without default specifier: Ignores files with import and export declarations without default specifier 1`] = `
+
+/* @asyncImports */
+import { PHome } from './PHome';
+import { PGames } from './PGames';
+export { PHome, PGames };
+console.log('Hello World');
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { lazy as _lazy } from "react";
+
+/* @asyncImports */
+import { PHome } from "./PHome";
+import { PGames } from "./PGames";
+export { PHome, PGames };
+console.log("Hello World");
+
+
+`;
+
 exports[`@startupjs/babel-plugin-import-to-react-lazy Ignores files without @asyncImports annotation: Ignores files without @asyncImports annotation 1`] = `
 
 console.log('Hello World')
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
+console.log("Hello World");
+
+
+`;
+
+exports[`@startupjs/babel-plugin-import-to-react-lazy Ignores named imports and exports: Ignores named imports and exports 1`] = `
+
+/* @asyncImports */
+import { Home } from './PHome';
+export { Home };
+console.log('Hello World');
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { lazy as _lazy } from "react";
+
+/* @asyncImports */
+import { Home } from "./PHome";
+export { Home };
 console.log("Hello World");
 
 
@@ -63,6 +103,56 @@ console.log('Hello World')
 import { lazy as _lazy } from "react";
 
 /* @asyncImports */
+console.log("Hello World");
+
+
+`;
+
+exports[`@startupjs/babel-plugin-import-to-react-lazy Processes files with multiple exports and a mix of imports and exports: Processes files with multiple exports and a mix of imports and exports 1`] = `
+
+/* @asyncImports */
+import PHome from './PHome';
+import PGames from './PGames';
+export { PHome, PGames };
+export { default as PProfile } from './PProfile';
+console.log('Hello World');
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { lazy as _lazy } from "react";
+
+/* @asyncImports */
+const PHome = _lazy(() => import("./PHome"));
+
+const PGames = _lazy(() => import("./PGames"));
+
+export { PHome, PGames };
+export const PProfile = _lazy(() => import("./PProfile"));
+console.log("Hello World");
+
+
+`;
+
+exports[`@startupjs/babel-plugin-import-to-react-lazy Processes files with multiple import and export declarations: Processes files with multiple import and export declarations 1`] = `
+
+/* @asyncImports */
+import PHome from './PHome';
+import PGames from './PGames';
+export { default as PHome } from './PHome';
+export { default as PGames } from './PGames';
+console.log('Hello World');
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { lazy as _lazy } from "react";
+
+/* @asyncImports */
+const PHome = _lazy(() => import("./PHome"));
+
+const PGames = _lazy(() => import("./PGames"));
+
+export const PHome = _lazy(() => import("./PHome"));
+export const PGames = _lazy(() => import("./PGames"));
 console.log("Hello World");
 
 
