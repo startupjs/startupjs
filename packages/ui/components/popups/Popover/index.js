@@ -31,6 +31,7 @@ const Popover = observer(({
   children,
   renderContent,
   onChange,
+  overlayStyle,
   ...props
 }, ref) => {
   const anchorRef = useRef()
@@ -55,7 +56,7 @@ const Popover = observer(({
     return pug`
       View.root
         TouchableWithoutFeedback(onPress=()=> onChange(false))
-          View.overlay
+          View.overlay(style=overlayStyle)
         = children
     `
   }
