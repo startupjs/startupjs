@@ -48,7 +48,6 @@
     "@startupjs/init": "^0.56.0-alpha.11",
     "@startupjs/isomorphic-helpers": "^0.56.0-alpha.0",
     "@startupjs/orm": "^0.56.0-alpha.0",
-    "@startupjs/patches": "^0.56.0-alpha.0",
     "@startupjs/react-sharedb": "^0.56.0-alpha.9",
     "@startupjs/registry": "^0.56.0-alpha.11",
     "@startupjs/server": "^0.56.0-alpha.12",

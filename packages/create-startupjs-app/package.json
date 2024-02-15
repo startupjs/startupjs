@@ -1,0 +1,19 @@
+{
+  "name": "create-startupjs-app",
+  "version": "^0.56.0-alpha.0",
+  "description": "Bootstrap a new StartupJS application.",
+  "type": "module",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "execa": "^8.0.1",
+    "inquirer": "^9.2.12",
+    "ora": "^7.0.1",
+    "semver": "^7.5.4"
+  }
+}
