@@ -19,15 +19,15 @@ export const options = [{
 
 export async function action ({ fix } = {}) {
   if (fix) return await fixDependencies()
-  throw Error('Only --fix option is supported for now.')
+  exitWithError('Only --fix option is supported for now.')
 }
 
 async function fixDependencies () {
   const packageJsonPath = PACKAGE_JSON_PATH
-  if (!existsSync(packageJsonPath)) throw Error(ERRORS.noPackageJson)
+  if (!existsSync(packageJsonPath)) exitWithError(ERRORS.noPackageJson)
   const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
   const startupjsVersion = packageJson?.dependencies?.startupjs
-  if (!startupjsVersion) throw Error(ERRORS.noStartupjsDependency)
+  if (!startupjsVersion) exitWithError(ERRORS.noStartupjsDependency)
 
   // we need to use the minor.0 version since @startupjs/ui might not have the exact version
   // as the startupjs package
@@ -98,6 +98,11 @@ function packageManagerInstall () {
   ) return 'yarn install'
   if (existsSync(join(process.cwd(), 'package-lock.json'))) return 'npm install'
   return 'npm install'
+}
+
+function exitWithError (error) {
+  console.error(chalk.red(error))
+  process.exit(1)
 }
 
 const ERRORS = {
