@@ -11,7 +11,7 @@ export async function action () {
   let patchesPath = join(dirname(require.resolve('@startupjs/patches')), 'patches')
   // patch-package requires the path to be relative
   patchesPath = relative(process.cwd(), patchesPath)
-  await $({ stdio: 'inherit' })`
-    npx patch-package --patch-dir ${patchesPath}
+  await $({ stdio: 'inherit' })`\
+    npx patch-package --patch-dir ${patchesPath} \
   `
 }

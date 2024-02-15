@@ -6,7 +6,7 @@ export const description = 'Make PR for this task (or re-request review if it al
 
 export async function action (issueNumber) {
   const scriptsPath = getScriptsPath()
-  await $({ shell: true, stdio: 'inherit' })`
-    ${scriptsPath} pr ${issueNumber}
+  await $({ shell: true, stdio: 'inherit' })`\
+    ${scriptsPath} pr ${issueNumber} \
   `
 }

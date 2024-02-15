@@ -6,7 +6,7 @@ export const description = 'Create a task branch (or just switch to it if it alr
 
 export async function action (issueNumber) {
   const scriptsPath = getScriptsPath()
-  await $({ shell: true, stdio: 'inherit' })`
-    ${scriptsPath} task ${issueNumber}
+  await $({ shell: true, stdio: 'inherit' })`\
+    ${scriptsPath} task ${issueNumber} \
   `
 }

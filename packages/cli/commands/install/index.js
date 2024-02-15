@@ -1,7 +1,7 @@
 import { join } from 'path'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 import url from 'url'
-import isEqual from 'lodash/isEqual'
+import isEqual from 'lodash/isEqual.js'
 import chalk from 'chalk'
 import { diffString } from 'json-diff'
 

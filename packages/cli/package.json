@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/cli",
-  "version": "^0.56.0-alpha.0",
+  "version": "0.56.0-alpha.12",
   "description": "The command-line tool for StartupJS apps.",
   "type": "module",
   "main": "index.js",

@@ -10,8 +10,8 @@ export async function action () {
   const scriptsPath = getScriptsPath()
 
   // TODO: maybe change this to use 'sh' binary directly and remove `shell: true`
-  await $({ shell: true, stdio: 'inherit' })`
-    ${scriptsPath} init-pm
+  await $({ shell: true, stdio: 'inherit' })`\
+    ${scriptsPath} init-pm \
   `
 
   const packageJSONPath = path.join(process.cwd(), 'package.json')

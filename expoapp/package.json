@@ -10,7 +10,8 @@
     "web": "EXPO_USE_METRO_WORKSPACE_ROOT=1 npx expo start --web",
     "build": "npx startupjs build",
     "start-production": "npx startupjs start-production",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "startupjs:help": "npx startupjs --help"
   },
   "jest": {
     "preset": "jest-expo"
