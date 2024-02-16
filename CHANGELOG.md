@@ -1,3 +1,12 @@
+# [0.56.0-alpha.15](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.14...v0.56.0-alpha.15) (2024-02-16)
+
+
+### Bug Fixes
+
+* **create-startupjs:** fix .gitignore template ([ee986e6](https://github.com/startupjs/startupjs/commit/ee986e6fdcfdc602181823cca29729721e488f5b))
+
+
+
 # [0.56.0-alpha.14](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.13...v0.56.0-alpha.14) (2024-02-16)
 
 
