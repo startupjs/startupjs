@@ -40,7 +40,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 > [!WARNING]
 > StartupJS does not yet support the latest version of React Native.
-> 
+>
 > When creating a new project please specify the `0.72` version:
 >
 >    ```
@@ -60,6 +60,20 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
     ```
 
 3. Open http://localhost:3000 and start developing!
+
+#### Alpha version on Expo
+
+1. Create a new expo app and then add startupjs into it:
+
+    ```
+    npx create-expo-app@latest myapp
+    cd myapp
+    npx create-startupjs@next
+    ```
+
+2. Wrap your root component into `<StartupjsProvider>` from `startupjs` (when using expo-router it's in `app/_layout.tsx`)
+
+3. Start expo app as usual
 
 ## Native Development (iOS and Android)
 

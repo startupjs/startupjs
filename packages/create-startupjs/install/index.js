@@ -9,7 +9,7 @@ import { createRequire } from 'module'
 
 const __dirname = dirname(url.fileURLToPath(import.meta.url))
 const PROJECT_JSON_PATH = join(process.cwd(), 'package.json')
-const CLI_JSON_PATH = join(__dirname, '../../package.json')
+const CLI_JSON_PATH = join(__dirname, '../package.json')
 const INIT_JSON_PATH = join(__dirname, './init/package.json')
 const INIT_METRO_CONFIG_PATH = join(__dirname, './init/metro.config.cjs')
 const INIT_GITIGNORE_PATH = join(__dirname, './init/.gitignore')
