@@ -52,6 +52,7 @@
     "@startupjs/registry": "^0.56.0-alpha.11",
     "@startupjs/server": "^0.56.0-alpha.12",
     "@startupjs/utils": "^0.56.0-alpha.9",
-    "babel-preset-startupjs": "^0.56.0-alpha.12"
+    "babel-preset-startupjs": "^0.56.0-alpha.12",
+    "events": "^3.3.0"
   }
 }
