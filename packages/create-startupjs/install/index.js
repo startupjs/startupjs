@@ -190,16 +190,25 @@ function processPackageJsonDependencies ({ key, template, packageJson, triggerMo
 function processPackageJsonMeta ({ key, template, packageJson, onDiff, triggerModified }) {
   // only add scripts which don't already exist
   let isDifferent
-  for (const item in template[key]) {
-    if (packageJson[key]?.[item]) {
-      // if the item already exists, check if it's different
-      if (!isEqual(packageJson[key][item], template[key][item])) isDifferent ??= true
-    } else {
-      if (!packageJson[key]) packageJson[key] = {}
-      if (packageJson[key][item] !== template[key][item]) {
-        packageJson[key][item] = template[key][item]
-        triggerModified?.()
+  if (typeof template[key] === 'object') {
+    for (const item in template[key]) {
+      if (packageJson[key]?.[item]) {
+        // if the item already exists, check if it's different
+        if (!isEqual(packageJson[key][item], template[key][item])) isDifferent = true
+      } else {
+        if (!packageJson[key]) packageJson[key] = {}
+        if (packageJson[key][item] !== template[key][item]) {
+          packageJson[key][item] = template[key][item]
+          triggerModified?.()
+        }
       }
+    }
+  } else {
+    if (packageJson[key]) {
+      if (!isEqual(packageJson[key], template[key])) isDifferent = true
+    } else {
+      packageJson[key] = template[key]
+      triggerModified?.()
     }
   }
   if (isDifferent) {
