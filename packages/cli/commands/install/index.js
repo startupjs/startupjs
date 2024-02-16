@@ -1,108 +1,251 @@
-import { join } from 'path'
+import { $ } from 'execa'
+import { join, dirname } from 'path'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 import url from 'url'
 import isEqual from 'lodash/isEqual.js'
 import chalk from 'chalk'
 import { diffString } from 'json-diff'
+import { createRequire } from 'module'
 
-const __filename = url.fileURLToPath(import.meta.url)
-const PACKAGE_JSON_PATH = join(process.cwd(), 'package.json')
-const DEVELOPMENT_JSON_PATH = join(__filename, './packageJsonTemplates/development.json')
-const UI_JSON_PATH = join(__filename, './packageJsonTemplates/ui.json')
+const __dirname = dirname(url.fileURLToPath(import.meta.url))
+const PROJECT_JSON_PATH = join(process.cwd(), 'package.json')
+const CLI_JSON_PATH = join(__dirname, '../../package.json')
+const INIT_JSON_PATH = join(__dirname, './init/package.json')
+const INIT_METRO_CONFIG_PATH = join(__dirname, './init/metro.config.cjs')
+const INIT_GITIGNORE_PATH = join(__dirname, './init/.gitignore')
+const INIT_STARTUPJS_CONFIG_PATH = join(__dirname, './init/startupjs.config.js')
+const DEVELOPMENT_JSON_PATH = join(__dirname, './dev/package.json')
+const UI_JSON_PATH = join(__dirname, './ui/package.json')
 
 export const name = 'install'
 export const description = 'Start production node server with production web build'
 export const options = [{
+  name: '--init',
+  description: `
+    Add startupjs and its runtime to your project.
+    This will:
+      - add \`startupjs\` to your dependencies
+      - set \`"type": "module"\` in your package.json
+      - add \`build\` and \`start-production\` scripts to your package.json
+      - append startupjs-specific things to your \`.gitignore\`
+      - add startupjs-specific \`metro.config.cjs\`
+      - add \`startupjs.config.js\` with server enabled
+  `
+}, {
+  name: '--dev',
+  description: `
+    Add development dependencies and configure them.
+    This will:
+      - install eslint and configure it (will add "eslintConfig" to package.json)
+      - install and configure pre-commit hooks for ts/js files ("husky" and "lint-staged")
+  `
+}, {
+  name: '--ui',
+  description: 'Add @startupjs/ui and its required peer dependencies.'
+}, {
+  name: '--all',
+  description: 'Add startupjs and everything else too. This combines --init, --dev, --ui together.'
+}, {
   name: '--fix',
   description: 'Automatically update any invalid package versions used by startupjs'
+}, {
+  name: '--skip-install',
+  description: 'Skip running the package manager install command after modifying the package.json'
 }]
 
-export async function action ({ fix } = {}) {
-  if (fix) return await fixDependencies()
-  exitWithError('Only --fix option is supported for now.')
+export async function action ({ fix, dev, ui, init, all, skipInstall } = {}) {
+  if (all) {
+    dev = true
+    ui = true
+    init = true
+  }
+  if (fix || dev || ui || init) {
+    return await runInstall({
+      setupDevelopment: dev,
+      setupUi: ui,
+      setupInit: init,
+      isSetup: dev || ui || init,
+      skipInstall
+    })
+  }
+  throw exitWithError('You must pass one of the options. Run `npx startupjs install --help` for more information.')
 }
 
-async function fixDependencies () {
-  const packageJsonPath = PACKAGE_JSON_PATH
-  if (!existsSync(packageJsonPath)) exitWithError(ERRORS.noPackageJson)
-  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
-  const startupjsVersion = packageJson?.dependencies?.startupjs
-  if (!startupjsVersion) exitWithError(ERRORS.noStartupjsDependency)
+async function runInstall ({ setupDevelopment, setupUi, setupInit, isSetup, skipInstall } = {}) {
+  if (!existsSync(PROJECT_JSON_PATH)) throw exitWithError(ERRORS.noPackageJson)
+  const packageJson = JSON.parse(readFileSync(PROJECT_JSON_PATH, 'utf8'))
+  let startupjsVersion = packageJson?.dependencies?.startupjs
+  if (!startupjsVersion) {
+    if (setupInit) {
+      startupjsVersion = JSON.parse(readFileSync(CLI_JSON_PATH, 'utf8')).version
+    } else {
+      throw exitWithError(ERRORS.noStartupjsDependency)
+    }
+  }
 
   // we need to use the minor.0 version since @startupjs/ui might not have the exact version
   // as the startupjs package
-  const STARTUPJS_MINOR_VERSION = startupjsVersion.replace(/\.\d+$/, '.0')
+  const STARTUPJS_MINOR_VERSION = startupjsVersion.replace(/\.\d+$/, '.0').replace(/^[^\d]*/, '')
 
-  const jsonTemplates = []
+  const templates = []
 
-  jsonTemplates.push(JSON.parse(fromTemplateFile(DEVELOPMENT_JSON_PATH, { STARTUPJS_MINOR_VERSION })))
-
-  if (packageJson.dependencies['@startupjs/ui']) {
-    jsonTemplates.push(JSON.parse(fromTemplateFile(UI_JSON_PATH, { STARTUPJS_MINOR_VERSION })))
+  if (setupInit) {
+    templates.push(JSON.parse(fromTemplateFile(INIT_JSON_PATH, { STARTUPJS_MINOR_VERSION })))
   }
 
-  const differences = []
-  for (const jsonTemplate of jsonTemplates) {
-    for (const key in jsonTemplate) {
-      if (['dependencies', 'devDependencies'].includes(key)) {
-        // always overwrite dependencies with the correct versions
-        for (const item in jsonTemplate[key]) {
-          packageJson[key][item] = jsonTemplate[key][item]
-        }
-      } else {
-        // only add other package.json things (like scripts) if they don't already exist.
-        let isDifferent
-        for (const item in jsonTemplate[key]) {
-          if (packageJson[key][item]) {
-            // if the item already exists, check if it's different
-            if (!isEqual(packageJson[key][item], jsonTemplate[key][item])) isDifferent ??= true
-          } else {
-            packageJson[key][item] = jsonTemplate[key][item]
+  if (setupDevelopment || packageJson.devDependencies?.['eslint-config-startupjs']) {
+    templates.push(JSON.parse(fromTemplateFile(DEVELOPMENT_JSON_PATH, { STARTUPJS_MINOR_VERSION })))
+  }
+
+  if (setupUi || packageJson.dependencies['@startupjs/ui']) {
+    templates.push(JSON.parse(fromTemplateFile(UI_JSON_PATH, { STARTUPJS_MINOR_VERSION })))
+  }
+
+  // warnings and instructions for the user which will be printed at the very end
+  const finalLog = []
+
+  let hasDiff
+  for (const template of templates) {
+    for (const key in template) {
+      if (isDependencies(key)) {
+        processPackageJsonDependencies({ key, template, packageJson })
+      } else if (isSetup) {
+        processPackageJsonMeta({
+          key,
+          template,
+          packageJson,
+          onDiff: diff => {
+            if (!hasDiff) finalLog.push(chalk.yellow(ERRORS.differenceInPackageJson))
+            hasDiff = true
+            finalLog.push(diff)
           }
-        }
-        if (isDifferent) {
-          differences.push(diffString({ [key]: packageJson[key] }, { [key]: jsonTemplate[key] }))
-        }
+        })
       }
     }
   }
 
   // write the updated package.json back to the file
-  writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2))
+  writeFileSync(PROJECT_JSON_PATH, JSON.stringify(packageJson, null, 2))
 
-  // run package manager install command to actually update the packages
-  packageManagerInstall()
+  if (setupInit) {
+    maybeAppendGitignore()
+    maybeCopyMetroConfig({ onLog: log => finalLog.push(log) })
+    maybeCopyStartupjsConfig()
+  }
 
-  // if there were any differences which we couldn't resolve, print them out
-  // and let the user decide what to do on his own
-  if (differences.length > 0) {
-    console.log(chalk.yellow(ERRORS.differenceInPackageJson))
-    console.log('\n' + differences.join('\n'))
+  try {
+    if (!skipInstall) {
+      // run package manager install command to actually update the packages
+      const { exitCode } = await $({ stdio: 'inherit' })`\
+        ${getPackageManager()} install \
+      `
+      if (exitCode && exitCode !== 0 && exitCode !== '0') {
+        throw Error(`Exit code: ${exitCode}`)
+      }
+    }
+  } catch (error) {
+    console.log(chalk.red(`\nError running package manager install command:\n${error.message || error}`))
+    finalLog.push(chalk.red('There was an error running package manager install command. Please run it manually.'))
+  } finally {
+    if (finalLog.length > 0) console.log('\n' + finalLog.join('\n'))
+  }
+}
+
+function isDependencies (key) {
+  return ['dependencies', 'devDependencies'].includes(key)
+}
+
+function processPackageJsonDependencies ({ key, template, packageJson }) {
+  // always overwrite dependencies with the correct versions
+  for (const item in template[key]) {
+    if (!packageJson[key]) packageJson[key] = {}
+    packageJson[key][item] = template[key][item]
+  }
+}
+
+function processPackageJsonMeta ({ key, template, packageJson, onDiff }) {
+  // only add scripts which don't already exist
+  let isDifferent
+  for (const item in template[key]) {
+    if (packageJson[key]?.[item]) {
+      // if the item already exists, check if it's different
+      if (!isEqual(packageJson[key][item], template[key][item])) isDifferent ??= true
+    } else {
+      if (!packageJson[key]) packageJson[key] = {}
+      packageJson[key][item] = template[key][item]
+    }
+  }
+  if (isDifferent) {
+    onDiff?.(diffString({ [key]: packageJson[key] }, { [key]: template[key] }))
   }
 }
 
 function fromTemplateFile (filename, vars) {
-  let template = readFileSync(join(filename, DEVELOPMENT_JSON_PATH), 'utf8')
+  let template = readFileSync(filename, 'utf8')
   for (const theVar in vars) {
     template = template.replace(new RegExp(`%%${theVar}%%`, 'g'), vars[theVar])
   }
   return template
 }
 
-function packageManagerInstall () {
-  const packageJson = JSON.parse(readFileSync(PACKAGE_JSON_PATH, 'utf8'))
-  if (
-    existsSync(join(process.cwd(), 'yarn.lock')) ||
-    existsSync(join(process.cwd(), '.yarn')) ||
-    packageJson.packageManager?.test(/^yarn/)
-  ) return 'yarn install'
-  if (existsSync(join(process.cwd(), 'package-lock.json'))) return 'npm install'
-  return 'npm install'
+function maybeAppendGitignore () {
+  const gitignorePath = join(process.cwd(), '.gitignore')
+  let gitignore = existsSync(gitignorePath) ? readFileSync(gitignorePath, 'utf8') : ''
+  if (gitignore.includes('# <startupjs>')) return
+  gitignore += '\n' + readFileSync(INIT_GITIGNORE_PATH, 'utf8')
+  writeFileSync(gitignorePath, gitignore)
+}
+
+function maybeCopyMetroConfig ({ onLog }) {
+  const metroConfigPath = join(process.cwd(), 'metro.config.cjs')
+  if (existsSync(metroConfigPath)) {
+    const metroConfig = readFileSync(metroConfigPath, 'utf8')
+    if (!metroConfig.includes('startupjs/metro-config')) {
+      onLog?.(chalk.yellow(`
+        WARNING! Your existing \`metro.config.cjs\` is not using 'startupjs/metro-config'.
+        Please update your \`metro.config.cjs\` manually based on the following template:
+        \n\`\`\`js\n${readFileSync(INIT_METRO_CONFIG_PATH, 'utf8')}\`\`\`
+      `))
+    }
+    return
+  }
+  writeFileSync(metroConfigPath, readFileSync(INIT_METRO_CONFIG_PATH, 'utf8'))
+}
+
+function maybeCopyStartupjsConfig () {
+  const startupjsConfigPath = join(process.cwd(), 'startupjs.config.js')
+  if (existsSync(startupjsConfigPath)) return
+  writeFileSync(startupjsConfigPath, readFileSync(INIT_STARTUPJS_CONFIG_PATH, 'utf8'))
+}
+
+function getPackageManager () {
+  // check multiple possible project roots.
+  // (in a monorepo environment it might be run from a subdirectory)
+  const possibleRoots = [process.cwd()]
+  const require = createRequire(import.meta.url)
+  // naive check for monorepo root.
+  // Assumes that startupjs is in the monorepo root's node_modules/startupjs
+  const monorepoRoot = join(dirname(require.resolve('startupjs')), '../..')
+  if (monorepoRoot !== process.cwd()) possibleRoots.push(monorepoRoot)
+  for (const possibleRoot of possibleRoots) {
+    const packageJsonPath = join(possibleRoot, 'package.json')
+    const packageJson = existsSync(packageJsonPath) ? JSON.parse(readFileSync(packageJsonPath, 'utf8')) : {}
+    if (
+      existsSync(join(process.cwd(), 'yarn.lock')) ||
+      existsSync(join(process.cwd(), '.yarn')) ||
+      /^yarn/.test(packageJson.packageManager)
+    ) return 'yarn'
+    if (existsSync(join(process.cwd(), 'package-lock.json'))) return 'npm'
+  }
+  return 'npm'
 }
 
 function exitWithError (error) {
   console.error(chalk.red(error))
   process.exit(1)
+  // For the readability sake we return an error even though we already exited.
+  // This is just to make the linters and static code analysis tools happy.
+  return Error(error)
 }
 
 const ERRORS = {

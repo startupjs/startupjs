@@ -72,6 +72,20 @@ exports.getFeatures = (root = ROOT) => {
       }
     }
   }
+  // after that do a naive check for enableServer in startupjs.config.js
+  const configFilePaths = exports.getConfigFilePaths(root)
+  for (const configFilePath of configFilePaths) {
+    if (existsSync(configFilePath)) {
+      // just do a simple static scan with regex to find enableServer: true | false
+      const configContent = readFileSync(configFilePath, 'utf8')
+      if (/enableServer:\s*true/.test(configContent)) {
+        features.enableServer = true
+      } else if (/enableServer:\s*false/.test(configContent)) {
+        features.enableServer = false
+      }
+      break
+    }
+  }
   return features
 }
 

@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "dependencies": {
+    "startupjs": "^%%STARTUPJS_MINOR_VERSION%%"
+  },
+  "scripts": {
+    "build": "npx startupjs build",
+    "start-production": "npx startupjs start-production"
+  }
+}

@@ -1,8 +1,4 @@
 {
-  "scripts": {
-    "build": "npx startupjs build",
-    "start-production": "npx startupjs start-production"
-  },
   "devDependencies": {
     "eslint": "^8.56.0",
     "eslint-config-startupjs": "^%%STARTUPJS_MINOR_VERSION%%",
@@ -19,5 +15,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "eslintConfig": {
+    "extends": ["startupjs"]
   }
 }

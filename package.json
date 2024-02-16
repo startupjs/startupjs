@@ -31,7 +31,7 @@
     "//__": "// NOTE: this is temporary, until we get styleguide working with expo",
     "//start-production": "cd styleguide && yarn start-production",
     "start-production": "cd expoapp && yarn start-production",
-    "postinstall": "npx startupjs patch-package && npx patch-package --patch-dir node_modules/@startupjs/patches/patches_gestureHandler",
+    "postinstall": "npx startupjs patch-package",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -k ./lerna.json",
     "clean": "echo 'Cleaning root node_modules...' && rm -rf node_modules && npx lerna clean --yes",
     "publish-patch": "yarn before-publish && npx lerna publish patch --no-push && yarn publish-update-changelog",

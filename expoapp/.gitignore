@@ -43,4 +43,4 @@ expo-env.d.ts
 # @end expo-cli
 
 # local db
-/sqlite.db
+/local.db
