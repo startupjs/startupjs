@@ -1,3 +1,12 @@
+# [0.56.0-alpha.20](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.18...v0.56.0-alpha.20) (2024-02-16)
+
+
+### Features
+
+* **create-startupjs:** --fix will now find the latest matching versions to force packages update ([46cd49f](https://github.com/startupjs/startupjs/commit/46cd49f7f9fa9c854fb223477f2879d2052216bb))
+
+
+
 # [0.56.0-alpha.19](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.18...v0.56.0-alpha.19) (2024-02-16)
 
 
