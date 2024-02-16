@@ -68,7 +68,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
     ```
     npx create-expo-app@latest myapp
     cd myapp
-    npx create-startupjs@next
+    npm init startupjs@next
     ```
 
 2. Wrap your root component into `<StartupjsProvider>` from `startupjs` (when using expo-router it's in `app/_layout.tsx`)

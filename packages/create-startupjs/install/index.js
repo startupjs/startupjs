@@ -1,6 +1,6 @@
 import { $ } from 'execa'
 import { join, dirname } from 'path'
-import { existsSync, readFileSync, writeFileSync } from 'fs'
+import { existsSync, readFileSync, writeFileSync, renameSync } from 'fs'
 import url from 'url'
 import isEqual from 'lodash/isEqual.js'
 import chalk from 'chalk'
@@ -144,8 +144,10 @@ async function runInstall ({ setupDevelopment, setupUi, setupInit, isSetup, skip
 
   if (setupInit) {
     maybeAppendGitignore({ triggerModified })
+    maybeRenameMetroConfig({ triggerModified })
     maybeCopyMetroConfig({ triggerModified, onLog: log => finalLog.push(log) })
     maybeCopyStartupjsConfig({ triggerModified })
+    maybeRenameBabelConfig({ triggerModified })
   }
 
   try {
@@ -254,6 +256,26 @@ function maybeCopyStartupjsConfig ({ triggerModified }) {
   const startupjsConfigPath = join(process.cwd(), 'startupjs.config.js')
   if (existsSync(startupjsConfigPath)) return
   writeFileSync(startupjsConfigPath, readFileSync(INIT_STARTUPJS_CONFIG_PATH, 'utf8'))
+  triggerModified?.()
+}
+
+// we are using ESM, so if babel config is using module.exports, we need to rename it to .cjs
+function maybeRenameBabelConfig ({ triggerModified }) {
+  const babelConfigPath = join(process.cwd(), 'babel.config.js')
+  if (!existsSync(babelConfigPath)) return
+  const babelConfig = readFileSync(babelConfigPath, 'utf8')
+  if (!babelConfig.includes('module.exports')) return
+  renameSync(babelConfigPath, join(process.cwd(), 'babel.config.cjs'))
+  triggerModified?.()
+}
+
+// we are using ESM, so if metro config is using module.exports, we need to rename it to .cjs
+function maybeRenameMetroConfig ({ triggerModified }) {
+  const metroConfigPath = join(process.cwd(), 'metro.config.js')
+  if (!existsSync(metroConfigPath)) return
+  const metroConfig = readFileSync(metroConfigPath, 'utf8')
+  if (!metroConfig.includes('module.exports')) return
+  renameSync(metroConfigPath, join(process.cwd(), 'metro.config.cjs'))
   triggerModified?.()
 }
 
