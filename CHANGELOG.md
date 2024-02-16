@@ -1,3 +1,12 @@
+# [0.56.0-alpha.21](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.20...v0.56.0-alpha.21) (2024-02-16)
+
+
+### Bug Fixes
+
+* **ui/TextInput:** optionall call setNativeProps since it doesn't seem to be available in the new versions of react-native-web anymore ([be8ae21](https://github.com/startupjs/startupjs/commit/be8ae210fc8322fc885353b943cd59a94d6f3c22))
+
+
+
 # [0.56.0-alpha.20](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.18...v0.56.0-alpha.20) (2024-02-16)
 
 
