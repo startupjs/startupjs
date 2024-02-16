@@ -1,3 +1,12 @@
+# [0.56.0-alpha.17](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.16...v0.56.0-alpha.17) (2024-02-16)
+
+
+### Bug Fixes
+
+* **create-startupjs:** rename babel and metro config to .cjs ([2173c0a](https://github.com/startupjs/startupjs/commit/2173c0a89a9a699cbeae2d19617e555be4ef3682))
+
+
+
 # [0.56.0-alpha.16](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.15...v0.56.0-alpha.16) (2024-02-16)
 
 
