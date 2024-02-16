@@ -1,3 +1,12 @@
+# [0.56.0-alpha.16](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.15...v0.56.0-alpha.16) (2024-02-16)
+
+
+### Bug Fixes
+
+* **create-startupjs:** fix setting non-object package.json values ([a1df682](https://github.com/startupjs/startupjs/commit/a1df6829bbba169af17473f26db4435c27ffc110))
+
+
+
 # [0.56.0-alpha.15](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.14...v0.56.0-alpha.15) (2024-02-16)
 
 
