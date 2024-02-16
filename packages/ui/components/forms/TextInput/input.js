@@ -95,7 +95,8 @@ function TextInputInput ({
     // ref: https://stackoverflow.com/a/29990524/1930491
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useIsomorphicLayoutEffect(() => {
-      inputRef.current?.setNativeProps({ size: '1' })
+      // TODO: looks like it's not available anymore on new versions of react-native-web
+      inputRef.current?.setNativeProps?.({ size: '1' })
     }, [])
   }
 
