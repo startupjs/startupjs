@@ -1,3 +1,12 @@
+# [0.56.0-alpha.18](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.17...v0.56.0-alpha.18) (2024-02-16)
+
+
+### Bug Fixes
+
+* **utils:** use expo-constants instead of expo-linking since it's more basic ([733852b](https://github.com/startupjs/startupjs/commit/733852b7970ba695681c6f7fbb075081f45a3dd4))
+
+
+
 # [0.56.0-alpha.17](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.16...v0.56.0-alpha.17) (2024-02-16)
 
 
