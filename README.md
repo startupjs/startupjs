@@ -63,17 +63,25 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 #### Alpha version on Expo
 
-1. Create a new expo app and then add startupjs into it:
+1. Create a new expo app and go to it. You can use any expo template you want:
 
     ```
     npx create-expo-app@latest myapp
+    ```
+
+    ```
     cd myapp
+    ```
+    
+2. Install startupjs in your app
+
+    ```
     npm init startupjs@next
     ```
 
-2. Wrap your root component into `<StartupjsProvider>` from `startupjs` (when using expo-router it's in `app/_layout.tsx`)
+3. Wrap your root component into `<StartupjsProvider>` from `startupjs` (when using expo-router it's in `app/_layout.tsx`)
 
-3. Start expo app as usual
+4. Start expo app as usual
 
 ## Native Development (iOS and Android)
 
