@@ -1,3 +1,12 @@
+# [0.56.0-alpha.14](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.13...v0.56.0-alpha.14) (2024-02-16)
+
+
+### Bug Fixes
+
+* **create-startupjs:** fix require path, add readme instructions how to install the alpha version ([a8d1475](https://github.com/startupjs/startupjs/commit/a8d1475297eda79b7f65d114aecdff018c71964b))
+
+
+
 # [0.56.0-alpha.13](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.12...v0.56.0-alpha.13) (2024-02-16)
 
 
