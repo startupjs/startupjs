@@ -8,6 +8,10 @@ npx startupjs <command> [options]
 
 ## Commands
 
+### `install`
+
+Run `npx startupjs install --help` for a full manual
+
 ### `build`
 
 Build web bundle for production usage

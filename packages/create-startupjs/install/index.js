@@ -58,8 +58,8 @@ export const options = [{
   description: 'Skip running the package manager install command after modifying the package.json'
 }]
 
-export async function action (options = {}) {
-  let { fix, dev, ui, init, all, skipInstall } = options
+export async function action ({ skipInstall, ...options } = {}) {
+  let { fix, dev, ui, init, all } = options
   // if no options are passed, assume --all
   if (Object.keys(options).length === 0) all = true
   if (all) {
@@ -165,7 +165,7 @@ async function runInstall ({ setupDevelopment, setupUi, setupInit, isSetup, skip
     if (finalLog.length > 0) {
       console.log('\n' + finalLog.join('\n'))
     } else if (triggerModified.wasTriggered()) {
-      console.log(chalk.green('Done! Please add and commit changes'))
+      console.log(chalk.green('Done successfully.'), chalk.yellow('Please add and commit changes!'))
     } else {
       console.log(chalk.green('Nothing to do. Everything is already set up as expected.'))
     }

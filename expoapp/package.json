@@ -11,7 +11,8 @@
     "build": "npx startupjs build",
     "start-production": "npx startupjs start-production",
     "test": "jest --watchAll",
-    "startupjs:help": "npx startupjs --help"
+    "startupjs:help": "npx startupjs --help",
+    "postinstall": "npx startupjs postinstall"
   },
   "jest": {
     "preset": "jest-expo"

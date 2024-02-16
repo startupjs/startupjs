@@ -4,6 +4,7 @@
     "startupjs": "^%%STARTUPJS_MINOR_VERSION%%"
   },
   "scripts": {
+    "postinstall": "npx startupjs postinstall",
     "build": "npx startupjs build",
     "start-production": "npx startupjs start-production"
   }
