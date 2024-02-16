@@ -4,6 +4,11 @@
   "description": "Bootstrap a new StartupJS application.",
   "type": "module",
   "main": "index.js",
+  "bin": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./install": "./install/index.js"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -14,6 +19,8 @@
     "execa": "^8.0.1",
     "inquirer": "^9.2.12",
     "ora": "^8.0.1",
-    "semver": "^7.5.4"
+    "semver": "^7.5.4",
+    "json-diff": "1.0.6",
+    "lodash": "^4.17.20"
   }
 }

@@ -18,8 +18,16 @@ const DEVELOPMENT_JSON_PATH = join(__dirname, './dev/package.json')
 const UI_JSON_PATH = join(__dirname, './ui/package.json')
 
 export const name = 'install'
-export const description = 'Start production node server with production web build'
+export const description = 'Install startupjs into an existing project.'
 export const options = [{
+  name: '--all',
+  description: `
+    Add startupjs and everything else too.
+    This combines --init, --dev, --ui, --fix together.
+    This is the default option if no other options are passed.
+    This can be safely used multiple times - it will only add missing things and update outdated things.
+  `
+}, {
   name: '--init',
   description: `
     Add startupjs and its runtime to your project.
@@ -43,9 +51,6 @@ export const options = [{
   name: '--ui',
   description: 'Add @startupjs/ui and its required peer dependencies.'
 }, {
-  name: '--all',
-  description: 'Add startupjs and everything else too. This combines --init, --dev, --ui together.'
-}, {
   name: '--fix',
   description: 'Automatically update any invalid package versions used by startupjs'
 }, {
@@ -53,7 +58,10 @@ export const options = [{
   description: 'Skip running the package manager install command after modifying the package.json'
 }]
 
-export async function action ({ fix, dev, ui, init, all, skipInstall } = {}) {
+export async function action (options = {}) {
+  let { fix, dev, ui, init, all, skipInstall } = options
+  // if no options are passed, assume --all
+  if (Object.keys(options).length === 0) all = true
   if (all) {
     dev = true
     ui = true

@@ -11,10 +11,9 @@
   "dependencies": {
     "@startupjs/patches": "^0.56.0-alpha.0",
     "@startupjs/pm": "^0.56.0-alpha.0",
+    "create-startupjs": "^0.56.0-alpha.0",
     "chalk": "^5.3.0",
     "commander": "^12.0.0",
-    "execa": "^8.0.1",
-    "json-diff": "1.0.6",
-    "lodash": "^4.17.20"
+    "execa": "^8.0.1"
   }
 }

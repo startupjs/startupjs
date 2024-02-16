@@ -42,10 +42,10 @@ const REMOVE_FILES = []
 
 const TEMPLATES = {
   blank: {
-    path: '/templates/blank'
+    path: './templates/blank'
   },
   ui: {
-    path: '/templates/ui',
+    path: './templates/ui',
     dependencies: [
       'react-native-collapsible',
       'react-native-color-picker',
