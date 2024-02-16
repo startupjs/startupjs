@@ -208,7 +208,7 @@ function patchGitignore (projectPath) {
     # yarn
     .yarn/
     # sqlite
-    sqlite.db
+    /local.db
   `.replace(/\n\s+/g, '\n')
 
   fs.writeFileSync(gitignorePath, gitignore)
