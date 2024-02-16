@@ -42,5 +42,7 @@ yarn-error.*
 expo-env.d.ts
 # @end expo-cli
 
-# local db
-/sqlite.db
+# <startupjs>
+# local SQLite database which is used by default instead of an actual MongoDB
+/local.db
+# </startupjs>

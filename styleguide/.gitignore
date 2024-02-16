@@ -65,7 +65,7 @@ buck-out/
 *.private.*
 
 # sqlite
-sqlite.db
+/local.db
 
 # playwright
 /test-results/

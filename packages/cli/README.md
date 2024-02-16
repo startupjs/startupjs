@@ -1,21 +1,29 @@
 # startupjs cli
 
-> start, watch and build startupjs project
-
-## Installation
-
-```sh
-yarn add @startupjs/cli
-```
-
 ## Usage
 
-```sh
-npx startupjs init myapp --version=next && cd myapp
+```
+npx startupjs <command> [options]
 ```
 
-## License
+## Commands
 
-MIT
+### `install`
 
-(c) Decision Mapper - http://decisionmapper.com
+Run `npx startupjs install --help` for a full manual
+
+### `build`
+
+Build web bundle for production usage
+
+### `start-production`
+
+Start production node server with production web build
+
+(run this after `npx startupjs build`)
+
+### `init-pm`, `pr`, `task <github_issue_number>`
+
+Project management helper commands.
+
+See [`@startupjs/pm` readme](../pm) for documentation on them.

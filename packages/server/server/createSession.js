@@ -24,7 +24,8 @@ export default function createSession (options) {
   }
 
   return expressSession({
-    secret: conf.get('SESSION_SECRET'),
+    // TODO: migrate to use .env instead of nconf's config.json and generate SESSION_SECRET= there
+    secret: process.env.SESSION_SECRET || conf.get('SESSION_SECRET') || 'NO_SECRET',
     store: sessionStore,
     cookie: {
       maxAge: options.sessionMaxAge || DEFAULT_SESSION_MAX_AGE,

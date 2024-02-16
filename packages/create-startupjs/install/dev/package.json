@@ -1,0 +1,22 @@
+{
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-startupjs": "^%%STARTUPJS_MINOR_VERSION%%",
+    "husky": "^4.3.0",
+    "lint-staged": "^15.2.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "eslintConfig": {
+    "extends": ["startupjs"]
+  }
+}
