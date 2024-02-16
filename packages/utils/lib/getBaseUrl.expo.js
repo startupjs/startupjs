@@ -1,4 +1,4 @@
-import { createURL } from 'expo-linking'
+import Constants from 'expo-constants'
 
 const EXPO_DEFAULT_PORT = 8081
 const DEFAULT_BASE_URL = `http://localhost:${EXPO_DEFAULT_PORT}`
@@ -7,7 +7,7 @@ export default function getBaseUrl () {
   let url
   if (typeof window !== 'undefined') url ??= window.location?.origin
   try {
-    url ??= createURL('/')
+    url ??= Constants.linkingUri
   } catch (err) {}
   url ??= DEFAULT_BASE_URL
   if (/^exps?:/.test(url)) {

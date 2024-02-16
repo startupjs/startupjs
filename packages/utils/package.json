@@ -31,11 +31,11 @@
     "access": "public"
   },
   "peerDependencies": {
-    "expo-linking": "*",
+    "expo-constants": "*",
     "react": "*"
   },
   "peerDependenciesMeta": {
-    "expo-linking": {
+    "expo-constants": {
       "optional": true
     },
     "react": {

@@ -8728,10 +8728,10 @@ __metadata:
   dependencies:
     axios: "npm:^1.6.5"
   peerDependencies:
-    expo-linking: "*"
+    expo-constants: "*"
     react: "*"
   peerDependenciesMeta:
-    expo-linking:
+    expo-constants:
       optional: true
     react:
       optional: true
