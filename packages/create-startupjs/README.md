@@ -1,8 +1,14 @@
 # create-startupjs
 
-Bootstrap a new StartupJS application by adding it into an existing expo (or pure react-native) project.
+Bootstrap a new StartupJS application
 
 ## Usage
+
+### Create a new project from scratch
+
+TBD
+
+### Add into an existing Expo (or pure React Native) project.
 
 1. Create a new Expo (or pure React Native) project from any template.
 
