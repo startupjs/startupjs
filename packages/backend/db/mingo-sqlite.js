@@ -4,7 +4,7 @@ import sqlite3 from 'sqlite3'
 import { v4 as uuid } from 'uuid'
 import { loadSqliteDbToMingo, getExistingSqliteDb } from './utils.js'
 
-const DEFAULT_DB_PATH = './sqlite.db'
+const DEFAULT_DB_PATH = './local.db'
 
 export const { db, sqlite } = await getMingoSqliteDb({
   dbPath: process.env.DB_PATH,
