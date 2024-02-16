@@ -103,17 +103,22 @@ async function runInstall ({ setupDevelopment, setupUi, setupInit, isSetup, skip
 
   // warnings and instructions for the user which will be printed at the very end
   const finalLog = []
+  const triggerModified = createTrigger()
+  const triggerPackageJsonModified = createTrigger(triggerModified)
 
   let hasDiff
   for (const template of templates) {
     for (const key in template) {
       if (isDependencies(key)) {
-        processPackageJsonDependencies({ key, template, packageJson })
+        processPackageJsonDependencies({
+          key, template, packageJson, triggerModified: triggerPackageJsonModified
+        })
       } else if (isSetup) {
         processPackageJsonMeta({
           key,
           template,
           packageJson,
+          triggerModified: triggerPackageJsonModified,
           onDiff: diff => {
             if (!hasDiff) finalLog.push(chalk.yellow(ERRORS.differenceInPackageJson))
             hasDiff = true
@@ -125,16 +130,18 @@ async function runInstall ({ setupDevelopment, setupUi, setupInit, isSetup, skip
   }
 
   // write the updated package.json back to the file
-  writeFileSync(PROJECT_JSON_PATH, JSON.stringify(packageJson, null, 2))
+  if (triggerPackageJsonModified.wasTriggered()) {
+    writeFileSync(PROJECT_JSON_PATH, JSON.stringify(packageJson, null, 2))
+  }
 
   if (setupInit) {
-    maybeAppendGitignore()
-    maybeCopyMetroConfig({ onLog: log => finalLog.push(log) })
-    maybeCopyStartupjsConfig()
+    maybeAppendGitignore({ triggerModified })
+    maybeCopyMetroConfig({ triggerModified, onLog: log => finalLog.push(log) })
+    maybeCopyStartupjsConfig({ triggerModified })
   }
 
   try {
-    if (!skipInstall) {
+    if (triggerPackageJsonModified.wasTriggered() && !skipInstall) {
       // run package manager install command to actually update the packages
       const { exitCode } = await $({ stdio: 'inherit' })`\
         ${getPackageManager()} install \
@@ -147,7 +154,13 @@ async function runInstall ({ setupDevelopment, setupUi, setupInit, isSetup, skip
     console.log(chalk.red(`\nError running package manager install command:\n${error.message || error}`))
     finalLog.push(chalk.red('There was an error running package manager install command. Please run it manually.'))
   } finally {
-    if (finalLog.length > 0) console.log('\n' + finalLog.join('\n'))
+    if (finalLog.length > 0) {
+      console.log('\n' + finalLog.join('\n'))
+    } else if (triggerModified.wasTriggered()) {
+      console.log(chalk.green('Done! Please add and commit changes'))
+    } else {
+      console.log(chalk.green('Nothing to do. Everything is already set up as expected.'))
+    }
   }
 }
 
@@ -155,15 +168,18 @@ function isDependencies (key) {
   return ['dependencies', 'devDependencies'].includes(key)
 }
 
-function processPackageJsonDependencies ({ key, template, packageJson }) {
+function processPackageJsonDependencies ({ key, template, packageJson, triggerModified }) {
   // always overwrite dependencies with the correct versions
   for (const item in template[key]) {
     if (!packageJson[key]) packageJson[key] = {}
-    packageJson[key][item] = template[key][item]
+    if (packageJson[key][item] !== template[key][item]) {
+      packageJson[key][item] = template[key][item]
+      triggerModified?.()
+    }
   }
 }
 
-function processPackageJsonMeta ({ key, template, packageJson, onDiff }) {
+function processPackageJsonMeta ({ key, template, packageJson, onDiff, triggerModified }) {
   // only add scripts which don't already exist
   let isDifferent
   for (const item in template[key]) {
@@ -172,7 +188,10 @@ function processPackageJsonMeta ({ key, template, packageJson, onDiff }) {
       if (!isEqual(packageJson[key][item], template[key][item])) isDifferent ??= true
     } else {
       if (!packageJson[key]) packageJson[key] = {}
-      packageJson[key][item] = template[key][item]
+      if (packageJson[key][item] !== template[key][item]) {
+        packageJson[key][item] = template[key][item]
+        triggerModified?.()
+      }
     }
   }
   if (isDifferent) {
@@ -188,15 +207,16 @@ function fromTemplateFile (filename, vars) {
   return template
 }
 
-function maybeAppendGitignore () {
+function maybeAppendGitignore ({ triggerModified }) {
   const gitignorePath = join(process.cwd(), '.gitignore')
   let gitignore = existsSync(gitignorePath) ? readFileSync(gitignorePath, 'utf8') : ''
   if (gitignore.includes('# <startupjs>')) return
   gitignore += '\n' + readFileSync(INIT_GITIGNORE_PATH, 'utf8')
   writeFileSync(gitignorePath, gitignore)
+  triggerModified?.()
 }
 
-function maybeCopyMetroConfig ({ onLog }) {
+function maybeCopyMetroConfig ({ onLog, triggerModified }) {
   const metroConfigPath = join(process.cwd(), 'metro.config.cjs')
   if (existsSync(metroConfigPath)) {
     const metroConfig = readFileSync(metroConfigPath, 'utf8')
@@ -210,12 +230,14 @@ function maybeCopyMetroConfig ({ onLog }) {
     return
   }
   writeFileSync(metroConfigPath, readFileSync(INIT_METRO_CONFIG_PATH, 'utf8'))
+  triggerModified?.()
 }
 
-function maybeCopyStartupjsConfig () {
+function maybeCopyStartupjsConfig ({ triggerModified }) {
   const startupjsConfigPath = join(process.cwd(), 'startupjs.config.js')
   if (existsSync(startupjsConfigPath)) return
   writeFileSync(startupjsConfigPath, readFileSync(INIT_STARTUPJS_CONFIG_PATH, 'utf8'))
+  triggerModified?.()
 }
 
 function getPackageManager () {
@@ -263,4 +285,14 @@ const ERRORS = {
     The following items in your package.json are different from what is suggested by the startupjs.
     Please review the differences and update your package.json manually:
   `
+}
+
+function createTrigger (onTriggered) {
+  let triggered = false
+  function trigger () {
+    triggered = true
+    onTriggered?.()
+  }
+  trigger.wasTriggered = () => triggered
+  return trigger
 }
