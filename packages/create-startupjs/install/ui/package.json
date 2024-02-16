@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@startupjs/ui": "^%%STARTUPJS_MINOR_VERSION%%",
+    "@startupjs/ui": "^%%STARTUPJS_MINOR_LATEST%%",
     "@react-native-picker/picker": "^2.6.1",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-pager-view": "^6.2.3",

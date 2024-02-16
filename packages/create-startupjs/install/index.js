@@ -93,20 +93,20 @@ async function runInstall ({ setupDevelopment, setupUi, setupInit, isSetup, skip
 
   // we need to use the minor.0 version since @startupjs/ui might not have the exact version
   // as the startupjs package
-  const STARTUPJS_MINOR_VERSION = startupjsVersion.replace(/\.\d+$/, '.0').replace(/^[^\d]*/, '')
+  const STARTUPJS_MINOR_ZERO = startupjsVersion.replace(/\.\d+$/, '.0').replace(/^[^\d]*/, '')
 
   const templates = []
 
   if (setupInit) {
-    templates.push(JSON.parse(fromTemplateFile(INIT_JSON_PATH, { STARTUPJS_MINOR_VERSION })))
+    templates.push(JSON.parse(fromTemplateFile(INIT_JSON_PATH)))
   }
 
   if (setupDevelopment || packageJson.devDependencies?.['eslint-config-startupjs']) {
-    templates.push(JSON.parse(fromTemplateFile(DEVELOPMENT_JSON_PATH, { STARTUPJS_MINOR_VERSION })))
+    templates.push(JSON.parse(fromTemplateFile(DEVELOPMENT_JSON_PATH)))
   }
 
   if (setupUi || packageJson.dependencies['@startupjs/ui']) {
-    templates.push(JSON.parse(fromTemplateFile(UI_JSON_PATH, { STARTUPJS_MINOR_VERSION })))
+    templates.push(JSON.parse(fromTemplateFile(UI_JSON_PATH)))
   }
 
   // warnings and instructions for the user which will be printed at the very end
@@ -118,8 +118,8 @@ async function runInstall ({ setupDevelopment, setupUi, setupInit, isSetup, skip
   for (const template of templates) {
     for (const key in template) {
       if (isDependencies(key)) {
-        processPackageJsonDependencies({
-          key, template, packageJson, triggerModified: triggerPackageJsonModified
+        await processPackageJsonDependencies({
+          key, template, packageJson, triggerModified: triggerPackageJsonModified, STARTUPJS_MINOR_ZERO
         })
       } else if (isSetup) {
         processPackageJsonMeta({
@@ -178,12 +178,17 @@ function isDependencies (key) {
   return ['dependencies', 'devDependencies'].includes(key)
 }
 
-function processPackageJsonDependencies ({ key, template, packageJson, triggerModified }) {
+async function processPackageJsonDependencies ({
+  key, template, packageJson, triggerModified, STARTUPJS_MINOR_ZERO
+}) {
   // always overwrite dependencies with the correct versions
-  for (const item in template[key]) {
+  for (const dependencyName in template[key]) {
     if (!packageJson[key]) packageJson[key] = {}
-    if (packageJson[key][item] !== template[key][item]) {
-      packageJson[key][item] = template[key][item]
+    const version = await transformDependencyVersion({
+      name: dependencyName, version: template[key][dependencyName], STARTUPJS_MINOR_ZERO
+    })
+    if (packageJson[key][dependencyName] !== version) {
+      packageJson[key][dependencyName] = version
       triggerModified?.()
     }
   }
@@ -218,12 +223,44 @@ function processPackageJsonMeta ({ key, template, packageJson, onDiff, triggerMo
   }
 }
 
-function fromTemplateFile (filename, vars) {
+// some of the values in the template might be templatized
+function fromTemplateFile (filename, vars = {}) {
   let template = readFileSync(filename, 'utf8')
   for (const theVar in vars) {
     template = template.replace(new RegExp(`%%${theVar}%%`, 'g'), vars[theVar])
   }
   return template
+}
+
+// dynamically find the correct version for the dependency if it's templatized
+async function transformDependencyVersion ({ name, version, STARTUPJS_MINOR_ZERO } = {}) {
+  const match = version.match(/%%([^%]+)%%/)
+  if (match) {
+    const theVar = match[1]
+    if (theVar === 'STARTUPJS_MINOR_LATEST') {
+      if (!STARTUPJS_MINOR_ZERO) throw Error('STARTUPJS_MINOR_ZERO is required to find STARTUPJS_MINOR_LATEST')
+      const semver = version.replace(match[0], STARTUPJS_MINOR_ZERO)
+      const latestMatchingVersion = await getLatestMatchingVersion(name, semver)
+      return version.replace(match[0], latestMatchingVersion)
+    } else {
+      throw Error(`Unknown variable for ${name}: ${match[0]}`)
+    }
+  }
+  return version
+}
+
+async function getLatestMatchingVersion (name, semver) {
+  const { stdout } = await $`npm show ${name}@${semver} version --json`
+  let versions
+  try {
+    versions = JSON.parse(stdout)
+  } catch (error) {
+    throw Error(`Error parsing versions for ${name} of ${semver}. No versions returned. Got: \`${stdout}\``)
+  }
+  if (!(Array.isArray(versions) && versions.length > 0)) {
+    throw Error(`No satisfying versions found for ${name} of ${semver}`)
+  }
+  return versions.pop()
 }
 
 function maybeAppendGitignore ({ triggerModified }) {

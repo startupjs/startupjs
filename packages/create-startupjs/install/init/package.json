@@ -1,7 +1,7 @@
 {
   "type": "module",
   "dependencies": {
-    "startupjs": "^%%STARTUPJS_MINOR_VERSION%%"
+    "startupjs": "^%%STARTUPJS_MINOR_LATEST%%"
   },
   "scripts": {
     "postinstall": "npx startupjs postinstall",
