@@ -16,8 +16,7 @@
     "qs": "6.10.4",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
-    "react-router-native": "^5.1.2",
-    "react-router-native-stack": "0.0.16"
+    "react-router-native": "^5.1.2"
   },
   "peerDependencies": {
     "react": "*",
