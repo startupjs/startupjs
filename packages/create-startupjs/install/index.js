@@ -5,10 +5,10 @@ import url from 'url'
 import isEqual from 'lodash/isEqual.js'
 import chalk from 'chalk'
 import { diffString } from 'json-diff'
-import { createRequire } from 'module'
 
 const __dirname = dirname(url.fileURLToPath(import.meta.url))
 const PROJECT_JSON_PATH = join(process.cwd(), 'package.json')
+const MODULE_PATH = join(__dirname, '..')
 const CLI_JSON_PATH = join(__dirname, '../package.json')
 const INIT_JSON_PATH = join(__dirname, './init/package.json')
 const INIT_METRO_CONFIG_PATH = join(__dirname, './init/metro.config.cjs')
@@ -320,11 +320,12 @@ function getPackageManager () {
   // check multiple possible project roots.
   // (in a monorepo environment it might be run from a subdirectory)
   const possibleRoots = [process.cwd()]
-  const require = createRequire(import.meta.url)
   // naive check for monorepo root.
-  // Assumes that startupjs is in the monorepo root's node_modules/startupjs
-  const monorepoRoot = join(dirname(require.resolve('startupjs')), '../..')
-  if (monorepoRoot !== process.cwd()) possibleRoots.push(monorepoRoot)
+  // Assumes that the current package (create-startupjs)
+  // is in the monorepo root's node_modules/create-startupjs
+  // Coincidentally this also matches startupjs monorepo structure of packages/create-startupjs
+  const possibleMonorepoRoot = join(MODULE_PATH, '../..')
+  if (possibleMonorepoRoot !== process.cwd()) possibleRoots.push(possibleMonorepoRoot)
   for (const possibleRoot of possibleRoots) {
     const packageJsonPath = join(possibleRoot, 'package.json')
     const packageJson = existsSync(packageJsonPath) ? JSON.parse(readFileSync(packageJsonPath, 'utf8')) : {}
