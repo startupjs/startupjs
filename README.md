@@ -63,12 +63,14 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 #### Alpha version on Expo
 
-1. Create a new expo app and go into it. You can use any expo template you want.
+1. Create a new expo app and go into it.
+
+    **Note:** You can use any expo template you want (`tabs` has Expo Router included)
 
     - for **npm**:
 
         ```
-        npx create-expo-app@latest myapp
+        npm create expo-app@latest -t tabs myapp
         ```
 
         ```
@@ -78,21 +80,20 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
     - for **yarn**:
 
         ```
-        yarn create expo-app@latest myapp
+        yarn create expo-app -t tabs myapp
         ```
 
         ```
         cd myapp
         ```
 
-        To use the latest Yarn Berry v4 (**recommended**), do the following:
+        - To use the latest Yarn Berry v4 (**recommended**), do the following:
 
-        **Note:** If you are on Mac, you have to install `corepack` separately with `brew install corepack`
+            ```
+            corepack enable && echo 'nodeLinker: node-modules' > .yarnrc.yml && corepack use yarn@4
+            ```
 
-        ```
-        corepack enable && echo 'nodeLinker: node-modules' > .yarnrc.yml && corepack use yarn@4
-        ```
-
+            **Note:** If you are on Mac, you might need to install `corepack` separately with `brew install corepack`
 
 2. Install startupjs in your app
 
