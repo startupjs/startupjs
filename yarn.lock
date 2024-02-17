@@ -8190,7 +8190,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/cli@npm:^0.56.0-alpha.26, @startupjs/cli@workspace:packages/cli":
+"@startupjs/cli@npm:^0.56.0-alpha.27, @startupjs/cli@workspace:packages/cli":
   version: 0.0.0-use.local
   resolution: "@startupjs/cli@workspace:packages/cli"
   dependencies:
@@ -8198,7 +8198,7 @@ __metadata:
     "@startupjs/pm": "npm:^0.56.0-alpha.0"
     chalk: "npm:^5.3.0"
     commander: "npm:^12.0.0"
-    create-startupjs: "npm:^0.56.0-alpha.26"
+    create-startupjs: "npm:^0.56.0-alpha.27"
     execa: "npm:^8.0.1"
   languageName: unknown
   linkType: soft
@@ -13721,7 +13721,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-startupjs@npm:^0.56.0-alpha.26, create-startupjs@workspace:packages/create-startupjs":
+"create-startupjs@npm:^0.56.0-alpha.27, create-startupjs@workspace:packages/create-startupjs":
   version: 0.0.0-use.local
   resolution: "create-startupjs@workspace:packages/create-startupjs"
   dependencies:
@@ -31135,7 +31135,7 @@ __metadata:
     "@startupjs/app": "npm:^0.56.0-alpha.13"
     "@startupjs/backend": "npm:^0.56.0-alpha.13"
     "@startupjs/bundler": "npm:^0.56.0-alpha.26"
-    "@startupjs/cli": "npm:^0.56.0-alpha.26"
+    "@startupjs/cli": "npm:^0.56.0-alpha.27"
     "@startupjs/hooks": "npm:^0.56.0-alpha.18"
     "@startupjs/i18n": "npm:^0.56.0-alpha.7"
     "@startupjs/init": "npm:^0.56.0-alpha.18"

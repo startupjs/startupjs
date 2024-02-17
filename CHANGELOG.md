@@ -1,3 +1,12 @@
+# [0.56.0-alpha.27](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.26...v0.56.0-alpha.27) (2024-02-17)
+
+
+### Bug Fixes
+
+* **create-startupjs:** no need to do 'git add' in husky since it does it automatically ([77431d1](https://github.com/startupjs/startupjs/commit/77431d1f01bb9619e52483b27387a06bddbc650c))
+
+
+
 # [0.56.0-alpha.26](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.25...v0.56.0-alpha.26) (2024-02-17)
 
 
