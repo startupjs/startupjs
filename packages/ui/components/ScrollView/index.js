@@ -1,3 +1,14 @@
-import { ScrollView } from 'react-native'
+import { ScrollView as OriginalScrollView } from 'react-native'
+import { pug, styl, observer } from 'startupjs'
 
-export default ScrollView
+export default observer(function ScrollView ({ full, ...props }) {
+  return pug`
+    OriginalScrollView.root(part='root' styleName={ full } ...props)
+  `
+  /* eslint-disable */styl`
+    .root
+      &.full
+        &:part(contentContainer)
+          min-height 100%
+  `
+})
