@@ -1,13 +1,12 @@
 import React from 'react'
 import { TabView } from 'react-native-tab-view'
-import { pug, observer, useValue, useIsomorphicLayoutEffect } from 'startupjs'
+import { pug, styl, observer, useValue, useIsomorphicLayoutEffect } from 'startupjs'
 import PropTypes from 'prop-types'
 import findIndex from 'lodash/findIndex'
 import pick from 'lodash/pick'
 import Span from './../typography/Span'
 import Bar from './Bar'
 import themed from '../../theming/themed'
-import './index.styl'
 
 function Tabs ({
   tabsStyle,
@@ -41,7 +40,6 @@ function Tabs ({
 
     return pug`
       Bar.bar(
-        indicatorStyleName='indicator'
         renderLabel=_renderLabel
         ...tabBarProps
         ...props
@@ -74,6 +72,16 @@ function Tabs ({
       onIndexChange=_onIndexChange
       ...tabViewProps
     )
+  `
+  /* eslint-disable-line */styl`
+    .bar
+      background-color transparent
+      &:part(indicator)
+        background-color var(--color-bg-primary)
+
+    .label
+      &.focused
+        color var(--color-text-primary)
   `
 }
 
