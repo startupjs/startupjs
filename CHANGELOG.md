@@ -1,3 +1,20 @@
+# [0.56.0-alpha.26](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.25...v0.56.0-alpha.26) (2024-02-17)
+
+
+### Bug Fixes
+
+* **bundler:** get rid of ignoreRequireCylces override -- it's expo's upstream issue and can't be fixed on our side ([b0387b9](https://github.com/startupjs/startupjs/commit/b0387b90e9d78e682b5aa90342cd3efb8ae27dfa))
+* **create-startupjs:** change gitignore marker to [@generated](https://github.com/generated) ([02323f8](https://github.com/startupjs/startupjs/commit/02323f86026f2f5796ced7db5ec1931e52ac2745))
+* **ui/Tabs:** remove extra Div wrapper. Underlying tabs library has fixed the issue why it was needed ([660bfff](https://github.com/startupjs/startupjs/commit/660bfffa73ef57a7c18eed91e5ab53816a32bc6f))
+
+
+### Features
+
+* **bundler:** add support for 'yarn link' ([d24287c](https://github.com/startupjs/startupjs/commit/d24287c09168a02a814d7c15c714a4fa093e53c9))
+* **ui/ScrollView:** add 'full' option which sets min-height of ScrollView's content to parent's height ([627348b](https://github.com/startupjs/startupjs/commit/627348b0dee2b630d4f90e535f3386aa979b36ae))
+
+
+
 # [0.56.0-alpha.25](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.24...v0.56.0-alpha.25) (2024-02-17)
 
 

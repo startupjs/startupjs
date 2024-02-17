@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.56.0-alpha.25",
+  "version": "0.56.0-alpha.26",
   "engines": {
     "node": ">= 14"
   },
@@ -41,8 +41,8 @@
   "dependencies": {
     "@startupjs/app": "^0.56.0-alpha.13",
     "@startupjs/backend": "^0.56.0-alpha.13",
-    "@startupjs/bundler": "^0.56.0-alpha.25",
-    "@startupjs/cli": "^0.56.0-alpha.23",
+    "@startupjs/bundler": "^0.56.0-alpha.26",
+    "@startupjs/cli": "^0.56.0-alpha.26",
     "@startupjs/hooks": "^0.56.0-alpha.18",
     "@startupjs/i18n": "^0.56.0-alpha.7",
     "@startupjs/init": "^0.56.0-alpha.18",
@@ -52,7 +52,7 @@
     "@startupjs/registry": "^0.56.0-alpha.11",
     "@startupjs/server": "^0.56.0-alpha.18",
     "@startupjs/utils": "^0.56.0-alpha.18",
-    "babel-preset-startupjs": "^0.56.0-alpha.25",
+    "babel-preset-startupjs": "^0.56.0-alpha.26",
     "events": "^3.3.0"
   }
 }
