@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.56.0-alpha.20",
+  "version": "0.56.0-alpha.22",
   "engines": {
     "node": ">= 14"
   },
@@ -42,7 +42,7 @@
     "@startupjs/app": "^0.56.0-alpha.13",
     "@startupjs/backend": "^0.56.0-alpha.13",
     "@startupjs/bundler": "^0.56.0-alpha.18",
-    "@startupjs/cli": "^0.56.0-alpha.20",
+    "@startupjs/cli": "^0.56.0-alpha.22",
     "@startupjs/hooks": "^0.56.0-alpha.18",
     "@startupjs/i18n": "^0.56.0-alpha.7",
     "@startupjs/init": "^0.56.0-alpha.18",

@@ -1,3 +1,12 @@
+# [0.56.0-alpha.22](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.21...v0.56.0-alpha.22) (2024-02-17)
+
+
+### Bug Fixes
+
+* **create-startupjs:** fix the naive algo of finding monorepo root ([c5a8d25](https://github.com/startupjs/startupjs/commit/c5a8d25e7986808ce1d14f137678a197eeff3508))
+
+
+
 # [0.56.0-alpha.21](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.20...v0.56.0-alpha.21) (2024-02-16)
 
 
