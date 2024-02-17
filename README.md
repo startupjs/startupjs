@@ -95,9 +95,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
             **Note:** If you are on Mac, you might need to install `corepack` separately with:
 
-                ```
                 brew install corepack
-                ```
 
 2. Install startupjs in your app
 
