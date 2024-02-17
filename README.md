@@ -63,7 +63,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 #### Alpha version on Expo
 
-1. Create a new expo app and go to it. You can use any expo template you want.
+1. Create a new expo app and go into it. You can use any expo template you want.
 
     - for **npm**:
 
