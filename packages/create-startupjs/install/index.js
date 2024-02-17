@@ -17,6 +17,8 @@ const INIT_STARTUPJS_CONFIG_PATH = join(__dirname, './init/startupjs.config.js')
 const DEVELOPMENT_JSON_PATH = join(__dirname, './dev/package.json')
 const UI_JSON_PATH = join(__dirname, './ui/package.json')
 
+const GITIGNORE_MARKER = '@generated startupjs'
+
 export const name = 'install'
 export const description = 'Install startupjs into an existing project.'
 export const options = [{
@@ -265,7 +267,7 @@ async function getLatestMatchingVersion (name, semver) {
 function maybeAppendGitignore ({ triggerModified }) {
   const gitignorePath = join(process.cwd(), '.gitignore')
   let gitignore = existsSync(gitignorePath) ? readFileSync(gitignorePath, 'utf8') : ''
-  if (gitignore.includes('# <startupjs>')) return
+  if (gitignore.includes(GITIGNORE_MARKER)) return
   gitignore += '\n' + readFileSync(INIT_GITIGNORE_PATH, 'utf8')
   writeFileSync(gitignorePath, gitignore)
   triggerModified?.()
