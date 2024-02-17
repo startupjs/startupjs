@@ -174,8 +174,7 @@ function patchPackageJSON (appPath) {
   // TODO install latest version (add to dependencies in getTemplate.js)
   // packageJSON['lint-staged'] = {
   //   '*.{js,jsx}': [
-  //     'eslint --fix',
-  //     'git add'
+  //     'eslint --fix'
   //   ]
   // }
 
