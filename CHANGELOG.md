@@ -1,3 +1,12 @@
+# [0.56.0-alpha.25](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.24...v0.56.0-alpha.25) (2024-02-17)
+
+
+### Bug Fixes
+
+* **bundler:** ignore require cycles in node_modules (default value doesn't work for some reason in expo) ([55db695](https://github.com/startupjs/startupjs/commit/55db695611801a0611613120359e58062d4fc07d))
+
+
+
 # [0.56.0-alpha.24](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.23...v0.56.0-alpha.24) (2024-02-17)
 
 
