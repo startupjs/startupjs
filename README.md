@@ -61,7 +61,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 3. Open http://localhost:3000 and start developing!
 
-#### Alpha version on Expo
+#### Alpha version on Expo (for React Native `>=0.73`)
 
 1. Create a new expo app and go into it.
 
