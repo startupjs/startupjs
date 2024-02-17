@@ -41,7 +41,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-svg": "^14.1.0",
     "react-native-web": "~0.19.6",
-    "startupjs": "^0.56.0-alpha.18"
+    "startupjs": "^0.56.0-alpha.22"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

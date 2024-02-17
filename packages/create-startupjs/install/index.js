@@ -97,9 +97,8 @@ async function runInstall ({ setupDevelopment, setupUi, setupInit, isSetup, skip
 
   const templates = []
 
-  if (setupInit) {
-    templates.push(JSON.parse(fromTemplateFile(INIT_JSON_PATH)))
-  }
+  // always add this template since it's the base and has the 'startupjs' dependency itself
+  templates.push(JSON.parse(fromTemplateFile(INIT_JSON_PATH)))
 
   if (setupDevelopment || packageJson.devDependencies?.['eslint-config-startupjs']) {
     templates.push(JSON.parse(fromTemplateFile(DEVELOPMENT_JSON_PATH)))
