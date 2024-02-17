@@ -63,15 +63,36 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 #### Alpha version on Expo
 
-1. Create a new expo app and go to it. You can use any expo template you want:
+1. Create a new expo app and go to it. You can use any expo template you want.
 
-    ```
-    npx create-expo-app@latest myapp
-    ```
+    - for **npm**:
 
-    ```
-    cd myapp
-    ```
+        ```
+        npx create-expo-app@latest myapp
+        ```
+
+        ```
+        cd myapp
+        ```
+
+    - for **yarn**:
+
+        ```
+        yarn create expo-app@latest myapp
+        ```
+
+        ```
+        cd myapp
+        ```
+
+        To use the latest Yarn Berry v4 (**recommended**), do the following:
+
+        **Note:** If you are on Mac, you have to install `corepack` separately with `brew install corepack`
+
+        ```
+        corepack enable && echo 'nodeLinker: node-modules' > .yarnrc.yml && corepack use yarn@4
+        ```
+
 
 2. Install startupjs in your app
 
