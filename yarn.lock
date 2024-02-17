@@ -8233,9 +8233,9 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
     "@startupjs/mdx": "npm:^0.56.0-alpha.23"
     "@startupjs/scrollable-anchors": "npm:^0.56.0-alpha.23"
-    "@startupjs/ui": "npm:^0.56.0-alpha.21"
     parse-prop-types: "npm:^0.3.0"
   peerDependencies:
+    "@startupjs/ui": "*"
     react: "*"
     react-native: "*"
     startupjs: "*"
@@ -8360,11 +8360,12 @@ __metadata:
   dependencies:
     "@mdx-js/react": "npm:~2.3.0"
     "@startupjs/scrollable-anchors": "npm:^0.56.0-alpha.23"
-    "@startupjs/ui": "npm:^0.56.0-alpha.21"
     refractor: "npm:^3.0.0"
   peerDependencies:
     "@react-native-clipboard/clipboard": "*"
+    "@startupjs/ui": "*"
     react: "*"
+    startupjs: "*"
   languageName: unknown
   linkType: soft
 
@@ -8610,9 +8611,9 @@ __metadata:
 "@startupjs/scrollable-anchors@npm:^0.56.0-alpha.23, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
   version: 0.0.0-use.local
   resolution: "@startupjs/scrollable-anchors@workspace:packages/scrollable-anchors"
-  dependencies:
-    "@startupjs/ui": "npm:^0.56.0-alpha.21"
-    startupjs: "npm:^0.56.0-alpha.23"
+  peerDependencies:
+    "@startupjs/ui": "*"
+    startupjs: "*"
   languageName: unknown
   linkType: soft
 
@@ -31127,7 +31128,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.56.0-alpha.22, startupjs@npm:^0.56.0-alpha.23, startupjs@workspace:packages/startupjs":
+"startupjs@npm:^0.56.0-alpha.22, startupjs@workspace:packages/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:packages/startupjs"
   dependencies:
