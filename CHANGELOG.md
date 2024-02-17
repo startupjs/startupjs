@@ -1,3 +1,12 @@
+# [0.56.0-alpha.23](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.22...v0.56.0-alpha.23) (2024-02-17)
+
+
+### Bug Fixes
+
+* **create-startupjs:** always add 'init' template to update the 'startupjs' package itself (and potentially other base stuff) ([93f2495](https://github.com/startupjs/startupjs/commit/93f2495df2e9f0396d3e40bcdc017aa09ff811e7))
+
+
+
 # [0.56.0-alpha.22](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.21...v0.56.0-alpha.22) (2024-02-17)
 
 
