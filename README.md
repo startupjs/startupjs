@@ -46,6 +46,8 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 >    ```
 >    npx startupjs@latest init myapp --react-native 0.72
 >    ```
+>
+> If you want to use the latest React Native, install [StartupJS Alpha version](#alpha-version-on-expo-for-react-native-073)
 
 1. Initialize a default [`ui` template](#official-app-templates) project, change `myapp` to your project name (use lower case):
 
