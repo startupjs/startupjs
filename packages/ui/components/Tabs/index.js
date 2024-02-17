@@ -1,7 +1,6 @@
 import React from 'react'
 import { TabView } from 'react-native-tab-view'
 import { pug, observer, useValue, useIsomorphicLayoutEffect } from 'startupjs'
-import { Div } from '@startupjs/ui'
 import PropTypes from 'prop-types'
 import findIndex from 'lodash/findIndex'
 import pick from 'lodash/pick'
@@ -11,7 +10,6 @@ import themed from '../../theming/themed'
 import './index.styl'
 
 function Tabs ({
-  style,
   tabsStyle,
   routes,
   initialKey,
@@ -22,6 +20,10 @@ function Tabs ({
   onIndexChange, // skip property
   ...props
 }) {
+  // TODO: DEPRECATED! Remove this prop in the next major version
+  //       Use `style` instead. This was needed before to workaround underlying tabs lib issue
+  if (tabsStyle) console.warn('[@startupjs/ui -> Tabs] `tabsStyle` prop is deprecated. Use `style` instead.')
+
   const [localValue, $localValue] = useValue(initialKey || routes[0]?.key)
   const tabBarProps = pick(props, Object.keys(Bar.propTypes))
   const tabViewProps = pick(props, Object.keys(ObservedTabs.propTypes))
@@ -64,16 +66,14 @@ function Tabs ({
   }
 
   return pug`
-    //- remove Div when issue will be fixed https://github.com/satya164/react-native-tab-view/issues/1110
-    //- remove Div when issue 2 will be fixed https://github.com/satya164/react-native-tab-view/pull/1252
-    Div.root(style=style)
-      TabView(
-        style=tabsStyle
-        navigationState={ index: tabIndex, routes }
-        renderTabBar=_renderTabBar
-        onIndexChange=_onIndexChange
-        ...tabViewProps
-      )
+    TabView(
+      part='root'
+      style=tabsStyle
+      navigationState={ index: tabIndex, routes }
+      renderTabBar=_renderTabBar
+      onIndexChange=_onIndexChange
+      ...tabViewProps
+    )
   `
 }
 
