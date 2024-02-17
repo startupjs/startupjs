@@ -57,18 +57,22 @@ function Drawer ({
   useEffect(() => {
     if (visible) {
       setIsShow(true)
-      setTimeout(runShow, 0)
     } else {
       runHide()
     }
   }, [visible])
   // -
+  useEffect(() => {
+    if (isShow) {
+      setTimeout(runShow, 100)
+    }
+  }, [isShow])
 
   function runShow () {
     if (!refContent.current) return
 
     getValidNode(refContent.current).measure((x, y, width, height) => {
-      let isInit = !contentSize.width
+      const isInit = !contentSize.width
       setContentSize({ width, height })
 
       animate.show({
