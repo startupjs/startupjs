@@ -93,8 +93,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
             corepack enable && echo 'nodeLinker: node-modules' > .yarnrc.yml && corepack use yarn@4
             ```
 
-            > [!WARNING]
-            > If you are on Mac, you might first need to install `corepack` separately with:
+            > **Warning:** If you are on Mac, you might first need to install `corepack` separately with:
             >
             >    ```
             >    brew install corepack
