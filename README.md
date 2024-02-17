@@ -93,7 +93,11 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
             corepack enable && echo 'nodeLinker: node-modules' > .yarnrc.yml && corepack use yarn@4
             ```
 
-            **Note:** If you are on Mac, you might need to install `corepack` separately with `brew install corepack`
+            **Note:** If you are on Mac, you might need to install `corepack` separately with:
+
+                ```
+                brew install corepack
+                ```
 
 2. Install startupjs in your app
 
