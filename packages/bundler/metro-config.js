@@ -22,7 +22,11 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, { upstreamCon
         ...(upstreamConfig.resolver.sourceExts || []),
         ...['mjs', 'cjs', 'md', 'mdx', 'css', 'styl', 'svg']
       ])),
-      unstable_enablePackageExports: true
+      unstable_enablePackageExports: true,
+      requireCycleIgnorePatterns: [
+        ...(upstreamConfig.requireCycleIgnorePatterns || []),
+        /(^|\/|\\)node_modules($|\/|\\)/
+      ]
     }
   }
   if (features.enableServer) {
