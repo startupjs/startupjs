@@ -63,7 +63,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 #### Alpha version on Expo (for React Native `>=0.73`)
 
-1. Create a new expo app and go into it.
+1. Create a new expo app and go into it:
 
     **Note:** You can use any expo template you want (`tabs` has Expo Router included)
 
@@ -99,7 +99,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
             >    brew install corepack
             >    ```
 
-2. Install startupjs in your app
+2. Install startupjs into your app:
 
     ```
     npm init startupjs@next
