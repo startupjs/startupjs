@@ -1,3 +1,12 @@
+# [0.56.0-alpha.28](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.27...v0.56.0-alpha.28) (2024-02-17)
+
+
+### Bug Fixes
+
+* **create-startupjs:** add '/.yarn' to .gitignore ([fe20db3](https://github.com/startupjs/startupjs/commit/fe20db31b0cdd42e10a4c881a5b13778ef26a2dd))
+
+
+
 # [0.56.0-alpha.27](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.26...v0.56.0-alpha.27) (2024-02-17)
 
 
