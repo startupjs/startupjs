@@ -107,7 +107,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 3. Wrap your root component into `<StartupjsProvider>` from `startupjs` (when using expo-router it's in `app/_layout.tsx`)
 
-4. Start expo app as usual
+4. Start expo app with `npm start` or `yarn start`
 
 5. If Fast Refresh (hot reloading) is not working (this might be the case if you created a bare expo project),
 add `import '@expo/metro-runtime'` to the top of your entry file.
