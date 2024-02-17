@@ -105,7 +105,17 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
     npm init startupjs@next
     ```
 
-3. Wrap your root component into `<StartupjsProvider>` from `startupjs` (when using expo-router it's in `app/_layout.tsx`)
+3. Wrap your root component into `<StartupjsProvider>` from `startupjs` (when using expo-router it's in `app/_layout.tsx`):
+
+    ```jsx
+    import { StartupjsProvider } from 'startupjs'
+    // ...
+    return (
+      <StartupjsProvider>
+        ...
+      </StartupjsProvider>
+    )
+    ```
 
 4. Start expo app with `npm start` or `yarn start`
 
