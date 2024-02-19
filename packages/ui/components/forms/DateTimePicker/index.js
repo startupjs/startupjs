@@ -147,6 +147,14 @@ function DateTimePicker ({
     onChangeVisible(false)
   }
 
+  function _onFocus (...args) {
+    onChangeVisible(true)
+    onFocus && onFocus(...args)
+
+    // don't show keyboard
+    args[0].stopPropagation()
+  }
+
   function onDismiss () {
     onChangeVisible(false)
   }
@@ -173,10 +181,7 @@ function DateTimePicker ({
         showSoftInputOnFocus=false
         secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
         onSecondaryIconPress=() => onChangeDate && onChangeDate()
-        onFocus=(...args) => {
-          onChangeVisible(true)
-          onFocus && onFocus(...args)
-        }
+        onFocus=_onFocus
         onBlur=(...args) => {
           onBlur && onBlur(...args)
         }
