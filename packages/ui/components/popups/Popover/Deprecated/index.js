@@ -121,24 +121,24 @@ function Popover ({
   // -
 
   async function waitForCaptionRef () {
-    let attemps = 0
+    let attempts = 0
 
-    while (attemps < 5) {
+    while (attempts < 5) {
       if (refCaption.current) return true
       await new Promise(resolve => setTimeout(resolve, 30))
-      attemps--
+      attempts++
     }
 
     return !!refCaption.current
   }
 
   async function waitForPopoverRef () {
-    let attemps = 0
+    let attempts = 0
 
-    while (attemps < 5) {
+    while (attempts < 5) {
       if (refPopover.current) return true
       await new Promise(resolve => setTimeout(resolve, 30))
-      attemps--
+      attempts++
     }
 
     return !!refCaption.current
