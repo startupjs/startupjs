@@ -36,7 +36,7 @@ export default observer(function PPlayground () {
         H5 Test useQuery$
         Queries
   `
-  /* eslint-disable-line */styl`
+  styl`
     .page
       height 100vh
       background-color #f2f2f2
@@ -83,7 +83,7 @@ const Simple = observer(() => {
       | Magic: #{magic}
       | Date: #{date}
   `
-  /* eslint-disable-line */styl`
+  styl`
     .sub
       backgroundColor lime
       height 100px
@@ -115,14 +115,12 @@ const Sub = observer(({ $value, $foo, title }) => {
       )
         Span Renders: #{renderRef.current}.
   `
-  /* eslint-disable-line */styl``
 })
 
 const Sub2 = observer(({ $value }) => {
   return pug`
     Span Sub2 magicCounter.value: #{ $value.get() }
   `
-  /* eslint-disable-line */styl``
 })
 
 const Queries = observer(() => {
@@ -148,14 +146,12 @@ const Queries = observer(() => {
     if $selectedGameId.get()
       GameComponent(key=$selectedGameId.get() $gameId=$selectedGameId)
   `
-  /* eslint-disable-line */styl``
 })
 
 const GameListItem = observer(({ $game, $selectedGameId }) => {
   return pug`
     Item(onPress=() => $selectedGameId.set($game.id.get()))= $game.name.get()
   `
-  /* eslint-disable-line */styl``
 })
 
 const Game = observer(({ $gameId }) => {
@@ -202,7 +198,6 @@ const Game = observer(({ $gameId }) => {
       each $score, index in $gameData.roundsData
         Score(key=index $score=$score index=index)
   `
-  /* eslint-disable-line */styl``
 })
 
 // Alternative way to sync subscriptions is to use `subscribe$` HOC
@@ -251,7 +246,6 @@ const GameHOC = subscribe$(({ $gameId }) => {
       each $score, index in $gameData.roundsData
         Score(key=index $score=$score index=index)
   `
-  /* eslint-disable-line */styl``
 })
 
 const Score = observer(({ $score, index }) => {
@@ -259,7 +253,7 @@ const Score = observer(({ $score, index }) => {
     Item.root
       Span= index + ': ' + $score.get()
   `
-  /* eslint-disable-line */styl`
+  styl`
     .root
       background-color lime
       margin-left 1u
@@ -272,5 +266,4 @@ const Player = observer(({ $player, index }) => {
   return pug`
     Item= '' + index + '. ' + $player.name.get()
   `
-  /* eslint-disable-line */styl``
 })

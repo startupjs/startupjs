@@ -73,7 +73,7 @@ function Tabs ({
       ...tabViewProps
     )
   `
-  /* eslint-disable-line */styl`
+  styl`
     .bar
       background-color transparent
       &:part(indicator)

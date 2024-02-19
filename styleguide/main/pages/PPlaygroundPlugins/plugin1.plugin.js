@@ -15,13 +15,12 @@ export default createPlugin({
       return pug`
         Span.message(styleName={ important })= greeting + (greeting ? ' ' : '') + getMessage(username)
       `
-      /* eslint-disable */styl`
+      styl`
         .message
           color var(--color-text-primary)
           &.important
             color var(--color-text-error)
       `
-
     }
   })
 })

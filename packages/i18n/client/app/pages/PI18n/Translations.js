@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 import React, { useRef, useCallback } from 'react'
 import { Platform } from 'react-native'
 import { pug, observer, styl, useDidUpdate } from 'startupjs'

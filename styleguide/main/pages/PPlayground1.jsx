@@ -26,7 +26,7 @@ export default observer(function PPlayground () {
         | Magic: #{magic}
         | Date: #{date}
   `
-  /* eslint-disable-line */styl`
+  styl`
     .sub {
       backgroundColor red
       height 100px
@@ -54,12 +54,10 @@ const Sub = observer(({ $value, title }) => {
       )
         Span Renders: #{renderRef.current}.
   `
-  /* eslint-disable-line */styl``
 })
 
 const Sub2 = observer(({ $value }) => {
   return pug`
     Span Sub2 magicCounter.value: #{ $value.get() }
   `
-  /* eslint-disable-line */styl``
 })

@@ -61,7 +61,7 @@ export default function useTooltip ({ style, anchorRef, tooltip }) {
 
   return result
 
-  /* eslint-disable-line */ styl`
+  styl`
     .tooltip
       background-color var(--Div-tooltipBg)
       max-width 260px

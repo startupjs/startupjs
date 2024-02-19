@@ -63,7 +63,7 @@ const Banner = observer(({ children, message }) => {
         onPress=() => $banner.visible.setDiff(false)
       )
   `
-  /* eslint-disable */styl`
+  styl`
     .root
       padding 0 1u 0 2u
       background-color var(--color-bg-main-subtle)

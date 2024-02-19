@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 import React, { useCallback } from 'react'
 import { pug, observer, useValue, styl } from 'startupjs'
 import { TextInput } from '@startupjs/ui'

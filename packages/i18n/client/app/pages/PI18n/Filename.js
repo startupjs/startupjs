@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 import React from 'react'
 import { pug, observer, styl } from 'startupjs'
 import { Div, Span } from '@startupjs/ui'

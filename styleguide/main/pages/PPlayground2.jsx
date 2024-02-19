@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { pug, styl, observer } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import { Content, Button, Link, Div } from '@startupjs/ui'
 
 export default observer(function PPlayground () {
@@ -10,5 +10,4 @@ export default observer(function PPlayground () {
       Button(onPress=() => setCount(count + 1)) Button 2 - #{count}
       Link(to='/playground1') Go to Playground 1
   `
-  /* eslint-disable-line */styl``
 })

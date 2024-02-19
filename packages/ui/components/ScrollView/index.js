@@ -5,7 +5,7 @@ export default observer(function ScrollView ({ full, ...props }) {
   return pug`
     OriginalScrollView.root(part='root' styleName={ full } ...props)
   `
-  /* eslint-disable */styl`
+  styl`
     .root
       &.full
         &:part(contentContainer)
