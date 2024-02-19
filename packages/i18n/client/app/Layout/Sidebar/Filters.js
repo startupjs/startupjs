@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 import React, { useCallback } from 'react'
 import { pug, observer, styl } from 'startupjs'
 import { Div, Span, Icon } from '@startupjs/ui'

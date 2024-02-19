@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 import React from 'react'
 import { pug, $root, observer, styl } from 'startupjs'
 import { Layout as UILayout, Button, Div } from '@startupjs/ui'

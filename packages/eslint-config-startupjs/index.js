@@ -19,9 +19,12 @@ module.exports = {
   plugins: [
     'react',
     '@startupjs/react-pug',
-    'import-helpers'
+    'import-helpers',
+    'startupjs'
   ],
   rules: {
+    'no-unreachable': 'off',
+    'startupjs/no-unreachable': 'error',
     'prefer-const': 'error',
     'eol-last': 'error',
     'react/jsx-handler-names': 'off',

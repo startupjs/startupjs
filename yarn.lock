@@ -15589,6 +15589,7 @@ __metadata:
     eslint-plugin-promise: "npm:^6.1.1"
     eslint-plugin-react: "npm:^7.33.2"
     eslint-plugin-react-hooks: "npm:^4.6.0"
+    eslint-plugin-startupjs: "npm:^0.56.0-alpha.8"
   peerDependencies:
     eslint: "*"
     react: "*"
@@ -15737,6 +15738,14 @@ __metadata:
   checksum: f9b247861024bafc396c4bd3c9ac946604b3b23077251c98f23602aa22027a0c33a69157fd49564e4ff7f17b3678e5dc366a46c7ec42a09454d7cbce786d5001
   languageName: node
   linkType: hard
+
+"eslint-plugin-startupjs@npm:^0.56.0-alpha.8, eslint-plugin-startupjs@workspace:packages/eslint-plugin-startupjs":
+  version: 0.0.0-use.local
+  resolution: "eslint-plugin-startupjs@workspace:packages/eslint-plugin-startupjs"
+  peerDependencies:
+    eslint: "*"
+  languageName: unknown
+  linkType: soft
 
 "eslint-scope@npm:^7.2.2":
   version: 7.2.2
