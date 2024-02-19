@@ -99,7 +99,7 @@ function Drawer ({
   }
 
   async function runHide () {
-    await waitForDrawerRef()
+    if (!refContent.current) return
 
     getValidNode(refContent.current).measure((x, y, width, height) => {
       animate.hide({
