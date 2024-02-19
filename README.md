@@ -72,7 +72,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
     - for **npm**:
 
         ```
-        npm create expo-app@latest -t tabs myapp
+        npx create-expo-app@latest -t tabs myapp
         ```
 
         ```
