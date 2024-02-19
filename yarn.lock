@@ -8280,7 +8280,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/i18n@npm:^0.56.0-alpha.7, @startupjs/i18n@workspace:packages/i18n":
+"@startupjs/i18n@npm:^0.56.0-alpha.29, @startupjs/i18n@workspace:packages/i18n":
   version: 0.0.0-use.local
   resolution: "@startupjs/i18n@workspace:packages/i18n"
   dependencies:
@@ -15589,7 +15589,7 @@ __metadata:
     eslint-plugin-promise: "npm:^6.1.1"
     eslint-plugin-react: "npm:^7.33.2"
     eslint-plugin-react-hooks: "npm:^4.6.0"
-    eslint-plugin-startupjs: "npm:^0.56.0-alpha.8"
+    eslint-plugin-startupjs: "npm:^0.56.0-alpha.29"
   peerDependencies:
     eslint: "*"
     react: "*"
@@ -15739,7 +15739,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-startupjs@npm:^0.56.0-alpha.8, eslint-plugin-startupjs@workspace:packages/eslint-plugin-startupjs":
+"eslint-plugin-startupjs@npm:^0.56.0-alpha.29, eslint-plugin-startupjs@workspace:packages/eslint-plugin-startupjs":
   version: 0.0.0-use.local
   resolution: "eslint-plugin-startupjs@workspace:packages/eslint-plugin-startupjs"
   peerDependencies:
@@ -31146,7 +31146,7 @@ __metadata:
     "@startupjs/bundler": "npm:^0.56.0-alpha.26"
     "@startupjs/cli": "npm:^0.56.0-alpha.28"
     "@startupjs/hooks": "npm:^0.56.0-alpha.18"
-    "@startupjs/i18n": "npm:^0.56.0-alpha.7"
+    "@startupjs/i18n": "npm:^0.56.0-alpha.29"
     "@startupjs/init": "npm:^0.56.0-alpha.18"
     "@startupjs/isomorphic-helpers": "npm:^0.56.0-alpha.0"
     "@startupjs/orm": "npm:^0.56.0-alpha.0"

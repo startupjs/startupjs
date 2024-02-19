@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-startupjs",
-  "version": "0.56.0-alpha.8",
+  "version": "0.56.0-alpha.29",
   "description": "ESLint plugin for StartupJS projects",
   "main": "index.js",
   "publishConfig": {

@@ -1,3 +1,18 @@
+# [0.56.0-alpha.29](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.28...v0.56.0-alpha.29) (2024-02-19)
+
+
+### Bug Fixes
+
+* **Datepicker:** fix keyboard ([#1182](https://github.com/startupjs/startupjs/issues/1182)) ([9a07924](https://github.com/startupjs/startupjs/commit/9a07924eec56910de181806b5e6fd37d4a8e822e))
+* **Datepicker:** fix opening  ([#1181](https://github.com/startupjs/startupjs/issues/1181)) ([c7730ae](https://github.com/startupjs/startupjs/commit/c7730ae8bb45631b44bfce73efce940ee0d4e8e1))
+
+
+### Features
+
+* **eslint-plugin-startupjs:** Fork 'no-unreachable' rule of eslint which ignores 'styl' template literal. Now we can write inline styles with 'styl' without writing 'eslint-disable-next-line' ([c65f5fd](https://github.com/startupjs/startupjs/commit/c65f5fdccc1baa0d01e1a0925c56f6bdbba45046))
+
+
+
 # [0.56.0-alpha.28](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.27...v0.56.0-alpha.28) (2024-02-17)
 
 
