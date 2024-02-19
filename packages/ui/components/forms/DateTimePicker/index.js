@@ -147,6 +147,11 @@ function DateTimePicker ({
     onChangeVisible(false)
   }
 
+  function _onFocus (...args) {
+    onChangeVisible(true)
+    onFocus && onFocus(...args)
+  }
+
   function onDismiss () {
     onChangeVisible(false)
   }
@@ -160,7 +165,9 @@ function DateTimePicker ({
     placeholder,
     _hasError,
     value: textInput,
-    testID
+    testID,
+    // don't show keyboard on focus input
+    editable: false
   }
 
   const caption = pug`
@@ -173,10 +180,7 @@ function DateTimePicker ({
         showSoftInputOnFocus=false
         secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
         onSecondaryIconPress=() => onChangeDate && onChangeDate()
-        onFocus=(...args) => {
-          onChangeVisible(true)
-          onFocus && onFocus(...args)
-        }
+        onFocus=_onFocus
         onBlur=(...args) => {
           onBlur && onBlur(...args)
         }

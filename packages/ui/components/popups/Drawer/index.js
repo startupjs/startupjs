@@ -64,8 +64,20 @@ function Drawer ({
   }, [visible])
   // -
 
-  function runShow () {
-    if (!refContent.current) return
+  async function waitForDrawerRef () {
+    let attempts = 0
+
+    while (attempts < 5) {
+      if (refContent.current) return true
+      await new Promise(resolve => setTimeout(resolve, 30))
+      attempts++
+    }
+
+    return !!refContent.current
+  }
+
+  async function runShow () {
+    await waitForDrawerRef()
 
     getValidNode(refContent.current).measure((x, y, width, height) => {
       let isInit = !contentSize.width
@@ -86,7 +98,7 @@ function Drawer ({
     })
   }
 
-  const runHide = () => {
+  async function runHide () {
     if (!refContent.current) return
 
     getValidNode(refContent.current).measure((x, y, width, height) => {
