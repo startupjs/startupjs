@@ -151,9 +151,6 @@ function DateTimePicker ({
   function _onFocus (...args) {
     onChangeVisible(true)
     onFocus && onFocus(...args)
-
-    // don't show keyboard
-    args[0].stopPropagation()
   }
 
   function onDismiss () {
@@ -170,7 +167,9 @@ function DateTimePicker ({
     placeholder,
     _hasError,
     value: textInput,
-    testID
+    testID,
+    // don't show keyboard on focus input
+    editable: false
   }
 
   const caption = pug`
