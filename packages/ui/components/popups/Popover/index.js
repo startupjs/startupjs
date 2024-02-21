@@ -65,7 +65,7 @@ const Popover = observer(({
     Div(
       style=style
       ref=anchorRef
-      onPress=()=> onChange(true)
+      onPress=isUncontrolled ? null : (()=> onChange(true))
     )= children
     AbstractPopover.attachment(
       ...props
