@@ -10,9 +10,9 @@ export default function useSyncEffect (fn, inputs) {
     }
   }
 
-  useMemo(() => {
+  destroy.current = useMemo(() => {
     destroyFn()
-    destroy.current = fn()
+    return fn()
   }, inputs)
 
   // final destroy when component gets unmounted
