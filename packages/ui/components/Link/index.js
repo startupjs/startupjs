@@ -1,8 +1,8 @@
 import React from 'react'
 import { Platform, Linking } from 'react-native'
-import { useHistory } from 'react-router-native'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
+import useRouter from '../../hooks/useRouter'
 import Div from './../Div'
 import Button from './../Button'
 import Span from './../typography/Span'
@@ -19,20 +19,27 @@ const EXTERNAL_LINK_REGEXP = /^(https?:\/\/|\/\/)/i
 function Link ({
   style,
   to,
+  href, // alias for `to`
   color,
   theme,
   display,
+  push,
   replace,
   children,
   onPress,
   ...props
 }) {
   if (!display) display = typeof children === 'string' ? 'inline' : 'block'
+  if (href) to = href
 
   const isBlock = display === 'block'
   const Component = isBlock ? Div : Span
   const extraProps = { accessibilityRole: 'link', onPress: handlePress }
-  const history = useHistory()
+  const {
+    navigate: routerNavigate,
+    push: routerPush,
+    replace: routerReplace
+  } = useRouter()
 
   // modifier keys does not work without href attribute
   if (isWeb) extraProps.href = to
@@ -55,7 +62,10 @@ function Link ({
           ? window.open(to, '_blank')
           : Linking.openURL(to)
       } else {
-        const method = replace ? history.replace : history.push
+        let method
+        if (push) method = routerPush
+        else if (replace) method = routerReplace
+        else method = routerNavigate
         method(to)
       }
     }
@@ -99,7 +109,9 @@ Link.propTypes = {
   bold: Span.propTypes.bold,
   italic: Span.propTypes.italic,
   children: PropTypes.node,
-  to: PropTypes.string.isRequired,
+  to: PropTypes.string,
+  href: PropTypes.string,
+  push: PropTypes.bool,
   replace: PropTypes.bool,
   display: PropTypes.oneOf(['inline', 'block']),
   color: PropTypes.oneOf(['default', 'primary'])

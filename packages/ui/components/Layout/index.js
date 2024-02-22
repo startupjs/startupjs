@@ -1,28 +1,24 @@
 import React from 'react'
 import { SafeAreaView, StatusBar } from 'react-native'
-import { useHistory } from 'react-router-native'
 import { pug, observer, useBackPress } from 'startupjs'
 import PropTypes from 'prop-types'
+import useRouter from '../../hooks/useRouter'
 import themed from '../../theming/themed'
 import STYLES from './index.styl'
 
-const {
-  config: {
-    bgColor
-  }
-} = STYLES
+const { config: { bgColor } } = STYLES
 
-function Layout ({ style, children }) {
-  const history = useHistory()
+function Layout ({ children }) {
+  const { back, canGoBack } = useRouter()
 
   useBackPress((backHandler) => {
-    if (!history.index) return // if first page then exit app
-    history.goBack()
+    if (!canGoBack()) return // if first page then exit app
+    back()
     return true
   })
 
   return pug`
-    SafeAreaView.root(style=style)
+    SafeAreaView.root(part='root')
       StatusBar(
         backgroundColor=bgColor
         barStyle='dark-content'
