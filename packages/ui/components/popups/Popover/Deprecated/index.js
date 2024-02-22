@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ScrollView
 } from 'react-native'
-import { observer, useValue } from 'startupjs'
+import { pug, observer, useValue } from 'startupjs'
 import PropTypes from 'prop-types'
 import Arrow from './Arrow'
 import Portal from '../../../Portal'
@@ -94,10 +94,16 @@ function Popover ({
       onDismiss()
     }
 
-    Dimensions.addEventListener('change', handleDimensions)
+    const listener = Dimensions.addEventListener('change', handleDimensions)
+
     return () => {
       mounted = false
-      Dimensions.removeEventListener('change', handleDimensions)
+
+      if (Dimensions.removeEventListener) {
+        Dimensions.removeEventListener('change', handleDimensions)
+      } else {
+        listener?.remove()
+      }
     }
   }, [])
 
@@ -114,11 +120,35 @@ function Popover ({
   }, [visible])
   // -
 
-  function runShow () {
-    if (!refCaption.current) return
+  async function waitForCaptionRef () {
+    let attempts = 0
+
+    while (attempts < 5) {
+      if (refCaption.current) return true
+      await new Promise(resolve => setTimeout(resolve, 30))
+      attempts++
+    }
+
+    return !!refCaption.current
+  }
+
+  async function waitForPopoverRef () {
+    let attempts = 0
+
+    while (attempts < 5) {
+      if (refPopover.current) return true
+      await new Promise(resolve => setTimeout(resolve, 30))
+      attempts++
+    }
+
+    return !!refCaption.current
+  }
+
+  async function runShow () {
+    await waitForCaptionRef()
     // x, y, width, height, pageX, pageY
-    getValidNode(refCaption.current).measure((cx, cy, cWidth, cHeight, cpx, cpy) => {
-      if (!refPopover.current) return
+    getValidNode(refCaption.current).measure(async (cx, cy, cWidth, cHeight, cpx, cpy) => {
+      await waitForPopoverRef()
       getValidNode(refPopover.current).measure((px, py, pWidth, pHeight, ppx, ppy) => {
         const _captionInfo = { x: cpx, y: cpy, width: cWidth, height: cHeight }
 
@@ -192,7 +222,7 @@ function Popover ({
 
   // parse children
   let caption = null
-  let content = []
+  const content = []
   const onLayoutCaption = e => {
     captionInfo.current = e.nativeEvent.layout
   }
