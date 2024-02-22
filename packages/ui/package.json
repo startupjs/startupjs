@@ -111,18 +111,26 @@
     "react-native-collapsible": "^1.6.1",
     "react-native-color-picker": "^0.6.0",
     "react-native-drawer-layout-polyfill": "^2.0.0",
-    "react-native-tab-view": "^3.0.0",
-    "react-router-dom": "^5.1.2",
-    "react-router-native": "^5.1.2"
+    "react-native-tab-view": "^3.0.0"
   },
   "peerDependencies": {
     "@react-native-picker/picker": "*",
+    "expo-router": "*",
     "react": "*",
     "react-native": "*",
     "react-native-gesture-handler": "*",
     "react-native-pager-view": "*",
     "react-native-svg": "*",
+    "react-router": "*",
     "startupjs": "*"
+  },
+  "peerDependenciesMeta": {
+    "expo-router": {
+      "optional": true
+    },
+    "react-router": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
