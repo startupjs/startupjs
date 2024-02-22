@@ -1,3 +1,12 @@
+# [0.56.0-alpha.31](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.30...v0.56.0-alpha.31) (2024-02-22)
+
+
+### Bug Fixes
+
+* **ui/Icon:** fix manual size on web ([973c92e](https://github.com/startupjs/startupjs/commit/973c92e2093a002a253cc1efa049db1df0b2686a))
+
+
+
 # [0.56.0-alpha.30](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.29...v0.56.0-alpha.30) (2024-02-22)
 
 
