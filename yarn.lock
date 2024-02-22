@@ -8280,7 +8280,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/i18n@npm:^0.56.0-alpha.29, @startupjs/i18n@workspace:packages/i18n":
+"@startupjs/i18n@npm:^0.56.0-alpha.30, @startupjs/i18n@workspace:packages/i18n":
   version: 0.0.0-use.local
   resolution: "@startupjs/i18n@workspace:packages/i18n"
   dependencies:
@@ -31151,7 +31151,7 @@ __metadata:
     "@startupjs/bundler": "npm:^0.56.0-alpha.26"
     "@startupjs/cli": "npm:^0.56.0-alpha.28"
     "@startupjs/hooks": "npm:^0.56.0-alpha.18"
-    "@startupjs/i18n": "npm:^0.56.0-alpha.29"
+    "@startupjs/i18n": "npm:^0.56.0-alpha.30"
     "@startupjs/init": "npm:^0.56.0-alpha.18"
     "@startupjs/isomorphic-helpers": "npm:^0.56.0-alpha.0"
     "@startupjs/orm": "npm:^0.56.0-alpha.0"
