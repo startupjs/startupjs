@@ -44,8 +44,8 @@ function Icon ({
   }
 
   if (Platform.OS === 'web') {
-    style.width = _size
-    style.height = _size
+    style.width ??= _size
+    style.height ??= _size
     return pug`
       FontAwesomeIcon(
         style=style
