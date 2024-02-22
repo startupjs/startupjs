@@ -115,20 +115,20 @@
   },
   "peerDependencies": {
     "@react-native-picker/picker": "*",
+    "expo-router": "*",
     "react": "*",
     "react-native": "*",
     "react-native-gesture-handler": "*",
     "react-native-pager-view": "*",
     "react-native-svg": "*",
-    "startupjs": "*",
     "react-router": "*",
-    "expo-router": "*"
+    "startupjs": "*"
   },
   "peerDependenciesMeta": {
-    "react-router": {
+    "expo-router": {
       "optional": true
     },
-    "expo-router": {
+    "react-router": {
       "optional": true
     }
   },
