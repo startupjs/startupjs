@@ -2,6 +2,7 @@ const nodePath = require('path')
 const t = require('@babel/types')
 const template = require('@babel/template').default
 
+const COMPILERS = ['css', 'styl'] // used in rn-stylename-inline. TODO: move to a shared place
 const PROCESS_PATH = '@startupjs/babel-plugin-rn-stylename-to-style/process'
 const STYLE_NAME_REGEX = /(?:^s|S)tyleName$/
 const STYLE_REGEX = /(?:^s|S)tyle$/
@@ -33,6 +34,7 @@ module.exports = function (babel) {
   let cssIdentifier
   let hasObserver
   let $program
+  let usedCompilers
 
   function getStyleFromExpression (expression, state) {
     state.hasTransformedClassName = true
@@ -153,11 +155,13 @@ module.exports = function (babel) {
     const processCall = t.callExpression(
       state.reqName,
       [
-        styleName ? (
-          t.isStringLiteral(styleName.node.value)
-            ? styleName.node.value
-            : styleName.node.value.expression
-        ) : t.stringLiteral(''),
+        styleName
+          ? (
+              t.isStringLiteral(styleName.node.value)
+                ? styleName.node.value
+                : styleName.node.value.expression
+            )
+          : t.stringLiteral(''),
         cssIdentifier
           ? t.identifier(cssIdentifier.name)
           : t.objectExpression([]),
@@ -239,6 +243,7 @@ module.exports = function (babel) {
       cssIdentifier = undefined
       hasObserver = undefined
       $program = undefined
+      usedCompilers = undefined
     },
     visitor: {
       Program: {
@@ -268,8 +273,9 @@ module.exports = function (babel) {
           }
         }
       },
-      ImportDeclaration: ($this, state) => {
+      ImportDeclaration ($this, state) {
         if (!hasObserver) hasObserver = checkObserverImport($this)
+        usedCompilers ??= maybeGetUsedCompilers($this)
 
         const extensions =
           Array.isArray(state.opts.extensions) &&
@@ -350,7 +356,7 @@ module.exports = function (babel) {
           styleHash = {}
         }
       },
-      JSXAttribute: function JSXAttribute ($this, state) {
+      JSXAttribute ($this, state) {
         const name = $this.node.name.name
         if (STYLE_NAME_REGEX.test(name)) {
           const convertedName = convertStyleName(name)
@@ -368,6 +374,30 @@ module.exports = function (babel) {
           styleHash[ROOT_STYLE_PROP_NAME].partStyle = styleProps
           $this.remove()
         }
+      },
+      CallExpression ($this, state) {
+        const $callee = $this.get('callee')
+        if (!$callee.isIdentifier()) return
+        if (!usedCompilers?.[$callee.node.name]) return
+        // Create a `process` function call
+        state.hasTransformedClassName = true
+        const processCall = t.callExpression(
+          state.reqName,
+          [
+            $this.get('arguments.0')
+              ? $this.get('arguments.0').node
+              : t.stringLiteral(''),
+            cssIdentifier
+              ? t.identifier(cssIdentifier.name)
+              : t.objectExpression([]),
+            buildSafeVar({ variable: t.identifier(GLOBAL_NAME) }),
+            buildSafeVar({ variable: t.identifier(LOCAL_NAME) }),
+            $this.get('arguments.1')
+              ? $this.get('arguments.1').node
+              : t.objectExpression([])
+          ]
+        )
+        $this.replaceWith(processCall)
       }
     }
   }
@@ -496,4 +526,19 @@ function findReactFnComponent ($jsxAttribute) {
     $current = $current.getFunctionParent()
   }
   return $potentialComponentFn
+}
+
+// Get compilers from the magic import
+function maybeGetUsedCompilers ($import) {
+  if ($import.get('source').node.value !== GLOBAL_OBSERVER_LIBRARY) return
+  const usedCompilers = {}
+  for (const $specifier of $import.get('specifiers')) {
+    if (!$specifier.isImportSpecifier()) continue
+    const importedName = $specifier.get('imported').node.name
+    if (COMPILERS.includes(importedName)) {
+      const localName = $specifier.get('local').node.name
+      usedCompilers[localName] = true
+    }
+  }
+  return usedCompilers
 }
