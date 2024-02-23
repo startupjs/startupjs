@@ -1,3 +1,12 @@
+# [0.56.0-alpha.32](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.31...v0.56.0-alpha.32) (2024-02-23)
+
+
+### Features
+
+* **babel-plugin-rn-stylename-to-style:** support styl(), css() functions which manually returns styles same way as styleName ([#1187](https://github.com/startupjs/startupjs/issues/1187)) ([a88a63b](https://github.com/startupjs/startupjs/commit/a88a63bfcdb41c9d3bd033ddf3642f5227d235b8))
+
+
+
 # [0.56.0-alpha.31](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.30...v0.56.0-alpha.31) (2024-02-22)
 
 

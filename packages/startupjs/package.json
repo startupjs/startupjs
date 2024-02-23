@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.56.0-alpha.30",
+  "version": "0.56.0-alpha.32",
   "engines": {
     "node": ">= 14"
   },
@@ -39,9 +39,9 @@
   "bin": "./cli.js",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/app": "^0.56.0-alpha.13",
+    "@startupjs/app": "^0.56.0-alpha.32",
     "@startupjs/backend": "^0.56.0-alpha.13",
-    "@startupjs/bundler": "^0.56.0-alpha.26",
+    "@startupjs/bundler": "^0.56.0-alpha.32",
     "@startupjs/cli": "^0.56.0-alpha.28",
     "@startupjs/hooks": "^0.56.0-alpha.18",
     "@startupjs/i18n": "^0.56.0-alpha.30",
@@ -52,7 +52,7 @@
     "@startupjs/registry": "^0.56.0-alpha.11",
     "@startupjs/server": "^0.56.0-alpha.18",
     "@startupjs/utils": "^0.56.0-alpha.18",
-    "babel-preset-startupjs": "^0.56.0-alpha.26",
+    "babel-preset-startupjs": "^0.56.0-alpha.32",
     "events": "^3.3.0"
   }
 }
