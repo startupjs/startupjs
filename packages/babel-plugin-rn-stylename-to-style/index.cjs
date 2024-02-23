@@ -248,6 +248,7 @@ module.exports = function (babel) {
     visitor: {
       Program: {
         enter ($this, state) {
+          usedCompilers = getUsedCompilers($this)
           state.reqName = $this.scope.generateUidIdentifier(
             'processStyleName'
           )
@@ -275,7 +276,6 @@ module.exports = function (babel) {
       },
       ImportDeclaration ($this, state) {
         if (!hasObserver) hasObserver = checkObserverImport($this)
-        usedCompilers ??= maybeGetUsedCompilers($this)
 
         const extensions =
           Array.isArray(state.opts.extensions) &&
@@ -529,16 +529,19 @@ function findReactFnComponent ($jsxAttribute) {
 }
 
 // Get compilers from the magic import
-function maybeGetUsedCompilers ($import) {
-  if ($import.get('source').node.value !== GLOBAL_OBSERVER_LIBRARY) return
-  const usedCompilers = {}
-  for (const $specifier of $import.get('specifiers')) {
-    if (!$specifier.isImportSpecifier()) continue
-    const importedName = $specifier.get('imported').node.name
-    if (COMPILERS.includes(importedName)) {
-      const localName = $specifier.get('local').node.name
-      usedCompilers[localName] = true
+function getUsedCompilers ($program) {
+  for (const $import of $program.get('body')) {
+    if (!$import.isImportDeclaration()) continue
+    if ($import.get('source').node.value !== GLOBAL_OBSERVER_LIBRARY) continue
+    const usedCompilers = {}
+    for (const $specifier of $import.get('specifiers')) {
+      if (!$specifier.isImportSpecifier()) continue
+      const importedName = $specifier.get('imported').node.name
+      if (COMPILERS.includes(importedName)) {
+        const localName = $specifier.get('local').node.name
+        usedCompilers[localName] = true
+      }
     }
+    return usedCompilers
   }
-  return usedCompilers
 }
