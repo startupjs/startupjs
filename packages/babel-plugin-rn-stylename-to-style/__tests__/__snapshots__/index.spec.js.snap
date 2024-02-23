@@ -18,7 +18,6 @@ import _jsonCss from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
 const STYLES = JSON.parse(_jsonCss);
 console.log(STYLES);
-
 function Test() {
   return (
     <div
@@ -65,9 +64,7 @@ function Test () {
 
 import _jsonCss from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 const _css = JSON.parse(_jsonCss);
-
 function Test() {
   return (
     <div
@@ -137,7 +134,6 @@ function Test ({ items, ...props }) {
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Test({ itemStyle: _itemStyle, style: _style, items, ...props }) {
   return (
     <Card
@@ -198,7 +194,6 @@ function Test ({ style, active, submit, disabled }) {
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Test({ style, active, submit, disabled }) {
   const titleStyle = {
     color: "red",
@@ -290,10 +285,8 @@ function Test () {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import _css from "./index.styl";
-
 const _processStyleName =
   require("@startupjs/babel-plugin-rn-stylename-to-style/process").process;
-
 function Test() {
   return (
     <div
@@ -360,7 +353,6 @@ function Test ({ style, active, submit, disabled, titleStyle }) {
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Test({ style, active, submit, disabled, titleStyle }) {
   return (
     <Card
@@ -448,7 +440,6 @@ export default observer(Layout)
 
 import { observer, useBackPress } from "startupjs";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Layout({ style, children }) {
   return (
     <SafeAreaView
@@ -468,7 +459,6 @@ function Layout({ style, children }) {
     </SafeAreaView>
   );
 }
-
 export default observer(Layout);
 
 
@@ -495,7 +485,6 @@ function Menu ({ style, children, value, variant, activeBorder, iconPosition, ac
 
 import { observer, useBackPress } from "startupjs";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Menu({
   style,
   children,
@@ -576,7 +565,6 @@ export default function ComponentFactory(title) {
         </Span>
       );
     }
-
     const renderFooter = () => (
       <Div
         {..._processStyleName(
@@ -590,7 +578,6 @@ export default function ComponentFactory(title) {
         )}
       />
     );
-
     return (
       <Div
         {..._processStyleName(
@@ -673,7 +660,6 @@ export const Test = (_props) => {
       />
     );
   };
-
   return (
     <Div
       {..._processStyleName(
@@ -724,7 +710,6 @@ export const Test = (_props) => {
       />
     );
   }
-
   return (
     <Div
       {..._processStyleName(
@@ -845,7 +830,6 @@ function Test ({ style, active, submit, disabled }) {
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Test({ style, active, submit, disabled }) {
   return (
     <div
@@ -905,7 +889,6 @@ function Test ({ style }) {
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Test({ style }) {
   const titleStyle = {
     color: "red",
@@ -991,7 +974,6 @@ function Test () {
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Test() {
   return (
     <div
@@ -1133,7 +1115,6 @@ function Test () {
       ↓ ↓ ↓ ↓ ↓ ↓
 
 import { useLocal } from "startupjs";
-
 function Test() {
   return (
     <div
@@ -1180,7 +1161,6 @@ function Test ({ style, active, submit, disabled, titleStyle }) {
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Test({ style, active, submit, disabled, titleStyle }) {
   return (
     <Card
@@ -1253,7 +1233,6 @@ const Test = ({ style, layout, cardStyle: myCardStyle, contentStyle, title, ...p
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 const Test = ({
   columnStyle: _columnStyle,
   rowStyle: _rowStyle,
@@ -1303,7 +1282,6 @@ const Test = ({
       </Card>
     );
   }
-
   return render();
 };
 
@@ -1332,7 +1310,6 @@ const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) 
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 const Test = ({
   activeStyle: _activeStyle,
   style,
@@ -1376,7 +1353,6 @@ const Test = ({
       </Card>
     );
   }
-
   return render();
 };
 
@@ -1405,7 +1381,6 @@ const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) 
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 const Test = ({
   activeStyle: _activeStyle,
   style,
@@ -1452,7 +1427,6 @@ const Test = ({
       </Card>
     );
   }
-
   return render();
 };
 
@@ -1470,7 +1444,7 @@ function Test ({ variant }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-SyntaxError: unknown: 
+SyntaxError: unknown file: 
         'part' attribute only supports literal or string keys in object.
         Dynamic keys or spreads are not supported.
       
@@ -1494,7 +1468,7 @@ function Test ({ variant }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-SyntaxError: unknown: 
+SyntaxError: unknown file: 
       'part' attribute only supports static strings or objects inside an array.
     
 [0m [90m 2 |[39m [36mfunction[39m [33mTest[39m ({ variant }) {[0m
@@ -1517,7 +1491,7 @@ function Test ({ variant }) {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-SyntaxError: unknown: 
+SyntaxError: unknown file: 
     'part' attribute might only be the following:
       - static string
       - array (with static strings or objects)
@@ -1553,7 +1527,6 @@ function Test ({ title, style, ...props }) {
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Test({
   activeStyle: _activeStyle,
   contentStyle: _contentStyle,
@@ -1618,7 +1591,6 @@ function Test ({ title, ...props }) {
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Test({
   activeStyle: _activeStyle,
   contentStyle: _contentStyle,
@@ -1688,7 +1660,6 @@ function Test () {
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Test(_props) {
   return (
     <Card
@@ -1759,7 +1730,6 @@ const Test = ({ style, cardStyle: myCardStyle, contentStyle, title, ...props }) 
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 const Test = ({
   activeStyle: _activeStyle,
   style,
@@ -1803,7 +1773,6 @@ const Test = ({
       </Card>
     );
   }
-
   return render();
 };
 
@@ -1829,7 +1798,6 @@ function Test ({ style, cardStyle, title, ...props }) {
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Test({
   activeStyle: _activeStyle,
   contentStyle: _contentStyle,
@@ -1895,7 +1863,6 @@ function Test (props) {
 
 import _css from "./index.styl";
 import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
-
 function Test(props) {
   return (
     <Card
@@ -1931,6 +1898,88 @@ function Test(props) {
     </Card>
   );
 }
+
+
+`;
+
+exports[`@startupjs/babel-plugin-rn-stylename-to-style styl function to get style props manually instead of using styleName: styl function to get style props manually instead of using styleName 1`] = `
+
+import './index.styl'
+import { styl } from 'startupjs'
+const Test = ({ style, active, variant, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
+  function render () {
+    return (
+      <Card
+        {...styl(
+          ['root', variant],
+          {
+            style: [myCardStyle, { color: 'blue' }],
+            titleStyle: { color: 'red' }
+          }
+        )}
+      >
+        <Content {...styl(['content', variant, { active }])} />
+      </Card>
+    )
+  }
+  return render()
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import _css from "./index.styl";
+import { styl } from "startupjs";
+import { process as _processStyleName } from "@startupjs/babel-plugin-rn-stylename-to-style/process";
+const Test = ({
+  style,
+  active,
+  variant,
+  cardStyle: myCardStyle,
+  contentStyle,
+  title,
+  ...props
+}) => {
+  function render() {
+    return (
+      <Card
+        {..._processStyleName(
+          ["root", variant],
+          _css,
+          typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+          typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+          {
+            style: [
+              myCardStyle,
+              {
+                color: "blue",
+              },
+            ],
+            titleStyle: {
+              color: "red",
+            },
+          }
+        )}
+      >
+        <Content
+          {..._processStyleName(
+            [
+              "content",
+              variant,
+              {
+                active,
+              },
+            ],
+            _css,
+            typeof __CSS_GLOBAL__ !== "undefined" && __CSS_GLOBAL__,
+            typeof __CSS_LOCAL__ !== "undefined" && __CSS_LOCAL__,
+            {}
+          )}
+        />
+      </Card>
+    );
+  }
+  return render();
+};
 
 
 `;

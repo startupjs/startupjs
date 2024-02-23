@@ -323,7 +323,29 @@ pluginTester({
         }
       `,
       error: /'part' attribute only supports literal or string keys in object/
-    }
+    },
+    'styl function to get style props manually instead of using styleName': /* js */`
+      import './index.styl'
+      import { styl } from 'startupjs'
+      const Test = ({ style, active, variant, cardStyle: myCardStyle, contentStyle, title, ...props }) => {
+        function render () {
+          return (
+            <Card
+              {...styl(
+                ['root', variant],
+                {
+                  style: [myCardStyle, { color: 'blue' }],
+                  titleStyle: { color: 'red' }
+                }
+              )}
+            >
+              <Content {...styl(['content', variant, { active }])} />
+            </Card>
+          )
+        }
+        return render()
+      }
+    `
   }
 })
 
