@@ -1,3 +1,12 @@
+# [0.56.0-alpha.33](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.32...v0.56.0-alpha.33) (2024-02-23)
+
+
+### Bug Fixes
+
+* **babel-plugin-rn-stylename-to-style:** Get used compilers (css, styl) early, before the 'inline' plugin removes them ([857001b](https://github.com/startupjs/startupjs/commit/857001bf236641f93f4ca90e8cb4658c12e08ec9))
+
+
+
 # [0.56.0-alpha.32](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.31...v0.56.0-alpha.32) (2024-02-23)
 
 
