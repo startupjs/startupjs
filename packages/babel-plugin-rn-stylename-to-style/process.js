@@ -138,8 +138,7 @@ function transformStyles (styles) {
 // `dimensions` is an observed Proxy so
 // whenever its value changes the according components will
 // automatically rerender.
-// The change is triggered globally using the useMediaUpdate() hook
-// in @startupjs/app, which sets up the Dimensions 'change' listener
+// The change is triggered globally in startupjs/plugins/cssMediaUpdater.plugin.js
 function listenForDimensionsChange () {
   // eslint-disable-next-line no-unused-expressions
   if (dimensions.width) true

@@ -16,7 +16,7 @@ import _find from 'lodash/find'
 import decodeUriComponent from 'decode-uri-component'
 import axios from 'axios'
 import { Blocked, UpdateApp } from './components'
-import { useMediaUpdate, useNeedUpdate } from './helpers'
+import { useNeedUpdate } from './helpers'
 import Router from './Router'
 import packageJson from '../package.json'
 
@@ -49,7 +49,7 @@ export function pathFor (name, options) {
   if (!name) throw Error('[pathFor]: No name specified')
   const route = _find(routesGlobal, { name })
   if (!route) throw Error('[pathFor]: There is no such a route: ' + name)
-  let url = decodeUriComponent(generatePath(route.path, options))
+  const url = decodeUriComponent(generatePath(route.path, options))
   return url
 }
 
@@ -64,9 +64,6 @@ const App = observer(function AppComponent ({
   renderBlocked,
   ...props
 }) {
-  // Dynamically update @media queries in CSS whenever window width changes
-  useMediaUpdate()
-
   const [user] = useLocal('_session.user')
   const isNeedUpdate = useNeedUpdate(criticalVersion)
 
