@@ -55,7 +55,7 @@ const features = {
 const __modelsContext = require.context(
   "../../model",
   false,
-  /\\.[mc]?[jt]sx?$/
+  /^(?!.*(?:\\/|^)index\\.[mc]?[jt]sx?$).*\\.[mc]?[jt]sx?$/
 );
 const models = __modelsContext.keys().reduce((res, filename) => {
   const pattern = __getModelPattern(filename);

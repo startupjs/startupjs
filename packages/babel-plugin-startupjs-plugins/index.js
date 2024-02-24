@@ -109,8 +109,13 @@ function loadVirtualModels ($import, { $program, filename, t, template, root }) 
 }
 
 function loadVirtualModelsRequireContext ($import, { $program, filename, t, template, root }) {
+  // model/index.js file is ignored
   const buildModelsConst = template(/* js */`
-    const __modelsContext = require.context(%%folder%%, false, /\\.[mc]?[jt]sx?$/)
+    const __modelsContext = require.context(
+      %%folder%%,
+      false,
+      /^(?!.*(?:\\/|^)index\\.[mc]?[jt]sx?$).*\\.[mc]?[jt]sx?$/
+    )
     const %%name%% = __modelsContext.keys().reduce(
       (res, filename) => {
         const pattern = __getModelPattern(filename)
