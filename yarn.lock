@@ -31166,6 +31166,9 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
+  peerDependenciesMeta:
+    react-native:
+      optional: true
   bin:
     startupjs: ./cli.js
   languageName: unknown
