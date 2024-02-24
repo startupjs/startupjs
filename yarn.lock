@@ -8004,7 +8004,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-rn-stylename-to-style@npm:^0.56.0-alpha.33, @startupjs/babel-plugin-rn-stylename-to-style@workspace:packages/babel-plugin-rn-stylename-to-style":
+"@startupjs/babel-plugin-rn-stylename-to-style@npm:^0.56.0-alpha.0, @startupjs/babel-plugin-rn-stylename-to-style@npm:^0.56.0-alpha.33, @startupjs/babel-plugin-rn-stylename-to-style@workspace:packages/babel-plugin-rn-stylename-to-style":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-rn-stylename-to-style@workspace:packages/babel-plugin-rn-stylename-to-style"
   dependencies:
@@ -31147,6 +31147,7 @@ __metadata:
   resolution: "startupjs@workspace:packages/startupjs"
   dependencies:
     "@startupjs/app": "npm:^0.56.0-alpha.33"
+    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.56.0-alpha.0"
     "@startupjs/backend": "npm:^0.56.0-alpha.13"
     "@startupjs/bundler": "npm:^0.56.0-alpha.33"
     "@startupjs/cli": "npm:^0.56.0-alpha.28"
@@ -31161,6 +31162,10 @@ __metadata:
     "@startupjs/utils": "npm:^0.56.0-alpha.18"
     babel-preset-startupjs: "npm:^0.56.0-alpha.33"
     events: "npm:^3.3.0"
+    lodash: "npm:^4.17.20"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
   bin:
     startupjs: ./cli.js
   languageName: unknown

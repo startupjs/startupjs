@@ -25,6 +25,7 @@ export default observer(function TabThreeScreen () {
           Text address 2 is flat
         else
           Text address 2 is NOT flat
+      View.box
   `
 })
 
@@ -40,4 +41,10 @@ styl`
     margin 30px 0
     height 1px
     width 80%
+  .box
+    width 4u
+    height @width
+    background-color red
+    +tablet()
+      background-color green
 `

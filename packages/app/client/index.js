@@ -16,7 +16,7 @@ import _find from 'lodash/find'
 import decodeUriComponent from 'decode-uri-component'
 import axios from 'axios'
 import { Blocked, UpdateApp } from './components'
-import { useMediaUpdate, useNeedUpdate } from './helpers'
+import { useNeedUpdate } from './helpers'
 import Router from './Router'
 import packageJson from '../package.json'
 
@@ -64,9 +64,6 @@ const App = observer(function AppComponent ({
   renderBlocked,
   ...props
 }) {
-  // Dynamically update @media queries in CSS whenever window width changes
-  useMediaUpdate()
-
   const [user] = useLocal('_session.user')
   const isNeedUpdate = useNeedUpdate(criticalVersion)
 
