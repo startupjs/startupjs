@@ -61,7 +61,7 @@ const models = __modelsContext.keys().reduce((res, filename) => {
   const pattern = __getModelPattern(filename);
   return {
     ...res,
-    [pattern]: __modelsContext(filename),
+    [pattern]: __modelsContext(filename).default,
   };
 }, {});
 function __getModelPattern() {
@@ -75,6 +75,7 @@ function __getModelPattern() {
     );
   }
   pattern = pattern.replace(/\\[[^\\]]*\\]/g, "*");
+  pattern = pattern.replace(/^.+[\\\\/]/, "");
   pattern = pattern.replace(/\\.[^.]+$/, "");
   if (!MODEL_PATTERN_REGEX.test(pattern)) {
     throw Error(
