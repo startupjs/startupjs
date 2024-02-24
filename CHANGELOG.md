@@ -1,3 +1,12 @@
+# [0.56.0-alpha.35](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.34...v0.56.0-alpha.35) (2024-02-24)
+
+
+### Bug Fixes
+
+* **babel-plugin-startupjs-plugins:** Use `require.context` on Metro to dynamically load `/model` folder with hot-reloading ([#1189](https://github.com/startupjs/startupjs/issues/1189)) ([c04b673](https://github.com/startupjs/startupjs/commit/c04b6739d9d20f651cb17d8be6fb2a0491cf3976))
+
+
+
 # [0.56.0-alpha.34](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.33...v0.56.0-alpha.34) (2024-02-24)
 
 

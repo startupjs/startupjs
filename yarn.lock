@@ -7989,7 +7989,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-rn-stylename-inline@npm:^0.56.0-alpha.34, @startupjs/babel-plugin-rn-stylename-inline@workspace:packages/babel-plugin-rn-stylename-inline":
+"@startupjs/babel-plugin-rn-stylename-inline@npm:^0.56.0-alpha.35, @startupjs/babel-plugin-rn-stylename-inline@workspace:packages/babel-plugin-rn-stylename-inline":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-rn-stylename-inline@workspace:packages/babel-plugin-rn-stylename-inline"
   dependencies:
@@ -7998,7 +7998,7 @@ __metadata:
     "@babel/template": "npm:^7.4.0"
     "@babel/types": "npm:^7.0.0"
     "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.56.0-alpha.34"
-    "@startupjs/bundler": "npm:^0.56.0-alpha.34"
+    "@startupjs/bundler": "npm:^0.56.0-alpha.35"
     babel-plugin-tester: "npm:^9.1.0"
     jest: "npm:^26.0.1"
   languageName: unknown
@@ -8034,7 +8034,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-startupjs-plugins@npm:^0.56.0-alpha.13, @startupjs/babel-plugin-startupjs-plugins@workspace:packages/babel-plugin-startupjs-plugins":
+"@startupjs/babel-plugin-startupjs-plugins@npm:^0.56.0-alpha.35, @startupjs/babel-plugin-startupjs-plugins@workspace:packages/babel-plugin-startupjs-plugins":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs-plugins@workspace:packages/babel-plugin-startupjs-plugins"
   dependencies:
@@ -8122,7 +8122,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/bundler@npm:^0.56.0-alpha.34, @startupjs/bundler@workspace:packages/bundler":
+"@startupjs/bundler@npm:^0.56.0-alpha.35, @startupjs/bundler@workspace:packages/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:packages/bundler"
   dependencies:
@@ -8135,7 +8135,7 @@ __metadata:
     "@startupjs/babel-plugin-eliminator": "npm:^0.56.0-alpha.1"
     "@startupjs/babel-plugin-react-css-modules": "npm:^6.5.4-1"
     "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.56.0-alpha.0"
-    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.56.0-alpha.13"
+    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.56.0-alpha.35"
     "@startupjs/babel-plugin-transform-react-pug": "npm:^7.0.1-0"
     "@startupjs/css-to-react-native-transform": "npm:^1.9.0-2"
     "@startupjs/plugin": "npm:^0.56.0-alpha.0"
@@ -8147,7 +8147,7 @@ __metadata:
     assets-webpack-plugin: "npm:^7.1.1"
     autoprefixer: "npm:^10.4.0"
     babel-loader: "npm:^8.2.3"
-    babel-preset-startupjs: "npm:^0.56.0-alpha.34"
+    babel-preset-startupjs: "npm:^0.56.0-alpha.35"
     connect: "npm:^3.7.0"
     css-loader: "npm:^6.5.0"
     css-minimizer-webpack-plugin: "npm:^5.0.0"
@@ -11312,7 +11312,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-startupjs@npm:^0.56.0-alpha.34, babel-preset-startupjs@workspace:packages/babel-preset-startupjs":
+"babel-preset-startupjs@npm:^0.56.0-alpha.35, babel-preset-startupjs@workspace:packages/babel-preset-startupjs":
   version: 0.0.0-use.local
   resolution: "babel-preset-startupjs@workspace:packages/babel-preset-startupjs"
   dependencies:
@@ -11337,13 +11337,13 @@ __metadata:
     "@startupjs/babel-plugin-import-to-react-lazy": "npm:^0.56.0-alpha.0"
     "@startupjs/babel-plugin-react-css-modules": "npm:^6.5.4-1"
     "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.56.0-alpha.0"
-    "@startupjs/babel-plugin-rn-stylename-inline": "npm:^0.56.0-alpha.34"
+    "@startupjs/babel-plugin-rn-stylename-inline": "npm:^0.56.0-alpha.35"
     "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.56.0-alpha.34"
     "@startupjs/babel-plugin-startupjs": "npm:^0.56.0-alpha.2"
     "@startupjs/babel-plugin-startupjs-debug": "npm:^0.56.0-alpha.1"
     "@startupjs/babel-plugin-startupjs-utils": "npm:^0.56.0-alpha.0"
     "@startupjs/babel-plugin-transform-react-pug": "npm:^7.0.1-0"
-    "@startupjs/bundler": "npm:^0.56.0-alpha.34"
+    "@startupjs/bundler": "npm:^0.56.0-alpha.35"
     babel-plugin-module-resolver: "npm:^5.0.0"
     babel-plugin-react-native-platform-specific-extensions: "npm:^1.1.1"
     babel-plugin-react-native-web-pass-classname: "npm:^0.2.1"
@@ -31149,7 +31149,7 @@ __metadata:
     "@startupjs/app": "npm:^0.56.0-alpha.34"
     "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.56.0-alpha.34"
     "@startupjs/backend": "npm:^0.56.0-alpha.13"
-    "@startupjs/bundler": "npm:^0.56.0-alpha.34"
+    "@startupjs/bundler": "npm:^0.56.0-alpha.35"
     "@startupjs/cli": "npm:^0.56.0-alpha.28"
     "@startupjs/hooks": "npm:^0.56.0-alpha.18"
     "@startupjs/i18n": "npm:^0.56.0-alpha.30"
@@ -31160,7 +31160,7 @@ __metadata:
     "@startupjs/registry": "npm:^0.56.0-alpha.34"
     "@startupjs/server": "npm:^0.56.0-alpha.34"
     "@startupjs/utils": "npm:^0.56.0-alpha.18"
-    babel-preset-startupjs: "npm:^0.56.0-alpha.34"
+    babel-preset-startupjs: "npm:^0.56.0-alpha.35"
     events: "npm:^3.3.0"
     lodash: "npm:^4.17.20"
   peerDependencies:
