@@ -1,3 +1,12 @@
+# [0.56.0-alpha.36](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.35...v0.56.0-alpha.36) (2024-02-24)
+
+
+### Features
+
+* **ui/Input:** Add 'required' flag which shows red star after the label ([1ea55c3](https://github.com/startupjs/startupjs/commit/1ea55c3b0536b30255f8a64f08fbfd614802f251))
+
+
+
 # [0.56.0-alpha.35](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.34...v0.56.0-alpha.35) (2024-02-24)
 
 
