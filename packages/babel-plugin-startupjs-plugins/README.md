@@ -40,6 +40,11 @@ const plugins = [
 ]
 ```
 
-## Licence
+## Options
+
+`useRequireContext` -- compile virtual models import to use `require.context` for dynamically
+importing things
+
+## License
 
 MIT

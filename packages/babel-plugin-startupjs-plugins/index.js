@@ -2,14 +2,13 @@ const { statSync } = require('fs')
 const { addDefault } = require('@babel/helper-module-imports')
 const {
   getRelativePluginImports, getRelativeConfigImport, getConfigFilePaths,
-  getRelativeModelImports, getFeatures
+  getRelativeModelImports, getFeatures, getRelativeModelRequireContextPath
 } = require('./loader')
 
 const VIRTUAL_CONFIG_IMPORT_REGEX = /(?:^|\/)startupjs\.config\.virtual\.js$/
 const VIRTUAL_MODELS_IMPORT_REGEX = /(?:^|\/)startupjs\.models\.virtual\.js$/
 const VIRTUAL_PLUGINS_IMPORT_REGEX = /(?:^|\/)startupjs\.plugins\.virtual\.js$/
 const VIRTUAL_FEATURES_IMPORT_REGEX = /(?:^|\/)startupjs\.features\.virtual\.js$/
-const MODEL_PATTERN_REGEX = /^[a-zA-Z0-9$_*.]+$/
 
 module.exports = function (api, options) {
   const { types: t, template } = api
@@ -39,7 +38,11 @@ module.exports = function (api, options) {
         } else if (isVirtualImport($this, VIRTUAL_PLUGINS_IMPORT_REGEX)) {
           return loadVirtualPlugins($this, { $program, filename, t, template, root: options.root })
         } else if (isVirtualImport($this, VIRTUAL_MODELS_IMPORT_REGEX)) {
-          return loadVirtualModels($this, { $program, filename, t, template, root: options.root })
+          if (options.useRequireContext) {
+            return loadVirtualModelsRequireContext($this, { $program, filename, t, template, root: options.root })
+          } else {
+            return loadVirtualModels($this, { $program, filename, t, template, root: options.root })
+          }
         } else if (isVirtualImport($this, VIRTUAL_FEATURES_IMPORT_REGEX)) {
           return loadVirtualFeatures($this, { $program, t, template, root: options.root })
         }
@@ -101,6 +104,35 @@ function loadVirtualModels ($import, { $program, filename, t, template, root }) 
 
   // dummy usage of plugins to make sure they are not removed by dead code elimination
   const modelsConst = buildModelsConst({ name, models })
+  const $lastImport = $program.get('body').filter($i => $i.isImportDeclaration()).pop()
+  $lastImport.insertAfter(modelsConst)
+}
+
+function loadVirtualModelsRequireContext ($import, { $program, filename, t, template, root }) {
+  // model/index.js file is ignored
+  const buildModelsConst = template(/* js */`
+    const __modelsContext = require.context(%%folder%%, false, /\\.[mc]?[jt]sx?$/)
+    const %%name%% = __modelsContext.keys().reduce(
+      (res, filename) => {
+        const pattern = __getModelPattern(filename)
+        return { ...res, [pattern]: __modelsContext(filename).default }
+      },
+      {}
+    )
+    ${getModelPatternFunction({ precompiled: true, functionName: '__getModelPattern' })}
+  `)
+  validateModelsImport($import)
+
+  const requireContextFolder = getRelativeModelRequireContextPath(filename, root)
+
+  // remove the original magic import
+  const name = $import.get('specifiers.0.local').node.name
+  $import.remove()
+
+  const modelsConst = buildModelsConst({
+    name,
+    folder: t.stringLiteral(requireContextFolder)
+  })
   const $lastImport = $program.get('body').filter($i => $i.isImportDeclaration()).pop()
   $lastImport.insertAfter(modelsConst)
 }
@@ -173,21 +205,55 @@ function validateFeaturesImport ($import) {
   }
 }
 
-function getModelPattern (modelFilename, $import) {
-  let pattern = modelFilename
-  if (/\*/.test(pattern)) {
-    throw $import.buildCodeFrameError('Instead of `*` in model filename use `[id]`. Got: ' + modelFilename)
+const getModelPattern = getModelPatternFunction()
+
+// IMPORTANT: this function is used in both in the babel plugin itself and
+//            can be output to the generated code when using require.context for models.
+//            - default implementation is for usage in the generated code and throws runtime errors.
+//            - when using in babel instead of `throw Error` we do `throw $import.buildCodeFrameError`
+function getModelPatternFunction ({ precompiled = false, functionName = '__getModelPattern' } = {}) {
+  let functionBody = /* js */`
+    const modelFilename = arguments[0]
+    /* $1 */
+    const MODEL_PATTERN_REGEX = /^[a-zA-Z0-9$_*.]+$/
+    let pattern = modelFilename
+    if (/\\*/.test(pattern)) {
+      throw Error("[models] Instead of '*' in model filename use '[id]'. Got: " + modelFilename)
+    }
+    // replace [id] with *
+    pattern = pattern.replace(/\\[[^\\]]*\\]/g, '*')
+    // remove leading path
+    pattern = pattern.replace(/^.+[\\\\/]/, '')
+    // remove extension
+    pattern = pattern.replace(/\\.[^.]+$/, '')
+    // validate pattern
+    if (!MODEL_PATTERN_REGEX.test(pattern)) {
+      throw Error(
+        "[models] Invalid model filename pattern: " + modelFilename + "\\n" +
+        "It has to comply with the following regex: " + MODEL_PATTERN_REGEX.toString() +
+        " with '[id]' instead of '*'")
+    }
+    // 'index' is a special case -- root model
+    if (pattern === 'index') pattern = ''
+    return pattern
+  `
+  if (precompiled) {
+    // for usage in the generated code
+    if (typeof functionName !== 'string') throw Error('functionName has to be a string')
+    // guard from possible injections
+    if (!/^[a-zA-Z_]+$/.test(functionName)) throw Error('functionName can only contain letters and an underscore')
+    // get rid of the placeholder since we just throw runtime errors
+    functionBody = functionBody.replace('/* $1 */', '')
+    return `
+      function ${functionName} () {
+        ${functionBody}
+      }
+    `
+  } else {
+    // for usage in the babel plugin itself
+    // replace placeholder with $import to build a code frame error at compile time
+    functionBody = functionBody.replace('/* $1 */', 'const $import = arguments[1]')
+    functionBody = functionBody.replace(/throw Error/g, 'throw $import.buildCodeFrameError')
+    return new Function(functionBody) // eslint-disable-line no-new-func
   }
-  // replace [id] with *
-  pattern = pattern.replace(/\[[^\]]*\]/g, '*')
-  // remove extension
-  pattern = pattern.replace(/\.[^.]+$/, '')
-  // validate pattern
-  if (!MODEL_PATTERN_REGEX.test(pattern)) {
-    throw $import.buildCodeFrameError(
-      'Invalid model filename pattern: ' + modelFilename + '\n' +
-      'It has to comply with the following regex: ' + MODEL_PATTERN_REGEX.toString() +
-      ' with `[id]` instead of `*`')
-  }
-  return pattern
 }

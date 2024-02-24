@@ -1,5 +1,4 @@
 import { pug, styl, observer } from 'startupjs'
-
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabThreeScreen () {

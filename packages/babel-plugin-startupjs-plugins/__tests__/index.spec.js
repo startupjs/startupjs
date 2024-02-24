@@ -41,3 +41,34 @@ pluginTester({
       readFileSync(join(FIXTURES_PATH, './node_modules/config/index.js'), 'utf8')
   }
 })
+
+pluginTester({
+  plugin,
+  pluginName,
+  snapshot: true,
+  pluginOptions: {
+    root: FIXTURES_PATH,
+    useRequireContext: true
+  },
+  babelOptions: {
+    filename: join(FIXTURES_PATH, './node_modules/config/index.js')
+  },
+  tests: {
+    'On Metro uses require.context for models': /* js */`
+      import { registry } from 'startupjs/registry'
+      import config from './startupjs.config.virtual.js'
+      import models from './startupjs.models.virtual.js'
+      import features from './startupjs.features.virtual.js'
+      import plugins from './startupjs.plugins.virtual.js'
+      import dummy from '@dummy/dummy'
+
+      config.features = features
+      registry.init(config, { plugins, models })
+
+      const x = 'xxx'
+      dummy(x)
+
+      export default () => {}
+    `
+  }
+})

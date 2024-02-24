@@ -13,6 +13,95 @@ console.log(config);
 
 `;
 
+exports[`@startupjs/babel-plugin-startupjs-plugins On Metro uses require.context for models: On Metro uses require.context for models 1`] = `
+
+import { registry } from 'startupjs/registry'
+import config from './startupjs.config.virtual.js'
+import models from './startupjs.models.virtual.js'
+import features from './startupjs.features.virtual.js'
+import plugins from './startupjs.plugins.virtual.js'
+import dummy from '@dummy/dummy'
+
+config.features = features
+registry.init(config, { plugins, models })
+
+const x = 'xxx'
+dummy(x)
+
+export default () => {}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { registry } from "startupjs/registry";
+import config from "../../startupjs.config.js";
+import dummy from "@dummy/dummy";
+import _default from "@startupjs/server/plugins/clientSession.plugin";
+import _default2 from "@startupjs/ui/plugin";
+import _default3 from "startupjs/plugins/cssMediaUpdater.plugin";
+import _default4 from "module-1/plugin";
+import _default5 from "module-1-plugin/thePlugin.plugin";
+import _default6 from "../../dummyPlugin.plugin.js";
+const plugins = [
+  _default,
+  _default2,
+  _default3,
+  _default4,
+  _default5,
+  _default6,
+];
+const features = {
+  enableServer: true,
+};
+const __modelsContext = require.context(
+  "../../model",
+  false,
+  /\\.[mc]?[jt]sx?$/
+);
+const models = __modelsContext.keys().reduce((res, filename) => {
+  const pattern = __getModelPattern(filename);
+  return {
+    ...res,
+    [pattern]: __modelsContext(filename).default,
+  };
+}, {});
+function __getModelPattern() {
+  const modelFilename = arguments[0];
+  const MODEL_PATTERN_REGEX = /^[a-zA-Z0-9$_*.]+$/;
+  let pattern = modelFilename;
+  if (/\\*/.test(pattern)) {
+    throw Error(
+      "[models] Instead of '*' in model filename use '[id]'. Got: " +
+        modelFilename
+    );
+  }
+  pattern = pattern.replace(/\\[[^\\]]*\\]/g, "*");
+  pattern = pattern.replace(/^.+[\\\\/]/, "");
+  pattern = pattern.replace(/\\.[^.]+$/, "");
+  if (!MODEL_PATTERN_REGEX.test(pattern)) {
+    throw Error(
+      "[models] Invalid model filename pattern: " +
+        modelFilename +
+        "\\n" +
+        "It has to comply with the following regex: " +
+        MODEL_PATTERN_REGEX.toString() +
+        " with '[id]' instead of '*'"
+    );
+  }
+  if (pattern === "index") pattern = "";
+  return pattern;
+}
+config.features = features;
+registry.init(config, {
+  plugins,
+  models,
+});
+const x = "xxx";
+dummy(x);
+export default () => {};
+
+
+`;
+
 exports[`@startupjs/babel-plugin-startupjs-plugins Processes files with a magic import: Processes files with a magic import 1`] = `
 
 import { registry } from 'startupjs/registry'
@@ -37,22 +126,32 @@ import config from "../../startupjs.config.js";
 import dummy from "@dummy/dummy";
 import _default from "../../model/_session.games.[id].js";
 import _default2 from "../../model/_session.games.js";
-import _default3 from "../../model/users.[id].js";
-import _default4 from "../../model/users.js";
-import _default5 from "@startupjs/server/plugins/clientSession.plugin";
-import _default6 from "@startupjs/ui/plugin";
-import _default7 from "module-1/plugin";
-import _default8 from "module-1-plugin/thePlugin.plugin";
-import _default9 from "../../dummyPlugin.plugin.js";
-const plugins = [_default5, _default6, _default7, _default8, _default9];
+import _default3 from "../../model/index.js";
+import _default4 from "../../model/users.[id].js";
+import _default5 from "../../model/users.js";
+import _default6 from "@startupjs/server/plugins/clientSession.plugin";
+import _default7 from "@startupjs/ui/plugin";
+import _default8 from "startupjs/plugins/cssMediaUpdater.plugin";
+import _default9 from "module-1/plugin";
+import _default10 from "module-1-plugin/thePlugin.plugin";
+import _default11 from "../../dummyPlugin.plugin.js";
+const plugins = [
+  _default6,
+  _default7,
+  _default8,
+  _default9,
+  _default10,
+  _default11,
+];
 const features = {
   enableServer: true,
 };
 const models = {
   "_session.games.*": _default,
   "_session.games": _default2,
-  "users.*": _default3,
-  users: _default4,
+  "": _default3,
+  "users.*": _default4,
+  users: _default5,
 };
 config.features = features;
 registry.init(config, {
@@ -83,22 +182,32 @@ import { registry } from "startupjs/registry";
 import config from "../../startupjs.config.js";
 import _default from "../../model/_session.games.[id].js";
 import _default2 from "../../model/_session.games.js";
-import _default3 from "../../model/users.[id].js";
-import _default4 from "../../model/users.js";
-import _default5 from "@startupjs/server/plugins/clientSession.plugin";
-import _default6 from "@startupjs/ui/plugin";
-import _default7 from "module-1/plugin";
-import _default8 from "module-1-plugin/thePlugin.plugin";
-import _default9 from "../../dummyPlugin.plugin.js";
-const plugins = [_default5, _default6, _default7, _default8, _default9];
+import _default3 from "../../model/index.js";
+import _default4 from "../../model/users.[id].js";
+import _default5 from "../../model/users.js";
+import _default6 from "@startupjs/server/plugins/clientSession.plugin";
+import _default7 from "@startupjs/ui/plugin";
+import _default8 from "startupjs/plugins/cssMediaUpdater.plugin";
+import _default9 from "module-1/plugin";
+import _default10 from "module-1-plugin/thePlugin.plugin";
+import _default11 from "../../dummyPlugin.plugin.js";
+const plugins = [
+  _default6,
+  _default7,
+  _default8,
+  _default9,
+  _default10,
+  _default11,
+];
 const features = {
   enableServer: true,
 };
 const models = {
   "_session.games.*": _default,
   "_session.games": _default2,
-  "users.*": _default3,
-  users: _default4,
+  "": _default3,
+  "users.*": _default4,
+  users: _default5,
 };
 config.features = features;
 registry.init(config, {

@@ -45,6 +45,11 @@ exports.getRelativeConfigImport = (sourceFilename, root = ROOT) => {
   return relativePath
 }
 
+exports.getRelativeModelRequireContextPath = (sourceFilename, root = ROOT) => {
+  const modelFolder = join(root, 'model')
+  return relative(dirname(pathResolve(root, sourceFilename)), modelFolder)
+}
+
 exports.getRelativeModelImports = (sourceFilename, root = ROOT) => {
   // find model folder
   const modelFolder = join(root, 'model')
@@ -53,8 +58,6 @@ exports.getRelativeModelImports = (sourceFilename, root = ROOT) => {
   const modelImports = {}
   for (const filename of readdirSync(modelFolder)) {
     if (!/\.[mc]?[jt]sx?$/.test(filename)) continue
-    // ignore index.js file if it exists
-    if (/index\.[mc]?[jt]sx?$/.test(filename)) continue
     modelImports[filename] = relative(dirname(pathResolve(root, sourceFilename)), join(modelFolder, filename))
   }
   return modelImports
