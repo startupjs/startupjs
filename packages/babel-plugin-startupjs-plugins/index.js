@@ -253,7 +253,7 @@ function getModelPatternFunction ({ precompiled = false, functionName = '__getMo
     // for usage in the babel plugin itself
     // replace placeholder with $import to build a code frame error at compile time
     functionBody = functionBody.replace('/* $1 */', 'const $import = arguments[1]')
-    functionBody = functionBody.replace('throw Error', 'throw $import.buildCodeFrameError')
+    functionBody = functionBody.replace(/throw Error/g, 'throw $import.buildCodeFrameError')
     return new Function(functionBody) // eslint-disable-line no-new-func
   }
 }
