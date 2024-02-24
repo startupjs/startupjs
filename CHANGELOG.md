@@ -1,3 +1,12 @@
+# [0.56.0-alpha.34](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.33...v0.56.0-alpha.34) (2024-02-24)
+
+
+### Bug Fixes
+
+* **startupjs:** trigger updates to [@media](https://github.com/media) queries ([#1188](https://github.com/startupjs/startupjs/issues/1188)) ([ead9761](https://github.com/startupjs/startupjs/commit/ead9761e0fb1933f08cf717bd56f41aa4155e132))
+
+
+
 # [0.56.0-alpha.33](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.32...v0.56.0-alpha.33) (2024-02-23)
 
 

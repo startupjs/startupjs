@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.56.0-alpha.33",
+  "version": "0.56.0-alpha.34",
   "engines": {
     "node": ">= 14"
   },
@@ -40,21 +40,21 @@
   "bin": "./cli.js",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/app": "^0.56.0-alpha.33",
-    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.56.0-alpha.0",
+    "@startupjs/app": "^0.56.0-alpha.34",
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.56.0-alpha.34",
     "@startupjs/backend": "^0.56.0-alpha.13",
-    "@startupjs/bundler": "^0.56.0-alpha.33",
+    "@startupjs/bundler": "^0.56.0-alpha.34",
     "@startupjs/cli": "^0.56.0-alpha.28",
     "@startupjs/hooks": "^0.56.0-alpha.18",
     "@startupjs/i18n": "^0.56.0-alpha.30",
-    "@startupjs/init": "^0.56.0-alpha.18",
+    "@startupjs/init": "^0.56.0-alpha.34",
     "@startupjs/isomorphic-helpers": "^0.56.0-alpha.0",
     "@startupjs/orm": "^0.56.0-alpha.0",
     "@startupjs/react-sharedb": "^0.56.0-alpha.18",
-    "@startupjs/registry": "^0.56.0-alpha.11",
-    "@startupjs/server": "^0.56.0-alpha.18",
+    "@startupjs/registry": "^0.56.0-alpha.34",
+    "@startupjs/server": "^0.56.0-alpha.34",
     "@startupjs/utils": "^0.56.0-alpha.18",
-    "babel-preset-startupjs": "^0.56.0-alpha.33",
+    "babel-preset-startupjs": "^0.56.0-alpha.34",
     "events": "^3.3.0",
     "lodash": "^4.17.20"
   },
