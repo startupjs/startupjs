@@ -58,8 +58,6 @@ exports.getRelativeModelImports = (sourceFilename, root = ROOT) => {
   const modelImports = {}
   for (const filename of readdirSync(modelFolder)) {
     if (!/\.[mc]?[jt]sx?$/.test(filename)) continue
-    // ignore index.js file if it exists
-    if (/index\.[mc]?[jt]sx?$/.test(filename)) continue
     modelImports[filename] = relative(dirname(pathResolve(root, sourceFilename)), join(modelFolder, filename))
   }
   return modelImports

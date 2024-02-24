@@ -111,11 +111,7 @@ function loadVirtualModels ($import, { $program, filename, t, template, root }) 
 function loadVirtualModelsRequireContext ($import, { $program, filename, t, template, root }) {
   // model/index.js file is ignored
   const buildModelsConst = template(/* js */`
-    const __modelsContext = require.context(
-      %%folder%%,
-      false,
-      /^(?!.*(?:\\/|^)index\\.[mc]?[jt]sx?$).*\\.[mc]?[jt]sx?$/
-    )
+    const __modelsContext = require.context(%%folder%%, false, /\\.[mc]?[jt]sx?$/)
     const %%name%% = __modelsContext.keys().reduce(
       (res, filename) => {
         const pattern = __getModelPattern(filename)
@@ -237,6 +233,8 @@ function getModelPatternFunction ({ precompiled = false, functionName = '__getMo
         "It has to comply with the following regex: " + MODEL_PATTERN_REGEX.toString() +
         " with '[id]' instead of '*'")
     }
+    // 'index' is a special case -- root model
+    if (pattern === 'index') pattern = ''
     return pattern
   `
   if (precompiled) {
