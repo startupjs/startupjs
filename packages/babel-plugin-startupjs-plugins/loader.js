@@ -45,6 +45,11 @@ exports.getRelativeConfigImport = (sourceFilename, root = ROOT) => {
   return relativePath
 }
 
+exports.getRelativeModelRequireContextPath = (sourceFilename, root = ROOT) => {
+  const modelFolder = join(root, 'model')
+  return relative(dirname(pathResolve(root, sourceFilename)), modelFolder)
+}
+
 exports.getRelativeModelImports = (sourceFilename, root = ROOT) => {
   // find model folder
   const modelFolder = join(root, 'model')

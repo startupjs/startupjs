@@ -16,6 +16,8 @@ module.exports = function eliminatorLoader (source) {
   const envs = this.query.envs
   if (!envs) throw Error("eliminatorLoader: envs not provided (for example ['features', 'isomorphic', 'client'])")
 
+  const useRequireContext = this.query.useRequireContext
+
   let code = source
 
   // STEP 1: convert pug to jsx and auto-load startupjs plugins
@@ -37,7 +39,7 @@ module.exports = function eliminatorLoader (source) {
       }],
       // traverse "exports" of package.json and all dependencies to find all startupjs plugins
       // and automatically import them in the main startupjs.config.js file
-      require('@startupjs/babel-plugin-startupjs-plugins')
+      [require('@startupjs/babel-plugin-startupjs-plugins'), { useRequireContext }]
     ]
   }).code
 
