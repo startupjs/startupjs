@@ -16,7 +16,7 @@ export function css (cssString) { return cssString }
 export function styl (stylString) { return stylString }
 // dummy pug function (it gets compiled to jsx by babel pug plugin)
 export function pug (pugString) { return pugString }
-export { default as StartupjsProvider } from './StartupjsProvider.js'
+export { default as StartupjsProvider } from './StartupjsProvider/index.js'
 export { default as t } from '@startupjs/i18n/client/t.js'
 
 // init client at the very end. This is hacky solution to handle import loops

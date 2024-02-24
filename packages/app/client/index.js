@@ -49,7 +49,7 @@ export function pathFor (name, options) {
   if (!name) throw Error('[pathFor]: No name specified')
   const route = _find(routesGlobal, { name })
   if (!route) throw Error('[pathFor]: There is no such a route: ' + name)
-  let url = decodeUriComponent(generatePath(route.path, options))
+  const url = decodeUriComponent(generatePath(route.path, options))
   return url
 }
 

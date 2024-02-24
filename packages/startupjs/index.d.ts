@@ -11,5 +11,5 @@ export function css (css: TemplateStringsArray): any
 export function styl (styl: TemplateStringsArray): any
 export function pug (pug: TemplateStringsArray): any
 
-export { default as StartupjsProvider } from './StartupjsProvider.js'
+export { default as StartupjsProvider } from './StartupjsProvider/index.js'
 export { default as t } from '@startupjs/i18n/client/t.js'

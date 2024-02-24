@@ -11,6 +11,7 @@
     ".": "./index.js",
     "./*": "./*.js",
     "./*.js": "./*.js",
+    "./StartupjsProvider": "./StartupjsProvider/index.js",
     "./metro-config": "./metro-config.cjs",
     "./metro-config.cjs": "./metro-config.cjs",
     "./metro-babel-transformer": "./metro-babel-transformer.cjs",
@@ -34,8 +35,7 @@
     "./i18n/*.js": "./i18n/*.js",
     "./init": "./init/index.js",
     "./init/*": "./init/*.js",
-    "./init/*.js": "./init/*.js",
-    "./plugins/cssMediaUpdater.plugin": "./plugins/cssMediaUpdater.plugin.js"
+    "./init/*.js": "./init/*.js"
   },
   "bin": "./cli.js",
   "license": "MIT",
