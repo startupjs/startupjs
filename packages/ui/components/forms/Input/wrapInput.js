@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Text } from 'react-native'
 import { pug, styl, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
@@ -29,6 +30,7 @@ export default function wrapInput (Component, configuration) {
     configuration: componentConfiguration,
     error,
     onFocus,
+    required,
     onBlur,
     _onLabelPress,
     ...props
@@ -82,7 +84,10 @@ export default function wrapInput (Component, configuration) {
           onPress=isLabelClickable
             ? _onLabelPress
             : undefined
-        )= label
+        )
+          = label
+          if required
+            Text.required= ' *'
     `
     const _description = pug`
       if description
@@ -175,7 +180,8 @@ export default function wrapInput (Component, configuration) {
       isLabelColoredWhenFocusing: PropTypes.bool,
       isLabelClickable: PropTypes.bool
     }),
-    error: PropTypes.string
+    error: PropTypes.string,
+    required: PropTypes.bool
   }, Component.propTypes)
 
   const ObservedInputWrapper = observer(
@@ -203,6 +209,10 @@ styl`
 
   .description
     font(caption)
+
+  .required
+    color $errorColor
+    font-weight bold
 
   .errorContainer
     margin-top 1u
