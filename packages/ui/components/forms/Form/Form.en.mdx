@@ -43,7 +43,7 @@ return (
 
 ## Custom inputs
 
-Pass custom inputs to the `Form` using the `extraInputs` prop.
+Pass custom inputs to the `Form` using the `customInputs` prop.
 
 Inside custom inputs you can access Form's props using the `useFormProps` hook.
 
@@ -76,6 +76,43 @@ const CustomAgeInput = observer(({ $value, ...props }) => {
     $value.set(age)
   }
   return <NumberInput value={$value.get()} onChangeNumber={setAge} {...props} />
+})
+```
+
+### Adding custom inputs globally
+
+You can add custom inputs globally by creating a plugin which uses the client's `customFormInputs` hook.
+
+You should return an object with the custom inputs in this hook.
+
+```jsx
+// startupjs.config.js
+import { observer } from 'startupjs'
+import { NumberInput } from '@startupjs/ui'
+import { createPlugin } from 'startupjs/registry'
+
+export default {
+  plugins: {
+    // if there are no plugin options, just specify `true` to enable the plugin.
+    myCustomInputs: {
+      minAge: 18
+    }
+  }
+}
+
+createPlugin({
+  name: 'myCustomInputs',
+  client: ({ minAge }) => ({
+    customFormInputs: () => ({
+      age: observer(({ $value }) => {
+        function setAge (age) {
+          if (age < minAge) age = minAge
+          $value.set(age)
+        }
+        return <NumberInput value={$value.get()} onChangeNumber={setAge} />
+      })
+    })
+  })
 })
 ```
 

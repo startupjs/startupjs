@@ -344,7 +344,13 @@ const inputs = {
 }
 
 // add extra inputs from plugins
-export const customFormInputs = MODULE.reduceHook('customFormInputs', {})
+export const customFormInputs = MODULE.hook('customFormInputs')
+  .reduce((allInputs, pluginInputs = {}) => {
+    for (const input in pluginInputs) {
+      if (allInputs[input]) console.warn(ERRORS.inputAlreadyDefined(input))
+    }
+    return { ...allInputs, ...pluginInputs }
+  }, {})
 
 export default inputs
 
@@ -353,7 +359,7 @@ export const ALL_INPUTS = Object.keys(inputs)
 export function useInputMeta (input) {
   const customInputsFromContext = useCustomInputs()
   const componentMeta = customInputsFromContext[input] || customFormInputs[input] || inputs[input]
-  if (!componentMeta) throw new Error(`Input type "${input}" is not supported`)
+  if (!componentMeta) throw Error(ERRORS.inputNotFound(input))
   let Component, useProps
   if (componentMeta.Component) {
     ;({ Component, useProps } = componentMeta)
@@ -371,3 +377,12 @@ export function useInputMeta (input) {
 }
 
 const autoWrappedInputs = new WeakMap()
+
+const ERRORS = {
+  inputAlreadyDefined: input => `
+    Custom input type "${input}" is already defined by another plugin. It will be overridden!
+  `,
+  inputNotFound: input => `
+    Implementation for a custom input type "${input}" was not found!
+  `
+}
