@@ -1,0 +1,86 @@
+import { useMemo, useEffect } from 'react'
+import Form from '../Form'
+import { useValue$ } from 'startupjs'
+
+# Form
+
+Wrapper around ObjectInput which provides a way to add extra input types and saves its props into the context.
+
+```jsx
+import { Form } from '@startupjs/ui'
+```
+
+## Simple example
+
+```jsx example
+const $value = useValue$({})
+
+return (
+  <Form
+    $value={$value}
+    fields={{
+      name: {
+        type: 'text',
+        label: 'Your name',
+        required: true,
+        placeholder: 'John Smith'
+      },
+      gender: {
+        type: 'select',
+        enum: ['male', 'female', 'other']
+      },
+      age: {
+        type: 'number',
+        description: 'Your age (18+)',
+        min: 18,
+        max: 100,
+        step: 1
+      }
+    }}
+  />
+)
+```
+
+## Custom inputs
+
+Pass custom inputs to the `Form` using the `extraInputs` prop.
+
+Inside custom inputs you can access Form's props using the `useFormProps` hook.
+
+```jsx
+import { observer } from 'startupjs'
+import { Form, useFormProps } from '@startupjs/ui'
+
+function App () {
+  const minAge = 18
+  return (
+    <Form
+      minAge={minAge}
+      customInputs={{
+        age: CustomAgeInput
+      }}
+      fields={{
+        age: {
+          type: 'age',
+          description: 'Your age (18+)'
+        }
+      }}
+    />
+  )
+}
+
+const CustomAgeInput = observer(({ $value, ...props }) => {
+  const { minAge } = useFormProps()
+  function setAge (age) {
+    if (age < minAge) return minAge
+    $value.set(age)
+  }
+  return <NumberInput value={$value.get()} onChangeNumber={setAge} {...props} />
+})
+```
+
+## JSON-Schema compatilibily
+
+`fields` prop is json-schema compatible.
+
+If you want to specify both the json-schema type and the input type, you can use `input` prop in addition.

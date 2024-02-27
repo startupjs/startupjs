@@ -8102,6 +8102,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@startupjs/backend@workspace:packages/backend"
   dependencies:
+    "@startupjs/registry": "npm:^0.56.0-alpha.0"
     "@startupjs/server-aggregate": "npm:^0.56.0-alpha.0"
     "@startupjs/sharedb-access": "npm:^0.56.0-alpha.0"
     "@startupjs/sharedb-schema": "npm:^0.56.0-alpha.0"
@@ -8598,7 +8599,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/registry@npm:^0.56.0-alpha.34, @startupjs/registry@workspace:packages/registry":
+"@startupjs/registry@npm:^0.56.0-alpha.0, @startupjs/registry@npm:^0.56.0-alpha.34, @startupjs/registry@workspace:packages/registry":
   version: 0.0.0-use.local
   resolution: "@startupjs/registry@workspace:packages/registry"
   dependencies:

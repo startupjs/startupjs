@@ -10,6 +10,12 @@ import Span from './../../typography/Span'
 import { useLayout } from './../../../hooks'
 import themed from '../../../theming/themed'
 
+const IS_WRAPPED = Symbol('wrapped into wrapInput()')
+
+export function isWrapped (Component) {
+  return Component[IS_WRAPPED]
+}
+
 export default function wrapInput (Component, configuration) {
   configuration = merge(
     {
@@ -188,6 +194,8 @@ export default function wrapInput (Component, configuration) {
     themed('InputWrapper', InputWrapper),
     { forwardRef: true }
   )
+
+  ObservedInputWrapper[IS_WRAPPED] = true
 
   return ObservedInputWrapper
 }
