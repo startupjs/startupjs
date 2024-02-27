@@ -8,6 +8,8 @@ import ColorPickerEn from '../components/forms/ColorPicker/ColorPicker.en.mdx'
 import ColorPickerRu from '../components/forms/ColorPicker/ColorPicker.ru.mdx'
 import DateTimePickerEn from '../components/forms/DateTimePicker/docs/DateTimePicker.en.mdx'
 import DateTimePickerRu from '../components/forms/DateTimePicker/docs/DateTimePicker.ru.mdx'
+import FormEn from '../components/forms/Form/Form.en.mdx'
+import FormRu from '../components/forms/Form/Form.ru.mdx'
 import InputEn from '../components/forms/Input/Input.en.mdx'
 import InputRu from '../components/forms/Input/Input.ru.mdx'
 import MultiselectEn from '../components/forms/Multiselect/Multiselect.en.mdx'
@@ -43,6 +45,14 @@ export default {
       component: {
         en: InputEn,
         ru: InputRu
+      }
+    },
+    Form: {
+      type: 'mdx',
+      title: 'Form',
+      component: {
+        en: FormEn,
+        ru: FormRu
       }
     },
     ObjectInput: {

@@ -169,10 +169,11 @@ export * from './associations/index.js'
 /**
  * Pick properties from json-schema to be used in a form.
  * Supports simplified schema (just the properties object) and full schema.
- * Performs extra transformations like auto-generating `label`
+ * Performs extra transformations like auto-generating `label`.
+ * `createdAt`, `updatedAt`, `id`, `_id` fields are excluded by default.
  * @param {Object} schema
  * @param {Object|Array} options - exclude or include fields. If array, it's the same as passing { include: [...] }
- * @param {Array} options.fields - list of fields to pick (default: all)
+ * @param {Array} options.include - list of fields to pick (default: all)
  * @param {Array} options.exclude - list of fields to exclude (default: none)
  */
 export function pickFormFields (schema, options) {

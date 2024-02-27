@@ -2,15 +2,15 @@ import { useMemo, useEffect } from 'react'
 import Form from '../Form'
 import { useValue$ } from 'startupjs'
 
-# Form
+# Form (форма)
 
-Wrapper around ObjectInput which provides a way to add extra input types and saves its props into the context.
+Обёртка вокруг ObjectInput, которая предоставляет возможность добавления дополнительных типов инпутов и сохраняет свои пропсы в контекст.
 
 ```jsx
 import { Form } from '@startupjs/ui'
 ```
 
-## Simple example
+## Простой пример
 
 ```jsx example
 const $value = useValue$({})
@@ -21,9 +21,9 @@ return (
     fields={{
       name: {
         type: 'text',
-        label: 'Your name',
+        label: 'Ваше имя',
         required: true,
-        placeholder: 'John Smith'
+        placeholder: 'Джон Смит'
       },
       gender: {
         type: 'select',
@@ -31,7 +31,7 @@ return (
       },
       age: {
         type: 'number',
-        description: 'Your age (18+)',
+        description: 'Ваш возраст (18+)',
         min: 18,
         max: 100,
         step: 1
@@ -41,11 +41,11 @@ return (
 )
 ```
 
-## Custom inputs
+## Пользовательские инпуты
 
-Pass custom inputs to the `Form` using the `customInputs` prop.
+Передайте пользовательские инпуты в `Form` используя свойство `customInputs`.
 
-Inside custom inputs you can access Form's props using the `useFormProps` hook.
+Внутри пользовательских инпутов вы можете получить доступ к пропсам Form с помощью хука `useFormProps`.
 
 ```jsx
 import { observer } from 'startupjs'
@@ -62,7 +62,7 @@ function App () {
       fields={{
         age: {
           type: 'age',
-          description: 'Your age (18+)'
+          description: 'Ваш возраст (18+)'
         }
       }}
     />
@@ -79,11 +79,11 @@ const CustomAgeInput = observer(({ $value, ...props }) => {
 })
 ```
 
-### Adding custom inputs globally
+### Добавление пользовательских инпутов глобально
 
-You can add custom inputs globally by creating a plugin which uses the client's `customFormInputs` hook.
+Вы можете добавить пользовательские инпуты глобально, создав плагин, который использует клиентский хук `customFormInputs`.
 
-You should return an object with the custom inputs in this hook.
+В этом хуке вы должны вернуть объект с пользовательскими инпутами.
 
 ```jsx
 // startupjs.config.js
@@ -93,7 +93,7 @@ import { createPlugin } from 'startupjs/registry'
 
 export default {
   plugins: {
-    // if there are no plugin options, just specify `true` to enable the plugin.
+    // если у плагина нет опций, просто укажите `true`, чтобы включить плагин.
     myCustomInputs: {
       minAge: 18
     }
@@ -116,8 +116,8 @@ createPlugin({
 })
 ```
 
-## JSON-Schema compatilibily
+## Совместимость с JSON-схемой
 
-`fields` prop is json-schema compatible.
+Свойство `fields` совместимо с JSON-схемой.
 
-If you want to specify both the json-schema type and the input type, you can use `input` prop in addition.
+Чтобы указать как тип из JSON-схемы, так и явный тип инпута, то помимо поля `type` укажите дополнительно ещё и поле `input`.
