@@ -21,8 +21,8 @@ function Input ({
   if (!Component) {
     throw Error(`
       Input component for '${input}' not found.
-      Make sure you have passed it to 'extraInputs' in your Form
-      or connected it as a plugin in the 'extraFormInputs' hook.
+      Make sure you have passed it to 'customInputs' in your Form
+      or connected it as a plugin in the 'customFormInputs' hook.
     `)
   }
 

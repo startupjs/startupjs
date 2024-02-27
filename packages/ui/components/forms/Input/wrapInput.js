@@ -10,7 +10,7 @@ import Span from './../../typography/Span'
 import { useLayout } from './../../../hooks'
 import themed from '../../../theming/themed'
 
-const IS_WRAPPED = Symbol('wrapped into wrapInput()')
+export const IS_WRAPPED = Symbol('wrapped into wrapInput()')
 
 export function isWrapped (Component) {
   return Component[IS_WRAPPED]

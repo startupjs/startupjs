@@ -16,7 +16,7 @@ import Radio from '../Radio'
 import RangeInput from '../RangeInput'
 import Select from '../Select'
 import TextInput from '../TextInput'
-import useExtraInputs from '../Form/useExtraInputs'
+import useCustomInputs from '../Form/useCustomInputs'
 
 function cardWrapper (style, children) {
   return pug`
@@ -344,16 +344,15 @@ const inputs = {
 }
 
 // add extra inputs from plugins
-export const extraFormInputs = MODULE.reduceHook('extraFormInputs', {})
+export const customFormInputs = MODULE.reduceHook('customFormInputs', {})
 
 export default inputs
 
 export const ALL_INPUTS = Object.keys(inputs)
 
 export function useInputMeta (input) {
-  const extraInputsFromContext = useExtraInputs()
-  console.log('extraInputsFromContext', extraInputsFromContext)
-  const componentMeta = extraInputsFromContext[input] || extraFormInputs[input] || inputs[input]
+  const customInputsFromContext = useCustomInputs()
+  const componentMeta = customInputsFromContext[input] || customFormInputs[input] || inputs[input]
   if (!componentMeta) throw new Error(`Input type "${input}" is not supported`)
   let Component, useProps
   if (componentMeta.Component) {

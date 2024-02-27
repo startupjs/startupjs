@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import ObjectInput from '../ObjectInput'
-import { ExtraInputsContext } from './useExtraInputs'
+import { CustomInputsContext } from './useCustomInputs'
 import { FormPropsContext } from './useFormProps'
 
 function Form ({
@@ -14,7 +14,7 @@ function Form ({
   _renderWrapper,
   style,
   inputStyle,
-  extraInputs = {},
+  customInputs = {},
   ...props
 }, ref) {
   if (properties) throw Error(ERROR_PROPERTIES)
@@ -30,16 +30,14 @@ function Form ({
     () => props, [...Object.keys(props), ...Object.values(props)]
   )
 
-  const memoizedExtraInputs = useMemo(
+  const memoizedCustomInputs = useMemo(
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    () => extraInputs, [...Object.keys(extraInputs), ...Object.values(extraInputs)]
+    () => customInputs, [...Object.keys(customInputs), ...Object.values(customInputs)]
   )
-
-  console.log('extraInputs', extraInputs, memoizedExtraInputs)
 
   return pug`
     FormPropsContext.Provider(value=memoizedProps)
-      ExtraInputsContext.Provider(value=memoizedExtraInputs)
+      CustomInputsContext.Provider(value=memoizedCustomInputs)
         ObjectInput(
           properties=memoizedFields
           $value=$value
