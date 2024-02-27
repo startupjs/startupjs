@@ -32,6 +32,9 @@ export { default as DrawerSidebar } from './components/DrawerSidebar'
 export { default as FlatList } from './components/FlatList'
 
 // forms
+export { default as wrapInput } from './components/forms/Input/wrapInput'
+export { default as Form } from './components/forms/Form'
+export { default as useFormProps } from './components/forms/Form/useFormProps'
 export { default as Input } from './components/forms/Input'
 export { default as ArrayInput } from './components/forms/ArrayInput'
 export { default as Checkbox } from './components/forms/Checkbox'

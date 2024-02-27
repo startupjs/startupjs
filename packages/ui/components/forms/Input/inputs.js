@@ -1,6 +1,7 @@
 import React from 'react'
 import { pug, useBind } from 'startupjs'
-import wrapInput from './wrapInput'
+import { ROOT_MODULE as MODULE } from 'startupjs/registry'
+import wrapInput, { isWrapped } from './wrapInput'
 import ArrayInput from '../ArrayInput'
 import Card from './../../Card'
 import Checkbox from '../Checkbox'
@@ -15,6 +16,7 @@ import Radio from '../Radio'
 import RangeInput from '../RangeInput'
 import Select from '../Select'
 import TextInput from '../TextInput'
+import useCustomInputs from '../Form/useCustomInputs'
 
 function cardWrapper (style, children) {
   return pug`
@@ -308,12 +310,14 @@ const inputs = {
   },
   select: {
     Component: WrappedSelect,
-    useProps: ({ value, $value, onChange, ...props }) => {
+    useProps: ({ value, $value, enum: _enum, options, onChange, ...props }) => {
       ;({ value, onChange } = useBind({ value, $value, onChange }))
-
+      // if json-schema `enum` is passed, use it as options
+      if (!options && _enum) options = _enum
       return {
         value,
         onChange,
+        options,
         ...props
       }
     }
@@ -339,4 +343,46 @@ const inputs = {
   }
 }
 
+// add extra inputs from plugins
+export const customFormInputs = MODULE.hook('customFormInputs')
+  .reduce((allInputs, pluginInputs = {}) => {
+    for (const input in pluginInputs) {
+      if (allInputs[input]) console.warn(ERRORS.inputAlreadyDefined(input))
+    }
+    return { ...allInputs, ...pluginInputs }
+  }, {})
+
 export default inputs
+
+export const ALL_INPUTS = Object.keys(inputs)
+
+export function useInputMeta (input) {
+  const customInputsFromContext = useCustomInputs()
+  const componentMeta = customInputsFromContext[input] || customFormInputs[input] || inputs[input]
+  if (!componentMeta) throw Error(ERRORS.inputNotFound(input))
+  let Component, useProps
+  if (componentMeta.Component) {
+    ;({ Component, useProps } = componentMeta)
+  } else {
+    Component = componentMeta
+  }
+  if (!isWrapped(Component)) {
+    if (!autoWrappedInputs.has(Component)) {
+      autoWrappedInputs.set(Component, wrapInput(Component))
+    }
+    Component = autoWrappedInputs.get(Component)
+  }
+  useProps ??= props => props
+  return { Component, useProps }
+}
+
+const autoWrappedInputs = new WeakMap()
+
+const ERRORS = {
+  inputAlreadyDefined: input => `
+    Custom input type "${input}" is already defined by another plugin. It will be overridden!
+  `,
+  inputNotFound: input => `
+    Implementation for a custom input type "${input}" was not found!
+  `
+}

@@ -1,0 +1,123 @@
+import { useMemo, useEffect } from 'react'
+import Form from '../Form'
+import { useValue$ } from 'startupjs'
+
+# Form (форма)
+
+Обёртка вокруг ObjectInput, которая предоставляет возможность добавления дополнительных типов инпутов и сохраняет свои пропсы в контекст.
+
+```jsx
+import { Form } from '@startupjs/ui'
+```
+
+## Простой пример
+
+```jsx example
+const $value = useValue$({})
+
+return (
+  <Form
+    $value={$value}
+    fields={{
+      name: {
+        type: 'text',
+        label: 'Ваше имя',
+        required: true,
+        placeholder: 'Джон Смит'
+      },
+      gender: {
+        type: 'select',
+        enum: ['male', 'female', 'other']
+      },
+      age: {
+        type: 'number',
+        description: 'Ваш возраст (18+)',
+        min: 18,
+        max: 100,
+        step: 1
+      }
+    }}
+  />
+)
+```
+
+## Пользовательские инпуты
+
+Передайте пользовательские инпуты в `Form` используя свойство `customInputs`.
+
+Внутри пользовательских инпутов вы можете получить доступ к пропсам Form с помощью хука `useFormProps`.
+
+```jsx
+import { observer } from 'startupjs'
+import { Form, useFormProps } from '@startupjs/ui'
+
+function App () {
+  const minAge = 18
+  return (
+    <Form
+      minAge={minAge}
+      customInputs={{
+        age: CustomAgeInput
+      }}
+      fields={{
+        age: {
+          type: 'age',
+          description: 'Ваш возраст (18+)'
+        }
+      }}
+    />
+  )
+}
+
+const CustomAgeInput = observer(({ $value, ...props }) => {
+  const { minAge } = useFormProps()
+  function setAge (age) {
+    if (age < minAge) return minAge
+    $value.set(age)
+  }
+  return <NumberInput value={$value.get()} onChangeNumber={setAge} {...props} />
+})
+```
+
+### Добавление пользовательских инпутов глобально
+
+Вы можете добавить пользовательские инпуты глобально, создав плагин, который использует клиентский хук `customFormInputs`.
+
+В этом хуке вы должны вернуть объект с пользовательскими инпутами.
+
+```jsx
+// startupjs.config.js
+import { observer } from 'startupjs'
+import { NumberInput } from '@startupjs/ui'
+import { createPlugin } from 'startupjs/registry'
+
+export default {
+  plugins: {
+    // если у плагина нет опций, просто укажите `true`, чтобы включить плагин.
+    myCustomInputs: {
+      minAge: 18
+    }
+  }
+}
+
+createPlugin({
+  name: 'myCustomInputs',
+  client: ({ minAge }) => ({
+    customFormInputs: () => ({
+      age: observer(({ $value }) => {
+        function setAge (age) {
+          if (age < minAge) age = minAge
+          $value.set(age)
+        }
+        return <NumberInput value={$value.get()} onChangeNumber={setAge} />
+      })
+    })
+  })
+})
+```
+
+## Совместимость с JSON-схемой
+
+Свойство `fields` совместимо с JSON-схемой.
+
+Чтобы указать как тип из JSON-схемы, так и явный тип инпута, то помимо поля `type` укажите дополнительно ещё и поле `input`.

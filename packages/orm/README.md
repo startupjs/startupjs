@@ -245,6 +245,69 @@ export default class UserModel extends BaseModel {
 2. Schema validation only works in development. So there won't be any performance overheads when `NODE_ENV` is `production`
 3. Only ORMs targeting documents path `<collection>.*` are gonna be parsed for `schema` definitions.
 
+## Helpers to work with forms
+
+- `createdAt`, `updatedAt`, `id`, `_id` fields are automatically excluded.
+- Support specifying `required` flag inside json-schema object properties -- it will automatically bubble up to the `required` array and it will also be passed to the `Form` to show the red asterics.
+
+### `pickFormFields`
+
+Helper function to pick fields from schema to be consumed by `Form(fields)`.
+
+```js
+/**
+ * Pick properties from json-schema to be used in a form.
+ * Supports simplified schema (just the properties object) and full schema.
+ * Performs extra transformations like auto-generating `label`.
+ * `createdAt`, `updatedAt`, `id`, `_id` fields are excluded by default.
+ * @param {Object} schema
+ * @param {Object|Array} options - exclude or include fields. If array, it's the same as passing { include: [...] }
+ * @param {Array} options.include - list of fields to pick (default: all)
+ * @param {Array} options.exclude - list of fields to exclude (default: none)
+ */
+export function pickFormFields (schema, options) {}
+```
+
+### Example
+
+```js
+// model/persons.js
+
+import { BaseModel, pickFormFields } from 'startupjs/orm'
+
+export default class PersonsModel extends BaseModel {
+  static schema = {
+    name: { type: 'string', required: true },
+    number: { type: 'number' },
+    gender: { type: 'string', enum: ['man', 'woman'] },
+    phone: { type: 'string' },
+    likes: { type: 'object', input: 'likes' },
+    createdAt: { type: 'number', required: true }
+  }
+}
+
+export const PERSON_FORM = pickFormFields(PersonsModel.schema)
+```
+
+```jsx
+// App.js
+import { PERSON_FORM } from '@/model/persons'
+import { observer, useValue$ } from 'startupjs'
+import { Form, Button } from '@startupjs/ui'
+
+export default observer(() => {
+  const $new = useValue$({})
+  return (
+    <>
+      <Form fields={PERSON_FORM} $value={$new} customInputs={{ likes: LikesInput }} />
+      <Button onPress={() => console.log('Submit form', $new.get())}>Submit</Button>
+    </>
+  )
+})
+
+function LikesInput () { return null }
+```
+
 ## License
 
 MIT

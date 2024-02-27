@@ -1,23 +1,30 @@
 import React, { useRef, useImperativeHandle } from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { getInputTestId, SCHEMA_TYPE_TO_INPUT } from '../helpers'
-import inputs from './inputs'
+import { getInputTestId, EXTRA_SCHEMA_TYPES, guessInput } from '../helpers'
+import { useInputMeta, ALL_INPUTS } from './inputs'
 
 function Input ({
   input,
   type,
   ...props
 }, ref) {
-  input = input || type
-  input = SCHEMA_TYPE_TO_INPUT[input] || input
+  input = guessInput(input, type, props)
 
   const inputRef = useRef()
   useImperativeHandle(ref, () => inputRef.current, [])
 
   const testID = getInputTestId(props)
-  const { Component, useProps } = inputs[input]
+  const { Component, useProps } = useInputMeta(input)
   const componentProps = useProps({ ...props, testID }, inputRef)
+
+  if (!Component) {
+    throw Error(`
+      Input component for '${input}' not found.
+      Make sure you have passed it to 'customInputs' in your Form
+      or connected it as a plugin in the 'customFormInputs' hook.
+    `)
+  }
 
   return pug`
     Component(
@@ -27,15 +34,12 @@ function Input ({
   `
 }
 
-const possibleInputs = Object.keys(inputs)
-const possibleTypes = Object.keys(SCHEMA_TYPE_TO_INPUT)
-
 Input.defaultProps = {
   type: 'text'
 }
 
 Input.propTypes = {
-  type: PropTypes.oneOf(possibleInputs.concat(possibleTypes)),
+  type: PropTypes.oneOf(ALL_INPUTS.concat(EXTRA_SCHEMA_TYPES)),
   value: PropTypes.any,
   $value: PropTypes.any
 }

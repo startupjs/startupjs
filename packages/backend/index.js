@@ -4,6 +4,7 @@ import ShareDbAccess, {
 } from '@startupjs/sharedb-access'
 import sharedbSchema from '@startupjs/sharedb-schema'
 import serverAggregate from '@startupjs/server-aggregate'
+import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import isArray from 'lodash/isArray.js'
 import isPlainObject from 'lodash/isPlainObject.js'
 import racer from 'racer'
@@ -110,20 +111,26 @@ export default options => {
     const schemaPerCollection = { schemas: {}, formats: {}, validators: {} }
 
     for (const path in ORM) {
-      const { schema } = ORM[path].OrmEntity
+      let { schema } = ORM[path].OrmEntity
 
       const isFactory = !!ORM[path].OrmEntity.factory
 
       if (isFactory) {
+        // TODO: support transforming schema from simplified format to full format
         schemaPerCollection.schemas[path.replace('.*', '')] = ORM[path].OrmEntity
       } else if (schema) {
-        schemaPerCollection.schemas[path.replace('.*', '')] = schema
+        const collectionName = path.replace('.*', '')
+        // transform schema from simplified format to full format
+        schema = transformSchema(schema, { collectionName })
+        schemaPerCollection.schemas[collectionName] = schema
       }
 
       // allow any 'service' collection structure
       // since 'service' collection is used in our startupjs libraries
       // and we don't have a tool to collect scheme from all packages right now
-      schemaPerCollection.schemas.service = { properties: {} }
+      schemaPerCollection.schemas.service = transformSchema({
+        type: 'object', properties: {}, additionalProperties: true
+      })
     }
 
     sharedbSchema(backend, schemaPerCollection)
@@ -169,4 +176,24 @@ function pathQueryMongo (request, next) {
   if (!isArray(query)) query = [query]
   request.query = { _id: { $in: query } }
   next()
+}
+
+// allow schema to be specified in a simplified format - as "properties" themselves
+// and also with 'required' being part of each property
+function transformSchema (schema, { collectionName } = {}) {
+  schema = JSON.parse(JSON.stringify(schema))
+  // if schema is not an object, assume it's a simplified format
+  if (schema.type !== 'object') {
+    schema = {
+      type: 'object',
+      properties: schema,
+      required: Object.keys(schema).filter(
+        key => schema[key] && schema[key].required
+      ),
+      additionalProperties: false,
+      $schema: 'http://json-schema.org/draft-07/schema#'
+    }
+  }
+  schema = MODULE.reduceHook('transformSchema', schema, { collectionName })
+  return schema
 }
