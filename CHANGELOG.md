@@ -1,3 +1,12 @@
+# [0.56.0-alpha.37](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.36...v0.56.0-alpha.37) (2024-02-27)
+
+
+### Features
+
+* **ui:** add Form component which wraps ObjectInput with some extra functionality. Add helpers to work with forms to `orm` ([#1190](https://github.com/startupjs/startupjs/issues/1190)) ([8937581](https://github.com/startupjs/startupjs/commit/893758188053fa1a5600453d5e890fd9f916eae7))
+
+
+
 # [0.56.0-alpha.36](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.35...v0.56.0-alpha.36) (2024-02-24)
 
 

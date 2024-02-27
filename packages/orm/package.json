@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/orm",
   "type": "module",
-  "version": "0.56.0-alpha.0",
+  "version": "0.56.0-alpha.37",
   "description": "ORM system for Racer.js and ShareDB",
   "main": "lib/index.js",
   "publishConfig": {
