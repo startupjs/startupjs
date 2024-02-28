@@ -1,3 +1,14 @@
+# [0.56.0-alpha.38](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.37...v0.56.0-alpha.38) (2024-02-28)
+
+
+### Bug Fixes
+
+* **backend/schema:** remove boolean 'required' flags since they are purely for UI usage ([9e3b024](https://github.com/startupjs/startupjs/commit/9e3b024da6a32d5c978566dcc8f242f788d464c7))
+* **ui/forms:** use ref in `Input` and `wrapInput` only if the underlying component has forwardRef ([3135b4a](https://github.com/startupjs/startupjs/commit/3135b4ab75924a8131fb92d3914387741516c849))
+* **ui/UiProvider:** Make sure dialogs (alert,confirm,prompt) appear above any other modals ([00d93ec](https://github.com/startupjs/startupjs/commit/00d93ecde83dd6454a7ffffb273c6b170f185693))
+
+
+
 # [0.56.0-alpha.37](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.36...v0.56.0-alpha.37) (2024-02-27)
 
 
