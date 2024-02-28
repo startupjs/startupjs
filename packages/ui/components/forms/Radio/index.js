@@ -63,4 +63,4 @@ Radio.propTypes = {
   _hasError: PropTypes.bool // @private
 }
 
-export default observer(Radio, { forwardRef: true })
+export default observer(Radio)

@@ -1,15 +1,15 @@
-import { $root } from 'startupjs'
+import { $ } from 'startupjs'
 import Input from './'
 
 export function getPropsForType () {
-  const $input = $root.scope('_session.Sandbox.Input')
+  const $input = $.session.Sandbox.Input
   const type = $input.get('type') || Input.defaultProps.type
 
   const onChangeValue = value => $input.set('value', value)
   const commonProps = {
     type,
-    value: $input.get('value'),
-    $value: $input.at('value')
+    value: $input.value.get(),
+    $value: $input.value
   }
 
   switch (type) {
@@ -61,7 +61,7 @@ export function getPropsForType () {
 }
 
 export function getDefaultValueForType () {
-  const $input = $root.scope('_session.Sandbox.Input')
+  const $input = $.session.Sandbox.Input
   const type = $input.get('type') || Input.defaultProps.type
 
   if (type === 'array') return ['Green', 'Blue']

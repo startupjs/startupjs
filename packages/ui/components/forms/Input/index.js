@@ -3,6 +3,7 @@ import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import { getInputTestId, EXTRA_SCHEMA_TYPES, guessInput } from '../helpers'
 import { useInputMeta, ALL_INPUTS } from './inputs'
+import isForwardRef from './isForwardRef'
 
 function Input ({
   input,
@@ -11,12 +12,8 @@ function Input ({
 }, ref) {
   input = guessInput(input, type, props)
 
-  const inputRef = useRef()
-  useImperativeHandle(ref, () => inputRef.current, [])
-
   const testID = getInputTestId(props)
   const { Component, useProps } = useInputMeta(input)
-  const componentProps = useProps({ ...props, testID }, inputRef)
 
   if (!Component) {
     throw Error(`
@@ -26,9 +23,18 @@ function Input ({
     `)
   }
 
+  // ref: https://stackoverflow.com/a/68163315 (why innerRef is needed here)
+  const innerRef = useRef(null)
+  const componentProps = useProps({ ...props, testID }, innerRef)
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useImperativeHandle(ref, () => innerRef.current, [Component])
+
+  const passRef = isForwardRef(Component) ? { ref: innerRef } : {}
+
   return pug`
     Component(
-      ref=inputRef
+      ...passRef
       ...componentProps
     )
   `

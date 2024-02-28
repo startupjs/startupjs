@@ -16,7 +16,7 @@ function Form ({
   inputStyle,
   customInputs = {},
   ...props
-}, ref) {
+}) {
   if (properties) throw Error(ERROR_PROPERTIES)
   const { disabled, readonly, $value } = props
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { pug, observer } from 'startupjs'
+import { pug, observer, signal } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
 import themed from '../../../theming/themed'
@@ -37,7 +37,7 @@ function ObjectInput ({
         return {
           ...inputProps,
           key,
-          $value: $value.at(key)
+          $value: signal($value)[key]
         }
       // TODO: When the dependsOn field changes and this field is no longer visible -- clear it.
       }).filter(Boolean)
@@ -84,8 +84,7 @@ ObjectInput.propTypes = {
 }
 
 export default observer(
-  themed('ObjectInput', ObjectInput),
-  { forwardRef: true }
+  themed('ObjectInput', ObjectInput)
 )
 
 function getOrder (order, properties) {

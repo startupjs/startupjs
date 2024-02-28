@@ -9,6 +9,7 @@ import Icon from './../../Icon'
 import Span from './../../typography/Span'
 import { useLayout } from './../../../hooks'
 import themed from '../../../theming/themed'
+import isForwardRef from './isForwardRef'
 
 export const IS_WRAPPED = Symbol('wrapped into wrapInput()')
 
@@ -105,14 +106,17 @@ export default function wrapInput (Component, configuration) {
           description
         )= description
     `
+
+    const passRef = isForwardRef(Component) ? { ref } : {}
+
     const input = pug`
       Component(
         part='wrapper'
-        ref=ref
         layout=layout
         _hasError=!!error
         onFocus=handleFocus
         onBlur=handleBlur
+        ...passRef
         ...props
       )
     `

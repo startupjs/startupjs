@@ -108,4 +108,4 @@ RangeInput.defaultProps = {
   width: 280
 }
 
-export default observer(RangeInput, { forwardRef: true })
+export default observer(RangeInput)

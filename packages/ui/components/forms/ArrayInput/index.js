@@ -1,5 +1,5 @@
 import React from 'react'
-import { pug, observer } from 'startupjs'
+import { pug, observer, signal } from 'startupjs'
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import PropTypes from 'prop-types'
@@ -27,7 +27,7 @@ function ArrayInput ({
       return {
         ...items,
         key: index,
-        $value: $value.at(index)
+        $value: signal($value)[index]
       }
       // TODO: When the dependsOn field changes and this field is no longer visible -- clear it.
     }).filter(Boolean)
@@ -80,6 +80,5 @@ ArrayInput.propTypes = {
 }
 
 export default observer(
-  themed('ArrayInput', ArrayInput),
-  { forwardRef: true }
+  themed('ArrayInput', ArrayInput)
 )

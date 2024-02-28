@@ -145,4 +145,4 @@ Rank.propTypes = {
   onChange: PropTypes.func
 }
 
-export default observer(Rank, { forwardRef: true })
+export default observer(Rank)
