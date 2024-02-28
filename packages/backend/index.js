@@ -190,10 +190,27 @@ function transformSchema (schema, { collectionName } = {}) {
       required: Object.keys(schema).filter(
         key => schema[key] && schema[key].required
       ),
-      additionalProperties: false,
-      $schema: 'http://json-schema.org/draft-07/schema#'
+      additionalProperties: false
     }
   }
+  stripExtraUiKeywords(schema)
   schema = MODULE.reduceHook('transformSchema', schema, { collectionName })
   return schema
+}
+
+// traverse type 'object' and type 'array' recursively
+// and remove extra keywords (like a boolean 'require') from all objects in schema
+// WARNING: this is self-mutating
+function stripExtraUiKeywords (schema) {
+  if (schema.type === 'object') {
+    for (const key in schema.properties) {
+      const property = schema.properties[key]
+      if (isPlainObject(property)) {
+        if (typeof property.required === 'boolean') delete property.required
+        stripExtraUiKeywords(property)
+      }
+    }
+  } else if (schema.type === 'array') {
+    stripExtraUiKeywords(schema.items)
+  }
 }
