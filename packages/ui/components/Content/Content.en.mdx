@@ -8,7 +8,10 @@ import './index.mdx.styl'
 
 # Content
 
-Content used as a parent container for elements.
+Content used as a parent container for the main content area of your app/website.
+
+It has good defaults for paddings from sides of the screen and by default limits the maximum width of the content
+to what is usually considered a comfortable reading width - `768px`, which is roughly the width of a tablet in portrait mode.
 
 ```jsx
 import { Content } from '@startupjs/ui'
@@ -30,6 +33,33 @@ const divStyle = {
 }
 return (
   <Content style={contentStyle}>
+    <Div style={divStyle}>
+      <Span>content</Span>
+    </Div>
+  </Content>
+)
+```
+
+## No horizontal paddings
+
+Pass `pure` property to remove left and right paddings. You would want to do this to keep the behaviour of
+limiting the maximum width of the Content (`768px` by default) while handling the internal paddings yourself.
+
+This is useful when creating lists, tables, or other components that on small screens need to look like they go
+all the way from left to right. While on the bigger screens you would still want to limit the maximum width of the content.
+
+```jsx example
+const contentStyle = {
+  backgroundColor: '#2962FF'
+}
+const divStyle = {
+  height: u(25),
+  backgroundColor: '#00AED6',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+return (
+  <Content style={contentStyle} pure>
     <Div style={divStyle}>
       <Span>content</Span>
     </Div>

@@ -15,13 +15,14 @@ function Content ({
   style,
   children,
   padding,
+  pure,
   width,
   ...props
 }) {
   return pug`
     Div.root(
       style=style
-      styleName=['width-' + width, { padding }]
+      styleName=['width-' + width, { padding, pure }]
       ...props
     )= children
   `
@@ -38,6 +39,7 @@ Content.propTypes = {
   padding: PropTypes.bool,
   full: PropTypes.bool,
   width: PropTypes.oneOf(['mobile', 'tablet', 'desktop', 'wide', 'full']),
+  pure: PropTypes.bool,
   children: PropTypes.node
 }
 
