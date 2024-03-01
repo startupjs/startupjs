@@ -1,3 +1,18 @@
+# [0.56.0-alpha.39](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.38...v0.56.0-alpha.39) (2024-03-01)
+
+
+### Bug Fixes
+
+* **forms:** fix gettings input test id for custom label ([409827f](https://github.com/startupjs/startupjs/commit/409827f3b0db8d0263fbff0086b7964535e80775))
+
+
+### Features
+
+* **orm:** move schema helpers into separate file, add GUID_PATTERN helper to be used in schema ([0a12aa2](https://github.com/startupjs/startupjs/commit/0a12aa2cd5ab46132d986bb4dff71f65179f7471))
+* **ui/Content:** Add 'pure' option which removes the default left and right paddings ([9cd004f](https://github.com/startupjs/startupjs/commit/9cd004f788ed71b6c8bb280e6a25d83ed2ea9b92))
+
+
+
 # [0.56.0-alpha.38](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.37...v0.56.0-alpha.38) (2024-02-28)
 
 
