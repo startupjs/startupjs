@@ -31,7 +31,7 @@ export function getInputTestId (props) {
 
   const inputName = props.label || props.description || props.placeholder
 
-  if (!inputName) return
+  if (!inputName || typeof inputName !== 'string') return
 
   const nameHash = simpleNumericHash(inputName)
   const allowedCharacters = inputName.match(/\w+/g)
