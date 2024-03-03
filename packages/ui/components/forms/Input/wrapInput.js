@@ -93,7 +93,7 @@ export default function wrapInput (Component, configuration) {
             : undefined
         )
           = label
-          if required
+          if required === true
             Text.required= ' *'
     `
     const _description = pug`
@@ -191,7 +191,9 @@ export default function wrapInput (Component, configuration) {
       isLabelClickable: PropTypes.bool
     }),
     error: PropTypes.string,
-    required: PropTypes.bool
+    // `required` might be our own boolean prop or it might be json-schema's array of required fields.
+    // We only handle boolean `required`, but we can receive both types
+    required: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
   }, Component.propTypes)
 
   const ObservedInputWrapper = observer(

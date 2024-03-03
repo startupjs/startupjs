@@ -89,14 +89,22 @@ export default function createRegistry ({ RegistryClass = Registry, rootModuleNa
     /**
      * Initialize the registry with all the modules, plugins and ORM models.
      * This will also pass options to plugins.
+     * This is startupjs-specific.
      */
     initRegistry (config = {}, { plugins, models = {} } = {}) {
       // TODO: only load models if 'isomorphic' env is present
-      registry.rootModule.on('orm', racer => {
-        for (const modelPattern in models) racer.orm(modelPattern, models[modelPattern])
-      })
       registry.init(config)
+      initModels(registry, models)
       return registry
     }
+  })
+}
+
+function initModels (registry, projectModels) {
+  let models = { ...projectModels }
+  models = registry.rootModule.reduceHook('models', projectModels)
+  registry.rootModule.models = models
+  registry.rootModule.on('orm', racer => {
+    for (const modelPattern in models) racer.orm(modelPattern, models[modelPattern].default)
   })
 }

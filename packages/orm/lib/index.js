@@ -164,5 +164,5 @@ BaseModel.prototype.getAssociations = function () {
 }
 
 export { BaseModel }
-export * from './associations/index.js'
 export * from './schemaHelpers.js'
+export * from './schemaAssociations.js'

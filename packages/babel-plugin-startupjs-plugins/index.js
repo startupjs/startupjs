@@ -1,5 +1,5 @@
 const { statSync } = require('fs')
-const { addDefault } = require('@babel/helper-module-imports')
+const { addDefault, addNamespace } = require('@babel/helper-module-imports')
 const {
   getRelativePluginImports, getRelativeConfigImport, getConfigFilePaths,
   getRelativeModelImports, getFeatures, getRelativeModelRequireContextPath
@@ -94,7 +94,7 @@ function loadVirtualModels ($import, { $program, filename, t, template, root }) 
     const modelPattern = getModelPattern(modelFilename, $import)
     models.properties.push(t.objectProperty(
       t.stringLiteral(modelPattern),
-      addDefaultImport($program, modelImports[modelFilename])
+      addNamespaceImport($program, modelImports[modelFilename])
     ))
   }
 
@@ -115,7 +115,7 @@ function loadVirtualModelsRequireContext ($import, { $program, filename, t, temp
     const %%name%% = __modelsContext.keys().reduce(
       (res, filename) => {
         const pattern = __getModelPattern(filename)
-        return { ...res, [pattern]: __modelsContext(filename).default }
+        return { ...res, [pattern]: __modelsContext(filename) }
       },
       {}
     )
@@ -172,7 +172,14 @@ function mtime (filePath) {
 
 function addDefaultImport ($program, sourceName) {
   return addDefault($program, sourceName, {
-    importedInterop: 'uncompiled',
+    importedType: 'es6',
+    importPosition: 'after'
+  })
+}
+
+function addNamespaceImport ($program, sourceName) {
+  return addNamespace($program, sourceName, {
+    importedType: 'es6',
     importPosition: 'after'
   })
 }

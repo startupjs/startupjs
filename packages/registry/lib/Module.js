@@ -154,7 +154,11 @@ export default class Module extends EventEmitter {
     for (const pluginName of enabledPlugins) {
       const plugin = this.plugins[pluginName]
       if (!plugin.hasHook(hookName)) continue
-      value = plugin.runHook(hookName, value, ...args)
+      const res = plugin.runHook(hookName, value, ...args)
+      if (typeof res === 'undefined') throw Error(ERRORS.noReturnValue(pluginName, hookName))
+      // support escaping the chain by explicitly returning `null`
+      if (res === null) break
+      value = res
     }
     return value
   }
@@ -166,4 +170,14 @@ export default class Module extends EventEmitter {
   toString () {
     return this.name
   }
+}
+
+const ERRORS = {
+  noReturnValue: (pluginName, hookName) => `
+    Plugin "${pluginName}" did not return any value for reduceHook "${hookName}".
+    This will break the chain of hooks. Make sure to always return a value from a hook.
+
+    If for some reason you want to break the chain, return \`null\` explicitly
+    and this will break the chain without throwing an error.
+  `
 }

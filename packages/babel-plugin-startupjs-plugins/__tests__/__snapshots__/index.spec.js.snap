@@ -61,7 +61,7 @@ const models = __modelsContext.keys().reduce((res, filename) => {
   const pattern = __getModelPattern(filename);
   return {
     ...res,
-    [pattern]: __modelsContext(filename).default,
+    [pattern]: __modelsContext(filename),
   };
 }, {});
 function __getModelPattern() {
@@ -124,34 +124,34 @@ export default () => {}
 import { registry } from "startupjs/registry";
 import config from "../../startupjs.config.js";
 import dummy from "@dummy/dummy";
-import _default from "../../model/_session.games.[id].js";
-import _default2 from "../../model/_session.games.js";
-import _default3 from "../../model/index.js";
-import _default4 from "../../model/users.[id].js";
-import _default5 from "../../model/users.js";
-import _default6 from "@startupjs/server/plugins/clientSession.plugin";
-import _default7 from "@startupjs/ui/plugin";
-import _default8 from "startupjs/plugins/cssMediaUpdater.plugin";
-import _default9 from "module-1/plugin";
-import _default10 from "module-1-plugin/thePlugin.plugin";
-import _default11 from "../../dummyPlugin.plugin.js";
+import * as _model_sessionGamesIdJs from "../../model/_session.games.[id].js";
+import * as _model_sessionGamesJs from "../../model/_session.games.js";
+import * as _modelIndexJs from "../../model/index.js";
+import * as _modelUsersIdJs from "../../model/users.[id].js";
+import * as _modelUsersJs from "../../model/users.js";
+import _default from "@startupjs/server/plugins/clientSession.plugin";
+import _default2 from "@startupjs/ui/plugin";
+import _default3 from "startupjs/plugins/cssMediaUpdater.plugin";
+import _default4 from "module-1/plugin";
+import _default5 from "module-1-plugin/thePlugin.plugin";
+import _default6 from "../../dummyPlugin.plugin.js";
 const plugins = [
+  _default,
+  _default2,
+  _default3,
+  _default4,
+  _default5,
   _default6,
-  _default7,
-  _default8,
-  _default9,
-  _default10,
-  _default11,
 ];
 const features = {
   enableServer: true,
 };
 const models = {
-  "_session.games.*": _default,
-  "_session.games": _default2,
-  "": _default3,
-  "users.*": _default4,
-  users: _default5,
+  "_session.games.*": _model_sessionGamesIdJs,
+  "_session.games": _model_sessionGamesJs,
+  "": _modelIndexJs,
+  "users.*": _modelUsersIdJs,
+  users: _modelUsersJs,
 };
 config.features = features;
 registry.init(config, {
@@ -180,34 +180,34 @@ registry.init(config, { plugins, models })
 
 import { registry } from "startupjs/registry";
 import config from "../../startupjs.config.js";
-import _default from "../../model/_session.games.[id].js";
-import _default2 from "../../model/_session.games.js";
-import _default3 from "../../model/index.js";
-import _default4 from "../../model/users.[id].js";
-import _default5 from "../../model/users.js";
-import _default6 from "@startupjs/server/plugins/clientSession.plugin";
-import _default7 from "@startupjs/ui/plugin";
-import _default8 from "startupjs/plugins/cssMediaUpdater.plugin";
-import _default9 from "module-1/plugin";
-import _default10 from "module-1-plugin/thePlugin.plugin";
-import _default11 from "../../dummyPlugin.plugin.js";
+import * as _model_sessionGamesIdJs from "../../model/_session.games.[id].js";
+import * as _model_sessionGamesJs from "../../model/_session.games.js";
+import * as _modelIndexJs from "../../model/index.js";
+import * as _modelUsersIdJs from "../../model/users.[id].js";
+import * as _modelUsersJs from "../../model/users.js";
+import _default from "@startupjs/server/plugins/clientSession.plugin";
+import _default2 from "@startupjs/ui/plugin";
+import _default3 from "startupjs/plugins/cssMediaUpdater.plugin";
+import _default4 from "module-1/plugin";
+import _default5 from "module-1-plugin/thePlugin.plugin";
+import _default6 from "../../dummyPlugin.plugin.js";
 const plugins = [
+  _default,
+  _default2,
+  _default3,
+  _default4,
+  _default5,
   _default6,
-  _default7,
-  _default8,
-  _default9,
-  _default10,
-  _default11,
 ];
 const features = {
   enableServer: true,
 };
 const models = {
-  "_session.games.*": _default,
-  "_session.games": _default2,
-  "": _default3,
-  "users.*": _default4,
-  users: _default5,
+  "_session.games.*": _model_sessionGamesIdJs,
+  "_session.games": _model_sessionGamesJs,
+  "": _modelIndexJs,
+  "users.*": _modelUsersIdJs,
+  users: _modelUsersJs,
 };
 config.features = features;
 registry.init(config, {
