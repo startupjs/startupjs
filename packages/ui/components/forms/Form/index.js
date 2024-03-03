@@ -7,6 +7,7 @@ import { FormPropsContext } from './useFormProps'
 
 function Form ({
   fields = {},
+  $fields,
   properties,
   order,
   row,
@@ -39,7 +40,7 @@ function Form ({
     FormPropsContext.Provider(value=memoizedProps)
       CustomInputsContext.Provider(value=memoizedCustomInputs)
         ObjectInput(
-          properties=memoizedFields
+          properties=$fields?.get() || memoizedFields
           $value=$value
           order=order
           row=row

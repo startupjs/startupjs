@@ -7,14 +7,15 @@
  * @param {Object|Array} options - exclude or include fields. If array, it's the same as passing { include: [...] }
  * @param {Array} options.include - list of fields to pick (default: all)
  * @param {Array} options.exclude - list of fields to exclude (default: none)
+ * @param {Boolean} options.freeze - whether to deep freeze the result (default: true)
  */
 export function pickFormFields (schema, options) {
   try {
-    let include, exclude
+    let include, exclude, freeze
     if (Array.isArray(options)) {
       include = options
     } else {
-      ;({ include, exclude } = options || {})
+      ;({ include, exclude, freeze = true } = options || {})
     }
     exclude ??= []
     if (!schema) throw Error('pickFormFields: schema is required')
@@ -30,12 +31,28 @@ export function pickFormFields (schema, options) {
         delete schema[key]
       }
     }
+    if (freeze) return new Proxy(schema, deepFreezeHandler)
     return schema
   } catch (err) {
     throw Error(`
       pickFormFields: ${err.message}
       schema:\n${JSON.stringify(schema, null, 2)}
     `)
+  }
+}
+
+// Proxy handlers to deep freeze schema to prevent accidental mutations.
+// For this, when we .get() a property, we also return the same recursive Proxy handler if it's an object.
+const deepFreezeHandler = {
+  get (target, prop) {
+    const value = target[prop]
+    if (typeof value === 'object' && value !== null) {
+      return new Proxy(value, deepFreezeHandler)
+    }
+    return value
+  },
+  set () {
+    throw Error(ERRORS.schemaIsFrozen)
   }
 }
 
@@ -63,3 +80,22 @@ function camelCaseToLabel (str) {
 }
 
 export const GUID_PATTERN = '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+
+const ERRORS = {
+  schemaIsFrozen: `
+    Form fields are immutable.
+    If you want to change them, clone them with \`JSON.parse(JSON.stringify(FORM_FIELDS))\`.
+
+    If you want to do it inside react component, you can use this pattern for the most effective cloning:
+
+    \`\`\`
+        const $fields = useValue$(useMemo(() => JSON.parse(JSON.stringify(FORM_FIELDS)), []))
+    \`\`\`
+
+    and then pass $fields to the Form component like this:
+
+    \`\`\`
+        <Form $fields={$fields} $value={$value} />
+    \`\`\`
+  `
+}
