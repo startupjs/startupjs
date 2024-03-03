@@ -9,30 +9,47 @@
  * @param {Array} options.exclude - list of fields to exclude (default: none)
  */
 export function pickFormFields (schema, options) {
-  let include, exclude
-  if (Array.isArray(options)) {
-    include = options
-  } else {
-    ;({ include, exclude } = options || {})
-  }
-  exclude ??= []
-  if (!schema) throw Error('pickFormFields: schema is required')
-  schema = JSON.parse(JSON.stringify(schema))
-  if (schema.type === 'object') {
-    schema = schema.properties
-  }
-  for (const key in schema) {
-    if (
-      include?.includes(key) ||
-      (!include && !exclude.includes(key) && !DEFAULT_EXCLUDE_FORM_FIELDS.includes(key))
-    ) {
-      const field = schema[key]
-      if (!field.label) field.label = camelCaseToLabel(key)
+  try {
+    let include, exclude
+    if (Array.isArray(options)) {
+      include = options
     } else {
-      delete schema[key]
+      ;({ include, exclude } = options || {})
     }
+    exclude ??= []
+    if (!schema) throw Error('pickFormFields: schema is required')
+    schema = JSON.parse(JSON.stringify(schema))
+    if (schema.type === 'object') {
+      schema = schema.properties
+    }
+    for (const key in schema) {
+      if (shouldIncludeField(key, schema[key], { include, exclude })) {
+        const field = schema[key]
+        if (!field.label) field.label = camelCaseToLabel(key)
+      } else {
+        delete schema[key]
+      }
+    }
+    return schema
+  } catch (err) {
+    throw Error(`
+      pickFormFields: ${err.message}
+      schema:\n${JSON.stringify(schema, null, 2)}
+    `)
   }
-  return schema
+}
+
+function shouldIncludeField (key, field, { include, exclude = [] } = {}) {
+  if (!field) throw Error(`field "${key}" does not have a schema definition`)
+  if (include?.includes(key)) return true
+  if (exclude.includes(key)) return false
+  if (DEFAULT_EXCLUDE_FORM_FIELDS.includes(key)) return false
+  // exclude foreign keys by default
+  // (they have a custom `$collection` property set by belongsTo() or hasMany() helpers)
+  if (field.$collection) return false
+  // if include array is not explicitly set, include all fields by default
+  if (!include) return true
+  return false
 }
 
 const DEFAULT_EXCLUDE_FORM_FIELDS = ['id', '_id', 'createdAt', 'updatedAt']

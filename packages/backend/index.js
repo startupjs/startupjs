@@ -110,16 +110,15 @@ export default options => {
   ) {
     const schemaPerCollection = { schemas: {}, formats: {}, validators: {} }
 
-    for (const path in ORM) {
-      let { schema } = ORM[path].OrmEntity
+    for (const modelPattern in MODULE.models) {
+      let { schema, factory } = MODULE.models[modelPattern]
 
-      const isFactory = !!ORM[path].OrmEntity.factory
-
-      if (isFactory) {
-        // TODO: support transforming schema from simplified format to full format
-        schemaPerCollection.schemas[path.replace('.*', '')] = ORM[path].OrmEntity
+      if (factory) {
+        // TODO: implement getting schema from factory
+        // schemaPerCollection.schemas[modelPattern.replace('.*', '')] = ORM[path].OrmEntity
+        throw Error('factory model: NOT IMPLEMENTED')
       } else if (schema) {
-        const collectionName = path.replace('.*', '')
+        const collectionName = modelPattern.replace('.*', '')
         // transform schema from simplified format to full format
         schema = transformSchema(schema, { collectionName })
         schemaPerCollection.schemas[collectionName] = schema
@@ -182,13 +181,15 @@ function pathQueryMongo (request, next) {
 // and also with 'required' being part of each property
 function transformSchema (schema, { collectionName } = {}) {
   schema = JSON.parse(JSON.stringify(schema))
-  // if schema is not an object, assume it's a simplified format
+  // if schema is not an object, assume it's in a simplified format
   if (schema.type !== 'object') {
     schema = {
       type: 'object',
       properties: schema,
       required: Object.keys(schema).filter(
-        key => schema[key] && schema[key].required
+        // gather all required fields
+        // (only if explicitly set to a boolean `true` to not interfere with object's 'required' array)
+        key => schema[key] && schema[key].required === true
       ),
       additionalProperties: false
     }
