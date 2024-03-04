@@ -46,6 +46,7 @@ function Icon ({
   if (Platform.OS === 'web') {
     style.width ??= _size
     style.height ??= _size
+    style.outline ??= 'none'
     return pug`
       FontAwesomeIcon(
         style=style
