@@ -1,3 +1,18 @@
+# [0.56.0-alpha.41](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.40...v0.56.0-alpha.41) (2024-03-04)
+
+
+### Bug Fixes
+
+* **ui/Avatar:** fix passing width and height through styles ([cde1ecf](https://github.com/startupjs/startupjs/commit/cde1ecfec42824d984700f8ce0059e844f4dbd0e))
+* **ui/Icon:** don't show an outline on press ([3b8ce02](https://github.com/startupjs/startupjs/commit/3b8ce02934fe3725eebf02164dd502f119ffa346))
+
+
+### Features
+
+* **ui/Form:** add support for . Deep freeze pickFormFields() result by default to prevent accidental changes to it. ([f6ce00f](https://github.com/startupjs/startupjs/commit/f6ce00f62f126e25c9c7169d54f429ec20bb755f))
+
+
+
 # [0.56.0-alpha.40](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.39...v0.56.0-alpha.40) (2024-03-03)
 
 
