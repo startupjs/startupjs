@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, StyleSheet } from 'react-native'
+import { Image } from 'react-native'
 import { pug, observer, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import randomcolor from 'randomcolor'
@@ -13,7 +13,6 @@ const { config } = STYLES
 const DEFAULT_STATUSES = ['online', 'away']
 
 function Avatar ({
-  style,
   src,
   size,
   status,
@@ -26,17 +25,18 @@ function Avatar ({
   useDidUpdate(setError, [src])
 
   const _size = config.avatarSizes[size] || size
-  const rootStyle = { width: _size, height: _size }
+  const _rootStyle = { width: _size, height: _size }
   const _statusSize = config.statusSizes[size] || Math.round(size / 4)
-  const statusStyle = { width: _statusSize, height: _statusSize }
+  const _statusStyle = { width: _statusSize, height: _statusSize }
   const _fallbackFontSize = config.fallbackSizes[size] || Math.round(size / 2.5)
-  const fallbackStyle = { fontSize: _fallbackFontSize, lineHeight: _fallbackFontSize }
+  const _fallbackStyle = { fontSize: _fallbackFontSize, lineHeight: _fallbackFontSize }
 
   const StatusComponent = getStatusComponent(statusComponents, status)
 
   return pug`
     Div.root(
-      style=StyleSheet.flatten([style, rootStyle])
+      part='root'
+      style=_rootStyle
       ...props
     )
       Div.avatarWrapper(shape=shape)
@@ -57,10 +57,10 @@ function Avatar ({
               seed: _fallback
             })}
           )
-            Span.fallback(bold style=fallbackStyle)
+            Span.fallback(part='fallback' bold style=_fallbackStyle)
               = initials
       if status
-        StatusComponent.status(styleName=[status, shape] style=statusStyle)
+        StatusComponent.status(part='status' styleName=[status, shape] style=_statusStyle)
   `
 }
 
