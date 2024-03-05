@@ -171,7 +171,7 @@ function TextInputInput ({
         focusable=false
         onLayout=onLayoutIcon
         styleName=[size, iconPosition]
-        onPress=onIconPress
+        onPress=disabled ? undefined : onIconPress
         pointerEvents=onIconPress ? undefined : 'none'
       )
         Icon(
@@ -184,7 +184,7 @@ function TextInputInput ({
         focusable=false
         onLayout=onLayoutIcon
         styleName=[size, getOppositePosition(iconPosition)]
-        onPress=onSecondaryIconPress
+        onPress=disabled ? undefined : onSecondaryIconPress
         pointerEvents=onSecondaryIconPress ? undefined : 'none'
       )
         Icon(
