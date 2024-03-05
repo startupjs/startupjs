@@ -1,5 +1,5 @@
 import React from 'react'
-import { pug, observer } from 'startupjs'
+import { pug, observer, u } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from './../Div'
 import themed from '../../theming/themed'
@@ -12,17 +12,24 @@ const {
 } = STYLES
 
 function Content ({
-  style,
   children,
   padding,
   pure,
   width,
   ...props
 }) {
+  const _rootStyle = {}
+  if (padding === true) padding = 2
+  if (typeof padding === 'number') {
+    _rootStyle.paddingTop = u(padding)
+    _rootStyle.paddingBottom = u(padding)
+  }
+
   return pug`
     Div.root(
-      style=style
-      styleName=['width-' + width, { padding, pure }]
+      part='root'
+      style=_rootStyle
+      styleName=['width-' + width, { pure }]
       ...props
     )= children
   `
@@ -36,7 +43,7 @@ Content.defaultProps = {
 
 Content.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  padding: PropTypes.bool,
+  padding: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   full: PropTypes.bool,
   width: PropTypes.oneOf(['mobile', 'tablet', 'desktop', 'wide', 'full']),
   pure: PropTypes.bool,
