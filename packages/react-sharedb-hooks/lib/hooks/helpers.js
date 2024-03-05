@@ -2,7 +2,11 @@ import { useMemo } from 'react'
 import useIsomorphicLayoutEffect from '@startupjs/utils/useIsomorphicLayoutEffect'
 import $root from '@startupjs/model'
 import { blockCache, unblockCache } from '@startupjs/cache'
-import { useQuery, useLocal, useBatchQuery, useAsyncQuery, useLocal$ } from './types.js'
+import { signal, enabled as signalsEnabled } from '@startupjs/signals'
+import {
+  useQuery, useLocal, useBatchQuery, useAsyncQuery,
+  useLocal$, useBatchQuery$, useAsyncQuery$, useQuery$
+} from './types.js'
 
 export const emit = $root.emit.bind($root)
 
@@ -27,7 +31,7 @@ export function useEmit () {
   return emit
 }
 
-export function generateUseQueryIds ({ batch, optional } = {}) {
+export function generateUseQueryIds ({ batch, optional, modelOnly } = {}) {
   const useFn = batch
     ? useBatchQuery
     : optional
@@ -42,11 +46,26 @@ export function generateUseQueryIds ({ batch, optional } = {}) {
   }
 }
 
+export function generateUseQueryIds$ ({ batch, optional } = {}) {
+  const useFn$ = batch
+    ? useBatchQuery$
+    : optional
+      ? useAsyncQuery$
+      : useQuery$
+  return (collection, ids = [], options = {}) => {
+    const $items = useFn$(collection, { _id: { $in: ids } })
+    return $items
+  }
+}
+
 // NOTE: useQueryIds$ doesn't make sense because the returned model simply targets collection,
 //       so instead just a simple useModel(collection) should be used.
 export const useQueryIds = generateUseQueryIds()
+export const useQueryIds$ = generateUseQueryIds$()
 export const useBatchQueryIds = generateUseQueryIds({ batch: true })
+export const useBatchQueryIds$ = generateUseQueryIds$({ batch: true })
 export const useAsyncQueryIds = generateUseQueryIds({ optional: true })
+export const useAsyncQueryIds$ = generateUseQueryIds$({ optional: true })
 
 // NOTE: `useQueryDoc$` does not provide any performance optimizations because it needs to
 //       access data in order to create scoped model.
@@ -81,12 +100,38 @@ export function generateUseQueryDoc ({ batch, optional, modelOnly } = {}) {
   }
 }
 
+// NOTE: New simplified signals implementation of `useQueryDoc$`
+export function generateUseQueryDoc$ ({ batch, optional } = {}) {
+  const useFn$ = batch
+    ? useBatchQuery$
+    : optional
+      ? useAsyncQuery$
+      : useQuery$
+  return (collection, query) => {
+    query = Object.assign({}, query, { $limit: 1 })
+    if (!query.$sort) query.$sort = { createdAt: -1 }
+    const $items = useFn$(collection, query)
+    const itemId = $items.ids[0].get()
+    const $item = useMemo(() => {
+      if (!itemId) return
+      return signal(`${collection}.${itemId}`)
+    }, [collection, itemId])
+    return $item
+  }
+}
+
 export const useQueryDoc = generateUseQueryDoc()
-export const useQueryDoc$ = generateUseQueryDoc({ modelOnly: true })
+export const useQueryDoc$ = signalsEnabled
+  ? generateUseQueryDoc$()
+  : generateUseQueryDoc({ modelOnly: true })
 export const useBatchQueryDoc = generateUseQueryDoc({ batch: true })
-export const useBatchQueryDoc$ = generateUseQueryDoc({ batch: true, modelOnly: true })
+export const useBatchQueryDoc$ = signalsEnabled
+  ? generateUseQueryDoc$({ batch: true })
+  : generateUseQueryDoc({ batch: true, modelOnly: true })
 export const useAsyncQueryDoc = generateUseQueryDoc({ optional: true })
-export const useAsyncQueryDoc$ = generateUseQueryDoc({ optional: true, modelOnly: true })
+export const useAsyncQueryDoc$ = signalsEnabled
+  ? generateUseQueryDoc$({ optional: true })
+  : generateUseQueryDoc({ optional: true, modelOnly: true })
 
 export function useLocalDoc (collection, docId) {
   console.warn(`

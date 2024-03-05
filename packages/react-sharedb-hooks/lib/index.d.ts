@@ -38,8 +38,11 @@ export function useOn(
 ): Function;
 
 export const useQueryIds: <V = any>(collection: string, ids: string[], options?: {}) => ResultHook<V>;
+export const useQueryIds$: (collection: string, ids: string[], options?: {}) => any;
 export const useBatchQueryIds: <V = any>(collection: string, ids: string[], options?: {}) => ResultHook<V>;
+export const useBatchQueryIds$: (collection: string, ids: string[], options?: {}) => any;
 export const useAsyncQueryIds: <V = any>(collection: string, ids: string[], options?: {}) => ResultHook<V>;
+export const useAsyncQueryIds$: (collection: string, ids: string[], options?: {}) => any;
 
 export const useQueryDoc: <V = any>(collection: string, query: {}) => ResultHook<V>;
 export const useQueryDoc$: (collection: string, query: {}) => any;
@@ -86,8 +89,11 @@ export const useAsyncDoc: <V = any>(collection: string, docId: string) => Result
 export const useAsyncDoc$: (collection: string, docId: string) => any;
 
 export const useQuery: <V = any>(collection: string, query: {}) => ResultHook<V>;
+export const useQuery$: (collection: string, query: {}) => any;
 export const useBatchQuery: <V = any>(collection: string, query: {}) => ResultHook<V>;
+export const useBatchQuery$: (collection: string, query: {}) => any;
 export const useAsyncQuery: <V = any>(collection: string, query: {}) => ResultHook<V>;
+export const useAsyncQuery$: (collection: string, query: {}) => any;
 
 export function useApi<V = any> (path: string, fn: Function, inputs?: any[], options?: {}): ResultHook<V>;
 export function useApi$ (path: string, fn: Function, inputs?: any[], options?: {}): any;
