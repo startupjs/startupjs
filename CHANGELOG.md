@@ -1,3 +1,17 @@
+# [0.56.0-alpha.45](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.44...v0.56.0-alpha.45) (2024-03-05)
+
+
+### Bug Fixes
+
+* **signals:** show better error when trying to run a method which doesn't exist in the model ([3bb2304](https://github.com/startupjs/startupjs/commit/3bb2304d7013d2ea6b37dbbaea9da50eb0f187e7))
+
+
+### Features
+
+* **react-sharedb-hooks:** add signals implementation for useQueryDoc$ and useQueryIds$ ([78d7108](https://github.com/startupjs/startupjs/commit/78d710814099445e7f94499c6227994982e96212))
+
+
+
 # [0.56.0-alpha.44](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.43...v0.56.0-alpha.44) (2024-03-05)
 
 

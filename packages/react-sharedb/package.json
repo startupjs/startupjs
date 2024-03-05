@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/react-sharedb",
   "type": "module",
-  "version": "0.56.0-alpha.18",
+  "version": "0.56.0-alpha.45",
   "engines": {
     "node": ">= 14"
   },
@@ -19,7 +19,7 @@
     "@nx-js/observer-util": "^4.1.3",
     "@startupjs/model": "^0.56.0-alpha.18",
     "@startupjs/react-sharedb-classes": "^0.56.0-alpha.18",
-    "@startupjs/react-sharedb-hooks": "^0.56.0-alpha.18",
+    "@startupjs/react-sharedb-hooks": "^0.56.0-alpha.45",
     "@startupjs/react-sharedb-util": "^0.56.0-alpha.18",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "^4.17.20",
