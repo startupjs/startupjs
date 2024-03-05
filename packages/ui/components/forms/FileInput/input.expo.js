@@ -1,20 +1,27 @@
 import React from 'react'
+import { Platform } from 'react-native'
 import { pug, observer, axios } from 'startupjs'
 import PropTypes from 'prop-types'
 import * as DocumentPicker from 'expo-document-picker'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons/faTrashAlt'
 import Button from '../../Button'
 import Div from '../../Div'
+import Alert from '../../Alert'
 import themed from '../../../theming/themed'
 import { getUploadFileUrl, getDeleteFileUrl } from './constants'
 import alert from '../../dialogs/alert'
 import confirm from '../../dialogs/confirm'
+
+const isWeb = Platform.OS === 'web'
 
 function FileInput ({
   value: fileId,
   mimeTypes,
   onChange
 }) {
+  // TODO: Add support on iOS and Android
+  if (!isWeb) return pug`Alert File upload is only supported in browser`
+
   async function pickFile () {
     const { cancelled, assets } = await DocumentPicker.getDocumentAsync({ type: mimeTypes })
     if (cancelled || !assets) return
