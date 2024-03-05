@@ -2,6 +2,7 @@ import { createPlugin } from 'startupjs/registry'
 import { BaseModel } from 'startupjs/orm'
 import { sqlite } from 'startupjs/server'
 import busboy from 'busboy'
+import sharp from 'sharp'
 import { GET_FILE_URL, UPLOAD_SINGLE_FILE_URL, DELETE_FILE_URL, getFileUrl, getUploadFileUrl, getDeleteFileUrl } from './constants.js'
 
 export default createPlugin({
@@ -72,45 +73,62 @@ export default createPlugin({
         let meta
         bb.on('file', (fieldname, file, { filename, mimeType, encoding }) => {
           if (blob) return res.status(500).send('Only one file is allowed')
-          meta = { filename, mimeType, encoding }
-          const buffers = []
-          file
-            .on('data', data => { buffers.push(data) })
-            .on('close', () => { blob = Buffer.concat(buffers) })
-        })
 
-        bb.on('close', async () => {
-          if (!blob) return res.status(500).send('No file was uploaded')
-          // only support sqlite for now
-          if (!sqlite) throw Error(ERRORS.noSqlite)
-          meta.storageType = 'sqlite'
-          // extract extension from filename
-          console.log('meta.filename', meta.filename)
-          const extension = meta.filename?.match(/\.([^.]+)$/)?.[1]
-          if (extension) meta.extension = extension
-          const create = !fileId
-          if (!fileId) fileId = $root.id()
-          // try to save file to sqlite first to do an early exit if it fails
-          await saveFileBlobToSqlite(fileId, blob)
-          if (create) {
-            const doc = { id: fileId, ...meta }
-            // if some of the meta fields were undefined, remove them from the doc
-            for (const key in meta) {
-              if (meta[key] == null) delete doc[key]
-            }
-            await $root.scope('files').addNew(doc)
-          } else {
-            const $file = $root.scope('files.' + fileId)
-            await $file.subscribe()
-            const doc = { ...$file.get(), ...meta }
-            // if some of the meta fields were undefined, remove them from the doc
-            for (const key in meta) {
-              if (meta[key] == null) delete doc[key]
-            }
-            await $file.setDiffDeep(doc)
+          const buffers = []
+          let stream = file
+
+          if (mimeType.startsWith('image/')) {
+            // If it's an image, pipe it through sharp for resizing and conversion
+            stream = file.pipe(sharp()
+              .resize(1000, 1000, {
+                fit: sharp.fit.inside,
+                withoutEnlargement: true
+              })
+              .toFormat('jpeg', { quality: 80 })) // Convert to JPEG with 85% quality
+
+            filename = filename.replace(/\.[^.]+$/, '.jpg') // Change extension to .jpg
+            mimeType = 'image/jpeg'
           }
-          console.log('Uploaded file', fileId)
-          res.json({ fileId })
+
+          // Regardless of whether it's an image or not, collect the data
+          stream.on('data', data => buffers.push(data))
+
+          stream.on('end', async () => {
+            blob = Buffer.concat(buffers)
+            meta = { filename, mimeType, encoding } // Update meta here to ensure it includes modifications for images
+
+            if (!blob) return res.status(500).send('No file was uploaded')
+            // only support sqlite for now
+            if (!sqlite) throw Error(ERRORS.noSqlite)
+            meta.storageType = 'sqlite'
+            // extract extension from filename
+            console.log('meta.filename', meta.filename)
+            const extension = meta.filename?.match(/\.([^.]+)$/)?.[1]
+            if (extension) meta.extension = extension
+            const create = !fileId
+            if (!fileId) fileId = $root.id()
+            // try to save file to sqlite first to do an early exit if it fails
+            await saveFileBlobToSqlite(fileId, blob)
+            if (create) {
+              const doc = { id: fileId, ...meta }
+              // if some of the meta fields were undefined, remove them from the doc
+              for (const key in meta) {
+                if (meta[key] == null) delete doc[key]
+              }
+              await $root.scope('files').addNew(doc)
+            } else {
+              const $file = $root.scope('files.' + fileId)
+              await $file.subscribe()
+              const doc = { ...$file.get(), ...meta }
+              // if some of the meta fields were undefined, remove them from the doc
+              for (const key in meta) {
+                if (meta[key] == null) delete doc[key]
+              }
+              await $file.setDiffDeep(doc)
+            }
+            console.log('Uploaded file', fileId)
+            res.json({ fileId })
+          })
         })
 
         return req.pipe(bb)

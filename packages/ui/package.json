@@ -117,7 +117,8 @@
     "react-native-collapsible": "^1.6.1",
     "react-native-color-picker": "^0.6.0",
     "react-native-drawer-layout-polyfill": "^2.0.0",
-    "react-native-tab-view": "^3.0.0"
+    "react-native-tab-view": "^3.0.0",
+    "sharp": "^0.33.2"
   },
   "peerDependencies": {
     "@react-native-picker/picker": "*",
