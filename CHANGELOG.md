@@ -1,3 +1,12 @@
+# [0.56.0-alpha.46](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.45...v0.56.0-alpha.46) (2024-03-05)
+
+
+### Features
+
+* **ui/FileInput:** auto-convert images during upload to jpeg quality 80 ([bb5d924](https://github.com/startupjs/startupjs/commit/bb5d924dc0b50db99f234a79efe29256575e9a9c))
+
+
+
 # [0.56.0-alpha.45](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.44...v0.56.0-alpha.45) (2024-03-05)
 
 
