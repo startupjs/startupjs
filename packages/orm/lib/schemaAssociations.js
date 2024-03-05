@@ -16,7 +16,10 @@ export function belongsTo (collectionName) {
   return {
     type: 'string',
     pattern: GUID_PATTERN,
-    $collection: collectionName
+    $association: {
+      type: 'belongsTo',
+      collection: collectionName
+    }
   }
 }
 
@@ -30,19 +33,31 @@ export function hasMany (collectionName) {
   }
   return {
     type: 'array',
-    $collection: collectionName,
     items: {
       type: 'string',
       pattern: GUID_PATTERN
+    },
+    $association: {
+      type: 'hasMany',
+      collection: collectionName
     }
   }
 }
 
-export function hasOne () {
-  console.warn(`
-    hasOne(Model) for models is deprecated.
-    Convert to use the new schema associations:
-    belongsTo('collectionName') or hasMany('collectionName')
-  `)
-  return oldHasOne(...arguments)
+export function hasOne (collectionName) {
+  if (typeof collectionName !== 'string') {
+    console.warn(`
+      hasOne(Model) for models is deprecated.
+      Convert to use the new schema associations: hasOne('collectionName')
+    `)
+    return oldHasOne(...arguments)
+  }
+  return {
+    type: 'string',
+    pattern: GUID_PATTERN,
+    $association: {
+      type: 'hasOne',
+      collection: collectionName
+    }
+  }
 }

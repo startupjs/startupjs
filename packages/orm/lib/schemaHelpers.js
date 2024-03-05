@@ -61,9 +61,9 @@ function shouldIncludeField (key, field, { include, exclude = [] } = {}) {
   if (include?.includes(key)) return true
   if (exclude.includes(key)) return false
   if (DEFAULT_EXCLUDE_FORM_FIELDS.includes(key)) return false
-  // exclude foreign keys by default
-  // (they have a custom `$collection` property set by belongsTo() or hasMany() helpers)
-  if (field.$collection) return false
+  // exclude foreign keys by default, unless they have 'input' specified.
+  // Foreign keys have a custom `$association` property set by belongsTo/hasMany/hasOne helpers
+  if (field.$association && !field.input) return false
   // if include array is not explicitly set, include all fields by default
   if (!include) return true
   return false
