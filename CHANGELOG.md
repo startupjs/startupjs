@@ -1,3 +1,13 @@
+# [0.56.0-alpha.43](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.42...v0.56.0-alpha.43) (2024-03-05)
+
+
+### Features
+
+* **orm:** add 'hasOne' schema association. Store the association in schema under '' ([403c5a3](https://github.com/startupjs/startupjs/commit/403c5a3f250e42fcfe551d42b946705251451cd9))
+* **ui/Content:** support passing a number to 'padding' (in units) ([b1ff93b](https://github.com/startupjs/startupjs/commit/b1ff93b2f589dda4df88a052259a9360968eadb5))
+
+
+
 # [0.56.0-alpha.42](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.41...v0.56.0-alpha.42) (2024-03-05)
 
 
