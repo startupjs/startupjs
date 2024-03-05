@@ -11,8 +11,6 @@ import createSession from './server/createSession.js'
 import createChannel from '@startupjs/channel/server'
 import { readFileSync } from 'fs'
 
-export { mongo, mongoClient, createMongoIndex, redis, redlock } from '@startupjs/backend'
-
 const IS_EXPO = isExpo(process.env.ROOT_PATH || process.cwd())
 
 const defaultOptions = {
@@ -21,8 +19,7 @@ const defaultOptions = {
   bodyParserLimit: '10mb',
   secure: false,
   dirname: process.env.ROOT_PATH || process.cwd(),
-  isExpo: IS_EXPO,
-  ...MODULE.options
+  isExpo: IS_EXPO
 }
 
 export default async function startServer (options) {
@@ -52,7 +49,7 @@ export async function createMiddleware (options = {}) {
 }
 
 function commonInit (options = {}) {
-  options = { ...defaultOptions, ...options }
+  options = { ...defaultOptions, ...MODULE.options, ...options }
 
   // Transform public path to be absolute
   options.publicPath = resolve(options.dirname, options.publicPath)
@@ -73,4 +70,8 @@ function isExpo (rootPath) {
   return Boolean(dependencies.expo)
 }
 
-;((...args) => {})(dummyNconf, dummyInitServer) // prevent dead code elimination
+export { mongo, mongoClient, createMongoIndex, redis, redlock, sqlite } from '@startupjs/backend'
+
+export function NO_DEAD_CODE_ELIMINATION () {
+  return [dummyNconf, dummyInitServer]
+}

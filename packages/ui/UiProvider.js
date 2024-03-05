@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import { View } from 'react-native'
 import { pug, observer } from 'startupjs'
 import { setDefaultVariables } from '@startupjs/babel-plugin-rn-stylename-to-style/variables'
 import ToastProvider from './components/toast/ToastProvider'
@@ -53,7 +52,6 @@ export default observer(function UiProvider ({ children, style, palette, colors,
       Portal.Provider
         ToastProvider
         = children
-      View(style={ zIndex: 1 })
-        DialogsProvider
+      DialogsProvider
   `
 })

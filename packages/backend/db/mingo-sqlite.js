@@ -35,39 +35,32 @@ function patchMingoForSQLitePersistence (sqliteDb, shareDbMingo) {
   const originalCommit = shareDbMingo.commit
 
   shareDbMingo.commit = function (collection, docId, op, snapshot, options, callback) {
-    originalCommit.call(this, collection, docId, op, snapshot, options, (err) => {
+    originalCommit.call(this, collection, docId, op, snapshot, options, async err => {
       if (err) return callback(err)
 
-      sqliteDb.run(
-        'REPLACE INTO documents (collection, id, data) VALUES (?, ?, ?)',
-        [collection, docId, JSON.stringify(snapshot)],
-        (err) => {
-          if (err) {
-            console.error(err.message)
-            return callback(err)
-          }
+      try {
+        await new Promise((resolve, reject) => {
+          sqliteDb.run(`
+            REPLACE INTO documents (collection, id, data) VALUES (?, ?, ?)
+          `, [collection, docId, JSON.stringify(snapshot)], err => err ? reject(err) : resolve())
+        })
+        await new Promise((resolve, reject) => {
+          sqliteDb.run(`
+            INSERT INTO ops (id, collection, documentId, op) VALUES (?, ?, ?, ?)
+          `, [uuid(), collection, docId, JSON.stringify(op)], err => err ? reject(err) : resolve())
+        })
+      } catch (err) {
+        throw Error('Error saving to SQLite:\n', err.message)
+      }
 
-          sqliteDb.run(
-            'INSERT INTO ops (id, collection, documentId, op) VALUES (?, ?, ?, ?)',
-            [uuid(), collection, docId, JSON.stringify(op)],
-            (err) => {
-              if (err) {
-                console.error(err.message)
-                return callback(err)
-              }
-
-              callback(null, true)
-            }
-          )
-        }
-      )
+      callback(null, true)
     })
   }
 }
 
-function deleteExpiredDocumentsOps (sqliteDb) {
-  return new Promise((resolve, reject) => {
-    sqliteDb.all(`
+async function deleteExpiredDocumentsOps (sqliteDb) {
+  return await new Promise((resolve, reject) => {
+    sqliteDb.run(`
       DELETE FROM ops
       WHERE
           json_extract(op, '$.m.ts') < (strftime('%s', 'now') - 24 * 60 * 60 ) * 1000
@@ -77,73 +70,98 @@ function deleteExpiredDocumentsOps (sqliteDb) {
               FROM documents
               WHERE documents.id = ops.documentId AND documents.collection = ops.collection
           );
-    `, (err) => {
-      if (err) return reject(err)
-
-      resolve()
-    })
+    `, err => err ? reject(err) : resolve())
   })
 }
 
 async function getOrCreateSqliteDb (dbPath) {
   const sqliteDb = new sqlite3.Database(dbPath)
 
-  return new Promise((resolve, reject) => {
-    sqliteDb.run(
-      'CREATE TABLE IF NOT EXISTS documents (' +
-      'collection TEXT, ' +
-      'id TEXT, ' +
-      'data TEXT, ' +
-      'PRIMARY KEY (collection, id))',
-      (err) => {
-        if (err) return reject(err)
-
-        sqliteDb.run(
-          'CREATE TABLE IF NOT EXISTS ops (' +
-          'id UUID PRIMARY KEY, ' +
-          'collection TEXT, ' +
-          'documentId TEXT, ' +
-          'op TEXT)',
-          (err) => {
-            if (err) return reject(err)
-
-            console.log('DB SQLite was created from file', dbPath)
-            resolve(sqliteDb)
-          }
+  try {
+    await new Promise((resolve, reject) => {
+      sqliteDb.run(`
+        CREATE TABLE IF NOT EXISTS documents (
+          collection TEXT,
+          id TEXT,
+          data TEXT,
+          PRIMARY KEY (collection, id)
         )
-      }
-    )
-  })
+      `, err => err ? reject(err) : resolve())
+    })
+    await new Promise((resolve, reject) => {
+      sqliteDb.run(`
+        CREATE TABLE IF NOT EXISTS ops (
+          id UUID PRIMARY KEY,
+          collection TEXT,
+          documentId TEXT,
+          op TEXT
+        )
+      `, err => err ? reject(err) : resolve())
+    })
+    await new Promise((resolve, reject) => {
+      sqliteDb.run(`
+        CREATE TABLE IF NOT EXISTS files (
+          id TEXT PRIMARY KEY,
+          data BLOB,
+          createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+      `, err => err ? reject(err) : resolve())
+    })
+  } catch (err) {
+    throw Error('Error creating SQLite file db and/or tables:\n' + err.message)
+  }
+  console.log('Using SQLite DB from file:', dbPath)
+  return sqliteDb
 }
 
+// clone each table from source to target
+// TODO: Do it in batches of 100 to avoid memory issues.
 async function cloneSqliteDb (source, target) {
-  return new Promise((resolve, reject) => {
-    source.parallelize(() => {
-      source.serialize(() => {
-        source.all('SELECT * FROM documents', [], (err, rows) => {
-          if (err) return reject(err)
-
-          rows.forEach((row) => {
-            target.run('INSERT INTO documents (collection, id, data) VALUES (?, ?, ?)', [row.collection, row.id, row.data], (err) => {
-              if (err) return reject(err)
-            })
-          })
-          resolve()
-        })
+  try {
+    { // clone 'documents'
+      const rows = await new Promise((resolve, reject) => {
+        source.all('SELECT * FROM documents', [], (err, rows) => err ? reject(err) : resolve(rows))
       })
-
-      source.serialize(() => {
-        source.all('SELECT * FROM ops', [], (err, rows) => {
-          if (err) return reject(err)
-
-          rows.forEach((row) => {
-            target.run('INSERT INTO ops (id, collection, documentId, op) VALUES (?, ?, ?, ?)', [row.id, row.collection, row.documentId, row.op], (err) => {
-              if (err) return reject(err)
-            })
-          })
-          resolve()
-        })
+      const promises = []
+      for (const row of rows) {
+        promises.push(new Promise((resolve, reject) => {
+          target.run(`
+            INSERT INTO documents (collection, id, data) VALUES (?, ?, ?)
+          `, [row.collection, row.id, row.data], err => err ? reject(err) : resolve())
+        }))
+      }
+      await Promise.all(promises)
+    }
+    { // clone 'ops'
+      const rows = await new Promise((resolve, reject) => {
+        source.all('SELECT * FROM ops', [], (err, rows) => err ? reject(err) : resolve(rows))
       })
-    })
-  })
+      const promises = []
+      for (const row of rows) {
+        promises.push(new Promise((resolve, reject) => {
+          target.run(`
+            INSERT INTO ops (id, collection, documentId, op) VALUES (?, ?, ?, ?)
+          `, [row.id, row.collection, row.documentId, row.op], err => err ? reject(err) : resolve())
+        }))
+      }
+      await Promise.all(promises)
+    }
+    { // clone 'files'
+      // TODO: Clone them one by one to avoid memory issues, since files are large.
+      const rows = await new Promise((resolve, reject) => {
+        source.all('SELECT * FROM files', [], (err, rows) => err ? reject(err) : resolve(rows))
+      })
+      const promises = []
+      for (const row of rows) {
+        promises.push(new Promise((resolve, reject) => {
+          target.run(`
+            INSERT INTO files (id, data) VALUES (?, ?)
+          `, [row.id, row.data], err => err ? reject(err) : resolve())
+        }))
+        await Promise.all(promises)
+      }
+    }
+  } catch (err) {
+    throw Error('Error cloning SQLite DB:\n' + err.message)
+  }
 }

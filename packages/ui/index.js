@@ -49,6 +49,7 @@ export { default as RangeInput } from './components/forms/RangeInput'
 export { default as Rank } from './components/forms/Rank'
 export { default as Select } from './components/forms/Select'
 export { default as TextInput } from './components/forms/TextInput'
+export { default as FileInput } from './components/forms/FileInput'
 
 export { default as Icon } from './components/Icon'
 export { default as Item } from './components/Item'
