@@ -1,3 +1,13 @@
+# [0.56.0-alpha.44](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.43...v0.56.0-alpha.44) (2024-03-05)
+
+
+### Bug Fixes
+
+* **orm/pickFormFields:** don't run default exclusions logic for fields which have an explicit 'input' ([06ced80](https://github.com/startupjs/startupjs/commit/06ced80d856346897bed3c10c536697696c1e568))
+* **ui/TextInput:** if disabled, icons should be not clickable ([83d4cbe](https://github.com/startupjs/startupjs/commit/83d4cbe567be6ea62e48e6b20b84a14135b71a2d))
+
+
+
 # [0.56.0-alpha.43](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.42...v0.56.0-alpha.43) (2024-03-05)
 
 
