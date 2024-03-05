@@ -1,3 +1,12 @@
+# [0.56.0-alpha.42](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.41...v0.56.0-alpha.42) (2024-03-05)
+
+
+### Features
+
+* **ui/FileInput:** implement FileInput for uploading files to different storages ([#1194](https://github.com/startupjs/startupjs/issues/1194)) ([47352bd](https://github.com/startupjs/startupjs/commit/47352bd202b62ee001ca61f171acb04917a1c2b9))
+
+
+
 # [0.56.0-alpha.41](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.40...v0.56.0-alpha.41) (2024-03-04)
 
 

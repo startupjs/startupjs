@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/backend",
-  "version": "0.56.0-alpha.40",
+  "version": "0.56.0-alpha.42",
   "description": "Create new ShareDB backend instance",
   "type": "module",
   "main": "index.js",
