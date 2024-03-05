@@ -37,7 +37,16 @@ export default function useBind (props) {
 
     if (setterName) {
       if ($aValue != null) {
-        res[setterName] = value => $aValue && $aValue.setDiff(value)
+        res[setterName] = value => {
+          if (!$aValue) return
+          // handle undefined value in a special way:
+          // do model.del() on it to completely remove the field
+          if (typeof value === 'undefined') {
+            if (typeof $aValue.get() !== 'undefined') $aValue.del()
+          } else {
+            $aValue.setDiff(value)
+          }
+        }
       } else {
         res[setterName] = props[setterName]
       }

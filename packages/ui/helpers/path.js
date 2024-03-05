@@ -1,6 +1,5 @@
 import { $root, useLocal } from 'startupjs'
 
-const PAGE_PATH = '_page.ui'
 const SESSION_PATH = '_session.ui'
 
 function generatePath (path, subpath = '') {
@@ -20,12 +19,4 @@ export function getSessionUI (path) {
 
 export function useSessionUI (path) {
   return useLocal(generatePath(SESSION_PATH, path))
-}
-
-export function getPageUI (path) {
-  return $root.at(generatePath(PAGE_PATH, path))
-}
-
-export function usePageUI (path) {
-  return useLocal(generatePath(PAGE_PATH, path))
 }

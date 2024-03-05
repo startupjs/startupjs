@@ -1,9 +1,11 @@
 import React from 'react'
-import { pug } from 'startupjs'
+import { pug, $ } from 'startupjs'
 import Input from '../forms/Input'
 import Br from '../Br'
 import Span from '../typography/Span'
-import { $dialog, openDialog } from './helpers'
+import { openDialog } from './helpers'
+
+const $prompt = $.session.__ui__.prompt
 
 export default async function prompt (options, defaultValue) {
   let title, message
@@ -24,6 +26,7 @@ export default async function prompt (options, defaultValue) {
   }
 
   const result = await new Promise(resolve => {
+    $prompt.del()
     openDialog({
       title,
       value: defaultValue,
@@ -32,21 +35,18 @@ export default async function prompt (options, defaultValue) {
         Br(half)
         Input(
           type='text'
-          $value=$dialog.at('value')
+          $value=$prompt
         )
       `,
       showCross: false,
       enableBackdropPress: false,
       cancelLabel: 'Cancel',
       confirmLabel: 'OK',
-      onRequestClose: () => {
-        $dialog.del('value')
-      },
       onCancel: () => {
         resolve(null)
       },
       onConfirm: () => {
-        const result = $dialog.get('value')
+        const result = $prompt.get()
         resolve(result)
       }
     })

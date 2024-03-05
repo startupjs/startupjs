@@ -16,6 +16,7 @@ const INIT_GITIGNORE_PATH = join(__dirname, './init/gitignore')
 const INIT_STARTUPJS_CONFIG_PATH = join(__dirname, './init/startupjs.config.js')
 const DEVELOPMENT_JSON_PATH = join(__dirname, './dev/package.json')
 const UI_JSON_PATH = join(__dirname, './ui/package.json')
+const UI_EXPO_JSON_PATH = join(__dirname, './ui-expo/package.json')
 
 const GITIGNORE_MARKER = '@generated startupjs'
 
@@ -108,6 +109,9 @@ async function runInstall ({ setupDevelopment, setupUi, setupInit, isSetup, skip
 
   if (setupUi || packageJson.dependencies['@startupjs/ui']) {
     templates.push(JSON.parse(fromTemplateFile(UI_JSON_PATH)))
+    if (packageJson.dependencies.expo) {
+      templates.push(JSON.parse(fromTemplateFile(UI_EXPO_JSON_PATH)))
+    }
   }
 
   // warnings and instructions for the user which will be printed at the very end

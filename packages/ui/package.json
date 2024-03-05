@@ -45,6 +45,7 @@
     "./Rank": "./components/forms/Rank/index.js",
     "./Select": "./components/forms/Select/index.js",
     "./TextInput": "./components/forms/TextInput/index.js",
+    "./FileInput": "./components/forms/FileInput/index.js",
     "./Icon": "./components/Icon/index.js",
     "./Item": "./components/Item/index.js",
     "./Layout": "./components/Layout/index.js",
@@ -95,7 +96,8 @@
     "./useMedia": "./hooks/useMedia.js",
     "./useColors": "./hooks/useColors.js",
     "./UiProvider": "./UiProvider.js",
-    "./plugin": "./plugin.js"
+    "./plugin": "./plugin.js",
+    "./files.plugin": "./components/forms/FileInput/files.plugin.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
@@ -105,6 +107,7 @@
     "@nx-js/observer-util": "^4.1.3",
     "@ptomasroos/react-native-multi-slider": "ptomasroos/react-native-multi-slider",
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.56.0-alpha.34",
+    "busboy": "^1.6.0",
     "color": "^3.1.2",
     "date-fns": "^2.0.1",
     "moment-timezone": "^0.5.31",
@@ -118,6 +121,7 @@
   },
   "peerDependencies": {
     "@react-native-picker/picker": "*",
+    "expo-document-picker": "*",
     "expo-router": "*",
     "react": "*",
     "react-native": "*",
@@ -128,6 +132,9 @@
     "startupjs": "*"
   },
   "peerDependenciesMeta": {
+    "expo-document-picker": {
+      "optional": true
+    },
     "expo-router": {
       "optional": true
     },

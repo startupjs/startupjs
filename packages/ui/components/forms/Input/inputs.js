@@ -16,6 +16,7 @@ import Radio from '../Radio'
 import RangeInput from '../RangeInput'
 import Select from '../Select'
 import TextInput from '../TextInput'
+import FileInput from '../FileInput'
 import useCustomInputs from '../Form/useCustomInputs'
 
 function cardWrapper (style, children) {
@@ -87,6 +88,7 @@ const WrappedPasswordInput = wrapInput(
     isLabelColoredWhenFocusing: true
   }
 )
+const WrappedFileInput = wrapInput(FileInput)
 const WrappedRank = wrapInput(Rank)
 const WrappedRadio = wrapInput(Radio)
 const WrappedSelect = wrapInput(
@@ -268,6 +270,17 @@ const inputs = {
         configuration: { isLabelClickable: !props.disabled && !props.readonly },
         onChangeText,
         _onLabelPress: () => ref.current && ref.current.focus(),
+        ...props
+      }
+    }
+  },
+  file: {
+    Component: WrappedFileInput,
+    useProps: ({ value, $value, onChange, ...props }) => {
+      ;({ value, onChange } = useBind({ value, $value, onChange }))
+      return {
+        value,
+        onChange,
         ...props
       }
     }

@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { pug, observer } from 'startupjs'
 import Modal from '../Modal'
-import { usePageUI } from '../../helpers'
+import { setUpdateDialogState } from './helpers'
 
 export default observer(function DialogsProvider () {
-  const [dialog = {}, $dialog] = usePageUI('dialog')
-
+  const [dialog = {}, setDialog] = useState()
+  setUpdateDialogState(setDialog)
+  useEffect(() => {
+    return () => setUpdateDialogState(undefined)
+  }, [])
   return pug`
-    Modal(
-      ...dialog
-      visible=!!dialog.visible
-      onRequestClose=() => {
-        $dialog.del()
-        dialog.onRequestClose && dialog.onRequestClose()
-      }
-    )= dialog.children
+    if dialog.visible
+      Modal(
+        ...dialog
+        visible=!!dialog.visible
+        onRequestClose=() => {
+          setDialog()
+        }
+      )= dialog.children
   `
 })
