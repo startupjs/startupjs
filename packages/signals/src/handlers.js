@@ -62,6 +62,7 @@ function apply (target, thisArg, argumentsList) {
     const segments = [...parent[SEGMENTS]] // clone to help GC cleanup clojure fns
     return items.map((item, index) => getSignal([...segments, index])).map(...argumentsList)
   }
+  if (!model[methodName]) throw Error(ERRORS.noMethod(model, methodName))
   return Reflect.apply(model[methodName], model, argumentsList)
 }
 
@@ -88,5 +89,8 @@ export default { get, has, ownKeys, set, deleteProperty, apply }
 const ERRORS = {
   set: 'You can\'t assign to a property of a model directly. ' +
     'Instead use: await $model.setDiffDeep(value) / .setEach(objectValue)',
-  deleteProperty: 'You can\'t delete a property of a model directly. Instead use: await $model.del()'
+  deleteProperty: 'You can\'t delete a property of a model directly. Instead use: await $model.del()',
+  noMethod: (model, methodName) => `
+    Tried to call a non-existing method "${methodName}" on a model "${model.path()}"
+  `
 }
