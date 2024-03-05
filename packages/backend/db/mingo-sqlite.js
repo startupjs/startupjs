@@ -102,7 +102,8 @@ async function getOrCreateSqliteDb (dbPath) {
       sqliteDb.run(`
         CREATE TABLE IF NOT EXISTS files (
           id TEXT PRIMARY KEY,
-          data BLOB
+          data BLOB,
+          createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
       `, err => err ? reject(err) : resolve())
     })
