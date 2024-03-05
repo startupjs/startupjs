@@ -60,10 +60,15 @@ function shouldIncludeField (key, field, { include, exclude = [] } = {}) {
   if (!field) throw Error(`field "${key}" does not have a schema definition`)
   if (include?.includes(key)) return true
   if (exclude.includes(key)) return false
-  if (DEFAULT_EXCLUDE_FORM_FIELDS.includes(key)) return false
-  // exclude foreign keys by default, unless they have 'input' specified.
-  // Foreign keys have a custom `$association` property set by belongsTo/hasMany/hasOne helpers
-  if (field.$association && !field.input) return false
+  // if field has 'input' specified then it's an explicit indicator that it can be used in forms,
+  // so the default exclusion rules don't apply
+  if (!field.input) {
+    // exclude some meta fields by default
+    if (DEFAULT_EXCLUDE_FORM_FIELDS.includes(key)) return false
+    // exclude foreign keys by default
+    // Foreign keys have a custom `$association` property set by belongsTo/hasMany/hasOne helpers
+    if (field.$association) return false
+  }
   // if include array is not explicitly set, include all fields by default
   if (!include) return true
   return false
