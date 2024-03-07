@@ -38,12 +38,42 @@ export default createPlugin({
         await $file.subscribe()
         const file = $file.get()
         if (!file) return res.status(404).send(ERRORS.fileNotFound)
-        const { mimeType, storageType, filename } = file
+        const { mimeType, storageType, filename, updatedAt } = file
         if (!mimeType) return res.status(500).send(ERRORS.fileMimeTypeNotSet)
         if (!storageType) return res.status(500).send(ERRORS.fileStorageTypeNotSet)
+
+        // handle client-side caching of files
+        const clientEtag = req.get('If-None-Match')
+        const etag = `"${updatedAt}"`
+        // lastModified and ifModifiedSince both use UTC time with seconds precision
+        const ifModifiedSince = req.get('If-Modified-Since')
+        const lastModified = new Date(updatedAt).toUTCString()
+
+        function setCacheHeaders () {
+          res.setHeader('Etag', etag)
+          res.setHeader('Last-Modified', lastModified)
+          if (process.env.NODE_ENV === 'production') {
+            res.setHeader('Cache-Control', `public, max-age=${5 * 60}`) // cache on client for 5 mins
+          } else {
+            res.setHeader('Cache-Control', 'no-cache') // always validate cache in development
+          }
+          // the following headers are set by expo (metro) dev server.
+          // We don't want them since we're setting our own cache headers
+          // and a single Cache-Control header fully replaces them.
+          res.removeHeader('Pragma')
+          res.removeHeader('Surrogate-Control')
+          res.removeHeader('Expires')
+        }
+
+        if (
+          clientEtag === etag ||
+          (ifModifiedSince && +new Date(ifModifiedSince) >= +new Date(lastModified))
+        ) {
+          setCacheHeaders()
+          return res.status(304).send() // Not Modified
+        }
+
         try {
-          // If you want the browser to download the file instead of displaying it
-          // res.setHeader('Content-Disposition', `attachment; filename="${row.name}"`);
           let fileBuffer
           if (storageType === 'sqlite') {
             const blob = await getFileBlobFromSqlite(fileId)
@@ -51,11 +81,16 @@ export default createPlugin({
           } else {
             throw Error(ERRORS.unsupportedStorageType(storageType))
           }
-          res.type(mimeType) // Set the Content-Type header
-          if (download) {
-            // Force the file to be downloaded by setting the Content-Disposition header
-            res.setHeader('Content-Disposition', `attachment; filename="${filename}"`)
-          }
+
+          // set the Content-Type header
+          res.type(mimeType)
+
+          // force the file to be downloaded by setting the Content-Disposition header
+          if (download) res.setHeader('Content-Disposition', `attachment; filename="${filename}"`)
+
+          setCacheHeaders()
+
+          // send the actual file
           res.send(fileBuffer)
         } catch (err) {
           console.error(err)
@@ -119,7 +154,7 @@ export default createPlugin({
             } else {
               const $file = $root.scope('files.' + fileId)
               await $file.subscribe()
-              const doc = { ...$file.get(), ...meta }
+              const doc = { ...$file.get(), ...meta, updatedAt: Date.now() }
               // if some of the meta fields were undefined, remove them from the doc
               for (const key in meta) {
                 if (meta[key] == null) delete doc[key]
@@ -166,14 +201,20 @@ const schema = {
   filename: { type: 'string' }, // original filename with extension
   encoding: { type: 'string' },
   extension: { type: 'string' },
-  createdAt: { type: 'number', required: true }
+  createdAt: { type: 'number', required: true },
+  // updatedAt is used to determine whether the underlying file
+  // stored in the storageType provider has changed.
+  // This is used to properly cache files on the client side.
+  updatedAt: { type: 'number', required: true }
 }
 
 class FilesModel extends BaseModel {
   async addNew (file) {
+    const now = Date.now()
     return await this.add({
       ...file,
-      createdAt: Date.now()
+      createdAt: now,
+      updatedAt: now
     })
   }
 
