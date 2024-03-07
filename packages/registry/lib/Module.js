@@ -104,7 +104,7 @@ export default class Module extends EventEmitter {
         ...options
       } = optionsByEnv[env] || {}
       Object.assign(this.options, options)
-      const hooks = init?.(options, this)
+      const hooks = init?.call(this, options, this)
       if (typeof hooks === 'object') {
         for (const hookName in hooks) this.on(hookName, hooks[hookName])
       }
