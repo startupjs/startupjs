@@ -33,8 +33,9 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, { upstreamCon
     }
   }
 
-  // Add startupjs server middleware
-  if (features.enableServer) addServer(config)
+  // Add startupjs server middleware.
+  // Unless we're building (yarn build), in which case we don't need it.
+  if (!process.env.IS_BUILD && features.enableServer) addServer(config)
 
   // Support Yarn's `resolutions` field from doing `yarn link`
   if (packageJson.resolutions) addYarnLink(config, { packageJson, projectRoot })
