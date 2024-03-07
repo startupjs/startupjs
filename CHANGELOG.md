@@ -1,3 +1,14 @@
+# [0.56.0-alpha.47](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.46...v0.56.0-alpha.47) (2024-03-07)
+
+
+### Bug Fixes
+
+* **bundler:** don't connect startupjs server when running 'yarn build' ([fc80dfb](https://github.com/startupjs/startupjs/commit/fc80dfbc0623a8286afafa8a2c22459d7e8206b3))
+* **registry:** pass module as this into 'init' function of module ([c54af55](https://github.com/startupjs/startupjs/commit/c54af55105a7e5ac5860e0db113c832d372a044f))
+* **ui/FileInput:** implement proper cache handling headers ([226451b](https://github.com/startupjs/startupjs/commit/226451b3dfda0607dfe67b902ffa33ad0cb64877))
+
+
+
 # [0.56.0-alpha.46](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.45...v0.56.0-alpha.46) (2024-03-05)
 
 
