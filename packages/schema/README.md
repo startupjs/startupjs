@@ -1,3 +1,3 @@
-# startupjs utils
+# startupjs schema
 
-Isomorphic utils for internal cross-package usage
+Utils to work with json-schema
