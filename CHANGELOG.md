@@ -1,3 +1,12 @@
+# [0.56.0-alpha.48](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.47...v0.56.0-alpha.48) (2024-03-08)
+
+
+### Features
+
+* **ui:** add useFormFields() and useFoldFields hooks to simplify picking schema fields for Form ([6038457](https://github.com/startupjs/startupjs/commit/60384573943e509803a876e6a059fa000fd03d3f))
+
+
+
 # [0.56.0-alpha.47](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.46...v0.56.0-alpha.47) (2024-03-07)
 
 
