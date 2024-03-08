@@ -95,6 +95,8 @@
     "./ThemeContext": "./theming/ThemeContext.js",
     "./useMedia": "./hooks/useMedia.js",
     "./useColors": "./hooks/useColors.js",
+    "./useFormFields": "./hooks/useFormFields.js",
+    "./useFormFields$": "./hooks/useFormFields$.js",
     "./UiProvider": "./UiProvider.js",
     "./plugin": "./plugin.js",
     "./files.plugin": "./components/forms/FileInput/files.plugin.js"
