@@ -1,0 +1,22 @@
+{
+  "name": "@startupjs/schema",
+  "type": "module",
+  "version": "0.56.0-alpha.18",
+  "description": "Utils to work with json-schema",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "node": "./index.server.js",
+      "default": "./index.js"
+    }
+  },
+  "dependencies": {
+    "@startupjs/registry": "^0.56.0-alpha.0",
+    "ajv": "^8.12.0",
+    "lodash": "^4.17.20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT"
+}
