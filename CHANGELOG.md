@@ -1,3 +1,12 @@
+# [0.56.0-alpha.49](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.48...v0.56.0-alpha.49) (2024-03-09)
+
+
+### Features
+
+* **ui/Form:** auto-validate Form using json-schema ([#1196](https://github.com/startupjs/startupjs/issues/1196)) ([5b9a794](https://github.com/startupjs/startupjs/commit/5b9a7940cd9bb9c03ec0493585222460d8ccc3dc))
+
+
+
 # [0.56.0-alpha.48](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.47...v0.56.0-alpha.48) (2024-03-08)
 
 
