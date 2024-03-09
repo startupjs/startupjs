@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.56.0-alpha.49",
+  "version": "0.56.0-alpha.50",
   "engines": {
     "node": ">= 14"
   },
@@ -42,8 +42,8 @@
   "dependencies": {
     "@startupjs/app": "^0.56.0-alpha.34",
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.56.0-alpha.34",
-    "@startupjs/backend": "^0.56.0-alpha.49",
-    "@startupjs/bundler": "^0.56.0-alpha.49",
+    "@startupjs/backend": "^0.56.0-alpha.50",
+    "@startupjs/bundler": "^0.56.0-alpha.50",
     "@startupjs/cli": "^0.56.0-alpha.47",
     "@startupjs/hooks": "^0.56.0-alpha.49",
     "@startupjs/i18n": "^0.56.0-alpha.30",
@@ -52,9 +52,9 @@
     "@startupjs/orm": "^0.56.0-alpha.44",
     "@startupjs/react-sharedb": "^0.56.0-alpha.45",
     "@startupjs/registry": "^0.56.0-alpha.47",
-    "@startupjs/server": "^0.56.0-alpha.49",
+    "@startupjs/server": "^0.56.0-alpha.50",
     "@startupjs/utils": "^0.56.0-alpha.18",
-    "babel-preset-startupjs": "^0.56.0-alpha.49",
+    "babel-preset-startupjs": "^0.56.0-alpha.50",
     "events": "^3.3.0",
     "lodash": "^4.17.20"
   },

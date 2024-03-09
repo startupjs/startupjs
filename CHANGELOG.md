@@ -1,3 +1,12 @@
+# [0.56.0-alpha.50](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.49...v0.56.0-alpha.50) (2024-03-09)
+
+
+### Bug Fixes
+
+* **ui/Form:** allow extra properties when performing schema validation ([d6e205d](https://github.com/startupjs/startupjs/commit/d6e205db2061e087fb10063b1d135a228e7b1203))
+
+
+
 # [0.56.0-alpha.49](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.48...v0.56.0-alpha.49) (2024-03-09)
 
 
