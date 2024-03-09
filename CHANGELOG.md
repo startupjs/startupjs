@@ -1,3 +1,12 @@
+# [0.56.0-alpha.51](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.50...v0.56.0-alpha.51) (2024-03-09)
+
+
+### Features
+
+* **ui/Form:** run validation right away only if 'validate' is passed. Otherwise you should manually run Form.validate() on Form ref. ([6696510](https://github.com/startupjs/startupjs/commit/6696510fedf121027c2e9b661b7a7b400e4380ad))
+
+
+
 # [0.56.0-alpha.50](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.49...v0.56.0-alpha.50) (2024-03-09)
 
 
