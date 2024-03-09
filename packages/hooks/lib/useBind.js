@@ -39,9 +39,9 @@ export default function useBind (props) {
       if ($aValue != null) {
         res[setterName] = value => {
           if (!$aValue) return
-          // handle undefined value in a special way:
+          // handle undefined value and an empty string in a special way:
           // do model.del() on it to completely remove the field
-          if (typeof value === 'undefined') {
+          if (typeof value === 'undefined' || value === '') {
             if (typeof $aValue.get() !== 'undefined') $aValue.del()
           } else {
             $aValue.setDiff(value)

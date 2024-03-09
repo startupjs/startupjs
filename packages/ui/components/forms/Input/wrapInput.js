@@ -76,16 +76,19 @@ export default function wrapInput (Component, configuration) {
       if (focused && (props.readonly || props.disabled)) setFocused(false)
     }, [props.readonly, props.disabled])
 
+    const hasError = Array.isArray(error) ? error.length > 0 : !!error
+
     const _label = pug`
       if label
         Span.label(
+          key='label'
           part='label'
           styleName=[
             layout,
             layout + '-' + labelPosition,
             {
               focused: isLabelColoredWhenFocusing ? focused : false,
-              error
+              error: hasError
             }
           ]
           onPress=isLabelClickable
@@ -99,6 +102,7 @@ export default function wrapInput (Component, configuration) {
     const _description = pug`
       if description
         Span.description(
+          key='description'
           styleName=[
             layout,
             layout + '-' + descriptionPosition
@@ -111,9 +115,10 @@ export default function wrapInput (Component, configuration) {
 
     const input = pug`
       Component(
+        key='input'
         part='wrapper'
         layout=layout
-        _hasError=!!error
+        _hasError=hasError
         onFocus=handleFocus
         onBlur=handleBlur
         ...passRef
@@ -121,17 +126,19 @@ export default function wrapInput (Component, configuration) {
       )
     `
     const err = pug`
-      if error
-        Div.errorContainer(
-          styleName=[
-            layout,
-            layout + '-' + descriptionPosition,
-          ]
-          vAlign='center'
-          row
-        )
-          Icon.errorContainer-icon(icon=faExclamationCircle)
-          Span.errorContainer-text= error
+      if hasError
+        each _error, index in (Array.isArray(error) ? error : [error])
+          Div.errorContainer(
+            key='error-' + index
+            styleName=[
+              layout,
+              layout + '-' + descriptionPosition,
+            ]
+            vAlign='center'
+            row
+          )
+            Icon.errorContainer-icon(icon=faExclamationCircle)
+            Span.errorContainer-text= _error
     `
 
     return pug`
@@ -190,7 +197,7 @@ export default function wrapInput (Component, configuration) {
       isLabelColoredWhenFocusing: PropTypes.bool,
       isLabelClickable: PropTypes.bool
     }),
-    error: PropTypes.string,
+    error: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     // `required` might be our own boolean prop or it might be json-schema's array of required fields.
     // We only handle boolean `required`, but we can receive both types
     required: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
