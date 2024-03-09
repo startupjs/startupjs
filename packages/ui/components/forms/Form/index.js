@@ -35,7 +35,9 @@ function Form ({
 
   const validate = useMemo(() => {
     let schema = $fields?.get() || memoizedFields
-    schema = transformSchema(schema)
+    // we allow extra properties in Form to let people just pass the full document
+    // instead of forcing them to pick only the fields used in schema
+    schema = transformSchema(schema, { additionalProperties: true })
     return ajv.compile(schema)
   }, [JSON.stringify(memoizedFields), $fields?.get()])
 
