@@ -118,6 +118,7 @@ export { default as useMedia } from './hooks/useMedia'
 export { default as useColors } from './hooks/useColors'
 export { default as useFormFields } from './hooks/useFormFields'
 export { default as useFormFields$ } from './hooks/useFormFields$'
+export { default as useValidate } from './components/forms/Form/useValidate'
 
 // UiProvider
 export { default as UiProvider } from './UiProvider'

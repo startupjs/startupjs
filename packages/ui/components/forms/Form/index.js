@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useImperativeHandle, useRef } from 'react'
+import React, { useMemo, useCallback, useRef, useState } from 'react'
 import { pug, observer, useOn, useValue$ } from 'startupjs'
 import { transformSchema, ajv } from '@startupjs/schema'
 import _set from 'lodash/set'
@@ -12,29 +12,29 @@ import { FormPropsContext } from './useFormProps'
 function Form ({
   fields = {},
   $fields,
-  $errors,
   properties,
   order,
   row,
-  errors,
   _renderWrapper,
   validate,
   style,
   inputStyle,
   customInputs = {},
   ...props
-}, ref) {
+}) {
   if (properties) throw Error(ERROR_PROPERTIES)
   const { disabled, readonly, $value } = props
 
   const shouldValidateRef = useRef()
+  const hasErrorsRef = useRef()
+  const forceUpdate = useForceUpdate()
 
   const memoizedFields = useMemo(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     () => fields, [JSON.stringify(fields)]
   )
 
-  if (!$errors) $errors = useValue$() // eslint-disable-line react-hooks/rules-of-hooks
+  const $errors = useValue$() // eslint-disable-line react-hooks/rules-of-hooks
 
   const runValidation = useMemo(() => {
     let schema = $fields?.get() || memoizedFields
@@ -55,10 +55,22 @@ function Form ({
   )
 
   const validateNow = useCallback(() => {
-    if (!shouldValidateRef.current) return
+    if (!(
+      shouldValidateRef.current ||
+      (typeof validate === 'function' && validate._shouldValidate)
+    )) return
     const valid = runValidation($value.get())
     if (valid) {
-      $errors.del()
+      if (hasErrorsRef.current) {
+        hasErrorsRef.current = false
+        $errors.del()
+        if (typeof validate === 'function') {
+          validate._hasErrors = false
+          delete validate._errors
+          if (validate._shouldForceUpdate) validate._forceUpdate()
+        }
+        forceUpdate()
+      }
       return true
     }
     const localErrors = {}
@@ -77,8 +89,17 @@ function Form ({
       _get(localErrors, path).push(message)
     }
     $errors.setDiffDeep(localErrors)
+    if (!hasErrorsRef.current) {
+      hasErrorsRef.current = true
+      if (typeof validate === 'function' && !validate._hasErrors) {
+        validate._hasErrors = true
+        validate._errors = $errors.get()
+        if (validate._shouldForceUpdate) validate._forceUpdate()
+      }
+      forceUpdate()
+    }
     return false
-  }, [runValidation, $value, $errors])
+  }, [runValidation, $value])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedValidate = useCallback(
@@ -86,27 +107,38 @@ function Form ({
     , [validateNow]
   )
 
-  useImperativeHandle(ref, () => ({
-    validate: () => {
-      shouldValidateRef.current = true
-      return validateNow()
-    }
-  }), [validateNow])
-
   useOn('all', $value.path() + '.**', debouncedValidate)
+
+  function resetValidate () {
+    delete validate._hasErrors
+    delete validate._errors
+    delete validate._shouldValidate
+    delete validate._validateNow
+  }
 
   useMemo(() => {
     // if validate prop is set, trigger validation right away on mount.
-    if (validate) {
+    if (validate === true) {
       shouldValidateRef.current = true
       validateNow()
-    } else {
-      // Otherwise the reactive validation will only start after
-      // Form.validate() is called for the first time.
-      // And we reset $errors on mount to clear any errors that might have been set
-      // from the previous try to submit the form with $errors passed from a parent component.
-      // Even if $errors is passed from a parent component Form itself still fully owns it
-      $errors.del()
+    } else if (typeof validate === 'function') {
+      const hadErrors = validate._hasErrors
+      resetValidate()
+      validate._validateNow = validateNow
+      if (validate.always) {
+        validate._shouldValidate = true
+        validateNow()
+      } else {
+        if (hadErrors && validate._shouldForceUpdate) validate._forceUpdate()
+      }
+    }
+    return () => {
+      // when Form is unmounted, remove validateNow from validate function
+      if (typeof validate === 'function') {
+        const hadErrors = validate._hasErrors
+        resetValidate()
+        if (hadErrors) validate._forceUpdate()
+      }
     }
   }, [])
 
@@ -116,10 +148,9 @@ function Form ({
         ObjectInput(
           properties=$fields?.get() || memoizedFields
           $value=$value
-          $errors=$errors
           order=order
           row=row
-          errors=errors || $errors.get()
+          errors=$errors.get()
           style=style
           inputStyle=inputStyle
           _renderWrapper=_renderWrapper
@@ -138,7 +169,12 @@ Form.propTypes = {
   $value: PropTypes.any
 }
 
-export default observer(Form, { forwardRef: true })
+export default observer(Form)
+
+function useForceUpdate () {
+  const [, setState] = useState(Math.random())
+  return useCallback(() => setState(Math.random()), [])
+}
 
 const ERROR_PROPERTIES = `
   Form: 'properties' prop can only be used directly in ObjectInput.

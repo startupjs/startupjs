@@ -97,6 +97,7 @@
     "./useColors": "./hooks/useColors.js",
     "./useFormFields": "./hooks/useFormFields.js",
     "./useFormFields$": "./hooks/useFormFields$.js",
+    "./useValidate": "./components/forms/Form/useValidate.js",
     "./UiProvider": "./UiProvider.js",
     "./plugin": "./plugin.js",
     "./files.plugin": "./components/forms/FileInput/files.plugin.js"
