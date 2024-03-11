@@ -13,6 +13,7 @@ function Form ({
   properties,
   order,
   row,
+  errors,
   _renderWrapper,
   validate,
   style,
@@ -87,7 +88,7 @@ function Form ({
           $value=$value
           order=order
           row=row
-          errors=$errors.get()
+          errors=errors || $errors.get()
           style=style
           inputStyle=inputStyle
           _renderWrapper=_renderWrapper
