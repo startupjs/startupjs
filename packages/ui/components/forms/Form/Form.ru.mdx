@@ -121,3 +121,58 @@ createPlugin({
 Свойство `fields` совместимо с JSON-схемой.
 
 Чтобы указать как тип из JSON-схемы, так и явный тип инпута, то помимо поля `type` укажите дополнительно ещё и поле `input`.
+
+## Валидация
+
+По умолчанию `Form` не выполняет никакой валидации.
+
+Чтобы включить валидацию формы, передайте опцию `validate={true}`.
+
+В этом случае переданный `fields` (совместимый с json-schema) будет использован для постоянной валидации вашей формы и реактивного отображения любых ошибок.
+
+```jsx
+<Form validate={true} />
+```
+
+### `useValidate()`
+
+Для запуска валидации вручную используйте хук `useValidate()`.
+
+Он вернет функцию `validate`, которую вы можете вызвать вручную для выполнения валидации. Эта функция вернет `true`, если валидация пройдена (нет ошибок).
+
+Если ошибки есть, то они будут доступны в `validate.hasErrors` (`true` или `false`) и `validate.errors` (сами ошибки в виде объекта с именами полей и массивом ошибок: `{ name: ['Это поле обязательно'], age: ['только старше 18'] }`)
+
+### `useValidate({ always: true })`
+
+По умолчанию, только после первого ручного вызова `validate()` форма начнет показывать ошибки и обновлять их реактивно (при каждом изменении формы).
+
+Если вы хотите, чтобы форма начала показывать ошибки сразу после рендеринга и обновляла их реактивно, передайте в хук опцию `always: true`.
+
+Это заставит форму вести себя так, как если бы был передан `validate={true}`, но также даст вам доступ к функции `validate` для ее ручного вызова по мере необходимости.
+
+### Пример с валидацией ошибок
+
+```jsx
+import { $ } from 'startupjs'
+import { useValidate, Form, Button } from '@startupjs/ui'
+
+const fields = {
+  name: { type: 'string', required: true },
+  age: { type: 'number' }
+}
+const { $newUser } = $.session
+
+export default function App () {
+  const validate = useValidate()
+
+  function submit () {
+    if (!validate()) return
+    console.log('Создать нового пользователя', $newUser.get())
+  }
+
+  return [
+    <Form fields={fields} $value={$newUser} validate={validate} />,
+    <Button disabled={validate.hasErrors} onPress={submit}>Отправить</Button>
+  ]
+}
+```
