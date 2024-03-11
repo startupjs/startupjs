@@ -122,20 +122,20 @@ class Validate {
     if (formId && formId !== this.#formId) return
     this.#validator = undefined
     this.#formId = undefined
-    this.#isReactive = undefined
     if (this.#lastHasErrors) {
       this.#lastHasErrors = undefined
-      this.#forceUpdate()
+      if (this.#isReactive) this.#forceUpdate()
     }
   }
 }
 
 export class Validator {
-  hasErrors
   onHasErrorsChange
+
   #active
   #validate
   #getValue
+  #hasErrors
   #$errors
   #initialized
   #forceUpdate
@@ -164,13 +164,21 @@ export class Validator {
     this.#active = true
   }
 
+  getErrors () {
+    return this.#$errors?.get()
+  }
+
+  getHasErrors () {
+    return this.#hasErrors
+  }
+
   run () {
     if (!this.#active) return
     if (!this.#initialized) throw Error('Validator is not initialized')
     const valid = this.#validate(this.#getValue())
     if (valid) {
-      if (this.hasErrors) {
-        delete this.hasErrors
+      if (this.#hasErrors) {
+        this.#hasErrors = undefined
         this.#$errors.del()
         this.#forceUpdate?.()
         this.onHasErrorsChange?.({ formId: this.#formId })
@@ -178,8 +186,8 @@ export class Validator {
       return true
     } else {
       const newErrors = transformAjvErrors(this.#validate.errors)
-      const hadErrors = this.hasErrors
-      this.hasErrors = true
+      const hadErrors = this.#hasErrors
+      this.#hasErrors = true
       this.#$errors.setDiffDeep(newErrors)
       if (!hadErrors) {
         this.#forceUpdate?.()
