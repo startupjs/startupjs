@@ -1,3 +1,12 @@
+# [0.56.0-alpha.52](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.51...v0.56.0-alpha.52) (2024-03-11)
+
+
+### Features
+
+* **ui/Form:** Simplify api to validate the form - useValidate() and Form(validate) ([#1197](https://github.com/startupjs/startupjs/issues/1197)) ([220a766](https://github.com/startupjs/startupjs/commit/220a766ab99b4b7b852f5cf4affdb210f34a8533))
+
+
+
 # [0.56.0-alpha.51](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.50...v0.56.0-alpha.51) (2024-03-09)
 
 
