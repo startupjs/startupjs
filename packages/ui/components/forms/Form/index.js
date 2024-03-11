@@ -10,6 +10,7 @@ import { Validator } from './useValidate'
 function Form ({
   fields = {},
   $fields,
+  $errors,
   properties,
   order,
   row,
@@ -32,7 +33,7 @@ function Form ({
     () => fields, [JSON.stringify(fields)]
   )
 
-  const $errors = useValue$() // eslint-disable-line react-hooks/rules-of-hooks
+  if (!$errors) $errors = useValue$() // eslint-disable-line react-hooks/rules-of-hooks
   const validator = useMemo(() => new Validator(), [])
 
   useMemo(() => {
