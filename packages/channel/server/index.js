@@ -39,6 +39,7 @@ export default function (backend, serverOptions = {}) {
 
     const req = syncReq
     syncReq = undefined
+    req.connectSession = client.connectSession
     client.upgradeReq = req
 
     backend.emit('client', client, reject)
@@ -49,23 +50,21 @@ export default function (backend, serverOptions = {}) {
     }
 
     const stream = createSockJsStream(client)
-    doneInitialization(backend, stream, req, client.connectSession)
+
+    backend.listen(stream, req)
   })
 
   const middleware = (req, res, next) => {
-    if (/\/channel/.test(req.url)) {
-      if (serverOptions.session) {
-        serverOptions.session(req, {}, next)
-      } else {
-        next()
-      }
-      function next () {
-        syncTempConnectSession = req.session
-        syncReq = req
-        echo.handler(req, res)
-      }
+    if (!/\/channel/.test(req.url)) return next()
+    if (serverOptions.session) {
+      serverOptions.session(req, {}, handle)
     } else {
-      next()
+      handle()
+    }
+    function handle () {
+      syncTempConnectSession = req.session
+      syncReq = req
+      echo.handler(req, res)
     }
   }
 
@@ -105,7 +104,8 @@ export default function (backend, serverOptions = {}) {
     }
 
     const stream = createWebSocketStream(client)
-    doneInitialization(backend, stream, client.upgradeReq)
+
+    backend.listen(stream, client.upgradeReq)
   })
 
   function upgrade (req, socket, upgradeHead) {
@@ -116,12 +116,12 @@ export default function (backend, serverOptions = {}) {
     if (serverOptions.session) {
       // https://github.com/expressjs/session/pull/57
       if (!req.originalUrl) req.originalUrl = req.url
-      serverOptions.session(req, {}, next)
+      serverOptions.session(req, {}, handle)
     } else {
-      next()
+      handle()
     }
 
-    function next () {
+    function handle () {
       wss.handleUpgrade(req, socket, head, function (client) {
         wss.emit('connection' + req.url, client)
         wss.emit('connection', client)
@@ -134,8 +134,9 @@ export default function (backend, serverOptions = {}) {
       const req = shareRequest.req
       const agent = shareRequest.agent
 
-      if (!agent.connectSession && req && req.session) {
-        agent.connectSession = req.session
+      if (!agent.connectSession) {
+        if (req?.connectSession) agent.connectSession = req.connectSession
+        else if (req?.session) agent.connectSession = req.session
       }
 
       next()
@@ -143,18 +144,4 @@ export default function (backend, serverOptions = {}) {
   }
 
   return { upgrade, middleware, wss }
-}
-
-function doneInitialization (backend, stream, request, session) {
-  backend.on('connect', function (data) {
-    const agent = data.agent
-    if (session) {
-      agent.connectSession = session
-    } else if (request.session) {
-      agent.connectSession = request.session
-    }
-    backend.emit('share agent', agent, stream)
-  })
-
-  backend.listen(stream, request)
 }
