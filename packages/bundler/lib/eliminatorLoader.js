@@ -94,7 +94,7 @@ module.exports = function eliminatorLoader (source) {
                 // direct named exports of aggregation() within model/*.js files
                 // are replaced with aggregationHeader() calls.
                 // 'collection' is the filename without extension
-                // 'aggregationName' is the direct named export const name
+                // 'name' is the direct named export const name
                 //
                 // Example:
                 //
@@ -103,7 +103,7 @@ module.exports = function eliminatorLoader (source) {
                 //
                 // will be replaced with:
                 //
-                //   __aggregationHeader({ collection: 'games', aggregationName: '$$byGameId' })
+                //   __aggregationHeader({ collection: 'games', name: '$$byGameId' })
                 //
                 functionName: 'aggregation',
                 magicImports: ['@startupjs/orm', 'startupjs/orm'],
@@ -116,26 +116,26 @@ module.exports = function eliminatorLoader (source) {
                   newCallArgumentsTemplate: `[
                     {
                       collection: %%filenameWithoutExtension%%,
-                      aggregationName: %%directNamedExportConstName%%
+                      name: %%directNamedExportConstName%%
                     }
                   ]`
                 }
               }, {
                 // TODO: this has to be implemented! It's not actually working yet.
 
-                // any other calls to aggregation() must explicitly define the collection and aggregationName
+                // any other calls to aggregation() must explicitly define the collection and name
                 // as the second argument. If not, the build will fail.
                 //
                 // Example:
                 //
                 //   aggregation(
                 //     ({ gameId }) => ({ gameId }),
-                //     { collection: 'games', aggregationName: 'byGameId' }
+                //     { collection: 'games', name: 'byGameId' }
                 //   )
                 //
                 // will be replaced with:
                 //
-                //   __aggregationHeader({ collection: 'games', aggregationName: 'byGameId' })
+                //   __aggregationHeader({ collection: 'games', name: 'byGameId' })
                 //
                 functionName: 'aggregation',
                 magicImports: ['@startupjs/orm', 'startupjs/orm'],

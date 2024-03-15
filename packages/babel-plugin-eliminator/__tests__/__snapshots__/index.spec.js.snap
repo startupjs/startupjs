@@ -579,7 +579,7 @@ import { BaseModel, __aggregationHeader } from "startupjs/orm";
 export const access = undefined;
 export const $$createdByUser = __aggregationHeader({
   collection: "games",
-  aggregationName: "$$createdByUser",
+  name: "$$createdByUser",
 });
 export default class GamesModel extends BaseModel {
   async addNew() {

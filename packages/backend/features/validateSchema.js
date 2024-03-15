@@ -33,7 +33,7 @@ export default function validateSchema (backend) {
 }
 
 const ERRORS = {
-  onlyTopLevelCollections: (modelPattern, aggregationName) => `
+  onlyTopLevelCollections: (modelPattern) => `
     validateSchema: you can only define schema in the top-level collection models
       (i.e. 'model/items.js')
       Found schema in '${modelPattern}'.

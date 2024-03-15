@@ -10,16 +10,16 @@ export default function serverAggregate (backend, { customCheck } = {}) {
       const aggregation = MODULE.models[modelPattern][aggregationName]
       if (!isAggregationFunction(aggregation)) continue
       // support only top-level collections
-      const collectionName = modelPattern
-      if (/\./.test(collectionName)) throw Error(ERRORS.onlyTopLevelCollections(modelPattern, aggregationName))
+      const collection = modelPattern
+      if (/\./.test(collection)) throw Error(ERRORS.onlyTopLevelCollections(modelPattern, aggregationName))
       backend.addAggregate(
-        collectionName,
+        collection,
         aggregationName,
         (queryParams, shareRequest) => {
           const session = shareRequest.agent.connectSession
           const userId = session.userId
           const model = global.__clients[userId].model
-          const context = { $root: model, model, session, userId }
+          const context = { model, session, collection }
           return aggregation(queryParams, context)
         }
       )

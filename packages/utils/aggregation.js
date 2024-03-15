@@ -19,7 +19,7 @@ export function aggregation (aggregationFn) {
 }
 
 // during compilation, calls to aggregation() are replaced with:
-// aggregationHeader({ collection: 'collectionName', aggregationName: 'aggregationName' })
+// aggregationHeader({ collection: 'collectionName', name: 'aggregationName' })
 export function aggregationHeader (aggregationMeta) {
   if (!validateAggregationMeta(aggregationMeta)) {
     throw Error(ERRORS.wrongAggregationMeta(aggregationMeta))
@@ -32,7 +32,7 @@ function validateAggregationMeta (aggregationMeta) {
   if (
     typeof aggregationMeta === 'object' &&
     typeof aggregationMeta.collection === 'string' &&
-    typeof aggregationMeta.aggregationName === 'string'
+    typeof aggregationMeta.name === 'string'
   ) return true
   return false
 }
@@ -40,7 +40,7 @@ function validateAggregationMeta (aggregationMeta) {
 const ERRORS = {
   wrongAggregationMeta: (aggregationMeta) => `
     aggregationHeader: invalid aggregationMeta
-      Expected: { collection: 'collectionName', aggregationName: 'aggregationName' }
+      Expected: { collection: 'collectionName', name: 'aggregationName' }
       Received: ${JSON.stringify(aggregationMeta)}
   `
 }

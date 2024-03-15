@@ -45,7 +45,7 @@ export function subQuery (collection, query) {
   let invalid
   if (isAggregationHeader(collection)) {
     query = {
-      $aggregationName: collection.aggregationName,
+      $aggregationName: collection.name,
       $params: query
     }
     collection = collection.collection

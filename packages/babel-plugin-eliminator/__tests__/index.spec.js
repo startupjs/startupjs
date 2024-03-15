@@ -345,7 +345,7 @@ pluginTester({
           // direct named exports of aggregation() within model/*.js files
           // are replaced with aggregationHeader() calls.
           // 'collection' is the filename without extension
-          // 'aggregationName' is the direct named export const name
+          // 'name' is the direct named export const name
           //
           // Example:
           //
@@ -354,7 +354,7 @@ pluginTester({
           //
           // will be replaced with:
           //
-          //   __aggregationHeader({ collection: 'games', aggregationName: '$$byGameId' })
+          //   __aggregationHeader({ collection: 'games', name: '$$byGameId' })
           //
           functionName: 'aggregation',
           magicImports: ['@startupjs/orm', 'startupjs/orm'],
@@ -367,7 +367,7 @@ pluginTester({
             newCallArgumentsTemplate: `[
               {
                 collection: %%filenameWithoutExtension%%,
-                aggregationName: %%directNamedExportConstName%%
+                name: %%directNamedExportConstName%%
               }
             ]`
           }
