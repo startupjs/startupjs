@@ -1,3 +1,12 @@
+# [0.56.0-alpha.54](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.53...v0.56.0-alpha.54) (2024-03-15)
+
+
+### Bug Fixes
+
+* **channel:** fix passing server session to sharedb when using xhr stream ([d4cc202](https://github.com/startupjs/startupjs/commit/d4cc20233088893771c40234e9d7ef56054df8d9))
+
+
+
 # [0.56.0-alpha.53](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.52...v0.56.0-alpha.53) (2024-03-15)
 
 
