@@ -8291,6 +8291,7 @@ __metadata:
     "@startupjs/server-aggregate": "npm:^0.56.0-alpha.0"
     "@startupjs/sharedb-access": "npm:^0.56.0-alpha.0"
     "@startupjs/sharedb-schema": "npm:^0.56.0-alpha.0"
+    "@startupjs/utils": "npm:^0.56.0-alpha.0"
     ioredis: "npm:^5.3.2"
     ioredis-mock: "npm:^8.9.0"
     mongodb: "npm:^4.0.0"
@@ -8298,7 +8299,7 @@ __metadata:
     redlock: "npm:^3.0.0"
     sharedb: "npm:^2.0.0"
     sharedb-hooks: "npm:~4.0.0"
-    sharedb-mingo-memory: "npm:^1.2.0"
+    sharedb-mingo-memory: "npm:^3.0.0"
     sharedb-mongo: "npm:1.0.0-beta.21"
     sharedb-redis-pubsub: "npm:^2.0.1"
     sqlite3: "npm:^5.1.6"
@@ -8594,6 +8595,7 @@ __metadata:
   resolution: "@startupjs/orm@workspace:packages/orm"
   dependencies:
     "@startupjs/cache": "npm:^0.56.0-alpha.0"
+    "@startupjs/utils": "npm:^0.56.0-alpha.0"
     pluralize: "npm:^8.0.0"
     racer: "npm:1.0.1"
   languageName: unknown
@@ -8931,7 +8933,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/utils@npm:^0.56.0-alpha.18, @startupjs/utils@workspace:packages/utils":
+"@startupjs/utils@npm:^0.56.0-alpha.0, @startupjs/utils@npm:^0.56.0-alpha.18, @startupjs/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@startupjs/utils@workspace:packages/utils"
   dependencies:
@@ -22943,6 +22945,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.isobject@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "lodash.isobject@npm:3.0.2"
+  checksum: da4c8480d98b16835b59380b2fbd43c54081acd9466febb788ba77c434384349e0bec162d1c4e89f613f21687b2b6d8384d8a112b80da00c78d28d9915a5cdde
+  languageName: node
+  linkType: hard
+
 "lodash.isplainobject@npm:^4.0.6":
   version: 4.0.6
   resolution: "lodash.isplainobject@npm:4.0.6"
@@ -24739,19 +24748,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mingo@npm:6.1.0 - 6.2.1":
+  version: 6.2.1
+  resolution: "mingo@npm:6.2.1"
+  checksum: decf2109652b9e68818207307e37a3870ff11530e60d5f57226a19eb095e5825d8da4aa94dce297a0f84f25bdcbc7761fbf39869a8f3d657551f36a4b3c245d3
+  languageName: node
+  linkType: hard
+
 "mingo@npm:^0.2.5":
   version: 0.2.5
   resolution: "mingo@npm:0.2.5"
   dependencies:
     underscore: "npm:>=1.5.2"
   checksum: 69b3bf58f171ac8f247f3d43532d8d5fdf16e7aa94224a47274368b10cad14f4a1b31b091eb8a0d9f85674e1a915f220fb859f8f68dad3bd79147dadd63153e1
-  languageName: node
-  linkType: hard
-
-"mingo@npm:^4.1.5":
-  version: 4.4.1
-  resolution: "mingo@npm:4.4.1"
-  checksum: f7585ee78249b9fb1da347527037cd4efd3d8f0f8759a9287ad5e73c961c4b5b9833a60e72a5f56196f51ca37ac814b592cdb7ccb1a05214f3f59c6d92ef9167
   languageName: node
   linkType: hard
 
@@ -30594,15 +30603,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sharedb-mingo-memory@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "sharedb-mingo-memory@npm:1.2.0"
+"sharedb-mingo-memory@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "sharedb-mingo-memory@npm:3.0.0"
   dependencies:
     lodash.clonedeep: "npm:^4.5.0"
-    mingo: "npm:^4.1.5"
+    lodash.isobject: "npm:^3.0.2"
+    mingo: "npm:6.1.0 - 6.2.1"
   peerDependencies:
-    sharedb: ^1.0.0-beta || ^2.0.0
-  checksum: a5f6f202cc52c35957948e12a05dd40d8433e2aae2cc76b203be31d69913d45d40133187173d61255fd4a6db52c3c97bb86fdc62ddaad750b515b35557b7433f
+    sharedb: ^1.0.0-beta || ^2.0.0 || ^3.0.0 || ^4.0.0
+  checksum: 8d35072679ba0d89eaa1dd3c2b15118422c52c07ca7df259d1e328bd5a3a18ce3e2fa9a6e7f79e4f77b8725c905773247e081942346d4fe49315a2c328a59aec
   languageName: node
   linkType: hard
 

@@ -6,9 +6,9 @@ import { resolve } from 'path'
 import { EventEmitter } from 'events'
 import dummyInitServer from './initServer.auto.js'
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
-import createBackend from '@startupjs/backend'
-import createSession from './server/createSession.js'
-import createChannel from '@startupjs/channel/server'
+import _createBackend from '@startupjs/backend'
+import _createSession from './server/createSession.js'
+import _createChannel from '@startupjs/channel/server'
 import { readFileSync } from 'fs'
 
 const IS_EXPO = isExpo(process.env.ROOT_PATH || process.cwd())
@@ -24,7 +24,7 @@ const defaultOptions = {
 
 export default async function startServer (options) {
   const props = await createServer(options)
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     props.server.listen(err => {
       if (err) return reject(err)
       resolve(props)
@@ -33,22 +33,32 @@ export default async function startServer (options) {
 }
 
 export async function createServer (options = {}) {
-  let backend, session, channel
-  ({ backend, session, channel, options } = commonInit(options))
   const { default: createServer } = await import('./server/createServer.js')
+  options = transformOptions(options)
+  const backend = _createBackend(options)
+  const session = _createSession(options)
+  const channel = _createChannel(backend, { session })
   const { server, expressApp } = await createServer({ backend, session, channel, options })
   return { server, backend, session, channel, expressApp }
 }
 
 export async function createMiddleware (options = {}) {
-  let backend, session, channel
-  ({ backend, session, channel, options } = commonInit(options))
   const { default: createMiddleware } = await import('./server/createMiddleware.js')
+  options = transformOptions(options)
+  const backend = _createBackend(options)
+  const session = _createSession(options)
+  const channel = _createChannel(backend, { session })
   const middleware = await createMiddleware({ backend, session, channel, options })
   return { middleware, backend, session, channel }
 }
 
-function commonInit (options = {}) {
+export function createBackend (options = {}) {
+  options = transformOptions(options)
+  const backend = _createBackend(options)
+  return backend
+}
+
+function transformOptions (options = {}) {
   options = { ...defaultOptions, ...MODULE.options, ...options }
 
   // Transform public path to be absolute
@@ -57,11 +67,7 @@ function commonInit (options = {}) {
   // DEPRECATED. Use hooks system (plugins) instead of EventEmitter
   options.ee = new EventEmitter()
 
-  const backend = createBackend(options)
-  const session = createSession(options)
-  const channel = createChannel(backend, { session })
-
-  return { backend, channel, session, options }
+  return options
 }
 
 function isExpo (rootPath) {

@@ -545,3 +545,49 @@ export function bar () {}
 Error: /ws/dummy/index.js: You cannot specify both \`removeExports\` and \`keepExports\`
 
 `;
+
+exports[`@startupjs/babel-plugin-eliminator transform function calls: transform function calls 1`] = `
+
+import { aggregation, BaseModel, accessControl } from 'startupjs/orm'
+import { getAppName, getRoleId, DEFAULT_USER_ID } from 'server-lib'
+
+const appName = getAppName()
+const adminRoleId = getRoleId('admin')
+
+export const access = accessControl({
+  create: (doc, { session }) => session.roleId === adminRoleId,
+  read: () => true,
+  update: (doc, { session }) => session.roleId === adminRoleId || !doc.readonly,
+  delete: (doc, { session }) => session.roleId === adminRoleId
+})
+
+export const $$createdByUser = aggregation(({ userId = DEFAULT_USER_ID }) => ({
+  userId,
+  $sort: { createdAt: -1 },
+  appName
+}))
+
+export default class GamesModel extends BaseModel {
+  async addNew () {
+    await this.add({ name: 'New Game' })
+  }
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { BaseModel, __aggregationHeader } from "startupjs/orm";
+export const access = undefined;
+export const $$createdByUser = __aggregationHeader({
+  collection: "games",
+  aggregationName: "$$createdByUser",
+});
+export default class GamesModel extends BaseModel {
+  async addNew() {
+    await this.add({
+      name: "New Game",
+    });
+  }
+}
+
+
+`;

@@ -9,7 +9,7 @@ const {
 
 const QUERIES = {}
 
-export default (backend, customCheck) => {
+export default (backend, { customCheck } = {}) => {
   backend.addAggregate = (collection, queryName, queryFunction) => {
     QUERIES[collection + '.' + queryName] = queryFunction
   }

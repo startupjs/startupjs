@@ -10,8 +10,16 @@ const MAGIC_IMPORTS = ['startupjs/registry', '@startupjs/registry']
 module.exports = function eliminatorLoader (source) {
   const filename = this.resourcePath
 
+  // transform server-only code to client code in model/*.js files
+  // - replace aggregation() with aggregationHeader()
+  // - remove accessControl() calls
+  const clientModel = this.query.clientModel
+
   // ensure that this loader is only used on plugins, startupjs.config.js and loadStartupjsConfig.js files
-  if (!(isStartupjsPluginEcosystemFile(filename))) return source
+  if (!(
+    isStartupjsPluginEcosystemFile(filename) ||
+    (clientModel && hasOrmImport(source))
+  )) return source
 
   const envs = this.query.envs
   if (!envs) throw Error("eliminatorLoader: envs not provided (for example ['features', 'isomorphic', 'client'])")
@@ -79,10 +87,84 @@ module.exports = function eliminatorLoader (source) {
           magicImports: MAGIC_IMPORTS,
           ensureOnlyKeys: [...PLUGIN_KEYS, ...ALL_ENVS],
           keepKeys: [...PLUGIN_KEYS, ...envs]
-        }]
+        }],
+        ...(clientModel
+          ? {
+              transformFunctionCalls: [{
+                // direct named exports of aggregation() within model/*.js files
+                // are replaced with aggregationHeader() calls.
+                // 'collection' is the filename without extension
+                // 'aggregationName' is the direct named export const name
+                //
+                // Example:
+                //
+                //   // in model/games.js
+                //   export const $$byGameId = aggregation(({ gameId }) => ({ gameId }))
+                //
+                // will be replaced with:
+                //
+                //   __aggregationHeader({ collection: 'games', aggregationName: '$$byGameId' })
+                //
+                functionName: 'aggregation',
+                magicImports: ['@startupjs/orm', 'startupjs/orm'],
+                requirements: {
+                  directNamedExportedAsConst: true
+                },
+                throwIfRequirementsNotMet: true, // TODO: remove this when the next transformation is implemented
+                replaceWith: {
+                  newFunctionNameFromSameImport: '__aggregationHeader',
+                  newCallArgumentsTemplate: `[
+                    {
+                      collection: %%filenameWithoutExtension%%,
+                      aggregationName: %%directNamedExportConstName%%
+                    }
+                  ]`
+                }
+              }, {
+                // TODO: this has to be implemented! It's not actually working yet.
+
+                // any other calls to aggregation() must explicitly define the collection and aggregationName
+                // as the second argument. If not, the build will fail.
+                //
+                // Example:
+                //
+                //   aggregation(
+                //     ({ gameId }) => ({ gameId }),
+                //     { collection: 'games', aggregationName: 'byGameId' }
+                //   )
+                //
+                // will be replaced with:
+                //
+                //   __aggregationHeader({ collection: 'games', aggregationName: 'byGameId' })
+                //
+                functionName: 'aggregation',
+                magicImports: ['@startupjs/orm', 'startupjs/orm'],
+                requirements: {
+                  argumentsAmount: 2
+                },
+                throwIfRequirementsNotMet: true,
+                replaceWith: {
+                  newFunctionNameFromSameImport: '__aggregationHeader',
+                  newCallArgumentsTemplate: '[%%argument1%%]' // 0-based index
+                }
+              }, {
+                // remove accessControl() calls (replace with undefined)
+                functionName: 'accessControl',
+                magicImports: ['@startupjs/orm', 'startupjs/orm'],
+                replaceWith: {
+                  remove: true // replace the whole function call with undefined
+                }
+              }]
+            }
+          : {}
+        )
       }]
     ]
   }).code
 
   return code
+}
+
+function hasOrmImport (code) {
+  return /['"]@?startupjs\/orm['"]/.test(code)
 }

@@ -2,8 +2,8 @@ const { getVisitorToCollectInitialReferences, removeUnusedReferences } = require
 const { getVisitorToRemoveOtherEnvs } = require('./lib/removeOtherEnvs.js')
 
 module.exports = function babelPluginEliminator (
-  { template },
-  { removeExports = [], keepExports = [], trimObjects = [] }
+  { template, types: t },
+  { removeExports = [], keepExports = [], trimObjects = [], transformFunctionCalls = [] }
 ) {
   return {
     visitor: {
@@ -17,7 +17,7 @@ module.exports = function babelPluginEliminator (
           $this.traverse({
             ...getVisitorToCollectInitialReferences(refs),
             ...getVisitorToRemoveOtherEnvs({
-              template, filename, removeExports, keepExports, trimObjects, triggerRemoved
+              template, filename, removeExports, keepExports, trimObjects, triggerRemoved, transformFunctionCalls, t
             })
           })
 

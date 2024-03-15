@@ -1,8 +1,9 @@
+import { _isExtraQuery as isExtraQuery } from '@startupjs/react-sharedb-util'
+import { isAggregationHeader, isAggregationFunction } from '@startupjs/utils/aggregation'
 import isString from 'lodash/isString.js'
 import isArray from 'lodash/isArray.js'
 import isBoolean from 'lodash/isBoolean.js'
 import isNumber from 'lodash/isNumber.js'
-import { _isExtraQuery as isExtraQuery } from '@startupjs/react-sharedb-util'
 
 export function subLocal (localPath, defaultValue) {
   if (typeof localPath !== 'string') {
@@ -42,6 +43,21 @@ export function subDoc (collection, docId) {
 
 export function subQuery (collection, query) {
   let invalid
+  if (isAggregationHeader(collection)) {
+    query = {
+      $aggregationName: collection.aggregationName,
+      $params: query
+    }
+    collection = collection.collection
+  } else if (isAggregationFunction(collection)) {
+    throw Error(`
+      [react-sharedb] subQuery(): got aggregation function itself instead of the aggregation header.
+      Looks like client-side code transformation did not work properly and your
+      aggregation() function was not transformed into an __aggregationHeader().
+      Make sure you only use aggregation() function inside project's 'model' folder using
+      import { aggregation } from 'startupjs/orm'
+    `)
+  }
   if (typeof collection !== 'string') {
     throw new Error(
       `[react-sharedb] subQuery(): Collection must be String. Got: ${collection}`
