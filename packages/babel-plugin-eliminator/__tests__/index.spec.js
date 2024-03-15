@@ -337,6 +337,78 @@ pluginTester({
           }
         }
       `
+    },
+    // Removing keys from object within default export of the magic filename
+    'transform function calls': {
+      pluginOptions: {
+        transformFunctionCalls: [{
+          // direct named exports of aggregation() within model/*.js files
+          // are replaced with aggregationHeader() calls.
+          // 'collection' is the filename without extension
+          // 'name' is the direct named export const name
+          //
+          // Example:
+          //
+          //   // in model/games.js
+          //   export const $$byGameId = aggregation(({ gameId }) => ({ gameId }))
+          //
+          // will be replaced with:
+          //
+          //   __aggregationHeader({ collection: 'games', name: '$$byGameId' })
+          //
+          functionName: 'aggregation',
+          magicImports: ['@startupjs/orm', 'startupjs/orm'],
+          requirements: {
+            directNamedExportedAsConst: true
+          },
+          throwIfRequirementsNotMet: true, // TODO: remove this when the next transformation is implemented
+          replaceWith: {
+            newFunctionNameFromSameImport: '__aggregationHeader',
+            newCallArgumentsTemplate: `[
+              {
+                collection: %%filenameWithoutExtension%%,
+                name: %%directNamedExportConstName%%
+              }
+            ]`
+          }
+        }, {
+          // remove accessControl() calls (replace with undefined)
+          functionName: 'accessControl',
+          magicImports: ['@startupjs/orm', 'startupjs/orm'],
+          replaceWith: {
+            remove: true // replace the whole function call with undefined
+          }
+        }]
+      },
+      babelOptions: {
+        filename: '/ws/dummy/model/games.js'
+      },
+      code: /* js */`
+        import { aggregation, BaseModel, accessControl } from 'startupjs/orm'
+        import { getAppName, getRoleId, DEFAULT_USER_ID } from 'server-lib'
+
+        const appName = getAppName()
+        const adminRoleId = getRoleId('admin')
+
+        export const access = accessControl({
+          create: (doc, { session }) => session.roleId === adminRoleId,
+          read: () => true,
+          update: (doc, { session }) => session.roleId === adminRoleId || !doc.readonly,
+          delete: (doc, { session }) => session.roleId === adminRoleId
+        })
+
+        export const $$createdByUser = aggregation(({ userId = DEFAULT_USER_ID }) => ({
+          userId,
+          $sort: { createdAt: -1 },
+          appName
+        }))
+
+        export default class GamesModel extends BaseModel {
+          async addNew () {
+            await this.add({ name: 'New Game' })
+          }
+        }
+      `
     }
   }
 })

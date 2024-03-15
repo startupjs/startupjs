@@ -9,7 +9,7 @@ const {
 
 const QUERIES = {}
 
-export default (backend, customCheck) => {
+export default (backend, { customCheck } = {}) => {
   backend.addAggregate = (collection, queryName, queryFunction) => {
     QUERIES[collection + '.' + queryName] = queryFunction
   }
@@ -20,7 +20,13 @@ export default (backend, customCheck) => {
     const queryName = query.$aggregationName
     let queryParams = query.$params
 
-    if (query.$aggregate) throw new ShareDBAccessError(ERR_ACCESS_ONLY_SERVER_AGGREATE, `access denied - only server-queries for $aggregate are allowed, collection: '${collection}', query: '${query}'`)
+    if (query.$aggregate) {
+      throw new ShareDBAccessError(ERR_ACCESS_ONLY_SERVER_AGGREATE, `
+        access denied - only server-queries for $aggregate are allowed
+        collection: '${collection}',
+        query: \n${JSON.stringify(query, null, 2)}
+      `)
+    }
     if (!queryName && !queryParams) return
 
     queryParams = queryParams || {}
@@ -45,6 +51,18 @@ export default (backend, customCheck) => {
 
     if (isString(serverQuery)) throw new ShareDBAccessError(ERR_ACCESS_IN_SERVER_QUERY, serverQuery)
 
+    if (Array.isArray(serverQuery)) serverQuery = { $aggregate: serverQuery }
+
+    if (typeof serverQuery !== 'object') {
+      throw new ShareDBAccessError(ERR_ACCESS_IN_SERVER_QUERY, `
+        access denied for server aggregation
+        {
+          collection: '${collection}',
+          $aggregationName: '${queryName}'
+        }
+      `)
+    }
+
     if (customCheck) {
       const customPermissionMessage = await customCheck(shareRequest)
       if (isString(customPermissionMessage)) {
@@ -52,7 +70,7 @@ export default (backend, customCheck) => {
       }
     }
 
-    shareRequest.query = { $aggregate: serverQuery }
+    shareRequest.query = serverQuery
   }
 
   backend.use('query', (shareRequest, next) => {

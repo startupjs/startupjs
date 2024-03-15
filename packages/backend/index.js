@@ -2,10 +2,6 @@ import ShareDbAccess, {
   registerOrmRules,
   rigisterOrmRulesFromFactory
 } from '@startupjs/sharedb-access'
-import sharedbSchema from '@startupjs/sharedb-schema'
-import serverAggregate from '@startupjs/server-aggregate'
-import { ROOT_MODULE as MODULE } from '@startupjs/registry'
-import { transformSchema } from '@startupjs/schema'
 import isArray from 'lodash/isArray.js'
 import isPlainObject from 'lodash/isPlainObject.js'
 import racer from 'racer'
@@ -13,6 +9,8 @@ import shareDbHooks from 'sharedb-hooks'
 import { pubsub } from './redis/index.js'
 import { db } from './db/index.js'
 import maybeFlushRedis from './redis/maybeFlushRedis.js'
+import validateSchema from './features/validateSchema.js'
+import serverAggregate from './features/serverAggregate.js'
 
 export { redis, redlock, Redlock } from './redis/index.js'
 export { db, mongo, mongoClient, createMongoIndex, sqlite } from './db/index.js'
@@ -20,7 +18,7 @@ export { db, mongo, mongoClient, createMongoIndex, sqlite } from './db/index.js'
 const usersConnectionCounter = {}
 global.__clients = {}
 
-export default options => {
+export default function createBackend (options) {
   options = Object.assign({ secure: true }, options)
 
   if (options.ee != null) options.ee.emit('storeUse', racer)
@@ -77,64 +75,12 @@ export default options => {
     console.log('sharedb-access is working')
   }
 
-  // server aggregate
   if (options.secure || options.serverAggregate) {
-    const { customCheck } = options.serverAggregate || {}
-    serverAggregate(backend, customCheck)
-
-    for (const path in ORM) {
-      const { aggregations } = ORM[path].OrmEntity
-      if (!aggregations) continue
-
-      for (const aggregationKey in aggregations) {
-        const collection = path.replace(/\.\*$/u, '')
-        backend.addAggregate(
-          collection,
-          aggregationKey,
-          (queryParams, shareRequest) => {
-            const session = shareRequest.agent.connectSession
-            const userId = session.userId
-            const model = global.__clients[userId].model
-            return aggregations[aggregationKey](model, queryParams, session)
-          }
-        )
-      }
-    }
-
-    console.log('server aggregate is working')
+    serverAggregate(backend, { customCheck: options.serverAggregate?.customCheck })
   }
 
-  // sharedb-schema
-  if (
-    (options.secure || options.validateSchema) &&
-    process.env.NODE_ENV !== 'production'
-  ) {
-    const schemaPerCollection = { schemas: {}, formats: {}, validators: {} }
-
-    for (const modelPattern in MODULE.models) {
-      let { schema, factory } = MODULE.models[modelPattern]
-
-      if (factory) {
-        // TODO: implement getting schema from factory
-        // schemaPerCollection.schemas[modelPattern.replace('.*', '')] = ORM[path].OrmEntity
-        throw Error('factory model: NOT IMPLEMENTED')
-      } else if (schema) {
-        const collectionName = modelPattern.replace('.*', '')
-        // transform schema from simplified format to full format
-        schema = transformSchema(schema, { collectionName })
-        schemaPerCollection.schemas[collectionName] = schema
-      }
-
-      // allow any 'service' collection structure
-      // since 'service' collection is used in our startupjs libraries
-      // and we don't have a tool to collect scheme from all packages right now
-      schemaPerCollection.schemas.service = transformSchema({
-        type: 'object', properties: {}, additionalProperties: true
-      })
-    }
-
-    sharedbSchema(backend, schemaPerCollection)
-    console.log('sharedb-schema is working')
+  if ((options.secure || options.validateSchema) && process.env.NODE_ENV !== 'production') {
+    validateSchema(backend)
   }
 
   backend.on('client', (client, reject) => {

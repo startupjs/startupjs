@@ -1,9 +1,10 @@
 const REMOVAL_INDICATOR = 'undefined'
 
 exports.getVisitorToRemoveOtherEnvs = function getVisitorToRemoveOtherEnvs ({
-  template, filename, trimObjects, removeExports, keepExports, triggerRemoved
+  template, filename, trimObjects, removeExports, keepExports, triggerRemoved, transformFunctionCalls, t
 }) {
   const usedFunctions = {}
+  const usedImportsByFunction = {}
 
   const buildIndicator = template(REMOVAL_INDICATOR)
   const buildNamedExportIndicator = template(`export var %%name%% = ${REMOVAL_INDICATOR}`)
@@ -91,7 +92,7 @@ exports.getVisitorToRemoveOtherEnvs = function getVisitorToRemoveOtherEnvs ({
 
     // find magic functions used in this file
     ImportDeclaration ($this) {
-      for (const trimObject of trimObjects) {
+      for (const trimObject of [...trimObjects, ...transformFunctionCalls]) {
         const { magicImports, functionName } = trimObject
         if (!(magicImports && functionName)) continue
         if (!magicImports.includes($this.node.source.value)) continue
@@ -100,6 +101,7 @@ exports.getVisitorToRemoveOtherEnvs = function getVisitorToRemoveOtherEnvs ({
           if ($specifier.get('imported').node.name !== functionName) continue
           const localName = $specifier.get('local').node.name
           usedFunctions[localName] = functionName
+          usedImportsByFunction[localName] = $this
         }
       }
     },
@@ -121,6 +123,24 @@ exports.getVisitorToRemoveOtherEnvs = function getVisitorToRemoveOtherEnvs ({
           onRemoveKey: triggerRemoved,
           ...trimObject
         })
+      }
+
+      for (const _transformFunctionCall of transformFunctionCalls) {
+        if (_transformFunctionCall.functionName !== originalFunctionName) continue
+
+        const handled = transformFunctionCall({
+          $callExpression: $this,
+          onTransform: triggerRemoved,
+          buildIndicator,
+          usedImportsByFunction,
+          t,
+          template,
+          filename,
+          ..._transformFunctionCall
+        })
+
+        // don't try to handle the same function call with multiple transformFunctionCalls
+        if (handled) break
       }
     }
   }
@@ -203,4 +223,90 @@ function removeKeysFromObject ({
       }
     }
   }
+}
+
+function transformFunctionCall ({
+  $callExpression,
+  onTransform,
+  buildIndicator,
+  usedImportsByFunction,
+  t,
+  template,
+  filename,
+  replaceWith = {},
+  magicImports = [],
+  requirements = {},
+  throwIfRequirementsNotMet = false
+}) {
+  let handled = false
+
+  // remove the function call
+  if (replaceWith.remove) {
+    onTransform?.()
+    $callExpression.replaceWith(buildIndicator())
+    return true
+  }
+
+  if (replaceWith.newCallArgumentsTemplate) {
+    const newCallArgumentsTemplate = template(replaceWith.newCallArgumentsTemplate)
+    let directNamedExportConstName
+    if (requirements.directNamedExportedAsConst) {
+      const $variableDeclarator = $callExpression.parentPath
+      if ($variableDeclarator.isVariableDeclarator()) {
+        directNamedExportConstName = $variableDeclarator.get('id').node.name
+      } else if (throwIfRequirementsNotMet) {
+        throw $callExpression.buildCodeFrameError(`
+          [eliminator/transformFunctionCalls]
+          The direct named export of function call must be assigned to a const
+        `)
+      }
+    }
+    const filenameWithoutExtension = filename.replace(/^.*[\\/]/, '').replace(/\.[^.]+$/, '')
+    const newCallArguments = newCallArgumentsTemplate({
+      filenameWithoutExtension: t.stringLiteral(filenameWithoutExtension),
+      directNamedExportConstName: t.stringLiteral(directNamedExportConstName)
+    })
+    if (!(
+      t.isExpressionStatement(newCallArguments) &&
+      t.isArrayExpression(newCallArguments.expression)
+    )) {
+      console.error(newCallArguments)
+      throw $callExpression.buildCodeFrameError(`
+        [eliminator/transformFunctionCalls]
+        'newCallArgumentsTemplate' must return an array expression.
+        Got:
+        ${replaceWith.newCallArgumentsTemplate}
+      `)
+    }
+    onTransform?.()
+    // explicitly remove all args to make sure Babel triggers whatever it needs
+    // TODO: instead of plain removal, add support to pass arguments into the template as %%argument0%%, etc.
+    //       (this should probably be dependent on the existence of requirements.argumentsAmount)
+    $callExpression.get('arguments').forEach($item => $item.remove())
+    $callExpression.node.arguments = newCallArguments.expression.elements
+    handled = true
+  }
+
+  if (replaceWith.newFunctionNameFromSameImport) {
+    const newFunctionName = replaceWith.newFunctionNameFromSameImport
+    const $callee = $callExpression.get('callee')
+    // find the import declaration of the magic function
+    // and get the local name of the newFunctionName if it's imported.
+    // If it's not imported, we'll need to import it.
+    const $importDeclaration = usedImportsByFunction[$callee.node.name]
+    let newImportSpecifier = $importDeclaration.get('specifiers').find($specifier =>
+      $specifier.get('imported').node.name === newFunctionName
+    )?.node
+    if (!newImportSpecifier) {
+      // create a new import specifier and add it to the import declaration
+      newImportSpecifier = t.importSpecifier(t.identifier(newFunctionName), t.identifier(newFunctionName))
+      const $lastImportSpecifier = $importDeclaration.get('specifiers').pop()
+      $lastImportSpecifier.insertAfter(newImportSpecifier)
+    }
+    onTransform?.()
+    $callee.replaceWith(newImportSpecifier.local)
+    handled = true
+  }
+
+  return handled
 }

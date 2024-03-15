@@ -166,3 +166,7 @@ BaseModel.prototype.getAssociations = function () {
 export { BaseModel }
 export * from './schemaHelpers.js'
 export * from './schemaAssociations.js'
+export {
+  aggregation,
+  aggregationHeader as __aggregationHeader
+} from '@startupjs/utils/aggregation'
