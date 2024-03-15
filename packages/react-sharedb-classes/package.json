@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/react-sharedb-classes",
   "type": "module",
-  "version": "0.56.0-alpha.18",
+  "version": "0.56.0-alpha.53",
   "engines": {
     "node": ">= 14"
   },
@@ -13,8 +13,8 @@
   "license": "MIT",
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",
-    "@startupjs/model": "^0.56.0-alpha.18",
-    "@startupjs/react-sharedb-util": "^0.56.0-alpha.18",
+    "@startupjs/model": "^0.56.0-alpha.53",
+    "@startupjs/react-sharedb-util": "^0.56.0-alpha.53",
     "co": "~4.6.0",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "^4.17.20"

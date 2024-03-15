@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Express.js with plugged in ShareDB",
-  "version": "0.56.0-alpha.50",
+  "version": "0.56.0-alpha.53",
   "type": "module",
   "main": "index.js",
   "exports": {
@@ -14,9 +14,9 @@
     "./plugins/clientSession.plugin": "./plugins/clientSession.plugin.js"
   },
   "dependencies": {
-    "@startupjs/backend": "^0.56.0-alpha.50",
+    "@startupjs/backend": "^0.56.0-alpha.53",
     "@startupjs/channel": "^0.56.0-alpha.1",
-    "@startupjs/init": "^0.56.0-alpha.47",
+    "@startupjs/init": "^0.56.0-alpha.53",
     "@startupjs/registry": "^0.56.0-alpha.47",
     "body-parser": "1.20.0",
     "compression": "^1.6.0",

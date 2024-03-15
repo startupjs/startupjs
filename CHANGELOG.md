@@ -1,3 +1,12 @@
+# [0.56.0-alpha.53](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.52...v0.56.0-alpha.53) (2024-03-15)
+
+
+### Features
+
+* **orm:** simplify api of working with server aggregations ([#1200](https://github.com/startupjs/startupjs/issues/1200)) ([7373688](https://github.com/startupjs/startupjs/commit/7373688a5520fb2329cfe358fb600232bfa66f34))
+
+
+
 # [0.56.0-alpha.52](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.51...v0.56.0-alpha.52) (2024-03-11)
 
 
