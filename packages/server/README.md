@@ -1,172 +1,277 @@
-# startupjs dm-sharedb-server
+# startupjs/server
 
-> Express.js server with ShareDB, configs system, and react-router support for rendering client apps.
-
-## Requirements
-
-```
-express: 4.x
-nconf: *
-```
+> Express.js server with ShareDB integration and ORM
 
 ## Usage
 
-```js
-import startupjsServer from '@startupjs/server'
+If you followed the startupjs project creation instructions and you are in a startupjs project then you don't need to write any code to start the server.
 
-startupjsServer({ getHead }, ee => {
-  ee.on('routes', expressApp => {
-    expressApp.get('/api', async (req, res) => {
-      let { model } = req
-      let $counter = model.at('counters.first')
-      await $counter.subscribe()
-      res.json({ name: 'Test API', counter: $counter.get() })
-    })
-  })
-})
+It's either embedded into Metro dev server for development, or for production it's embedded into `yarn start-production` command itself.
 
-const getHead = () => `
-  <title>HelloWorld</title>
-  <!-- Put vendor JS and CSS here -->
-`
+### IMPORTANT: How to run startupjs server-side code
+
+When you run the server side part of startupjs manually through your own cli command, you have to import a startupjs Node.js loader for required preprocessing. Without it startupjs would not function correctly.
+
+You can do it by either passing the `--import` option to node:
+
+```sh
+NODE_ENV=production node --experimental-detect-module --import=startupjs/nodeRegister ./server/index.js
 ```
 
-## `@startupjs/sharedb-access` connection
-
-Add `accessControl: true` in options of your `startupjsServer`. For example:
+Another way to import the loader is in the code itself. But in this case all subsequent imports in the same file must be async `import()` calls:
 
 ```js
-// server/index.js
-startupjsServer(
-{
-  getHead,
-  accessControl: true
-}, ee => {
-  ee.on('routes', expressApp => {
-    expressApp.get('/api', async (req, res) => {
-      let { model } = req
-      let $counter = model.at('counters.first')
-      await $counter.subscribe()
-      res.json({ name: 'Test API', counter: $counter.get() })
-    })
-  })
-})
+import 'startupjs/nodeRegister'
+
+const { default: startServer } = await import('startupjs/server')
+
+await startServer()
 ```
 
-Using `@startupjs/sharedb-access` you can control `create`, `read`, `update`, and `delete` database operation for every collection. You can define rules for each CRUD operations in your orm model. By default all operations are denied.
+### Start production server
 
-The function for operation should return `true` if operation should be allowed.
+If you want to start the production server, you can do it the following way:
 
 ```js
-static access = {
-  create: async (model, collection, docId, doc, session) => { your code },
-  read: async (model, collection, docId, doc, session) => { your code },
-  update: async (model, collection, docId, oldDoc, session, ops, newDoc) => { your code },
-  delete: async (model, collection, docId, doc, session) => { your code }
+import startServer from 'startupjs/server'
+
+const { server, backend, session, channel, expressApp } = await startServer()
+
+console.log('started')
+```
+
+### Get server without starting it
+
+```js
+import { createServer } from 'startupjs/server'
+
+const { server, backend, session, channel, expressApp } = await createServer()
+
+// if you want to start it:
+server.listen(() => console.log('started'))
+```
+
+### Get server as a connect middleware which you can embed into another existing server
+
+```js
+import { createMiddleware } from 'startupjs/server'
+
+const { middleware, backend, session, channel } = await createMiddleware()
+
+// do something with the middleware
+```
+
+### Get just the ORM part (with ShareDB connected to the DB)
+
+This is useful for `cron` or `worker` microservices where you just want to work with the database and don't need any http server running.
+
+```js
+import { createBackend } from 'startupjs/server'
+
+const backend = createBackend()
+
+function doSomething () {
+  const model = backend.createModel()
+  // do things with model and then close it (IMPORTANT!) to prevent memory leaks
+  model.close()
 }
+
+doSomething()
 ```
 
-## `@startupjs/sharedb-schema` connection
+## Security: Access Control
 
-Add `validateSchema: true` in options of your `startupjsServer`. For example:
+This allows you to control `create`, `read`, `update`, and `delete` database operation for every collection in ORM model by
+exporting `access` from your model files.
 
-```js
-// server/index.js
-startupjsServer(
-{
-  getHead,
-  validateSchema: true
-}, ee => {
-  // your code
-})
-```
+By default all operations are denied.
 
-Then add the static field `schema` to ORM for all collections you use. For example:
+If you want to allow operation, return `true` from the access checking function.
 
-```js
-import { BaseModel } from 'startupjs/orm'
+### Usage
 
-export default class UserModel extends BaseModel {
-  static schema = {
-    type: 'object',
-    properties: {
-      nickname: {
-        type: 'string',
-        minLength: 1,
-        maxLength: 10,
-      },
-      email: {
-        type: 'string',
-        format: 'email',
-      },
-      age: {
-        description: 'Age in years',
-        type: 'integer',
-        minimum: 0,
-      },
-      roleId: {
-        type: 'string'
-      },
-      hobbies: {
-        type: 'array',
-        maxItems: 3,
-        items: {
-          type: 'string',
-        },
-        uniqueItems: true,
+1. Set `accessControl: true` in `startupjs.config.js -> features`:
+
+    ```js
+    // startupjs.config.js
+    export default {
+      features: {
+        enableServer: true,
+        accessControl: true
       }
     }
-  }
-}
-```
+    ```
 
-## `@startupjs/server-aggregate` connection
+2. Call `accessControl` function from `startupjs/orm` and export result as `access` from the model file for a collection.
 
-Add `serverAggregate: true` in options of your `startupjsServer`. For example:
+    **Important:** You can only add access control to collection files, NOT document files. For example `games.js`, but not `games.[id].js`.
+
+    ```js
+    // in model/users.js file
+    import { accessControl } from 'startupjs/orm'
+    export const access = accessControl({
+      create: async (doc, { model, collection, docId, session }) => session.isAdmin,
+      read: async (doc, { model, collection, docId, session }) => true,
+      update: async (doc, { model, collection, docId, session, updatedDoc, ops }) => doc.userId === session.userId || session.isAdmin,
+      delete: async (doc, { model, collection, docId, session }) => session.isAdmin
+    })
+    ```
+
+## Security: Validate documents using JSON Schema
+
+This allows you to force your MongoDB collections to always follow a specific json-schema definition.
+
+If someone tries to write into an invalid field, that operation is going to be automatically denied and rolled back on the client.
+
+This is especially useful during the development process to clearly define the shape of your data as well as reuse it to draw forms in the UI.
+
+In the client code the same exact schema can be passed to `<Form fields={schema} />` component to render the form and automatically validate it (refer to `Form` documentation from `@startupjs/ui` for the full information on this with examples).
+
+### Usage
+
+1. Set `validateSchema: true` in `startupjs.config.js -> features`.
+
+2. Export json schema as `schema` from the model file for a collection.
+
+    **Important:** You can only add schema to collection files, NOT document files. For example `games.js`, but not `games.[id].js`.
+
+    ```js
+    // in model/users.js file
+    import { belongsTo, hasOne, GUID_PATTERN } from 'startupjs/orm'
+    export const schema = {
+      orgId: {
+        ...belongsTo('orgs'),
+        required: true
+      },
+      name: { type: 'string', required: true },
+      gender: { type: 'string', enum: ['man', 'woman', 'other'], required: true },
+      phone: {
+        type: 'string',
+        pattern: '^\\+\\d+$',
+        minLength: 10,
+        placeholder: '+10991234567'
+      },
+      instagram: { type: 'string' },
+      photoFileId: {
+        ...hasOne('files'),
+        input: 'file',
+        label: 'Photo',
+        mimeTypes: 'image/*'
+      },
+      friends: {
+        type: 'object',
+        input: 'friends',
+        additionalProperties: false,
+        $comment: '`true` flags for everyone this person added as a friend',
+        patternProperties: {
+          [GUID_PATTERN]: { type: 'boolean' }
+        }
+      },
+      token: { type: 'string', required: true, disabled: true },
+      createdAt: { type: 'number', required: true }
+    }
+    ```
+
+## Security: Restrict execution of MongoDB aggregation queries only to the server-side
+
+Enable `serverAggregate: true` in `features` of `startupjs.config.js`
+
+Then define your aggregations explicitly in your model files in the `model/` folder.
+
+### `aggregate(getAggregationFn)`
+
+Define an aggregation using this function and export it as a named export const from your model file.
+
+#### `getAggregationFn: async (params, context) => object`
+
+**`params`**
+
+query params passed into
 
 ```js
-// server/index.js
-startupjsServer(
-{
-  getHead,
-  serverAggregate: true
-}, ee => {
-  // your code
+useQuery$($$aggregation, params)
+```
+
+or to Racer's model:
+
+```js
+model.query($$aggregation.collection, {
+  $aggregationName: $$aggregation.name,
+  $params: params
 })
 ```
 
-After connecting the library, all requests with the `$aggregate` parameter will be **blocked**. In order to execute a query with aggregation, it must be declared in the `static aggregations` of model for which the aggregation will be performed. For example:
+**`context`**
 
 ```js
-import { BaseModel } from 'startupjs/orm'
+{
+  session, // current user's server-side session (usually would have things things like `session.userId`, `session.loggedIn`, etc.)
+  model, // root model
+  collection // name of the collection (useful for cases when you want to reuse the same aggregation function across multiple collections in different model files)
+}
+```
 
-export default class EventsModel extends BaseModel {
-  static aggregations = {
-    openEvents: async (model, params, session) => {
-      return [
-        {
-          $match: {
-            status: 'open', ...params
-          }
-        }
-      ]
+**returns:**
+
+If access is allowed for the current user, it must return either an object `{ $aggregate: [] }` or just the aggregation pipeline array directly `[]`
+
+If anything else is returned it's treated as access denied. So basically to deny access to query you can just do an early return. If you return a string it will be be used as the access denied error message.
+
+### `useQuery$($$aggregation, params)`
+
+`useQuery$` can accept the aggregation itself with params for it.
+
+### Example
+
+`model/games.js`:
+
+```js
+import { aggregation, BaseModel, accessControl } from 'startupjs/orm'
+import { getAppName, getRoleId, DEFAULT_USER_ID } from 'server-lib'
+
+const appName = getAppName()
+const adminRoleId = getRoleId('admin')
+
+export const access = accessControl({
+  create: (doc, { session }) => session.roleId === adminRoleId,
+  read: () => true,
+  update: (doc, { session }) => session.roleId === adminRoleId || !doc.readonly,
+  delete: (doc, { session }) => session.roleId === adminRoleId
+})
+
+export const $$createdByUser = aggregation((
+  { userId = DEFAULT_USER_ID },
+  { session }
+) => ({
+  // only admins can run this query
+  if (!session.isAdmin) return
+  return [{
+    $match: {
+      userId,
+      $sort: { createdAt: -1 },
+      appName
     }
+  }]
+}))
+
+export default class GamesModel extends BaseModel {
+  async addNew () {
+    await this.add({ name: 'New Game' })
   }
 }
 ```
 
-Here we have created an aggregation for the `events` collection named `openEvents`, where:
-* `params`: an object with parameters specified when calling a query
-* `shareRequest`: is the [sharedb](https://share.github.io/sharedb/) request
+`App.js`:
 
-Then to use this created aggregation you need to pass to `$aggregationName` field of the query `openEvents` query name.
+```jsx
+import { $$createdByUser } from '@/model/games'
+import { observer, useQuery$, $ } from 'startupjs'
+import { Span } from '@startupjs/ui'
 
-```js
-model.query('events', {
-  $aggregationName: 'openEvents',
-  $params: {
-    // your params
-  }
+export default observer(() => {
+  const userId = $.session.userId.get()
+  const $games = useQuery$($$createdByUser, { userId })
+  return $games.map($game => <Span key={$game.id.get()}>{$game.name.get()}</Span>)
 })
 ```
 
