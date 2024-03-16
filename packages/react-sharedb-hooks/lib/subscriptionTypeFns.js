@@ -46,7 +46,7 @@ export function subQuery (collection, query) {
   if (isAggregationHeader(collection)) {
     query = {
       $aggregationName: collection.name,
-      $params: query
+      $params: sanitizeAggregationParams(query)
     }
     collection = collection.collection
   } else if (isAggregationFunction(collection)) {
@@ -145,4 +145,13 @@ export function subApi (path, fn, inputs, options) {
     __subscriptionType: 'Api',
     params: [path, fn, inputs, options]
   }
+}
+
+// aggregation params get transferred to the server
+// and while doing so if some value is 'undefined', it actually gets transferred as 'null'
+// which breaks logic of setting default values in the aggregation function.
+// That's why we have to explicitly remove 'undefined' values from the aggregation params.
+// This can be easily done by serializing and deserializing it to JSON.
+function sanitizeAggregationParams (params) {
+  return JSON.parse(JSON.stringify(params))
 }
