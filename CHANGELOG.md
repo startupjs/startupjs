@@ -1,3 +1,12 @@
+# [0.56.0-alpha.55](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.54...v0.56.0-alpha.55) (2024-03-16)
+
+
+### Bug Fixes
+
+* **react-sharedb-hooks/useQuery:** remove 'undefined' values from  to fix setting defaults in aggregation function on the server ([58e7298](https://github.com/startupjs/startupjs/commit/58e729852b3454ddd959a18463ec112f00c72c13))
+
+
+
 # [0.56.0-alpha.54](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.53...v0.56.0-alpha.54) (2024-03-15)
 
 
