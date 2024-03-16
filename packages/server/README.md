@@ -178,6 +178,8 @@ Enable `serverAggregate: true` in `features` of `startupjs.config.js`
 
 Then define your aggregations explicitly in your model files in the `model/` folder.
 
+**Important:** You can only add aggregations in collection files, NOT document files. For example `games.js`, but not `games.[id].js`.
+
 ### `aggregate(getAggregationFn)`
 
 Define an aggregation using this function and export it as a named export const from your model file.
