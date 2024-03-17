@@ -1,3 +1,12 @@
+# [0.56.0-alpha.56](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.55...v0.56.0-alpha.56) (2024-03-17)
+
+
+### Bug Fixes
+
+* **signals:** fix each/else in pug when using query ([291a325](https://github.com/startupjs/startupjs/commit/291a325ab683ef52274de381c4271a50b37b850a))
+
+
+
 # [0.56.0-alpha.55](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.54...v0.56.0-alpha.55) (2024-03-16)
 
 
