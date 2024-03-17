@@ -37,18 +37,14 @@ export function getSignal (segments = [], parentProxyTarget) {
   // when it's an array of segments
   if (!Array.isArray(segments)) throw new Error('signal() argument must be a string, segments array or a racer model')
 
-  // force convert segments to strings to prevent memoization collisions when some segments
-  // might be either numbers or strings (array indexes might be passed as either).
-  // optimizations:
-  //   - do not create new array if all segments are already strings (+50% speedup for worst case)
-  //   - convert to string only segments that are not strings (+10% speedup for worst case)
+  // convert segments to strings to prevent memoization collisions for array indexes (number or string)
   if (segments.some(i => typeof i !== 'string')) {
     segments = segments.map(i => typeof i === 'string' ? i : String(i))
   }
 
+  // try to retrieve signal from cache
   const signalHash = getSignalHash(segments, query)
   const signalRef = signalsCache.get(signalHash)
-
   if (signalRef) {
     const signal = signalRef.deref()
     if (signal !== undefined) return signal
