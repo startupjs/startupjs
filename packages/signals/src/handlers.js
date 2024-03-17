@@ -21,6 +21,13 @@ function get (target, key, receiver) {
       if (target[IS_EXTRA_QUERY] && key === 'get') key = 'getExtra'
       return (...args) => Reflect.apply(target[QUERY][key], target[QUERY], args)
     }
+    if (key === 'length') {
+      if (target[IS_EXTRA_QUERY]) {
+        return target[QUERY].getExtra()?.length
+      } else {
+        return target[QUERY].getIds().length
+      }
+    }
     // special support for .map() on queries (for looping in JSX)
     if (key === 'map') {
       if (target[IS_EXTRA_QUERY]) {

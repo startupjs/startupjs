@@ -37,6 +37,15 @@ export function getSignal (segments = [], parentProxyTarget) {
   // when it's an array of segments
   if (!Array.isArray(segments)) throw new Error('signal() argument must be a string, segments array or a racer model')
 
+  // force convert segments to strings to prevent memoization collisions when some segments
+  // might be either numbers or strings (array indexes might be passed as either).
+  // optimizations:
+  //   - do not create new array if all segments are already strings (+50% speedup for worst case)
+  //   - convert to string only segments that are not strings (+10% speedup for worst case)
+  if (segments.some(i => typeof i !== 'string')) {
+    segments = segments.map(i => typeof i === 'string' ? i : String(i))
+  }
+
   const signalHash = getSignalHash(segments, query)
   const signalRef = signalsCache.get(signalHash)
 
@@ -54,12 +63,17 @@ function getSignalHash (segments, query) {
 }
 
 function createAndCacheSignal (segments, signalHash, query, parentProxyTarget) {
-  let signal = function () {}
-  signal[SEGMENTS] = segments
+  let signal
   if (query) {
+    // if it's a query we base signal on Array to make it iterable and for Array.isArray to pass
+    signal = []
     signal[QUERY] = query
     if (isExtraQuery(query.expression)) signal[IS_EXTRA_QUERY] = true
+  } else {
+    // otherwise we base signal on Function to make it callable
+    signal = function () {}
   }
+  signal[SEGMENTS] = segments
   if (parentProxyTarget?.[IS_EXTRA_QUERY]) {
     signal[EXTRA_QUERY_SEGMENTS] = [...parentProxyTarget[SEGMENTS]]
   }
