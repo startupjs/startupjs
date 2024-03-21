@@ -1,6 +1,6 @@
 import { useMemo, useContext } from 'react'
-import RouterContext from '@startupjs/utils/RouterContext'
 import { router, usePathname as _usePathname } from 'expo-router'
+import RouterContext from '../RouterContext.js'
 
 // For now we force to always use the parent router (expo) if it's available.
 // And expo-router handles the browser history for us.

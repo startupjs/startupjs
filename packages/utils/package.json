@@ -27,17 +27,22 @@
       "default": "./BASE_URL.js"
     },
     "./aggregation": "./aggregation.js",
-    "./RouterContext": "./RouterContext.js"
+    "./RouterContext": "./RouterContext.js",
+    "./useRouter": "./useRouter.js"
   },
   "publishConfig": {
     "access": "public"
   },
   "peerDependencies": {
     "expo-constants": "*",
+    "expo-router": "*",
     "react": "*"
   },
   "peerDependenciesMeta": {
     "expo-constants": {
+      "optional": true
+    },
+    "expo-router": {
       "optional": true
     },
     "react": {

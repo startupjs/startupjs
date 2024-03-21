@@ -109,19 +109,39 @@ Lets say you want to add an `admin` section with all `/admin/*` paths to be hand
 
     import React from 'react'
     import { observer } from 'startupjs'
-    import { Div, Span, Link, Button } from '@startupjs/ui'
+    import { Br, Div, Span, Link, Button } from '@startupjs/ui'
+    import { useRouter } from '@startupjs/router'
 
     export default observer(function Layout () {
+      const router = useRouter()
       return pug`
         Span Hello
         Div(gap row)
           Link(href='..')
-        Button Go to Dashboard
+            Button Go to Dashboard
           Link(href='/')
             Button Home
+        Br
+        Div(gap row)
+          Button(onPress=() => router.navigate('..')) Go to Dashboard (imperative)
+          Button(onPress=() => router.navigate('/')) Home (imperative)
       `
     })
     ```
+
+## Imperative navigation
+
+use `useRouter()` hook for imperative navigation. It has the same API as expo's `router`:
+
+```js
+import { useRouter } from '@startupjs/router'
+import { Button } from '@startupjs/ui'
+
+function App () {
+  const router = useRouter()
+  return <Button onPress={() => router.navigate('/admin/users') }>Users</Button>
+}
+```
 
 ## License
 

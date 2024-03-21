@@ -141,9 +141,6 @@
     "expo-document-picker": {
       "optional": true
     },
-    "expo-router": {
-      "optional": true
-    },
     "react-router": {
       "optional": true
     }

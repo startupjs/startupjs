@@ -4,7 +4,7 @@
 // Expo implementation is in the .expo.js file and uses expo-router.
 // The API emulates the expo-router API.
 import { useContext } from 'react'
-import RouterContext from '@startupjs/utils/RouterContext'
+import RouterContext from '../RouterContext.js'
 
 export default function useRouter () {
   const startupjsRouter = useContext(RouterContext)

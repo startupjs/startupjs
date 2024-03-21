@@ -8807,6 +8807,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@startupjs/router@workspace:packages/router"
   dependencies:
+    "@startupjs/utils": "npm:^0.56.0-alpha.0"
     react-router: "npm:^6.22.3"
   peerDependencies:
     expo-router: "*"
@@ -8962,9 +8963,12 @@ __metadata:
     axios: "npm:^1.6.5"
   peerDependencies:
     expo-constants: "*"
+    expo-router: "*"
     react: "*"
   peerDependenciesMeta:
     expo-constants:
+      optional: true
+    expo-router:
       optional: true
     react:
       optional: true
