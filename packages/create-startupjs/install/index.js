@@ -17,6 +17,7 @@ const INIT_STARTUPJS_CONFIG_PATH = join(__dirname, './init/startupjs.config.js')
 const DEVELOPMENT_JSON_PATH = join(__dirname, './dev/package.json')
 const UI_JSON_PATH = join(__dirname, './ui/package.json')
 const UI_EXPO_JSON_PATH = join(__dirname, './ui-expo/package.json')
+const ROUTER_JSON_PATH = join(__dirname, './router/package.json')
 
 const GITIGNORE_MARKER = '@generated startupjs'
 
@@ -54,6 +55,9 @@ export const options = [{
   name: '--ui',
   description: 'Add @startupjs/ui and its required peer dependencies.'
 }, {
+  name: '--router',
+  description: 'Add @startupjs/router and its required peer dependencies.'
+}, {
   name: '--fix',
   description: 'Automatically update any invalid package versions used by startupjs'
 }, {
@@ -62,18 +66,20 @@ export const options = [{
 }]
 
 export async function action ({ skipInstall, ...options } = {}) {
-  let { fix, dev, ui, init, all } = options
+  let { fix, dev, ui, init, router, all } = options
   // if no options are passed, assume --all
   if (Object.keys(options).length === 0) all = true
   if (all) {
     dev = true
     ui = true
+    router = true
     init = true
   }
-  if (fix || dev || ui || init) {
+  if (fix || dev || ui || init || router) {
     return await runInstall({
       setupDevelopment: dev,
       setupUi: ui,
+      setupRouter: router,
       setupInit: init,
       isSetup: dev || ui || init,
       skipInstall
@@ -82,7 +88,7 @@ export async function action ({ skipInstall, ...options } = {}) {
   throw exitWithError('You must pass one of the options. Run `npx startupjs install --help` for more information.')
 }
 
-async function runInstall ({ setupDevelopment, setupUi, setupInit, isSetup, skipInstall } = {}) {
+async function runInstall ({ setupDevelopment, setupUi, setupRouter, setupInit, isSetup, skipInstall } = {}) {
   if (!existsSync(PROJECT_JSON_PATH)) throw exitWithError(ERRORS.noPackageJson)
   const packageJson = JSON.parse(readFileSync(PROJECT_JSON_PATH, 'utf8'))
   let startupjsVersion = packageJson?.dependencies?.startupjs
@@ -112,6 +118,10 @@ async function runInstall ({ setupDevelopment, setupUi, setupInit, isSetup, skip
     if (packageJson.dependencies.expo) {
       templates.push(JSON.parse(fromTemplateFile(UI_EXPO_JSON_PATH)))
     }
+  }
+
+  if (setupRouter || packageJson.dependencies['@startupjs/router']) {
+    templates.push(JSON.parse(fromTemplateFile(ROUTER_JSON_PATH)))
   }
 
   // warnings and instructions for the user which will be printed at the very end

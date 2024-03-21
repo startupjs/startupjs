@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@startupjs/router": "^%%STARTUPJS_MINOR_LATEST%%"
+  }
+}

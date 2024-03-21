@@ -7278,6 +7278,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@remix-run/router@npm:1.15.3":
+  version: 1.15.3
+  resolution: "@remix-run/router@npm:1.15.3"
+  checksum: aea197447cee21e137d70f0c93e00de70c64fcfae20ae349ade9dc4202e782bd94dbc88be7302d13b6aa6cde38a701b074cd8e09a161d14cecda832a36dd2695
+  languageName: node
+  linkType: hard
+
 "@remix-run/router@npm:1.7.2":
   version: 1.7.2
   resolution: "@remix-run/router@npm:1.7.2"
@@ -8796,6 +8803,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@startupjs/router@workspace:packages/router":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/router@workspace:packages/router"
+  dependencies:
+    "@startupjs/utils": "npm:^0.56.0-alpha.0"
+    react-router: "npm:^6.22.3"
+  peerDependencies:
+    expo-router: "*"
+    react: "*"
+    startupjs: "*"
+  peerDependenciesMeta:
+    expo-router:
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@startupjs/schema@npm:^0.56.0-alpha.50, @startupjs/schema@workspace:packages/schema":
   version: 0.0.0-use.local
   resolution: "@startupjs/schema@workspace:packages/schema"
@@ -8899,6 +8922,7 @@ __metadata:
     "@ptomasroos/react-native-multi-slider": ptomasroos/react-native-multi-slider
     "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.56.0-alpha.34"
     "@startupjs/schema": "npm:^0.56.0-alpha.50"
+    "@startupjs/utils": "npm:^0.56.0-alpha.0"
     busboy: "npm:^1.6.0"
     color: "npm:^3.1.2"
     date-fns: "npm:^2.0.1"
@@ -8921,7 +8945,6 @@ __metadata:
     react-native-gesture-handler: "*"
     react-native-pager-view: "*"
     react-native-svg: "*"
-    react-router: "*"
     startupjs: "*"
   peerDependenciesMeta:
     expo-document-picker:
@@ -8933,16 +8956,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/utils@npm:^0.56.0-alpha.53, @startupjs/utils@workspace:packages/utils":
+"@startupjs/utils@npm:^0.56.0-alpha.0, @startupjs/utils@npm:^0.56.0-alpha.53, @startupjs/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@startupjs/utils@workspace:packages/utils"
   dependencies:
     axios: "npm:^1.6.5"
   peerDependencies:
     expo-constants: "*"
+    expo-router: "*"
     react: "*"
   peerDependenciesMeta:
     expo-constants:
+      optional: true
+    expo-router:
       optional: true
     react:
       optional: true
@@ -29092,6 +29118,17 @@ __metadata:
   peerDependencies:
     react: ">=15"
   checksum: e15c00dfef199249b4c6e6d98e5e76cc352ce66f3270f13df37cc069ddf7c05e43281e8c308fc407e4435d72924373baef1d2890e0f6b0b1eb423cf47315a053
+  languageName: node
+  linkType: hard
+
+"react-router@npm:^6.22.3":
+  version: 6.22.3
+  resolution: "react-router@npm:6.22.3"
+  dependencies:
+    "@remix-run/router": "npm:1.15.3"
+  peerDependencies:
+    react: ">=16.8"
+  checksum: a2c85c3d1fa93585e312b1f7e6e21d1ca421875013a8d879e109d3ed41fb035bc93faef4cd42b354ea18d039bc50b679bf752679ad83ac26a986e3432fbd0462
   languageName: node
   linkType: hard
 

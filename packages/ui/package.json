@@ -111,6 +111,7 @@
     "@ptomasroos/react-native-multi-slider": "ptomasroos/react-native-multi-slider",
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.56.0-alpha.34",
     "@startupjs/schema": "^0.56.0-alpha.50",
+    "@startupjs/utils": "^0.56.0-alpha.0",
     "busboy": "^1.6.0",
     "color": "^3.1.2",
     "date-fns": "^2.0.1",
@@ -134,14 +135,10 @@
     "react-native-gesture-handler": "*",
     "react-native-pager-view": "*",
     "react-native-svg": "*",
-    "react-router": "*",
     "startupjs": "*"
   },
   "peerDependenciesMeta": {
     "expo-document-picker": {
-      "optional": true
-    },
-    "expo-router": {
       "optional": true
     },
     "react-router": {
