@@ -75,7 +75,7 @@ export async function action ({ skipInstall, ...options } = {}) {
     router = true
     init = true
   }
-  if (fix || dev || ui || init) {
+  if (fix || dev || ui || init || router) {
     return await runInstall({
       setupDevelopment: dev,
       setupUi: ui,
