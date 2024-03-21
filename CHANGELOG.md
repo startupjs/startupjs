@@ -1,3 +1,12 @@
+# [0.56.0-alpha.57](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.56...v0.56.0-alpha.57) (2024-03-21)
+
+
+### Features
+
+* **router:** add universal router implementation for programmatic routes. Compatible with expo-router ([#1202](https://github.com/startupjs/startupjs/issues/1202)) ([4c9c9ef](https://github.com/startupjs/startupjs/commit/4c9c9efb8223361e3c1e5feb4d4f7bbcf8421d99))
+
+
+
 # [0.56.0-alpha.56](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.55...v0.56.0-alpha.56) (2024-03-17)
 
 
