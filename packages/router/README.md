@@ -8,13 +8,11 @@ It's compatible with expo-router and can be embedded into one of its subpaths in
 
 Lets say you want to add an `admin` section with all `/admin/*` paths to be handled by the `@startupjs/router` sub-router
 
-1. Add `@startupjs/router`
+1. Add `@startupjs/router`:
 
     ```sh
-    yarn add @startupjs/router
+    npx startupjs install --router
     ```
-
-    (while startupjs with expo support is still in alpha you need to use `yarn add @startupjs/router@next`)
 
 2. Create an escape hatch for all subpaths within a particular expo-router path to be handled by `@startupjs/router`.
 
