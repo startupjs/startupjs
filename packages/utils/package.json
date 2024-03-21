@@ -26,7 +26,8 @@
       "node": "./BASE_URL.server.js",
       "default": "./BASE_URL.js"
     },
-    "./aggregation": "./aggregation.js"
+    "./aggregation": "./aggregation.js",
+    "./RouterContext": "./RouterContext.js"
   },
   "publishConfig": {
     "access": "public"

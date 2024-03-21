@@ -38,11 +38,27 @@ function Link ({
   const {
     navigate: routerNavigate,
     push: routerPush,
-    replace: routerReplace
+    replace: routerReplace,
+    usePathname
   } = useRouter()
 
-  // modifier keys does not work without href attribute
-  if (isWeb) extraProps.href = to
+  const pathname = usePathname()
+
+  // full href is needed to generate correct absolute urls
+  if (isWeb) {
+    let href = to
+    // construct correct url for the relative links
+    if (!EXTERNAL_LINK_REGEXP.test(href) && !/^[/?#]/.test(href)) {
+      let p = pathname
+      p = p.replace(/#.*$/, '') // remove trailing hash
+      p = p.replace(/\?.*$/, '') // remove trailing query
+      p = p.replace(/\/$/, '') // remove trailing slash
+      href = href.replace(/^\//, '') // remove leading slash
+      href = href.replace(/\/$/, '') // remove trailing slash
+      href = p + '/' + href
+    }
+    extraProps.href = href
+  }
 
   function handlePress (event) {
     if (onPress) onPress(event)

@@ -3,16 +3,23 @@
 // This is a default implementation for pure RN which uses react-router (our 'startupjs/app' package)
 // Expo implementation is in the .expo.js file and uses expo-router.
 // The API emulates the expo-router API.
-import { useCallback } from 'react'
-import { useHistory } from 'react-router'
+import { useContext } from 'react'
+import RouterContext from '@startupjs/utils/RouterContext'
 
 export default function useRouter () {
-  const history = useHistory()
-  return {
-    replace: history.replace,
-    push: history.push,
-    back: history.goBack,
-    navigate: history.push, // on expo-router this automatically decides to use push or replace
-    canGoBack: useCallback(() => Boolean(history.index), [history])
-  }
+  const startupjsRouter = useContext(RouterContext)
+  if (!startupjsRouter) throw Error(ERRORS.notInRouter)
+  return startupjsRouter
+}
+
+export function usePathname () {
+  return '/'
+}
+
+const ERRORS = {
+  notInRouter: `
+    [@startupjs/router] Router is not found.
+    You can only use \`useRouter\` within an active <Router> context.
+    <Link /> components also need a <Router> context to work.
+  `
 }

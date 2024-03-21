@@ -1,0 +1,27 @@
+{
+  "name": "@startupjs/router",
+  "type": "module",
+  "version": "0.56.0-alpha.53",
+  "description": "Isomorphic wrapper around react-router-dom and react-router-native",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "react-router": "^6.22.3"
+  },
+  "peerDependencies": {
+    "expo-router": "*",
+    "react": "*",
+    "startupjs": "*"
+  },
+  "peerDependenciesMeta": {
+    "expo-router": {
+      "optional": true
+    }
+  }
+}
