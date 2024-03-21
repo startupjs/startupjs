@@ -2,7 +2,7 @@
   "name": "@startupjs/router",
   "type": "module",
   "version": "0.56.0-alpha.53",
-  "description": "Isomorphic wrapper around react-router-dom and react-router-native",
+  "description": "Define programmatic routes using react-router. Compatible with expo-router",
   "main": "index.js",
   "exports": {
     ".": "./index.js"
