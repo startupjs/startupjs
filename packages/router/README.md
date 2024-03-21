@@ -47,6 +47,8 @@ Lets say you want to add an `admin` section with all `/admin/*` paths to be hand
 
     For layout routes use `Slot` component to indicate where the nested route has to go.
 
+    **Important:** Prefer using relative urls in `Link` to be able to change the parent url to any other in future.
+
     ```js
     // admin/routes.js
 
