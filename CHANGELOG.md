@@ -1,3 +1,12 @@
+# [0.56.0-alpha.58](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.57...v0.56.0-alpha.58) (2024-03-22)
+
+
+### Bug Fixes
+
+* **create-startupjs:** fix version finding when there is only a single matching version ([80e3383](https://github.com/startupjs/startupjs/commit/80e3383c05cf0f486818ef6bf3a090f0852ce072))
+
+
+
 # [0.56.0-alpha.57](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.56...v0.56.0-alpha.57) (2024-03-21)
 
 
