@@ -112,7 +112,7 @@ DrawerSidebar.defaultProps = {
 DrawerSidebar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  $open: PropTypes.object,
+  $open: PropTypes.any,
   position: PropTypes.oneOf(['left', 'right']),
   lazy: PropTypes.bool,
   disabled: PropTypes.bool,
