@@ -1,3 +1,12 @@
+# [0.56.0-alpha.60](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.59...v0.56.0-alpha.60) (2024-03-23)
+
+
+### Bug Fixes
+
+* **ui/DrawerSidebar:** fix  type to be any ([abae14b](https://github.com/startupjs/startupjs/commit/abae14b8af295121c1f022751f15f02965788dd1))
+
+
+
 # [0.56.0-alpha.59](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.58...v0.56.0-alpha.59) (2024-03-23)
 
 
