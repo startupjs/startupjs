@@ -1,3 +1,13 @@
+# [0.56.0-alpha.59](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.58...v0.56.0-alpha.59) (2024-03-23)
+
+
+### Bug Fixes
+
+* **bundler:** fix finding yarn resolutions in a monorepo ([3a5700b](https://github.com/startupjs/startupjs/commit/3a5700be08450a97d7a094eae8912e561ea0a152))
+* **ui/Sidebar:** change  type to 'any' since it can be a signal, not just a model ([f103379](https://github.com/startupjs/startupjs/commit/f1033792daf19e2b88a0c31bcf73d8bf62271077))
+
+
+
 # [0.56.0-alpha.58](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.57...v0.56.0-alpha.58) (2024-03-22)
 
 
