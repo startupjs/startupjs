@@ -1,6 +1,6 @@
 const { getFeatures } = require('@startupjs/babel-plugin-startupjs-plugins/loader')
 const connect = require('connect')
-const { readFileSync } = require('fs')
+const { readFileSync, existsSync } = require('fs')
 const { join, resolve } = require('path')
 
 // To pass existing config for modification, pass it as 'upstreamConfig' in options:
@@ -38,7 +38,7 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, { upstreamCon
   if (!process.env.IS_BUILD && features.enableServer) addServer(config)
 
   // Support Yarn's `resolutions` field from doing `yarn link`
-  if (packageJson.resolutions) addYarnLink(config, { packageJson, projectRoot })
+  maybeWatchYarnLink(config, { packageJson, projectRoot })
 
   return config
 }
@@ -51,13 +51,28 @@ function addServer (config) {
       .use(getStartupjsMiddleware())
 }
 
-function addYarnLink (config, { packageJson, projectRoot }) {
+function maybeWatchYarnLink (config, { packageJson, projectRoot }) {
+  let resolutionsFolderPath = projectRoot
+  let resolutions
+  if (process.env.EXPO_USE_METRO_WORKSPACE_ROOT) {
+    // if we are inside monorepo, resolutions will be in the monorepo's root package.json
+    const { packageJson, folderPath } = getMonorepoRootPackageJson(projectRoot) || {}
+    if (!(packageJson && folderPath)) return
+    resolutionsFolderPath = folderPath
+    resolutions = packageJson.resolutions
+  } else {
+    resolutions = packageJson.resolutions
+  }
+  if (!resolutions) return
+
   // `yarn link` adds paths with a prefix 'portal:' so we handle only those
-  const linkPaths = Object.values(packageJson.resolutions)
+  const linkPaths = Object.values(resolutions)
     .filter(path => path.startsWith('portal:'))
     .map(path => path.replace(/^portal:/, ''))
-    // paths might be relative to the project root
-    .map(path => resolve(projectRoot, path))
+    // paths might be relative
+    .map(path => resolve(resolutionsFolderPath, path))
+
+  // if there are no `portal:` links, we don't need to do anything
   if (linkPaths.length === 0) return
 
   config.watchFolders = [...new Set([
@@ -65,6 +80,7 @@ function addYarnLink (config, { packageJson, projectRoot }) {
     projectRoot,
     ...linkPaths
   ])]
+
   config.resolver.nodeModulesPaths = [...new Set([
     ...(config.resolver.nodeModulesPaths || []),
     // this is supposed to be the default behavior of Metro, but after changing
@@ -118,5 +134,25 @@ function getStartupjsMiddleware () {
         return next(err)
       }
     })()
+  }
+}
+
+function getMonorepoRootPackageJson (projectRoot) {
+  // Find and return the monorepo root package.json:
+  // - go up the directory tree
+  // - look for the first package.json which has a `workspaces` field
+  let parent = projectRoot
+  let count = 0
+  while (true) {
+    if (++count > 100) throw Error('Infinite loop while looking for monorepo root package.json')
+    const newParent = resolve(parent, '..')
+    if (newParent === parent) return
+    parent = newParent
+    try {
+      const packageJsonPath = join(parent, 'package.json')
+      if (!existsSync(packageJsonPath)) continue
+      const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
+      if (packageJson.workspaces) return { packageJson, folderPath: parent }
+    } catch (err) {}
   }
 }
