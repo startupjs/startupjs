@@ -123,7 +123,7 @@ SmartSidebar.defaultProps = {
 SmartSidebar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  $open: PropTypes.object,
+  $open: PropTypes.any,
   defaultOpen: PropTypes.bool,
   lazy: PropTypes.bool,
   disabled: PropTypes.bool,

@@ -79,7 +79,7 @@ Sidebar.defaultProps = {
 Sidebar.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  $open: PropTypes.object,
+  $open: PropTypes.any,
   lazy: PropTypes.bool,
   disabled: PropTypes.bool,
   position: PropTypes.oneOf(['left', 'right']),
