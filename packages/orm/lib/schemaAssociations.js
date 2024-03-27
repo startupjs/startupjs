@@ -44,6 +44,20 @@ export function hasMany (collectionName) {
   }
 }
 
+export function hasManyFlags (collectionName) {
+  return {
+    type: 'object',
+    patternProperties: {
+      [GUID_PATTERN]: { type: 'boolean' }
+    },
+    additionalProperties: false,
+    $association: {
+      type: 'hasManyFlags',
+      collection: collectionName
+    }
+  }
+}
+
 export function hasOne (collectionName) {
   if (typeof collectionName !== 'string') {
     console.warn(`
