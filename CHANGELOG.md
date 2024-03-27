@@ -1,3 +1,12 @@
+# [0.56.0-alpha.61](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.60...v0.56.0-alpha.61) (2024-03-27)
+
+
+### Features
+
+* **orm:** add 'hasManyFlags' association which is like 'hasMany' but uses an object with 'true' flag for each ID ([21237c4](https://github.com/startupjs/startupjs/commit/21237c4d64de0db76afe7a9d528221ad7272dc32))
+
+
+
 # [0.56.0-alpha.60](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.59...v0.56.0-alpha.60) (2024-03-23)
 
 

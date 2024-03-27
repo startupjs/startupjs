@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.56.0-alpha.59",
+  "version": "0.56.0-alpha.61",
   "engines": {
     "node": ">= 14"
   },
@@ -49,7 +49,7 @@
     "@startupjs/i18n": "^0.56.0-alpha.30",
     "@startupjs/init": "^0.56.0-alpha.57",
     "@startupjs/isomorphic-helpers": "^0.56.0-alpha.0",
-    "@startupjs/orm": "^0.56.0-alpha.57",
+    "@startupjs/orm": "^0.56.0-alpha.61",
     "@startupjs/react-sharedb": "^0.56.0-alpha.57",
     "@startupjs/registry": "^0.56.0-alpha.47",
     "@startupjs/server": "^0.56.0-alpha.57",
