@@ -16459,6 +16459,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-document-picker@npm:^11.10.1":
+  version: 11.10.1
+  resolution: "expo-document-picker@npm:11.10.1"
+  peerDependencies:
+    expo: "*"
+  checksum: 8b30cb71cbe2475029be9aa615f912afff78d8e3915911492830f13baa1685f4b5437133e2c483d257b89ccaaee2d9e102b68d5929e57de7f372900c362ebae1
+  languageName: node
+  linkType: hard
+
 "expo-file-system@npm:~16.0.0":
   version: 16.0.2
   resolution: "expo-file-system@npm:16.0.2"
@@ -16647,6 +16656,7 @@ __metadata:
     eslint: "npm:^8.56.0"
     eslint-config-startupjs: "npm:^0.56.0-alpha.8"
     expo: "npm:~50.0.6"
+    expo-document-picker: "npm:^11.10.1"
     expo-font: "npm:~11.10.2"
     expo-linking: "npm:~6.2.2"
     expo-router: "npm:~3.4.7"

@@ -25,6 +25,7 @@
     "@react-navigation/native": "^6.0.2",
     "@startupjs/ui": "^0.56.0-alpha.21",
     "expo": "~50.0.6",
+    "expo-document-picker": "^11.10.1",
     "expo-font": "~11.10.2",
     "expo-linking": "~6.2.2",
     "expo-router": "~3.4.7",
