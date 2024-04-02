@@ -88,7 +88,7 @@ Use this hook to add standard static server behavior to expressApp
 
 ```js
   APP.on('static', expressApp => {
-      expressApp.use(express.static('path'))
+      expressApp.use(express.static(options))
   })
 ```
 
