@@ -17,7 +17,7 @@ For the overall StartupJS readme refer to the root monorepo`s README.
 
 ### `beforeSession`
 
-Use this hook to execute code before the session.
+Use this hook to execute code before initializing session data.
 
 ```js
   APP.on('beforeSession', expressApp => {
@@ -30,7 +30,7 @@ Use this hook to execute code before the session.
 
 ### `afterSession`
 
-Use this hook to execute code after a session has been retrieved
+Use this hook to execute code after initializing session data.
 
 ```js
   APP.on('afterSession', expressApp => {
@@ -57,7 +57,7 @@ Use this hook to add some code between the framework receiving a request, and th
 
 ### `serverRoutes`
 
-Use hook 'serverRoutes' to add routes on the backend side. Perhaps you know this one called 'routes'
+Use this hook to configure routes and handlers for those routes on the backend side. Perhaps you know this one called 'routes'
 
 ```js
   APP.on('serverRoutes', expressApp => {
@@ -71,7 +71,7 @@ Use hook 'serverRoutes' to add routes on the backend side. Perhaps you know this
 
 ### `logs`
 
-Hook on logs
+Hook creates a logging system
 
 ```js
   APP.on('logs', expressApp => {
@@ -84,11 +84,11 @@ Hook on logs
 
 ### `static`
 
-Hook on static
+Use this hook to add standard static server behavior to expressApp
 
 ```js
   APP.on('static', expressApp => {
-      expressApp.use(express.static(options, paramsObject))
+      expressApp.use(express.static('path'))
   })
 ```
 
