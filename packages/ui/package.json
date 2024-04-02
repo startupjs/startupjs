@@ -29,6 +29,7 @@
     "./DrawerSidebar": "./components/DrawerSidebar/index.js",
     "./FlatList": "./components/FlatList/index.js",
     "./wrapInput": "./components/forms/Input/wrapInput.js",
+    "./guessInput": "./components/forms/helpers/guessInput.js",
     "./Form": "./components/forms/Form/index.js",
     "./useFormProps": "./components/forms/Form/useFormProps.js",
     "./Input": "./components/forms/Input/index.js",
