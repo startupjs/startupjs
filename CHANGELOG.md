@@ -1,3 +1,13 @@
+# [0.56.0-alpha.62](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.61...v0.56.0-alpha.62) (2024-04-02)
+
+
+### Bug Fixes
+
+* add expo-document-picker to deps in expoapp ([292b1e5](https://github.com/startupjs/startupjs/commit/292b1e5f1c59d4a1b54bd51fd7f68e1d7964b4d0))
+* **packages/startupjs:** redundant re-export of default ([#1205](https://github.com/startupjs/startupjs/issues/1205)) ([126e4c9](https://github.com/startupjs/startupjs/commit/126e4c959f025045276cf384eee54ba92ea47173))
+
+
+
 # [0.56.0-alpha.61](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.60...v0.56.0-alpha.61) (2024-03-27)
 
 
