@@ -12,20 +12,60 @@ For the overall StartupJS readme refer to the root monorepo`s README.
   webpack, but in our case Metro does not polyfill it on it's own so we have to have it
   present in our dependencies somewhere.
 
+## Plugins API
 
-## Hooks
+Create a plugin file named `plugin.js` or `myPlugin.plugin.js`:
+
+```js
+import { createPlugin } from 'startupjs/registry'
+
+export default createPlugin({
+  name: 'my-plugin',
+  client: (pluginOptions) => ({
+    // client hooks implementation
+  }),
+  server: (options) => ({
+    // Here you can add server-side hooks. For example:
+    beforeSession: (expressApp) => {
+      expressApp.use(yourFunction)
+    },
+    api: (expressApp) => {
+      expressApp.get('/api/my-first-path', async (req, res) => {})
+      expressApp.post('/api/my-second-path', async (req, res) => {})
+    }
+  })
+})
+```
+
+Add this file to `exports` of `package.json` under the `plugin` or `myPlugin.plugin` name to load it automatically into your app:
+
+```json
+"exports": {
+  "plugin": "./plugin.js"
+}
+```
+
+## Hooks / server
+
+### `api`
+
+```js
+  api: (expressApp) => {
+    expressApp.get('/api/some-path', async (req, res) => {
+      // some code
+      res.send('response send')
+    })
+  }
+```
 
 ### `beforeSession`
 
 Use this hook to execute code before initializing session data.
 
-```js
-  APP.on('beforeSession', expressApp => {
-    expressApp.use((req, res, next) => {
-      // some code
-      next()
-    })
-  })
+```jsx
+  beforeSession: (expressApp) => {
+    expressApp.use(yourFunction)
+  }
 ```
 
 ### `afterSession`
@@ -33,12 +73,9 @@ Use this hook to execute code before initializing session data.
 Use this hook to execute code after initializing session data.
 
 ```js
-  APP.on('afterSession', expressApp => {
-    expressApp.use((req, res, next) => {
-      // some code
-      next()
-    })
-  })
+  afterSession: (expressApp) => {
+    expressApp.use(yourFunction)
+  }
 ```
 
 ### `middleware`
@@ -46,13 +83,12 @@ Use this hook to execute code after initializing session data.
 Use this hook to add some code between the framework receiving a request, and the framework generating a response
 
 ```js
-  APP.on('middleware', expressApp => {
+  middleware: (expressApp) => {
     expressApp.use(yourFunction)
     expressApp.get('/your-path/', async (req, res, next) => {
       // some code
-      next()
     })
-  })
+  }
 ```
 
 ### `serverRoutes`
@@ -60,13 +96,12 @@ Use this hook to add some code between the framework receiving a request, and th
 Use this hook to configure routes and handlers for those routes on the backend side. Perhaps you know this one called 'routes'
 
 ```js
-  APP.on('serverRoutes', expressApp => {
+  serverRoutes: (expressApp) => {
     expressApp.use('/test-api', testApi)
     expressApp.get('/test', async (req, res, next) => {
       // some code
-      res.send('ok')
     })
-  })
+  }
 ```
 
 ### `logs`
@@ -74,12 +109,9 @@ Use this hook to configure routes and handlers for those routes on the backend s
 Hook creates a logging system
 
 ```js
-  APP.on('logs', expressApp => {
-    expressApp.use((req, res, next) => {
-      // some code
-      next()
-    })
-  })
+  logs: (expressApp) => {
+    // some code
+  }
 ```
 
 ### `static`
@@ -87,28 +119,58 @@ Hook creates a logging system
 Use this hook to add standard static server behavior to expressApp
 
 ```js
-  APP.on('static', expressApp => {
-      expressApp.use(express.static(options))
-  })
-```
-
-### `api`
-
-```js
-  APP.on('api', expressApp => {
-    console.log('[test] hook on api')
-  })
+  static: (expressApp) => {
+    // some code
+  }
 ```
 
 ### `createServer`
 
-Get server without starting it
+Get server without starting it.
+You should pass the arguments and receive it as an argument in the server field of createPlugin
 
 ```js
-  import { createServer } from 'startupjs/server'
+  createServer: (expressApp) => {
+    // some code
+  }
+```
 
-  const { server, backend, session, channel, expressApp } = await createServer()
+### `serverUpgrade`
 
-  // if you want to start it:
-  server.listen(() => console.log('started'))
+You should pass arguments and receive it as an argument in the server field of createPlugin
+
+```js
+  serverUpgrade: (expressApp) => {
+    // some code
+  }
+```
+
+### `beforeStart`
+
+You should pass props and receive it as an argument in the server field of createPlugin
+
+```js
+  beforeStart: (expressApp) => {
+    // some code
+  }
+```
+
+### `orm`
+
+You should pass the Racer and receive it as an argument in the server field of createPlugin
+
+```js
+  orm: (expressApp) => {
+    // some code
+  }
+```
+
+### `transformSchema`
+
+You should pass the schema and receive it as an argument in the server field of createPlugin
+
+```js
+  transformSchema: (expressApp) => {
+    // some code
+  }
 ```
