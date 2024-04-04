@@ -136,7 +136,8 @@ Use this hook to add standard static server behavior to expressApp
 ### `createServer`
 
 Get server without starting it.
-You should pass the arguments and receive it as an argument in the server field of createPlugin
+
+**Note:** You should pass the arguments and receive it as an argument in the server field of createPlugin
 
 ```js
   createServer: (expressApp) => {
@@ -146,7 +147,7 @@ You should pass the arguments and receive it as an argument in the server field 
 
 ### `serverUpgrade`
 
-You should pass arguments and receive it as an argument in the server field of createPlugin
+**Note:** You should pass arguments and receive it as an argument in the server field of createPlugin
 
 ```js
   serverUpgrade: (expressApp) => {
@@ -156,7 +157,9 @@ You should pass arguments and receive it as an argument in the server field of c
 
 ### `beforeStart`
 
-You should pass props and receive it as an argument in the server field of createPlugin
+Use this hook to execute code before starting the Express server
+
+**Note:** You should pass props and receive it as an argument in the server field of createPlugin
 
 ```js
   beforeStart: (expressApp) => {
@@ -166,7 +169,9 @@ You should pass props and receive it as an argument in the server field of creat
 
 ### `orm`
 
-You should pass the Racer and receive it as an argument in the server field of createPlugin
+Use this hook for integration orm this express.js application
+
+**Note:** You should pass the Racer and receive it as an argument in the server field of createPlugin
 
 ```js
   orm: (expressApp) => {
@@ -176,7 +181,9 @@ You should pass the Racer and receive it as an argument in the server field of c
 
 ### `transformSchema`
 
-You should pass the schema and receive it as an argument in the server field of createPlugin
+Use this hook to transform schema
+
+**Note:** You should pass the schema and receive it as an argument in the server field of createPlugin
 
 ```js
   transformSchema: (expressApp) => {
