@@ -27,11 +27,11 @@ export default createPlugin({
   server: (options) => ({
     // Here you can add server-side hooks. For example:
     beforeSession: (expressApp) => {
-      expressApp.use(yourFunction)
+      expressApp.use('/your-uniq-path', yourFunction)
     },
     api: (expressApp) => {
-      expressApp.get('/api/my-first-path', async (req, res) => {})
-      expressApp.post('/api/my-second-path', async (req, res) => {})
+      expressApp.get('/api/your-uniq-path', async (req, res) => {})
+      expressApp.post('/api/your-uniq-path', async (req, res) => {})
     }
   })
 })
@@ -51,9 +51,9 @@ Add this file to `exports` of `package.json` under the `plugin` or `myPlugin.plu
 
 ```js
   api: (expressApp) => {
-    expressApp.get('/api/some-path', async (req, res) => {
+    expressApp.use('/api/your-uniq-path', yourFunction)
+    expressApp.get('/api/your-uniq-path', async (req, res) => {
       // some code
-      res.send('response send')
     })
   }
 ```
@@ -64,7 +64,10 @@ Use this hook to execute code before initializing session data.
 
 ```jsx
   beforeSession: (expressApp) => {
-    expressApp.use(yourFunction)
+    expressApp.use('/your-uniq-path', yourFunction)
+    expressApp.get('/your-uniq-path', (req, res) => {
+      // some code
+    })
   }
 ```
 
@@ -74,7 +77,10 @@ Use this hook to execute code after initializing session data.
 
 ```js
   afterSession: (expressApp) => {
-    expressApp.use(yourFunction)
+    expressApp.use('/your-uniq-path', yourFunction)
+    expressApp.get('/your-uniq-path', (req, res) => {
+      // some code
+    })
   }
 ```
 
@@ -84,8 +90,8 @@ Use this hook to add some code between the framework receiving a request, and th
 
 ```js
   middleware: (expressApp) => {
-    expressApp.use(yourFunction)
-    expressApp.get('/your-path/', async (req, res, next) => {
+    expressApp.use('/your-uniq-path', yourFunction)
+    expressApp.get('/your-uniq-path', async (req, res, next) => {
       // some code
     })
   }
@@ -97,8 +103,8 @@ Use this hook to configure routes and handlers for those routes on the backend s
 
 ```js
   serverRoutes: (expressApp) => {
-    expressApp.use('/test-api', testApi)
-    expressApp.get('/test', async (req, res, next) => {
+    expressApp.use('/your-uniq-path', yourFunction)
+    expressApp.get('/your-uniq-path', async (req, res, next) => {
       // some code
     })
   }
@@ -110,7 +116,10 @@ Hook creates a logging system
 
 ```js
   logs: (expressApp) => {
-    // some code
+    expressApp.use('/your-uniq-path', yourFunction)
+    expressApp.get('/your-uniq-path', (req, res) => {
+      // some code
+    })
   }
 ```
 
@@ -120,7 +129,7 @@ Use this hook to add standard static server behavior to expressApp
 
 ```js
   static: (expressApp) => {
-    // some code
+    expressApp.use(yourFunction)
   }
 ```
 
