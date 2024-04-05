@@ -145,7 +145,7 @@ function App () {
 
 When you define nested routes, you can mark particular pieces of JSX to be overridable from the child routes.
 
-For example, lets say you have a `_layout.js` where you define the layout for all pages, and you nest all pages inside it:
+For example, lets say you have a `_layout.js` where you define the layout for all pages. And you nest all pages inside it (`<Slot />` without parameters is used to mark a particular place where the nested routes are gonna be rendered):
 
 ```jsx
 // _layout.js
