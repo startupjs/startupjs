@@ -168,6 +168,22 @@ export default observer(function Layout () {
 })
 ```
 
+```js
+// routes.js
+import { createElement as el } from 'react'
+import _layout from './_layout'
+import myRoute from './myRoute'
+
+export default [{
+  path: '',
+  element: el(_layout),
+  children: [{
+    path: '',
+    element: el(myRoute)
+  }]
+}]
+```
+
 If you want the content of `Div.topbar` to be overridable by child routes, you can achieve this by using `SlotProvider` component:
 
 ```jsx
