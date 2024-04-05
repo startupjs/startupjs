@@ -141,6 +141,71 @@ function App () {
 }
 ```
 
+## Slots
+
+When you define nested routes, you can mark particular pieces of JSX to be overridable from the child routes.
+
+For example, lets say you have a `_layout.js` where you define the layout for all pages, and you nest all pages inside it:
+
+```jsx
+// _layout.js
+import React from 'react'
+import { observer } from 'startupjs'
+import { Slot } from '@startupjs/router'
+import { Content, Br, Div, Span, Button, alert } from '@startupjs/ui'
+
+export default observer(function Layout () {
+  return (
+    <Content padding>
+      <Div styleName='topbar' row gap vAlign='center'>
+        <Span>Admin panel</Span>
+        <Button onPress={() => alert('Action 1')}>Action 1</Button>
+      </Div>
+      <Br />
+      <Slot />
+    </Content>
+  )
+})
+```
+
+If you want the content of `Div.topbar` to be overridable by child routes, you can achieve this by using `SlotProvider` component:
+
+```jsx
+import { SlotProvider } from '@startupjs/router'
+// ...
+      <Div styleName='topbar' row gap vAlign='center'>
+        <SlotProvider name='topbar'>
+          <Span>Admin panel</Span>
+          <Button onPress={() => alert('Action 1')}>Action 1</Button>
+        </SlotProvider>
+      </Div>
+// ...
+```
+
+You must specify the `name` for the slot. In the example we defined it as `topbar`.
+
+Then in the child routes you can use `Slot` component with the same name to override the slot content:
+
+```jsx
+// myRoute.js
+import React from 'react'
+import { observer } from 'startupjs'
+import { Slot } from '@startupjs/router'
+import { Span, Button, alert } from '@startupjs/ui'
+
+export default observer(function MyRoute () {
+  return (
+    <Slot name='topbar'>
+      <Span>myRoute page</Span>
+      <Button onPress={() => alert('myRoute action')}>Magic Action</Button>
+    </Slot>
+    <Span>Hello World</Span>
+  )
+})
+```
+
+If the child route does NOT override a particular slot, the default content of `SlotProvider` is gonna be used from the parent route.
+
 ## License
 
 MIT

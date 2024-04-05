@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import { axios, useValue$, observer, $ } from 'startupjs'
-import { Br, Button, Div, Span } from '@startupjs/ui'
+import { Br, Button, Div, Span, Link } from '@startupjs/ui'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabOneScreen () {
@@ -38,6 +38,8 @@ export default observer(function TabOneScreen () {
           {$banner.visible.get() ? 'Hide' : 'Show'} Banner
         </Button>
       </Div>
+      <Br />
+      <Link to='/admin'>Admin Panel</Link>
       <Br />
       <Span>userId: {$userId.get()}</Span>
       <Span>{$serverHello.get()}</Span>
