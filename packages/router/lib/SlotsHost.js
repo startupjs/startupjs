@@ -16,7 +16,7 @@ export const SlotsManagerContext = createContext()
 
 export function useSlot (name) {
   const slotsManager = useContext(SlotsManagerContext)
-  if (!(slotsManager?.alive)) return
+  if (!slotsManager?.alive) return
   return slotsManager.getOrCreateSlot(name)
 }
 
