@@ -72,7 +72,7 @@ Lets say you want to add an `admin` section with all `/admin/*` paths to be hand
     // admin/_layout.js
 
     import React from 'react'
-    import { observer } from 'startupjs'
+    import { observer, pug } from 'startupjs'
     import { Slot } from '@startupjs/router'
     import { Span } from '@startupjs/ui'
 
@@ -89,7 +89,7 @@ Lets say you want to add an `admin` section with all `/admin/*` paths to be hand
     // url: '/admin'
 
     import React from 'react'
-    import { observer } from 'startupjs'
+    import { observer, pug } from 'startupjs'
     import { Span, Link, Button } from '@startupjs/ui'
 
     export default observer(function Layout () {
@@ -106,7 +106,7 @@ Lets say you want to add an `admin` section with all `/admin/*` paths to be hand
     // url: '/admin/hello'
 
     import React from 'react'
-    import { observer } from 'startupjs'
+    import { observer, pug } from 'startupjs'
     import { Br, Div, Span, Link, Button } from '@startupjs/ui'
     import { useRouter } from '@startupjs/router'
 
