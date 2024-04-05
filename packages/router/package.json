@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/router",
   "type": "module",
-  "version": "0.56.0-alpha.57",
+  "version": "0.56.0-alpha.63",
   "description": "Define programmatic routes using react-router. Compatible with expo-router",
   "main": "index.js",
   "exports": {

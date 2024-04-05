@@ -1,3 +1,12 @@
+# [0.56.0-alpha.63](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.62...v0.56.0-alpha.63) (2024-04-05)
+
+
+### Features
+
+* **router:** support slots functionality ('SlotProvider' and 'Slot') ([#1206](https://github.com/startupjs/startupjs/issues/1206)) ([beb8735](https://github.com/startupjs/startupjs/commit/beb873556572235e96b3671c0118361c5d839fcc))
+
+
+
 # [0.56.0-alpha.62](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.61...v0.56.0-alpha.62) (2024-04-02)
 
 
