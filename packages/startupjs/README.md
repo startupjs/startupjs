@@ -49,6 +49,8 @@ Add this file to `exports` of `package.json` under the `plugin` or `myPlugin.plu
 
 ### `api`
 
+Use this hook if you need to create and configure API routes.
+
 ```js
   api: (expressApp) => {
     expressApp.use('/api/your-uniq-path', yourFunction)
@@ -86,7 +88,7 @@ Use this hook to execute code after initializing session data.
 
 ### `middleware`
 
-Use this hook to add some code between the framework receiving a request, and the framework generating a response
+Use this hook to add some code between the framework receiving a request, and the framework generating a response.
 
 ```js
   middleware: (expressApp) => {
@@ -99,7 +101,7 @@ Use this hook to add some code between the framework receiving a request, and th
 
 ### `serverRoutes`
 
-Use this hook to configure routes and handlers for those routes on the backend side. Perhaps you know this one called 'routes'
+Use this hook to configure routes and handlers for those routes on the backend side. Perhaps you know this one called 'routes'.
 
 ```js
   serverRoutes: (expressApp) => {
@@ -112,7 +114,7 @@ Use this hook to configure routes and handlers for those routes on the backend s
 
 ### `logs`
 
-Hook creates a logging system
+Use this hook if you need to create a logging system.
 
 ```js
   logs: (expressApp) => {
@@ -125,7 +127,7 @@ Hook creates a logging system
 
 ### `static`
 
-Use this hook to add standard static server behavior to expressApp
+Use this hook to add standard static server behavior to expressApp.
 
 ```js
   static: (expressApp) => {
@@ -135,9 +137,9 @@ Use this hook to add standard static server behavior to expressApp
 
 ### `createServer`
 
-Get server without starting it.
+Use this hook if you need to configure and start the server.
 
-**Note:** You should pass the arguments and receive it as an argument in the server field of createPlugin
+**Note:** You should pass the arguments and receive them as arguments in the server field of createPlugin.
 
 ```js
   createServer: (expressApp) => {
@@ -147,7 +149,9 @@ Get server without starting it.
 
 ### `serverUpgrade`
 
-**Note:** You should pass arguments and receive it as an argument in the server field of createPlugin
+Use this hook if you need to update and configure the server.
+
+**Note:** You should pass arguments and receive them as arguments in the server field of createPlugin.
 
 ```js
   serverUpgrade: (expressApp) => {
@@ -157,9 +161,9 @@ Get server without starting it.
 
 ### `beforeStart`
 
-Use this hook to execute code before starting the Express server
+Use this hook to execute code before starting the Express server.
 
-**Note:** You should pass props and receive it as an argument in the server field of createPlugin
+**Note:** You should pass props and receive it as an argument in the server field of createPlugin.
 
 ```js
   beforeStart: (expressApp) => {
@@ -169,9 +173,9 @@ Use this hook to execute code before starting the Express server
 
 ### `orm`
 
-Use this hook for integration orm this express.js application
+Use this hook for integrating ORM into this Express.js application.
 
-**Note:** You should pass the Racer and receive it as an argument in the server field of createPlugin
+**Note:** You should pass the Racer and receive it as an argument in the server field of createPlugin.
 
 ```js
   orm: (expressApp) => {
@@ -181,9 +185,9 @@ Use this hook for integration orm this express.js application
 
 ### `transformSchema`
 
-Use this hook to transform schema
+Use this hook to transform schema.
 
-**Note:** You should pass the schema and receive it as an argument in the server field of createPlugin
+**Note:** You should pass the schema and receive it as an argument in the server field of createPlugin.
 
 ```js
   transformSchema: (expressApp) => {
