@@ -20,9 +20,13 @@ Create a plugin file named `plugin.js` or `myPlugin.plugin.js`:
 import { createPlugin } from 'startupjs/registry'
 
 export default createPlugin({
+  // Unique plugin name
   name: 'my-plugin',
+  // The key indicates whether the plugin is enabled or not.
+  // If its value is false, then the plugin is considered disabled, and its functionality will not be activated in the application.
+  enabled: true,
   client: (pluginOptions) => ({
-    // client hooks implementation
+    // Сlient hooks implementation
   }),
   server: (options) => ({
     // Here you can add server-side hooks. For example:
