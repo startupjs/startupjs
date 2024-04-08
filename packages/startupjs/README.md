@@ -53,9 +53,17 @@ Use this hook if you need to create and configure API routes.
 
 ```js
   api: (expressApp) => {
-    expressApp.use('/api/your-uniq-path', yourFunction)
-    expressApp.get('/api/your-uniq-path', async (req, res) => {
-      // some code
+    // Creating a route to handle GET requests
+    expressApp.get('/api/data', async (req, res) => {
+      // Handling GET request
+      res.json({ message: 'Data received from the server' })
+    })
+
+    // Creating a route to handle POST requests
+    expressApp.post('/api/data', async (req, res) => {
+      // Handling POST request and saving data
+      const requestData = req.body
+      res.json({ message: 'Data received and processed successfully' })
     })
   }
 ```
@@ -66,9 +74,14 @@ Use this hook to execute code before initializing session data.
 
 ```jsx
   beforeSession: (expressApp) => {
-    expressApp.use('/your-uniq-path', yourFunction)
-    expressApp.get('/your-uniq-path', (req, res) => {
-      // some code
+    // Example of adding middleware before session initialization
+    expressApp.use('/api/validate', (req, res, next) => {
+      // Example of session validation before initialization
+      if (!req.headers['authorization']) {
+        return res.status(401).json({ error: 'Unauthorized' })
+      }
+      // If the session is valid, continue with the request execution
+      next()
     })
   }
 ```
@@ -79,9 +92,11 @@ Use this hook to execute code after initializing session data.
 
 ```js
   afterSession: (expressApp) => {
-    expressApp.use('/your-uniq-path', yourFunction)
-    expressApp.get('/your-uniq-path', (req, res) => {
-      // some code
+    // Example of adding middleware after session initialization
+    expressApp.use('/api/log', (req, res, next) => {
+      // Example of logging request information after session initialization
+      console.log(`Request to ${req.originalUrl} from ${req.ip}`)
+      next()
     })
   }
 ```
@@ -92,9 +107,16 @@ Use this hook to add some code between the framework receiving a request, and th
 
 ```js
   middleware: (expressApp) => {
-    expressApp.use('/your-uniq-path', yourFunction)
-    expressApp.get('/your-uniq-path', async (req, res, next) => {
-      // some code
+    // Example of adding middleware for logging each request
+    expressApp.use((req, res, next) => {
+      console.log(`Received ${req.method} request at ${req.url}`)
+      next() // Passing control to the next middleware
+    })
+
+    // Example of adding middleware for error handling
+    expressApp.use((err, req, res, next) => {
+      console.error('An error occurred:', err)
+      res.status(500).send('Internal Server Error')
     })
   }
 ```
@@ -105,9 +127,17 @@ Use this hook to configure routes and handlers for those routes on the backend s
 
 ```js
   serverRoutes: (expressApp) => {
-    expressApp.use('/your-uniq-path', yourFunction)
-    expressApp.get('/your-uniq-path', async (req, res, next) => {
-      // some code
+    // Creating a route to handle GET requests
+    expressApp.get('/api/data', async (req, res) => {
+      // Here could be the logic for handling the request
+      res.json({ message: 'Data received from the server' })
+    })
+
+    // Creating a route to handle POST requests
+    expressApp.post('/api/data', async (req, res) => {
+      // Here could be the logic for handling the request and saving data
+      const requestData = req.body
+      res.json({ message: 'Data received and processed successfully' })
     })
   }
 ```
@@ -118,9 +148,18 @@ Use this hook if you need to create a logging system.
 
 ```js
   logs: (expressApp) => {
-    expressApp.use('/your-uniq-path', yourFunction)
-    expressApp.get('/your-uniq-path', (req, res) => {
-      // some code
+    // Creating a route for logging information
+    expressApp.get('/logs', async (req, res) => {
+      // Here you can add logic for fetching and displaying logs.
+      res.send('Log information will be displayed here')
+    })
+
+    // Creating a route for logging records
+    expressApp.post('/logs', async (req, res) => {
+      const logData = req.body
+      // Here you can add logic for saving logs
+      console.log('Received log data:', logData)
+      res.send('Log data received and saved successfully')
     })
   }
 ```
@@ -131,7 +170,8 @@ Use this hook to add standard static server behavior to expressApp.
 
 ```js
   static: (expressApp) => {
-    expressApp.use(yourFunction)
+    // Example of adding standard behavior of a static server
+    expressApp.use('/public', express.static('public'))
   }
 ```
 
@@ -143,7 +183,18 @@ Use this hook if you need to configure and start the server.
 
 ```js
   createServer: (expressApp) => {
-    // some code
+    const http = require('http')
+
+    // Creating an HTTP server using Express application
+    const server = http.createServer(expressApp)
+
+    // Setting up the port to listen on
+    const PORT = process.env.PORT || 3000
+
+    // Starting the server on the specified port
+    server.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`)
+    })
   }
 ```
 
@@ -151,11 +202,22 @@ Use this hook if you need to configure and start the server.
 
 Use this hook if you need to update and configure the server.
 
-**Note:** You should pass arguments and receive them as arguments in the server field of createPlugin.
+**Note:** You should pass the arguments and receive them as arguments in the server field of createPlugin.
 
 ```js
   serverUpgrade: (expressApp) => {
-    // some code
+    const http = require('http')
+
+    // Creating an HTTP server using Express application
+    const server = http.createServer(expressApp)
+
+    // Setting up the port to listen on
+    const PORT = process.env.PORT || 3000
+
+    // Starting the server on the specified port
+    server.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`)
+    })
   }
 ```
 
@@ -167,7 +229,18 @@ Use this hook to execute code before starting the Express server.
 
 ```js
   beforeStart: (expressApp) => {
-    // some code
+    // Setting up the database connection before starting the server
+    const db = require('./db')
+    db.connect()
+
+    // Example of adding middleware before starting the server
+    expressApp.use((req, res, next) => {
+      // Example of logic executed before handling requests
+      console.log('Incoming request:', req.url)
+      next()
+    })
+
+    console.log('Server is about to start...')
   }
 ```
 
@@ -179,7 +252,18 @@ Use this hook for integrating ORM into this Express.js application.
 
 ```js
   orm: (expressApp) => {
-    // some code
+    // You can obtain Racer as an argument from options
+    // const { Racer } = require('@startupjs/orm')
+    // const racer = new Racer()
+
+    // Setting up ORM for database interaction before usage
+    racer.set('db', options.db)
+
+    // Example of adding middleware for working with ORM
+    expressApp.use((req, res, next) => {
+      req.model = racer.createModel()
+      next()
+    })
   }
 ```
 
@@ -191,6 +275,74 @@ Use this hook to transform schema.
 
 ```js
   transformSchema: (expressApp) => {
-    // some code
+    const { Schema } = require('@startupjs/orm')
+
+    // Obtaining the basic data schema
+    const baseSchema = options.baseSchema
+
+    // Transforming the data schema
+    const transformedSchema = new Schema({
+      ...baseSchema,
+      // Adding new fields or modifying existing ones
+      additionalField: {
+        type: String,
+        default: 'defaultValue'
+      }
+    })
+
+    // Using the transformed schema in the application
+    options.orm.setSchema(transformedSchema)
+  }
+```
+
+## Example
+
+Suppose you have a button in your client code, clicking on which the application should fetch data from the server.
+
+```js
+import { useState } from 'react'
+import { axios, observer } from 'startupjs'
+import { Div, Button, Span } from '@startupjs/ui'
+
+export default observer(function SomeScreen () {
+  const [text, setText] = useState('')
+
+  async function fetchData () {
+    const response = await axios.get('/api/get-data')
+    setText(response.data)
+  }
+
+  return (
+    <Div>
+      <Button pushed onPress={fetchData}>Fetch by plugin</Button>
+      {text ? <Span>Text: {text}</Span> : undefined}
+    </Div>
+  )
+})
+```
+
+Create a plugin file named plugin.js or myTestPlugin.plugin.js.
+In this example, we will use the "api" hook, which will return some data from the server.
+
+```js
+import { createPlugin } from '@startupjs/registry'
+
+export default createPlugin({
+  name: 'test',
+  enabled: true,
+  server: ({ options }) => ({
+    api (expressApp) {
+      expressApp.get('/api/get-data', async (req, res) => {
+        res.json({ message: 'The text returned by the plugin' })
+      })
+    }
+  })
+})
+```
+
+Add this file to exports of package.json under the plugin or test.plugin name to load it automatically into your app:
+```js
+  "exports": {
+    "./plugins/test.plugin": "./plugins/test.plugin.js"
   }
 ```
