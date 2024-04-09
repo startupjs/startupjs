@@ -23,7 +23,8 @@ export default createPlugin({
   // Unique plugin name
   name: 'my-plugin',
   // The key indicates whether the plugin is enabled or not.
-  // If its value is false, then the plugin is considered disabled, and its functionality will not be activated in the application.
+  // If its value is false, then the plugin is considered disabled, and its
+  // functionality will not be activated in the application.
   enabled: true,
   client: (pluginOptions) => ({
     // Сlient hooks implementation
@@ -53,7 +54,7 @@ Add this file to `exports` of `package.json` under the `plugin` or `myPlugin.plu
 
 ### `api`
 
-Use this hook if you need to create and configure API routes.
+The 'api' hook defines API routes for handling requests to the server
 
 ```js
   api: (expressApp) => {
@@ -74,7 +75,7 @@ Use this hook if you need to create and configure API routes.
 
 ### `beforeSession`
 
-Use this hook to execute code before initializing session data.
+The 'beforeSession' hook is called before the session starts on the server. It provides an opportunity to perform any operations or set configurations before the server begins handling requests.
 
 ```jsx
   beforeSession: (expressApp) => {
@@ -92,7 +93,7 @@ Use this hook to execute code before initializing session data.
 
 ### `afterSession`
 
-Use this hook to execute code after initializing session data.
+The 'afterSession' hook adds middleware to handle requests to the route after the session ends on the server.
 
 ```js
   afterSession: (expressApp) => {
@@ -107,27 +108,21 @@ Use this hook to execute code after initializing session data.
 
 ### `middleware`
 
-Use this hook to add some code between the framework receiving a request, and the framework generating a response.
+The 'middleware' hook defines a middleware handler. This hook can be used to add common operations or checks.
 
 ```js
   middleware: (expressApp) => {
     // Example of adding middleware for logging each request
-    expressApp.use((req, res, next) => {
+    expressApp.use('/api', (req, res, next) => {
       console.log(`Received ${req.method} request at ${req.url}`)
       next() // Passing control to the next middleware
-    })
-
-    // Example of adding middleware for error handling
-    expressApp.use((err, req, res, next) => {
-      console.error('An error occurred:', err)
-      res.status(500).send('Internal Server Error')
     })
   }
 ```
 
 ### `serverRoutes`
 
-Use this hook to configure routes and handlers for those routes on the backend side. Perhaps you know this one called 'routes'.
+The hook is intended to define route handlers on the server.
 
 ```js
   serverRoutes: (expressApp) => {
@@ -148,7 +143,7 @@ Use this hook to configure routes and handlers for those routes on the backend s
 
 ### `logs`
 
-Use this hook if you need to create a logging system.
+The 'logs' hook handles requests for retrieving and saving logs.
 
 ```js
   logs: (expressApp) => {
@@ -170,11 +165,10 @@ Use this hook if you need to create a logging system.
 
 ### `static`
 
-Use this hook to add standard static server behavior to expressApp.
+The hook allows access to static files (such as images, CSS, JavaScript) on the client-side of your application, making them accessible via a specific URL.
 
 ```js
   static: (expressApp) => {
-    // Example of adding standard behavior of a static server
     expressApp.use('/public', express.static('public'))
   }
 ```
@@ -204,7 +198,7 @@ Use this hook if you need to configure and start the server.
 
 ### `serverUpgrade`
 
-Use this hook if you need to update and configure the server.
+Use this hook if you need to upgrade the server.
 
 **Note:** You should pass the arguments and receive them as arguments in the server field of createPlugin.
 
@@ -250,19 +244,12 @@ Use this hook to execute code before starting the Express server.
 
 ### `orm`
 
-Use this hook for integrating ORM into this Express.js application.
+The 'orm' hook is used to configure Object-Relational Mapping (ORM) in an Express.js application.
 
 **Note:** You should pass the Racer and receive it as an argument in the server field of createPlugin.
 
 ```js
   orm: (expressApp) => {
-    // You can obtain Racer as an argument from options
-    // const { Racer } = require('@startupjs/orm')
-    // const racer = new Racer()
-
-    // Setting up ORM for database interaction before usage
-    racer.set('db', options.db)
-
     // Example of adding middleware for working with ORM
     expressApp.use((req, res, next) => {
       req.model = racer.createModel()
