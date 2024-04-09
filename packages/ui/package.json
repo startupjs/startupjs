@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/ui",
-  "version": "0.56.0-alpha.62",
+  "version": "0.56.0-alpha.64",
   "description": "UI components for react-native",
   "main": "index.js",
   "type": "module",
@@ -112,7 +112,7 @@
     "@ptomasroos/react-native-multi-slider": "ptomasroos/react-native-multi-slider",
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.56.0-alpha.34",
     "@startupjs/schema": "^0.56.0-alpha.50",
-    "@startupjs/utils": "^0.56.0-alpha.57",
+    "@startupjs/utils": "^0.56.0-alpha.64",
     "busboy": "^1.6.0",
     "color": "^3.1.2",
     "date-fns": "^2.0.1",

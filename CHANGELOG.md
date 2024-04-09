@@ -1,3 +1,12 @@
+# [0.56.0-alpha.64](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.63...v0.56.0-alpha.64) (2024-04-09)
+
+
+### Features
+
+* **startupjs:** support setting explicit BASE_URL via EXPO_PUBLIC_BASE_URL env var ([#1208](https://github.com/startupjs/startupjs/issues/1208)) ([8f440d3](https://github.com/startupjs/startupjs/commit/8f440d35386fa3451a0e26bc1141bd144a01d8f5))
+
+
+
 # [0.56.0-alpha.63](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.62...v0.56.0-alpha.63) (2024-04-05)
 
 
