@@ -29,7 +29,10 @@ export default createPlugin({
   client: (pluginOptions) => ({
     // Сlient hooks implementation
   }),
-  server: (options) => ({
+  isomorphic: (pluginOptions) => ({
+    // Isomorphic hooks implementation
+  }),
+  server: (pluginOptions) => ({
     // Here you can add server-side hooks. For example:
     beforeSession: (expressApp) => {
       expressApp.use('/your-uniq-path', yourFunction)
@@ -46,8 +49,92 @@ Add this file to `exports` of `package.json` under the `plugin` or `myPlugin.plu
 
 ```json
 "exports": {
-  "plugin": "./plugin.js"
+  "./plugin": "./plugin.js"
 }
+```
+
+To pass options (pluginOptions in the example) to the plugin, you need to specify them in the startupjs.config.js file.
+
+```js
+  export default {
+    plugins: {
+      // List of plugins
+      [plugins.firstPlugin]: {
+        client: {
+          // List of options for client-side hooks. They will be available in pluginOptions.
+          message: 'Startupjs app',
+          defaultVisible: false
+        }
+      },
+      [plugins.secondPlagin]: {
+        client: {
+          // List of options for client-side hooks. They will be available in pluginOptions.
+          message: 'Startupjs app',
+        },
+        server: {
+          // List of options for server-side hooks. They will be available in pluginOptions.
+          key: 'someKey'
+        }
+      },
+      // Here you can add your plugin to the list with the necessary options.
+    }
+  }
+```
+
+## Hooks / client
+
+### `renderRoot`
+
+The hook is used to define the root component into which all child components of the application will be rendered.
+
+```js
+  renderRoot ({ children }) {
+    return <>
+      <SomeComponent />
+      {children}
+    </>
+  }
+```
+
+### `customFormInputs`
+
+The hook allows registering custom components for use instead of standard HTML input elements such as input, textarea, and select.
+
+```js
+  customFormInputs: () => {
+    // Key - the name of the field to be used in the form
+    // Value - the component to be used for rendering this field
+    myCustomInput: MyCustomInputComponent,
+    anotherCustomInput: AnotherCustomInputComponent,
+    // and so on...
+  }
+```
+
+Next, in any form in your application, you can use the registered custom components as regular input elements.
+
+```js
+  <Form>
+    <myCustomInput name="customInput1" />
+    <anotherCustomInput name="customInput2" />
+    {/* and so on... */}
+  </Form>
+```
+
+## Hooks / isomorphic
+
+In isomorphic hooks, you can place code that will be executed both on the server and the client.
+
+### `orm`
+
+The 'orm' hook is used to configure Object-Relational Mapping (ORM) in an Express.js application.
+
+**Note:** You should pass the Racer and receive it as an argument.
+
+```js
+  orm: (Racer) => {
+    const racer = new Racer();
+    // Setting up ORM on the server
+  }
 ```
 
 ## Hooks / server
@@ -177,15 +264,10 @@ The hook allows access to static files (such as images, CSS, JavaScript) on the 
 
 Use this hook if you need to configure and start the server.
 
-**Note:** You should pass the arguments and receive them as arguments in the server field of createPlugin.
+**Note:** You should pass the server and receive it as arguments.
 
 ```js
-  createServer: (expressApp) => {
-    const http = require('http')
-
-    // Creating an HTTP server using Express application
-    const server = http.createServer(expressApp)
-
+  createServer: (server) => {
     // Setting up the port to listen on
     const PORT = process.env.PORT || 3000
 
@@ -198,24 +280,14 @@ Use this hook if you need to configure and start the server.
 
 ### `serverUpgrade`
 
-Use this hook if you need to upgrade the server.
+The hook allows defining logic for handling connection upgrades at the HTTP server level, which enables efficient handling of connections using the WebSocket protocol and other protocols requiring connection upgrades.
 
-**Note:** You should pass the arguments and receive them as arguments in the server field of createPlugin.
+**Note:** You should pass the arguments and receive them as an argument.
 
 ```js
-  serverUpgrade: (expressApp) => {
-    const http = require('http')
-
-    // Creating an HTTP server using Express application
-    const server = http.createServer(expressApp)
-
-    // Setting up the port to listen on
-    const PORT = process.env.PORT || 3000
-
-    // Starting the server on the specified port
-    server.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`)
-    })
+  serverUpgrade: (...arguments) => {
+    // In this handler, you can define logic for handling connection upgrades.
+    // For example, you can check authorization or establish a new WebSocket connection.
   }
 ```
 
@@ -223,38 +295,14 @@ Use this hook if you need to upgrade the server.
 
 Use this hook to execute code before starting the Express server.
 
-**Note:** You should pass props and receive it as an argument in the server field of createPlugin.
+**Note:** You should pass props and receive them as an argument.
 
 ```js
-  beforeStart: (expressApp) => {
-    // Setting up the database connection before starting the server
+  beforeStart: (props) => {
+    // For example, setting up the database connection before starting the server
     const db = require('./db')
     db.connect()
-
-    // Example of adding middleware before starting the server
-    expressApp.use((req, res, next) => {
-      // Example of logic executed before handling requests
-      console.log('Incoming request:', req.url)
-      next()
-    })
-
     console.log('Server is about to start...')
-  }
-```
-
-### `orm`
-
-The 'orm' hook is used to configure Object-Relational Mapping (ORM) in an Express.js application.
-
-**Note:** You should pass the Racer and receive it as an argument in the server field of createPlugin.
-
-```js
-  orm: (expressApp) => {
-    // Example of adding middleware for working with ORM
-    expressApp.use((req, res, next) => {
-      req.model = racer.createModel()
-      next()
-    })
   }
 ```
 
@@ -262,27 +310,16 @@ The 'orm' hook is used to configure Object-Relational Mapping (ORM) in an Expres
 
 Use this hook to transform schema.
 
-**Note:** You should pass the schema and receive it as an argument in the server field of createPlugin.
+**Note:** You should pass the schema and receive it as an argument.
 
 ```js
-  transformSchema: (expressApp) => {
-    const { Schema } = require('@startupjs/orm')
-
-    // Obtaining the basic data schema
-    const baseSchema = options.baseSchema
-
-    // Transforming the data schema
-    const transformedSchema = new Schema({
-      ...baseSchema,
-      // Adding new fields or modifying existing ones
-      additionalField: {
-        type: String,
-        default: 'defaultValue'
-      }
-    })
-
-    // Using the transformed schema in the application
-    options.orm.setSchema(transformedSchema)
+  transformSchema: (schema) => {
+    // Modifying the schema, for example, adding new fields or removing existing ones
+    // Example of adding a new field
+    schema.properties.newField = { type: 'string' };
+    // Example of removing a field
+    delete schema.properties.unwantedField;
+    return schema;
   }
 ```
 
@@ -321,7 +358,9 @@ import { createPlugin } from '@startupjs/registry'
 export default createPlugin({
   name: 'test',
   enabled: true,
-  server: ({ options }) => ({
+  // If needed, you can obtain pluginOptions here, but they are not required in our example.
+  // server: (pluginOptions) => ({
+  server: () => ({
     api (expressApp) {
       expressApp.get('/api/get-data', async (req, res) => {
         res.json({ message: 'The text returned by the plugin' })
@@ -332,7 +371,8 @@ export default createPlugin({
 ```
 
 Add this file to exports of package.json under the plugin or test.plugin name to load it automatically into your app:
-```js
+
+```json
   "exports": {
     "./plugins/test.plugin": "./plugins/test.plugin.js"
   }
