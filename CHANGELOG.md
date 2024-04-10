@@ -1,3 +1,12 @@
+# [0.56.0-alpha.65](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.64...v0.56.0-alpha.65) (2024-04-10)
+
+
+### Bug Fixes
+
+* **cli/install:** lock @react-native-picker/picker version to 2.6.1 since that's a specific version Expo expects ([83ec884](https://github.com/startupjs/startupjs/commit/83ec88486ac2a4c68163394441432de72fd174cd))
+
+
+
 # [0.56.0-alpha.64](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.63...v0.56.0-alpha.64) (2024-04-09)
 
 
