@@ -43,7 +43,7 @@ function Alert ({
       styleName=[variant]
       row
     )
-      Div.information(row)
+      Div.information(row vAlign='center')
         if icon
           Icon.icon(
             icon=icon === true ? ICONS[variant] : icon
