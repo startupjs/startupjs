@@ -45,7 +45,9 @@ export default (options = {}) => {
     // In dev we embed startupjs server as middleware into Metro server itself.
     // We have to use XHR since there is no way to easily access Metro's WebSocket endpoints.
     // In production we run our own server and can use WebSocket without any problems.
-    forceXhrFallback: isDevelopment || (isExpo && !isWeb && !hasExplicitBaseUrl)
+    forceXhrFallback: MODULE.options.enableXhrFallback !== false && (
+      isDevelopment || (isExpo && !isWeb && !hasExplicitBaseUrl)
+    )
   }
 
   commonInit(ShareDB, options)
