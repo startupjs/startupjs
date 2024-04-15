@@ -8,7 +8,7 @@ export default createPlugin({
   enabled () { return this.module.options.enableServer || this.module.options.enableConnection },
   server: () => ({
     api (expressApp) {
-      expressApp.post('/api/serverSession', function (req, res) {
+      expressApp.get('/api/serverSession', function (req, res) {
         const restoreUrl = req.session.restoreUrl
         if (restoreUrl) {
           delete req.session.restoreUrl
@@ -49,7 +49,7 @@ function initSession () {
   if (sessionPromise) return sessionPromise
   sessionPromise = (async () => {
     try {
-      const res = await axios.post('/api/serverSession')
+      const res = await axios.get('/api/serverSession')
       // TODO: handle errors like 500 etc.
       const session = res.data || {}
       if (typeof session !== 'object') throw Error('Invalid session data. Got: ' + JSON.stringify(session))
