@@ -5,7 +5,7 @@ import { createPlugin } from '@startupjs/registry'
 export default createPlugin({
   name: 'clientSession',
   order: 'system session',
-  enabled () { return this.module.options.enableServer },
+  enabled () { return this.module.options.enableServer || this.module.options.enableConnection },
   server: () => ({
     api (expressApp) {
       expressApp.post('/api/serverSession', function (req, res) {
