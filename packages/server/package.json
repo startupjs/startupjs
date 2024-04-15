@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Express.js with plugged in ShareDB",
-  "version": "0.56.0-alpha.67",
+  "version": "0.56.0-alpha.68",
   "type": "module",
   "main": "index.js",
   "exports": {

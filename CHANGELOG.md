@@ -1,3 +1,12 @@
+# [0.56.0-alpha.68](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.67...v0.56.0-alpha.68) (2024-04-15)
+
+
+### Bug Fixes
+
+* **server:** change /api/serverSession to GET ([5b3751f](https://github.com/startupjs/startupjs/commit/5b3751f56636314b598e92d5b2d06f3fa0fd4d8e))
+
+
+
 # [0.56.0-alpha.67](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.66...v0.56.0-alpha.67) (2024-04-15)
 
 
