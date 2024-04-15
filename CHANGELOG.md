@@ -1,3 +1,12 @@
+# [0.56.0-alpha.67](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.66...v0.56.0-alpha.67) (2024-04-15)
+
+
+### Features
+
+* **startupjs/config:** add 'features.enableXhrFallback' which can be set to 'false' to force only using websockets even in development ([40ff126](https://github.com/startupjs/startupjs/commit/40ff126ed02c0afc336c0e0f7d0303a2e2cf3d30))
+
+
+
 # [0.56.0-alpha.66](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.65...v0.56.0-alpha.66) (2024-04-15)
 
 
