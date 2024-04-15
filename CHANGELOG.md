@@ -1,3 +1,18 @@
+# [0.56.0-alpha.66](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.65...v0.56.0-alpha.66) (2024-04-15)
+
+
+### Bug Fixes
+
+* **Alert:** add 'center' vertical align for content ([0563141](https://github.com/startupjs/startupjs/commit/0563141a53ad468dc7437e87bd64852f580e1d9e))
+* **recaptcha:** force compile on web ([01ee480](https://github.com/startupjs/startupjs/commit/01ee480061c66965bb8e6bc014fb3d4ed5f6f24d))
+
+
+### Features
+
+* **startupjs:** add 'enableConnection' into config 'fetarues' which can be used instead of 'enableServer' to just enable the client connection without starting the server. ([a1c250b](https://github.com/startupjs/startupjs/commit/a1c250b99f3a82674fa4aa3a48c8479baf20b356))
+
+
+
 # [0.56.0-alpha.65](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.64...v0.56.0-alpha.65) (2024-04-10)
 
 
