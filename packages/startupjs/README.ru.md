@@ -49,12 +49,12 @@ export default createPlugin({
 })
 ```
 
-Добавьте информацию об этом файле в раздел `exports` файла `package.json` под именем `plugin` или `myPlugin.plugin`, чтобы он автоматически загружался в ваше приложение:
+Добавьте информацию об этом файле в раздел `exports` файла `package.json` под именем `plugin` или `myPlugin.plugin`, чтобы он автоматически загружался в ваше приложение. Если плагины лежат в отдельной папке, то необходимо учесть путь:
+
 
 ```json
 "exports": {
   "./plugin": "./plugin.js",
-  // если плагины лежат в отдельной папки, то необходимо учесть путь:
   "./plugins/myPlugin.plugin.js": "./plugins/myPlugin.plugin.js"
 }
 ```
@@ -84,7 +84,7 @@ export default createPlugin({
       [somePlugin]: {
         // Eсли параметры для client не нужны, то можно просто не указывать этот блок. Аналогично с server и isomorphic
         server: {
-          someOption: 'Hello from expoTest!'
+          someOption: 'Hello from server!'
         }
       },
       // Здесь вы можете добавить свой плагин со списком необходимых параметров.
@@ -376,7 +376,7 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 
 Этот хук предназначен для обработки апгрейда HTTP-соединения до WebSocket-соединения.
 
-**Примечание:** Не забудьте получить arguments в качестве аргумента. Они передаются автоматически при вызове хука. Arguments включают в себя, в частности, req, socket, head. Больше информации о событии upgrade и содержимом arguments вы можете узнать из официальной докуметации по ссылке https://nodejs.org/api/http.html#event-upgrade
+**Примечание:** Не забудьте получить arguments в качестве аргумента. Они передаются автоматически при вызове хука. Arguments включают в себя, в частности, req, socket, head. Больше информации о событии upgrade и содержимом arguments вы можете узнать из официальной документации по ссылке https://nodejs.org/api/http.html#event-upgrade
 
 ```js
   serverUpgrade: (...args) => {
@@ -421,7 +421,7 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
   }
 ```
 
-## Пример
+## Пример создания плагина
 
 Предположим, у вас есть кнопка в клиентском коде, при нажатии на которую приложение должно получать данные с сервера.
 
