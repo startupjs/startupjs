@@ -1,3 +1,12 @@
+# [0.56.0-alpha.69](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.68...v0.56.0-alpha.69) (2024-04-16)
+
+
+### Bug Fixes
+
+* **react-sharedb-hooks:** fix useApi hook to correctly cleanup the path only if it's not used anymore by any other useApi hook ([5f26831](https://github.com/startupjs/startupjs/commit/5f26831514ced1b9d9d224910c8b8b0ae1229d1f))
+
+
+
 # [0.56.0-alpha.68](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.67...v0.56.0-alpha.68) (2024-04-15)
 
 
