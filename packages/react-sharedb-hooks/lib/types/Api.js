@@ -1,6 +1,10 @@
-import Base from './Base.js'
 import { _observablePath as observablePath } from '@startupjs/react-sharedb-util'
+import Base from './Base.js'
 import promiseBatcher from '../hooks/promiseBatcher.js'
+
+// track cache paths usage to correctly run destructor only when no other hooks are using the same path
+// TODO: simplify this, cache is not actually needed anymore since we are passing signals around
+const CACHE_USAGE = {}
 
 export default class Local extends Base {
   constructor (...args) {
@@ -36,6 +40,7 @@ export default class Local extends Base {
       this.model.root.setDiff(this.path, this.data)
       observablePath(this.path)
       this.model.ref(key, this.model.root.scope(this.path))
+      CACHE_USAGE[this.path] = (CACHE_USAGE[this.path] || 0) + 1
     } else {
       this.model.setDiff(key, this.data)
     }
@@ -45,7 +50,8 @@ export default class Local extends Base {
     const { key } = this
     if (this.path) {
       this.model.removeRef(key)
-      this.model.root.del(this.path)
+      CACHE_USAGE[this.path]--
+      if (CACHE_USAGE[this.path] <= 0) this.model.root.del(this.path)
     } else {
       this.model.del(key)
     }
