@@ -7,10 +7,10 @@
 
 ## Дополнительные зависимости
 
-- `events` добавлен здесь как явная зависимость, так как он используется внутри `racer`.
-  Который не указывает его в своих собственных зависимостях. Обычно в браузере он будет полифилирован
+- `events` добавлен здесь как явная зависимость, так как он используется внутри `racer`,
+  который не указывает его в своих собственных зависимостях. Обычно в браузере он будет заполифилен
   webpack, но в нашем случае Metro не полифилит его самостоятельно, поэтому нам нужно иметь его
-  присутствует в наших зависимостях где-то.
+  в наших зависимостях.
 
 
 ## Plugins API
@@ -23,9 +23,6 @@ import { createPlugin } from 'startupjs/registry'
 export default createPlugin({
   // name - уникальное название плагина
   name: 'my-plugin',
-  // order позволяет контролировать порядок выполнения плагинов.
-  // Может быть как числовым, так и строковым значением. Необязательное свойство.
-  order: 1
   // enabled указывает, включен плагин или нет.
   // Если его значение false, то плагин считается отключенным и его
   // функциональность не будет активирована в приложении.
@@ -57,6 +54,42 @@ export default createPlugin({
   "./plugin": "./plugin.js",
   "./plugins/myPlugin.plugin.js": "./plugins/myPlugin.plugin.js"
 }
+```
+
+
+### Order (опционально)
+
+Опционально в createPlugin Вы можете добавить order - порядок исполнения хуков в плагине, указав "группу" исполнения.
+Помимо указанных ниже "групп", вы так же можете использовать варианты 'before <group>' и 'after <group>'.
+
+Возможные варианты групп:
+
+```js
+export default [
+  'first',
+  'root',
+  'session',
+  'auth',
+  'api',
+  'pure', // для чистых плагинов startupjs, которые не зависят от наличия 'ui' или 'router'
+  'ui', //  для плагинов, которые зависят от 'ui'
+  'router', // для плагинов, которые зависят от 'router'
+  'default', // группа по умолчанию, которая выполняется после всех остальных
+  'last'
+]
+```
+
+Например,
+
+```js
+export default createPlugin({
+  name: 'my-plugin',
+  enabled: true,
+  order: 'ui',
+  client: (pluginOptions) => ({
+    // ...
+  })
+})
 ```
 
 Для того, чтобы передать параметры в плагин (pluginOptions в нашем примере), вам нужно указать их в файле startupjs.config.js.
@@ -209,24 +242,61 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 
 В изоморфных хуках вы можете размещать код, который будет выполняться как на сервере, так и на клиенте.
 
+### `models`
+
+Хук 'models' получает модели (projectModels), которые были добавлены в проект и может их модифицировать или добавлять новые.
+
+Создадим плагин, который будет добавлять новую модель
+
+```js
+  export default createPlugins({
+    name: 'addPersonModel',
+    // Не забываем, что models - это изоморфный хук
+    isomorphic: () => ({
+      // Хук получает модели проекта (projectModels)
+      models: (projectModels) => {
+        // Проверяем, есть такая модель или нет
+        if (projectModels.person) throw Error('The model already exists')
+        // Добавляем данные для новой модели и возвращаем
+        const newModelsObject = {
+          ...projectModels,
+          // Добавляем новую модель person
+          person: {
+            default: {
+              collection: 'person'
+            },
+            schema: {
+              name: { type: 'string', required: true },
+              age: { type: 'number' },
+              gender: { type: 'string', enum: ['man', 'woman'] },
+              phone: { type: 'string' },
+              createdAt: { type: 'number', required: true }
+            }
+          }
+        }
+        return newModelsObject
+      }
+    })
+  })
+```
+
+После чего экспортируем плагин в startupjs.config.js, как было сделано в примерах выше, и добавляем в exports в package.json
+
 ### `orm`
 
-Хук 'orm' используется для настройки объектно-реляционного отображения (ORM) в приложении Express.js.
+Хук 'orm' - это advanced хук для перегрузки 'racer', который используется под капотом для реализации ORM. В частности, его можно использовать, если необходимо подключить плагины для racer (через racer.use()) или расширить стандартный функционал racer. В этот хук аргументом приходит racer инстанс.
 
-**Примечание:** Не забудьте получить Racer в качестве аргумента. Он передается автоматически при вызове хука
+Подробнее про Racer можно ознакомиться в документации по ссылке https://github.com/derbyjs/racer
+
+```js
+// импортируем плагин
+import racerPlugin from './myRacerPlugin.js';
+```
 
 ```js
   orm: (Racer) => {
-    const racer = new Racer();
-
-    // Настройка ORM на сервере
-    racer.on('ready', () => {
-      console.log('Racer ORM is ready');
-    });
-    racer.on('error', (err) => {
-      console.error('Error in Racer ORM:', err);
-    });
-    return racer;
+    // Подключаем рейсеровский плагин
+    Racer.use(racerPlugin);
   }
 ```
 
@@ -260,7 +330,7 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 ```jsx
   beforeSession: (expressApp) => {
   // Пример добавления middleware перед инициализацией сессии
-  expressApp.use('/api/validate', (req, res, next) => {
+  expressApp.use('/api', (req, res, next) => {
     // Пример проверки сессии перед инициализацией
     if (!req.headers['authorization']) {
       return res.status(401).json({ error: 'Unauthorized' })
@@ -279,9 +349,10 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 ```js
   afterSession: (expressApp) => {
     // Пример добавления middleware после инициализации сессии
-    expressApp.use('/api/log', (req, res, next) => {
-      // Пример логирования информации о запросе после инициализации сессии
-      console.log(`Запрос к ${req.originalUrl} от ${req.ip}`)
+    expressApp.use('/api', (req, res, next) => {
+      const userId = req.session.userId;
+      // Выводим информацию о запросе и ID пользователя
+      console.log(`Путь запроса: ${req.url}. ID пользователя: ${userId}`);
       next()
     })
   }
@@ -295,7 +366,10 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
   middleware: (expressApp) => {
     // Пример добавления промежуточного ПО для логирования каждого запроса
     expressApp.use('/api', (req, res, next) => {
-      console.log(`Received ${req.method} request at ${req.url}`)
+      // Допустим, в сессии хранится язык общения пользователя.
+      const userLanguage = req.session.language || 'en';
+      // Выводим информацию о запросе и языке пользователя
+      console.log(`Путь запроса: ${req.url}. Язык пользователя: ${userLanguage}`);
       next()
     })
   }
@@ -303,21 +377,13 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 
 ### `serverRoutes`
 
-Хук 'serverRoutes' используется для определения маршрутов на сервере, которые обрабатывают определенные типы HTTP-запросов, такие как GET и POST
+Хук 'serverRoutes' используется для запросов типа .get(), когда необходимо вернуть с сервера отрендеренный HTML или статические HTML страницы, например, промо-страницу.
 
 ```js
   serverRoutes: (expressApp) => {
     // Создание маршрута для обработки GET-запросов
     expressApp.get('/api/data', async (req, res) => {
-      // Здесь может быть логика обработки запроса
       res.json({ message: 'Data received from the server' })
-    })
-
-    // Создание маршрута для обработки POST-запросов
-    expressApp.post('/api/data', async (req, res) => {
-      // Здесь может быть логика обработки запроса и сохранения данных
-      const requestData = req.body
-      res.json({ message: 'Data received and processed successfully' })
     })
   }
 ```
@@ -328,37 +394,28 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 
 ```js
   logs: (expressApp) => {
-    // Создание маршрута для логирования информации
-    expressApp.get('/logs', async (req, res) => {
-      // Здесь вы можете добавить логику для получения и отображения логов.
-      res.send('Логи')
-    })
-
-    // Создание маршрута для сохранения информации
-    expressApp.post('/logs', async (req, res) => {
-      const logData = req.body
-      // Здесь вы можете добавить логику для получения и сохранения информации
-      console.log('Полученные данные:', logData)
-      res.send('Данные успешно получены и сохранены')
+    expressApp.use('/api', (req, res, next) => {
+      // Пример логирования информации о запросе
+      console.log(`Запрос к ${req.originalUrl} от ${req.ip}`)
+      next()
     })
   }
 ```
 
 ### `static`
 
-Этот хук позволяет получить доступ к статическим файлам (таким как изображения, CSS, JavaScript) на стороне клиента вашего приложения, делая их доступными через определенный URL-адрес.
+Этот хук предназначен для объявления дополнительных статических файлов (таких как изображения, CSS, JavaScript) на стороне клиента вашего приложения, делая их доступными через определенный URL-адрес. При этом вы по-прежнему cможете обратиться к папке public, которая будет доступна по url '/'.
 
 ```js
   static: (expressApp) => {
-    expressApp.use('/public', express.static('public'))
+    expressApp.use('/assets', express.static('assets'))
   }
 ```
 
 ### `createServer`
 
-Используйте этот хук, если вам нужно настроить и запустить сервер.
-
-**Примечание:** Не забудьте получить server в качестве аргумента. Он передается автоматически при вызове хука
+Используйте хук 'createServer', если вам нужно настроить и запустить сервер. В хук передается аргумент 'server', который представляет собой экземпляр Node HTTP Server. Подробнее можно почитать в официальной документации по ссылке
+https://nodejs.org/api/http.html#httpcreateserveroptions-requestlistener
 
 ```js
   createServer: (server) => {
@@ -374,9 +431,8 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 
 ### `serverUpgrade`
 
-Этот хук предназначен для обработки апгрейда HTTP-соединения до WebSocket-соединения.
-
-**Примечание:** Не забудьте получить arguments в качестве аргумента. Они передаются автоматически при вызове хука. Arguments включают в себя, в частности, req, socket, head. Больше информации о событии upgrade и содержимом arguments вы можете узнать из официальной документации по ссылке https://nodejs.org/api/http.html#event-upgrade
+Этот хук предназначен для обработки апгрейда HTTP-соединения до WebSocket-соединения. В этот хук аргументами приходят
+req, socket, head. Больше информации о событии upgrade вы можете узнать из официальной документации по ссылке https://nodejs.org/api/http.html#event-upgrade
 
 ```js
   serverUpgrade: (...args) => {
@@ -391,9 +447,7 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 
 ### `beforeStart`
 
-Используйте этот хук для выполнения кода перед запуском сервера Express.
-
-**Примечание:** Не забудьте получить props в качестве аргумента. Они передаются автоматически при вызове хука. Пропсы включают в себя backend, server, expressApp, session
+Используйте хук 'beforeStart' для выполнения кода перед запуском сервера Express. В этот хук аргументами приходят props, которые включают в себя backend, server, expressApp, session.
 
 ```js
   beforeStart: (props) => {
@@ -406,9 +460,7 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 
 ### `transformSchema`
 
-Используйте этот хук для изменения схемы.
-
-**Примечание:** Не забудьте получить schema в качестве аргумента. Она передается автоматически при вызове хука
+Используйте хук 'transformSchema' для изменения схемы. В этот хук аргументом приходит schema.
 
 ```js
   transformSchema: (schema) => {
