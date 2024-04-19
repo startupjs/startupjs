@@ -245,9 +245,9 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 
 ### `models`
 
-Хук 'models' получает модели (projectModels), которые были добавлены в проект, и может их модифицировать или добавлять новые.
+Хук 'models' получает модели (projectModels), которые были добавлены в проект. С помощью этого хука можно модифицировать модели или добавлять новые.
 
-Создадим плагин, который будет добавлять новую модель
+Для примера создадим плагин, который будет добавлять новую модель
 
 ```js
   export default createPlugins({
@@ -315,13 +315,6 @@ import racerPlugin from './myRacerPlugin.js';
       // Обработка GET-запроса
       res.json({ message: 'Данные получены с сервера' })
     })
-
-    // Создание маршрута для обработки POST-запросов
-    expressApp.post('/api/data', async (req, res) => {
-      // Обработка POST-запроса и сохранение данных
-      const requestData = req.body
-      res.json({ message: 'Данные успешно получены и обработаны' })
-    })
   }
 ```
 
@@ -351,9 +344,8 @@ import racerPlugin from './myRacerPlugin.js';
   afterSession: (expressApp) => {
     // Пример добавления middleware после завершения сессии
     expressApp.use('/api', (req, res, next) => {
-      const userId = req.session.userId;
-      // Выводим информацию о запросе и ID пользователя
-      console.log(`Путь запроса: ${req.url}. ID пользователя: ${userId}`);
+      // Выводим информацию о запросе
+      console.log(`Путь запроса: ${req.url}`);
       next()
     })
   }
@@ -367,10 +359,9 @@ import racerPlugin from './myRacerPlugin.js';
   middleware: (expressApp) => {
     // Пример добавления промежуточного ПО
     expressApp.use('/api', (req, res, next) => {
-      // Допустим, в сессии хранится язык общения пользователя.
-      const userLanguage = req.session.language || 'en';
-      // Выводим информацию о запросе и языке пользователя
-      console.log(`Путь запроса: ${req.url}. Язык пользователя: ${userLanguage}`);
+      const userId = req.session.userId;
+      // Выводим ID пользователя
+      console.log(`ID пользователя: ${userId}`);
       next()
     })
   }
@@ -383,8 +374,19 @@ import racerPlugin from './myRacerPlugin.js';
 ```js
   serverRoutes: (expressApp) => {
     // Создание маршрута для обработки GET-запросов
-    expressApp.get('/api/data', async (req, res) => {
-      res.json({ message: 'Data received from the server' })
+    expressApp.get('/promo-page', async (req, res) => {
+      // Отправляем отрендеренный HTML как ответ на запрос
+      res.send(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Promo Page</title>
+          </head>
+          <body>
+            <!-- some code -->
+          </body>
+        </html>
+      `)
     })
   }
 ```
