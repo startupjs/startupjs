@@ -374,7 +374,7 @@ import racerPlugin from './myRacerPlugin.js';
 ```js
   serverRoutes: (expressApp) => {
     // Создание маршрута для обработки GET-запросов
-    expressApp.get('/promo-page', async (req, res) => {
+    expressApp.get('/promo-page', (req, res) => {
       // Отправляем отрендеренный HTML как ответ на запрос
       res.send(`
         <!DOCTYPE html>
