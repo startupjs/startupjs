@@ -56,42 +56,6 @@ export default createPlugin({
 }
 ```
 
-
-### Order (опционально)
-
-Опционально в createPlugin Вы можете добавить order - порядок исполнения хуков в плагине, указав "группу" исполнения.
-Помимо указанных ниже "групп", вы так же можете использовать варианты 'before <group>' и 'after <group>'.
-
-Возможные варианты групп:
-
-```js
-export default [
-  'first',
-  'root',
-  'session',
-  'auth',
-  'api',
-  'pure', // для чистых плагинов startupjs, которые не зависят от наличия 'ui' или 'router'
-  'ui', //  для плагинов, которые зависят от 'ui'
-  'router', // для плагинов, которые зависят от 'router'
-  'default', // группа по умолчанию, которая выполняется после всех остальных
-  'last'
-]
-```
-
-Например,
-
-```js
-export default createPlugin({
-  name: 'my-plugin',
-  enabled: true,
-  order: 'ui',
-  client: (pluginOptions) => ({
-    // ...
-  })
-})
-```
-
 Для того, чтобы передать параметры в плагин (pluginOptions в нашем примере), вам нужно указать их в файле startupjs.config.js.
 Для этого сначала импортируем плагины, затем указываем параметры в следующем виде:
 
@@ -124,6 +88,42 @@ export default createPlugin({
     }
   }
 ```
+
+### Order (опционально)
+
+Опционально в createPlugin Вы можете добавить order - порядок исполнения хуков в плагине, указав "группу" исполнения.
+Помимо указанных ниже "групп", вы так же можете использовать варианты 'before группа' и 'after группа'.
+
+Возможные варианты групп:
+
+```js
+export default [
+  'first',
+  'root',
+  'session',
+  'auth',
+  'api',
+  'pure', // для чистых плагинов startupjs, которые не зависят от наличия 'ui' или 'router'
+  'ui', //  для плагинов, которые зависят от 'ui'
+  'router', // для плагинов, которые зависят от 'router'
+  'default', // группа по умолчанию, которая выполняется после всех остальных
+  'last'
+]
+```
+
+Например,
+
+```js
+export default createPlugin({
+  name: 'my-plugin',
+  enabled: true,
+  order: 'ui',
+  client: (pluginOptions) => ({
+    // ...
+  })
+})
+```
+
 
 ## Hooks / client
 
@@ -238,6 +238,7 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
   })
 ```
 
+
 ## Hooks / isomorphic
 
 В изоморфных хуках вы можете размещать код, который будет выполняться как на сервере, так и на клиенте.
@@ -257,7 +258,7 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
       models: (projectModels) => {
         // Проверяем, есть такая модель или нет
         if (projectModels.person) throw Error('The model already exists')
-        // Добавляем данные для новой модели и возвращаем
+        // Добавляем данные для новой модели и возвращаем новый объект
         const newModelsObject = {
           ...projectModels,
           // Добавляем новую модель person
@@ -294,11 +295,12 @@ import racerPlugin from './myRacerPlugin.js';
 ```
 
 ```js
-  orm: (Racer) => {
+  orm: (racer) => {
     // Подключаем рейсеровский плагин
-    Racer.use(racerPlugin);
+    racer.use(racerPlugin);
   }
 ```
+
 
 ## Hooks / server
 
@@ -329,17 +331,16 @@ import racerPlugin from './myRacerPlugin.js';
 
 ```jsx
   beforeSession: (expressApp) => {
-  // Пример добавления middleware перед инициализацией сессии
-  expressApp.use('/api', (req, res, next) => {
-    // Пример проверки сессии перед инициализацией
-    if (!req.headers['authorization']) {
-      return res.status(401).json({ error: 'Unauthorized' })
-    }
-    // Если все ок, продолжаем выполнение запроса
-    next()
-  })
-}
-
+    // Пример добавления middleware перед инициализацией сессии
+    expressApp.use('/api', (req, res, next) => {
+      // Пример проверки сессии перед инициализацией
+      if (!req.headers['authorization']) {
+        return res.status(401).json({ error: 'Unauthorized' })
+      }
+      // Если все ок, продолжаем выполнение запроса
+      next()
+    })
+  }
 ```
 
 ### `afterSession`
@@ -348,7 +349,7 @@ import racerPlugin from './myRacerPlugin.js';
 
 ```js
   afterSession: (expressApp) => {
-    // Пример добавления middleware после инициализации сессии
+    // Пример добавления middleware после завершения сессии
     expressApp.use('/api', (req, res, next) => {
       const userId = req.session.userId;
       // Выводим информацию о запросе и ID пользователя
@@ -364,7 +365,7 @@ import racerPlugin from './myRacerPlugin.js';
 
 ```js
   middleware: (expressApp) => {
-    // Пример добавления промежуточного ПО для логирования каждого запроса
+    // Пример добавления промежуточного ПО
     expressApp.use('/api', (req, res, next) => {
       // Допустим, в сессии хранится язык общения пользователя.
       const userLanguage = req.session.language || 'en';
@@ -431,7 +432,7 @@ https://nodejs.org/api/http.html#httpcreateserveroptions-requestlistener
 
 ### `serverUpgrade`
 
-Этот хук предназначен для обработки апгрейда HTTP-соединения до WebSocket-соединения. В этот хук аргументами приходят
+Этот хук предназначен для обработки апгрейда HTTP-соединения до WebSocket-соединения. В этот хук аргументами (args) приходят
 req, socket, head. Больше информации о событии upgrade вы можете узнать из официальной документации по ссылке https://nodejs.org/api/http.html#event-upgrade
 
 ```js
