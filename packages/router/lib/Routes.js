@@ -4,6 +4,7 @@ import { useRoutes, useNavigate, MemoryRouter, useResolvedPath, resolvePath, use
 import RouterContext from '@startupjs/utils/RouterContext'
 import useParentBasename from './useParentBasename'
 import useParentPathname from './useParentPathname'
+import SlotsHost from './SlotsHost.js'
 
 const IS_WEB = Platform.OS === 'web'
 
@@ -16,7 +17,9 @@ export default memo(function Routes ({ basename, routes }) {
   return (
     el(MemoryRouter, { basename, initialEntries },
       el(UseRouterProvider, { basename },
-        el(RoutesSelector, { routes })
+        el(SlotsHost, null,
+          el(RoutesSelector, { routes })
+        )
       )
     )
   )

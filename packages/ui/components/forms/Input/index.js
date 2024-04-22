@@ -1,7 +1,9 @@
 import React, { useRef, useImperativeHandle } from 'react'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import { getInputTestId, EXTRA_SCHEMA_TYPES, guessInput } from '../helpers'
+import EXTRA_SCHEMA_TYPES from '../helpers/extraSchemaTypes'
+import guessInput from '../helpers/guessInput'
+import getInputTestId from '../helpers/getInputTestId'
 import { useInputMeta, ALL_INPUTS } from './inputs'
 import isForwardRef from './isForwardRef'
 

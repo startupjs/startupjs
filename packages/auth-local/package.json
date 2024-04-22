@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-local",
-  "version": "0.56.0-alpha.0",
+  "version": "0.56.0-alpha.66",
   "type": "module",
   "description": "Local auth plugin for StartupJS auth module",
   "main": "index.js",
@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "@startupjs/recaptcha": "^0.56.0-alpha.0",
+    "@startupjs/recaptcha": "^0.56.0-alpha.66",
     "bcrypt": "^5.0.1",
     "passport-local": "^1.0.0"
   },

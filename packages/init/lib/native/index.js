@@ -45,7 +45,9 @@ export default (options = {}) => {
     // In dev we embed startupjs server as middleware into Metro server itself.
     // We have to use XHR since there is no way to easily access Metro's WebSocket endpoints.
     // In production we run our own server and can use WebSocket without any problems.
-    forceXhrFallback: isDevelopment || (isExpo && !isWeb && !hasExplicitBaseUrl)
+    forceXhrFallback: MODULE.options.enableXhrFallback !== false && (
+      isDevelopment || (isExpo && !isWeb && !hasExplicitBaseUrl)
+    )
   }
 
   commonInit(ShareDB, options)
@@ -56,8 +58,9 @@ export default (options = {}) => {
   }
 
   // Connect model to the server
-  // TODO: Connect model ONLY if startupjs server exists and is enabled
-  if (MODULE.options.enableServer) connectModel()
+  // Do this only if startupjs server exists and is enabled.
+  // Alternatively, we can connect to the arbitrary server if `enableConnection` is enabled instead.
+  if (MODULE.options.enableServer || MODULE.options.enableConnection) connectModel()
 }
 
 // This module is actually pure side-effects, so we force

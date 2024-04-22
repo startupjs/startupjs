@@ -31,8 +31,9 @@ export { default as Droppable } from './components/draggable/Droppable'
 export { default as DrawerSidebar } from './components/DrawerSidebar'
 export { default as FlatList } from './components/FlatList'
 
-// forms
+// inputs
 export { default as wrapInput } from './components/forms/Input/wrapInput'
+export { default as guessInput } from './components/forms/helpers/guessInput'
 export { default as Form } from './components/forms/Form'
 export { default as useFormProps } from './components/forms/Form/useFormProps'
 export { default as Input } from './components/forms/Input'

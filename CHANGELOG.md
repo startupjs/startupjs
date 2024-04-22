@@ -1,3 +1,82 @@
+# [0.56.0-alpha.69](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.68...v0.56.0-alpha.69) (2024-04-16)
+
+
+### Bug Fixes
+
+* **react-sharedb-hooks:** fix useApi hook to correctly cleanup the path only if it's not used anymore by any other useApi hook ([5f26831](https://github.com/startupjs/startupjs/commit/5f26831514ced1b9d9d224910c8b8b0ae1229d1f))
+
+
+
+# [0.56.0-alpha.68](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.67...v0.56.0-alpha.68) (2024-04-15)
+
+
+### Bug Fixes
+
+* **server:** change /api/serverSession to GET ([5b3751f](https://github.com/startupjs/startupjs/commit/5b3751f56636314b598e92d5b2d06f3fa0fd4d8e))
+
+
+
+# [0.56.0-alpha.67](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.66...v0.56.0-alpha.67) (2024-04-15)
+
+
+### Features
+
+* **startupjs/config:** add 'features.enableXhrFallback' which can be set to 'false' to force only using websockets even in development ([40ff126](https://github.com/startupjs/startupjs/commit/40ff126ed02c0afc336c0e0f7d0303a2e2cf3d30))
+
+
+
+# [0.56.0-alpha.66](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.65...v0.56.0-alpha.66) (2024-04-15)
+
+
+### Bug Fixes
+
+* **Alert:** add 'center' vertical align for content ([0563141](https://github.com/startupjs/startupjs/commit/0563141a53ad468dc7437e87bd64852f580e1d9e))
+* **recaptcha:** force compile on web ([01ee480](https://github.com/startupjs/startupjs/commit/01ee480061c66965bb8e6bc014fb3d4ed5f6f24d))
+
+
+### Features
+
+* **startupjs:** add 'enableConnection' into config 'fetarues' which can be used instead of 'enableServer' to just enable the client connection without starting the server. ([a1c250b](https://github.com/startupjs/startupjs/commit/a1c250b99f3a82674fa4aa3a48c8479baf20b356))
+
+
+
+# [0.56.0-alpha.65](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.64...v0.56.0-alpha.65) (2024-04-10)
+
+
+### Bug Fixes
+
+* **cli/install:** lock @react-native-picker/picker version to 2.6.1 since that's a specific version Expo expects ([83ec884](https://github.com/startupjs/startupjs/commit/83ec88486ac2a4c68163394441432de72fd174cd))
+
+
+
+# [0.56.0-alpha.64](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.63...v0.56.0-alpha.64) (2024-04-09)
+
+
+### Features
+
+* **startupjs:** support setting explicit BASE_URL via EXPO_PUBLIC_BASE_URL env var ([#1208](https://github.com/startupjs/startupjs/issues/1208)) ([8f440d3](https://github.com/startupjs/startupjs/commit/8f440d35386fa3451a0e26bc1141bd144a01d8f5))
+
+
+
+# [0.56.0-alpha.63](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.62...v0.56.0-alpha.63) (2024-04-05)
+
+
+### Features
+
+* **router:** support slots functionality ('SlotProvider' and 'Slot') ([#1206](https://github.com/startupjs/startupjs/issues/1206)) ([beb8735](https://github.com/startupjs/startupjs/commit/beb873556572235e96b3671c0118361c5d839fcc))
+
+
+
+# [0.56.0-alpha.62](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.61...v0.56.0-alpha.62) (2024-04-02)
+
+
+### Bug Fixes
+
+* add expo-document-picker to deps in expoapp ([292b1e5](https://github.com/startupjs/startupjs/commit/292b1e5f1c59d4a1b54bd51fd7f68e1d7964b4d0))
+* **packages/startupjs:** redundant re-export of default ([#1205](https://github.com/startupjs/startupjs/issues/1205)) ([126e4c9](https://github.com/startupjs/startupjs/commit/126e4c959f025045276cf384eee54ba92ea47173))
+
+
+
 # [0.56.0-alpha.61](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.60...v0.56.0-alpha.61) (2024-03-27)
 
 
