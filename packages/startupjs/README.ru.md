@@ -359,9 +359,8 @@ import racerPlugin from './myRacerPlugin.js';
   middleware: (expressApp) => {
     // Пример добавления промежуточного ПО
     expressApp.use('/api', (req, res, next) => {
-      const userId = req.session.userId;
-      // Выводим ID пользователя
-      console.log(`ID пользователя: ${userId}`);
+      const lang = req.session.lang
+      if (lang) req.model.set('_session.lang', lang)
       next()
     })
   }
@@ -375,7 +374,7 @@ import racerPlugin from './myRacerPlugin.js';
   serverRoutes: (expressApp) => {
     // Создание маршрута для обработки GET-запросов
     expressApp.get('/promo-page', (req, res) => {
-      // Отправляем отрендеренный HTML как ответ на запрос
+      // Отправляем HTML как ответ на запрос
       res.send(`
         <!DOCTYPE html>
         <html>
