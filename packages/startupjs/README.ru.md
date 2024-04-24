@@ -15,7 +15,7 @@
 
 ## Plugins API
 
-Создайте файл плагина с именем plugin.js или myPlugin.plugin.js:
+Создайте файл плагина с именем plugin.js или myPlugin.plugin.js (вместо myPlugin вы можете указать любое другое название файла, но обязательно должна присутствовать вторая часть названия файла ".plugin.js"):
 
 ```js
 import { createPlugin } from 'startupjs/registry'
@@ -247,7 +247,9 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 
 Хук 'models' получает модели (projectModels), которые были добавлены в проект. С помощью этого хука можно модифицировать модели или добавлять новые.
 
-Для примера создадим плагин, который будет добавлять новую модель
+Для каждой коллекции или документа необходимо указать объект с теми же полями, которые экспортируются из файла модели. В качестве альтернативы вы можете импортировать сам файл с моделью и передать его в хук.
+
+Здесь мы покажем, как в целом добавляется хук, а более детальные примеры использования можно посмотреть [здесь](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/models.ru.md)
 
 ```js
   export default createPlugins({
@@ -256,32 +258,20 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
     isomorphic: () => ({
       // Хук получает модели проекта (projectModels)
       models: (projectModels) => {
-        // Проверяем, есть такая модель или нет
-        if (projectModels.person) throw Error('The model already exists')
-        // Добавляем данные для новой модели и возвращаем новый объект
-        const newModelsObject = {
+        return {
           ...projectModels,
-          // Добавляем новую модель person
-          person: {
-            default: {
-              collection: 'person'
-            },
-            schema: {
-              name: { type: 'string', required: true },
-              age: { type: 'number' },
-              gender: { type: 'string', enum: ['man', 'woman'] },
-              phone: { type: 'string' },
-              createdAt: { type: 'number', required: true }
-            }
+          persons: {
+            // в default указывается ORM класс с реализацией кастомных методов для этой модели коллекции
+            default: PersonsModel
+            // для схемы передаем schema
+            schema
+            // ... другие данные, например, индексы или константы
           }
         }
-        return newModelsObject
       }
     })
   })
 ```
-
-После чего экспортируем плагин в startupjs.config.js, как было сделано в примерах выше, и добавляем в exports в package.json
 
 ### `orm`
 
@@ -320,7 +310,7 @@ import racerPlugin from './myRacerPlugin.js';
 
 ### `beforeSession`
 
-Хук 'beforeSession' вызывается перед началом сессии на сервере. Он предоставляет возможность выполнить любые операции или установить конфигурации перед тем, как сервер начнет обрабатывать запросы.
+Хук 'beforeSession' вызывается перед инициализацией сессии на сервере. Он предоставляет возможность выполнить любые операции или установить конфигурации перед тем, как сервер начнет обрабатывать запросы.
 
 ```jsx
   beforeSession: (expressApp) => {
@@ -338,11 +328,11 @@ import racerPlugin from './myRacerPlugin.js';
 
 ### `afterSession`
 
-Хук 'afterSession' вызывается после завершения сессии на сервере.
+Хук 'afterSession' вызывается после инициализации сессии на сервере.
 
 ```js
   afterSession: (expressApp) => {
-    // Пример добавления middleware после завершения сессии
+    // Пример добавления middleware после инициализации сессии
     expressApp.use('/api', (req, res, next) => {
       // Выводим информацию о запросе
       console.log(`Путь запроса: ${req.url}`);
