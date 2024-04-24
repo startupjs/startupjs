@@ -247,8 +247,6 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 
 Хук 'models' получает модели (projectModels), которые были добавлены в проект. С помощью этого хука можно модифицировать модели или добавлять новые.
 
-Для каждой коллекции или документа необходимо указать объект с теми же полями, которые экспортируются из файла модели. В качестве альтернативы вы можете импортировать сам файл с моделью и передать его в хук.
-
 Здесь мы покажем, как в целом добавляется хук, а более детальные примеры использования можно посмотреть [здесь](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/models.ru.md)
 
 ```js
@@ -260,6 +258,8 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
       models: (projectModels) => {
         return {
           ...projectModels,
+          // ниже для каждой коллекции или документа необходимо указать объект с теми же полями,
+          // которые обычно экспортируются из файла модели
           persons: {
             // в default указывается ORM класс с реализацией кастомных методов для этой модели коллекции
             default: PersonsModel
