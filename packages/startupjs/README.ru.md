@@ -259,10 +259,11 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
         return {
           ...projectModels,
           // ниже для каждой коллекции или документа необходимо указать объект с теми же полями,
-          // которые обычно экспортируются из файла модели
+          // которые обычно экспортируются из файла модели.
+          // Добавим модель коллекции persons
           persons: {
             // в default указывается ORM класс с реализацией кастомных методов для этой модели коллекции
-            default: PersonsModel
+            default: PersonsModel,
             // для схемы передаем schema
             schema
             // ... другие данные, например, индексы или константы,
