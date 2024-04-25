@@ -265,7 +265,8 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
             default: PersonsModel
             // для схемы передаем schema
             schema
-            // ... другие данные, например, индексы или константы
+            // ... другие данные, например, индексы или константы,
+            // которые были экспортированы из файла модели
           }
         }
       }

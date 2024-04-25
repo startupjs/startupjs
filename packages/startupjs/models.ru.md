@@ -4,7 +4,7 @@
 
 Рассмотрим пример для модели коллекции persons. В этом примере опишем все в одном файле.
 
-Для каждой коллекции или документа необходимо указать объект с теми же полями, которые экспортируются из файла модели. В качестве альтернативы вы можете импортировать сам файл с моделью и передать его в хук (ниже мы рассмотрим, как это делается).
+Для каждой коллекции или документа необходимо указать объект с теми же полями, которые экспортируются из файла модели. В качестве альтернативы вы можете импортировать файл с моделью (ниже мы рассмотрим, как это делается).
 
 ```js
   import { BaseModel } from 'startupjs/orm'
@@ -14,7 +14,7 @@
     age: { type: 'number' },
     gender: { type: 'string', enum: ['man', 'woman'] },
     phone: { type: 'string' },
-    createdAt: { type: 'number' }
+    createdAt: { type: 'number' },
     updatedAt: { type: 'number' }
   }
 
@@ -31,9 +31,9 @@
           persons: {
             // в default указывается ORM класс с реализацией кастомных методов для этой модели коллекции
             default: PersonsModel
-            // сюда добавляем schema
-            schema
             // и далее в таком же стиле описываем остальные поля, если они нужны
+            // например, добавляем schema
+            schema
           },
           'persons.*': {
             default: PersonModel
@@ -89,12 +89,7 @@
     }
   }
 
-  // экспортруем индексы
-  export const indexes = [
-    { keys: { phone: 1 }, options: { unique: true } }
-  ]
-
-  // экспортируем schema
+  // schema
   export const schema = {
     name: { type: 'string', required: true },
     age: { type: 'number' },
@@ -103,6 +98,11 @@
     createdAt: { type: 'number' },
     updatedAt: { type: 'number' }
   }
+
+  // индексы
+  export const indexes = [
+    { keys: { phone: 1 }, options: { unique: true } }
+  ]
 
   // собираем объект с данными
   const persons = {
@@ -129,7 +129,8 @@
         if (projectModels.persons) throw Error('The model already exists')
         return {
           ...projectModels,
-          // здесь можно записать в сокращенном виде persons: persons (название коллекции : импортированный объект,
+          // здесь можно записать в сокращенном виде
+          // persons: persons (название коллекции : импортированный объект,
           // в котором у нас уже собраны все необходимые поля)
           persons
         }
