@@ -71,7 +71,7 @@ describe.skip('iteration', () => {
 // for some reason the cache is not cleared if we just call global.gc()
 // so we need to wait for the next tick before and after calling it
 async function runGc () {
-  await new Promise(resolve => setImmediate(resolve))
+  await new Promise(resolve => setTimeout(resolve, 30))
   global.gc()
-  await new Promise(resolve => setImmediate(resolve))
+  await new Promise(resolve => setTimeout(resolve, 30))
 }

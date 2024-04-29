@@ -26,4 +26,14 @@ export function set (segments, value) {
   dataNode[segments[segments.length - 1]] = value
 }
 
+export function del (segments) {
+  let dataNode = dataTree
+  for (let i = 0; i < segments.length - 1; i++) {
+    const segment = segments[i]
+    if (dataNode[segment] == null) return
+    dataNode = dataNode[segment]
+  }
+  delete dataNode[segments[segments.length - 1]]
+}
+
 export default dataTree
