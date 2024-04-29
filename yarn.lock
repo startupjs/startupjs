@@ -8914,6 +8914,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@startupjs/signals-orm@workspace:packages/signals-orm":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/signals-orm@workspace:packages/signals-orm"
+  dependencies:
+    "@nx-js/observer-util": "npm:^4.1.3"
+  languageName: unknown
+  linkType: soft
+
 "@startupjs/signals@npm:^0.56.0-alpha.64, @startupjs/signals@workspace:packages/signals":
   version: 0.0.0-use.local
   resolution: "@startupjs/signals@workspace:packages/signals"

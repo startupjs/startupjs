@@ -1,0 +1,21 @@
+{
+  "name": "@startupjs/signals-orm",
+  "version": "0.56.0-alpha.64",
+  "description": "Deep signals with ORM and real-time collaboration",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./server": "./server.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "node --expose-gc -r ./test/_init.cjs --test"
+  },
+  "dependencies": {
+    "@nx-js/observer-util": "^4.1.3"
+  },
+  "license": "MIT"
+}
