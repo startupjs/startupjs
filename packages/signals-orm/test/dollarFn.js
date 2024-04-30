@@ -1,7 +1,6 @@
 import { it, describe } from 'node:test'
 import { strict as assert } from 'node:assert'
-import { $, sub$, signal } from '../index.js'
-import { __DEBUG_SIGNALS_CACHE__ as signalsCache } from '../orm/Signal.js'
+import { $, sub$, signal, __DEBUG_SIGNALS_CACHE__ as signalsCache } from '../index.js'
 import { LOCAL } from '../orm/$.js'
 
 describe('$() function. Values', () => {
@@ -89,11 +88,21 @@ describe('$() function. Values', () => {
     assert.equal(signalsCache.size, cacheSize, 'back to original cache size')
   })
 
-  it.skip('create local model with destructuring and test GC', async () => {
-    const { $firstName, $lastName } = $()
-    $firstName.set('John')
-    $lastName.set('Smith')
+  it.skip('create local model with destructuring and after GC is run children data still exists', async () => {
     await runGc()
+    const cacheSize = signalsCache.size
+    await (async () => {
+      const { $firstName, $lastName } = $()
+      $firstName.set('John')
+      $lastName.set('Smith')
+      assert.equal($firstName.get(), 'John', 'firstName should be John')
+      assert.equal($lastName.get(), 'Smith', 'lastName should be Smith')
+      await runGc()
+      assert.equal($firstName.get(), 'John', 'firstName should still be John after GC')
+      assert.equal($lastName.get(), 'Smith', 'lastName should still be Smith after GC')
+    })()
+    await runGc()
+    assert.equal(signalsCache.size, cacheSize, 'back to original cache size')
     // TODO: test that created signal data still exists
     // even though the $() signal itself was garbage collected.
     // Basically don't cleanup created signal data if it's still in use by child signals.

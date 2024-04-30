@@ -1,7 +1,7 @@
 // this is just the $() function implementation.
 // The actual $ exported from this package is a Proxy targeting the dataTree root,
 // and this function is an implementation of the `apply` handler for that Proxy.
-import { getSignal } from './Signal.js'
+import getSignal from './getSignal.js'
 import { set as _set, del as _del } from './dataTree.js'
 
 export const LOCAL = '$local'

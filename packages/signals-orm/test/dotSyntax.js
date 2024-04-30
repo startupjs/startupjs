@@ -1,7 +1,6 @@
 import { it, describe } from 'node:test'
 import { strict as assert } from 'node:assert'
-import $, { signal } from '../index.js'
-import { __DEBUG_SIGNALS_CACHE__ as signalsCache } from '../orm/Signal.js'
+import { $, signal, __DEBUG_SIGNALS_CACHE__ as signalsCache } from '../index.js'
 
 describe('dot syntax', () => {
   it('navigation', () => {
