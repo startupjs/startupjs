@@ -1,5 +1,6 @@
 import { it, describe } from 'node:test'
 import { strict as assert } from 'node:assert'
+import { runGc } from './_helpers.js'
 import { $, signal, __DEBUG_SIGNALS_CACHE__ as signalsCache } from '../index.js'
 
 describe('dot syntax', () => {
@@ -66,11 +67,3 @@ describe.skip('iteration', () => {
     assert.equal($players.getIds(), ['one', 'two'], '.getIds() gets correct player ids')
   })
 })
-
-// for some reason the cache is not cleared if we just call global.gc()
-// so we need to wait for the next tick before and after calling it
-async function runGc () {
-  await new Promise(resolve => setTimeout(resolve, 30))
-  global.gc()
-  await new Promise(resolve => setTimeout(resolve, 30))
-}

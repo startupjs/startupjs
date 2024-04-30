@@ -1,6 +1,7 @@
 import Cache from './Cache.js'
 import Signal, { regularBindings, extremelyLateBindings } from './Signal.js'
 import { findModel } from './addModel.js'
+import { LOCAL } from './$.js'
 
 const PROXIES_CACHE = new Cache()
 const PROXY_TO_SIGNAL = new WeakMap()
@@ -9,7 +10,9 @@ const PROXY_TO_SIGNAL = new WeakMap()
 const USE_EXTREMELY_LATE_BINDINGS = true
 
 // get proxy-wrapped signal from cache or create a new one
-export default function getSignal (segments = [], { useExtremelyLateBindings = USE_EXTREMELY_LATE_BINDINGS } = {}) {
+export default function getSignal (segments = [], {
+  useExtremelyLateBindings = USE_EXTREMELY_LATE_BINDINGS
+} = {}) {
   const signalHash = JSON.stringify(segments)
   let proxy = PROXIES_CACHE.get(signalHash)
   if (proxy) return proxy
@@ -18,7 +21,14 @@ export default function getSignal (segments = [], { useExtremelyLateBindings = U
   const signal = new SignalClass(segments)
   proxy = new Proxy(signal, useExtremelyLateBindings ? extremelyLateBindings : regularBindings)
   PROXY_TO_SIGNAL.set(proxy, signal)
-  PROXIES_CACHE.set(signalHash, proxy)
+  const dependencies = []
+
+  // if the signal is a child of the local value created through the $() function,
+  // we need to add the parent signal ('$local.id') to the dependencies so that it doesn't get garbage collected
+  // before the child signal ('$local.id.firstName') is garbage collected
+  if (segments.length > 2 && segments[0] === LOCAL) dependencies.push(getSignal(segments.slice(0, 2)))
+
+  PROXIES_CACHE.set(signalHash, proxy, dependencies)
   return proxy
 }
 
