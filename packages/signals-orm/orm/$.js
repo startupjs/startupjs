@@ -17,7 +17,7 @@ const reactionsFr = new FinalizationRegistry(([reaction, id]) => {
   unobserve(reaction)
   // don't delete data right away to prevent dependent reactions which are also going to be GC'ed
   // from triggering unnecessarily
-  setTimeout(() => _del([LOCAL, id], DELETION_DELAY))
+  setTimeout(() => _del([LOCAL, id]), DELETION_DELAY)
 })
 
 export default function $ (value) {
