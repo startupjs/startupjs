@@ -1,26 +1,12 @@
-import { it, describe, before, beforeEach, afterEach } from 'node:test'
+import { it, describe } from 'node:test'
 import { strict as assert } from 'node:assert'
-import { runGc } from './_helpers.js'
+import { afterEachTestGc, runGc } from './_helpers.js'
 import { $, sub$, __DEBUG_SIGNALS_CACHE__ as signalsCache } from '../index.js'
 import { get as _get } from '../orm/dataTree.js'
 import { LOCAL } from '../orm/$.js'
 
 describe('$() function. Values', () => {
-  let cacheSize
-
-  before(async () => {
-    await runGc()
-  })
-
-  beforeEach(async () => {
-    cacheSize = signalsCache.size
-  })
-
-  afterEach(async () => {
-    await runGc()
-    assert.equal(signalsCache.size, cacheSize, 'signals cache size should be back to original')
-    assert.deepEqual(_get([LOCAL]), {}, 'all local data should be GC\'ed')
-  })
+  afterEachTestGc()
 
   it('create local model. Test that data gets deleted after the signal is GC\'ed', async () => {
     assert.equal(_get([LOCAL]), undefined, 'initially local model is undefined')
@@ -68,6 +54,7 @@ describe('$() function. Values', () => {
   })
 
   it('test gc. Create using destructuring', async () => {
+    const cacheSize = signalsCache.size
     const $user = $({ firstName: 'John', lastName: 'Smith' })
     assert.equal(signalsCache.size, cacheSize + 1, '+1: $user')
     const { $firstName, $lastName } = $user
@@ -100,13 +87,26 @@ describe.skip('persistance of $() function across component re-renders', () => {
   })
 })
 
-describe.skip('$() function. Reactions', () => {
-  it('reaction', () => {
+describe('$() function. Reactions', () => {
+  afterEachTestGc()
+
+  it('reaction', async () => {
     const { $firstName, $lastName } = $({ firstName: 'John', lastName: 'Smith' })
     const $fullName = $(() => `${$firstName.get()} ${$lastName.get()}`)
     assert.equal($fullName.get(), 'John Smith')
     $firstName.set('Jane')
+    await runGc()
     assert.equal($fullName.get(), 'Jane Smith')
+    $firstName.set('Alice')
+    assert.equal($fullName.get(), 'Alice Smith')
+    await runGc()
+    $lastName.set('Brown')
+    await runGc()
+    assert.equal($fullName.get(), 'Alice Brown')
+    $firstName.set('John')
+    $lastName.set('Smith')
+    await runGc()
+    assert.equal($fullName.get(), 'John Smith')
   })
 })
 

@@ -14,6 +14,7 @@ export function get (segments) {
 
 export function set (segments, value) {
   let dataNode = dataTree
+  let dataNodeRaw = dataTreeRaw
   for (let i = 0; i < segments.length - 1; i++) {
     const segment = segments[i]
     if (dataNode[segment] == null) {
@@ -22,7 +23,9 @@ export function set (segments, value) {
       else dataNode[segment] = {}
     }
     dataNode = dataNode[segment]
+    dataNodeRaw = dataNodeRaw[segment]
   }
+  if (value === dataNodeRaw[segments[segments.length - 1]]) return
   dataNode[segments[segments.length - 1]] = value
 }
 
