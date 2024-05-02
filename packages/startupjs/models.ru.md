@@ -2,6 +2,8 @@
 
 С помощью хука 'models' можно модифицировать модели или добавлять новые. Хук получает модели (projectModels), которые были добавлены в проект.
 
+## Добавим новую модель
+
 Рассмотрим пример для модели коллекции persons. В этом примере опишем все в одном файле.
 
 Для каждой коллекции или документа необходимо указать объект с теми же полями, которые экспортируются из файла модели. В качестве альтернативы вы можете импортировать файл с моделью (ниже мы рассмотрим, как это делается).
@@ -125,6 +127,71 @@
           // в котором у нас уже собраны все необходимые поля)
           persons
         }
+      }
+    })
+  })
+```
+
+## Модифицируем уже существующую модель
+
+Создадим файл persons.js с классом модели коллекции persons. По умолчанию в классе не будет ни одного метода. Мы добавим метод addNew с помощью плагина, модифицировав класс.
+
+```js
+  import { BaseModel } from 'startupjs/orm'
+
+  class PersonsModel extends BaseModel {
+  }
+
+  export const schema = {
+    name: { type: 'string', required: true },
+    age: { type: 'number' },
+    gender: { type: 'string', enum: ['man', 'woman'] },
+    phone: { type: 'string' },
+    createdAt: { type: 'number' },
+    updatedAt: { type: 'number' }
+  }
+
+  const persons = {
+    default: PersonsModel,
+    schema
+  }
+
+  export default persons
+```
+
+Файл плагина в этом случае будет выглядеть так:
+
+```js
+  // импортируем объект, описанный выше в файле persons.js
+  import persons from './persons.js'
+
+  export default createPlugins({
+    name: 'updatePersonModel',
+    isomorphic: () => ({
+      // Получаем модели проекта (projectModels)
+      models: (projectModels) => {
+        // Наследуем класс от PersonModel, который был импортирован из person.js
+        class ModifiedPersonsModel extends persons.default {
+          // Добавляем новый метод в наследника
+          async addNew (data) {
+            const now = Date.now()
+            return await this.add({
+              ...data,
+              createdAt: now,
+              updatedAt: now
+            })
+          }
+        }
+        // возвращаем новую модель
+        const newModels = {
+          ...projectModels,
+          persons: {
+            default: ModifiedPersonsModel,
+            schema: persons.schema
+          }
+        }
+
+        return newModels
       }
     })
   })
