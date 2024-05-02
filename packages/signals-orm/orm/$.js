@@ -52,21 +52,3 @@ function runReaction (reaction, id) {
   const newValue = reaction()
   _set([LOCAL, id], newValue)
 }
-
-// function _$ (id, value) {
-//   if (typeof value === 'function') {
-//     return reactionSignal(id, value, true)
-//   } else {
-//     return valueSignal(id, value, true)
-//   }
-// }
-
-// function valueSignal (id, value, initialize) {
-//   const $value = $local[id]
-//   if (initialize) $value.set(value)
-//   return $value
-// }
-
-// function reactionSignal (id, fn, initialize) {
-//   // TODO
-// }
