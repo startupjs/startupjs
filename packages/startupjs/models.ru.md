@@ -171,6 +171,9 @@
       // Получаем модели проекта (projectModels)
       models: (projectModels) => {
         // Наследуем класс от PersonModel, который был импортирован из person.js
+        // К слову, нам необязательно импортировать класс модели.
+        // Мы можем создать наследника от класса из projectModels
+        // например, class ModifiedPersonsModel extends projectModels.files.default
         class ModifiedPersonsModel extends persons.default {
           // Добавляем новый метод в наследника
           async addNew (data) {
