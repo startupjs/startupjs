@@ -15,7 +15,11 @@
     "test": "node --expose-gc -r ./test/_init.cjs --test"
   },
   "dependencies": {
-    "@nx-js/observer-util": "^4.1.3"
+    "@nx-js/observer-util": "^4.1.3",
+    "sharedb": "^4.1.4"
+  },
+  "devDependencies": {
+    "sharedb-mingo-memory": "^3.0.1"
   },
   "license": "MIT"
 }

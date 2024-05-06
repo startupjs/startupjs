@@ -3,8 +3,8 @@ import { observable } from '@nx-js/observer-util'
 export const dataTreeRaw = {}
 const dataTree = observable(dataTreeRaw)
 
-export function get (segments) {
-  let dataNode = dataTree
+export function get (segments, tree = dataTree) {
+  let dataNode = tree
   for (const segment of segments) {
     if (dataNode == null) return dataNode
     dataNode = dataNode[segment]
@@ -12,8 +12,12 @@ export function get (segments) {
   return dataNode
 }
 
-export function set (segments, value) {
-  let dataNode = dataTree
+export function getRaw (segments) {
+  return get(segments, dataTreeRaw)
+}
+
+export function set (segments, value, tree = dataTree) {
+  let dataNode = tree
   let dataNodeRaw = dataTreeRaw
   for (let i = 0; i < segments.length - 1; i++) {
     const segment = segments[i]
@@ -29,8 +33,8 @@ export function set (segments, value) {
   dataNode[segments[segments.length - 1]] = value
 }
 
-export function del (segments) {
-  let dataNode = dataTree
+export function del (segments, tree = dataTree) {
+  let dataNode = tree
   for (let i = 0; i < segments.length - 1; i++) {
     const segment = segments[i]
     if (dataNode[segment] == null) return

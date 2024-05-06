@@ -1,8 +1,6 @@
 import { before, beforeEach, afterEach } from 'node:test'
 import { strict as assert } from 'node:assert'
 import { __DEBUG_SIGNALS_CACHE__ as signalsCache } from '../index.js'
-import { get as _get } from '../orm/dataTree.js'
-import { LOCAL } from '../orm/$.js'
 
 // the cache is not getting cleared if we just call global.gc()
 // so we need to wait for the next tick before and after calling it.
@@ -49,6 +47,5 @@ export function afterEachTestGc () {
   afterEach(async () => {
     await runGc()
     assert.equal(signalsCache.size, cacheSize, 'signals cache size should be back to original')
-    assert.deepEqual(_get([LOCAL]), {}, 'all local data should be GC\'ed')
   })
 }

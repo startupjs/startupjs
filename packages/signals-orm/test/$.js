@@ -1,12 +1,19 @@
-import { it, describe } from 'node:test'
+import { it, describe, afterEach } from 'node:test'
 import { strict as assert } from 'node:assert'
 import { afterEachTestGc, runGc } from './_helpers.js'
-import { $, sub$, __DEBUG_SIGNALS_CACHE__ as signalsCache } from '../index.js'
+import { $, __DEBUG_SIGNALS_CACHE__ as signalsCache } from '../index.js'
 import { get as _get } from '../orm/dataTree.js'
 import { LOCAL } from '../orm/$.js'
 
+export function afterEachTestGcLocal () {
+  afterEach(async () => {
+    assert.deepEqual(_get([LOCAL]), {}, 'all local data should be GC\'ed')
+  })
+}
+
 describe('$() function. Values', () => {
   afterEachTestGc()
+  afterEachTestGcLocal()
 
   it('create local model. Test that data gets deleted after the signal is GC\'ed', async () => {
     assert.equal(_get([LOCAL]), undefined, 'initially local model is undefined')
@@ -89,6 +96,7 @@ describe.skip('persistance of $() function across component re-renders', () => {
 
 describe('$() function. Reactions', () => {
   afterEachTestGc()
+  afterEachTestGcLocal()
 
   it('reaction', async () => {
     const { $firstName, $lastName } = $({ firstName: 'John', lastName: 'Smith' })
@@ -107,46 +115,5 @@ describe('$() function. Reactions', () => {
     $lastName.set('Smith')
     await runGc()
     assert.equal($fullName.get(), 'John Smith')
-  })
-})
-
-describe.skip('$sub() function', () => {
-  it('doc', async () => {
-    const gameId = '_1'
-    const $game = await sub$($.games[gameId])
-    assert.equal($game.id.get(), gameId)
-  })
-
-  it('doc: deep data also observable after .get()', async () => {
-    const gameId = '_2'
-    const $game = await sub$($.games[gameId])
-    const game = $game.get()
-    assert.equal(game.id, gameId)
-    // TODO: When returning data from .get(), it should be wrapped into Proxy too
-  })
-
-  it('query', async () => {
-    const $games = await sub$($.games, { active: true })
-    assert.equal($games.get().length, 2)
-  })
-
-  it('query should be iterable', async () => {
-    const $games = await sub$($.games, { active: true })
-    assert.equal([...$games].length, 2)
-  })
-
-  it('query should support .map()', async () => {
-    const $games = await sub$($.games, { active: true })
-    assert.equal($games.map($game => $game.id.get()).sort().join(','), '_1,_2')
-  })
-
-  it('async reaction', async () => {
-    const $value = await sub$(async () => {
-      await new Promise(resolve => setTimeout(resolve, 10))
-      return 42
-    })
-    assert.equal($value.get(), undefined)
-    await new Promise(resolve => setTimeout(resolve, 20))
-    assert.equal($value.get(), 42)
   })
 })

@@ -73,6 +73,7 @@ export const extremelyLateBindings = {
   },
   get (signal, key, receiver) {
     if (typeof key === 'symbol') return Reflect.get(signal, key, receiver)
+    if (key === 'then') return undefined // handle checks for whether the symbol is a Promise
     key = transformAlias(signal[SEGMENTS], key)
     return getSignal([...signal[SEGMENTS], key])
   }
@@ -91,3 +92,19 @@ const transformAlias = (({
   if (segments.length === 0) key = collectionsMapping[key] || key
   return key
 })()
+
+export function isPublicCollectionSignal ($signal) {
+  return $signal instanceof Signal && $signal[SEGMENTS].length === 1 && isPublicCollection($signal[SEGMENTS][0])
+}
+
+export function isPublicDocumentSignal ($signal) {
+  return $signal instanceof Signal && $signal[SEGMENTS].length === 2 && isPublicCollection($signal[SEGMENTS][0])
+}
+
+export function isPublicCollection (collectionName) {
+  return !isLocalCollection(collectionName)
+}
+
+export function isLocalCollection (collectionName) {
+  return /^[_$]/.test(collectionName)
+}

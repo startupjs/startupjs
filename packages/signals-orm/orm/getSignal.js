@@ -1,5 +1,5 @@
 import Cache from './Cache.js'
-import Signal, { regularBindings, extremelyLateBindings } from './Signal.js'
+import Signal, { regularBindings, extremelyLateBindings, isPublicCollection } from './Signal.js'
 import { findModel } from './addModel.js'
 import { LOCAL } from './$.js'
 
@@ -25,8 +25,11 @@ export default function getSignal (segments = [], {
 
   // if the signal is a child of the local value created through the $() function,
   // we need to add the parent signal ('$local.id') to the dependencies so that it doesn't get garbage collected
-  // before the child signal ('$local.id.firstName') is garbage collected
-  if (segments.length > 2 && segments[0] === LOCAL) dependencies.push(getSignal(segments.slice(0, 2)))
+  // before the child signal ('$local.id.firstName') is garbage collected.
+  // Same goes for public collections -- we need to keep the document signal alive while its child signals are alive
+  if (segments.length > 2 && (segments[0] === LOCAL || isPublicCollection(segments[0]))) {
+    dependencies.push(getSignal(segments.slice(0, 2)))
+  }
 
   PROXIES_CACHE.set(signalHash, proxy, dependencies)
   return proxy
