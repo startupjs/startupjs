@@ -11,7 +11,7 @@
  * 3. If extremely late bindings are enabled, to prevent name collisions when accessing fields
  *    in the raw data tree which have the same name as signal's methods
  */
-import { get as _get, set as _set } from './dataTree.js'
+import { get as _get, set as _set, del as _del, setPublicDoc as _setPublicDoc } from './dataTree.js'
 import getSignal, { rawSignal } from './getSignal.js'
 import $ from './$.js'
 
@@ -33,7 +33,22 @@ export default class Signal extends Function {
   }
 
   async set (value) {
-    _set(this[SEGMENTS], value)
+    if (this[SEGMENTS].length === 0) throw Error('Can\'t set the root signal data')
+    if (isPublicCollection(this[SEGMENTS][0])) {
+      await _setPublicDoc(this[SEGMENTS], value)
+    } else {
+      _set(this[SEGMENTS], value)
+    }
+  }
+
+  async del () {
+    if (this[SEGMENTS].length === 0) throw Error('Can\'t delete the root signal data')
+    if (isPublicCollection(this[SEGMENTS][0])) {
+      if (this[SEGMENTS].length === 1) throw Error('Can\'t delete the whole collection')
+      await _setPublicDoc(this[SEGMENTS], undefined, true)
+    } else {
+      _del(this[SEGMENTS])
+    }
   }
 
   // clone () {}
@@ -102,9 +117,11 @@ export function isPublicDocumentSignal ($signal) {
 }
 
 export function isPublicCollection (collectionName) {
+  if (!collectionName) return false
   return !isLocalCollection(collectionName)
 }
 
 export function isLocalCollection (collectionName) {
+  if (!collectionName) return false
   return /^[_$]/.test(collectionName)
 }

@@ -117,3 +117,44 @@ describe('$() function. Reactions', () => {
     assert.equal($fullName.get(), 'John Smith')
   })
 })
+
+describe('set, get, del on local collections', () => {
+  afterEachTestGc()
+  afterEachTestGcLocal()
+
+  it('set undefined deletes the key in object', () => {
+    const $obj = $({ a: 1, b: 2 })
+    $obj.a.set(undefined)
+    assert.deepEqual($obj.get(), { b: 2 })
+  })
+
+  it('set undefined on non-existing key does nothing', () => {
+    const $obj = $({ a: 1, b: 2 })
+    $obj.c.set(undefined)
+    assert.deepEqual($obj.get(), { a: 1, b: 2 })
+  })
+
+  it('set undefined sets array\'s element to undefined', () => {
+    const $arr = $([1, 2])
+    $arr[0].set(undefined)
+    assert.deepEqual($arr.get(), [undefined, 2])
+  })
+
+  it('set undefined on non-existing array index adds an undefined element', () => {
+    const $arr = $([1, 2])
+    $arr[3].set(undefined)
+    assert.deepEqual($arr.get(), [1, 2, undefined, undefined])
+  })
+
+  it('del deletes the key in object', () => {
+    const $obj = $({ a: 1, b: 2 })
+    $obj.a.del()
+    assert.deepEqual($obj.get(), { b: 2 })
+  })
+
+  it('del deletes the element in array', () => {
+    const $arr = $([1, 2])
+    $arr[0].del()
+    assert.deepEqual($arr.get(), [2])
+  })
+})

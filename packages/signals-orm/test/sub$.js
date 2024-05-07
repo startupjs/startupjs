@@ -84,11 +84,96 @@ describe('$sub() function', () => {
   })
 
   it.skip('doc: deep data also observable after .get()', async () => {
-    const gameId = '_10'
+    const gameId = '_20'
     const $game = await sub$($.games[gameId])
     const game = $game.get()
     assert.equal(game.id, gameId)
     // TODO: When returning data from .get(), it should be wrapped into Proxy too
+  })
+})
+
+describe('$sub() function. Modifying documents', () => {
+  afterEachTestGc()
+  afterEachTestGcShareDb()
+
+  it('.set() to create document and modify it', async () => {
+    const gameId = '_5'
+    const doc = connection.get('games', gameId)
+    assert.equal(doc.data, undefined, 'doc is initially undefined in sharedb')
+    assert.deepEqual($.games.get(), {}, 'games collection is empty')
+    const $game = await sub$($.games[gameId])
+    assert.equal(doc.data, undefined, 'subscription itself does not create the doc in sharedb')
+    assert.equal($game.get(), undefined, 'signal is undefined')
+    assert.deepEqual($.games.get(), {}, 'games collection is still empty')
+    await $game.set({ name: 'Game 5', players: 0 })
+    assert.equal($game.name.get(), 'Game 5')
+    assert.equal(doc.data.name, 'Game 5')
+    assert.deepEqual($game.get(), { name: 'Game 5', players: 0 })
+    assert.deepEqual(doc.data, { name: 'Game 5', players: 0 })
+    assert.deepEqual($.games.get(), { _5: { name: 'Game 5', players: 0 } })
+    await $game.name.set('Game 5 Magic')
+    assert.equal($game.name.get(), 'Game 5 Magic')
+    assert.equal(doc.data.name, 'Game 5 Magic')
+    assert.deepEqual($game.get(), { name: 'Game 5 Magic', players: 0 })
+    assert.deepEqual(doc.data, { name: 'Game 5 Magic', players: 0 })
+  })
+
+  it('.set() to deep modify document', async () => {
+    const gameId = '_6'
+    const doc = connection.get('games', gameId)
+    const $game = await sub$($.games[gameId])
+    await $game.set({ name: 'Game 6 Alt', players: 0 })
+    assert.deepEqual($game.get(), { name: 'Game 6 Alt', players: 0 })
+    assert.deepEqual(doc.data, { name: 'Game 6 Alt', players: 0 })
+    assert.deepEqual($.games.get(), { _6: { name: 'Game 6 Alt', players: 0 } })
+    await $game.set({ title: 'My Game', players: 5 })
+    assert.deepEqual($game.get(), { title: 'My Game', players: 5 })
+    assert.deepEqual(doc.data, { title: 'My Game', players: 5 })
+    assert.deepEqual($.games.get(), { _6: { title: 'My Game', players: 5 } })
+  })
+
+  it('.del() to delete document', async () => {
+    const gameId = '_7'
+    const doc = connection.get('games', gameId)
+    const $game = await sub$($.games[gameId])
+    await $game.set({ name: 'Game 7', players: 0 })
+    assert.deepEqual($game.get(), { name: 'Game 7', players: 0 })
+    assert.deepEqual(doc.data, { name: 'Game 7', players: 0 })
+    await $game.del()
+    assert.equal($game.get(), undefined)
+    assert.equal(doc.data, undefined)
+  })
+
+  it('.set(undefined) on document should delete it', async () => {
+    const gameId = '_8'
+    const doc = connection.get('games', gameId)
+    const $game = await sub$($.games[gameId])
+    await $game.set({ name: 'Game 8', players: 0 })
+    assert.deepEqual($game.get(), { name: 'Game 8', players: 0 })
+    assert.deepEqual(doc.data, { name: 'Game 8', players: 0 })
+    await $game.set(undefined)
+    assert.equal($game.get(), undefined)
+    assert.equal(doc.data, undefined)
+  })
+
+  it('.del() on subpath should delete the subpath', async () => {
+    const gameId = '_9'
+    const doc = connection.get('games', gameId)
+    const $game = await sub$($.games[gameId])
+    await $game.set({ name: 'Game 9', players: 0 })
+    assert.deepEqual($game.get(), { name: 'Game 9', players: 0 })
+    assert.deepEqual(doc.data, { name: 'Game 9', players: 0 })
+    await $game.name.del()
+    assert.deepEqual($game.get(), { players: 0 })
+    assert.deepEqual(doc.data, { players: 0 })
+  })
+
+  it('.set() on subpath on non-existing document should throw an error', async () => {
+    const gameId = '_10'
+    const $game = await sub$($.games[gameId])
+    await assert.rejects(async () => {
+      await $game.name.set('Game 10')
+    }, { message: /Can't set a value to a subpath of a document which doesn't exist/ })
   })
 })
 

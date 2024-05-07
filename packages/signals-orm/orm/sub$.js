@@ -134,6 +134,10 @@ class Doc {
     if (this.initialized) return
     this.initialized = true
     const doc = connection.get(this.collection, this.docId)
+    // TODO: JSON does not have `undefined`, so we'll be receiving `null`.
+    //       Handle this by converting all `null` to `undefined` in the doc's data tree.
+    //       To do this we'll probably need to in the `op` event update the data tree
+    //       and have a clone of the doc in our local data tree.
     this._refData()
     doc.on('load', () => this._refData())
     doc.on('create', () => this._refData())
@@ -143,6 +147,7 @@ class Doc {
   _refData () {
     const doc = connection.get(this.collection, this.docId)
     if (isObservable(doc.data)) return
+    if (doc.data == null) return
     _set([this.collection, this.docId], doc.data)
     doc.data = observable(doc.data)
   }

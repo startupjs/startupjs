@@ -4,7 +4,7 @@ import { runGc } from './_helpers.js'
 import { $, signal, __DEBUG_SIGNALS_CACHE__ as signalsCache } from '../index.js'
 
 describe('dot syntax', () => {
-  it('navigation', () => {
+  it('navigation and set/get into _session', () => {
     $._session.a.b.c.set(1)
     assert.equal($._session.a.b.c.get(), 1)
     assert.equal($._session.a.path(), '_session.a')
