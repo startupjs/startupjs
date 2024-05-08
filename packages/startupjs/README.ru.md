@@ -1,131 +1,11 @@
-# Мета-пакет StartupJS
+# Hooks
 
-Это мета-пакет `startupjs`, который объединяет все основные пакеты вместе
-для более простого распространения в качестве единого пакета.
+Если вы впервые на этой странице, начните знакомство с плагинами по ссылкам:
 
-Для общего описания StartupJS см. README в корневом монорепо.
+- [Что такое плагины и зачем они нужны](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/aboutPlugins.ru.md)
+- [Как создать плагин](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/createPlugin.ru.md)
 
-## Дополнительные зависимости
-
-- `events` добавлен здесь как явная зависимость, так как он используется внутри `racer`,
-  который не указывает его в своих собственных зависимостях. Обычно в браузере он будет заполифилен
-  webpack, но в нашем случае Metro не полифилит его самостоятельно, поэтому нам нужно иметь его
-  в наших зависимостях.
-
-
-## Plugins API
-
-Создайте файл плагина с именем plugin.js или myPlugin.plugin.js (вместо myPlugin вы можете указать любое другое название файла, но обязательно должна присутствовать вторая часть названия файла ".plugin.js"):
-
-```js
-import { createPlugin } from 'startupjs/registry'
-
-export default createPlugin({
-  // name - уникальное название плагина
-  name: 'my-plugin',
-  // enabled указывает, включен плагин или нет.
-  // Если его значение false, то плагин считается отключенным и его
-  // функциональность не будет активирована в приложении.
-  enabled: true,
-  client: (pluginOptions) => ({
-    // Здесь может быть добавлена реализация клиентских хуков
-  }),
-  isomorphic: (pluginOptions) => ({
-    // Здесь может быть добавлена реализация изоморфных хуков
-  }),
-  server: (pluginOptions) => ({
-    // Здесь может быть добавлена реализация серверных хуков. Например,
-    beforeSession: (expressApp) => {
-      expressApp.use('/your-uniq-path', yourFunction)
-    },
-    api: (expressApp) => {
-      expressApp.get('/api/your-uniq-path', async (req, res) => {})
-      expressApp.post('/api/your-uniq-path', async (req, res) => {})
-    }
-  })
-})
-```
-
-Добавьте информацию об этом файле в раздел `exports` файла `package.json` под именем `plugin` или `myPlugin.plugin`, чтобы он автоматически загружался в ваше приложение. Если плагины лежат в отдельной папке, то необходимо учесть путь:
-
-
-```json
-"exports": {
-  "./plugin": "./plugin.js",
-  "./plugins/myPlugin.plugin.js": "./plugins/myPlugin.plugin.js"
-}
-```
-
-Для того, чтобы передать параметры в плагин (pluginOptions в нашем примере), вам нужно указать их в файле startupjs.config.js.
-Для этого сначала импортируем плагины, затем указываем параметры в следующем виде:
-
-```js
-  import myPlugin from './plugins/myPlugin.plugin.js'
-  import somePlugin from './plugins/somePlugin.plugin.js'
-
-  export default {
-    plugins: {
-      // Здесь myPlugin, somePlugin - названия ваших плагинов
-      [myPlugin]: {
-        // Здесь указываем все, что касается серверных хуков
-        server: {
-          // Список параметров для серверных хуков. Они будут храниться в pluginOptions и доступны в хуках.
-          someOptionForServer: 'Hello from server'
-        },
-        // Здесь указываем все, что касается клиентских хуков
-        client: {
-          // Список параметров для клиентских хуков. Они будут храниться в pluginOptions и доступны в хуках.
-          someOptionForClient: 'Hello from client'
-        }
-      },
-      [somePlugin]: {
-        // Eсли параметры для client не нужны, то можно просто не указывать этот блок. Аналогично с server и isomorphic
-        server: {
-          someOption: 'Hello from server!'
-        }
-      },
-      // Здесь вы можете добавить свой плагин со списком необходимых параметров.
-    }
-  }
-```
-
-### Order (опционально)
-
-Опционально в createPlugin Вы можете добавить order - порядок исполнения хуков в плагине, указав "группу" исполнения.
-Помимо указанных ниже "групп", вы так же можете использовать варианты 'before группа' и 'after группа'.
-
-Возможные варианты групп в порядке их исполнения:
-
-```js
-export default [
-  'first',
-  'root',
-  'session',
-  'auth',
-  'api',
-  'pure', // для чистых плагинов startupjs, которые не зависят от наличия 'ui' или 'router'
-  'ui', //  для плагинов, которые зависят от 'ui'
-  'router', // для плагинов, которые зависят от 'router'
-  'default', // группа по умолчанию, которая выполняется после всех остальных
-  'last'
-]
-```
-
-Например,
-
-```js
-export default createPlugin({
-  name: 'my-plugin',
-  enabled: true,
-  order: 'ui',
-  client: (pluginOptions) => ({
-    // ...
-  })
-})
-```
-
-
-## Hooks / client
+## Hooks: client
 
 ### `renderRoot`
 
@@ -239,7 +119,7 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 ```
 
 
-## Hooks / isomorphic
+## Hooks: isomorphic
 
 В изоморфных хуках вы можете размещать код, который будет выполняться как на сервере, так и на клиенте.
 
@@ -294,7 +174,7 @@ import racerPlugin from './myRacerPlugin.js';
 ```
 
 
-## Hooks / server
+## Hooks: server
 
 ### `api`
 
@@ -521,3 +401,7 @@ export default createPlugin({
     "./plugins/test.plugin": "./plugins/test.plugin.js"
   }
 ```
+
+## Узнайте больше о системе плагинов:
+- [Что такое плагины и зачем они нужны](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/aboutPlugins.ru.md)
+- [Как создать плагин](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/createPlugin.ru.md)
