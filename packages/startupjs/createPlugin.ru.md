@@ -58,17 +58,17 @@ export default createPlugin({
         // Здесь указываем все, что касается серверных хуков
         server: {
           // Список параметров для серверных хуков. Они будут храниться в pluginOptions и доступны в хуках.
-          someServerOption: 'server'
+          someServerOption: 'some value'
         },
         // Здесь указываем все, что касается клиентских хуков
         client: {
           // Список параметров для клиентских хуков. Они будут храниться в pluginOptions и доступны в хуках.
-          someClientOption: 'client'
+          someClientOption: 'some value'
         },
         // Здесь указываем все, что касается изоморфных хуков
         isomorphic: {
           // Список параметров для изоморфных хуков. Они будут храниться в pluginOptions и доступны в хуках.
-          someIsomorphicOption: 'isomorphic'
+          someIsomorphicOption: 'some value'
         }
       },
       [somePlugin]: {
