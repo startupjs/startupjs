@@ -14,17 +14,19 @@ export default async function sub$ ($signal, params) {
   }
 }
 
-async function doc$ ($doc) {
-  await docSubscriptions.subscribe($doc)
-  return $doc
+function doc$ ($doc) {
+  const promise = docSubscriptions.subscribe($doc)
+  if (!promise) return $doc
+  return new Promise(resolve => promise.then(() => resolve($doc)))
 }
 
-async function query$ ($collection, params) {
+function query$ ($collection, params) {
   const $query = getQuerySignal($collection[SEGMENTS], params)
-  await querySubscriptions.subscribe($query)
-  return $query
+  const promise = querySubscriptions.subscribe($query)
+  if (!promise) return $query
+  return new Promise(resolve => promise.then(() => resolve($query)))
 }
 
 function api$ (fn, args) {
-
+  throw Error('sub$() for async functions is not implemented yet')
 }

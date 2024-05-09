@@ -199,14 +199,14 @@ class QuerySubscriptions {
     this.fr = new FinalizationRegistry(({ segments, params }) => this.destroy(segments, params))
   }
 
-  async subscribe ($query) {
+  subscribe ($query) {
     const segments = [...$query[SEGMENTS]]
     const params = JSON.parse(JSON.stringify($query[PARAMS]))
     const hash = hashQuery(segments, params)
     let count = this.subCount.get(hash) || 0
     count += 1
     this.subCount.set(hash, count)
-    if (count > 1) return
+    if (count > 1) return this.queries.get(hash).subscribing
 
     this.fr.register($query, { segments, params }, $query)
 
@@ -215,7 +215,7 @@ class QuerySubscriptions {
       query = new Query(segments[0], params)
       this.queries.set(hash, query)
     }
-    await query.subscribe()
+    return query.subscribe()
   }
 
   async unsubscribe ($query) {

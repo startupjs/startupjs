@@ -1,54 +1,36 @@
 // this is just the $() function implementation.
 // The actual $ exported from this package is a Proxy targeting the dataTree root,
 // and this function is an implementation of the `apply` handler for that Proxy.
-import { observe, unobserve } from '@nx-js/observer-util'
 import getSignal from './getSignal.js'
-import { set as _set, del as _del } from './dataTree.js'
+import { LOCAL, valueSubscriptions } from './Value.js'
+import { reactionSubscriptions } from './Reaction.js'
 
-export const LOCAL = '$local'
-const DELETION_DELAY = 0
+export { LOCAL } from './Value.js'
+
 let counter = 0
 
-const valuesFr = new FinalizationRegistry(id => {
-  _del([LOCAL, id])
-})
+function newIncrementalId () {
+  const id = `_${counter}`
+  counter += 1
+  return id
+}
 
-const reactionsFr = new FinalizationRegistry(([reaction, id]) => {
-  unobserve(reaction)
-  // don't delete data right away to prevent dependent reactions which are also going to be GC'ed
-  // from triggering unnecessarily
-  setTimeout(() => _del([LOCAL, id]), DELETION_DELAY)
-})
-
-export default function $ (value) {
+export default function $ (value, id) {
   if (typeof value === 'function') {
-    return reaction$(value)
+    return reaction$(value, id)
   } else {
-    return value$(value)
+    return value$(value, id)
   }
 }
 
-function value$ (value) {
-  const id = `_${counter}`
-  counter += 1
-  _set([LOCAL, id], value)
+function value$ (value, id = newIncrementalId()) {
   const $value = getSignal([LOCAL, id])
-  valuesFr.register($value, id)
+  valueSubscriptions.init($value, value)
   return $value
 }
 
-function reaction$ (fn) {
-  const id = `_${counter}`
-  counter += 1
-  const reactionScheduler = reaction => runReaction(reaction, id)
-  const reaction = observe(fn, { lazy: true, scheduler: reactionScheduler })
-  runReaction(reaction, id)
+function reaction$ (fn, id = newIncrementalId()) {
   const $value = getSignal([LOCAL, id])
-  reactionsFr.register($value, [reaction, id])
+  reactionSubscriptions.init($value, fn)
   return $value
-}
-
-function runReaction (reaction, id) {
-  const newValue = reaction()
-  _set([LOCAL, id], newValue)
 }

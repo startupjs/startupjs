@@ -224,6 +224,11 @@ describe('$sub() function. Queries', () => {
     const $activeGames = await sub$($.games, { active: true })
     assert.deepEqual($activeGames.map($game => $game.name.get()).sort(), ['Game 1', 'Game 2'])
   })
+
+  it('query ids should support .map()', async () => {
+    const $activeGames = await sub$($.games, { active: true })
+    assert.deepEqual($activeGames.ids.map($id => $id.get()).sort(), ['_1', '_2'])
+  })
 })
 
 describe.skip('$sub() function. Async api functions', () => {

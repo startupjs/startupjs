@@ -178,17 +178,17 @@ class DocSubscriptions {
     doc.init()
   }
 
-  async subscribe ($doc) {
+  subscribe ($doc) {
     const segments = [...$doc[SEGMENTS]]
     const hash = hashDoc(segments)
     let count = this.subCount.get(hash) || 0
     count += 1
     this.subCount.set(hash, count)
-    if (count > 1) return
+    if (count > 1) return this.docs.get(hash).subscribing
 
     this.init($doc)
     const doc = this.docs.get(hash)
-    await doc.subscribe()
+    return doc.subscribe()
   }
 
   async unsubscribe ($doc) {
