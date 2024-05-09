@@ -14,6 +14,7 @@
 import { get as _get, set as _set, del as _del, setPublicDoc as _setPublicDoc } from './dataTree.js'
 import getSignal, { rawSignal } from './getSignal.js'
 import $ from './$.js'
+import { IS_QUERY, HASH, QUERIES } from './Query.js'
 
 export const SEGMENTS = Symbol('path segments targeting the particular node in the data tree')
 
@@ -29,7 +30,37 @@ export default class Signal extends Function {
   }
 
   get () {
+    if (this[IS_QUERY]) {
+      const hash = this[HASH]
+      return _get([QUERIES, hash, 'docs'])
+    }
     return _get(this[SEGMENTS])
+  }
+
+  * [Symbol.iterator] () {
+    if (this[IS_QUERY]) {
+      const ids = _get([QUERIES, this[HASH], 'ids'])
+      for (const id of ids) yield getSignal([this[SEGMENTS][0], id])
+    } else {
+      const items = _get(this[SEGMENTS])
+      if (!Array.isArray(items)) return
+      for (let i = 0; i < items.length; i++) yield getSignal([...this[SEGMENTS], i])
+    }
+  }
+
+  map (...args) {
+    if (this[IS_QUERY]) {
+      const collection = this[SEGMENTS][0]
+      const hash = this[HASH]
+      const ids = _get([QUERIES, hash, 'ids'])
+      return ids.map(id => getSignal([collection, id])).map(...args)
+    }
+    const items = _get(this[SEGMENTS])
+    if (!Array.isArray(items)) return []
+    return Array(items.length)
+      .fill()
+      .map((_, index) => getSignal([...this[SEGMENTS], index]))
+      .map(...args)
   }
 
   async set (value) {
@@ -74,6 +105,8 @@ export const regularBindings = {
   }
 }
 
+const QUERY_METHODS = ['map', 'get']
+
 // dot syntax always returns a child signal even if such method or property exists.
 // The method is only called when the signal is explicitly called as a function,
 // in which case we get the original method from the raw (non-proxied) parent signal
@@ -81,15 +114,21 @@ export const extremelyLateBindings = {
   apply (signal, thisArg, argumentsList) {
     if (signal[SEGMENTS].length === 0) return Reflect.apply($, thisArg, argumentsList)
     const key = signal[SEGMENTS][signal[SEGMENTS].length - 1]
-    const parentProxy = getSignal(signal[SEGMENTS].slice(0, -1))
-    const parentSignal = rawSignal(parentProxy)
-    if (!(key in parentSignal)) throw Error(`Method "${key}" does not exist on signal "${parentProxy[SEGMENTS].join('.')}"`)
-    return Reflect.apply(parentSignal[key], parentProxy, argumentsList)
+    const $parent = getSignal(signal[SEGMENTS].slice(0, -1))
+    const rawParent = rawSignal($parent)
+    if (!(key in rawParent)) {
+      throw Error(`Method "${key}" does not exist on signal "${$parent[SEGMENTS].join('.')}"`)
+    }
+    return Reflect.apply(rawParent[key], $parent, argumentsList)
   },
   get (signal, key, receiver) {
     if (typeof key === 'symbol') return Reflect.get(signal, key, receiver)
     if (key === 'then') return undefined // handle checks for whether the symbol is a Promise
     key = transformAlias(signal[SEGMENTS], key)
+    if (signal[IS_QUERY]) {
+      if (key === 'ids') return getSignal([QUERIES, signal[HASH], 'ids'])
+      if (QUERY_METHODS.includes(key)) return Reflect.get(signal, key, receiver)
+    }
     return getSignal([...signal[SEGMENTS], key])
   }
 }

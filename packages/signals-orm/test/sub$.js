@@ -1,9 +1,10 @@
-import { it, describe, afterEach } from 'node:test'
+import { it, describe, afterEach, before } from 'node:test'
 import { strict as assert } from 'node:assert'
 import { afterEachTestGc, runGc } from './_helpers.js'
 import { $, sub$ } from '../index.js'
 import { get as _get } from '../orm/dataTree.js'
 import connection from '../orm/connection.server.js'
+import { hashQuery } from '../orm/Query.js'
 
 function cbPromise (fn) {
   return new Promise((resolve, reject) => {
@@ -177,23 +178,56 @@ describe('$sub() function. Modifying documents', () => {
   })
 })
 
-describe.skip('$sub() function. Queries', () => {
-  it('query', async () => {
-    const $games = await sub$($.games, { active: true })
-    assert.equal($games.get().length, 2)
+describe('$sub() function. Queries', () => {
+  // TODO: test garbage collecting sharedb queries, sharedb docs, query signals
+  let $game1, $game2, $game3
+
+  before(async () => {
+    $game1 = $.games._1
+    $game2 = $.games._2
+    $game3 = $.games._3
+    await $game1.set({ name: 'Game 1', active: true })
+    await $game2.set({ name: 'Game 2', active: true })
+    await $game3.set({ name: 'Game 3', active: false })
+  })
+
+  afterEachTestGc()
+
+  it('subscribe to query, modify it', async () => {
+    const $activeGames = await sub$($.games, { active: true })
+    assert.equal($activeGames.get().length, 2)
+    assert.deepEqual(_get(['$queries']), {
+      [hashQuery(['games'], { active: true })]: {
+        docs: [
+          { name: 'Game 1', active: true },
+          { name: 'Game 2', active: true }
+        ],
+        ids: ['_1', '_2']
+      }
+    })
+    assert.equal($activeGames._1.name.get(), 'Game 1', 'can access document with dot')
+    assert.deepEqual($activeGames.ids.get(), ['_1', '_2'], 'special ids signal is available')
+    $activeGames._1.players.set(1)
+    assert.equal($game1.players.get(), 1, 'modifying the document through the query signal')
+    assert.deepEqual($activeGames.get(), [
+      { name: 'Game 1', active: true, players: 1 },
+      { name: 'Game 2', active: true }
+    ], 'query signal has updated data')
   })
 
   it('query should be iterable', async () => {
-    const $games = await sub$($.games, { active: true })
-    assert.equal([...$games].length, 2)
+    const $activeGames = await sub$($.games, { active: true })
+    assert.equal([...$activeGames].length, 2)
   })
 
   it('query should support .map()', async () => {
-    const $games = await sub$($.games, { active: true })
-    assert.equal($games.map($game => $game.id.get()).sort().join(','), '_1,_2')
+    const $activeGames = await sub$($.games, { active: true })
+    assert.deepEqual($activeGames.map($game => $game.name.get()).sort(), ['Game 1', 'Game 2'])
   })
+})
 
-  it('async reaction', async () => {
+describe.skip('$sub() function. Async api functions', () => {
+  it('async function', async () => {
     const $value = await sub$(async () => {
       await new Promise(resolve => setTimeout(resolve, 10))
       return 42

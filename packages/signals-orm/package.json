@@ -12,7 +12,8 @@
     "access": "public"
   },
   "scripts": {
-    "test": "node --expose-gc -r ./test/_init.cjs --test"
+    "test": "node --expose-gc -r ./test/_init.cjs --test",
+    "test-only": "node --expose-gc -r ./test/_init.cjs --test --test-only"
   },
   "dependencies": {
     "@nx-js/observer-util": "^4.1.3",

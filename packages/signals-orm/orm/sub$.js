@@ -1,5 +1,6 @@
-import Signal, { isPublicCollectionSignal, isPublicDocumentSignal } from './Signal.js'
+import Signal, { SEGMENTS, isPublicCollectionSignal, isPublicDocumentSignal } from './Signal.js'
 import { docSubscriptions } from './Doc.js'
+import { querySubscriptions, getQuerySignal } from './Query.js'
 
 export default async function sub$ ($signal, params) {
   if (isPublicDocumentSignal($signal)) {
@@ -18,8 +19,10 @@ async function doc$ ($doc) {
   return $doc
 }
 
-function query$ ($collection, params) {
-
+async function query$ ($collection, params) {
+  const $query = getQuerySignal($collection[SEGMENTS], params)
+  await querySubscriptions.subscribe($query)
+  return $query
 }
 
 function api$ (fn, args) {

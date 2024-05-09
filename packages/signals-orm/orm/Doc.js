@@ -14,7 +14,13 @@ class Doc {
   constructor (collection, docId) {
     this.collection = collection
     this.docId = docId
-    this._maybeInitData()
+    this.init()
+  }
+
+  init () {
+    if (this.initialized) return
+    this.initialized = true
+    this._initData()
   }
 
   async subscribe () {
@@ -49,7 +55,7 @@ class Doc {
       try {
         this.subscribing = this._subscribe()
         await this.subscribing
-        this._maybeInitData()
+        this.init()
       } catch (err) {
         console.log('subscription error', [this.collection, this.docId], err)
         this.subscribed = undefined
@@ -123,9 +129,7 @@ class Doc {
     })
   }
 
-  _maybeInitData () {
-    if (this.initialized) return
-    this.initialized = true
+  _initData () {
     const doc = connection.get(this.collection, this.docId)
     // TODO: JSON does not have `undefined`, so we'll be receiving `null`.
     //       Handle this by converting all `null` to `undefined` in the doc's data tree.
@@ -154,59 +158,71 @@ class DocSubscriptions {
   constructor () {
     this.subCount = new Map()
     this.docs = new Map()
+    this.initialized = new Map()
     this.fr = new FinalizationRegistry(segments => this.destroy(segments))
+  }
+
+  init ($doc) {
+    const segments = [...$doc[SEGMENTS]]
+    const hash = hashDoc(segments)
+    if (this.initialized.has(hash)) return
+    this.initialized.set(hash, true)
+
+    this.fr.register($doc, segments, $doc)
+
+    let doc = this.docs.get(hash)
+    if (!doc) {
+      doc = new Doc(...segments)
+      this.docs.set(hash, doc)
+    }
+    doc.init()
   }
 
   async subscribe ($doc) {
     const segments = [...$doc[SEGMENTS]]
-    let count = this.subCount.get(hash(segments)) || 0
+    const hash = hashDoc(segments)
+    let count = this.subCount.get(hash) || 0
     count += 1
-    this.subCount.set(hash(segments), count)
+    this.subCount.set(hash, count)
     if (count > 1) return
 
-    this.fr.register($doc, segments, $doc)
-
-    let doc = this.docs.get(hash(segments))
-    if (!doc) {
-      doc = new Doc(...segments)
-      this.docs.set(hash(segments), doc)
-    }
+    this.init($doc)
+    const doc = this.docs.get(hash)
     await doc.subscribe()
   }
 
   async unsubscribe ($doc) {
     const segments = [...$doc[SEGMENTS]]
-    let count = this.subCount.get(hash(segments)) || 0
+    const hash = hashDoc(segments)
+    let count = this.subCount.get(hash) || 0
     count -= 1
     if (count < 0) {
       if (ERROR_ON_EXCESSIVE_UNSUBSCRIBES) throw ERRORS.notSubscribed($doc)
       return
     }
     if (count > 0) {
-      this.subCount.set(hash(segments), count)
+      this.subCount.set(hash, count)
       return
     }
-    this.subCount.delete(hash(segments))
     this.fr.unregister($doc)
-    const doc = this.docs.get(hash(segments))
-    await doc.unsubscribe()
-    if (doc.subscribed) return // if we subscribed again while waiting for unsubscribe, we don't delete the doc
-    this.docs.delete(hash(segments))
+    this.destroy(segments)
   }
 
   async destroy (segments) {
-    const doc = this.docs.get(hash(segments))
+    const hash = hashDoc(segments)
+    const doc = this.docs.get(hash)
     if (!doc) return
-    this.subCount.delete(hash(segments))
+    this.subCount.delete(hash)
+    this.initialized.delete(hash)
     await doc.unsubscribe()
     if (doc.subscribed) return // if we subscribed again while waiting for unsubscribe, we don't delete the doc
-    this.docs.delete(hash(segments))
+    this.docs.delete(hash)
   }
 }
 
 export const docSubscriptions = new DocSubscriptions()
 
-function hash (segments) {
+function hashDoc (segments) {
   return JSON.stringify(segments)
 }
 
