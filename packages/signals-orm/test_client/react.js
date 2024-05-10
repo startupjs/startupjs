@@ -3,10 +3,6 @@ import { describe, it, afterEach, expect } from '@jest/globals'
 import { act, cleanup, fireEvent, render } from '@testing-library/react'
 import { $, observer, use$, useSub$ } from '../index.js'
 
-function fr (...children) {
-  return el(Fragment, {}, ...children)
-}
-
 afterEach(cleanup)
 
 describe('observer', () => {
@@ -123,8 +119,19 @@ describe('useSub$() for subscribing to documents', () => {
     expect(container.textContent).toBe('Jane')
     await wait(30)
     expect(renders).toBe(4)
+    act(() => {
+      $.users._1.name.set('Alice')
+    })
+    expect(renders).toBe(5)
+    expect(container.textContent).toBe('Alice')
+    await wait(30)
+    expect(renders).toBe(5)
   })
 })
+
+function fr (...children) {
+  return el(Fragment, {}, ...children)
+}
 
 async function wait (ms) {
   return await act(async () => {
