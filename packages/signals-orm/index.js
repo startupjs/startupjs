@@ -6,3 +6,5 @@ export { getSignal as signal }
 export { default as sub$ } from './orm/sub$.js'
 export const $ = getSignal()
 export default $
+export { use$, useSub$ } from './react/hooks.js'
+export { default as observer } from './react/observer.js'

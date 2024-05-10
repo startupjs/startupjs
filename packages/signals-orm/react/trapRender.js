@@ -2,7 +2,7 @@
 // during synchronous rendering
 import { unobserve } from '@nx-js/observer-util'
 
-export default function trapRender ({ render, blockUpdate, cache, reaction }) {
+export default function trapRender ({ render, blockUpdate, cache, reactionRef }) {
   return (...args) => {
     blockUpdate.value = true
     cache.activate()
@@ -16,7 +16,10 @@ export default function trapRender ({ render, blockUpdate, cache, reaction }) {
 
       // TODO: this might only be needed only if promise in thrown
       //       (check if useUnmount in convertToObserver is called if a regular error is thrown)
-      unobserve(reaction)
+      if (reactionRef.current) {
+        unobserve(reactionRef.current)
+        reactionRef.current = undefined
+      }
 
       if (!err.then) throw err
       // If the Promise was thrown, we catch it before Suspense does.

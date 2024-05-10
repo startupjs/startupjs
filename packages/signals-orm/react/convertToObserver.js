@@ -22,6 +22,7 @@ export default function convertToObserver (BaseComponent, options = {}) {
 
     // wrap the BaseComponent into an observe decorator once.
     // This way it will track any observable changes and will trigger rerender
+    const reactionRef = useMemo(() => ({}), [])
     const observedRender = useMemo(() => {
       const blockUpdate = { value: false }
       const update = () => {
@@ -31,19 +32,24 @@ export default function convertToObserver (BaseComponent, options = {}) {
         // (when the sync rendening is in progress)
         if (!blockUpdate.value) forceUpdate()
       }
-      const trappedRender = trapRender({ render: BaseComponent, blockUpdate, cache, reaction: observedRender })
+      const trappedRender = trapRender({ render: BaseComponent, blockUpdate, cache, reactionRef })
       return observe(trappedRender, {
         scheduler: update,
         lazy: true
       })
     }, [random])
 
+    if (reactionRef.current !== observedRender) reactionRef.current = observedRender
+
     // clean up observer on unmount
     useUnmount(() => {
       // TODO: this does not execute the same amount of times as observe() does,
       //       probably because of throw's of the async hooks.
       //       So there probably are memory leaks here. Research this.
-      unobserve(observedRender)
+      if (observedRender.current) {
+        unobserve(observedRender.current)
+        observedRender.current = undefined
+      }
     })
 
     return observedRender(...args)
