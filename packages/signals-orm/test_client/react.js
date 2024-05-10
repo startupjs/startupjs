@@ -21,7 +21,7 @@ describe('observer', () => {
     })
     expect(container.textContent).toBe('John')
     expect(renders).toBe(2)
-    await wait(30)
+    await wait()
     expect(renders).toBe(2)
   })
 
@@ -62,7 +62,7 @@ describe('observer', () => {
     })
     expect(container.textContent).toBe('John Smith')
     expect(renders).toBe(2)
-    await wait(30)
+    await wait()
     expect(renders).toBe(2)
   })
 })
@@ -84,7 +84,7 @@ describe('use$() hook for creating values', () => {
     fireEvent.click(container.querySelector('button'))
     expect(container.textContent).toBe('Jane')
     expect(renders).toBe(2)
-    await wait(30)
+    await wait()
     expect(renders).toBe(2)
   })
 })
@@ -108,7 +108,7 @@ describe('useSub$() for subscribing to documents', () => {
     const { container } = render(el(Component))
     expect(renders).toBe(1)
     expect(container.textContent).toBe('')
-    await wait(30)
+    await wait()
     expect(renders).toBe(2)
     expect(container.textContent).toBe('anonymous')
     fireEvent.click(container.querySelector('#doc'))
@@ -117,14 +117,14 @@ describe('useSub$() for subscribing to documents', () => {
     fireEvent.click(container.querySelector('#name'))
     expect(renders).toBe(4)
     expect(container.textContent).toBe('Jane')
-    await wait(30)
+    await wait()
     expect(renders).toBe(4)
     act(() => {
       $.users._1.name.set('Alice')
     })
     expect(renders).toBe(5)
     expect(container.textContent).toBe('Alice')
-    await wait(30)
+    await wait()
     expect(renders).toBe(5)
   })
 })
@@ -133,7 +133,7 @@ function fr (...children) {
   return el(Fragment, {}, ...children)
 }
 
-async function wait (ms) {
+async function wait (ms = 30) {
   return await act(async () => {
     await new Promise(resolve => setTimeout(resolve, ms))
   })
