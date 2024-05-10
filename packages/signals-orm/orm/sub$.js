@@ -2,7 +2,7 @@ import Signal, { SEGMENTS, isPublicCollectionSignal, isPublicDocumentSignal } fr
 import { docSubscriptions } from './Doc.js'
 import { querySubscriptions, getQuerySignal } from './Query.js'
 
-export default async function sub$ ($signal, params) {
+export default function sub$ ($signal, params) {
   if (isPublicDocumentSignal($signal)) {
     return doc$($signal)
   } else if (isPublicCollectionSignal($signal)) {

@@ -1,7 +1,7 @@
 import { createElement as el, Fragment } from 'react'
 import { describe, it, afterEach, expect } from '@jest/globals'
 import { act, cleanup, fireEvent, render } from '@testing-library/react'
-import { $, observer, use$ } from '../index.js'
+import { $, observer, use$, useSub$ } from '../index.js'
 
 function fr (...children) {
   return el(Fragment, {}, ...children)
@@ -25,7 +25,7 @@ describe('observer', () => {
     })
     expect(container.textContent).toBe('John')
     expect(renders).toBe(2)
-    await new Promise(resolve => setTimeout(resolve, 30))
+    await wait(30)
     expect(renders).toBe(2)
   })
 
@@ -66,7 +66,7 @@ describe('observer', () => {
     })
     expect(container.textContent).toBe('John Smith')
     expect(renders).toBe(2)
-    await new Promise(resolve => setTimeout(resolve, 30))
+    await wait(30)
     expect(renders).toBe(2)
   })
 })
@@ -88,7 +88,46 @@ describe('use$() hook for creating values', () => {
     fireEvent.click(container.querySelector('button'))
     expect(container.textContent).toBe('Jane')
     expect(renders).toBe(2)
-    await new Promise(resolve => setTimeout(resolve, 30))
+    await wait(30)
     expect(renders).toBe(2)
   })
 })
+
+describe.skip('use$() hook for creating reactions', () => {
+
+})
+
+describe('useSub$() for subscribing to documents', () => {
+  it('subscribes to a document and rerenders on changes', async () => {
+    let renders = 0
+    const Component = observer(() => {
+      renders++
+      const $user = useSub$($.users._1)
+      return fr(
+        el('span', {}, $user.name.get() || 'anonymous'),
+        el('button', { id: 'doc', onClick: () => $user.set({ name: 'John' }) }),
+        el('button', { id: 'name', onClick: () => $user.name.set('Jane') })
+      )
+    })
+    const { container } = render(el(Component))
+    expect(renders).toBe(1)
+    expect(container.textContent).toBe('')
+    await wait(30)
+    expect(renders).toBe(2)
+    expect(container.textContent).toBe('anonymous')
+    fireEvent.click(container.querySelector('#doc'))
+    expect(renders).toBe(3)
+    expect(container.textContent).toBe('John')
+    fireEvent.click(container.querySelector('#name'))
+    expect(renders).toBe(4)
+    expect(container.textContent).toBe('Jane')
+    await wait(30)
+    expect(renders).toBe(4)
+  })
+})
+
+async function wait (ms) {
+  return await act(async () => {
+    await new Promise(resolve => setTimeout(resolve, ms))
+  })
+}
