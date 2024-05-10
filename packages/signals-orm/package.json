@@ -40,10 +40,10 @@
   "jest": {
     "transform": {},
     "testEnvironment": "jsdom",
-    "testRegex": "test_browser/.*\\.jsx?$",
+    "testRegex": "test_client/.*\\.jsx?$",
     "testPathIgnorePatterns": [
       "node_modules",
-      "<rootDir>/test_browser/helpers"
+      "<rootDir>/test_client/helpers"
     ]
   },
   "license": "MIT"
