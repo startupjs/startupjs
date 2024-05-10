@@ -1,3 +1,6 @@
+// TODO: rewrite to use useSyncExternalStore like in mobx. This will also help with handling Suspense abandonment better
+//       to cleanup the observer() reaction when the component is unmounted or was abandoned and unmounts will never trigger.
+//       ref: https://github.com/mobxjs/mobx/blob/94bc4997c14152ff5aefcaac64d982d5c21ba51a/packages/mobx-react-lite/src/useObserver.ts
 import { createElement as el, forwardRef as _forwardRef, useCallback, useState, useMemo } from 'react'
 import _throttle from 'lodash/throttle.js'
 import { observe, unobserve } from '@nx-js/observer-util'
