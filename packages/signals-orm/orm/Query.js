@@ -266,9 +266,9 @@ export function getQuerySignal (segments, params, options) {
     signalHash: hash,
     ...options
   })
-  $query[IS_QUERY] = true
-  $query[PARAMS] = params
-  $query[HASH] = hash
+  $query[IS_QUERY] ??= true
+  $query[PARAMS] ??= params
+  $query[HASH] ??= hash
   return $query
 }
 

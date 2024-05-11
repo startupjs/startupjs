@@ -13,8 +13,8 @@
  */
 import { get as _get, set as _set, del as _del, setPublicDoc as _setPublicDoc } from './dataTree.js'
 import getSignal, { rawSignal } from './getSignal.js'
-import $ from './$.js'
 import { IS_QUERY, HASH, QUERIES } from './Query.js'
+import { ROOT_FUNCTION } from './Root.js'
 
 export const SEGMENTS = Symbol('path segments targeting the particular node in the data tree')
 
@@ -96,7 +96,10 @@ export default class Signal extends Function {
 // dot syntax returns a child signal only if no such method or property exists
 export const regularBindings = {
   apply (signal, thisArg, argumentsList) {
-    if (signal[SEGMENTS].length === 0) return Reflect.apply($, thisArg, argumentsList)
+    if (signal[SEGMENTS].length === 0) {
+      if (!signal[ROOT_FUNCTION]) throw Error(ERRORS.noRootFunction)
+      return Reflect.apply(signal[ROOT_FUNCTION], thisArg, argumentsList)
+    }
     throw Error('Signal can\'t be called as a function since extremely late bindings are disabled')
   },
   get (signal, key, receiver) {
@@ -112,7 +115,10 @@ const QUERY_METHODS = ['map', 'get']
 // in which case we get the original method from the raw (non-proxied) parent signal
 export const extremelyLateBindings = {
   apply (signal, thisArg, argumentsList) {
-    if (signal[SEGMENTS].length === 0) return Reflect.apply($, thisArg, argumentsList)
+    if (signal[SEGMENTS].length === 0) {
+      if (!signal[ROOT_FUNCTION]) throw Error(ERRORS.noRootFunction)
+      return Reflect.apply(signal[ROOT_FUNCTION], thisArg, argumentsList)
+    }
     const key = signal[SEGMENTS][signal[SEGMENTS].length - 1]
     const $parent = getSignal(signal[SEGMENTS].slice(0, -1))
     const rawParent = rawSignal($parent)
@@ -163,4 +169,11 @@ export function isPublicCollection (collectionName) {
 export function isLocalCollection (collectionName) {
   if (!collectionName) return false
   return /^[_$]/.test(collectionName)
+}
+
+const ERRORS = {
+  noRootFunction: `
+    Root signal does not have a root function set.
+    You must use getRootSignal() to create a root signal.
+  `
 }

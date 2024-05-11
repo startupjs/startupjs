@@ -1,7 +1,7 @@
 import { createElement as el, Fragment } from 'react'
 import { describe, it, afterEach, expect } from '@jest/globals'
 import { act, cleanup, fireEvent, render } from '@testing-library/react'
-import { $, observer, use$, useSub$ } from '../index.js'
+import { $, sub$, observer } from '../index.js'
 
 afterEach(cleanup)
 
@@ -72,7 +72,7 @@ describe('use$() hook for creating values', () => {
     let renders = 0
     const Component = observer(() => {
       renders++
-      const $name = use$('John')
+      const $name = $('John')
       return fr(
         el('span', {}, $name.get() || 'anonymous'),
         el('button', { onClick: () => $name.set('Jane') })
@@ -89,8 +89,111 @@ describe('use$() hook for creating values', () => {
   })
 })
 
-describe.skip('use$() hook for creating reactions', () => {
+describe('use$() hook for creating reactions', () => {
+  it('create reaction from global signals and update dependent values', async () => {
+    let renders = 0
+    const { $name, $surname, $age, $hasAge } = $.session.reactionTest1
+    const Component = observer(() => {
+      renders++
+      const $fullName = $(() => `${$name.get() || 'Anon'} ${$surname.get() || 'Anonymous'}${$hasAge.get() ? (' ' + $age.get()) : ''}`)
+      return fr(
+        el('span', {}, $fullName.get() || 'Anon Anonymous'),
+        el('button', { id: 'fullName', onClick: () => { $name.set('John'); $surname.set('Smith') } }),
+        el('button', { id: 'age', onClick: () => $age.set(($age.get() || 20) + 1) }),
+        el('button', { id: 'hasAge', onClick: () => $hasAge.set(!$hasAge.get()) })
+      )
+    })
+    const { container } = render(el(Component))
+    expect(container.textContent).toBe('Anon Anonymous')
+    expect(renders).toBe(1)
+    fireEvent.click(container.querySelector('#fullName'))
+    expect(container.textContent).toBe('John Smith')
+    expect(renders).toBe(2)
+    await wait()
+    expect(renders).toBe(2)
+    // check that .set() on its own doesn\'t trigger rerender
+    // and that since $age.get() is not initially accessed in the reaction,
+    // it doesn\'t trigger rerender either
+    fireEvent.click(container.querySelector('#age'))
+    expect(container.textContent).toBe('John Smith')
+    expect(renders).toBe(2)
+    await wait()
+    expect(renders).toBe(2)
+    // after $hasAge has change to true, the $age.get() is accessed in the reaction
+    // and should be tracked afterwards
+    fireEvent.click(container.querySelector('#hasAge'))
+    expect(container.textContent).toBe('John Smith 21')
+    expect(renders).toBe(3)
+    // changing $age should trigger rerender now since it's accessed in the reaction
+    fireEvent.click(container.querySelector('#age'))
+    expect(container.textContent).toBe('John Smith 22')
+    expect(renders).toBe(4)
+    await wait()
+    expect(renders).toBe(4)
+    // changing $hasAge to false should stop tracking $age
+    fireEvent.click(container.querySelector('#hasAge'))
+    expect(container.textContent).toBe('John Smith')
+    expect(renders).toBe(5)
+    // changing $age should not trigger rerenders anymore
+    fireEvent.click(container.querySelector('#age'))
+    expect(container.textContent).toBe('John Smith')
+    expect(renders).toBe(5)
+    await wait()
+    expect(renders).toBe(5)
+  })
 
+  it('create reaction from local use$() signals and update dependent values', async () => {
+    // same as the previous test, but with local signals (created in the component itself)
+    let renders = 0
+    const Component = observer(() => {
+      renders++
+      const { $name, $surname, $age, $hasAge } = $()
+      const $fullName = $(() => `${$name.get() || 'Anon'} ${$surname.get() || 'Anonymous'}${$hasAge.get() ? (' ' + $age.get()) : ''}`)
+      return fr(
+        el('span', {}, $fullName.get() || 'Anon Anonymous'),
+        el('button', { id: 'fullName', onClick: () => { $name.set('John'); $surname.set('Smith') } }),
+        el('button', { id: 'age', onClick: () => $age.set(($age.get() || 20) + 1) }),
+        el('button', { id: 'hasAge', onClick: () => $hasAge.set(!$hasAge.get()) })
+      )
+    })
+    const { container } = render(el(Component))
+    expect(container.textContent).toBe('Anon Anonymous')
+    expect(renders).toBe(1)
+    fireEvent.click(container.querySelector('#fullName'))
+    expect(container.textContent).toBe('John Smith')
+    expect(renders).toBe(2)
+    await wait()
+    expect(renders).toBe(2)
+    // check that .set() on its own doesn\'t trigger rerender
+    // and that since $age.get() is not initially accessed in the reaction,
+    // it doesn\'t trigger rerender either
+    fireEvent.click(container.querySelector('#age'))
+    expect(container.textContent).toBe('John Smith')
+    expect(renders).toBe(2)
+    await wait()
+    expect(renders).toBe(2)
+    // after $hasAge has change to true, the $age.get() is accessed in the reaction
+    // and should be tracked afterwards
+    fireEvent.click(container.querySelector('#hasAge'))
+    expect(container.textContent).toBe('John Smith 21')
+    expect(renders).toBe(3)
+    // changing $age should trigger rerender now since it's accessed in the reaction
+    fireEvent.click(container.querySelector('#age'))
+    expect(container.textContent).toBe('John Smith 22')
+    expect(renders).toBe(4)
+    await wait()
+    expect(renders).toBe(4)
+    // changing $hasAge to false should stop tracking $age
+    fireEvent.click(container.querySelector('#hasAge'))
+    expect(container.textContent).toBe('John Smith')
+    expect(renders).toBe(5)
+    // changing $age should not trigger rerenders anymore
+    fireEvent.click(container.querySelector('#age'))
+    expect(container.textContent).toBe('John Smith')
+    expect(renders).toBe(5)
+    await wait()
+    expect(renders).toBe(5)
+  })
 })
 
 describe('useSub$() for subscribing to documents', () => {
@@ -98,7 +201,7 @@ describe('useSub$() for subscribing to documents', () => {
     let renders = 0
     const Component = observer(() => {
       renders++
-      const $user = useSub$($.users._1)
+      const $user = sub$($.users._1)
       return fr(
         el('span', {}, $user.name.get() || 'anonymous'),
         el('button', { id: 'doc', onClick: () => $user.set({ name: 'John' }) }),
