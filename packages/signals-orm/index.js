@@ -6,13 +6,14 @@
 import getSignal from './orm/getSignal.js'
 import { getRootSignal } from './orm/Root.js'
 import { universal$ } from './react/hooks.js'
+
 export { default as Signal } from './orm/Signal.js'
 export { __DEBUG_SIGNALS_CACHE__, rawSignal, getSignalClass } from './orm/getSignal.js'
 export { default as addModel } from './orm/addModel.js'
 export { getSignal as signal }
-export { universalSub$ as sub$ } from './react/hooks.js'
 export const $ = getRootSignal({ rootFunction: universal$ })
 export default $
+export { universalSub$ as sub$ } from './react/hooks.js'
 export { default as observer } from './react/observer.js'
 
 // the following are react-specific hook alternatives to $() and sub$() functions.
