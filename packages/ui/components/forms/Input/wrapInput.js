@@ -87,7 +87,7 @@ export default function wrapInput (Component, configuration) {
         )
           = label
           if required
-            Text.required= ' *'
+            Text.required(part='required')= ' *'
     `
     const _description = pug`
       if description
@@ -212,7 +212,8 @@ styl`
 
   .required
     color $errorColor
-    font-weight bold
+    font()
+    fontFamily('normal', 500)
 
   .errorContainer
     margin-top 1u
