@@ -14,7 +14,7 @@
 import { get as _get, set as _set, del as _del, setPublicDoc as _setPublicDoc } from './dataTree.js'
 import getSignal, { rawSignal } from './getSignal.js'
 import { IS_QUERY, HASH, QUERIES } from './Query.js'
-import { ROOT_FUNCTION } from './Root.js'
+import { ROOT_FUNCTION, getRoot } from './Root.js'
 
 export const SEGMENTS = Symbol('path segments targeting the particular node in the data tree')
 
@@ -40,11 +40,11 @@ export default class Signal extends Function {
   * [Symbol.iterator] () {
     if (this[IS_QUERY]) {
       const ids = _get([QUERIES, this[HASH], 'ids'])
-      for (const id of ids) yield getSignal([this[SEGMENTS][0], id])
+      for (const id of ids) yield getSignal(getRoot(this), [this[SEGMENTS][0], id])
     } else {
       const items = _get(this[SEGMENTS])
       if (!Array.isArray(items)) return
-      for (let i = 0; i < items.length; i++) yield getSignal([...this[SEGMENTS], i])
+      for (let i = 0; i < items.length; i++) yield getSignal(getRoot(this), [...this[SEGMENTS], i])
     }
   }
 
@@ -53,13 +53,13 @@ export default class Signal extends Function {
       const collection = this[SEGMENTS][0]
       const hash = this[HASH]
       const ids = _get([QUERIES, hash, 'ids'])
-      return ids.map(id => getSignal([collection, id])).map(...args)
+      return ids.map(id => getSignal(getRoot(this), [collection, id])).map(...args)
     }
     const items = _get(this[SEGMENTS])
     if (!Array.isArray(items)) return []
     return Array(items.length)
       .fill()
-      .map((_, index) => getSignal([...this[SEGMENTS], index]))
+      .map((_, index) => getSignal(getRoot(this), [...this[SEGMENTS], index]))
       .map(...args)
   }
 
@@ -98,7 +98,7 @@ export const regularBindings = {
   apply (signal, thisArg, argumentsList) {
     if (signal[SEGMENTS].length === 0) {
       if (!signal[ROOT_FUNCTION]) throw Error(ERRORS.noRootFunction)
-      return Reflect.apply(signal[ROOT_FUNCTION], thisArg, argumentsList)
+      return signal[ROOT_FUNCTION].call(thisArg, signal, ...argumentsList)
     }
     throw Error('Signal can\'t be called as a function since extremely late bindings are disabled')
   },
@@ -117,10 +117,10 @@ export const extremelyLateBindings = {
   apply (signal, thisArg, argumentsList) {
     if (signal[SEGMENTS].length === 0) {
       if (!signal[ROOT_FUNCTION]) throw Error(ERRORS.noRootFunction)
-      return Reflect.apply(signal[ROOT_FUNCTION], thisArg, argumentsList)
+      return signal[ROOT_FUNCTION].call(thisArg, signal, ...argumentsList)
     }
     const key = signal[SEGMENTS][signal[SEGMENTS].length - 1]
-    const $parent = getSignal(signal[SEGMENTS].slice(0, -1))
+    const $parent = getSignal(getRoot(signal), signal[SEGMENTS].slice(0, -1))
     const rawParent = rawSignal($parent)
     if (!(key in rawParent)) {
       throw Error(`Method "${key}" does not exist on signal "${$parent[SEGMENTS].join('.')}"`)
@@ -132,10 +132,10 @@ export const extremelyLateBindings = {
     if (key === 'then') return undefined // handle checks for whether the symbol is a Promise
     key = transformAlias(signal[SEGMENTS], key)
     if (signal[IS_QUERY]) {
-      if (key === 'ids') return getSignal([QUERIES, signal[HASH], 'ids'])
+      if (key === 'ids') return getSignal(getRoot(signal), [QUERIES, signal[HASH], 'ids'])
       if (QUERY_METHODS.includes(key)) return Reflect.get(signal, key, receiver)
     }
-    return getSignal([...signal[SEGMENTS], key])
+    return getSignal(getRoot(signal), [...signal[SEGMENTS], key])
   }
 }
 
@@ -163,10 +163,10 @@ export function isPublicDocumentSignal ($signal) {
 
 export function isPublicCollection (collectionName) {
   if (!collectionName) return false
-  return !isLocalCollection(collectionName)
+  return !isPrivateCollection(collectionName)
 }
 
-export function isLocalCollection (collectionName) {
+export function isPrivateCollection (collectionName) {
   if (!collectionName) return false
   return /^[_$]/.test(collectionName)
 }
@@ -174,6 +174,6 @@ export function isLocalCollection (collectionName) {
 const ERRORS = {
   noRootFunction: `
     Root signal does not have a root function set.
-    You must use getRootSignal() to create a root signal.
+    You must use getRootSignal({ rootId, rootFunction }) to create a root signal.
   `
 }

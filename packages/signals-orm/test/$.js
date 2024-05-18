@@ -1,9 +1,12 @@
-import { it, describe, afterEach } from 'node:test'
+import { it, describe, afterEach, before } from 'node:test'
 import { strict as assert } from 'node:assert'
 import { afterEachTestGc, runGc } from './_helpers.js'
 import { $, __DEBUG_SIGNALS_CACHE__ as signalsCache } from '../index.js'
 import { get as _get } from '../orm/dataTree.js'
 import { LOCAL } from '../orm/$.js'
+import connect from '../connect/test.js'
+
+before(connect)
 
 export function afterEachTestGcLocal () {
   afterEach(async () => {

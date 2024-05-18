@@ -1,7 +1,7 @@
 import { observable, raw } from '@nx-js/observer-util'
 import jsonDiff from 'json0-ot-diff'
 import diffMatchPatch from 'diff-match-patch'
-import connection from './connection.server.js'
+import { getConnection } from './connection.js'
 
 const ALLOW_PARTIAL_DOC_CREATION = false
 
@@ -95,7 +95,7 @@ export async function setPublicDoc (segments, value, deleteValue = false) {
   if (typeof docId === 'number') throw Error(ERRORS.publicDocIdNumber(segments))
   if (docId === 'undefined') throw Error(ERRORS.publicDocIdUndefined(segments))
   if (!(collection && docId)) throw Error(ERRORS.publicDoc(segments))
-  const doc = connection.get(collection, docId)
+  const doc = getConnection().get(collection, docId)
   if (!doc.data && deleteValue) throw Error(ERRORS.deleteNonExistentDoc(segments))
   // make sure that the value is not observable to not trigger extra reads. And clone it
   value = raw(value)

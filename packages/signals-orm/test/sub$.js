@@ -3,8 +3,11 @@ import { strict as assert } from 'node:assert'
 import { afterEachTestGc, runGc } from './_helpers.js'
 import { $, sub$ } from '../index.js'
 import { get as _get } from '../orm/dataTree.js'
-import connection from '../orm/connection.server.js'
+import { getConnection } from '../orm/connection.js'
 import { hashQuery } from '../orm/Query.js'
+import connect from '../connect/test.js'
+
+before(connect)
 
 function cbPromise (fn) {
   return new Promise((resolve, reject) => {
@@ -15,7 +18,7 @@ function cbPromise (fn) {
 function afterEachTestGcShareDb () {
   afterEach(() => {
     assert.deepEqual(_get(['games']), {}, 'games collection is empty in signal\'s data tree')
-    assert.equal(Object.keys(connection.collections?.games || {}).length, 0, 'no games in ShareDB\'s connection')
+    assert.equal(Object.keys(getConnection().collections?.games || {}).length, 0, 'no games in ShareDB\'s connection')
   })
 }
 
@@ -25,10 +28,10 @@ describe('$sub() function', () => {
 
   it('signal for doc, subscribes to it, gets updates from direct sharedb data changes on client', async () => {
     const gameId = '_1'
-    assert.equal(Object.keys(connection.collections?.games || {}).length, 0, 'no games initially in connection')
+    assert.equal(Object.keys(getConnection().collections?.games || {}).length, 0, 'no games initially in connection')
     const $game = await sub$($.games[gameId])
-    assert.equal(Object.keys(connection.collections?.games || {}).length, 1, 'one game is in connection')
-    const doc = connection.get('games', gameId)
+    assert.equal(Object.keys(getConnection().collections?.games || {}).length, 1, 'one game is in connection')
+    const doc = getConnection().get('games', gameId)
     await cbPromise(cb => doc.create({ name: 'Game 1', players: 0 }, cb))
     assert.equal(doc.data.name, 'Game 1', 'share doc has name')
     assert.equal(doc.data.players, 0, 'share doc has 0 players')
@@ -52,7 +55,7 @@ describe('$sub() function', () => {
     const { $name, $players } = await sub$($.games[gameId])
     assert.equal($name.get(), undefined, 'name is undefined')
     await runGc()
-    const doc = connection.get('games', gameId)
+    const doc = getConnection().get('games', gameId)
     await cbPromise(cb => doc.create({ name: 'Game 2', players: 0 }, cb))
     await runGc()
     assert.equal($name.get(), 'Game 2', 'name is Game 2')
@@ -71,8 +74,8 @@ describe('$sub() function', () => {
     const gameId4 = '_4'
     const $game3 = await sub$($.games[gameId3])
     const $game4 = await sub$($.games[gameId4])
-    const doc3 = connection.get('games', gameId3)
-    const doc4 = connection.get('games', gameId4)
+    const doc3 = getConnection().get('games', gameId3)
+    const doc4 = getConnection().get('games', gameId4)
     await cbPromise(cb => doc3.create({ name: 'Game 3', players: 0 }, cb))
     await cbPromise(cb => doc4.create({ name: 'Game 4', players: 0 }, cb))
     assert.equal($game3.name.get(), 'Game 3', 'name is Game 3')
@@ -99,7 +102,7 @@ describe('$sub() function. Modifying documents', () => {
 
   it('.set() to create document and modify it', async () => {
     const gameId = '_5'
-    const doc = connection.get('games', gameId)
+    const doc = getConnection().get('games', gameId)
     assert.equal(doc.data, undefined, 'doc is initially undefined in sharedb')
     assert.deepEqual($.games.get(), {}, 'games collection is empty')
     const $game = await sub$($.games[gameId])
@@ -121,7 +124,7 @@ describe('$sub() function. Modifying documents', () => {
 
   it('.set() to deep modify document', async () => {
     const gameId = '_6'
-    const doc = connection.get('games', gameId)
+    const doc = getConnection().get('games', gameId)
     const $game = await sub$($.games[gameId])
     await $game.set({ name: 'Game 6 Alt', players: 0 })
     assert.deepEqual($game.get(), { name: 'Game 6 Alt', players: 0 })
@@ -135,7 +138,7 @@ describe('$sub() function. Modifying documents', () => {
 
   it('.del() to delete document', async () => {
     const gameId = '_7'
-    const doc = connection.get('games', gameId)
+    const doc = getConnection().get('games', gameId)
     const $game = await sub$($.games[gameId])
     await $game.set({ name: 'Game 7', players: 0 })
     assert.deepEqual($game.get(), { name: 'Game 7', players: 0 })
@@ -147,7 +150,7 @@ describe('$sub() function. Modifying documents', () => {
 
   it('.set(undefined) on document should delete it', async () => {
     const gameId = '_8'
-    const doc = connection.get('games', gameId)
+    const doc = getConnection().get('games', gameId)
     const $game = await sub$($.games[gameId])
     await $game.set({ name: 'Game 8', players: 0 })
     assert.deepEqual($game.get(), { name: 'Game 8', players: 0 })
@@ -159,7 +162,7 @@ describe('$sub() function. Modifying documents', () => {
 
   it('.del() on subpath should delete the subpath', async () => {
     const gameId = '_9'
-    const doc = connection.get('games', gameId)
+    const doc = getConnection().get('games', gameId)
     const $game = await sub$($.games[gameId])
     await $game.set({ name: 'Game 9', players: 0 })
     assert.deepEqual($game.get(), { name: 'Game 9', players: 0 })

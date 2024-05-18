@@ -2,7 +2,7 @@ import { raw } from '@nx-js/observer-util'
 import { get as _get, set as _set, del as _del } from './dataTree.js'
 import { SEGMENTS } from './Signal.js'
 import getSignal from './getSignal.js'
-import connection from './connection.server.js'
+import { getConnection } from './connection.js'
 import { docSubscriptions } from './Doc.js'
 
 const ERROR_ON_EXCESSIVE_UNSUBSCRIBES = false
@@ -77,7 +77,7 @@ class Query {
 
   async _subscribe () {
     await new Promise((resolve, reject) => {
-      this.shareQuery = connection.createSubscribeQuery(this.collection, this.params, {}, err => {
+      this.shareQuery = getConnection().createSubscribeQuery(this.collection, this.params, {}, err => {
         if (err) return reject(err)
         resolve()
       })
@@ -144,7 +144,7 @@ class Query {
 
       const ids = this.shareQuery.results.map(doc => doc.id)
       for (const docId of ids) {
-        const $doc = getSignal([this.collection, docId])
+        const $doc = getSignal(undefined, [this.collection, docId])
         docSubscriptions.init($doc)
         this.docSignals.add($doc)
       }
@@ -157,7 +157,7 @@ class Query {
 
       const ids = shareDocs.map(doc => doc.id)
       for (const docId of ids) {
-        const $doc = getSignal([this.collection, docId])
+        const $doc = getSignal(undefined, [this.collection, docId])
         docSubscriptions.init($doc)
         this.docSignals.add($doc)
       }
@@ -178,7 +178,7 @@ class Query {
 
       const docIds = shareDocs.map(doc => doc.id)
       for (const docId of docIds) {
-        const $doc = getSignal([this.collection, docId])
+        const $doc = getSignal(undefined, [this.collection, docId])
         this.docSignals.delete($doc)
       }
       const ids = _get([QUERIES, this.hash, 'ids'])
@@ -255,14 +255,14 @@ export const querySubscriptions = new QuerySubscriptions()
 
 export function hashQuery (segments, params) {
   // TODO: probably makes sense to use fast-stable-json-stringify for this because of the params
-  return JSON.stringify({ q: [segments[0], params] })
+  return JSON.stringify({ query: [segments[0], params] })
 }
 
 export function getQuerySignal (segments, params, options) {
   params = JSON.parse(JSON.stringify(params))
   const hash = hashQuery(segments, params)
 
-  const $query = getSignal(segments, {
+  const $query = getSignal(undefined, segments, {
     signalHash: hash,
     ...options
   })

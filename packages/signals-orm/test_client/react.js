@@ -1,8 +1,10 @@
 import { createElement as el, Fragment } from 'react'
-import { describe, it, afterEach, expect } from '@jest/globals'
+import { describe, it, afterEach, expect, beforeAll as before } from '@jest/globals'
 import { act, cleanup, fireEvent, render } from '@testing-library/react'
 import { $, sub$, observer } from '../index.js'
+import connect from '../connect/test.js'
 
+before(connect)
 afterEach(cleanup)
 
 describe('observer', () => {

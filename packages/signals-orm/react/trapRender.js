@@ -2,44 +2,12 @@
 // during synchronous rendering
 import { useId } from 'react'
 import { unobserve } from '@nx-js/observer-util'
-
-export const observerTracker = new class {
-  #componentId
-  #hooksCounter
-
-  isActive () {
-    return this.#componentId !== undefined
-  }
-
-  getComponentId () {
-    return this.#componentId
-  }
-
-  newHookId () {
-    this.incrementHooksCounter()
-    const id = `_${this.#componentId}_${this.#hooksCounter}`
-    return id
-  }
-
-  incrementHooksCounter () {
-    if (!this.#componentId) return
-    this.#hooksCounter++
-  }
-
-  _start (componentId) {
-    this.#componentId = componentId
-    this.#hooksCounter = -1
-  }
-
-  _clear () {
-    this.#componentId = undefined
-  }
-}()
+import executionContextTracker from './executionContextTracker.js'
 
 export default function trapRender ({ render, blockUpdate, cache, reactionRef }) {
   return (...args) => {
     const id = useId()
-    observerTracker._start(id)
+    executionContextTracker._start(id)
     blockUpdate.value = true
     cache.activate()
     try {
@@ -71,7 +39,7 @@ export default function trapRender ({ render, blockUpdate, cache, reactionRef })
       throw err
     } finally {
       cache.deactivate()
-      observerTracker._clear()
+      executionContextTracker._clear()
     }
   }
 }

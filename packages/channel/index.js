@@ -1,19 +1,30 @@
 import SockJS from './SockJS.cjs'
 
 export default class Socket {
-  constructor (options) {
-    this._options = options
+  constructor ({
+    path = '/channel',
+    baseUrl = guessBaseUrl(),
+    reconnect = true,
+    allowXhrFallback = false,
+    forceXhrFallback = false,
+    timeout = 10000,
+    timeoutIncrement = 10000
+  } = {}) {
+    this._reconnect = reconnect
+    this._timeout = timeout
+    this._timeoutIncrement = timeoutIncrement
+    this._url = getConnectionUrl(baseUrl, path)
+    this._allowXhrFallback = forceXhrFallback || allowXhrFallback
+    this._useXhrFallback = forceXhrFallback
+
     this._messageQueue = []
     this._connectedOnce = false
     this._attemptNum = 0
-    this._url = getWebSocketURL(options)
-    this._useXhrFallback = options.forceXhrFallback
-    this._allowXhrFallback = this._useXhrFallback || options.allowXhrFallback
 
-    this._createWebSocket()
+    this.open()
   }
 
-  _createWebSocket () {
+  open () {
     if (this._useXhrFallback) {
       this._type = 'xhr'
       this._url = this._url.replace(/^ws/, 'http')
@@ -24,48 +35,53 @@ export default class Socket {
       this._socket = new WebSocket(this._url)
     }
 
-    this.open = this._createWebSocket.bind(this)
     this._syncState()
 
-    this._socket.onmessage = this._ws_onmessage.bind(this)
-    this._socket.onopen = this._ws_onopen.bind(this)
-    this._socket.onclose = this._ws_onclose.bind(this)
+    this._socket.onmessage = this._onmessage.bind(this)
+    this._socket.onopen = this._onopen.bind(this)
+    this._socket.onclose = this._onclose.bind(this)
+    this._socket.onerror = this._onerror.bind(this)
   }
 
-  _ws_onmessage (message) {
+  _onmessage (message) {
     this._syncState()
-    this.onmessage && this.onmessage(message)
+    this.onmessage?.(message)
   }
 
-  _ws_onopen (event) {
+  _onopen (event) {
     this._attemptNum = 0
     this._connectedOnce = true
 
     this._syncState()
     this._flushQueue()
 
-    this.onopen && this.onopen(event)
+    this.onopen?.(event)
   }
 
-  _ws_onclose (event) {
+  _onclose (event) {
     this._syncState()
 
-    this.onclose && this.onclose(event)
+    this.onclose?.(event)
 
     if (!this._useXhrFallback && this._allowXhrFallback && !this._connectedOnce) {
       this._useXhrFallback = true
-      return this._createWebSocket()
+      return this.open()
     }
 
-    if (this._options.reconnect && !event.wasClean) {
+    if (this._reconnect && !event.wasClean) {
       setTimeout(() => this.reconnect(), this._getTimeout())
     }
     this._attemptNum++
   }
 
+  _onerror (err) {
+    this._syncState()
+    this.onerror?.(err)
+  }
+
   _getTimeout () {
-    const base = this._options.timeout
-    const increment = this._options.timeoutIncrement * this._attemptNum
+    const base = this._timeout
+    const increment = this._timeoutIncrement * this._attemptNum
     const maxTimeout = base + increment
     return getRandom(maxTimeout / 3, maxTimeout)
   }
@@ -103,7 +119,7 @@ export default class Socket {
 
   reconnect () {
     if (this.readyState === this.CLOSED) {
-      this._createWebSocket()
+      this.open()
     }
   }
 }
@@ -124,14 +140,24 @@ function getRandom (min, max) {
   return Math.random() * (max - min) + min
 }
 
-function getWebSocketURL (options) {
+function guessBaseUrl () {
   let baseUrl
-  baseUrl ??= options.baseUrl
-  if (typeof window !== 'undefined') baseUrl ??= window.location?.origin
-  if (!baseUrl) throw Error('[@startupjs/channel] No baseUrl provided to connect to the server')
-  baseUrl.replace(/\/$/, '')
-  return baseUrl + options.base
+  if (typeof window !== 'undefined') baseUrl = window.location?.origin
+  if (!baseUrl) throw Error(ERRORS.noBaseUrl)
+  return baseUrl
+}
+
+function getConnectionUrl (baseUrl, path) {
+  if (typeof path !== 'string') throw Error(ERRORS.noRoute)
+  if (typeof baseUrl !== 'string') throw Error(ERRORS.noBaseUrl)
+  baseUrl = baseUrl.replace(/\/$/, '')
+  return baseUrl + path
 }
 
 // Maybe need to use reconnection timing algorithm from
 // http://blog.johnryding.com/post/78544969349/how-to-reconnect-web-sockets-in-a-realtime-web-app
+
+const ERRORS = {
+  noBaseUrl: '[@startupjs/channel] No baseUrl provided to connect to the server',
+  noRoute: '[@startupjs/channel] Route must be a string. If you want to connect to the root, pass an empty string'
+}

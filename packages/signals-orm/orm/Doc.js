@@ -1,7 +1,7 @@
 import { isObservable, observable } from '@nx-js/observer-util'
 import { set as _set, del as _del } from './dataTree.js'
 import { SEGMENTS } from './Signal.js'
-import connection from './connection.server.js'
+import { getConnection } from './connection.js'
 
 const ERROR_ON_EXCESSIVE_UNSUBSCRIBES = false
 
@@ -68,7 +68,7 @@ class Doc {
   }
 
   async _subscribe () {
-    const doc = connection.get(this.collection, this.docId)
+    const doc = getConnection().get(this.collection, this.docId)
     await new Promise((resolve, reject) => {
       doc.subscribe(err => {
         if (err) return reject(err)
@@ -120,7 +120,7 @@ class Doc {
   }
 
   async _unsubscribe () {
-    const doc = connection.get(this.collection, this.docId)
+    const doc = getConnection().get(this.collection, this.docId)
     await new Promise((resolve, reject) => {
       doc.destroy(err => {
         if (err) return reject(err)
@@ -130,7 +130,7 @@ class Doc {
   }
 
   _initData () {
-    const doc = connection.get(this.collection, this.docId)
+    const doc = getConnection().get(this.collection, this.docId)
     // TODO: JSON does not have `undefined`, so we'll be receiving `null`.
     //       Handle this by converting all `null` to `undefined` in the doc's data tree.
     //       To do this we'll probably need to in the `op` event update the data tree
@@ -142,7 +142,7 @@ class Doc {
   }
 
   _refData () {
-    const doc = connection.get(this.collection, this.docId)
+    const doc = getConnection().get(this.collection, this.docId)
     if (isObservable(doc.data)) return
     if (doc.data == null) return
     _set([this.collection, this.docId], doc.data)

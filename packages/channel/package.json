@@ -2,7 +2,7 @@
   "name": "@startupjs/channel",
   "type": "module",
   "version": "0.56.0-alpha.54",
-  "description": "WebSocket/BrowserChannel 2-way communication channel",
+  "description": "WebSocket/SockJS 2-way communication channel",
   "main": "index.js",
   "exports": {
     ".": "./index.js",

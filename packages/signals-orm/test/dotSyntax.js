@@ -1,7 +1,10 @@
-import { it, describe } from 'node:test'
+import { it, describe, before } from 'node:test'
 import { strict as assert } from 'node:assert'
 import { runGc } from './_helpers.js'
-import { $, signal, __DEBUG_SIGNALS_CACHE__ as signalsCache } from '../index.js'
+import { $, signal, __DEBUG_SIGNALS_CACHE__ as signalsCache, GLOBAL_ROOT_ID } from '../index.js'
+import connect from '../connect/test.js'
+
+before(connect)
 
 describe('dot syntax', () => {
   it('navigation and set/get into _session', () => {
@@ -12,7 +15,7 @@ describe('dot syntax', () => {
   })
 
   it('returns the same instance for the same path', () => {
-    assert.equal($, signal())
+    assert.equal($, signal(undefined, [], { rootId: GLOBAL_ROOT_ID }))
     assert.equal($._session, $._session)
     assert.notEqual($._session, $._page)
     assert.equal($._session.a.b.c, $._session.a.b.c)
