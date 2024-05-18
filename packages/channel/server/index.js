@@ -3,13 +3,18 @@ import WebSocket from 'ws'
 import crypto from 'crypto'
 import createSockJsStream from './createSockJsStream.js'
 import createWebSocketStream from './createWebSocketStream.js'
+import { DEFAULT_PATH } from '../constants.js'
 
 const defaultServerOptions = {
   session: null,
-  base: '/channel',
+  // TODO: make DEFAULT_PATH actually configurable.
+  //       In the code below it's hardcoded to always use DEFAULT_PATH
+  base: DEFAULT_PATH,
   noPing: false,
   pingInterval: 30000
 }
+
+export { DEFAULT_PATH }
 
 export default function (backend, serverOptions = {}) {
   serverOptions = { ...defaultServerOptions, ...serverOptions }
@@ -18,7 +23,7 @@ export default function (backend, serverOptions = {}) {
   serverOptions.path = serverOptions.base
   serverOptions.noServer = true
 
-  const echo = sockjs.createServer({ prefix: '/channel', transports: ['xhr-polling'] })
+  const echo = sockjs.createServer({ prefix: DEFAULT_PATH, transports: ['xhr-polling'] })
 
   let syncTempConnectSession
   let syncReq
@@ -55,7 +60,7 @@ export default function (backend, serverOptions = {}) {
   })
 
   const middleware = (req, res, next) => {
-    if (!/\/channel/.test(req.url)) return next()
+    if (!new RegExp('^' + DEFAULT_PATH + '(/|\\?|$)').test(req.url)) return next()
     if (serverOptions.session) {
       serverOptions.session(req, {}, handle)
     } else {
@@ -109,6 +114,7 @@ export default function (backend, serverOptions = {}) {
   })
 
   function upgrade (req, socket, upgradeHead) {
+    if (req.url !== DEFAULT_PATH) return
     // copy upgradeHead to avoid retention of large slab buffers used in node core
     const head = Buffer.alloc(upgradeHead.length)
     upgradeHead.copy(head)

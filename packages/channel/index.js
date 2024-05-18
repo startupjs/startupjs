@@ -1,8 +1,11 @@
 import SockJS from './SockJS.cjs'
+import { DEFAULT_PATH } from './constants.js'
+
+export { DEFAULT_PATH }
 
 export default class Socket {
   constructor ({
-    path = '/channel',
+    path = DEFAULT_PATH,
     baseUrl = guessBaseUrl(),
     reconnect = true,
     allowXhrFallback = false,

@@ -26,9 +26,9 @@ export default async function createServer ({ backend, session, channel, options
     server.timeout = ~~conf.get('SERVER_REQUEST_TIMEOUT')
   }
 
-  server.on('upgrade', function (req) {
-    if (req.url === '/channel') channel.upgrade(...arguments)
-    MODULE.hook('serverUpgrade', ...arguments)
+  server.on('upgrade', function (...args) {
+    channel.upgrade(...args)
+    MODULE.hook('serverUpgrade', ...args)
   })
 
   const props = { backend, server, expressApp, session }

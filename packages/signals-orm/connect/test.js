@@ -2,11 +2,11 @@
 // This just creates a sharedb server with in-memory database
 // and creates a server connection to it.
 import ShareBackend from 'sharedb'
-import ShareDBMingo from 'sharedb-mingo-memory'
+import ShareDbMingo from 'sharedb-mingo-memory'
 import { connection, setConnection } from '../orm/connection.js'
 
 export default function connect () {
   if (connection) return
-  const backend = new ShareBackend({ db: new ShareDBMingo() })
+  const backend = new ShareBackend({ db: new ShareDbMingo() })
   setConnection(backend.connect())
 }
