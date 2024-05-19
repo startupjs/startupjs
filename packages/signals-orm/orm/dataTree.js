@@ -185,7 +185,7 @@ const ERRORS = {
     Can't set a value to a subpath of a document which doesn't exist.
 
     You have probably forgotten to subscribe to the document.
-    You MUST subscribe to an existing document with 'sub$()' before trying to modify it.
+    You MUST subscribe to an existing document with 'sub()' before trying to modify it.
 
     If instead you want to create a new document, you must provide the full data for it
     and set it for the $.collection.docId signal.

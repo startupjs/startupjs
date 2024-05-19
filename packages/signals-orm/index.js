@@ -1,5 +1,5 @@
 // NOTE:
-//   $() and sub$() are currently set to be universal ones which work in both
+//   $() and sub() are currently set to be universal ones which work in both
 //   plain JS and React environments. In React they are tied to the observer() HOC.
 //   This is done to simplify the API.
 //   In future, we might want to separate the plain JS and React APIs
@@ -13,7 +13,7 @@ export { default as signal } from './orm/getSignal.js'
 export { GLOBAL_ROOT_ID } from './orm/Root.js'
 export const $ = _getRootSignal({ rootId: GLOBAL_ROOT_ID, rootFunction: universal$ })
 export default $
-export { default as sub$ } from './react/universalSub$.js'
+export { default as sub } from './react/universalSub.js'
 export { default as observer } from './react/observer.js'
 export { connection, setConnection, getConnection, fetchOnly, setFetchOnly } from './orm/connection.js'
 export * from './schema/associations.js'
@@ -27,9 +27,9 @@ export function getRootSignal (options) {
   })
 }
 
-// the following are react-specific hook alternatives to $() and sub$() functions.
+// the following are react-specific hook alternatives to $() and sub() functions.
 // In future we might want to expose them, but at the current time they are not needed
-// and instead just the regular $() and sub$() functions are used since they are universal
+// and instead just the regular $() and sub() functions are used since they are universal
 //
 // export function use$ (value) {
 //   // TODO: maybe replace all non-letter/digit characters with underscores
@@ -37,8 +37,8 @@ export function getRootSignal (options) {
 //   return $(value, id)
 // }
 
-// export function useSub$ (...args) {
-//   const promiseOrSignal = sub$(...args)
+// export function useSub (...args) {
+//   const promiseOrSignal = sub(...args)
 //   if (promiseOrSignal.then) throw promiseOrSignal
 //   return promiseOrSignal
 // }

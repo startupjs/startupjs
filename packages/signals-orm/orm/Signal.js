@@ -11,11 +11,11 @@
  * 3. If extremely late bindings are enabled, to prevent name collisions when accessing fields
  *    in the raw data tree which have the same name as signal's methods
  */
-import { v4 as uuid } from 'uuid'
 import { get as _get, set as _set, del as _del, setPublicDoc as _setPublicDoc } from './dataTree.js'
 import getSignal, { rawSignal } from './getSignal.js'
 import { IS_QUERY, HASH, QUERIES } from './Query.js'
 import { ROOT_FUNCTION, getRoot } from './Root.js'
+import uuid from '../utils/uuid.cjs'
 
 export const SEGMENTS = Symbol('path segments targeting the particular node in the data tree')
 

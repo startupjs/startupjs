@@ -1,5 +1,5 @@
 import { createPlugin } from 'startupjs/registry'
-import { Signal, $, sub$ } from 'startupjs'
+import { Signal, $, sub } from 'startupjs'
 import { sqlite } from 'startupjs/server'
 import busboy from 'busboy'
 import sharp from 'sharp'
@@ -33,7 +33,7 @@ export default createPlugin({
         fileId = fileId.replace(/\.[^.]+$/, '')
         // url might have ?download=true which means we should force download
         const download = (req.query?.download != null)
-        const $file = await sub$($.files[fileId])
+        const $file = await sub($.files[fileId])
         const file = $file.get()
         if (!file) return res.status(404).send(ERRORS.fileNotFound)
         const { mimeType, storageType, filename, updatedAt } = file
@@ -149,7 +149,7 @@ export default createPlugin({
               }
               await $.files.addNew(doc)
             } else {
-              const $file = await sub$($.files[fileId])
+              const $file = await sub($.files[fileId])
               const doc = { ...$file.get(), ...meta, updatedAt: Date.now() }
               // if some of the meta fields were undefined, remove them from the doc
               for (const key in meta) {
@@ -167,7 +167,7 @@ export default createPlugin({
 
       expressApp.post(DELETE_FILE_URL, async (req, res) => {
         const { fileId } = req.params
-        const $file = await sub$($.files[fileId])
+        const $file = await sub($.files[fileId])
         const file = $file.get()
         if (!file) return res.status(404).send(ERRORS.fileNotFound)
         const { storageType } = file

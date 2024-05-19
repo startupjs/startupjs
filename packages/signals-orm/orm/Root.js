@@ -2,7 +2,7 @@ import getSignal from './getSignal.js'
 
 export const ROOT_FUNCTION = Symbol('root function')
 // TODO: in future make a connection spawnable instead of a singleton
-// export const CONNECTION = Symbol('sharedb connection, used by sub$() function')
+// export const CONNECTION = Symbol('sharedb connection, used by sub() function')
 export const ROOT = Symbol('root signal')
 export const ROOT_ID = Symbol('root signal id. Used for caching')
 

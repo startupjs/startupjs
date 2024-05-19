@@ -1,7 +1,7 @@
 import { it, describe, afterEach, before } from 'node:test'
 import { strict as assert } from 'node:assert'
 import { afterEachTestGc, runGc } from './_helpers.js'
-import { $, sub$ } from '../index.js'
+import { $, sub } from '../index.js'
 import { get as _get } from '../orm/dataTree.js'
 import { getConnection } from '../orm/connection.js'
 import { hashQuery } from '../orm/Query.js'
@@ -29,7 +29,7 @@ describe('$sub() function', () => {
   it('signal for doc, subscribes to it, gets updates from direct sharedb data changes on client', async () => {
     const gameId = '_1'
     assert.equal(Object.keys(getConnection().collections?.games || {}).length, 0, 'no games initially in connection')
-    const $game = await sub$($.games[gameId])
+    const $game = await sub($.games[gameId])
     assert.equal(Object.keys(getConnection().collections?.games || {}).length, 1, 'one game is in connection')
     const doc = getConnection().get('games', gameId)
     await cbPromise(cb => doc.create({ name: 'Game 1', players: 0 }, cb))
@@ -52,7 +52,7 @@ describe('$sub() function', () => {
 
   it('destructured signals from doc keep the doc signal referenced to prevent it from being GC\'ed', async () => {
     const gameId = '_2'
-    const { $name, $players } = await sub$($.games[gameId])
+    const { $name, $players } = await sub($.games[gameId])
     assert.equal($name.get(), undefined, 'name is undefined')
     await runGc()
     const doc = getConnection().get('games', gameId)
@@ -69,18 +69,18 @@ describe('$sub() function', () => {
     assert.equal($players.get(), undefined, 'players is undefined')
   })
 
-  it('handles multiple sub$() calls for the same doc', async () => {
+  it('handles multiple sub() calls for the same doc', async () => {
     const gameId3 = '_3'
     const gameId4 = '_4'
-    const $game3 = await sub$($.games[gameId3])
-    const $game4 = await sub$($.games[gameId4])
+    const $game3 = await sub($.games[gameId3])
+    const $game4 = await sub($.games[gameId4])
     const doc3 = getConnection().get('games', gameId3)
     const doc4 = getConnection().get('games', gameId4)
     await cbPromise(cb => doc3.create({ name: 'Game 3', players: 0 }, cb))
     await cbPromise(cb => doc4.create({ name: 'Game 4', players: 0 }, cb))
     assert.equal($game3.name.get(), 'Game 3', 'name is Game 3')
     assert.equal($game4.name.get(), 'Game 4', 'name is Game 4')
-    const $game3Duplicate = await sub$($.games[gameId3])
+    const $game3Duplicate = await sub($.games[gameId3])
     assert.equal($game3Duplicate.name.get(), 'Game 3', 'duplicate signal\'s name is Game 3')
     assert.equal($game3, $game3Duplicate, 'duplicate signal is the same as the original')
     await cbPromise(cb => doc3.del(cb))
@@ -89,7 +89,7 @@ describe('$sub() function', () => {
 
   it.skip('doc: deep data also observable after .get()', async () => {
     const gameId = '_20'
-    const $game = await sub$($.games[gameId])
+    const $game = await sub($.games[gameId])
     const game = $game.get()
     assert.equal(game.id, gameId)
     // TODO: When returning data from .get(), it should be wrapped into Proxy too
@@ -105,7 +105,7 @@ describe('$sub() function. Modifying documents', () => {
     const doc = getConnection().get('games', gameId)
     assert.equal(doc.data, undefined, 'doc is initially undefined in sharedb')
     assert.deepEqual($.games.get(), {}, 'games collection is empty')
-    const $game = await sub$($.games[gameId])
+    const $game = await sub($.games[gameId])
     assert.equal(doc.data, undefined, 'subscription itself does not create the doc in sharedb')
     assert.equal($game.get(), undefined, 'signal is undefined')
     assert.deepEqual($.games.get(), {}, 'games collection is still empty')
@@ -125,7 +125,7 @@ describe('$sub() function. Modifying documents', () => {
   it('.set() to deep modify document', async () => {
     const gameId = '_6'
     const doc = getConnection().get('games', gameId)
-    const $game = await sub$($.games[gameId])
+    const $game = await sub($.games[gameId])
     await $game.set({ name: 'Game 6 Alt', players: 0 })
     assert.deepEqual($game.get(), { name: 'Game 6 Alt', players: 0 })
     assert.deepEqual(doc.data, { name: 'Game 6 Alt', players: 0 })
@@ -139,7 +139,7 @@ describe('$sub() function. Modifying documents', () => {
   it('.del() to delete document', async () => {
     const gameId = '_7'
     const doc = getConnection().get('games', gameId)
-    const $game = await sub$($.games[gameId])
+    const $game = await sub($.games[gameId])
     await $game.set({ name: 'Game 7', players: 0 })
     assert.deepEqual($game.get(), { name: 'Game 7', players: 0 })
     assert.deepEqual(doc.data, { name: 'Game 7', players: 0 })
@@ -151,7 +151,7 @@ describe('$sub() function. Modifying documents', () => {
   it('.set(undefined) on document should delete it', async () => {
     const gameId = '_8'
     const doc = getConnection().get('games', gameId)
-    const $game = await sub$($.games[gameId])
+    const $game = await sub($.games[gameId])
     await $game.set({ name: 'Game 8', players: 0 })
     assert.deepEqual($game.get(), { name: 'Game 8', players: 0 })
     assert.deepEqual(doc.data, { name: 'Game 8', players: 0 })
@@ -163,7 +163,7 @@ describe('$sub() function. Modifying documents', () => {
   it('.del() on subpath should delete the subpath', async () => {
     const gameId = '_9'
     const doc = getConnection().get('games', gameId)
-    const $game = await sub$($.games[gameId])
+    const $game = await sub($.games[gameId])
     await $game.set({ name: 'Game 9', players: 0 })
     assert.deepEqual($game.get(), { name: 'Game 9', players: 0 })
     assert.deepEqual(doc.data, { name: 'Game 9', players: 0 })
@@ -174,7 +174,7 @@ describe('$sub() function. Modifying documents', () => {
 
   it('.set() on subpath on non-existing document should throw an error', async () => {
     const gameId = '_10'
-    const $game = await sub$($.games[gameId])
+    const $game = await sub($.games[gameId])
     await assert.rejects(async () => {
       await $game.name.set('Game 10')
     }, { message: /Can't set a value to a subpath of a document which doesn't exist/ })
@@ -197,7 +197,7 @@ describe('$sub() function. Queries', () => {
   afterEachTestGc()
 
   it('subscribe to query, modify it', async () => {
-    const $activeGames = await sub$($.games, { active: true })
+    const $activeGames = await sub($.games, { active: true })
     assert.equal($activeGames.get().length, 2)
     assert.deepEqual(_get(['$queries']), {
       [hashQuery(['games'], { active: true })]: {
@@ -219,24 +219,24 @@ describe('$sub() function. Queries', () => {
   })
 
   it('query should be iterable', async () => {
-    const $activeGames = await sub$($.games, { active: true })
+    const $activeGames = await sub($.games, { active: true })
     assert.equal([...$activeGames].length, 2)
   })
 
   it('query should support .map()', async () => {
-    const $activeGames = await sub$($.games, { active: true })
+    const $activeGames = await sub($.games, { active: true })
     assert.deepEqual($activeGames.map($game => $game.name.get()).sort(), ['Game 1', 'Game 2'])
   })
 
   it('query ids should support .map()', async () => {
-    const $activeGames = await sub$($.games, { active: true })
+    const $activeGames = await sub($.games, { active: true })
     assert.deepEqual($activeGames.ids.map($id => $id.get()).sort(), ['_1', '_2'])
   })
 })
 
 describe.skip('$sub() function. Async api functions', () => {
   it('async function', async () => {
-    const $value = await sub$(async () => {
+    const $value = await sub(async () => {
       await new Promise(resolve => setTimeout(resolve, 10))
       return 42
     })

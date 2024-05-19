@@ -36,14 +36,14 @@ On the client we `connect()` to the server, and we have to wrap each React compo
 ```js
 // client.js
 import connect from '@startupjs/signals-orm/connect'
-import { observer, $, sub$ } from '@startupjs/signals-orm'
+import { observer, $, sub } from '@startupjs/signals-orm'
 import { createRoot } from 'react-dom/client'
 import { createElement as el } from 'react'
 
 connect()
 
 const App = observer(({ userId }) => {
-  const $user = sub$($.users[userId])
+  const $user = sub($.users[userId])
   if (!$user.get()) throw $user.set({ points: 0 })
   const { $points } = $user
   const onClick = () => $points.set($points.get() + 1)

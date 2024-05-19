@@ -2,7 +2,7 @@ import Signal, { SEGMENTS, isPublicCollectionSignal, isPublicDocumentSignal } fr
 import { docSubscriptions } from './Doc.js'
 import { querySubscriptions, getQuerySignal } from './Query.js'
 
-export default function sub$ ($signal, params) {
+export default function sub ($signal, params) {
   if (isPublicDocumentSignal($signal)) {
     return doc$($signal)
   } else if (isPublicCollectionSignal($signal)) {
@@ -10,7 +10,7 @@ export default function sub$ ($signal, params) {
   } else if (typeof $signal === 'function' && !($signal instanceof Signal)) {
     return api$($signal, params)
   } else {
-    throw Error('Invalid args passed for sub$()')
+    throw Error('Invalid args passed for sub()')
   }
 }
 
@@ -28,5 +28,5 @@ function query$ ($collection, params) {
 }
 
 function api$ (fn, args) {
-  throw Error('sub$() for async functions is not implemented yet')
+  throw Error('sub() for async functions is not implemented yet')
 }

@@ -1,7 +1,7 @@
 import { createElement as el, Fragment } from 'react'
 import { describe, it, afterEach, expect, beforeAll as before } from '@jest/globals'
 import { act, cleanup, fireEvent, render } from '@testing-library/react'
-import { $, sub$, observer } from '../index.js'
+import { $, sub, observer } from '../index.js'
 import connect from '../connect/test.js'
 
 before(connect)
@@ -198,12 +198,12 @@ describe('use$() hook for creating reactions', () => {
   })
 })
 
-describe('useSub$() for subscribing to documents', () => {
+describe('useSub() for subscribing to documents', () => {
   it('subscribes to a document and rerenders on changes', async () => {
     let renders = 0
     const Component = observer(() => {
       renders++
-      const $user = sub$($.users._1)
+      const $user = sub($.users._1)
       return fr(
         el('span', {}, $user.name.get() || 'anonymous'),
         el('button', { id: 'doc', onClick: () => $user.set({ name: 'John' }) }),
