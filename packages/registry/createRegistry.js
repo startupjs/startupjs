@@ -2,6 +2,7 @@
  * @typedef {import('./lib/Module.js').default} Module
  * @typedef {import('./lib/Plugin.js').default} Plugin
  */
+import { addModel } from '@startupjs/signals-orm'
 import Registry from './lib/Registry.js'
 
 // force registry to be singleton
@@ -104,7 +105,7 @@ function initModels (registry, projectModels) {
   let models = { ...projectModels }
   models = registry.rootModule.reduceHook('models', projectModels)
   registry.rootModule.models = models
-  registry.rootModule.on('orm', racer => {
-    for (const modelPattern in models) racer.orm(modelPattern, models[modelPattern].default)
-  })
+  for (const modelPattern in models) {
+    addModel(modelPattern, models[modelPattern].default)
+  }
 }

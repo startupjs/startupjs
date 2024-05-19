@@ -34,7 +34,7 @@ function createPlugins () {
         // NOTE: if module uses dynamicPlugins, the init function will be executed
         //       every time the plugins/onlyPlugins option changes.
         //       So it's important to make the initialization logic idempotent if possible.
-        $banner.visible.setNull(defaultVisible)
+        $banner.visible.set(defaultVisible)
         // return actual hooks for the root module
         return {
           renderRoot ({ children }) {
@@ -60,7 +60,7 @@ const Banner = observer(({ children, message }) => {
         )
       Button(
         color='text-description' variant='text' icon=faTimes
-        onPress=() => $banner.visible.setDiff(false)
+        onPress=() => $banner.visible.set(false)
       )
   `
   styl`

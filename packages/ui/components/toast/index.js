@@ -1,5 +1,5 @@
-import { $root } from 'startupjs'
-import { getToastsModel } from './helpers'
+import { $ } from 'startupjs'
+import { $toasts } from './helpers'
 
 const MAX_SHOW_LENGTH = 3
 
@@ -9,7 +9,6 @@ const MAX_SHOW_LENGTH = 3
 // We want to remove unnecessary props from toast
 // component that are added by these calculations.
 const updateMatrixPositions = () => {
-  const $toasts = getToastsModel()
   const toasts = $toasts.get()
 
   const updateToasts = toasts.map((toast, index) => {
@@ -37,17 +36,16 @@ export default function toast ({
   onAction,
   onClose
 }) {
-  const toastId = $root.id()
-  const $toasts = getToastsModel()
+  const toastId = $.id()
 
   if ($toasts.get()?.length === MAX_SHOW_LENGTH) {
-    $toasts.set(`${MAX_SHOW_LENGTH - 1}.show`, false)
+    $toasts[MAX_SHOW_LENGTH - 1].show.set(false)
   }
 
   if (!alert) {
     setTimeout(() => {
       const index = getValidIndex()
-      if (index !== -1) $toasts.set(`${index}.show`, false)
+      if (index !== -1) $toasts[index].show.set(false)
     }, 5000)
   }
 
@@ -55,7 +53,7 @@ export default function toast ({
     const index = getValidIndex()
     if (index === -1) return
 
-    $toasts.remove(index)
+    $toasts[index].del()
     updateMatrixPositions()
     onClose && onClose()
   }
@@ -70,7 +68,7 @@ export default function toast ({
   // We can provide registerToast function in context
   // Which will be better? model or context?
   function onLayout (layout) {
-    $toasts.set(`${getValidIndex()}.height`, layout.height)
+    $toasts[getValidIndex()].height.set(layout.height)
     updateMatrixPositions()
   }
 

@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { $root } from '@startupjs/react-sharedb'
 
 export default function useBind (props) {
   let getterName, setterName, $value
@@ -12,12 +11,14 @@ export default function useBind (props) {
 
   const $aValue = useMemo(() => {
     if ($value && typeof $value === 'string') {
-      if (/.+\..+/.test($value)) {
-        return $root.at($value)
-      } else {
-        console.error(`[getBindingProps] You can not specify the top-level absolute path in $value: ${$value}`)
-        return undefined
-      }
+      throw Error('useBind: $value should be a signal, not a string')
+      // TODO: maybe allow passing a string. For this add the .at() method to base Signal
+      // if (/.+\..+/.test($value)) {
+      //   return $.at($value)
+      // } else {
+      //   console.error(`[getBindingProps] You can not specify the top-level absolute path in $value: ${$value}`)
+      //   return undefined
+      // }
     } else {
       return $value
     }
@@ -44,7 +45,7 @@ export default function useBind (props) {
           if (typeof value === 'undefined' || value === '') {
             if (typeof $aValue.get() !== 'undefined') $aValue.del()
           } else {
-            $aValue.setDiff(value)
+            $aValue.set(value)
           }
         }
       } else {

@@ -1,5 +1,4 @@
 import { Dimensions } from 'react-native'
-import { batch } from 'startupjs'
 import { observable } from '@nx-js/observer-util'
 import debounce from 'lodash/debounce'
 import STYLES from './useMedia.styl'
@@ -23,15 +22,13 @@ export default function useMedia () {
 }
 
 function updateMediaFlags ({ window }) {
-  batch(() => {
-    for (const breakpoint of Object.keys(MEDIA).reverse()) {
-      if (window.width >= MEDIA[breakpoint]) {
-        if (!mediaFlags[breakpoint]) mediaFlags[breakpoint] = true
-      } else {
-        if (mediaFlags[breakpoint]) mediaFlags[breakpoint] = false
-      }
+  for (const breakpoint of Object.keys(MEDIA).reverse()) {
+    if (window.width >= MEDIA[breakpoint]) {
+      if (!mediaFlags[breakpoint]) mediaFlags[breakpoint] = true
+    } else {
+      if (mediaFlags[breakpoint]) mediaFlags[breakpoint] = false
     }
-  })
+  }
 }
 
 function listenForMediaUpdates () {

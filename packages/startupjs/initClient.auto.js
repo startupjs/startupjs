@@ -1,9 +1,6 @@
-import dummyLoadConfig from '@startupjs/registry/loadStartupjsConfig.auto'
-// - init connection to ShareDB server
-// - setup baseUrl for axios
-// - add rich-text support to ShareDB
-import dummyInit from '@startupjs/init/client.auto'
+import isServer from '@startupjs/utils/isServer'
+import init from './initClient.js'
 
-;(_ => _)([dummyLoadConfig, dummyInit])
+if (!isServer) init()
 
 export default () => {}

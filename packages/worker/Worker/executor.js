@@ -64,7 +64,7 @@ function executeTask (action, model, task, done) {
 
 async function executeTaskWrapper (taskId) {
   const { backend } = dbs
-  const model = backend.createModel()
+  const model = backend.createModel() // use connection directly or $
   const $task = model.at(collection + '.' + taskId)
   await model.fetch($task)
   const task = $task.get()

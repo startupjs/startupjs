@@ -1,5 +1,5 @@
 import { createPlugin } from 'startupjs/registry'
-import { BaseModel } from 'startupjs/orm'
+import { Signal, $, sub$ } from 'startupjs'
 import { sqlite } from 'startupjs/server'
 import busboy from 'busboy'
 import sharp from 'sharp'
@@ -33,9 +33,7 @@ export default createPlugin({
         fileId = fileId.replace(/\.[^.]+$/, '')
         // url might have ?download=true which means we should force download
         const download = (req.query?.download != null)
-        const $root = req.model
-        const $file = $root.scope('files.' + fileId)
-        await $file.subscribe()
+        const $file = await sub$($.files[fileId])
         const file = $file.get()
         if (!file) return res.status(404).send(ERRORS.fileNotFound)
         const { mimeType, storageType, filename, updatedAt } = file
@@ -101,7 +99,6 @@ export default createPlugin({
       // this handles both creating and updating a file
       expressApp.post(UPLOAD_SINGLE_FILE_URL, (req, res) => {
         let { fileId } = req.params
-        const $root = req.model
         const bb = busboy({ headers: req.headers })
 
         let blob
@@ -141,7 +138,7 @@ export default createPlugin({
             const extension = meta.filename?.match(/\.([^.]+)$/)?.[1]
             if (extension) meta.extension = extension
             const create = !fileId
-            if (!fileId) fileId = $root.id()
+            if (!fileId) fileId = $.id()
             // try to save file to sqlite first to do an early exit if it fails
             await saveFileBlobToSqlite(fileId, blob)
             if (create) {
@@ -150,16 +147,15 @@ export default createPlugin({
               for (const key in meta) {
                 if (meta[key] == null) delete doc[key]
               }
-              await $root.scope('files').addNew(doc)
+              await $.files.addNew(doc)
             } else {
-              const $file = $root.scope('files.' + fileId)
-              await $file.subscribe()
+              const $file = await sub$($.files[fileId])
               const doc = { ...$file.get(), ...meta, updatedAt: Date.now() }
               // if some of the meta fields were undefined, remove them from the doc
               for (const key in meta) {
                 if (meta[key] == null) delete doc[key]
               }
-              await $file.setDiffDeep(doc)
+              await $file.set(doc)
             }
             console.log('Uploaded file', fileId)
             res.json({ fileId })
@@ -171,9 +167,7 @@ export default createPlugin({
 
       expressApp.post(DELETE_FILE_URL, async (req, res) => {
         const { fileId } = req.params
-        const $root = req.model
-        const $file = $root.scope('files.' + fileId)
-        await $file.subscribe()
+        const $file = await sub$($.files[fileId])
         const file = $file.get()
         if (!file) return res.status(404).send(ERRORS.fileNotFound)
         const { storageType } = file
@@ -208,7 +202,7 @@ const schema = {
   updatedAt: { type: 'number', required: true }
 }
 
-class FilesModel extends BaseModel {
+class FilesModel extends Signal {
   async addNew (file) {
     const now = Date.now()
     return await this.add({
@@ -235,7 +229,7 @@ class FilesModel extends BaseModel {
   }
 }
 
-class FileModel extends BaseModel {
+class FileModel extends Signal {
   getUrl () {
     const { id, extension } = this.get()
     return getFileUrl(id, extension)

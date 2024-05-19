@@ -18,8 +18,8 @@ connect()
 And on the server, manually create a [ShareDB's backend](https://share.github.io/sharedb/api/backend) and create a connection handler for WebSockets:
 
 ```js
-import { createConnectionHandlers } from '@startupjs/signals-orm/server'
-const { upgrade } = createConnectionHandlers(backend) // ShareDB's Backend instance
+import { initConnection } from '@startupjs/signals-orm/server'
+const { upgrade } = initConnection(backend) // ShareDB's Backend instance
 server.on('upgrade', upgrade) // Node's 'http' server instance
 ```
 
@@ -61,11 +61,11 @@ On the server we create the ShareDB backend and initialize the WebSocket connect
 ```js
 // server.js
 import http from 'http'
-import { ShareDB, createConnectionHandlers } from '@startupjs/signals-orm/server'
+import { ShareDB, initConnection } from '@startupjs/signals-orm/server'
 
 const server = http.createServer() // you can pass expressApp here if needed
 const backend = new ShareDB()
-const { upgrade } = createConnectionHandlers(backend)
+const { upgrade } = initConnection(backend)
 
 server.on('upgrade', upgrade)
 

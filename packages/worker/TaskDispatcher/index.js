@@ -46,7 +46,7 @@ export default class TaskDispatcher {
 
   async executeTask (taskId, status = 'executing', statusError) {
     const { backend } = this.dbs
-    const model = backend.createModel()
+    const model = backend.createModel() // TODO: use connection directly or $
     const collection = env.WORKER_TASK_COLLECTION
     const $task = model.at(collection + '.' + taskId)
     let workerId

@@ -31,39 +31,42 @@ export function registerOrmRules (backend, pattern, access) {
     if (!fn) continue
     const collection = pattern.replace(/\.\*$/u, '')
     backend['allow' + op](collection, (...params) => {
-      const [,, session] = params
-      const userId = session.userId
-      const model = global.__clients[userId].model
-      return fn(model, collection, ...params)
+      // TODO: rewrite to use $ here, or create a separate root $ for each user
+      // const [,, session] = params
+      // const userId = session.userId
+      // const model = global.__clients[userId].model
+      // TODO: first argument was model, it's not needed anymore, or we should pass separate $ for each user
+      return fn(undefined, collection, ...params)
     })
   }
 }
 
-export function rigisterOrmRulesFromFactory (backend, pattern, factory) {
-  for (const op of operations) {
-    const collection = pattern.replace(/\.\*$/u, '')
-    backend['allow' + op](collection, async (...params) => {
-      const [docId,, session] = params
-      const userId = session.userId
-      const model = global.__clients[userId].model
-      const $doc = model._scope(`${collection}.${docId}`)
+// TODO: rewrite to use $ here, or create a separate root $ for each user
+// export function registerOrmRulesFromFactory (backend, pattern, factory) {
+//   for (const op of operations) {
+//     const collection = pattern.replace(/\.\*$/u, '')
+//     backend['allow' + op](collection, async (...params) => {
+//       const [docId,, session] = params
+//       const userId = session.userId
+//       const model = global.__clients[userId].model
+//       const $doc = model._scope(`${collection}.${docId}`)
 
-      await $doc.subscribe()
-      const factoryModel = factory($doc, model)
-      $doc.unsubscribe()
+//       await $doc.subscribe()
+//       const factoryModel = factory($doc, model)
+//       $doc.unsubscribe()
 
-      const access = factoryModel.constructor.access
-      if (!access) return false
+//       const access = factoryModel.constructor.access
+//       if (!access) return false
 
-      validateKeys(access, pattern)
+//       validateKeys(access, pattern)
 
-      const opName = op.charAt(0).toLowerCase() + op.slice(1)
-      const fn = access[opName]
+//       const opName = op.charAt(0).toLowerCase() + op.slice(1)
+//       const fn = access[opName]
 
-      return fn ? fn(model, collection, ...params) : false
-    })
-  }
-}
+//       return fn ? fn(model, collection, ...params) : false
+//     })
+//   }
+// }
 
 // Possible options:
 // dontUseOldDocs: false - if true don't save unupdated docs for update action

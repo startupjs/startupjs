@@ -9,20 +9,22 @@ export default createPlugin({
   server: () => ({
     api (expressApp) {
       expressApp.get('/api/serverSession', function (req, res) {
-        const restoreUrl = req.session.restoreUrl
-        if (restoreUrl) {
-          delete req.session.restoreUrl
-          req.model.set('_session.restoreUrl', restoreUrl)
-        }
+        // TODO: reimplement restoreUrl functionality
+        // const restoreUrl = req.session.restoreUrl
+        // if (restoreUrl) {
+        //   delete req.session.restoreUrl
+        //   req.model.set('_session.restoreUrl', restoreUrl)
+        // }
+        const { userId, loggedIn } = req.session
 
-        return res.json(req.model.get('_session'))
+        return res.json({ userId, loggedIn })
       })
 
-      expressApp.post('/api/restore-url', function (req, res) {
-        const { restoreUrl } = req.body
-        req.session.restoreUrl = restoreUrl
-        res.sendStatus(200)
-      })
+      // expressApp.post('/api/restore-url', function (req, res) {
+      //   const { restoreUrl } = req.body
+      //   req.session.restoreUrl = restoreUrl
+      //   res.sendStatus(200)
+      // })
     }
   }),
   client: () => ({
@@ -54,7 +56,7 @@ function initSession () {
       const session = res.data || {}
       if (typeof session !== 'object') throw Error('Invalid session data. Got: ' + JSON.stringify(session))
       if (!session.userId) throw Error('Invalid session data - missing userId. Got: ' + JSON.stringify(session))
-      $.session.setEach(session)
+      $.session.set(session)
       sessionInitialized = true
     } catch (err) {
       sessionError = new Error('[@startupjs] Error retrieving _session from server:\n' + err.message)

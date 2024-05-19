@@ -3,6 +3,7 @@ import { existsSync, readdirSync } from 'fs'
 import { join } from 'path'
 import express from 'express'
 import { router } from 'express-file-routing'
+import { v4 as uuid } from 'uuid'
 
 const SERVER_FOLDER = 'server'
 const MIDDLEWARE_FILENAME_REGEX = /^middleware\.[mc]?[jt]sx?$/
@@ -19,7 +20,8 @@ export default async function createMiddleware ({ backend, session, channel, opt
   MODULE.hook('beforeSession', app)
 
   app.use(channel.middleware)
-  app.use(backend.modelMiddleware())
+  // TODO: change this to maybe use a $ created for each user. And set it as req.$
+  // app.use(backend.modelMiddleware())
   app.use(session)
 
   options.ee.emit('afterSession', app) // DEPRECATED (use 'afterSession' hook instead)
@@ -27,21 +29,23 @@ export default async function createMiddleware ({ backend, session, channel, opt
 
   // userId
   app.use((req, res, next) => {
-    const model = req.model
+    // TODO: change this to maybe set _session.userId again, but using $
+    // const model = req.model
     // Set anonymous userId unless it was set by some end-user auth middleware
-    if (req.session.userId == null) req.session.userId = model.id()
+    if (req.session.userId == null) req.session.userId = uuid()
     // Set userId into model
-    model.set('_session.userId', req.session.userId)
+    // model.set('_session.userId', req.session.userId)
     next()
   })
 
   // Pipe env to client through the model
-  app.use((req, res, next) => {
-    if (req.xhr) return next()
-    const model = req.model
-    model.set('_session.env', global.publicEnv)
-    next()
-  })
+  // TODO: reimplement this using $ or req.$
+  // app.use((req, res, next) => {
+  //   if (req.xhr) return next()
+  //   const model = req.model
+  //   model.set('_session.env', global.publicEnv)
+  //   next()
+  // })
 
   options.ee.emit('middleware', app) // DEPRECATED (use 'middleware' hook instead)
   MODULE.hook('middleware', app)

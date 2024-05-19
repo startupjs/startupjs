@@ -39,7 +39,15 @@ export default function getSignal ($root, segments = [], {
   const SignalClass = getSignalClass(segments)
   const signal = new SignalClass(segments)
   proxy = new Proxy(signal, proxyHandlers)
-  if (segments.length >= 1 && isPrivateCollection(segments[0])) proxy[ROOT] = $root
+  if (segments.length >= 1) {
+    if (isPrivateCollection(segments[0])) {
+      proxy[ROOT] = $root
+    } else {
+      // TODO: this is probably a hack, currently public collection signals don't need a root signal
+      //       but without it calling the methods of root signal like $.get() doesn't work
+      proxy[ROOT] = $root || getSignal(undefined, [], { rootId: GLOBAL_ROOT_ID })
+    }
+  }
   PROXY_TO_SIGNAL.set(proxy, signal)
   const dependencies = []
 

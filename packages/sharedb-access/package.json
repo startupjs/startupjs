@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/sharedb-access",
   "version": "0.56.0-alpha.0",
-  "description": "Sharedb access-control midleware",
+  "description": "ShareDB access-control middleware",
   "publishConfig": {
     "access": "public"
   },
@@ -24,6 +24,6 @@
   "devDependencies": {
     "mocha": "^8.1.3",
     "racer": "1.0.1",
-    "sharedb": "^2.0.0"
+    "sharedb": "^5.0.0"
   }
 }

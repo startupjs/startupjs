@@ -1,14 +1,11 @@
-import { BaseModel } from 'startupjs/orm'
+import { Signal } from 'startupjs'
 
-export default class TestCountModel extends BaseModel {
-  async addSelf () {
-    await this.root.add(this.getCollection(), {
-      id: this.getId(),
-      value: 0
-    })
+export default class TestCountModel extends Signal {
+  async create () {
+    await this.set({ value: 0 })
   }
 
   async reset () {
-    await this.set('value', 0)
+    await this.value.set(0)
   }
 }

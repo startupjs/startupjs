@@ -1,13 +1,13 @@
 import React from 'react'
 import { pug, observer } from 'startupjs'
 import Portal from '../Portal'
-import { useToasts } from './helpers'
+import { $toasts } from './helpers'
 import Toast from './Toast'
 
 export default observer(function ToastProvider () {
-  const [toasts] = useToasts()
+  const toasts = $toasts.get()
 
-  if (!toasts.length) return null
+  if (!toasts?.length) return null
 
   return pug`
     Portal

@@ -6,7 +6,7 @@
 import { getRootSignal as _getRootSignal, GLOBAL_ROOT_ID } from './orm/Root.js'
 import universal$ from './react/universal$.js'
 
-export { default as Signal } from './orm/Signal.js'
+export { default as Signal, SEGMENTS } from './orm/Signal.js'
 export { __DEBUG_SIGNALS_CACHE__, rawSignal, getSignalClass } from './orm/getSignal.js'
 export { default as addModel } from './orm/addModel.js'
 export { default as signal } from './orm/getSignal.js'
@@ -15,7 +15,10 @@ export const $ = _getRootSignal({ rootId: GLOBAL_ROOT_ID, rootFunction: universa
 export default $
 export { default as sub$ } from './react/universalSub$.js'
 export { default as observer } from './react/observer.js'
-export { connection, setConnection, getConnection } from './orm/connection.js'
+export { connection, setConnection, getConnection, fetchOnly, setFetchOnly } from './orm/connection.js'
+export * from './schema/associations.js'
+export { default as GUID_PATTERN } from './schema/GUID_PATTERN.js'
+export { default as pickFormFields } from './schema/pickFormFields.js'
 
 export function getRootSignal (options) {
   return _getRootSignal({

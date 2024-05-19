@@ -1,20 +1,15 @@
 import { useState, useMemo, useRef } from 'react'
-
 import {
-  pug, styl, observer, $,
-  useDoc$,
-  useValue$,
-  axios
+  pug, styl, observer, $, sub$, axios
 } from 'startupjs'
-
 import { H1, Button, Div, Br, alert } from '@startupjs/ui'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabTwoScreen () {
-  const $countDoc = useDoc$('testCounts', 'magicCount1')
-  if (!$countDoc.get()) throw $countDoc.addSelf()
+  const $countDoc = sub$($.testCounts.magicCount1)
+  if (!$countDoc.get()) throw $countDoc.create()
   const $count = $countDoc.value
-  const $localCount = useValue$(0)
+  const $localCount = $(0)
   const [stateCount, setStateCount] = useState(0)
   const idRef = useRef()
 

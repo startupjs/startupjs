@@ -1,5 +1,3 @@
-export function useBackPress (url: string | Function): void
-
 export function useBind (props: {}): {}
 
 export function useDidUpdate (fn: Function, inputs?: any[]): void

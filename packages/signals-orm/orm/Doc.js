@@ -1,7 +1,7 @@
 import { isObservable, observable } from '@nx-js/observer-util'
 import { set as _set, del as _del } from './dataTree.js'
 import { SEGMENTS } from './Signal.js'
-import { getConnection } from './connection.js'
+import { getConnection, fetchOnly } from './connection.js'
 
 const ERROR_ON_EXCESSIVE_UNSUBSCRIBES = false
 
@@ -70,7 +70,8 @@ class Doc {
   async _subscribe () {
     const doc = getConnection().get(this.collection, this.docId)
     await new Promise((resolve, reject) => {
-      doc.subscribe(err => {
+      const method = fetchOnly ? 'fetch' : 'subscribe'
+      doc[method](err => {
         if (err) return reject(err)
         resolve()
       })

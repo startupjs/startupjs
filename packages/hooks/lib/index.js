@@ -1,5 +1,4 @@
 export { default as useIsomorphicLayoutEffect } from '@startupjs/utils/useIsomorphicLayoutEffect'
-export { default as useBackPress } from './useBackPress.js'
 export { default as useBind } from './useBind.js'
 export { default as useDidUpdate } from './useDidUpdate.js'
 export { default as useForceUpdate } from './useForceUpdate.js'

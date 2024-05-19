@@ -11,6 +11,7 @@
  * 3. If extremely late bindings are enabled, to prevent name collisions when accessing fields
  *    in the raw data tree which have the same name as signal's methods
  */
+import { v4 as uuid } from 'uuid'
 import { get as _get, set as _set, del as _del, setPublicDoc as _setPublicDoc } from './dataTree.js'
 import getSignal, { rawSignal } from './getSignal.js'
 import { IS_QUERY, HASH, QUERIES } from './Query.js'
@@ -26,10 +27,16 @@ export default class Signal extends Function {
   }
 
   path () {
+    if (arguments.length > 0) throw Error('Signal.path() does not accept any arguments')
     return this[SEGMENTS].join('.')
   }
 
+  id () {
+    return uuid()
+  }
+
   get () {
+    if (arguments.length > 0) throw Error('Signal.get() does not accept any arguments')
     if (this[IS_QUERY]) {
       const hash = this[HASH]
       return _get([QUERIES, hash, 'docs'])
@@ -64,6 +71,7 @@ export default class Signal extends Function {
   }
 
   async set (value) {
+    if (arguments.length > 1) throw Error('Signal.set() expects a single argument')
     if (this[SEGMENTS].length === 0) throw Error('Can\'t set the root signal data')
     if (isPublicCollection(this[SEGMENTS][0])) {
       await _setPublicDoc(this[SEGMENTS], value)
@@ -72,7 +80,31 @@ export default class Signal extends Function {
     }
   }
 
+  // TODO: make it use an actual increment json0 operation on public collections
+  async increment (value) {
+    if (arguments.length > 1) throw Error('Signal.increment() expects a single argument')
+    if (value === undefined) value = 1
+    if (typeof value !== 'number') throw Error('Signal.increment() expects a number argument')
+    let currentValue = this.get()
+    if (currentValue === undefined) currentValue = 0
+    if (typeof currentValue !== 'number') throw Error('Signal.increment() tried to increment a non-number value')
+    await this.set(currentValue + value)
+  }
+
+  async add (value) {
+    if (arguments.length > 1) throw Error('Signal.add() expects a single argument')
+    let id
+    if (value.id) {
+      value = JSON.parse(JSON.stringify(value))
+      id = value.id
+      delete value.id
+    }
+    id ??= uuid()
+    await this[id].set(value)
+  }
+
   async del () {
+    if (arguments.length > 0) throw Error('Signal.del() does not accept any arguments')
     if (this[SEGMENTS].length === 0) throw Error('Can\'t delete the root signal data')
     if (isPublicCollection(this[SEGMENTS][0])) {
       if (this[SEGMENTS].length === 1) throw Error('Can\'t delete the whole collection')

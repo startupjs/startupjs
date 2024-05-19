@@ -1,12 +1,12 @@
 import Socket from '@startupjs/channel'
-import { Connection } from 'sharedb/lib/client'
+import Connection from './sharedbConnection.cjs'
 import { connection, setConnection } from '../orm/connection.js'
 
 export default function connect ({
   baseUrl,
-  channel
+  ...options
 } = {}) {
   if (connection) return
-  const socket = new Socket({ baseUrl, ...channel })
+  const socket = new Socket({ baseUrl, ...options })
   setConnection(new Connection(socket))
 }

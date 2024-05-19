@@ -1,10 +1,7 @@
 import ShareDbAccess, {
-  registerOrmRules,
-  rigisterOrmRulesFromFactory
+  registerOrmRules
 } from '@startupjs/sharedb-access'
-import isArray from 'lodash/isArray.js'
-import isPlainObject from 'lodash/isPlainObject.js'
-import racer from 'racer'
+import ShareDB from 'sharedb'
 import shareDbHooks from 'sharedb-hooks'
 import { pubsub } from './redis/index.js'
 import { db } from './db/index.js'
@@ -21,8 +18,6 @@ global.__clients = {}
 export default function createBackend (options) {
   options = Object.assign({ secure: true }, options)
 
-  if (options.ee != null) options.ee.emit('storeUse', racer)
-
   // pollDebounce is the minimum time in ms between query polls in sharedb
   if (options.pollDebounce) db.pollDebounce = options.pollDebounce
 
@@ -31,19 +26,11 @@ export default function createBackend (options) {
   // so redlock is used to guarantee that.
   if (options.flushRedis !== false) maybeFlushRedis()
 
-  const backend = racer.createBackend({
+  const backend = new ShareDB({
     db,
     pubsub,
     extraDbs: options.extraDbs
   })
-
-  backend.use('query', pathQueryMongo)
-
-  // Monkey patch racer's model creation
-  const oldCreateModel = backend.createModel
-  backend.createModel = function (options = {}, req) {
-    return oldCreateModel.call(backend, { fetchOnly: true, ...options }, req)
-  }
 
   // sharedb-hooks
   shareDbHooks(backend)
@@ -63,10 +50,12 @@ export default function createBackend (options) {
       const { access } = ormEntity
       const isFactory = !!ormEntity.factory
 
-      // TODO
-      // move rigisterOrmRulesFromFactory and registerOrmRules to this library
+      // TODO:
+      //   - move registerOrmRulesFromFactory and registerOrmRules to this library
+      //   - rewrite factories check to not use model anymore
       if (isFactory) {
-        rigisterOrmRulesFromFactory(backend, path, ormEntity)
+        throw Error('Sharedb-access does not support ORM factories yet')
+        // registerOrmRulesFromFactory(backend, path, ormEntity)
       } else if (access) {
         registerOrmRules(backend, path, access)
       }
@@ -89,10 +78,11 @@ export default function createBackend (options) {
 
     const userId = client.session?.userId || req.session?.userId
 
-    if (!global.__clients[userId]) {
-      const model = backend.createModel()
-      global.__clients[userId] = { model }
-    }
+    // TODO: rewrite to use $ here, or create a separate root $ for each user
+    // if (!global.__clients[userId]) {
+    //   const model = backend.createModel()
+    //   global.__clients[userId] = { model }
+    // }
 
     usersConnectionCounter[userId] = ~~usersConnectionCounter[userId] + 1
 
@@ -104,22 +94,15 @@ export default function createBackend (options) {
 
       usersConnectionCounter[userId] -= 1
 
-      if (usersConnectionCounter[userId] <= 0) {
-        global.__clients[userId].model.close()
-        delete global.__clients[userId]
-      }
+      // TODO: rewrite to use $ here, or create a separate root $ for each user
+      // if (usersConnectionCounter[userId] <= 0) {
+      //   global.__clients[userId].model.close()
+      //   delete global.__clients[userId]
+      // }
     })
   })
 
   if (options.ee != null) options.ee.emit('backend', backend)
 
   return backend
-}
-
-function pathQueryMongo (request, next) {
-  let query = request.query
-  if (isPlainObject(query)) return next()
-  if (!isArray(query)) query = [query]
-  request.query = { _id: { $in: query } }
-  next()
 }

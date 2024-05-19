@@ -28,7 +28,8 @@
     "diff-match-patch": "^1.0.5",
     "json0-ot-diff": "^1.1.2",
     "lodash": "^4.17.20",
-    "sharedb": "^4.1.4"
+    "sharedb": "^5.0.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

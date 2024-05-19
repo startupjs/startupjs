@@ -2,7 +2,7 @@ import { raw } from '@nx-js/observer-util'
 import { get as _get, set as _set, del as _del } from './dataTree.js'
 import { SEGMENTS } from './Signal.js'
 import getSignal from './getSignal.js'
-import { getConnection } from './connection.js'
+import { getConnection, fetchOnly } from './connection.js'
 import { docSubscriptions } from './Doc.js'
 
 const ERROR_ON_EXCESSIVE_UNSUBSCRIBES = false
@@ -77,7 +77,8 @@ class Query {
 
   async _subscribe () {
     await new Promise((resolve, reject) => {
-      this.shareQuery = getConnection().createSubscribeQuery(this.collection, this.params, {}, err => {
+      const method = fetchOnly ? 'createFetchQuery' : 'createSubscribeQuery'
+      this.shareQuery = getConnection()[method](this.collection, this.params, {}, err => {
         if (err) return reject(err)
         resolve()
       })

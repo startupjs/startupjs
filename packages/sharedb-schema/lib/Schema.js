@@ -7,7 +7,6 @@ export default class Schema {
     const { schemas, validators = {}, formats = {} } = options
 
     this.backend = backend
-    this.model = backend.createModel()
     this.options = options
     this.schemas = schemas
     this.customValidators = validators
@@ -22,7 +21,7 @@ export default class Schema {
   commitHandler = async (shareRequest, done) => {
     const {
       snapshot: { data: newDoc },
-      id: docId,
+      // id: docId, // TODO: needed for future factory implementation
       collection,
       op: opData
     } = shareRequest
@@ -37,15 +36,17 @@ export default class Schema {
       return done(err)
     }
 
-    let rootSchema = this.schemas[collection]
+    const rootSchema = this.schemas[collection]
     // we need to check the type of rootSchema because the non factory schema can have the 'factory' field
+    // TODO: implement this on pure sharedb. Use the singleton 'connection' to get document
     if (typeof rootSchema === 'function' && rootSchema.factory) {
+      throw Error('Schema factory is not implemented yet')
       // get model from factory like in @startupjs/orm: https://github.com/startupjs/startupjs/blob/master/packages/orm/lib/index.js#L77
-      const $doc = this.model._scope(`${collection}.${docId}`)
-      await $doc.subscribe()
-      const factoryModel = rootSchema($doc, this.model)
-      rootSchema = factoryModel.constructor.schema
-      $doc.unsubscribe()
+      // const $doc = this.model._scope(`${collection}.${docId}`)
+      // await $doc.subscribe()
+      // const factoryModel = rootSchema($doc, this.model)
+      // rootSchema = factoryModel.constructor.schema
+      // $doc.unsubscribe()
     }
 
     if (!rootSchema || !rootSchema.properties) {

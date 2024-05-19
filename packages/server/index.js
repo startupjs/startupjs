@@ -8,7 +8,7 @@ import dummyInitServer from './initServer.auto.js'
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import _createBackend from '@startupjs/backend'
 import _createSession from './server/createSession.js'
-import _createChannel from '@startupjs/channel/server'
+import _initConnection from '@startupjs/signals-orm/server'
 import { readFileSync } from 'fs'
 
 const IS_EXPO = isExpo(process.env.ROOT_PATH || process.cwd())
@@ -37,7 +37,7 @@ export async function createServer (options = {}) {
   options = transformOptions(options)
   const backend = _createBackend(options)
   const session = _createSession(options)
-  const channel = _createChannel(backend, { session })
+  const channel = _initConnection(backend, { session })
   const { server, expressApp } = await createServer({ backend, session, channel, options })
   return { server, backend, session, channel, expressApp }
 }
@@ -47,7 +47,7 @@ export async function createMiddleware (options = {}) {
   options = transformOptions(options)
   const backend = _createBackend(options)
   const session = _createSession(options)
-  const channel = _createChannel(backend, { session })
+  const channel = _initConnection(backend, { session })
   const middleware = await createMiddleware({ backend, session, channel, options })
   return { middleware, backend, session, channel }
 }

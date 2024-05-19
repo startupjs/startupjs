@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { pickFormFields } from 'startupjs/orm'
+import { pickFormFields } from 'startupjs'
 
 export default function useFormFields (schema, options = {}) {
   return useMemo(() => {

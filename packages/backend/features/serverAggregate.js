@@ -17,9 +17,9 @@ export default function serverAggregate (backend, { customCheck } = {}) {
         aggregationName,
         (queryParams, shareRequest) => {
           const session = shareRequest.agent.connectSession
-          const userId = session.userId
-          const model = global.__clients[userId].model
-          const context = { model, session, collection }
+          // TODO: rewrite to use $ here, or create a separate root $ for each user
+          // const model = global.__clients[userId].model
+          const context = { session, collection }
           return aggregation(queryParams, context)
         }
       )

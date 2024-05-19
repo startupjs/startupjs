@@ -24,7 +24,7 @@ export default class MongoQueue {
   async doLoop () {
     const collection = env.WORKER_TASK_COLLECTION
     const start = Date.now()
-    const model = this.backend.createModel()
+    const model = this.backend.createModel() // TODO: use connection directly or $
     const queryLock = await this.lock(queryLockKey, env.WORKER_MONGO_QUERY_TIMEOUT)
 
     if (queryLock) {
