@@ -7,8 +7,8 @@ import isDevelopment from '@startupjs/utils/isDevelopment'
 import isExpo from '@startupjs/utils/isExpo'
 import isWeb from '@startupjs/utils/isWeb'
 import axios from '@startupjs/utils/axios'
-import connect from 'teamplay/connect'
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
+import connect from 'teamplay/connect'
 
 const NO_BASE_URL_WARN = `
   !!! WARNING !!! baseUrl option is not specified.

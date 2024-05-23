@@ -23,7 +23,7 @@ export default class WorkerManager {
 
     this.started = true
     for (let i = 0; i < env.WORKER_CHILDREN_NUM; i++) {
-      let child = await this._spawnChild()
+      const child = await this._spawnChild()
       if (child) {
         this.children.push(child)
       }
@@ -33,7 +33,7 @@ export default class WorkerManager {
 
   async _spawnChild () {
     if (!this.started) return
-    let child = new Worker()
+    const child = new Worker()
     await child.start(this.num)
 
     child.on('end', async (reason) => {
@@ -59,10 +59,10 @@ export default class WorkerManager {
     if (this.children.length >= num) return
 
     console.log('recreating', reason)
-    let newAmount = num - this.children.length
+    const newAmount = num - this.children.length
 
     for (let i = 0; i < newAmount; i++) {
-      let child = await this._spawnChild()
+      const child = await this._spawnChild()
       if (child) {
         this.children.push(child)
       }

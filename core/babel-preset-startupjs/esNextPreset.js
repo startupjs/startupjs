@@ -11,10 +11,12 @@ module.exports = ({ debugJsx }) => {
   ]
   const extraPlugins = [
     [require('@babel/plugin-transform-react-jsx')],
-    ...(debugJsx ? [
-      require('@babel/plugin-transform-react-jsx-source'),
-      require('@babel/plugin-transform-react-jsx-self')
-    ] : []),
+    ...(debugJsx
+      ? [
+          require('@babel/plugin-transform-react-jsx-source'),
+          require('@babel/plugin-transform-react-jsx-self')
+        ]
+      : []),
     [
       require('@babel/plugin-transform-runtime'),
       {

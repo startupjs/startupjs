@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import defaults from 'lodash/defaults'
 
 const DEFAULT_LANGUAGE = 'en'
-let localConfig = {}
+const localConfig = {}
 
 export function initConfig (config) {
   if (Object.keys(localConfig).length) {
@@ -22,7 +22,7 @@ function getLocalConfig (baseConfig) {
   const getLangs = config.getLangs
 
   if (typeof getLangs === 'function') {
-    let langs = getLangs()
+    const langs = getLangs()
 
     if (!Array.isArray(langs)) {
       throw new Error(

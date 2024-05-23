@@ -95,7 +95,7 @@ function getPropName (name) {
 }
 
 function arrayContainedInArray (cssClasses, htmlClasses) {
-  for (var i = 0; i < cssClasses.length; i++) {
+  for (let i = 0; i < cssClasses.length; i++) {
     if (htmlClasses.indexOf(cssClasses[i]) === -1) return false
   }
   return true

@@ -80,7 +80,7 @@ function Drawer ({
     await waitForDrawerRef()
 
     getValidNode(refContent.current).measure((x, y, width, height) => {
-      let isInit = !contentSize.width
+      const isInit = !contentSize.width
       setContentSize({ width, height })
 
       animate.show({

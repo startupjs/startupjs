@@ -8,17 +8,17 @@ function isGoodNameForNestedComponent (name) {
 }
 
 module.exports = (babel) => {
-  var t = babel.types
+  const t = babel.types
 
   function processClass (JSXOpeningElement, opts) {
-    var name = JSXOpeningElement.node.name.name
-    var property = null
+    const name = JSXOpeningElement.node.name.name
+    let property = null
 
     JSXOpeningElement.traverse({
       JSXAttribute (JSXAttribute) {
-        var expr
-        var classesValue
-        var classes
+        let expr
+        let classesValue
+        let classes
 
         if (!isTargetAttr(JSXAttribute.node, opts.classAttribute)) return
 
@@ -87,7 +87,7 @@ module.exports = (babel) => {
     })
 
     if (property) {
-      var tag = t.jSXMemberExpression(t.jSXIdentifier(name), t.jSXIdentifier(property))
+      const tag = t.jSXMemberExpression(t.jSXIdentifier(name), t.jSXIdentifier(property))
 
       JSXOpeningElement.get('name').replaceWith(tag)
 

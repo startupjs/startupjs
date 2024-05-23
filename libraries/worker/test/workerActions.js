@@ -1,4 +1,4 @@
-let ACTIONS = global.DM_WORKER_ACTIONS = {}
+const ACTIONS = global.DM_WORKER_ACTIONS = {}
 
 ACTIONS.test = (model, task, done) => {
   const options = task.options || {}

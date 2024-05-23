@@ -17,7 +17,7 @@ module.exports = function (babel) {
     visitor: {
       Program: {
         enter: (programPath) => {
-          let ImportDeclarations = []
+          const ImportDeclarations = []
           let TSInterfaceDeclaration
           let ExportDefaultDeclaration
 

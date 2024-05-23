@@ -33,11 +33,11 @@ const OPTIONS_ANCHORS = ['forwardRef:', 'suspenseProps:']
 // It makes sense to only do this in development
 
 module.exports = function replaceObserverLoader (source) {
-  let match = source.match(OBSERVER_REGEX)
+  const match = source.match(OBSERVER_REGEX)
   if (!match) return source
-  let matchIndex = match.index
-  let matchStr = match[0]
-  let matchLength = matchStr.length
+  const matchIndex = match.index
+  const matchStr = match[0]
+  const matchLength = matchStr.length
   let openBr = 1 // Count opened brackets, we start from one already opened
   let lastCloseCurlyBrIndex
   let lastOpenCurlyBrIndex
