@@ -1,0 +1,32 @@
+{
+  "name": "@startupjs/registry",
+  "version": "0.56.0-alpha.47",
+  "type": "module",
+  "engines": {
+    "node": ">= 14"
+  },
+  "description": "StartupJS Registry of modules and plugins",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./*": "./*.js",
+    "./lib/*": "./lib/*.js",
+    "./client/*": "./client/*.js",
+    "./startupjs.config": "./startupjs.config.cjs",
+    "./startupjs.config.cjs": "./startupjs.config.cjs",
+    "./package.json": "./package.json",
+    "./loadStartupjsConfig": "./loadStartupjsConfig.js",
+    "./loadStartupjsConfig.auto": "./loadStartupjsConfig.auto.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "fbemitter": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "teamplay": "*"
+  }
+}

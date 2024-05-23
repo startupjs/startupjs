@@ -4,7 +4,8 @@
     "node": ">= 20.10"
   },
   "workspaces": [
-    "packages/*",
+    "core/*",
+    "libraries/*",
     "docker",
     "expoapp"
   ],
@@ -48,7 +49,7 @@
     "@playwright/test": "^1.40.0",
     "conventional-changelog-cli": "^2.1.1",
     "eslint": "^8.53.0",
-    "eslint-config-startupjs": "workspace:packages/eslint-config-startupjs",
+    "eslint-config-startupjs": "workspace:core/eslint-config-startupjs",
     "husky": "^4.3.0",
     "lerna": "^3.22.1",
     "lint-staged": "^9.5.0"
