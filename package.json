@@ -40,6 +40,8 @@
     "publish-minor": "yarn before-publish && npx lerna publish minor --no-push && yarn publish-update-changelog",
     "publish-alpha": "yarn before-publish && npx lerna publish preminor --force-publish --dist-tag next --no-push && yarn publish-update-changelog",
     "publish-alpha-patch": "yarn before-publish && npx lerna publish prerelease --dist-tag next --no-push && yarn publish-update-changelog",
+    "publish-canary": "yarn before-publish && npx lerna publish preminor --force-publish --preid canary --dist-tag canary --no-push && yarn publish-update-changelog",
+    "publish-canary-patch": "yarn before-publish && npx lerna publish prerelease --preid canary --dist-tag canary --no-push && yarn publish-update-changelog",
     "before-publish": "./scripts/tasks.sh before-publish",
     "publish-update-changelog": "./scripts/tasks.sh update-changelog",
     "test-e2e": "cd styleguide && yarn test-e2e",
