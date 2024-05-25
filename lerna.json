@@ -9,5 +9,11 @@
       ]
     }
   },
+  "packages": [
+    "core/*",
+    "libraries/*",
+    "docker",
+    "expoapp"
+  ],
   "npmClient": "yarn"
 }
