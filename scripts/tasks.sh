@@ -83,8 +83,10 @@ fn_before_publish () {
   echo "Checking that you are on master branch..."
   if git status | grep "On branch master"; then
     echo "."
+  elif git status | grep "On branch next"; then
+    echo "."
   else
-    echo "!!! ERROR !!! You can only publish on master branch!"
+    echo "!!! ERROR !!! You can only publish on master branch or next branch!"
     exit 1
   fi
   echo "Checking that startupjs/startupjs github repo is set as origin in git..."
@@ -111,7 +113,7 @@ fn_update_changelog () {
   git add yarn.lock
   git commit --amend --no-edit
   git tag "$current_version" -m "$current_version"
-  git push origin master
+  git push origin HEAD
   git push origin --tags
 }
 
