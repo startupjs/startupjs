@@ -80,7 +80,7 @@ fn_local_init () {
 
 fn_before_publish () {
   set -e
-  echo "Checking that you are on master branch..."
+  echo "Checking that you are on master branch or next branch..."
   if git status | grep "On branch master"; then
     echo "."
   elif git status | grep "On branch next"; then
