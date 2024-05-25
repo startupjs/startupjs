@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/schema",
   "type": "module",
-  "version": "0.56.0-alpha.50",
+  "version": "0.57.0-canary.0",
   "description": "Utils to work with json-schema",
   "main": "index.js",
   "exports": {
@@ -11,7 +11,7 @@
     }
   },
   "dependencies": {
-    "@startupjs/registry": "^0.56.0-alpha.0",
+    "@startupjs/registry": "^0.57.0-canary.0",
     "ajv": "^8.12.0",
     "lodash": "^4.17.20"
   },

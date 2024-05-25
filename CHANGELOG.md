@@ -1,3 +1,12 @@
+# [0.57.0-canary.0](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.69...v0.57.0-canary.0) (2024-05-25)
+
+
+### Features
+
+* **teamplay:** pure ORM implementation of signals for local data + ShareDB ([#1212](https://github.com/startupjs/startupjs/issues/1212)) ([7d8a0c0](https://github.com/startupjs/startupjs/commit/7d8a0c024b8f5edc687eb20ebae0ba8b05832e71))
+
+
+
 # [0.56.0-alpha.69](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.68...v0.56.0-alpha.69) (2024-04-16)
 
 

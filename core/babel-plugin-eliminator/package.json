@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-eliminator",
-  "version": "0.56.0-alpha.53",
+  "version": "0.57.0-canary.0",
   "publishConfig": {
     "access": "public"
   },

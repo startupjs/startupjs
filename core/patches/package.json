@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/patches",
-  "version": "0.56.0-alpha.13",
+  "version": "0.57.0-canary.0",
   "type": "module",
   "description": "Patches for libraries used by StartupJS",
   "main": "index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/worker",
-  "version": "0.56.0-alpha.64",
+  "version": "0.57.0-canary.0",
   "type": "module",
   "description": "Worker to perform specified actions",
   "publishConfig": {
@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@startupjs/backend": "^0.56.0-alpha.64",
+    "@startupjs/backend": "^0.57.0-canary.0",
     "@startupjs/orm": "^0.56.0-alpha.64",
     "lodash": "^4.17.20"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/pm",
-  "version": "0.56.0-alpha.0",
+  "version": "0.57.0-canary.0",
   "description": "project management automation and guidelines for github projects",
   "main": "index.js",
   "type": "module",
