@@ -27,7 +27,6 @@
     "@startupjs/babel-plugin-startupjs-plugins": "^0.57.0-canary.0",
     "@startupjs/babel-plugin-transform-react-pug": "^7.0.1-0",
     "@startupjs/css-to-react-native-transform": "^1.9.0-2",
-    "@startupjs/plugin": "^0.56.0-alpha.0",
     "@startupjs/server": "^0.57.0-canary.0",
     "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",

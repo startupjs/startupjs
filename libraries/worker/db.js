@@ -1,4 +1,5 @@
-import promisifyRacer from '@startupjs/orm/lib/promisifyRacer.js'
+// import promisifyRacer from '@startupjs/orm/lib/promisifyRacer.js'
+throw Error('@startupjs/orm does not exist anymore. This module has to be updated to work on the new teamplay library.')
 import getBackend, { mongo, redis, redlock } from '@startupjs/backend'
 
 promisifyRacer()

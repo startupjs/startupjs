@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@startupjs/backend": "^0.57.0-canary.0",
-    "@startupjs/init": "^0.56.0-alpha.69",
     "@startupjs/registry": "^0.57.0-canary.0",
     "body-parser": "1.20.0",
     "compression": "^1.6.0",

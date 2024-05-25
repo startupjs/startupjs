@@ -7318,7 +7318,6 @@ __metadata:
     "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.57.0-canary.0"
     "@startupjs/babel-plugin-transform-react-pug": "npm:^7.0.1-0"
     "@startupjs/css-to-react-native-transform": "npm:^1.9.0-2"
-    "@startupjs/plugin": "npm:^0.56.0-alpha.0"
     "@startupjs/server": "npm:^0.57.0-canary.0"
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
@@ -7352,26 +7351,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/cache@npm:^0.56.0-alpha.0":
-  version: 0.56.0-alpha.0
-  resolution: "@startupjs/cache@npm:0.56.0-alpha.0"
-  dependencies:
-    "@startupjs/debug": "npm:^0.56.0-alpha.0"
-  checksum: 10c0/065379e760d01b83d321fca16019cb72bd9cfb6d5174463907cca2f5434921526cc83523011627269a1b7777b654e3407090dfddbd6857658d07a067c7004ebe
-  languageName: node
-  linkType: hard
-
-"@startupjs/channel@npm:^0.56.0-alpha.54":
-  version: 0.56.0-alpha.54
-  resolution: "@startupjs/channel@npm:0.56.0-alpha.54"
-  dependencies:
-    sockjs: "github:sockjs/sockjs-node#46d2f846653a91822a02794b852886c7f137378c"
-    sockjs-client: "npm:^1.6.1"
-    ws: "npm:^1.1"
-  checksum: 10c0/c8bedbf769a1fc495cf3af34ffd483a44151d1918fb315bb2f2b181e1b73e31f4fdc3b6bab896340471ed19aa11eba2c4eec64c2c87d5b0aa2dd503f3ec75497
-  languageName: node
-  linkType: hard
-
 "@startupjs/cli@npm:^0.57.0-canary.0, @startupjs/cli@workspace:core/cli":
   version: 0.0.0-use.local
   resolution: "@startupjs/cli@workspace:core/cli"
@@ -7393,13 +7372,6 @@ __metadata:
     css-mediaquery: "npm:^0.1.2"
     css-to-react-native: "npm:^2.3.2"
   checksum: 10c0/68834fafd9980f1927c3eba1ea3a115344cc4ec0c2c2e1b316bee3fdd86fb110c7de135f9cb33e768ba02a9a1b5ae3988800e4401b21c34d5ea94aa26a459e28
-  languageName: node
-  linkType: hard
-
-"@startupjs/debug@npm:^0.56.0-alpha.0":
-  version: 0.56.0-alpha.0
-  resolution: "@startupjs/debug@npm:0.56.0-alpha.0"
-  checksum: 10c0/0435617d00b3b6ce00c390beaf359812c3569fa382882f0aa57b54756616c93ace2a43910d8d13c719329137f350085f7cebc162ef73fbaf34de2f3842822ead
   languageName: node
   linkType: hard
 
@@ -7470,23 +7442,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/init@npm:^0.56.0-alpha.69":
-  version: 0.56.0-alpha.69
-  resolution: "@startupjs/init@npm:0.56.0-alpha.69"
-  dependencies:
-    "@startupjs/react-sharedb": "npm:^0.56.0-alpha.69"
-    "@startupjs/registry": "npm:^0.56.0-alpha.47"
-    "@startupjs/utils": "npm:^0.56.0-alpha.64"
-    racer: "npm:1.0.1"
-    rich-text: "npm:^4.0.0"
-    sharedb: "npm:^2.0.0"
-  peerDependencies:
-    "@startupjs/orm": "*"
-    axios: "*"
-  checksum: 10c0/0fc87f8ea56ff2f72640b07435eab45d50a15e7ca3b2b87cbc8746ccb3b473a4a299a3a3450d2becb7b25906fc1e976899d200c07225e0abef5435b73e463240
-  languageName: node
-  linkType: hard
-
 "@startupjs/is-expression@npm:^4.0.0-0":
   version: 4.0.0-0
   resolution: "@startupjs/is-expression@npm:4.0.0-0"
@@ -7532,17 +7487,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/model@npm:^0.56.0-alpha.64":
-  version: 0.56.0-alpha.64
-  resolution: "@startupjs/model@npm:0.56.0-alpha.64"
-  dependencies:
-    "@startupjs/channel": "npm:^0.56.0-alpha.54"
-    "@startupjs/utils": "npm:^0.56.0-alpha.64"
-    racer: "npm:1.0.1"
-  checksum: 10c0/463855907816565e4e08797e9420daf01df3798a6edd58a37fcfa10077737b6e8654530b7cb69f25ab483c48fd6e6d09e7d613857f08ed14feb627b265a9f7b1
-  languageName: node
-  linkType: hard
-
 "@startupjs/offline@workspace:libraries/offline":
   version: 0.0.0-use.local
   resolution: "@startupjs/offline@workspace:libraries/offline"
@@ -7557,7 +7501,6 @@ __metadata:
     "@babel/register": "npm:^7.0.0"
     "@babel/runtime": "npm:^7.0.0"
     "@js-code/native-store": "npm:0.0.2"
-    "@startupjs/model": "npm:^0.56.0-alpha.64"
     babel-plugin-add-module-exports: "npm:^0.1.2"
     babel-plugin-transform-decorators-legacy: "npm:^1.3.5"
     racer: "npm:1.0.1"
@@ -7567,18 +7510,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/orm@npm:^0.56.0-alpha.64":
-  version: 0.56.0-alpha.64
-  resolution: "@startupjs/orm@npm:0.56.0-alpha.64"
-  dependencies:
-    "@startupjs/cache": "npm:^0.56.0-alpha.0"
-    "@startupjs/utils": "npm:^0.56.0-alpha.64"
-    pluralize: "npm:^8.0.0"
-    racer: "npm:1.0.1"
-  checksum: 10c0/fa9dabf30997eb8124e8d3001e58395a40aa44ca4d15a3a2818d2a3c0bbe56d0aec44d9f5250ec95b3de472fe6828a305f1c421f163d4712fb468c60ba32c6de
-  languageName: node
-  linkType: hard
-
 "@startupjs/patches@npm:^0.57.0-canary.0, @startupjs/patches@workspace:core/patches":
   version: 0.0.0-use.local
   resolution: "@startupjs/patches@workspace:core/patches"
@@ -7586,15 +7517,6 @@ __metadata:
     patch-package: "npm:^7.0.0"
   languageName: unknown
   linkType: soft
-
-"@startupjs/plugin@npm:^0.56.0-alpha.0":
-  version: 0.56.0-alpha.0
-  resolution: "@startupjs/plugin@npm:0.56.0-alpha.0"
-  dependencies:
-    resolve: "npm:^1.20.0"
-  checksum: 10c0/8ef1991c4ee47a8e163865762fac201253097f3f3aa3eda4390b1354b120a7c010cd895baa1adfaa85b630cf50dce9eb8ac1ca2f5435d0ce4a158f92a1d3ee31
-  languageName: node
-  linkType: hard
 
 "@startupjs/pm@npm:^0.57.0-canary.0, @startupjs/pm@workspace:libraries/pm":
   version: 0.0.0-use.local
@@ -7661,74 +7583,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/react-sharedb-classes@npm:^0.56.0-alpha.64":
-  version: 0.56.0-alpha.64
-  resolution: "@startupjs/react-sharedb-classes@npm:0.56.0-alpha.64"
-  dependencies:
-    "@nx-js/observer-util": "npm:^4.1.3"
-    "@startupjs/model": "npm:^0.56.0-alpha.64"
-    "@startupjs/react-sharedb-util": "npm:^0.56.0-alpha.64"
-    co: "npm:~4.6.0"
-    hoist-non-react-statics: "npm:^1.2.0"
-    lodash: "npm:^4.17.20"
-  peerDependencies:
-    react: "*"
-  checksum: 10c0/bcedfafd9d50d3557ba56156ef6245ddd89e846f4c6b460ed4c75aa09de4c2508ad59eb29c2e6f58c777f5792626389633635cd26675f6cfe48698377e526dd4
-  languageName: node
-  linkType: hard
-
-"@startupjs/react-sharedb-hooks@npm:^0.56.0-alpha.69":
-  version: 0.56.0-alpha.69
-  resolution: "@startupjs/react-sharedb-hooks@npm:0.56.0-alpha.69"
-  dependencies:
-    "@nx-js/observer-util": "npm:^4.1.3"
-    "@startupjs/cache": "npm:^0.56.0-alpha.0"
-    "@startupjs/debug": "npm:^0.56.0-alpha.0"
-    "@startupjs/model": "npm:^0.56.0-alpha.64"
-    "@startupjs/react-sharedb-util": "npm:^0.56.0-alpha.64"
-    "@startupjs/signals": "npm:^0.56.0-alpha.64"
-    "@startupjs/utils": "npm:^0.56.0-alpha.64"
-    co: "npm:~4.6.0"
-    lodash: "npm:^4.17.20"
-  peerDependencies:
-    react: "*"
-  checksum: 10c0/f1f3ce61f68293cdec7a264e92f4b3637fc85404eb53a257474f4396780a84f9afdaefd3360301e683e7ba38279b27eeff82007a033da44df015e387601d6c24
-  languageName: node
-  linkType: hard
-
-"@startupjs/react-sharedb-util@npm:^0.56.0-alpha.64":
-  version: 0.56.0-alpha.64
-  resolution: "@startupjs/react-sharedb-util@npm:0.56.0-alpha.64"
-  dependencies:
-    "@nx-js/observer-util": "npm:^4.1.3"
-    "@startupjs/model": "npm:^0.56.0-alpha.64"
-    lodash: "npm:^4.17.20"
-    racer: "npm:1.0.1"
-  peerDependencies:
-    react: "*"
-  checksum: 10c0/19ae9f5bd375a45bbf741bbdf0bd5aa5e710ca21bfe657045bf40523c7e266f48b9bdd17c46eaa3a514d4184d35f457d20880dbb9c4c9d3f3dfba7f2e7be4540
-  languageName: node
-  linkType: hard
-
-"@startupjs/react-sharedb@npm:^0.56.0-alpha.69":
-  version: 0.56.0-alpha.69
-  resolution: "@startupjs/react-sharedb@npm:0.56.0-alpha.69"
-  dependencies:
-    "@nx-js/observer-util": "npm:^4.1.3"
-    "@startupjs/model": "npm:^0.56.0-alpha.64"
-    "@startupjs/react-sharedb-classes": "npm:^0.56.0-alpha.64"
-    "@startupjs/react-sharedb-hooks": "npm:^0.56.0-alpha.69"
-    "@startupjs/react-sharedb-util": "npm:^0.56.0-alpha.64"
-    hoist-non-react-statics: "npm:^1.2.0"
-    lodash: "npm:^4.17.20"
-    racer: "npm:1.0.1"
-    rich-text: "npm:^4.0.0"
-  peerDependencies:
-    react: "*"
-  checksum: 10c0/5f69e66d1eaad91229cde480eb166af33f5eb5bcdfa335062d6ed41de2f9f5e230c25e46bec290efb441df2579bf19bd866e4abb9f302b8a0038a6a26021d4e2
-  languageName: node
-  linkType: hard
-
 "@startupjs/recaptcha@npm:^0.57.0-canary.0, @startupjs/recaptcha@workspace:libraries/recaptcha":
   version: 0.0.0-use.local
   resolution: "@startupjs/recaptcha@workspace:libraries/recaptcha"
@@ -7739,17 +7593,6 @@ __metadata:
     react-native-webview: "*"
   languageName: unknown
   linkType: soft
-
-"@startupjs/registry@npm:^0.56.0-alpha.47":
-  version: 0.56.0-alpha.47
-  resolution: "@startupjs/registry@npm:0.56.0-alpha.47"
-  dependencies:
-    fbemitter: "npm:^3.0.0"
-  peerDependencies:
-    react: "*"
-  checksum: 10c0/3a6b528979f99fdf606513d92602c22d76ce8296abcc71e3f9b1594166d0d261e74c386a5bd39cafd51c1e683f6d419e7d783cad740e901a2ca3b53dc8e331f6
-  languageName: node
-  linkType: hard
 
 "@startupjs/registry@npm:^0.57.0-canary.0, @startupjs/registry@workspace:core/registry":
   version: 0.0.0-use.local
@@ -7819,7 +7662,6 @@ __metadata:
   resolution: "@startupjs/server@workspace:core/server"
   dependencies:
     "@startupjs/backend": "npm:^0.57.0-canary.0"
-    "@startupjs/init": "npm:^0.56.0-alpha.69"
     "@startupjs/registry": "npm:^0.57.0-canary.0"
     body-parser: "npm:1.20.0"
     compression: "npm:^1.6.0"
@@ -7860,15 +7702,6 @@ __metadata:
     z-schema: "npm:^4.2.3"
   languageName: unknown
   linkType: soft
-
-"@startupjs/signals@npm:^0.56.0-alpha.64":
-  version: 0.56.0-alpha.64
-  resolution: "@startupjs/signals@npm:0.56.0-alpha.64"
-  dependencies:
-    "@startupjs/model": "npm:^0.56.0-alpha.64"
-  checksum: 10c0/d61adac8646768ddd1619e1d986350b61a556380082c31e7b955c45fa567fa6ae9c95954c8484d8eac0c3dc3b0063d1662bbd5709d7a89f78002356403cd35db
-  languageName: node
-  linkType: hard
 
 "@startupjs/ui@npm:^0.57.0-canary.0, @startupjs/ui@workspace:core/ui":
   version: 0.0.0-use.local
@@ -7914,26 +7747,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/utils@npm:^0.56.0-alpha.64":
-  version: 0.56.0-alpha.64
-  resolution: "@startupjs/utils@npm:0.56.0-alpha.64"
-  dependencies:
-    axios: "npm:^1.6.5"
-  peerDependencies:
-    expo-constants: "*"
-    expo-router: "*"
-    react: "*"
-  peerDependenciesMeta:
-    expo-constants:
-      optional: true
-    expo-router:
-      optional: true
-    react:
-      optional: true
-  checksum: 10c0/b94355e851b9b03a1db15ede20ee05ee5c09733baedee2760653d6d61f91bc737b8983555ed132500b9637b2c490c6f4bfabb7ca9b5d722894f212795b56675b
-  languageName: node
-  linkType: hard
-
 "@startupjs/utils@npm:^0.57.0-canary.0, @startupjs/utils@workspace:core/utils":
   version: 0.0.0-use.local
   resolution: "@startupjs/utils@workspace:core/utils"
@@ -7958,7 +7771,6 @@ __metadata:
   resolution: "@startupjs/worker@workspace:libraries/worker"
   dependencies:
     "@startupjs/backend": "npm:^0.57.0-canary.0"
-    "@startupjs/orm": "npm:^0.56.0-alpha.64"
     lodash: "npm:^4.17.20"
     mocha: "npm:^8.1.3"
   languageName: unknown
@@ -11949,7 +11761,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"co@npm:^4.6.0, co@npm:~4.6.0":
+"co@npm:^4.6.0":
   version: 4.6.0
   resolution: "co@npm:4.6.0"
   checksum: 10c0/c0e85ea0ca8bf0a50cbdca82efc5af0301240ca88ebe3644a6ffb8ffe911f34d40f8fbcf8f1d52c5ddd66706abd4d3bfcd64259f1e8e2371d4f47573b0dc8c28
@@ -15594,13 +15406,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-diff@npm:1.2.0":
-  version: 1.2.0
-  resolution: "fast-diff@npm:1.2.0"
-  checksum: 10c0/2fbcb23957fb0bc920832a94ba627b860400f9cce45e1594e931dabf62e858369a58c6c2603e2ecc4f7679580f710b5b5b6e698a355a9a9bfcfd93c06c7c4350
-  languageName: node
-  linkType: hard
-
 "fast-glob@npm:^2.2.6":
   version: 2.2.7
   resolution: "fast-glob@npm:2.2.7"
@@ -17506,13 +17311,6 @@ __metadata:
   version: 1.0.0
   resolution: "hexoid@npm:1.0.0"
   checksum: 10c0/9c45e8ba676b9eb88455631ebceec4c829a8374a583410dc735472ab9808bf11339fcd074633c3fa30e420901b894d8a92ffd5e2e21eddd41149546e05a91f69
-  languageName: node
-  linkType: hard
-
-"hoist-non-react-statics@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "hoist-non-react-statics@npm:1.2.0"
-  checksum: 10c0/c6f98715f88d777b19e6bccbdf5c04bbf1d0a154a6417e922936a1ea1c2627f238e3109546fcc91dbd4d34956374393b30a4188ee3ab88009806ba6db190ffe4
   languageName: node
   linkType: hard
 
@@ -25908,13 +25706,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pluralize@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "pluralize@npm:8.0.0"
-  checksum: 10c0/2044cfc34b2e8c88b73379ea4a36fc577db04f651c2909041b054c981cd863dd5373ebd030123ab058d194ae615d3a97cfdac653991e499d10caf592e8b3dc33
-  languageName: node
-  linkType: hard
-
 "pngjs@npm:^3.3.0":
   version: 3.4.0
   resolution: "pngjs@npm:3.4.0"
@@ -26983,17 +26774,6 @@ __metadata:
   version: 5.1.1
   resolution: "quick-lru@npm:5.1.1"
   checksum: 10c0/a24cba5da8cec30d70d2484be37622580f64765fb6390a928b17f60cd69e8dbd32a954b3ff9176fa1b86d86ff2ba05252fae55dc4d40d0291c60412b0ad096da
-  languageName: node
-  linkType: hard
-
-"quill-delta@npm:^4.2.1":
-  version: 4.2.2
-  resolution: "quill-delta@npm:4.2.2"
-  dependencies:
-    fast-diff: "npm:1.2.0"
-    lodash.clonedeep: "npm:^4.5.0"
-    lodash.isequal: "npm:^4.5.0"
-  checksum: 10c0/cecd1584c59e360908e642fc159ef931929aecc930af208b79397daf1259df76efc7a12ad5c924171bd9861bfcf80cb20dbe4fcc2468eab5a84a72d0852c15aa
   languageName: node
   linkType: hard
 
@@ -28311,15 +28091,6 @@ __metadata:
   version: 1.3.1
   resolution: "rfdc@npm:1.3.1"
   checksum: 10c0/69f65e3ed30970f8055fac9fbbef9ce578800ca19554eab1dcbffe73a4b8aef536bc4248313889cf25e3b4e38b212c721eabe30856575bf2b2bc3d90f8ba93ef
-  languageName: node
-  linkType: hard
-
-"rich-text@npm:^4.0.0":
-  version: 4.1.0
-  resolution: "rich-text@npm:4.1.0"
-  dependencies:
-    quill-delta: "npm:^4.2.1"
-  checksum: 10c0/44ab500bad2baffc27432f8bc485a93e1a1db7d67a868c0f7a600a041e58df174005cc320981d3ab975fed0ec55c9f75bccfcab42cf246be6fcfa7dccd821b24
   languageName: node
   linkType: hard
 

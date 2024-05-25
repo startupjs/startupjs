@@ -13,7 +13,6 @@
   "license": "MIT",
   "dependencies": {
     "@startupjs/backend": "^0.57.0-canary.0",
-    "@startupjs/orm": "^0.56.0-alpha.64",
     "lodash": "^4.17.20"
   },
   "devDependencies": {
