@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
-
-import { axios, useValue$, observer, $ } from 'startupjs'
+import { axios, observer, $ } from 'startupjs'
 import { Br, Button, Div, Span, Link } from '@startupjs/ui'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabOneScreen () {
   const { $banner, $userId, $serverHello } = $.session
-  const $count = useValue$(0)
+  const $count = $(0)
   const [text, setText] = useState('')
   const [error, setError] = useState('')
 

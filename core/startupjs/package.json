@@ -1,0 +1,50 @@
+{
+  "name": "startupjs",
+  "type": "module",
+  "version": "0.56.0-alpha.69",
+  "engines": {
+    "node": ">= 14"
+  },
+  "description": "React Native + Web + Node.js full-stack framework",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./server": "./server.js",
+    "./startServer": "./startServer.js",
+    "./registry": "./registry.js",
+    "./initClient": "./initClient.js",
+    "./nconf": "./nconf.js",
+    "./isomorphicHelpers": "./isomorphicHelpers.js",
+    "./loadConfig": "./loadConfig.js",
+    "./metro-config": "./metro-config.cjs",
+    "./metro-babel-transformer": "./metro-babel-transformer.cjs",
+    "./babel": "./babel.cjs",
+    "./startupjs.config": "./startupjs.config.cjs",
+    "./package.json": "./package.json",
+    "./plugins/cssMediaUpdater.plugin": "./plugins/cssMediaUpdater.plugin.js"
+  },
+  "bin": "./cli.js",
+  "license": "MIT",
+  "dependencies": {
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.56.0-alpha.34",
+    "@startupjs/bundler": "^0.56.0-alpha.69",
+    "@startupjs/cli": "^0.56.0-alpha.65",
+    "@startupjs/hooks": "^0.56.0-alpha.64",
+    "@startupjs/isomorphic-helpers": "^0.56.0-alpha.0",
+    "@startupjs/registry": "^0.56.0-alpha.47",
+    "@startupjs/server": "^0.56.0-alpha.69",
+    "@startupjs/utils": "^0.56.0-alpha.64",
+    "babel-preset-startupjs": "^0.56.0-alpha.69",
+    "lodash": "^4.17.20",
+    "teamplay": "^0.1.4"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "peerDependenciesMeta": {
+    "react-native": {
+      "optional": true
+    }
+  }
+}

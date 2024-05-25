@@ -1,0 +1,10 @@
+{
+  "name": "@startupjs/server-aggregate",
+  "version": "0.56.0-alpha.53",
+  "description": "ShareDB middleware to allow defining aggregations only on the server",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "server.js"
+}

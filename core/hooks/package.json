@@ -1,0 +1,21 @@
+{
+  "name": "@startupjs/hooks",
+  "type": "module",
+  "version": "0.56.0-alpha.64",
+  "engines": {
+    "node": ">= 14"
+  },
+  "description": "Helper hooks",
+  "main": "lib/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@startupjs/utils": "^0.56.0-alpha.64",
+    "lodash": "^4.17.20"
+  },
+  "peerDependencies": {
+    "react": "*"
+  }
+}
