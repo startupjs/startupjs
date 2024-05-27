@@ -1,3 +1,12 @@
+# [0.57.0-canary.1](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.0...v0.57.0-canary.1) (2024-05-27)
+
+
+### Features
+
+* move 'backend' (and related packages) into 'teamplay' monorepo ([d2d893c](https://github.com/startupjs/startupjs/commit/d2d893cc013cdb3a09cd241f7fd6247bec245510))
+
+
+
 # [0.57.0-canary.0](https://github.com/startupjs/startupjs/compare/v0.56.0-alpha.69...v0.57.0-canary.0) (2024-05-25)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/worker",
-  "version": "0.57.0-canary.0",
+  "version": "0.57.0-canary.1",
   "type": "module",
   "description": "Worker to perform specified actions",
   "publishConfig": {
