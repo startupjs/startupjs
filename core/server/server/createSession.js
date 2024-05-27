@@ -1,4 +1,4 @@
-import { mongoClient, sqlite } from '@startupjs/backend'
+import { mongoClient, sqlite } from 'teamplay/server'
 import MongoStore from 'connect-mongo'
 import expressSession from 'express-session'
 import conf from 'nconf'

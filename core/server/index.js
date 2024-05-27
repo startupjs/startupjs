@@ -6,9 +6,8 @@ import { resolve } from 'path'
 import { EventEmitter } from 'events'
 import dummyInitServer from './initServer.auto.js'
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
-import _createBackend from '@startupjs/backend'
 import _createSession from './server/createSession.js'
-import _initConnection from 'teamplay/server'
+import { createBackend as _createBackend, initConnection as _initConnection } from 'teamplay/server'
 import { readFileSync } from 'fs'
 
 const IS_EXPO = isExpo(process.env.ROOT_PATH || process.cwd())
@@ -36,6 +35,7 @@ export async function createServer (options = {}) {
   const { default: createServer } = await import('./server/createServer.js')
   options = transformOptions(options)
   const backend = _createBackend(options)
+  MODULE.hook('backend', backend)
   const session = _createSession(options)
   const channel = _initConnection(backend, { session })
   const { server, expressApp } = await createServer({ backend, session, channel, options })
@@ -46,6 +46,7 @@ export async function createMiddleware (options = {}) {
   const { default: createMiddleware } = await import('./server/createMiddleware.js')
   options = transformOptions(options)
   const backend = _createBackend(options)
+  MODULE.hook('backend', backend)
   const session = _createSession(options)
   const channel = _initConnection(backend, { session })
   const middleware = await createMiddleware({ backend, session, channel, options })
@@ -55,6 +56,7 @@ export async function createMiddleware (options = {}) {
 export function createBackend (options = {}) {
   options = transformOptions(options)
   const backend = _createBackend(options)
+  MODULE.hook('backend', backend)
   return backend
 }
 
@@ -76,7 +78,7 @@ function isExpo (rootPath) {
   return Boolean(dependencies.expo)
 }
 
-export { mongo, mongoClient, createMongoIndex, redis, redlock, sqlite } from '@startupjs/backend'
+export { mongo, mongoClient, createMongoIndex, redis, redlock, sqlite } from 'teamplay/server'
 
 export function NO_DEAD_CODE_ELIMINATION () {
   return [dummyNconf, dummyInitServer]

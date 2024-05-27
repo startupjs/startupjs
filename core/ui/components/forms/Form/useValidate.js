@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback } from 'react'
-import { transformSchema, ajv } from '@startupjs/schema'
+import { transformSchema, ajv } from 'teamplay/schema'
 import _set from 'lodash/set'
 import _get from 'lodash/get'
 

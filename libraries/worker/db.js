@@ -1,11 +1,11 @@
 // import promisifyRacer from '@startupjs/orm/lib/promisifyRacer.js'
 throw Error('@startupjs/orm does not exist anymore. This module has to be updated to work on the new teamplay library.')
-import getBackend, { mongo, redis, redlock } from '@startupjs/backend'
+import { createBackend, mongo, redis, redlock } from 'teamplay/server'
 
 promisifyRacer()
 
 export async function getDbs (options) {
-  const backend = await getBackend(options)
+  const backend = createBackend(options)
 
   await mongo.collection('tasks').createIndex({
     status: 1,
