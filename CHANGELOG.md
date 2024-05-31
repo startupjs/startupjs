@@ -1,3 +1,12 @@
+# [0.57.0-canary.2](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.1...v0.57.0-canary.2) (2024-05-31)
+
+
+### Bug Fixes
+
+* upgrade teamplay to version which supports RN ([2190a79](https://github.com/startupjs/startupjs/commit/2190a79a3a6aa03d4315340d2f5fa354af96b1d9))
+
+
+
 # [0.57.0-canary.1](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.0...v0.57.0-canary.1) (2024-05-27)
 
 
