@@ -3,6 +3,7 @@ import { join, dirname } from 'path'
 import { existsSync, readFileSync, writeFileSync, renameSync } from 'fs'
 import url from 'url'
 import isEqual from 'lodash/isEqual.js'
+import merge from 'lodash/merge.js'
 import chalk from 'chalk'
 import { diffString } from 'json-diff'
 
@@ -14,6 +15,7 @@ const INIT_JSON_PATH = join(__dirname, './init/package.json')
 const INIT_METRO_CONFIG_PATH = join(__dirname, './init/metro.config.cjs')
 const INIT_GITIGNORE_PATH = join(__dirname, './init/gitignore')
 const INIT_STARTUPJS_CONFIG_PATH = join(__dirname, './init/startupjs.config.js')
+const INIT_EXPO_APP_JSON_PATH = join(__dirname, './init-expo/app.json')
 const DEVELOPMENT_JSON_PATH = join(__dirname, './dev/package.json')
 const UI_JSON_PATH = join(__dirname, './ui/package.json')
 const UI_EXPO_JSON_PATH = join(__dirname, './ui-expo/package.json')
@@ -163,6 +165,11 @@ async function runInstall ({ setupDevelopment, setupUi, setupRouter, setupInit, 
     maybeCopyMetroConfig({ triggerModified, onLog: log => finalLog.push(log) })
     maybeCopyStartupjsConfig({ triggerModified })
     maybeRenameBabelConfig({ triggerModified })
+    if (triggerModified.wasTriggered() && packageJson.dependencies.expo) {
+      // modify expo's config in app.json, but only if we did any actual init modifications before
+      // (there is no way to understand if we already did modify app.json before so we rely on the triggerModified flag)
+      maybeModifyExpoAppJson({ triggerModified })
+    }
   }
 
   try {
@@ -330,6 +337,17 @@ function maybeRenameMetroConfig ({ triggerModified }) {
   const metroConfig = readFileSync(metroConfigPath, 'utf8')
   if (!metroConfig.includes('module.exports')) return
   renameSync(metroConfigPath, join(process.cwd(), 'metro.config.cjs'))
+  triggerModified?.()
+}
+
+function maybeModifyExpoAppJson ({ triggerModified }) {
+  const appJsonPath = join(process.cwd(), 'app.json')
+  if (!existsSync(appJsonPath)) return
+  const appJson = JSON.parse(readFileSync(appJsonPath, 'utf8'))
+  const templateAppJson = JSON.parse(readFileSync(INIT_EXPO_APP_JSON_PATH, 'utf8'))
+  // deep extend the app.json with the template app.json
+  merge(appJson, templateAppJson)
+  writeFileSync(appJsonPath, JSON.stringify(appJson, null, 2))
   triggerModified?.()
 }
 
