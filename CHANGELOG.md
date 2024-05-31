@@ -1,3 +1,12 @@
+# [0.57.0-canary.3](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.2...v0.57.0-canary.3) (2024-05-31)
+
+
+### Bug Fixes
+
+* **create-startupjs:** modify app.json to switch web output to 'single' in expo app ([dd9d01a](https://github.com/startupjs/startupjs/commit/dd9d01aed201f4b31052950a0f898a2a2fe90def))
+
+
+
 # [0.57.0-canary.2](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.1...v0.57.0-canary.2) (2024-05-31)
 
 
