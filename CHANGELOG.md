@@ -1,3 +1,12 @@
+# [0.57.0-canary.7](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.6...v0.57.0-canary.7) (2024-06-02)
+
+
+### Bug Fixes
+
+* upgrade teamplay to correctly prohibit private collections usage on server ([fa9f24b](https://github.com/startupjs/startupjs/commit/fa9f24b3727444c922e2fa51e27701f266453f54))
+
+
+
 # [0.57.0-canary.6](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.5...v0.57.0-canary.6) (2024-06-02)
 
 
