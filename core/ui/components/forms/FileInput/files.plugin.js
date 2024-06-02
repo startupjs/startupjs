@@ -231,8 +231,7 @@ class FilesModel extends Signal {
 
 class FileModel extends Signal {
   getUrl () {
-    const { id, extension } = this.get()
-    return getFileUrl(id, extension)
+    return getFileUrl(this.getId(), this.extension.get())
   }
 
   getDownloadUrl () {
@@ -240,13 +239,11 @@ class FileModel extends Signal {
   }
 
   getUploadUrl () {
-    const { id } = this.get()
-    return getUploadFileUrl(id)
+    return getUploadFileUrl(this.getId())
   }
 
   getDeleteUrl () {
-    const { id } = this.get()
-    return getDeleteFileUrl(id)
+    return getDeleteFileUrl(this.getId())
   }
 }
 

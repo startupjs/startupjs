@@ -1,5 +1,5 @@
-import React, { useMemo, useCallback, useState, useId } from 'react'
-import { pug, observer, useOn, useValue$ } from 'startupjs'
+import React, { useMemo, useCallback, useState, useId, useRef } from 'react'
+import { pug, observer, $ } from 'startupjs'
 import _debounce from 'lodash/debounce'
 import PropTypes from 'prop-types'
 import ObjectInput from '../ObjectInput'
@@ -33,7 +33,7 @@ function Form ({
     () => fields, [JSON.stringify(fields)]
   )
 
-  if (!$errors) $errors = useValue$() // eslint-disable-line react-hooks/rules-of-hooks
+  if (!$errors) $errors = $() // eslint-disable-line react-hooks/rules-of-hooks
   const validator = useMemo(() => new Validator(), [])
 
   useMemo(() => {
@@ -62,7 +62,12 @@ function Form ({
     [validator]
   )
 
-  useOn('all', $value.path() + '.**', debouncedValidate)
+  // TODO: $(fn, triggerFn)
+  // $(() => JSON.stringify($value.get()), debouncedValidate)
+  useRef($(() => {
+    JSON.stringify($value.get())
+    debouncedValidate()
+  }))
 
   useMemo(() => {
     // if validate prop is set, trigger validation right away on mount.

@@ -34,7 +34,7 @@ export default async function startServer (options) {
 export async function createServer (options = {}) {
   const { default: createServer } = await import('./server/createServer.js')
   options = transformOptions(options)
-  const backend = _createBackend(options)
+  const backend = _createBackend({ ...options, models: MODULE.models })
   MODULE.hook('backend', backend)
   const session = _createSession(options)
   const channel = _initConnection(backend, { session })
@@ -45,7 +45,7 @@ export async function createServer (options = {}) {
 export async function createMiddleware (options = {}) {
   const { default: createMiddleware } = await import('./server/createMiddleware.js')
   options = transformOptions(options)
-  const backend = _createBackend(options)
+  const backend = _createBackend({ ...options, models: MODULE.models })
   MODULE.hook('backend', backend)
   const session = _createSession(options)
   const channel = _initConnection(backend, { session })
@@ -55,7 +55,7 @@ export async function createMiddleware (options = {}) {
 
 export function createBackend (options = {}) {
   options = transformOptions(options)
-  const backend = _createBackend(options)
+  const backend = _createBackend({ ...options, models: MODULE.models })
   MODULE.hook('backend', backend)
   return backend
 }

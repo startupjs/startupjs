@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react'
-import { pug, useComponentId, $, observer } from 'startupjs'
+import React, { useContext, useEffect, useId } from 'react'
+import { pug, $, observer } from 'startupjs'
 
 const PortalContext = React.createContext()
 
@@ -22,8 +22,9 @@ const Host = observer(({ $state }) => {
   `
 })
 
+// TODO: this probably rerenders each time and works incorrectly since children is new each time
 function Portal ({ children }) {
-  const componentId = useComponentId()
+  const componentId = useId()
   const $state = useContext(PortalContext)
 
   useEffect(() => {

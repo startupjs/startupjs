@@ -1,5 +1,5 @@
 import React from 'react'
-import { pug, observer, signal } from 'startupjs'
+import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
 import themed from '../../../theming/themed'
@@ -37,7 +37,7 @@ function ObjectInput ({
         return {
           ...inputProps,
           key,
-          $value: signal($value)[key]
+          $value: $value[key]
         }
       // TODO: When the dependsOn field changes and this field is no longer visible -- clear it.
       }).filter(Boolean)
