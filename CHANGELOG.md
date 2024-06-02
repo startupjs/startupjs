@@ -1,3 +1,12 @@
+# [0.57.0-canary.4](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.3...v0.57.0-canary.4) (2024-06-02)
+
+
+### Features
+
+* bump teamplay ([1e52649](https://github.com/startupjs/startupjs/commit/1e52649c7768fb56dfabf3f81cdab8051713721b))
+
+
+
 # [0.57.0-canary.3](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.2...v0.57.0-canary.3) (2024-05-31)
 
 
