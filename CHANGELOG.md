@@ -1,3 +1,12 @@
+# [0.57.0-canary.6](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.5...v0.57.0-canary.6) (2024-06-02)
+
+
+### Bug Fixes
+
+* update teamplay to newer version which supports pop and push ([ff08278](https://github.com/startupjs/startupjs/commit/ff082788850ecfc3c47cc77de588326289176cba))
+
+
+
 # [0.57.0-canary.5](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.4...v0.57.0-canary.5) (2024-06-02)
 
 
