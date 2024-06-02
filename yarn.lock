@@ -29542,7 +29542,7 @@ __metadata:
     "@startupjs/utils": "npm:^0.57.0-canary.1"
     babel-preset-startupjs: "npm:^0.57.0-canary.5"
     lodash: "npm:^4.17.20"
-    teamplay: "npm:^0.1.9"
+    teamplay: "npm:^0.1.10"
   peerDependencies:
     react: "*"
     react-native: "*"
@@ -30316,7 +30316,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"teamplay@npm:^0.1.9":
+"teamplay@npm:^0.1.10":
   version: 0.1.10
   resolution: "teamplay@npm:0.1.10"
   dependencies:
