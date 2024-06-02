@@ -1,3 +1,12 @@
+# [0.57.0-canary.5](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.4...v0.57.0-canary.5) (2024-06-02)
+
+
+### Bug Fixes
+
+* **server): pass models when creating backend. fix(ui:** refactor some components to use the new teamplay api ([8631d3b](https://github.com/startupjs/startupjs/commit/8631d3b61f23603ac8d64bcc471abe36ce64d290))
+
+
+
 # [0.57.0-canary.4](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.3...v0.57.0-canary.4) (2024-06-02)
 
 
