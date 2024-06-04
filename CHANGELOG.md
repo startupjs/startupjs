@@ -1,3 +1,12 @@
+# [0.57.0-canary.8](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.7...v0.57.0-canary.8) (2024-06-04)
+
+
+### Bug Fixes
+
+* upgrade teamplay which fixes a bunch of react rendering issues ([738c930](https://github.com/startupjs/startupjs/commit/738c930ecb6a57b4ba7d6981bdd37dbfc00a1b0e))
+
+
+
 # [0.57.0-canary.7](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.6...v0.57.0-canary.7) (2024-06-02)
 
 
