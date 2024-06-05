@@ -1,3 +1,12 @@
+# [0.57.0-canary.9](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.8...v0.57.0-canary.9) (2024-06-05)
+
+
+### Bug Fixes
+
+* **startupjs:** upgrade teamplay to fix signal ref updates when signal changes within react component ([d7ec56b](https://github.com/startupjs/startupjs/commit/d7ec56bbc57c22659f0a6769a119576b0408feef))
+
+
+
 # [0.57.0-canary.8](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.7...v0.57.0-canary.8) (2024-06-04)
 
 

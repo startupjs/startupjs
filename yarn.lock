@@ -15251,7 +15251,7 @@ __metadata:
     react-native-svg: "npm:^14.1.0"
     react-native-web: "npm:~0.19.6"
     react-test-renderer: "npm:18.2.0"
-    startupjs: "npm:^0.57.0-canary.8"
+    startupjs: "npm:^0.57.0-canary.9"
     typescript: "npm:^5.1.3"
   languageName: unknown
   linkType: soft
@@ -29528,7 +29528,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.57.0-canary.8, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.57.0-canary.9, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
