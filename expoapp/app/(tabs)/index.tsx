@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
+
 import { axios, useValue$, observer, $ } from 'startupjs'
-import { Br, Button, Div, Span, Link, Form, NumberInput, useFormProps } from '@startupjs/ui'
+import { Br, Button, Div, Span, Link } from '@startupjs/ui'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabOneScreen () {
@@ -24,24 +25,9 @@ export default observer(function TabOneScreen () {
     await fetchText()
   }
 
-  const { $newUser } = $.session
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
-      <Br />
-      <Br />
-      <Form
-        $value={$newUser}
-        fields={{
-          age: {
-            type: 'age',
-            originalType: 'number',
-            description: 'Ваш возраст (18+)'
-          }
-        }}
-      />
-      <Br />
       <Br />
       <Text>URL: {JSON.stringify(window?.location?.origin)}</Text>
       <Br />
@@ -62,15 +48,6 @@ export default observer(function TabOneScreen () {
       {error ? <Text>Error: {error}</Text> : undefined}
     </View>
   )
-})
-
-const CustomAgeInput = observer(({ $value, ...props }) => {
-  const { minAge } = useFormProps()
-  function setAge (age: any) {
-    if (age < minAge) return minAge
-    $value.set(age)
-  }
-  return <NumberInput value={$value.get()} onChangeNumber={setAge} {...props} />
 })
 
 const styles = StyleSheet.create({

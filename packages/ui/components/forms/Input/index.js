@@ -12,7 +12,6 @@ function Input ({
   type,
   ...props
 }, ref) {
-  console.log('props', props)
   input = guessInput(input, type, props)
 
   const testID = getInputTestId(props)
