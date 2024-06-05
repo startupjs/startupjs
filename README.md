@@ -65,14 +65,14 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 #### Alpha version on Expo (for React Native `>=0.73`)
 
-1. Create a new expo app and go into it:
+1. Create a new expo app and go into it (change `myapp` to the name of your app):
 
-    **Note:** You can use any expo template you want (`tabs` has Expo Router included)
+    **Note:** You can use any Expo template you want by specifying the `--template` option.
 
     - for **npm**:
 
         ```
-        npx create-expo-app@latest -t tabs myapp
+        npx create-expo-app@latest myapp
         ```
 
         ```
@@ -82,7 +82,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
     - for **yarn**:
 
         ```
-        yarn create expo-app -t tabs myapp
+        yarn create expo-app myapp
         ```
 
         ```
