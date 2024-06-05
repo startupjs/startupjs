@@ -5,19 +5,40 @@ import _isPlainObject from 'lodash/isPlainObject.js'
 // and also with 'required' being part of each property
 export default function transformSchema (schema, { additionalProperties = false } = {}) {
   schema = JSON.parse(JSON.stringify(schema))
-  // if schema is not an object, assume it's in a simplified format
+
   if (schema.type !== 'object') {
+    const properties = {}
+    const required = []
+
+    for (const key in schema) {
+      if (schema.hasOwnProperty(key)) {
+        const value = schema[key]
+
+        const type = value.originalType || value.type
+
+        properties[key] = { ...value, type }
+        delete properties[key].originalType
+
+        if (value.required === true) {
+          required.push(key)
+        }
+      }
+    }
     schema = {
       type: 'object',
-      properties: schema,
-      required: Object.keys(schema).filter(
-        // gather all required fields
-        // (only if explicitly set to a boolean `true` to not interfere with object's 'required' array)
-        key => schema[key] && schema[key].required === true
-      ),
+      properties,
+      required,
       additionalProperties
     }
+  } else {
+    Object.keys(schema.properties).forEach(key => {
+      const prop = schema.properties[key]
+      if (prop.originalType) {
+        prop.type = prop.originalType
+      }
+    })
   }
+
   stripExtraUiKeywords(schema)
   schema = MODULE.reduceHook('transformSchema', schema)
   return schema

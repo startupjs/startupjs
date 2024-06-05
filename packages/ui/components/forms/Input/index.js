@@ -12,6 +12,7 @@ function Input ({
   type,
   ...props
 }, ref) {
+  console.log('props', props)
   input = guessInput(input, type, props)
 
   const testID = getInputTestId(props)
@@ -47,7 +48,7 @@ Input.defaultProps = {
 }
 
 Input.propTypes = {
-  type: PropTypes.oneOf(ALL_INPUTS.concat(EXTRA_SCHEMA_TYPES)),
+  type: PropTypes.any,
   value: PropTypes.any,
   $value: PropTypes.any
 }

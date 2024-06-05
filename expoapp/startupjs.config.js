@@ -1,7 +1,7 @@
 import React from 'react'
 import { createPlugin } from 'startupjs/registry'
 import { pug, styl, $, observer } from 'startupjs'
-import { Span, Div, Button, alert } from '@startupjs/ui'
+import { Span, Div, Button, alert, NumberInput, TextInput } from '@startupjs/ui'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle'
 
@@ -15,6 +15,11 @@ export default {
       client: {
         message: 'Startupjs app',
         defaultVisible: false
+      }
+    },
+    [plugins.customForm]: {
+      client: {
+        minAge: 18
       }
     }
   }
@@ -43,6 +48,22 @@ function createPlugins () {
               <Banner {...{ message, defaultVisible }} />
             </>
           }
+        }
+      }
+    }),
+    customForm: createPlugin({
+      name: 'userCustomForm',
+      client: ({ minAge }) => {
+        return {
+          customFormInputs: () => ({
+            age: observer(({ $value }) => {
+              function setAge (age) {
+                if (age < minAge) age = minAge
+                $value.set(age)
+              }
+              return <NumberInput value={$value.get()} onChangeNumber={setAge} />
+            })
+          })
         }
       }
     })
