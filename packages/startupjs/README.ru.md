@@ -177,6 +177,17 @@ import racerPlugin from './myRacerPlugin.js';
 
 ## Hooks: server
 
+**NOTE**
+Express по умолчанию не обрабатывает тело запроса JSON, то есть при реализации методов POST, PATCH и других, данных в req.body не будет. Чтобы Express мог обрабатывать JSON в теле запроса, необходимо использовать middleware express.json(). Добавьте хук middleware со следующим содержанием:
+
+```js
+  import express from 'express'
+  // ...
+  middleware: (expressApp) => {
+    expressApp.use(express.json());
+  }
+```
+
 ### `api`
 
 Хук 'api' определяет маршруты API для обработки запросов к серверу.
