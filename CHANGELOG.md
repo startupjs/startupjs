@@ -1,3 +1,12 @@
+# [0.57.0-canary.11](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.10...v0.57.0-canary.11) (2024-06-06)
+
+
+### Bug Fixes
+
+* **ui:** fix ArrayInput, fix sidebars ([6d78160](https://github.com/startupjs/startupjs/commit/6d78160967ec0586e2be23137b66668f03a56bb8))
+
+
+
 # [0.57.0-canary.10](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.9...v0.57.0-canary.10) (2024-06-05)
 
 
