@@ -1,14 +1,7 @@
 import React, { useRef } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import DrawerLayoutModule from 'react-native-drawer-layout-polyfill'
-import {
-  pug,
-  observer,
-  useComponentId,
-  useBind,
-  useLocal,
-  useDidUpdate
-} from 'startupjs'
+import { pug, observer, useBind, $, useDidUpdate } from 'startupjs'
 import PropTypes from 'prop-types'
 import themed from '../../theming/themed'
 import useColors from '../../hooks/useColors'
@@ -21,7 +14,6 @@ let isEffectRunning
 function DrawerSidebar ({
   style = [],
   children,
-  path,
   $open,
   position,
   lazy,
@@ -31,15 +23,8 @@ function DrawerSidebar ({
   ...props
 }) {
   const getColor = useColors()
-  if (path) {
-    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
-  }
 
-  const componentId = useComponentId()
-  if (!$open) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    [, $open] = useLocal(path || `_session.DrawerSidebar.${componentId}`)
-  }
+  if (!$open) $open = $()
 
   let backgroundColor
   // eslint-disable-next-line prefer-const
@@ -48,11 +33,7 @@ function DrawerSidebar ({
   let open
   let onChange
   // eslint-disable-next-line prefer-const
-  ;({ open, onChange } = useBind({
-    $open,
-    open,
-    onChange
-  }))
+  ;({ open, onChange } = useBind({ $open, open, onChange }))
 
   const drawerRef = useRef()
 

@@ -1,12 +1,6 @@
 import React from 'react'
 import { ScrollView, View, StyleSheet } from 'react-native'
-import {
-  pug,
-  observer,
-  useComponentId,
-  useLocal,
-  useBind
-} from 'startupjs'
+import { pug, observer, $, useBind } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../Div'
 import themed from '../../theming/themed'
@@ -18,7 +12,6 @@ function Sidebar ({
   sidebarStyle,
   contentStyle,
   children,
-  path,
   $open,
   position,
   disabled,
@@ -26,17 +19,9 @@ function Sidebar ({
   lazy,
   renderContent
 }) {
-  if (path) {
-    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
-  }
   const getColor = useColors()
 
-  const componentId = useComponentId()
-
-  if (!$open) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    [, $open] = useLocal(path || `_session.Sidebar.${componentId}`)
-  }
+  if (!$open) $open = $()
 
   let backgroundColor
   // eslint-disable-next-line prefer-const

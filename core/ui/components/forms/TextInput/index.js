@@ -40,7 +40,7 @@ TextInput.propTypes = {
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   secondaryIconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  placeholder: PropTypes.string,
+  placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   testID: PropTypes.string,
   value: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),

@@ -1,6 +1,5 @@
 import React from 'react'
-import { pug, observer, signal } from 'startupjs'
-import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
+import { pug, observer } from 'startupjs'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
@@ -16,21 +15,18 @@ function ArrayInput ({
   items,
   _renderWrapper
 }) {
-  if (!$value || !items) {
-    return null
-  }
+  const arrayLength = $value.get()?.length || 0
 
-  const value = $value.get()
+  if (!$value || !items) return null
 
   function getInputs () {
-    return (value || []).map((_, index) => {
+    return Array(arrayLength + 1).fill().map((_, index) => {
       return {
         ...items,
         key: index,
-        $value: signal($value)[index]
+        $value: $value[index]
       }
-      // TODO: When the dependsOn field changes and this field is no longer visible -- clear it.
-    }).filter(Boolean)
+    })
   }
 
   const inputs = getInputs()
@@ -56,19 +52,16 @@ function ArrayInput ({
       Div.item(key=index styleName={ pushTop: index !== 0 })
         Div.input
           Input(...input)
-        Div.actions
-          Button.remove(
-            size='s'
-            variant='text'
-            icon=faTimes
-            onPress=() => $value.remove(index)
-          )
-    Button.add(
-      styleName={ pushTop: inputs.length !== 0 }
-      variant='text'
-      icon=faPlus
-      onPress=() => $value.push(undefined)
-    )
+        Div.actions(vAlign='center' align='right')
+          if index < arrayLength
+            Button.remove(
+              tabIndex=-1
+              size='s'
+              variant='text'
+              icon=faTimes
+              onPress=() => $value[index].del()
+              color='text-subtle'
+            )
   `)
 }
 

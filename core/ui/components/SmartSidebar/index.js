@@ -1,14 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Dimensions } from 'react-native'
-import {
-  pug,
-  observer,
-  useValue,
-  useComponentId,
-  useLocal,
-  useBind,
-  useIsomorphicLayoutEffect
-} from 'startupjs'
+import { pug, observer, $, useBind } from 'startupjs'
 import PropTypes from 'prop-types'
 import Sidebar from '../Sidebar'
 import themed from '../../theming/themed'
@@ -23,7 +15,6 @@ function SmartSidebar ({
   lazy,
   disabled,
   fixedLayoutBreakpoint,
-  path,
   $open,
   position,
   width,
@@ -31,46 +22,38 @@ function SmartSidebar ({
   renderContent,
   ...props
 }) {
-  if (path) {
-    console.warn('[@startupjs/ui] Sidebar: path is DEPRECATED, use $open instead.')
-  }
-
-  const componentId = useComponentId()
-
-  if (!$open) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    [, $open] = useLocal(path || `_session.SmartSidebar.${componentId}`)
-  }
+  if (!$open) $open = $()
 
   let open
   let onChange
   ;({ open, onChange } = useBind({ $open, open, onChange })) // eslint-disable-line prefer-const
 
-  const [fixedLayout, $fixedLayout] = useValue(isFixedLayout(fixedLayoutBreakpoint))
+  const $fixedLayout = $(isFixedLayout(fixedLayoutBreakpoint))
+  const fixedLayout = $fixedLayout.get()
 
-  useIsomorphicLayoutEffect(() => {
-    if (!fixedLayout) return
+  useEffect(() => {
+    if (!$fixedLayout.get()) return
     // or we can save open state before disabling
     // to open it with this state when enabling
-    $open.setDiff(defaultOpen)
+    $open.set(defaultOpen)
   }, [disabled])
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     if (disabled) return
-    if (fixedLayout) {
+    if ($fixedLayout.get()) {
       // when change dimensions from mobile
       // to desktop resolution or when rendering happen on desktop resolution
       // we open sidebar if it was opened on mobile resolution or default value
-      $open.setDiff(open || defaultOpen)
+      $open.set(open || defaultOpen)
     } else {
       // when change dimensions from desktop
       // to mobile resolution or when rendering heppen for mobile resolution
       // we always close sidebars
-      $open.setDiff(false)
+      $open.set(false)
     }
-  }, [fixedLayout])
+  }, [$fixedLayout.get()])
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     const listener = Dimensions.addEventListener('change', handleWidthChange)
 
     return () => {
@@ -83,7 +66,7 @@ function SmartSidebar ({
   }, [])
 
   function handleWidthChange () {
-    $fixedLayout.setDiff(isFixedLayout(fixedLayoutBreakpoint))
+    $fixedLayout.set(isFixedLayout(fixedLayoutBreakpoint))
   }
 
   return pug`
