@@ -63,9 +63,11 @@ const RadioInput = function ({
       row
     )
       Div.radio(
+        part=['radio', { radioChecked: checked }]
         styleName=[{ checked, error }]
       )
         Animated.View.circle(
+          part=['circle', { circleChecked: checked }]
           style={ transform: [{ scale: animation }] }
           styleName={ error }
         )

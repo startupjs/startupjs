@@ -40,6 +40,7 @@ function SwitchInput ({
 
   return pug`
     Div.switch(
+      part=['switch', { switchChecked: value}]
       styleName=[{ checked: value, error: _hasError }]
       ...props
     )
