@@ -47,7 +47,7 @@ Input.defaultProps = {
 }
 
 Input.propTypes = {
-  type: PropTypes.any,
+  type: PropTypes.oneOf(ALL_INPUTS.concat(EXTRA_SCHEMA_TYPES)),
   value: PropTypes.any,
   $value: PropTypes.any
 }
