@@ -1,6 +1,5 @@
 import { createElement as el } from 'react'
-import { createPlugin } from 'startupjs/registry'
-import { ROOT_MODULE as MODULE } from '@startupjs/registry'
+import { createPlugin, ROOT_MODULE as MODULE } from 'startupjs/registry'
 import { setCustomInputs } from './globalCustomInputs'
 import UiProvider from './UiProvider'
 
