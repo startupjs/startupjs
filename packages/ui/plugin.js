@@ -32,8 +32,5 @@ export default createPlugin({
 const ERRORS = {
   inputAlreadyDefined: input => `
     Custom input type "${input}" is already defined by another plugin. It will be overridden!
-  `,
-  inputNotFound: input => `
-    Implementation for a custom input type "${input}" was not found!
   `
 }

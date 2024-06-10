@@ -3,7 +3,7 @@ import _isPlainObject from 'lodash/isPlainObject.js'
 
 // allow schema to be specified in a simplified format - as "properties" themselves
 // and also with 'required' being part of each property
-export default function transformSchema (schema) {
+export default function transformSchema (schema, { additionalProperties = false } = {}) {
   schema = JSON.parse(JSON.stringify(schema))
   // if schema is not an object, assume it's in a simplified format
   if (schema.type !== 'object') {
@@ -15,7 +15,7 @@ export default function transformSchema (schema) {
         // (only if explicitly set to a boolean `true` to not interfere with object's 'required' array)
         key => schema[key] && schema[key].required === true
       ),
-      additionalProperties: false
+      additionalProperties
     }
   }
   stripExtraUiKeywords(schema)
