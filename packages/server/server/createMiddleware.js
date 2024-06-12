@@ -2,11 +2,19 @@ import { ROOT_MODULE as MODULE, ROOT_MODULE } from '@startupjs/registry'
 import { existsSync, readdirSync } from 'fs'
 import { join } from 'path'
 import express from 'express'
+import bodyParser from 'body-parser'
+import _defaults from 'lodash/defaults.js'
+import _cloneDeep from 'lodash/cloneDeep.js'
 import { router } from 'express-file-routing'
 
 const SERVER_FOLDER = 'server'
 const MIDDLEWARE_FILENAME_REGEX = /^middleware\.[mc]?[jt]sx?$/
 const API_ROUTES_FOLDER = join(SERVER_FOLDER, 'api')
+const DEFAULT_BODY_PARSER_OPTIONS = {
+  urlencoded: {
+    extended: true
+  }
+}
 
 /**
  * A connect middleware with core startupjs functionality. You can plug this into your
@@ -15,6 +23,10 @@ const API_ROUTES_FOLDER = join(SERVER_FOLDER, 'api')
  */
 export default async function createMiddleware ({ backend, session, channel, options }) {
   const app = express()
+
+  app
+    .use(bodyParser.json(getBodyParserOptionsByType('json', options.bodyParser)))
+    .use(bodyParser.urlencoded(getBodyParserOptionsByType('urlencoded', options.bodyParser)))
 
   MODULE.hook('beforeSession', app)
 
@@ -83,6 +95,15 @@ export default async function createMiddleware ({ backend, session, channel, opt
   })
 
   return app
+}
+
+function getBodyParserOptionsByType (type, options = {}) {
+  return _defaults(
+    _cloneDeep(options[type]),
+    options.general,
+    DEFAULT_BODY_PARSER_OPTIONS[type],
+    DEFAULT_BODY_PARSER_OPTIONS.general
+  )
 }
 
 const ERRORS = {
