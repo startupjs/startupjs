@@ -22,7 +22,7 @@ import { DrawerSidebar } from '@startupjs/ui'
 ```jsx example
 const [open, $open] = useSession('SimpleExampleDrawerSidebar')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='simpleExample'>
     <DrawerSidebar
       $open={$open}
       renderContent={() => (<Span>DrawerSidebar</Span>)}
@@ -40,7 +40,7 @@ return (
 ```jsx example noscroll
 const [open, $open] = useSession('ExampleRightDrawerSidebar')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='positionExample'>
     <DrawerSidebar
       $open={$open}
       position='right'
@@ -78,7 +78,7 @@ return (
 ```jsx example
 const [open, $open] = useSession('ExampleLazyDrawerSidebar')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='simpleExample'>
     <DrawerSidebar
       $open={$open}
       renderContent={() => (
@@ -99,7 +99,7 @@ return (
 ```jsx example noscroll
 const [open, $open] = useSession('ExampleDrawerSidebar')
 return (
-  <Div style={{overflow: 'hidden'}}>
+  <Div styleName='positionExample'>
     <DrawerSidebar
       $open={$open}
       renderContent={() => (
