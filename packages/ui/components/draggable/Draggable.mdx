@@ -9,6 +9,35 @@ import H5 from '../typography/headers/H5'
 import Span from '../typography/Span'
 import './index.mdx.styl'
 
+# Draggable
+
+## Basic setup
+
+Setup module for **Android**:
+
+Add next lines in ```styleguide/android/app/src/main/java/com/styleguide/MainActivity.java```:
+
+```js
+  import com.facebook.react.ReactActivityDelegate;
+  import com.facebook.react.ReactRootView;
+  import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+
+  public class MainActivity extends ReactActivity {
+    // ...
+    @Override
+      protected ReactActivityDelegate createReactActivityDelegate() {
+        return new ReactActivityDelegate(this, getMainComponentName()) {
+          @Override
+          protected ReactRootView createRootView() {
+          return new RNGestureHandlerEnabledRootView(MainActivity.this);
+          }
+        };
+      }
+  }
+```
+
+## Example
+
 ```jsx example
 const [data, setData] = useState([
   {
