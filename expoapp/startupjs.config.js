@@ -57,6 +57,7 @@ const Banner = observer(({ children, message }) => {
         Button(
           color='text-description' variant='text' icon=faInfoCircle
           onPress=() => alert({ title: 'Banner', message })
+          tooltip='Show info'
         )
       Button(
         color='text-description' variant='text' icon=faTimes
