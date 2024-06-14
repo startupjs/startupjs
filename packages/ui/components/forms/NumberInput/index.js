@@ -24,7 +24,7 @@ function NumberInput ({
   onChangeNumber,
   ...props
 }, ref) {
-  const [inputValue, setInputValue] = useState()
+  const [inputValue, setInputValue] = useState('')
 
   const precision = useMemo(() => String(step).split('.')?.[1]?.length || 0, [step])
 
@@ -42,7 +42,11 @@ function NumberInput ({
 
     // TODO
     // Display a tip instead of permanently change a value
-    if (!isNaN(value) && Number(inputValue) !== value) {
+    // NOTE
+    // Special case: when inputValue is an empty string and value is 0,
+    // we still want to process the value. This ensures that a default value
+    // of 0 is set and propagated correctly even when the input is initially empty.
+    if (!isNaN(value) && (inputValue === '' || Number(inputValue) !== value)) {
       if (min != null && value < min) {
         value = min
       } else if (max != null && value > max) {
