@@ -129,3 +129,4 @@ export const startupjsPlugin = createPlugin({
   ], [adminPath])
 ```
 
+По такому принципу мы можем добавлять любое количество плагинов и реагировать на них внутри модуля через MODULE.hook
