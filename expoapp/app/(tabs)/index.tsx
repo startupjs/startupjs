@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { StyleSheet, Image } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import { axios, useValue$, observer, $ } from 'startupjs'
 import { Br, Button, Div, Span, Link } from '@startupjs/ui'
-import { BASE_URL } from '@env'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabOneScreen () {
@@ -12,12 +11,12 @@ export default observer(function TabOneScreen () {
   const [text, setText] = useState('')
   const [error, setError] = useState('')
 
-  async function fetchSomething () {
+  async function fetchSomething (): Promise<void> {
     async function fetchText () {
       try {
         const response = await axios.get('/api/hello')
         setText(response.data)
-      } catch (error) {
+      } catch (error: any) {
         setError(error.message)
         console.error('There has been a problem with your fetch operation:', error)
       }
@@ -26,11 +25,27 @@ export default observer(function TabOneScreen () {
     await fetchText()
   }
 
-  console.log(BASE_URL + '/assets1/avatar1.png')
   return (
     <View style={styles.container}>
-      <Image source={{ uri: BASE_URL + '/assets/images/avatar1.png' }} style={{ width: 100, height: 100 }} />
-      <Image source={{ uri: BASE_URL + '/assets1/images/avatar1.png' }} style={{ width: 100, height: 100 }} />
+      <Text style={styles.title}>Tab One</Text>
+      <Br />
+      <Text>URL: {JSON.stringify(window?.location?.origin)}</Text>
+      <Br />
+      <Div row>
+        <Button onPress={fetchSomething}>Fetch stuff</Button>
+        <Button pushed onPress={() => $count.increment(1)}>Count {$count.get()}</Button>
+        <Button pushed onPress={() => $banner.visible.set(!$banner.visible.get())}>
+          {$banner.visible.get() ? 'Hide' : 'Show'} Banner
+        </Button>
+      </Div>
+      <Br />
+      <Link to='/admin'>Admin Panel</Link>
+      <Br />
+      <Span>userId: {$userId.get()}</Span>
+      <Span>{$serverHello.get()}</Span>
+      <Br />
+      {text ? <Text>Text: {text}</Text> : undefined}
+      {error ? <Text>Error: {error}</Text> : undefined}
     </View>
   )
 })
