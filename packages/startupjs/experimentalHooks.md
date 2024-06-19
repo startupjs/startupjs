@@ -22,7 +22,7 @@
 
 ```js
   static: (expressApp) => {
-    expressApp.use('/assets', express.static('assets'))
+    expressApp.use('/assets', expressApp.static('assets'))
   }
 ```
 
