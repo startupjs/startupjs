@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`schema as a plain JSON-like object 1`] = `
+"export const schema = {
+  name: {
+    type: 'string',
+    placeholder: 'John Smith'
+  },
+  age: {
+    type: 'number',
+    min: 18
+  },
+  tags: {
+    type: 'array',
+    items: {
+      type: 'string'
+    }
+  },
+  address: {
+    type: 'string'
+  }
+}
+"
+`;
+
+exports[`with spreads on associations (belongsTo, hasOne, hasMany) 1`] = `
+"import { belongsTo, hasMany, hasManyFlags } from 'startupjs/orm'
+export const schema = {
+  eventId: {
+    ...belongsTo('events'),
+    required: true
+  },
+  likes: {
+    ...hasMany('users'),
+    input: 'likes'
+  },
+  likesFlags: {
+    ...hasManyFlags('persons'),
+    $comment: 'true flags for everyone this person likes',
+    input: 'likesFlags'
+  },
+  name: {
+    required: true,
+    type: 'string'
+  },
+  photoFileIds: {
+    ...hasMany('files'),
+    input: 'file',
+    multiple: true,
+    label: 'Photo',
+    mimeTypes: 'image/*'
+  }
+}
+"
+`;
+
+exports[`with spreads, inserts an import for a new association 1`] = `
+"import { hasOne } from 'startupjs/orm'
+export const schema = {
+  name: {
+    type: 'string',
+    required: true
+  },
+  photoFileId: {
+    ...hasOne('files'),
+    input: 'file',
+    label: 'Photo',
+    mimeTypes: 'image/*'
+  }
+}
+"
+`;

@@ -1,0 +1,15 @@
+{
+  "name": "@startupjs/admin",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./module": "./module.js"
+  },
+  "peerDependencies": {
+    "@startupjs/router": "*",
+    "@startupjs/ui": "*",
+    "react": "*",
+    "startupjs": "*"
+  }
+}

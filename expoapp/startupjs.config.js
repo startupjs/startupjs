@@ -1,22 +1,19 @@
-import React from 'react'
+// import React from 'react'
 import { createPlugin } from 'startupjs/registry'
-import { pug, styl, $, observer } from 'startupjs'
-import { Span, Div, Button, alert } from '@startupjs/ui'
-import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle'
+// import { pug, styl, $, observer } from 'startupjs'
+// import { Span, Div, Button, alert } from '@startupjs/ui'
+// import express from 'express'
 
-const $banner = $.session.banner
-
-const plugins = createPlugins()
+// const plugins = createPlugins()
 
 export default {
   plugins: {
-    [plugins.banner]: {
-      client: {
-        message: 'Startupjs app',
-        defaultVisible: false
-      }
-    }
+    // [plugins.banner]: {
+    //   client: {
+    //     message: 'Startupjs app',
+    //     defaultVisible: false
+    //   }
+    // }
   }
 }
 
@@ -25,50 +22,12 @@ function createPlugins () {
   return {
     banner: createPlugin({
       name: 'demo-banner',
-      order: 'ui',
-      client: ({
-        message = 'default banner message',
-        defaultVisible = true
-      }) => {
-        // This will be executed once during plugin init.
-        // NOTE: if module uses dynamicPlugins, the init function will be executed
-        //       every time the plugins/onlyPlugins option changes.
-        //       So it's important to make the initialization logic idempotent if possible.
-        $banner.visible.setNull(defaultVisible)
-        // return actual hooks for the root module
-        return {
-          renderRoot ({ children }) {
-            return <>
-              {children}
-              <Banner {...{ message, defaultVisible }} />
-            </>
-          }
-        }
-      }
+      order: 'ui'
+      // server: ({
+      //   static: (expressApp) => {
+      //     expressApp.use('/assets1', express.static('assets1'))
+      //   }
+      // })
     })
   }
 }
-
-const Banner = observer(({ children, message }) => {
-  return pug`
-    Div.root(row vAlign='center' styleName={ hide: !$banner.visible.get() })
-      Div(full row vAlign='center')
-        Span= message
-        Button(
-          color='text-description' variant='text' icon=faInfoCircle
-          onPress=() => alert({ title: 'Banner', message })
-        )
-      Button(
-        color='text-description' variant='text' icon=faTimes
-        onPress=() => $banner.visible.setDiff(false)
-      )
-  `
-  styl`
-    .root
-      padding 0 1u 0 2u
-      background-color var(--color-bg-main-subtle)
-      color var(--color-text-description)
-      &.hide
-        display none
-  `
-})

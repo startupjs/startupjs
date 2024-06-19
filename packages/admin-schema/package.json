@@ -1,0 +1,33 @@
+{
+  "name": "@startupjs/admin-schema",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    "./plugin": "./plugin.js",
+    "./extendedPlugin": "./extendedPlugin.js"
+  },
+  "scripts": {
+    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" npx jest"
+  },
+  "dependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/template": "^7.0.0",
+    "@babel/traverse": "^7.0.0",
+    "@babel/types": "^7.0.0"
+  },
+  "peerDependencies": {
+    "@fortawesome/free-solid-svg-icons": "*",
+    "@startupjs/router": "*",
+    "@startupjs/ui": "*",
+    "eslint": "*",
+    "eslint-config-startupjs": "*",
+    "react": "*",
+    "startupjs": "*"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "transform": {}
+  }
+}
