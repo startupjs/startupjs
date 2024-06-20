@@ -1,9 +1,6 @@
 # Как создать свой плагин
 
-- [Что такое плагины и зачем они нужны](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/aboutPlugins.ru.md)
-- [Хуки для плагинов](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/README.ru.md)
-
-Создайте файл плагина с именем plugin.js или myPlugin.plugin.js (вместо myPlugin вы можете указать любое другое название файла, но обязательно должна присутствовать вторая часть названия файла ".plugin.js"). В примере ниже мы показали, что в себе содержит файл с плагином. Ознакомьтесь с комментариями в коде.
+Создайте файл плагина с именем myPlugin.plugin.js (вместо myPlugin вы можете указать любое другое название файла, но обязательно должна присутствовать вторая часть названия файла ".plugin.js"). В примере ниже мы показали, что в себе содержит файл с плагином. Ознакомьтесь с комментариями в коде.
 
 ```js
 import { createPlugin } from 'startupjs/registry'
@@ -16,31 +13,33 @@ export default createPlugin({
   // Если его значение false, то плагин считается отключенным и его
   // функциональность не будет активирована в приложении.
   enabled: true,
+  // client, isomorphic, server - среда выполнения
   client: (pluginOptions) => ({
-    // Здесь может быть добавлена реализация клиентских хуков
-  }),
-  isomorphic: (pluginOptions) => ({
-    // Здесь может быть добавлена реализация изоморфных хуков
+    // Здесь может быть добавлена реализация клиентских хуков. Например,
+    // для наглядности добавим хук customFormInputs
+    customFormInputs: () => ({
+      // Код. Детальнее как работают этот и другие хуки мы рассмотрим позже
+    })
   }),
   server: (pluginOptions) => ({
     // Здесь может быть добавлена реализация серверных хуков. Например,
-    beforeSession: (expressApp) => {
-      expressApp.use('/your-uniq-path', yourFunction)
-    },
+    // для наглядности добавим хук api
     api: (expressApp) => {
       expressApp.get('/api/your-uniq-path', async (req, res) => {})
       expressApp.post('/api/your-uniq-path', async (req, res) => {})
     }
-  })
+  }),
+  isomorphic: (pluginOptions) => ({
+    // Здесь может быть добавлена реализация изоморфных хуков
+  }),
 })
 ```
 
-Добавьте информацию об этом файле в раздел `exports` файла `package.json` под именем `plugin` или `myPlugin.plugin`, чтобы он автоматически загружался в ваше приложение. Если плагины лежат в отдельной папке, то необходимо учесть путь:
-
+Добавьте информацию об этом файле в раздел `exports` файла `package.json` в соответствии с его названием, например, `myPlugin.plugin.js`, чтобы он автоматически загружался в ваше приложение. Если плагины лежат в отдельной папке, то необходимо учесть путь:
 
 ```json
 "exports": {
-  "./plugin": "./plugin.js",
+  "./plugin.js": "./plugin.js",
   "./plugins/myPlugin.plugin.js": "./plugins/myPlugin.plugin.js"
 }
 ```
@@ -48,12 +47,13 @@ export default createPlugin({
 Для того, чтобы передать параметры в плагин (pluginOptions в нашем примере), вам нужно указать их в файле startupjs.config.js, который находится в корневой папке вашего проекта. Для этого сначала импортируем плагины в этот файл, затем указываем параметры для каждого плагина в разделе plugins, где ключами являются имена плагинов, а значениями - объекты с параметрами для серверных, клиентских и изоморфных хуков:
 
 ```js
+  // импортируем плагины из соответствующих файлов
   import myPlugin from './plugins/myPlugin.plugin.js'
   import somePlugin from './plugins/somePlugin.plugin.js'
 
   export default {
     plugins: {
-      // Здесь myPlugin, somePlugin - названия плагинов, под которыми вы их импортировали
+      // Здесь myPlugin, somePlugin - названия плагинов, под которыми мы их импортировали
       [myPlugin]: {
         // Здесь указываем все, что касается серверных хуков
         server: {
@@ -91,7 +91,6 @@ export default createPlugin({
 Возможные варианты групп в порядке их исполнения:
 
 ```js
-export default [
   'first',
   'root',
   'session',
@@ -102,7 +101,6 @@ export default [
   'router', // для плагинов, которые зависят от 'router'
   'default', // группа по умолчанию, которая выполняется после всех остальных
   'last'
-]
 ```
 
 Например,
@@ -110,7 +108,6 @@ export default [
 ```js
 export default createPlugin({
   name: 'my-plugin',
-  enabled: true,
   order: 'ui',
   client: (pluginOptions) => ({
     // ...
@@ -128,7 +125,6 @@ export default createPlugin({
 export default createPlugin({
   name: 'my-plugin',
   for: 'admin',
-  enabled: true,
   client: () => ({
     // ...
   })
@@ -136,8 +132,8 @@ export default createPlugin({
 ```
 
 Когда вы создаете плагин с указанием for: 'admin', StartupJS автоматически подключает этот плагин к модулю с именем "admin".
+Если for не указан, то модулем по умолчанию станет непосредственно платформа startupjs.
 
 
-## Узнайте больше о системе плагинов:
-- [Что такое плагины и зачем они нужны](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/aboutPlugins.ru.md)
+## Читайте дальше:
 - [Хуки для плагинов](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/README.ru.md)
