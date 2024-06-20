@@ -1,3 +1,12 @@
+# [0.57.0-canary.12](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.11...v0.57.0-canary.12) (2024-06-20)
+
+
+### Features
+
+* implement oauth2 jwt tokens authorization and auto-issuing token for anonymous users. Fix production build ([bbb247a](https://github.com/startupjs/startupjs/commit/bbb247af5c6409c51d26b270c72821ef6db486e8))
+
+
+
 # [0.57.0-canary.11](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.10...v0.57.0-canary.11) (2024-06-06)
 
 
