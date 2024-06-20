@@ -13,6 +13,7 @@
     "./startServer": "./startServer.js",
     "./registry": "./registry.js",
     "./initClient": "./initClient.js",
+    "./nodeRegister": "./nodeRegister.js",
     "./nconf": "./nconf.js",
     "./isomorphicHelpers": "./isomorphicHelpers.js",
     "./loadConfig": "./loadConfig.js",

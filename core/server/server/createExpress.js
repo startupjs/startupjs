@@ -1,11 +1,8 @@
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
-import _defaults from 'lodash/defaults.js'
-import _cloneDeep from 'lodash/cloneDeep.js'
 import conf from 'nconf'
 import express from 'express'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
-import bodyParser from 'body-parser'
 import methodOverride from 'method-override'
 import hsts from 'hsts'
 import { readFileSync } from 'fs'
@@ -15,11 +12,6 @@ import renderApp from '../renderApp/index.js'
 import renderError from '../renderError/index.js'
 
 const FORCE_HTTPS = conf.get('FORCE_HTTPS_REDIRECT')
-const DEFAULT_BODY_PARSER_OPTIONS = {
-  urlencoded: {
-    extended: true
-  }
-}
 const WWW_REGEXP = /www\./
 
 export default async function createExpress ({ backend, session, channel, options = {} }) {
@@ -77,19 +69,24 @@ export default async function createExpress ({ backend, session, channel, option
     .use(express.static(options.publicPath, { maxAge: '1h' }))
     .use('/build/client', express.static(options.dirname + '/build/client', { maxAge: '1h' }))
     .use(cookieParser())
-    .use(bodyParser.json(getBodyParserOptionsByType('json', options.bodyParser)))
-    .use(bodyParser.urlencoded(getBodyParserOptionsByType('urlencoded', options.bodyParser)))
     .use(methodOverride())
-
-  const startupjsMiddleware = await createMiddleware({ backend, session, channel, options })
-  expressApp.use(startupjsMiddleware)
 
   if (options.isExpo) {
     const indexFile = readFileSync(join(options.publicPath, 'index.html'), 'utf8')
-    expressApp.use((req, res, next) => { res.status(200).send(indexFile) })
+    expressApp.use((req, res, next) => {
+      if (isAuthenticatedRequest(req)) return next()
+      res.status(200).send(indexFile)
+    })
   } else {
-    expressApp.use(renderApp(options))
+    const render = renderApp(options)
+    expressApp.use((req, res, next) => {
+      if (isAuthenticatedRequest(req)) return next()
+      render(req, res, next)
+    })
   }
+
+  const startupjsMiddleware = await createMiddleware({ backend, session, channel, options })
+  expressApp.use(startupjsMiddleware)
 
   expressApp.use(function (err, req, res, next) {
     if (err.name === 'MongoError' && err.message === 'Topology was destroyed') {
@@ -103,11 +100,6 @@ export default async function createExpress ({ backend, session, channel, option
   return expressApp
 }
 
-function getBodyParserOptionsByType (type, options = {}) {
-  return _defaults(
-    _cloneDeep(options[type]),
-    options.general,
-    DEFAULT_BODY_PARSER_OPTIONS[type],
-    DEFAULT_BODY_PARSER_OPTIONS.general
-  )
+function isAuthenticatedRequest (req) {
+  return req.headers.authorization || req.headers['x-requested-with'] === 'XMLHttpRequest'
 }

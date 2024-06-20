@@ -6144,6 +6144,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-async-storage/async-storage@npm:1.23.1":
+  version: 1.23.1
+  resolution: "@react-native-async-storage/async-storage@npm:1.23.1"
+  dependencies:
+    merge-options: "npm:^3.0.4"
+  peerDependencies:
+    react-native: ^0.0.0-0 || >=0.60 <1.0
+  checksum: 10c0/6cfdcab91f0e04f80f4aa91397eb4aedcd1124bf2a997cb730c7f2c70dad75d2aa0ca0f41576ed4e34544a1f79e090169f566366c32a89a41b74bf74bea1c1db
+  languageName: node
+  linkType: hard
+
 "@react-native-community/async-storage@npm:^1.6.2":
   version: 1.12.1
   resolution: "@react-native-community/async-storage@npm:1.12.1"
@@ -7620,6 +7631,7 @@ __metadata:
   resolution: "@startupjs/server@workspace:core/server"
   dependencies:
     "@startupjs/registry": "npm:^0.57.0-canary.0"
+    "@types/jsonwebtoken": "npm:^9"
     body-parser: "npm:1.20.0"
     compression: "npm:^1.6.0"
     connect-mongo: "npm:^4.4.1"
@@ -7628,11 +7640,13 @@ __metadata:
     express-file-routing: "npm:3.0.3"
     express-session: "npm:^1.17.2"
     hsts: "npm:^2.1.0"
+    jsonwebtoken: "npm:^9.0.2"
     lodash: "npm:^4.17.20"
     method-override: "npm:~2.3.10"
     nconf: "npm:^0.11.4"
     uuid: "npm:^9.0.1"
   peerDependencies:
+    "@react-native-async-storage/async-storage": "*"
     teamplay: "*"
   languageName: unknown
   linkType: soft
@@ -8422,6 +8436,15 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10c0/4374b0f1b5641d1dd8847fa6f50bd34ec215f3244ea045556d2caa74ed559b2571502db73526bb8fbff038a60ff7e6bf56ffa79679c0b03539b55fda32617a23
+  languageName: node
+  linkType: hard
+
+"@types/jsonwebtoken@npm:^9":
+  version: 9.0.6
+  resolution: "@types/jsonwebtoken@npm:9.0.6"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/9c29e3896e5fb6056e54d87514643e59e0cfb966ae25171a107776270195bba955f0373e98c8ed6450c145b18984f5df9cf0fcac360f382cec3c7c4d3510b202
   languageName: node
   linkType: hard
 
@@ -15221,6 +15244,7 @@ __metadata:
     "@expo/ngrok": "npm:^4.1.0"
     "@expo/vector-icons": "npm:^14.0.0"
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
+    "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-picker/picker": "npm:^2.6.1"
     "@react-navigation/native": "npm:^6.0.2"
     "@startupjs/router": "npm:^0.57.0-canary.1"
@@ -20417,6 +20441,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsonwebtoken@npm:^9.0.2":
+  version: 9.0.2
+  resolution: "jsonwebtoken@npm:9.0.2"
+  dependencies:
+    jws: "npm:^3.2.2"
+    lodash.includes: "npm:^4.3.0"
+    lodash.isboolean: "npm:^3.0.3"
+    lodash.isinteger: "npm:^4.0.4"
+    lodash.isnumber: "npm:^3.0.3"
+    lodash.isplainobject: "npm:^4.0.6"
+    lodash.isstring: "npm:^4.0.1"
+    lodash.once: "npm:^4.0.0"
+    ms: "npm:^2.1.1"
+    semver: "npm:^7.5.4"
+  checksum: 10c0/d287a29814895e866db2e5a0209ce730cbc158441a0e5a70d5e940eb0d28ab7498c6bf45029cc8b479639bca94056e9a7f254e2cdb92a2f5750c7f358657a131
+  languageName: node
+  linkType: hard
+
 "jsprim@npm:^1.2.2":
   version: 1.4.2
   resolution: "jsprim@npm:1.4.2"
@@ -22283,6 +22325,15 @@ __metadata:
   version: 1.0.1
   resolution: "merge-descriptors@npm:1.0.1"
   checksum: 10c0/b67d07bd44cfc45cebdec349bb6e1f7b077ee2fd5beb15d1f7af073849208cb6f144fe403e29a36571baf3f4e86469ac39acf13c318381e958e186b2766f54ec
+  languageName: node
+  linkType: hard
+
+"merge-options@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "merge-options@npm:3.0.4"
+  dependencies:
+    is-plain-obj: "npm:^2.1.0"
+  checksum: 10c0/02b5891ceef09b0b497b5a0154c37a71784e68ed71b14748f6fd4258ffd3fe4ecd5cb0fd6f7cae3954fd11e7686c5cb64486daffa63c2793bbe8b614b61c7055
   languageName: node
   linkType: hard
 

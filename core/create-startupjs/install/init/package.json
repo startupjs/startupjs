@@ -1,7 +1,8 @@
 {
   "type": "module",
   "dependencies": {
-    "startupjs": "^%%STARTUPJS_MINOR_LATEST%%"
+    "startupjs": "^%%STARTUPJS_MINOR_LATEST%%",
+    "@react-native-async-storage/async-storage": "1.23.1"
   },
   "scripts": {
     "postinstall": "npx startupjs postinstall",

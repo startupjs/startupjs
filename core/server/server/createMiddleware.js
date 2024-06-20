@@ -2,8 +2,8 @@ import { ROOT_MODULE as MODULE, ROOT_MODULE } from '@startupjs/registry'
 import { existsSync, readdirSync } from 'fs'
 import { join } from 'path'
 import express from 'express'
+import bodyParser from 'body-parser'
 import { router } from 'express-file-routing'
-import { v4 as uuid } from 'uuid'
 
 const SERVER_FOLDER = 'server'
 const MIDDLEWARE_FILENAME_REGEX = /^middleware\.[mc]?[jt]sx?$/
@@ -16,27 +16,18 @@ const API_ROUTES_FOLDER = join(SERVER_FOLDER, 'api')
  */
 export default async function createMiddleware ({ backend, session, channel, options }) {
   const app = express()
+  app.use(bodyParser.json(options.bodyParser?.json))
+  app.use(bodyParser.urlencoded({ extended: true, ...options.bodyParser?.urlencoded }))
 
   MODULE.hook('beforeSession', app)
 
   app.use(channel.middleware)
   // TODO: change this to maybe use a $ created for each user. And set it as req.$
   // app.use(backend.modelMiddleware())
-  app.use(session)
+  if (session) app.use(session)
 
   options.ee.emit('afterSession', app) // DEPRECATED (use 'afterSession' hook instead)
   MODULE.hook('afterSession', app)
-
-  // userId
-  app.use((req, res, next) => {
-    // TODO: change this to maybe set _session.userId again, but using $
-    // const model = req.model
-    // Set anonymous userId unless it was set by some end-user auth middleware
-    if (req.session.userId == null) req.session.userId = uuid()
-    // Set userId into model
-    // model.set('_session.userId', req.session.userId)
-    next()
-  })
 
   // Pipe env to client through the model
   // TODO: reimplement this using $ or req.$

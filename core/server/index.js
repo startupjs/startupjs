@@ -36,10 +36,11 @@ export async function createServer (options = {}) {
   options = transformOptions(options)
   const backend = _createBackend({ ...options, models: MODULE.models })
   MODULE.hook('backend', backend)
-  const session = _createSession(options)
-  const channel = _initConnection(backend, { session })
-  const { server, expressApp } = await createServer({ backend, session, channel, options })
-  return { server, backend, session, channel, expressApp }
+  const sessionRef = {}
+  if (!options.enableOAuth2) sessionRef.session = _createSession(options)
+  const channel = _initConnection(backend, { ...sessionRef })
+  const { server, expressApp } = await createServer({ backend, channel, options, ...sessionRef })
+  return { server, backend, channel, expressApp, ...sessionRef }
 }
 
 export async function createMiddleware (options = {}) {
@@ -47,10 +48,11 @@ export async function createMiddleware (options = {}) {
   options = transformOptions(options)
   const backend = _createBackend({ ...options, models: MODULE.models })
   MODULE.hook('backend', backend)
-  const session = _createSession(options)
-  const channel = _initConnection(backend, { session })
-  const middleware = await createMiddleware({ backend, session, channel, options })
-  return { middleware, backend, session, channel }
+  const sessionRef = {}
+  if (!options.enableOAuth2) sessionRef.session = _createSession(options)
+  const channel = _initConnection(backend, { ...sessionRef })
+  const middleware = await createMiddleware({ backend, channel, options, ...sessionRef })
+  return { middleware, backend, channel, ...sessionRef }
 }
 
 export function createBackend (options = {}) {
@@ -79,6 +81,7 @@ function isExpo (rootPath) {
 }
 
 export { mongo, mongoClient, createMongoIndex, redis, redlock, sqlite } from 'teamplay/server'
+export { default as getAppSecret } from './utils/getAppSecret.js'
 
 export function NO_DEAD_CODE_ELIMINATION () {
   return [dummyNconf, dummyInitServer]

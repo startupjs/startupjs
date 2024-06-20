@@ -1,12 +1,28 @@
 import { Suspense, createElement as el } from 'react'
 import { axios, $ } from 'startupjs'
 import { createPlugin } from '@startupjs/registry'
+import { v4 as uuid } from 'uuid'
 
 export default createPlugin({
   name: 'clientSession',
   order: 'system session',
-  enabled () { return this.module.options.enableServer || this.module.options.enableConnection },
+  enabled () {
+    const { enableServer, enableConnection, enableOAuth2 } = this.module.options
+    return (enableServer || enableConnection) && !enableOAuth2
+  },
   server: () => ({
+    afterSession (expressApp) {
+      // userId
+      expressApp.use((req, res, next) => {
+        // TODO: change this to maybe set _session.userId again, but using $
+        // const model = req.model
+        // Set anonymous userId unless it was set by some end-user auth middleware
+        if (req.session.userId == null) req.session.userId = uuid()
+        // Set userId into model
+        // model.set('_session.userId', req.session.userId)
+        next()
+      })
+    },
     api (expressApp) {
       expressApp.get('/api/serverSession', function (req, res) {
         // TODO: reimplement restoreUrl functionality

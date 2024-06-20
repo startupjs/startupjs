@@ -10,6 +10,14 @@ const $banner = $.session.banner
 const plugins = createPlugins()
 
 export default {
+  features: {
+    enableOAuth2: true
+  },
+  client: {
+    init: () => {
+      globalThis.$ = $
+    }
+  },
   plugins: {
     [plugins.banner]: {
       client: {

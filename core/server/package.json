@@ -11,7 +11,8 @@
     ".": "./index.js",
     "./nconf": "./nconf.js",
     "./nconf.js": "./nconf.js",
-    "./plugins/clientSession.plugin": "./plugins/clientSession.plugin.js"
+    "./plugins/clientSession.plugin": "./plugins/clientSession.plugin.js",
+    "./plugins/oauth2.plugin": "./plugins/oauth2.plugin.js"
   },
   "dependencies": {
     "@startupjs/registry": "^0.57.0-canary.0",
@@ -23,12 +24,17 @@
     "express-file-routing": "3.0.3",
     "express-session": "^1.17.2",
     "hsts": "^2.1.0",
+    "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.20",
     "method-override": "~2.3.10",
     "nconf": "^0.11.4",
     "uuid": "^9.0.1"
   },
   "peerDependencies": {
+    "@react-native-async-storage/async-storage": "*",
     "teamplay": "*"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9"
   }
 }

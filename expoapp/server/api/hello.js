@@ -1,3 +1,4 @@
 export function get (req, res) {
-  res.send('Hello from server')
+  const { userId } = req.user
+  res.send('Hello from server. My id: ' + userId)
 }
