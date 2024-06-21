@@ -40,7 +40,7 @@ function CheckboxInput ({
 
   return pug`
     Div.checkbox(
-      part=['checkbox', { checkboxChecked: value}]
+      part=['checkbox', { checkboxChecked: value }]
       styleName=[checkedStyleName, { error: _hasError }]
       accessibilityRole='checkbox'
       onLayout=(event) => setWidth(event.nativeEvent.layout.width)
