@@ -297,7 +297,7 @@ export default createPlugin({
 })
 ```
 
-Добавим информацию о плагине в startupjs.config.js
+Добавим информацию о плагине в startupjs.config.js и передадим в него нужные параметры (они будут лежать в pluginOptions)
 
 ```js
   import testPlugin from './test.plugin.js'
@@ -316,7 +316,7 @@ export default createPlugin({
   }
 ```
 
-Добавим этот файл в "exports" в package.json под именем test.plugin (укажите свое название файла), чтобы он автоматически загружался в ваше приложение:
+Добавим этот файл в "exports" в package.json, чтобы он автоматически загружался в ваше приложение:
 
 ```json
   "exports": {
