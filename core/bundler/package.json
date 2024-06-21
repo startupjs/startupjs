@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/bundler",
-  "version": "0.57.0-canary.12",
+  "version": "0.57.0-canary.13",
   "description": "Opinionated scripts and configs to develop a react-native-web project",
   "main": "index.js",
   "publishConfig": {
@@ -27,7 +27,7 @@
     "@startupjs/babel-plugin-startupjs-plugins": "^0.57.0-canary.0",
     "@startupjs/babel-plugin-transform-react-pug": "^7.0.1-0",
     "@startupjs/css-to-react-native-transform": "^1.9.0-2",
-    "@startupjs/server": "^0.57.0-canary.12",
+    "@startupjs/server": "^0.57.0-canary.13",
     "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "@svgr/plugin-svgo": "^8.1.0",
@@ -35,7 +35,7 @@
     "assets-webpack-plugin": "^7.1.1",
     "autoprefixer": "^10.4.0",
     "babel-loader": "^8.2.3",
-    "babel-preset-startupjs": "^0.57.0-canary.12",
+    "babel-preset-startupjs": "^0.57.0-canary.13",
     "connect": "^3.7.0",
     "css-loader": "^6.5.0",
     "css-minimizer-webpack-plugin": "^5.0.0",

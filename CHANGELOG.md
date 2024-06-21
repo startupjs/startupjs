@@ -1,3 +1,12 @@
+# [0.57.0-canary.13](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.12...v0.57.0-canary.13) (2024-06-21)
+
+
+### Bug Fixes
+
+* **server:** change implementation of startupjs middleware to use express.Router() and to dynamically decide whether to use the auth-protected middlewares if request has a token or not. This lets us simplify the architecture of handling authenticated requests and does not tie us to a correctly configured instance of axios. ([144122d](https://github.com/startupjs/startupjs/commit/144122d5722d944cb1a9505e022073ead69b9ad6))
+
+
+
 # [0.57.0-canary.12](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.11...v0.57.0-canary.12) (2024-06-20)
 
 
