@@ -42,7 +42,6 @@ export default async function createServer ({ backend, session, channel, options
       console.warn(WARN_DEPRECATED_BEFORE_START)
     }, props))
   }
-  options.ee.emit('beforeStart', props)
   // TODO: asyncHook does not wait for MODULE.on's to complete. Fix it
   await MODULE.asyncHook('beforeStart', props)
 
@@ -60,8 +59,6 @@ function getListen (server, options) {
         throw Error('ERROR! Server failed to start')
       }
       printStarted()
-      // ----------------------------------------------->       done       <#
-      options.ee.emit('done')
     }
     const wrapCb = cb => {
       return function () {

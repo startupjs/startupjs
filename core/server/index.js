@@ -3,7 +3,6 @@
 import dummyNconf from './nconf.js'
 
 import { resolve } from 'path'
-import { EventEmitter } from 'events'
 import dummyInitServer from './initServer.auto.js'
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import _createSession from './server/createSession.js'
@@ -11,6 +10,14 @@ import { createBackend as _createBackend, initConnection as _initConnection } fr
 import { readFileSync } from 'fs'
 
 const IS_EXPO = isExpo(process.env.ROOT_PATH || process.cwd())
+
+// TODO: ATM fetchOnly is not working correctly since it doesn't re-fetch data
+//       whenever sub() fires. Because of this for now we let the actual
+//       subscriptions run on the server even though it's probably not optimal.
+//       One can argue though that having subscriptions running on server
+//       might actually be good for performance since the data is cached
+//       between concurrent requests and we don't have to re-fetch it each time.
+const FETCH_ONLY = false
 
 const defaultOptions = {
   publicPath: IS_EXPO ? './dist' : './public',
@@ -38,7 +45,7 @@ export async function createServer (options = {}) {
   MODULE.hook('backend', backend)
   const sessionRef = {}
   if (!options.enableOAuth2) sessionRef.session = _createSession(options)
-  const channel = _initConnection(backend, { ...sessionRef })
+  const channel = _initConnection(backend, { ...sessionRef, fetchOnly: FETCH_ONLY })
   const { server, expressApp } = await createServer({ backend, channel, options, ...sessionRef })
   return { server, backend, channel, expressApp, ...sessionRef }
 }
@@ -50,7 +57,7 @@ export async function createMiddleware (options = {}) {
   MODULE.hook('backend', backend)
   const sessionRef = {}
   if (!options.enableOAuth2) sessionRef.session = _createSession(options)
-  const channel = _initConnection(backend, { ...sessionRef })
+  const channel = _initConnection(backend, { ...sessionRef, fetchOnly: FETCH_ONLY })
   const middleware = await createMiddleware({ backend, channel, options, ...sessionRef })
   return { middleware, backend, channel, ...sessionRef }
 }
@@ -59,6 +66,7 @@ export function createBackend (options = {}) {
   options = transformOptions(options)
   const backend = _createBackend({ ...options, models: MODULE.models })
   MODULE.hook('backend', backend)
+  _initConnection(backend, { fetchOnly: FETCH_ONLY })
   return backend
 }
 
@@ -67,9 +75,6 @@ function transformOptions (options = {}) {
 
   // Transform public path to be absolute
   options.publicPath = resolve(options.dirname, options.publicPath)
-
-  // DEPRECATED. Use hooks system (plugins) instead of EventEmitter
-  options.ee = new EventEmitter()
 
   return options
 }

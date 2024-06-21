@@ -47,8 +47,8 @@ function addServer (config) {
   config.server ??= {}
   config.server.enhanceMiddleware = metroMiddleware =>
     connect()
-      .use(metroMiddleware)
       .use(getStartupjsMiddleware())
+      .use(metroMiddleware)
 }
 
 function maybeWatchYarnLink (config, { packageJson, projectRoot }) {

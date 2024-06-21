@@ -20,7 +20,7 @@ export default createPlugin({
   },
   server: () => {
     return {
-      afterSession (expressApp) {
+      beforeSession (expressApp) {
         expressApp.post(URL_ANONYMOUS_TOKEN, async (req, res) => {
           let { token } = req.body
           const appSecret = await getAppSecret()
@@ -38,10 +38,12 @@ export default createPlugin({
           )
           return res.json({ userId, token })
         })
+      },
+      session (expressApp) {
         expressApp.use(async (req, res, next) => {
           const token = req.headers.authorization?.split('Bearer ')[1]
+          if (!token) return next()
           try {
-            if (!token) throw Error('No token provided.')
             req.user = jwt.verify(token, await getAppSecret())
             next()
           } catch (err) {
@@ -82,6 +84,7 @@ async function initToken () {
   }
   const { token, userId, ...other } = user
   $.session.userId.set(userId)
+  $.session.token.set(token)
   for (const key in other) $.session[key].set(other[key])
   axios.defaults.headers.common.Authorization = 'Bearer ' + token
   await emitInitUser(user)

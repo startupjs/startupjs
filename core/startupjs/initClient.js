@@ -34,7 +34,6 @@ export default function init (options = {}) {
   }
 
   axios.defaults.baseURL = options.baseUrl
-  axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
   // Connect model to the server
   // Do this only if startupjs server exists and is enabled.

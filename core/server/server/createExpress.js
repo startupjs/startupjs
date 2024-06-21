@@ -7,7 +7,7 @@ import methodOverride from 'method-override'
 import hsts from 'hsts'
 import { readFileSync } from 'fs'
 import { join } from 'path'
-import createMiddleware from './createMiddleware.js'
+import { _createMiddleware } from './createMiddleware.js'
 import renderApp from '../renderApp/index.js'
 import renderError from '../renderError/index.js'
 
@@ -21,7 +21,6 @@ export default async function createExpress ({ backend, session, channel, option
   if (FORCE_HTTPS || options.trustProxy) expressApp.enable('trust proxy')
 
   // ----------------------------------------------------->    logs    <#
-  options.ee.emit('logs', expressApp)
   MODULE.hook('logs', expressApp)
 
   function shouldCompress (req, res) {
@@ -62,7 +61,6 @@ export default async function createExpress ({ backend, session, channel, option
     next()
   })
 
-  options.ee.emit('static', expressApp)
   MODULE.hook('static', expressApp)
 
   expressApp
@@ -71,22 +69,15 @@ export default async function createExpress ({ backend, session, channel, option
     .use(cookieParser())
     .use(methodOverride())
 
+  const startupjsMiddleware = await _createMiddleware({ backend, session, channel, options })
+  expressApp.use(startupjsMiddleware)
+
   if (options.isExpo) {
     const indexFile = readFileSync(join(options.publicPath, 'index.html'), 'utf8')
-    expressApp.use((req, res, next) => {
-      if (isAuthenticatedRequest(req)) return next()
-      res.status(200).send(indexFile)
-    })
+    expressApp.use((req, res, next) => { res.status(200).send(indexFile) })
   } else {
-    const render = renderApp(options)
-    expressApp.use((req, res, next) => {
-      if (isAuthenticatedRequest(req)) return next()
-      render(req, res, next)
-    })
+    expressApp.use(renderApp(options))
   }
-
-  const startupjsMiddleware = await createMiddleware({ backend, session, channel, options })
-  expressApp.use(startupjsMiddleware)
 
   expressApp.use(function (err, req, res, next) {
     if (err.name === 'MongoError' && err.message === 'Topology was destroyed') {
@@ -98,8 +89,4 @@ export default async function createExpress ({ backend, session, channel, option
   expressApp.use((options.error || renderError)(options))
 
   return expressApp
-}
-
-function isAuthenticatedRequest (req) {
-  return req.headers.authorization || req.headers['x-requested-with'] === 'XMLHttpRequest'
 }
