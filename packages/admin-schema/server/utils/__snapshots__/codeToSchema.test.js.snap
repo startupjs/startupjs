@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`schema as a plain JSON-like object 1`] = `
+{
+  "age": {
+    "max": 100,
+    "min": 0,
+    "type": "number",
+  },
+  "isStudent": {
+    "type": "boolean",
+  },
+  "name": {
+    "type": "string",
+  },
+  "tags": {
+    "items": {
+      "type": "string",
+    },
+    "type": "array",
+  },
+}
+`;
+
+exports[`with spreads on associations (belongsTo, hasOne, hasMany) 1`] = `
+{
+  "eventId": {
+    "$$code_spread_association": {
+      "collection": "events",
+      "type": "belongsTo",
+    },
+    "required": true,
+  },
+  "likes": {
+    "$$code_spread_association": {
+      "collection": "users",
+      "type": "hasMany",
+    },
+    "input": "likes",
+  },
+  "likesFlags": {
+    "$$code_spread_association": {
+      "collection": "persons",
+      "type": "hasManyFlags",
+    },
+    "$comment": "true flags for everyone this person likes",
+    "input": "likesFlags",
+  },
+  "name": {
+    "required": true,
+    "type": "string",
+  },
+  "photoFileId": {
+    "$$code_spread_association": {
+      "collection": "files",
+      "type": "hasOne",
+    },
+    "input": "file",
+    "label": "Photo",
+    "mimeTypes": "image/*",
+  },
+}
+`;
