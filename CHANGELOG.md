@@ -1,3 +1,12 @@
+# [0.57.0-canary.14](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.13...v0.57.0-canary.14) (2024-06-21)
+
+
+### Features
+
+* **create-startupjs:** in new projects use session-less oauth2 jwt tokens for auth ([e33f247](https://github.com/startupjs/startupjs/commit/e33f2477bfe8a70680791c34d030aa2f47857658))
+
+
+
 # [0.57.0-canary.13](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.12...v0.57.0-canary.13) (2024-06-21)
 
 
