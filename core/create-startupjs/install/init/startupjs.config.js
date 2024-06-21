@@ -1,5 +1,6 @@
 export default {
   features: {
-    enableServer: true
+    enableServer: true,
+    enableOAuth2: true
   }
 }
