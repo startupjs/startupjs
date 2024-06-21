@@ -136,4 +136,4 @@ export default createPlugin({
 
 
 ## Читайте дальше:
-- [Хуки для плагинов](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/README.ru.md)
+- [Хуки для плагинов](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/hooks.ru.md)
