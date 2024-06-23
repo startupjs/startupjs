@@ -1,5 +1,4 @@
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
-import conf from 'nconf'
 import express from 'express'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
@@ -11,14 +10,13 @@ import { _createMiddleware } from './createMiddleware.js'
 import renderApp from '../renderApp/index.js'
 import renderError from '../renderError/index.js'
 
-const FORCE_HTTPS = conf.get('FORCE_HTTPS_REDIRECT')
 const WWW_REGEXP = /www\./
 
 export default async function createExpress ({ backend, session, channel, options = {} }) {
   const expressApp = express()
 
   // Required to be able to determine whether the protocol is 'http' or 'https'
-  if (FORCE_HTTPS || options.trustProxy) expressApp.enable('trust proxy')
+  expressApp.enable('trust proxy')
 
   // ----------------------------------------------------->    logs    <#
   MODULE.hook('logs', expressApp)
@@ -37,26 +35,23 @@ export default async function createExpress ({ backend, session, channel, option
     .use(compression({ filter: shouldCompress }))
     .use('/healthcheck', (req, res) => res.status(200).send('OK'))
 
-  if (FORCE_HTTPS) {
+  if (process.env.FORCE_HTTPS_REDIRECT) {
     // Redirect http to https
-    expressApp
-      .use((req, res, next) => {
-        if (req.protocol !== 'https') {
-          return res.redirect(301, 'https://' + req.get('host') + req.originalUrl)
-        }
-        next()
-      })
-      .use(hsts({ maxAge: 15552000 })) // enforce https for 180 days
+    expressApp.use((req, res, next) => {
+      if (req.protocol !== 'https') {
+        return res.redirect(301, `https://${req.headers.host}${req.originalUrl}`)
+      }
+      next()
+    })
+    // enforce https for 180 days
+    expressApp.use(hsts({ maxAge: 15552000 }))
   }
 
   // get rid of 'www.' from url
   expressApp.use((req, res, next) => {
-    if (WWW_REGEXP.test(req.hostname)) {
-      const newHostname = req.hostname.replace(WWW_REGEXP, '')
-      return res.redirect(
-        301,
-        req.protocol + '://' + newHostname + req.originalUrl
-      )
+    if (WWW_REGEXP.test(req.headers.host)) {
+      const newHost = req.headers.host.replace(WWW_REGEXP, '')
+      return res.redirect(301, `${req.protocol}://${newHost}${req.originalUrl}`)
     }
     next()
   })

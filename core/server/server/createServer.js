@@ -1,10 +1,9 @@
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import http from 'http'
 import https from 'https'
-import conf from 'nconf'
 import createExpress from './createExpress.js'
 
-const PORT = process.env.PORT || conf.get('PORT') || 3000
+const PORT = process.env.PORT || 3000
 
 let server = null
 
@@ -22,8 +21,8 @@ export default async function createServer ({ backend, session, channel, options
   }
   MODULE.hook('createServer', server)
 
-  if (conf.get('SERVER_REQUEST_TIMEOUT') != null) {
-    server.timeout = ~~conf.get('SERVER_REQUEST_TIMEOUT')
+  if (process.env.SERVER_REQUEST_TIMEOUT != null) {
+    server.timeout = ~~process.env.SERVER_REQUEST_TIMEOUT
   }
 
   server.on('upgrade', function (...args) {
@@ -101,7 +100,7 @@ async function gracefulShutdown (exitCode = 0) {
 function printStarted () {
   const port = PORT
   // Support for the `dev` shell script which runs startupjs app inside a Docker container
-  const dockerHostPort = conf.get('DOCKER_HOST_PORT')
+  const dockerHostPort = process.env.DOCKER_HOST_PORT
   if (dockerHostPort) {
     console.log('Server started. Running inside Docker.')
     console.log(

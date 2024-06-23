@@ -1,7 +1,6 @@
 import { mongoClient, sqlite } from 'teamplay/server'
 import MongoStore from 'connect-mongo'
 import expressSession from 'express-session'
-import conf from 'nconf'
 import SQLiteStore from '../utils/SQLiteSessionStore.js'
 
 const DEFAULT_SESSION_MAX_AGE = 1000 * 60 * 60 * 24 * 365 * 2 // 2 years
@@ -24,8 +23,7 @@ export default function createSession (options) {
   }
 
   return expressSession({
-    // TODO: migrate to use .env instead of nconf's config.json and generate SESSION_SECRET= there
-    secret: process.env.SESSION_SECRET || conf.get('SESSION_SECRET') || 'NO_SECRET',
+    secret: process.env.SESSION_SECRET || 'NO_SECRET',
     store: sessionStore,
     cookie: {
       maxAge: options.sessionMaxAge || DEFAULT_SESSION_MAX_AGE,

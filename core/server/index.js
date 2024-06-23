@@ -1,6 +1,6 @@
 /* eslint-disable import-helpers/order-imports */
-// IMPORTANT! nconf import must go first
-import dummyNconf from './nconf.js'
+// IMPORTANT! dotenv import must go first
+import dummyDotenv from './dotenv.cjs'
 
 import { resolve } from 'path'
 import dummyInitServer from './initServer.auto.js'
@@ -89,5 +89,5 @@ export { mongo, mongoClient, createMongoIndex, redis, redlock, sqlite } from 'te
 export { default as getAppSecret } from './utils/getAppSecret.js'
 
 export function NO_DEAD_CODE_ELIMINATION () {
-  return [dummyNconf, dummyInitServer]
+  return [dummyDotenv, dummyInitServer]
 }

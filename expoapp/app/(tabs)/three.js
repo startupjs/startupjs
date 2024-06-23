@@ -1,7 +1,9 @@
-import { pug, styl, observer } from 'startupjs'
+import { pug, styl, observer, sub, $ } from 'startupjs'
+import { Link, Button, Br, User, Card } from '@startupjs/ui'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabThreeScreen () {
+  const $user = sub($.users[$.session.userId.get()])
   const address1 = { city: { street: { building: 42, isFlat: true } } }
   const address2 = {}
 
@@ -25,6 +27,21 @@ export default observer(function TabThreeScreen () {
         else
           Text address 2 is NOT flat
       View.box
+      Br
+      if $user.get()
+        Card.card
+          User(
+            avatarUrl=$user.avatarUrl.get()
+            name=$user.name.get()
+          )
+      Br
+      Link(to='/auth/login')
+        Button Login
+  `
+  styl`
+    .card
+      padding-top 1u
+      padding-bottom 1u
   `
 })
 

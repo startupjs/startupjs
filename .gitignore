@@ -22,6 +22,9 @@ yarn-error.log
 # lerna log
 lerna-debug.log
 
+# local env files
+.env.local
+
 /temp
 
 # Test application initialized with `yarn init-local` command.
