@@ -1,5 +1,6 @@
 import { axios, $, sub, Signal } from 'startupjs'
 import { createPlugin } from '@startupjs/registry'
+import jwt from 'jsonwebtoken'
 import createToken from '../utils/createToken.js'
 
 const AUTH_URL = '/auth'
@@ -161,13 +162,18 @@ function getProviderConfig (providers = {}, provider) {
 
 async function getUserinfo (config, provider, { token }) {
   const { userinfoUrl } = config
-  if (!userinfoUrl) throw Error(`Userinfo URL is missing for provider ${provider}`)
-  const res = await axios.get(userinfoUrl, {
-    headers: { Authorization: `Bearer ${token}` }
-  })
-  const userinfo = res.data
-  if (!userinfo) throw Error(`Userinfo is missing in response from ${userinfoUrl}`)
-  return userinfo
+  if (userinfoUrl) {
+    const res = await axios.get(userinfoUrl, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    const userinfo = res.data
+    if (!userinfo) throw Error(`Userinfo is missing in response from ${userinfoUrl}`)
+    return userinfo
+  } else {
+    const decoded = jwt.decode(token)
+    if (!decoded) throw Error(ERRORS.missingUserinfoUrl(provider))
+    return decoded
+  }
 }
 
 async function getOrCreateAuth (config, provider, userinfo) {
@@ -184,7 +190,8 @@ async function getOrCreateAuth (config, provider, userinfo) {
   if (config.allowAutoMergeByEmail && privateInfo.email) {
     const [$auth] = await sub($.auths, { email: privateInfo.email, [provider]: { $exists: false } })
     if ($auth) {
-      await addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, userinfo })
+      const raw = config.saveRawUserinfo ? userinfo : undefined
+      await addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, raw })
       return $auth
     }
   }
@@ -192,13 +199,14 @@ async function getOrCreateAuth (config, provider, userinfo) {
   {
     const userId = await $.auths.add({ ...privateInfo, createdAt: Date.now() })
     const $auth = await sub($.auths[userId]) // subscribe to the new user just to keep a reference
-    await addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, userinfo })
+    const raw = config.saveRawUserinfo ? userinfo : undefined
+    await addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, raw })
     return $auth
   }
 }
 
-async function addProviderToAuth ($auth, provider, { providerUserId, privateInfo, publicInfo, userinfo }) {
-  await $auth[provider].set({ id: providerUserId, ...privateInfo, ...publicInfo, raw: userinfo })
+async function addProviderToAuth ($auth, provider, { providerUserId, privateInfo, publicInfo, raw }) {
+  await $auth[provider].set({ id: providerUserId, ...privateInfo, ...publicInfo, raw })
   const userId = $auth.getId()
   // update public info of the user if it's missing
   const $user = await sub($.users[userId])
@@ -230,7 +238,8 @@ const DEFAULT_PROVIDERS = {
     scopes: ['openid', 'profile', 'email'],
     getPrivateInfo: ({ id, email }) => ({ id, email }),
     getPublicInfo: ({ name, picture }) => ({ name, avatarUrl: picture }),
-    allowAutoMergeByEmail: true
+    allowAutoMergeByEmail: true,
+    saveRawUserinfo: true
   },
   github: {
     authUrl: 'https://github.com/login/oauth/authorize',
@@ -240,13 +249,14 @@ const DEFAULT_PROVIDERS = {
     getPrivateInfo: ({ id, email }) => ({ id, email }),
     // eslint-disable-next-line camelcase
     getPublicInfo: ({ name, avatar_url }) => ({ name, avatarUrl: avatar_url }),
-    allowAutoMergeByEmail: true
+    allowAutoMergeByEmail: true,
+    saveRawUserinfo: true
   }
 }
 
 function defaultGetPrivateInfo (userinfo) {
   const email = userinfo.email
-  const id = userinfo.id || userinfo.email || userinfo.user_id || userinfo.sub
+  const id = userinfo.id || userinfo.sub || userinfo.user_id || userinfo.email || userinfo.login
   return { id, email }
 }
 
@@ -289,4 +299,11 @@ export function getUsersSchema () {
     avatarUrl: { type: 'string' },
     createdAt: { type: 'number', required: true }
   }
+}
+
+const ERRORS = {
+  missingUserinfoUrl: provider => `
+    \`userinfoUrl\` is missing for provider ${provider}.
+    And the access_token is an opaque token instead of JWT so no user information can be extracted from it.
+  `
 }
