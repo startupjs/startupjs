@@ -1,3 +1,12 @@
+# [0.57.0-canary.15](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.14...v0.57.0-canary.15) (2024-06-23)
+
+
+### Features
+
+* **server:** implement universal authentication through oauth2 for any providers. Replace nconf with dotenv. ([6f7445b](https://github.com/startupjs/startupjs/commit/6f7445b514ec05b90e3153f472b82e346da15d51))
+
+
+
 # [0.57.0-canary.14](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.13...v0.57.0-canary.14) (2024-06-21)
 
 
