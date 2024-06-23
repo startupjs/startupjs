@@ -1,3 +1,12 @@
+# [0.57.0-canary.16](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.15...v0.57.0-canary.16) (2024-06-23)
+
+
+### Features
+
+* **server/auth:** make userinfoUrl optional. Add an explicit flag to provider config 'saveRawUserinfo' which is false by default ([9875f24](https://github.com/startupjs/startupjs/commit/9875f245e8ed1d1675e54cc8fab5504071396ebb))
+
+
+
 # [0.57.0-canary.15](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.14...v0.57.0-canary.15) (2024-06-23)
 
 
