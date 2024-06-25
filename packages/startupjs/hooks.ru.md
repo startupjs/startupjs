@@ -14,16 +14,14 @@
 ```js
 export default createPlugin({
   name: 'redPlugin',
-  client: () => {
-    return {
-      renderRoot ({ children }) {
-        return <>
-            <RedBlock />
-            {children}
-          </>
-      }
+  client: () => ({
+    renderRoot ({ children }) {
+      return <>
+        <RedBlock />
+        {children}
+      </>
     }
-  }
+  })
 })
 
 const RedBlock = observer(({ children }) => {
@@ -44,16 +42,14 @@ const RedBlock = observer(({ children }) => {
 ```js
 export default createPlugin({
   name: 'greenPlugin',
-  client: () => {
-    return {
-      renderRoot ({ children }) {
-        return <>
-            <GreenBlock />
-            {children}
-          </>
-      }
+  client: () => ({
+    renderRoot ({ children }) {
+      return <>
+        <GreenBlock />
+        {children}
+      </>
     }
-  }
+  })
 })
 
 const GreenBlock = observer(({ children }) => {
@@ -163,7 +159,7 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 
 ### `serverRoutes`
 
-Хук 'serverRoutes' используется для запросов типа .get(), когда необходимо вернуть с сервера отрендеренный HTML или статические HTML страницы, например, промо-страницу.
+Хук 'serverRoutes' используется в случаях, когда необходимо вернуть с сервера отрендеренный HTML или статические HTML страницы, например, промо-страницу, либо передать туда необходимые данные.
 
 ```js
   serverRoutes: (expressApp) => {
