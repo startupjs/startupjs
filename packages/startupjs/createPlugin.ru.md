@@ -48,15 +48,15 @@ export default createPlugin({
 })
 ```
 
-Добавим информацию об этом файле в раздел `exports` файла `package.json` в соответствии с его названием, например, `customInputType.plugin.js`, чтобы он автоматически загружался в ваше приложение. Если плагины лежат в отдельной папке, то необходимо учесть путь:
+Добавим информацию об этом файле в раздел `exports` файла `package.json` в соответствии с его названием, например, `customInputType.plugin.js`, чтобы он автоматически загружался в ваше приложение. Если плагины лежат в отдельной папке, то необходимо учесть путь.
+
+Вы можете подключать любое количество плагинов. Для этого просто перечислите их через запятую.
 
 ```json
 "exports": {
   "./plugins/customInputType.plugin.js": "./plugins/customInputType.plugin.js",
-  // Вы можете подключать любое количество плагинов. Для этого просто перечислите их здесь через запятую
   "./plugins/firstPlugin.plugin.js": "./plugins/firstPlugin.plugin.js",
   "./plugins/secondPlugin.plugin.js": "./plugins/secondPlugin.plugin.js"
-
 }
 ```
 
