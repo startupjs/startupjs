@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/utils",
   "type": "module",
-  "version": "0.57.0-canary.1",
+  "version": "0.57.0-canary.17",
   "description": "Isomorphic utils for internal cross-package usage",
   "main": "index.js",
   "exports": {

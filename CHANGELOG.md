@@ -1,3 +1,12 @@
+# [0.57.0-canary.17](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.16...v0.57.0-canary.17) (2024-06-29)
+
+
+### Bug Fixes
+
+* **server/oauth2:** authorize sockjs and websocket connections using jwt token. Save user-related data on server into req.session since it's effectively a readonly session ([5ed1d50](https://github.com/startupjs/startupjs/commit/5ed1d50438a8e06b7cd4638a127f3b2553b3fa71))
+
+
+
 # [0.57.0-canary.16](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.15...v0.57.0-canary.16) (2024-06-23)
 
 
