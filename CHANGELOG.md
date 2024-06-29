@@ -1,3 +1,12 @@
+# [0.57.0-canary.18](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.17...v0.57.0-canary.18) (2024-06-29)
+
+
+### Features
+
+* **startupjs:** add 'auth(provider)' function to run authentication flow of a particular oauth2 provider by its name. ([233f3df](https://github.com/startupjs/startupjs/commit/233f3dfe9ffd8c079814e18a7e97a7a558a34347))
+
+
+
 # [0.57.0-canary.17](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.16...v0.57.0-canary.17) (2024-06-29)
 
 
