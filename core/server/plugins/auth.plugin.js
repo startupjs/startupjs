@@ -1,10 +1,9 @@
 import { axios, $, sub, Signal } from 'startupjs'
 import { createPlugin } from '@startupjs/registry'
 import jwt from 'jsonwebtoken'
+import { SESSION_KEY } from '../utils/clientSessionData.js'
 import createToken from '../utils/createToken.js'
-
-const AUTH_URL = '/auth'
-const AUTH_TOKEN_KEY = '__successAuthToken__'
+import { AUTH_URL, AUTH_TOKEN_KEY } from '../utils/constants.js'
 
 export default createPlugin({
   name: 'auth',
@@ -61,23 +60,39 @@ export default createPlugin({
             const redirectUri = getRedirectUri(req, provider)
             const accessToken = await getAccessToken(config, provider, { code, redirectUri })
             const userinfo = await getUserinfo(config, provider, { token: accessToken })
-            console.log('userinfo', userinfo)
             const $auth = await getOrCreateAuth(config, provider, userinfo)
             const userId = $auth.getId()
             const payload = { userId, loggedIn: true }
             const token = await createToken(payload)
-            const user = { ...payload, token }
-            const userEncoded = encodeURIComponent(JSON.stringify(user))
-            res.redirect(`${AUTH_URL}/login?${AUTH_TOKEN_KEY}=${userEncoded}`)
+            const session = { ...payload, token }
+            let { state } = req.query
+            try { state = JSON.parse(state) } catch (err) {}
+            if (state?.platform === 'web') {
+              res.setHeader('Content-Type', 'text/html')
+              res.send(getSuccessHtml(session, state.redirectUrl))
+            } else {
+              const sessionEncoded = encodeURIComponent(JSON.stringify(session))
+              res.redirect(`${AUTH_URL}/finish?${AUTH_TOKEN_KEY}=${sessionEncoded}`)
+            }
           } catch (err) {
             console.error(err)
             res.status(500).send('Error during auth')
           }
         })
+        expressApp.get(`${AUTH_URL}/finish`, (req, res) => {
+          res.send('Authenticated successfully')
+        })
       }
     }
   }
 })
+
+function getSuccessHtml (session, redirectUrl) {
+  return `<script>
+    localStorage.setItem('${SESSION_KEY}', '${JSON.stringify(session)}');
+    window.location.href = '${redirectUrl || '/'}';
+  </script>`
+}
 
 function getAuthUrl (req, provider, providers) {
   const config = getProviderConfig(providers, provider)
@@ -182,6 +197,7 @@ async function getOrCreateAuth (config, provider, userinfo) {
   // first try to find the exact match with the provider's id
   {
     const [$auth] = await sub($.auths, { [`${provider}.id`]: providerUserId })
+    // TODO: update user info if it was changed
     if ($auth) return $auth
   }
   // then see if we already have a user with such email but without this provider.
@@ -207,6 +223,12 @@ async function getOrCreateAuth (config, provider, userinfo) {
 
 async function addProviderToAuth ($auth, provider, { providerUserId, privateInfo, publicInfo, raw }) {
   await $auth[provider].set({ id: providerUserId, ...privateInfo, ...publicInfo, raw })
+  let providerIds = $auth.providerIds.get() || []
+  if (!providerIds.includes(provider)) {
+    providerIds = [...providerIds]
+    providerIds.push(provider)
+    await $auth.providerIds.set(providerIds)
+  }
   const userId = $auth.getId()
   // update public info of the user if it's missing
   const $user = await sub($.users[userId])

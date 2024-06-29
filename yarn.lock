@@ -7631,6 +7631,7 @@ __metadata:
   resolution: "@startupjs/server@workspace:core/server"
   dependencies:
     "@startupjs/registry": "npm:^0.57.0-canary.17"
+    "@startupjs/utils": "npm:^0.57.0-canary.0"
     "@types/jsonwebtoken": "npm:^9"
     body-parser: "npm:1.20.0"
     compression: "npm:^1.6.0"
@@ -7695,7 +7696,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/utils@npm:^0.57.0-canary.17, @startupjs/utils@workspace:core/utils":
+"@startupjs/utils@npm:^0.57.0-canary.0, @startupjs/utils@npm:^0.57.0-canary.17, @startupjs/utils@workspace:core/utils":
   version: 0.0.0-use.local
   resolution: "@startupjs/utils@workspace:core/utils"
   dependencies:
@@ -7703,11 +7704,14 @@ __metadata:
   peerDependencies:
     expo-constants: "*"
     expo-router: "*"
+    expo-web-browser: "*"
     react: "*"
   peerDependenciesMeta:
     expo-constants:
       optional: true
     expo-router:
+      optional: true
+    expo-web-browser:
       optional: true
     react:
       optional: true

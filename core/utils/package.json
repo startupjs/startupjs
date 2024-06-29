@@ -15,6 +15,10 @@
       "node": "./isExpo.server.js",
       "default": "./isExpo.js"
     },
+    "./openAuthSessionAsync": {
+      "node": "./openAuthSessionAsync.server.js",
+      "default": "./openAuthSessionAsync.js"
+    },
     "./isWeb": "./isWeb.js",
     "./isDevelopment": "./isDevelopment.js",
     "./useIsomorphicLayoutEffect": "./useIsomorphicLayoutEffect.js",
@@ -35,6 +39,7 @@
   "peerDependencies": {
     "expo-constants": "*",
     "expo-router": "*",
+    "expo-web-browser": "*",
     "react": "*"
   },
   "peerDependenciesMeta": {
@@ -42,6 +47,9 @@
       "optional": true
     },
     "expo-router": {
+      "optional": true
+    },
+    "expo-web-browser": {
       "optional": true
     },
     "react": {

@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { axios, $ } from 'startupjs'
 
-const SESSION_KEY = 'startupjs.session'
+export const SESSION_KEY = 'startupjs.session'
 
 export async function getSessionData () {
   let session = await AsyncStorage.getItem(SESSION_KEY)
