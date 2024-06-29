@@ -45,7 +45,8 @@ export async function createServer (options = {}) {
   MODULE.hook('backend', backend)
   const sessionRef = {}
   if (!options.enableOAuth2) sessionRef.session = _createSession(options)
-  const channel = _initConnection(backend, { ...sessionRef, fetchOnly: FETCH_ONLY })
+  const authorize = MODULE.reduceHook('authorizeConnection')
+  const channel = _initConnection(backend, { ...sessionRef, fetchOnly: FETCH_ONLY, authorize })
   const { server, expressApp } = await createServer({ backend, channel, options, ...sessionRef })
   return { server, backend, channel, expressApp, ...sessionRef }
 }
@@ -57,7 +58,8 @@ export async function createMiddleware (options = {}) {
   MODULE.hook('backend', backend)
   const sessionRef = {}
   if (!options.enableOAuth2) sessionRef.session = _createSession(options)
-  const channel = _initConnection(backend, { ...sessionRef, fetchOnly: FETCH_ONLY })
+  const authorize = MODULE.reduceHook('authorizeConnection')
+  const channel = _initConnection(backend, { ...sessionRef, fetchOnly: FETCH_ONLY, authorize })
   const middleware = await createMiddleware({ backend, channel, options, ...sessionRef })
   return { middleware, backend, channel, ...sessionRef }
 }

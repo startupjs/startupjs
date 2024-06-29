@@ -1,7 +1,12 @@
 import { Suspense, createElement as el } from 'react'
 import { axios, $ } from 'startupjs'
 import { createPlugin } from '@startupjs/registry'
+import isDevelopment from '@startupjs/utils/isDevelopment'
+import { BASE_URL, setBaseUrl } from '@startupjs/utils/BASE_URL'
+import connect from 'teamplay/connect'
 import { v4 as uuid } from 'uuid'
+
+const URL_SESSION = '/api/serverSession'
 
 export default createPlugin({
   name: 'clientSession',
@@ -12,46 +17,39 @@ export default createPlugin({
   },
   server: () => ({
     afterSession (expressApp) {
-      // userId
       expressApp.use((req, res, next) => {
-        // TODO: change this to maybe set _session.userId again, but using $
-        // const model = req.model
-        // Set anonymous userId unless it was set by some end-user auth middleware
-        if (req.session.userId == null) req.session.userId = uuid()
-        // Set userId into model
-        // model.set('_session.userId', req.session.userId)
+        req.session.userId ??= uuid()
         next()
       })
     },
     api (expressApp) {
-      expressApp.get('/api/serverSession', function (req, res) {
-        // TODO: reimplement restoreUrl functionality
-        // const restoreUrl = req.session.restoreUrl
-        // if (restoreUrl) {
-        //   delete req.session.restoreUrl
-        //   req.model.set('_session.restoreUrl', restoreUrl)
-        // }
+      expressApp.get(URL_SESSION, function (req, res) {
         const { userId, loggedIn } = req.session
-
         return res.json({ userId, loggedIn })
       })
-
-      // expressApp.post('/api/restore-url', function (req, res) {
-      //   const { restoreUrl } = req.body
-      //   req.session.restoreUrl = restoreUrl
-      //   res.sendStatus(200)
-      // })
     }
   }),
-  client: () => ({
-    renderRoot ({ children }) {
-      return (
-        el(Suspense, { fallback: null },
-          el(SessionInitializer, {}, children)
-        )
-      )
+  client: (options, {
+    module: {
+      options: { baseUrl = BASE_URL, enableXhrFallback = true }
     }
-  })
+  }) => {
+    if (baseUrl !== BASE_URL) setBaseUrl(baseUrl)
+    axios.defaults.baseURL = baseUrl
+    return {
+      renderRoot ({ children }) {
+        return (
+          el(Suspense, { fallback: null },
+            el(SessionInitializer, {},
+              el(ConnectionInitializer, { baseUrl, enableXhrFallback },
+                children
+              )
+            )
+          )
+        )
+      }
+    }
+  }
 })
 
 function SessionInitializer ({ children }) {
@@ -67,7 +65,7 @@ function initSession () {
   if (sessionPromise) return sessionPromise
   sessionPromise = (async () => {
     try {
-      const res = await axios.get('/api/serverSession')
+      const res = await axios.get(URL_SESSION)
       // TODO: handle errors like 500 etc.
       const session = res.data || {}
       if (typeof session !== 'object') throw Error('Invalid session data. Got: ' + JSON.stringify(session))
@@ -81,4 +79,22 @@ function initSession () {
     }
   })()
   return sessionPromise
+}
+
+function ConnectionInitializer ({ baseUrl, enableXhrFallback, children }) {
+  initConnection({ baseUrl, enableXhrFallback })
+  return children
+}
+
+let connectionInitialized
+function initConnection ({ baseUrl, enableXhrFallback }) {
+  if (connectionInitialized) return
+  connectionInitialized = true
+  connect({
+    baseUrl,
+    // In dev we embed startupjs server as middleware into Metro server itself.
+    // We have to use XHR since there is no way to easily access Metro's WebSocket endpoints.
+    // In production we run our own server and can use WebSocket without any problems.
+    forceXhrFallback: enableXhrFallback && isDevelopment
+  })
 }

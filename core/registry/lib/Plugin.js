@@ -81,7 +81,7 @@ export default class Plugin {
       const options = this.optionsByEnv[env] || {}
       const init = this.initsByEnv[env]
       if (typeof init !== 'function') throw ERRORS.notAFunction(this)
-      Object.assign(this.hooks, init(options, this))
+      Object.assign(this.hooks, init.call(this, options, this))
     }
     return this
   }
@@ -98,7 +98,7 @@ export default class Plugin {
     if (autoEnableWithOptions && pluginOptions) return true
     const { enabled } = this.config
     if (enabled === true) return true
-    if (typeof enabled === 'function' && enabled.apply(this, pluginOptions)) return true
+    if (typeof enabled === 'function' && enabled.call(this, pluginOptions, this)) return true
     return false
   }
 
@@ -110,7 +110,7 @@ export default class Plugin {
   runHook (hookName, ...args) {
     this.validateHook(hookName)
     // TODO: Pass current context as `this`
-    return this.hooks[hookName].apply(this.getContext(), args)
+    return this.hooks[hookName].apply(this, args)
   }
 
   validateHook (hookName) {
@@ -122,12 +122,6 @@ export default class Plugin {
 
   hasHook (hookName) {
     return Boolean(this.hooks?.[hookName])
-  }
-
-  getContext () {
-    // TODO: Construct some useful hook execution context in future.
-    //       For now just return the plugin instance itself.
-    return this
   }
 
   // to be able to use plugin as a key in the plugins options object of registry.init()

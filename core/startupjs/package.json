@@ -12,7 +12,6 @@
     "./server": "./server.js",
     "./startServer": "./startServer.js",
     "./registry": "./registry.js",
-    "./initClient": "./initClient.js",
     "./nodeRegister": "./nodeRegister.js",
     "./nconf": "./nconf.js",
     "./isomorphicHelpers": "./isomorphicHelpers.js",
@@ -37,7 +36,7 @@
     "@startupjs/utils": "^0.57.0-canary.1",
     "babel-preset-startupjs": "^0.57.0-canary.16",
     "lodash": "^4.17.20",
-    "teamplay": "^0.1.14"
+    "teamplay": "^0.1.15"
   },
   "peerDependencies": {
     "react": "*",

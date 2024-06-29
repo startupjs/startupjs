@@ -78,7 +78,7 @@ export async function _createMiddleware ({ backend, session, channel, options })
 
   if (MODULE.options.enableOAuth2) {
     publicApp.use((req, res, next) => {
-      if (!req.user) return next()
+      if (!req.session) return next()
       protectedApp(req, res, next)
     })
   } else {

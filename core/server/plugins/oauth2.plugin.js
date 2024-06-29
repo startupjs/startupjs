@@ -1,11 +1,14 @@
 import { Suspense, createElement as el } from 'react'
 import { axios } from 'startupjs'
 import { createPlugin } from '@startupjs/registry'
+import isDevelopment from '@startupjs/utils/isDevelopment'
+import { BASE_URL, setBaseUrl } from '@startupjs/utils/BASE_URL'
+import connect from 'teamplay/connect'
 import jwt from 'jsonwebtoken'
 import { v4 as uuid } from 'uuid'
 import getAppSecret from '../utils/getAppSecret.js'
 import createToken from '../utils/createToken.js'
-import { setUserData, getUserData } from '../utils/clientUserData.js'
+import { setSessionData, getSessionData } from '../utils/clientSessionData.js'
 
 const URL_ANONYMOUS_TOKEN = '/api/auth/token'
 const NOT_CHANGED_KEY = '__NOT_CHANGED__'
@@ -38,57 +41,104 @@ export default createPlugin({
         const token = req.headers.authorization?.split('Bearer ')[1]
         if (!token) return next()
         try {
-          req.user = jwt.verify(token, await getAppSecret())
+          req.session = jwt.verify(token, await getAppSecret())
           next()
         } catch (err) {
           return res.status(401).send(ERRORS.noValidToken + '\n' + err.message)
         }
       })
+    },
+    authorizeConnection (next) {
+      return async function authorizeToken (req) {
+        const query = req.url.split('?')[1] || ''
+        const token = new URLSearchParams(query).get('token')
+        if (!token) throw Error('No token found in connection URL')
+        req.session = jwt.verify(token, await getAppSecret())
+        await next?.(req)
+      }
     }
   }),
-  client: () => ({
-    renderRoot ({ children }) {
-      return (
-        el(Suspense, { fallback: null },
-          el(TokenInitializer, {}, children)
-        )
-      )
+  client: (options, {
+    module: {
+      options: { baseUrl = BASE_URL, enableXhrFallback = true }
     }
-  })
+  }) => {
+    if (baseUrl !== BASE_URL) setBaseUrl(baseUrl)
+    axios.defaults.baseURL = baseUrl
+    return {
+      renderRoot ({ children }) {
+        return (
+          el(Suspense, { fallback: null },
+            el(TokenInitializer, {},
+              el(ConnectionInitializer, { baseUrl, enableXhrFallback },
+                children
+              )
+            )
+          )
+        )
+      }
+    }
+  }
 })
 
 function TokenInitializer ({ children }) {
   const promise = initTokenOnce()
-  if (promise) throw promise
+  if (promise instanceof Promise) throw promise
   return children
 }
 
 const initTokenOnce = makeOnceFn(initToken)
-
 async function initToken () {
-  let user = await getUserData()
-  const res = await axios.post(URL_ANONYMOUS_TOKEN, { token: user?.token })
+  let session = await getSessionData()
+  const res = await axios.post(URL_ANONYMOUS_TOKEN, { token: session?.token })
   // TODO: handle errors like 500 etc.
-  if (!res.data?.[NOT_CHANGED_KEY]) user = res.data
-  await setUserData(user)
+  if (!res.data?.[NOT_CHANGED_KEY]) session = res.data
+  await setSessionData(session)
+}
+
+function ConnectionInitializer ({ baseUrl, enableXhrFallback, children }) {
+  const promise = initConnectionOnce({ baseUrl, enableXhrFallback })
+  if (promise instanceof Promise) throw promise
+  return children
+}
+
+const initConnectionOnce = makeOnceFn(initConnection)
+async function initConnection ({ baseUrl, enableXhrFallback }) {
+  const { token } = await getSessionData() || {}
+  if (!token) throw Error('No authorization token found in session data')
+  connect({
+    baseUrl,
+    getConnectionUrl,
+    // In dev we embed startupjs server as middleware into Metro server itself.
+    // We have to use XHR since there is no way to easily access Metro's WebSocket endpoints.
+    // In production we run our own server and can use WebSocket without any problems.
+    forceXhrFallback: enableXhrFallback && isDevelopment
+  })
+  function getConnectionUrl ({ getDefaultConnectionUrl }) {
+    return getDefaultConnectionUrl() + '?token=' + token
+  }
 }
 
 function makeOnceFn (fn) {
-  let promise, initialized, error
+  let promise, initialized, error, result
   return (...args) => {
-    if (initialized) return
+    if (initialized) return result
     if (error) throw error
     if (promise) return promise
     promise = (async () => {
       try {
-        await fn(...args)
+        const resultOrPromise = fn(...args)
+        if (resultOrPromise?.then) result = await resultOrPromise
+        else result = resultOrPromise
         initialized = true
+        return result
       } catch (err) {
         error = err
       } finally {
         promise = undefined
       }
     })()
+    if (initialized) return result // in case of sync result
     return promise
   }
 }

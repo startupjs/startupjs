@@ -9,9 +9,9 @@
   "main": "index.js",
   "exports": {
     ".": "./index.js",
-    "./utils/clientUserData": {
-      "node": "./utils/clientUserData.server.js",
-      "default": "./utils/clientUserData.js"
+    "./utils/clientSessionData": {
+      "node": "./utils/clientSessionData.server.js",
+      "default": "./utils/clientSessionData.js"
     },
     "./plugins/clientSession.plugin": "./plugins/clientSession.plugin.js",
     "./plugins/oauth2.plugin": "./plugins/oauth2.plugin.js",

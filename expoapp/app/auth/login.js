@@ -1,5 +1,5 @@
 import React from 'react'
-import { axios, pug, styl, observer, BASE_URL, setUserData, sub, $ } from 'startupjs'
+import { axios, pug, styl, observer, BASE_URL, setSessionData, sub, $ } from 'startupjs'
 import { Content, Span, Button, User, Card } from '@startupjs/ui'
 import { openAuthSessionAsync, maybeCompleteAuthSession } from 'expo-web-browser'
 
@@ -36,11 +36,11 @@ export default observer(function Success () {
     if (result.type === 'success' && result.url) {
       console.log('Auth result:', result)
       const urlParams = new URLSearchParams(new URL(result.url).search)
-      let user = urlParams.get(AUTH_TOKEN_KEY)
-      if (!user) return console.error('User data was not received')
-      user = JSON.parse(user)
-      await setUserData(user)
-      console.log('Auth success:', user)
+      let session = urlParams.get(AUTH_TOKEN_KEY)
+      if (!session) return console.error('Session data was not received')
+      session = JSON.parse(session)
+      await setSessionData(session)
+      console.log('Auth success:', session)
     } else {
       console.error('Auth failed:', result)
     }
