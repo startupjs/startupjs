@@ -3,7 +3,7 @@ import { axios, BASE_URL, setSessionData } from 'startupjs'
 import openAuthSessionAsync from '@startupjs/utils/openAuthSessionAsync'
 import { AUTH_URL, AUTH_TOKEN_KEY } from './constants.js'
 
-export default async function auth (provider) {
+export default async function login (provider) {
   if (!provider) throw Error('No provider specified')
   const res = await axios.post(`${BASE_URL}${AUTH_URL}/urls`, { providers: [provider] })
   const authUrl = res.data?.urls?.[provider]

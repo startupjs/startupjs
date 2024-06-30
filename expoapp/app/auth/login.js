@@ -1,14 +1,13 @@
 import React from 'react'
-import { pug, styl, observer, sub, $, auth } from 'startupjs'
+import { pug, styl, observer, sub, $, login, logout } from 'startupjs'
 import { Content, Button, User, Card } from '@startupjs/ui'
 
-const PROVIDERS = {
-  // google: true,
-  github: true
-}
+const PROVIDERS = ['github']
 
 export default observer(function Success () {
   const $user = sub($.users[$.session.userId.get()])
+  const authProviderIds = $.session.authProviderIds.get() || []
+  const loggedIn = $.session.loggedIn.get()
 
   return pug`
     Content(padding gap full align='center' vAlign='center')
@@ -18,11 +17,19 @@ export default observer(function Success () {
             avatarUrl=$user.avatarUrl.get()
             name=$user.name.get()
           )
-      each provider in Object.keys(PROVIDERS)
+      each provider in PROVIDERS
+        - const loggedIn = authProviderIds.includes(provider)
         Button.button(
           key=provider
-          onPress=() => auth(provider)
-        )= 'Login with ' + provider.charAt(0).toUpperCase() + provider.slice(1)
+          disabled=loggedIn
+          onPress=() => login(provider)
+        )= (loggedIn ? 'Logged in' : 'Login') + ' with ' + provider.charAt(0).toUpperCase() + provider.slice(1)
+      if loggedIn
+        Button.button(
+          variant='text'
+          color='error'
+          onPress=logout
+        ) Logout
   `
   styl`
     .card

@@ -5,8 +5,9 @@ export * from '@startupjs/hooks'
 // HINT: `isomorphic` means that the code can be executed both
 //        on the server and on the client
 export * from '@startupjs/isomorphic-helpers'
-export { getSessionData, setSessionData } from '@startupjs/server/utils/clientSessionData'
-export { default as auth } from '@startupjs/server/utils/clientAuth'
+export { getSessionData, setSessionData, deleteSessionData } from '@startupjs/server/utils/clientSessionData'
+export { default as login } from '@startupjs/server/utils/clientLogin'
+export { default as logout } from '@startupjs/server/utils/clientLogout'
 // dummy babel macro functions for @startupjs/babel-plugin-rn-stylename-inline.
 export function css (cssString) { return cssString }
 export function styl (stylString) { return stylString }

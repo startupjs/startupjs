@@ -60,9 +60,9 @@ export default createPlugin({
             const redirectUri = getRedirectUri(req, provider)
             const accessToken = await getAccessToken(config, provider, { code, redirectUri })
             const userinfo = await getUserinfo(config, provider, { token: accessToken })
-            const $auth = await getOrCreateAuth(config, provider, userinfo)
+            const $auth = await getOrCreateAuth(config, provider, { userinfo, token: accessToken })
             const userId = $auth.getId()
-            const payload = { userId, loggedIn: true }
+            const payload = { userId, loggedIn: true, authProviderIds: $auth.providerIds.get() }
             const token = await createToken(payload)
             const session = { ...payload, token }
             let { state } = req.query
@@ -191,44 +191,39 @@ async function getUserinfo (config, provider, { token }) {
   }
 }
 
-async function getOrCreateAuth (config, provider, userinfo) {
+async function getOrCreateAuth (config, provider, { userinfo, token } = {}) {
   const { id: providerUserId, ...privateInfo } = getPrivateInfo(config, userinfo)
   const publicInfo = getPublicInfo(config, userinfo)
+  async function updateProviderInfo ($auth) {
+    const raw = config.saveRawUserinfo ? userinfo : undefined
+    addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, raw, token })
+    return $auth
+  }
   // first try to find the exact match with the provider's id
   {
     const [$auth] = await sub($.auths, { [`${provider}.id`]: providerUserId })
     // TODO: update user info if it was changed
-    if ($auth) return $auth
+    if ($auth) return await updateProviderInfo($auth)
   }
   // then see if we already have a user with such email but without this provider.
   // If the provider is trusted (it definitely provides correct and confirmed email),
   // then we can merge the provider into the existing user.
   if (config.allowAutoMergeByEmail && privateInfo.email) {
     const [$auth] = await sub($.auths, { email: privateInfo.email, [provider]: { $exists: false } })
-    if ($auth) {
-      const raw = config.saveRawUserinfo ? userinfo : undefined
-      await addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, raw })
-      return $auth
-    }
+    if ($auth) return await updateProviderInfo($auth)
   }
   // create a new user
   {
     const userId = await $.auths.add({ ...privateInfo, createdAt: Date.now() })
     const $auth = await sub($.auths[userId]) // subscribe to the new user just to keep a reference
-    const raw = config.saveRawUserinfo ? userinfo : undefined
-    await addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, raw })
-    return $auth
+    return await updateProviderInfo($auth)
   }
 }
 
-async function addProviderToAuth ($auth, provider, { providerUserId, privateInfo, publicInfo, raw }) {
-  await $auth[provider].set({ id: providerUserId, ...privateInfo, ...publicInfo, raw })
-  let providerIds = $auth.providerIds.get() || []
-  if (!providerIds.includes(provider)) {
-    providerIds = [...providerIds]
-    providerIds.push(provider)
-    await $auth.providerIds.set(providerIds)
-  }
+async function addProviderToAuth ($auth, provider, { providerUserId, privateInfo, publicInfo, raw, token }) {
+  await $auth[provider].set({ id: providerUserId, ...privateInfo, ...publicInfo, raw, token })
+  const providerIds = $auth.providerIds.get() || []
+  if (!providerIds.includes(provider)) await $auth.providerIds.push(provider)
   const userId = $auth.getId()
   // update public info of the user if it's missing
   const $user = await sub($.users[userId])

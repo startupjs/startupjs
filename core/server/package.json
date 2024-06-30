@@ -13,9 +13,13 @@
       "node": "./utils/clientSessionData.server.js",
       "default": "./utils/clientSessionData.js"
     },
-    "./utils/clientAuth": {
-      "node": "./utils/clientAuth.server.js",
-      "default": "./utils/clientAuth.js"
+    "./utils/clientLogin": {
+      "node": "./utils/clientLogin.server.js",
+      "default": "./utils/clientLogin.js"
+    },
+    "./utils/clientLogout": {
+      "node": "./utils/clientLogout.server.js",
+      "default": "./utils/clientLogout.js"
     },
     "./plugins/clientSession.plugin": "./plugins/clientSession.plugin.js",
     "./plugins/oauth2.plugin": "./plugins/oauth2.plugin.js",

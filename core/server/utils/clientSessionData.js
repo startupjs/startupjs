@@ -20,6 +20,10 @@ export async function setSessionData (session) {
   await emitInitSession(session)
 }
 
+export async function deleteSessionData () {
+  await AsyncStorage.removeItem(SESSION_KEY)
+}
+
 function validateSession (session) {
   if (!session) throw Error(ERRORS.jwtNoSession(session))
   if (!session.userId) throw Error(ERRORS.jwtNoUserId(session))

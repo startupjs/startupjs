@@ -7,7 +7,7 @@ import connect from 'teamplay/connect'
 import jwt from 'jsonwebtoken'
 import { v4 as uuid } from 'uuid'
 import getAppSecret from '../utils/getAppSecret.js'
-import createToken from '../utils/createToken.js'
+import createToken, { TOKEN_REISSUE_AFTER_SECONDS } from '../utils/createToken.js'
 import { setSessionData, getSessionData } from '../utils/clientSessionData.js'
 
 const URL_ANONYMOUS_TOKEN = '/api/auth/token'
@@ -27,9 +27,25 @@ export default createPlugin({
         const appSecret = await getAppSecret()
         if (token) {
           try {
-            jwt.verify(token, appSecret)
+            const { iat } = jwt.verify(token, appSecret)
+            // check if token is about to expire and force reissue it with same session data
+            const currentTimeInSeconds = Math.floor(Date.now() / 1000)
+            const expiredAt = iat + TOKEN_REISSUE_AFTER_SECONDS
+            if (currentTimeInSeconds > expiredAt) {
+              throw new jwt.TokenExpiredError('Token is about to expire, must reissue', expiredAt)
+            }
+            // token is valid and not expired
             return res.json({ [NOT_CHANGED_KEY]: true })
-          } catch (err) {}
+          } catch (err) {
+            if (err.name === 'TokenExpiredError') {
+              // reissue token if it's expired
+              try {
+                const { iat, exp, ...session } = jwt.verify(token, appSecret, { ignoreExpiration: true })
+                token = await createToken(session)
+                return res.json({ ...session, token })
+              } catch (err) {}
+            }
+          }
         }
         const userId = uuid()
         token = await createToken({ userId })
