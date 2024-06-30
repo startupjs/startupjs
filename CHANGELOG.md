@@ -1,3 +1,12 @@
+# [0.57.0-canary.21](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.20...v0.57.0-canary.21) (2024-06-30)
+
+
+### Bug Fixes
+
+* **create-startupjs:** fix init-expo package.json path ([aee5b0f](https://github.com/startupjs/startupjs/commit/aee5b0f232323f119c5d2e5131a29bf1b591ea3f))
+
+
+
 # [0.57.0-canary.20](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.19...v0.57.0-canary.20) (2024-06-30)
 
 
