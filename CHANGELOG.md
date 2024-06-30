@@ -1,3 +1,12 @@
+# [0.57.0-canary.19](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.18...v0.57.0-canary.19) (2024-06-30)
+
+
+### Features
+
+* **server/auth:** save oauth2 token from provider for later use; implement logout() function; rename auth() to login(); update provider userinfo on each login ([c363b27](https://github.com/startupjs/startupjs/commit/c363b27a32331f13e4742a675c4420a7a8f1e5ea))
+
+
+
 # [0.57.0-canary.18](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.17...v0.57.0-canary.18) (2024-06-29)
 
 
