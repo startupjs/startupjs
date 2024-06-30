@@ -1,11 +1,13 @@
 import React from 'react'
 import { pug, styl, observer, sub, $, login, logout } from 'startupjs'
-import { Content, Button, User, Card } from '@startupjs/ui'
+import { Content, Button, User, Card, Tag } from '@startupjs/ui'
 
 const PROVIDERS = ['github']
 
 export default observer(function Success () {
-  const $user = sub($.users[$.session.userId.get()])
+  const userId = $.session.userId.get()
+  const $user = sub($.users[userId])
+  const $auth = sub($.auths[userId])
   const authProviderIds = $.session.authProviderIds.get() || []
   const loggedIn = $.session.loggedIn.get()
 
@@ -24,6 +26,15 @@ export default observer(function Success () {
           disabled=loggedIn
           onPress=() => login(provider)
         )= (loggedIn ? 'Logged in' : 'Login') + ' with ' + provider.charAt(0).toUpperCase() + provider.slice(1)
+        if loggedIn && provider === 'github'
+          if $auth.github.scopes.get()?.includes('read:user')
+            Tag(key=provider + '_tag' color='success') Access to GitHub user profile granted
+          else
+            Button.button(
+              key=provider + '_grant'
+              variant='text'
+              onPress=() => login('github', { extraScopes: ['read:user'] })
+            ) Grant access to GitHub profile
       if loggedIn
         Button.button(
           variant='text'

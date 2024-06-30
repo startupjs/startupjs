@@ -3,7 +3,7 @@ import { createPlugin } from '@startupjs/registry'
 import jwt from 'jsonwebtoken'
 import { SESSION_KEY } from '../utils/clientSessionData.js'
 import createToken from '../utils/createToken.js'
-import { AUTH_URL, AUTH_TOKEN_KEY } from '../utils/constants.js'
+import { AUTH_URL, AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_FINISH_URL } from '../utils/constants.js'
 
 export default createPlugin({
   name: 'auth',
@@ -38,13 +38,12 @@ export default createPlugin({
   server: ({ providers }) => {
     return {
       beforeSession (expressApp) {
-        expressApp.post(`${AUTH_URL}/urls`, (req, res) => {
+        expressApp.post(AUTH_GET_URL, (req, res) => {
           try {
-            const { providers } = req.body
-            if (!Array.isArray(providers)) return res.status(400).send('Providers are missing')
-            const urls = {}
-            for (const provider of providers) urls[provider] = getAuthUrl(req, provider, providers)
-            res.json({ urls })
+            const { provider, extraScopes } = req.body
+            if (!provider) return res.status(400).send('Provider is not specified')
+            const url = getAuthUrl(req, provider, providers, { extraScopes })
+            res.json({ url })
           } catch (err) {
             console.error(err)
             res.status(500).json({ error: 'Error during auth' })
@@ -57,29 +56,34 @@ export default createPlugin({
             if (!config) return res.status(400).send(`Provider ${provider} is not supported`)
             const { code } = req.query
             if (!code) return res.status(400).send('Code is missing')
+            let { state } = req.query
+            try { state = JSON.parse(state) } catch (err) {}
+            if (typeof state !== 'object') return res.status(400).send('State is invalid')
+            const { scopes } = state
+            if (!Array.isArray(scopes)) return res.status(400).send('Returned scopes are invalid')
             const redirectUri = getRedirectUri(req, provider)
             const accessToken = await getAccessToken(config, provider, { code, redirectUri })
             const userinfo = await getUserinfo(config, provider, { token: accessToken })
-            const $auth = await getOrCreateAuth(config, provider, { userinfo, token: accessToken })
+            const $auth = await getOrCreateAuth(
+              config, provider, { userinfo, token: accessToken, scopes }
+            )
             const userId = $auth.getId()
             const payload = { userId, loggedIn: true, authProviderIds: $auth.providerIds.get() }
             const token = await createToken(payload)
             const session = { ...payload, token }
-            let { state } = req.query
-            try { state = JSON.parse(state) } catch (err) {}
-            if (state?.platform === 'web') {
+            if (state.platform === 'web') {
               res.setHeader('Content-Type', 'text/html')
               res.send(getSuccessHtml(session, state.redirectUrl))
             } else {
               const sessionEncoded = encodeURIComponent(JSON.stringify(session))
-              res.redirect(`${AUTH_URL}/finish?${AUTH_TOKEN_KEY}=${sessionEncoded}`)
+              res.redirect(`${AUTH_FINISH_URL}?${AUTH_TOKEN_KEY}=${sessionEncoded}`)
             }
           } catch (err) {
             console.error(err)
             res.status(500).send('Error during auth')
           }
         })
-        expressApp.get(`${AUTH_URL}/finish`, (req, res) => {
+        expressApp.get(AUTH_FINISH_URL, (req, res) => {
           res.send('Authenticated successfully')
         })
       }
@@ -94,11 +98,11 @@ function getSuccessHtml (session, redirectUrl) {
   </script>`
 }
 
-function getAuthUrl (req, provider, providers) {
+function getAuthUrl (req, provider, providers, { extraScopes } = {}) {
   const config = getProviderConfig(providers, provider)
   if (!config) throw Error(`Provider ${provider} is not supported`)
   const redirectUri = getRedirectUri(req, provider)
-  const authUrl = _getAuthUrl(config, provider, { redirectUri })
+  const authUrl = _getAuthUrl(config, provider, { redirectUri, extraScopes })
   return authUrl
 }
 
@@ -107,14 +111,19 @@ function getRedirectUri (req, provider) {
   return `${baseUrl}${AUTH_URL}/${provider}/callback`
 }
 
-function _getAuthUrl (config, provider, { redirectUri }) {
+function _getAuthUrl (config, provider, { redirectUri, extraScopes = [] }) {
   const { authUrl } = config
   const clientId = getClientId(config, provider)
-  redirectUri = encodeURIComponent(redirectUri)
-  let scopes = config.scopes
-  if (!scopes) throw Error(`Scopes are missing for provider ${provider}`)
-  scopes = encodeURIComponent(config.scopes.join(' '))
-  return `${authUrl}?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}`
+  let { scopes } = config
+  if (!scopes) throw Error(ERRORS.missingScopes(provider))
+  scopes = [...new Set([...scopes, ...extraScopes])]
+  const params = new URLSearchParams(Object.entries({
+    response_type: 'code',
+    client_id: clientId,
+    redirect_uri: redirectUri,
+    scope: scopes.join(' ')
+  })).toString()
+  return `${authUrl}?${params}`
 }
 
 async function getAccessToken (config, provider, { redirectUri, code }) {
@@ -191,12 +200,12 @@ async function getUserinfo (config, provider, { token }) {
   }
 }
 
-async function getOrCreateAuth (config, provider, { userinfo, token } = {}) {
+async function getOrCreateAuth (config, provider, { userinfo, token, scopes } = {}) {
   const { id: providerUserId, ...privateInfo } = getPrivateInfo(config, userinfo)
   const publicInfo = getPublicInfo(config, userinfo)
   async function updateProviderInfo ($auth) {
     const raw = config.saveRawUserinfo ? userinfo : undefined
-    addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, raw, token })
+    addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, raw, token, scopes })
     return $auth
   }
   // first try to find the exact match with the provider's id
@@ -220,8 +229,12 @@ async function getOrCreateAuth (config, provider, { userinfo, token } = {}) {
   }
 }
 
-async function addProviderToAuth ($auth, provider, { providerUserId, privateInfo, publicInfo, raw, token }) {
-  await $auth[provider].set({ id: providerUserId, ...privateInfo, ...publicInfo, raw, token })
+async function addProviderToAuth (
+  $auth,
+  provider,
+  { providerUserId, privateInfo, publicInfo, raw, token, scopes }
+) {
+  await $auth[provider].set({ id: providerUserId, ...privateInfo, ...publicInfo, raw, token, scopes })
   const providerIds = $auth.providerIds.get() || []
   if (!providerIds.includes(provider)) await $auth.providerIds.push(provider)
   const userId = $auth.getId()
@@ -322,5 +335,6 @@ const ERRORS = {
   missingUserinfoUrl: provider => `
     \`userinfoUrl\` is missing for provider ${provider}.
     And the access_token is an opaque token instead of JWT so no user information can be extracted from it.
-  `
+  `,
+  missingScopes: provider => `Scopes are missing for provider ${provider}`
 }
