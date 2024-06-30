@@ -1,3 +1,12 @@
+# [0.57.0-canary.20](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.19...v0.57.0-canary.20) (2024-06-30)
+
+
+### Features
+
+* **server/auth:** support specifying extraScopes in login() to allow for gradual permissions requests ([9684494](https://github.com/startupjs/startupjs/commit/968449480c4a102fbf6007cd586f9da5a06b0f44))
+
+
+
 # [0.57.0-canary.19](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.18...v0.57.0-canary.19) (2024-06-30)
 
 
