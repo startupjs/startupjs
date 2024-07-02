@@ -2,6 +2,7 @@ import ShareDbAccess, {
   registerOrmRules,
   rigisterOrmRulesFromFactory
 } from '@startupjs/sharedb-access'
+import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import isArray from 'lodash/isArray.js'
 import isPlainObject from 'lodash/isPlainObject.js'
 import racer from 'racer'
@@ -47,6 +48,8 @@ export default function createBackend (options) {
 
   // sharedb-hooks
   shareDbHooks(backend)
+
+  MODULE.hook('backend', backend)
 
   if (options.hooks != null) options.hooks(backend)
 
