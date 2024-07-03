@@ -66,10 +66,13 @@ export const options = [{
 }, {
   name: '--skip-install',
   description: 'Skip running the package manager install command after modifying the package.json'
+}, {
+  name: '--second-fix-pass',
+  description: 'NOTE: for internal use only. Runs the fix command again to account for install script updates.'
 }]
 
 export async function action ({ skipInstall, ...options } = {}) {
-  let { fix, dev, ui, init, router, all } = options
+  let { fix, secondFixPass, dev, ui, init, router, all } = options
   // if no options are passed, assume --all
   if (Object.keys(options).length === 0) all = true
   if (all) {
@@ -78,20 +81,23 @@ export async function action ({ skipInstall, ...options } = {}) {
     router = true
     init = true
   }
-  if (fix || dev || ui || init || router) {
+  if (secondFixPass || fix || dev || ui || init || router) {
     return await runInstall({
       setupDevelopment: dev,
       setupUi: ui,
       setupRouter: router,
       setupInit: init,
       isSetup: dev || ui || init,
-      skipInstall
+      skipInstall,
+      secondFixPass
     })
   }
   throw exitWithError('You must pass one of the options. Run `npx startupjs install --help` for more information.')
 }
 
-async function runInstall ({ setupDevelopment, setupUi, setupRouter, setupInit, isSetup, skipInstall } = {}) {
+async function runInstall ({
+  setupDevelopment, setupUi, setupRouter, setupInit, isSetup, skipInstall, secondFixPass
+} = {}) {
   if (!existsSync(PROJECT_JSON_PATH)) throw exitWithError(ERRORS.noPackageJson)
   const packageJson = JSON.parse(readFileSync(PROJECT_JSON_PATH, 'utf8'))
   let startupjsVersion = packageJson?.dependencies?.startupjs
@@ -186,6 +192,14 @@ async function runInstall ({ setupDevelopment, setupUi, setupRouter, setupInit, 
       if (exitCode && exitCode !== 0 && exitCode !== '0') {
         throw Error(`Exit code: ${exitCode}`)
       }
+    }
+    if (secondFixPass) {
+      if (packageJson.dependencies.expo) {
+        await $({ stdio: 'inherit' })`npx expo install --fix`
+      }
+    } else {
+      // run the fix command again to account for install script updates
+      await $({ stdio: 'inherit' })`npx startupjs install --second-fix-pass`
     }
   } catch (error) {
     console.log(chalk.red(`\nError running package manager install command:\n${error.message || error}`))
