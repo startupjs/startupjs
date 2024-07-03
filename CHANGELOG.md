@@ -1,3 +1,12 @@
+# [0.57.0-canary.23](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.22...v0.57.0-canary.23) (2024-07-03)
+
+
+### Bug Fixes
+
+* **create-startupjs:** make --fix command run twice to account for the install script changes. On the second pass also run 'npx expo install --fix' to update expo dependencies to the ones expo expects ([b190d3d](https://github.com/startupjs/startupjs/commit/b190d3d10053af159a2776251c857da5c73f9cb5))
+
+
+
 # [0.57.0-canary.22](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.21...v0.57.0-canary.22) (2024-07-03)
 
 
