@@ -1,13 +1,13 @@
 import React from 'react'
-import { pug, styl, observer, sub, $, login, logout } from 'startupjs'
+import { pug, styl, observer, useSub, $, login, logout } from 'startupjs'
 import { Content, Button, User, Card, Tag } from '@startupjs/ui'
 
 const PROVIDERS = ['github']
 
 export default observer(function Success () {
   const userId = $.session.userId.get()
-  const $user = sub($.users[userId])
-  const $auth = sub($.auths[userId])
+  const $user = useSub($.users[userId])
+  const $auth = useSub($.auths[userId])
   const authProviderIds = $.session.authProviderIds.get() || []
   const loggedIn = $.session.loggedIn.get()
 

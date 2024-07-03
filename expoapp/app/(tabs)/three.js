@@ -1,9 +1,9 @@
-import { pug, styl, observer, sub, $ } from 'startupjs'
+import { pug, styl, observer, useSub, $ } from 'startupjs'
 import { Link, Button, Br, User, Card } from '@startupjs/ui'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabThreeScreen () {
-  const $user = sub($.users[$.session.userId.get()])
+  const $user = useSub($.users[$.session.userId.get()])
   const address1 = { city: { street: { building: 42, isFlat: true } } }
   const address2 = {}
 
