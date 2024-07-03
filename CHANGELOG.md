@@ -1,3 +1,12 @@
+# [0.57.0-canary.22](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.21...v0.57.0-canary.22) (2024-07-03)
+
+
+### Features
+
+* **startupjs:** upgrade teamplay to use the explicit useSub() function in react components instead of a universal sub(). A regular sub() function is now always asynchronous and has to be await'ed ([018bdef](https://github.com/startupjs/startupjs/commit/018bdef399f1804a22c85eb87ddc1e4935fba6bb))
+
+
+
 # [0.57.0-canary.21](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.20...v0.57.0-canary.21) (2024-06-30)
 
 
