@@ -38,33 +38,6 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 
 ### Installation
 
-> [!WARNING]
-> StartupJS does not yet support the latest version of React Native.
->
-> When creating a new project please specify the `0.72` version:
->
->    ```
->    npx startupjs@latest init myapp --react-native 0.72
->    ```
->
-> If you want to use the latest React Native, install [StartupJS Alpha version](#alpha-version-on-expo-for-react-native-073)
-
-1. Initialize a default [`ui` template](#official-app-templates) project, change `myapp` to your project name (use lower case):
-
-    ```
-    npx startupjs@latest init myapp
-    ```
-
-2. Go into the created project folder and start the web application with:
-
-    ```
-    yarn start
-    ```
-
-3. Open http://localhost:3000 and start developing!
-
-#### Alpha version on Expo (for React Native `>=0.73`)
-
 1. Create a new expo app and go into it:
 
     **Note:** You can use any expo template you want (`tabs` has Expo Router included)
@@ -104,7 +77,7 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
 2. Install startupjs into your app:
 
     ```
-    npm init startupjs@next
+    npm init startupjs@canary
     ```
 
 3. Wrap your root component into `<StartupjsProvider>` from `startupjs` (when using expo-router it's in `app/_layout.tsx`):
