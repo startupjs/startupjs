@@ -1,3 +1,12 @@
+# [0.57.0-canary.24](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.23...v0.57.0-canary.24) (2024-07-15)
+
+
+### Bug Fixes
+
+* **cli:** fix 'yarn pr' command ([4d81cad](https://github.com/startupjs/startupjs/commit/4d81cada3d5ed4225269c4a16ffd76757c909c99))
+
+
+
 # [0.57.0-canary.23](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.22...v0.57.0-canary.23) (2024-07-03)
 
 
