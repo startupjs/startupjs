@@ -1,3 +1,12 @@
+# [0.57.0-canary.25](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.24...v0.57.0-canary.25) (2024-07-18)
+
+
+### Bug Fixes
+
+* **ui/DateTimePicker:** replaces old useValue with $ ([#1228](https://github.com/startupjs/startupjs/issues/1228)) ([dffe8e2](https://github.com/startupjs/startupjs/commit/dffe8e205bee87df8e59e5b26eeba522b3ec43b6))
+
+
+
 # [0.57.0-canary.24](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.23...v0.57.0-canary.24) (2024-07-15)
 
 
