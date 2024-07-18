@@ -1,3 +1,12 @@
+# [0.57.0-canary.26](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.25...v0.57.0-canary.26) (2024-07-18)
+
+
+### Bug Fixes
+
+* **auth:** fix auth on native ([b1a7e6d](https://github.com/startupjs/startupjs/commit/b1a7e6d99bec10cf3c5be138a54088461a9fa794))
+
+
+
 # [0.57.0-canary.25](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.24...v0.57.0-canary.25) (2024-07-18)
 
 
