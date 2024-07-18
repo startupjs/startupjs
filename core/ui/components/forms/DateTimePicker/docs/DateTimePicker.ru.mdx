@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { pug } from 'startupjs'
+import { pug, $ } from 'startupjs'
 import DateTimePicker from '../'
-import { useValue } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # DateTimePicker
@@ -32,7 +31,7 @@ return pug`
 1.  Передав скоуп модель в свойство `$visible`, из состояния которой идет управление видимостью.
 
 ```jsx example
-const [, $visible] = useValue()
+const $visible = $()
 const [date, onChangeDate] = useState()
 
 return pug`
@@ -47,7 +46,7 @@ return pug`
 2. Передав свойства `visible`, `onRequestOpen` и `onRequestClose`, которые определяют является ли `DateTimePicker` видимым.
 
 ```jsx example
-const [visible, $visible] = useValue()
+const $visible = $()
 const [date, onChangeDate] = useState()
 
 return pug`

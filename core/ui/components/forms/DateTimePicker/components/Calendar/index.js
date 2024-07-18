@@ -1,5 +1,5 @@
 import React from 'react'
-import { pug, observer, useValue } from 'startupjs'
+import { pug, observer, $ } from 'startupjs'
 import { Div } from '@startupjs/ui'
 import moment from 'moment'
 import Header from './Header'
@@ -17,12 +17,12 @@ function Calendar ({
   testID,
   onChangeDate
 }) {
-  const [uiDate, $uiDate] = useValue(+moment(date).seconds(0).milliseconds(0))
+  const $uiDate = $(+moment(date).seconds(0).milliseconds(0))
 
   return pug`
     Div(testID=testID)
       Header(
-        uiDate=uiDate
+        uiDate=$uiDate.get()
         exactLocale=exactLocale
         timezone=timezone
         minDate=minDate
@@ -31,7 +31,7 @@ function Calendar ({
       )
       Days(
         date=date
-        uiDate=uiDate
+        uiDate=$uiDate.get()
         exactLocale=exactLocale
         timezone=timezone
         range=range
