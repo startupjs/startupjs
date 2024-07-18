@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
-import { pug, observer, useValue } from 'startupjs'
+import { pug, observer } from 'startupjs'
+import { $ } from 'teamplay'
 import {
   Button,
   Div,
@@ -76,7 +77,7 @@ const Years = observer(function YearsComponent ({
   timezone,
   $uiDate
 }) {
-  const [, $visible] = useValue(false)
+  const $visible = $(false)
   const minYear = minDate ? moment.tz(minDate, timezone).year() : 1950
   const maxYear = maxDate ? moment.tz(maxDate, timezone).year() : 2050
   const yearsDiff = maxYear - minYear
