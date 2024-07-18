@@ -1,7 +1,6 @@
 import React from 'react'
-import { pug, observer } from 'startupjs'
+import { pug, observer, $ } from 'startupjs'
 import { Div } from '@startupjs/ui'
-import { $ } from 'teamplay'
 import moment from 'moment'
 import Header from './Header'
 import Days from './Days'
