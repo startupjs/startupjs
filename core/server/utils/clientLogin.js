@@ -7,7 +7,13 @@ export default async function login (provider, { extraScopes } = {}) {
   if (!provider) throw Error('No provider specified')
   const res = await axios.post(`${BASE_URL}${AUTH_GET_URL}`, { provider, extraScopes })
   let authUrl = res.data?.url
-  if (!authUrl) throw Error('No auth url received for provider ' + provider)
+  if (!authUrl) {
+    throw Error(`
+      No auth url received for provider ${provider}
+      URL: ${BASE_URL}${AUTH_GET_URL}
+      Received: ${JSON.stringify(res.data)}
+    `)
+  }
 
   // add state to later track what to do after auth
   const state = {}

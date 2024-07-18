@@ -17,6 +17,7 @@ export default function getBaseUrl () {
   } else if (!/^https?:/.test(url)) {
     url = DEFAULT_BASE_URL
   }
+  url = url.replace(/\/+$/, '')
   return url
 }
 
