@@ -6,8 +6,8 @@ import React, {
   useImperativeHandle
 } from 'react'
 import { pug, observer, useBind } from 'startupjs'
-import { $ } from 'teamplay'
 import { useMedia } from '@startupjs/ui'
+import { $ } from 'teamplay'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle'
 import PropTypes from 'prop-types'
 import moment from 'moment-timezone'

@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
 import { pug, observer } from 'startupjs'
-import { $ } from 'teamplay'
 import {
   Button,
   Div,
@@ -9,6 +8,7 @@ import {
   Popover,
   Span
 } from '@startupjs/ui'
+import { $ } from 'teamplay'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown'
