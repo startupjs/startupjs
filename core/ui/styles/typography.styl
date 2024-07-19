@@ -19,10 +19,23 @@ font(size = body2)
   // http://stylus-lang.com/docs/bifs.html#sfmt-
   size = 's' if size is s
   size = body2 if size is default // DEPRECATED
+
   if size in DEPRECATED_SIZES
     p('font() mixin: size ' + size + ' is deprecated')
+
   font-size: $UI.fontSizes[size]
   line-height: $UI.lineHeights[size]
+
+  if $UI.letterSpacings[size]
+    letter-spacing: $UI.letterSpacings[size]
+
+  fontFamily(
+    $UI.fontFamilies[size],
+    $UI.fontWeights[size]
+  )
+
+  if $UI.textTransforms[size]
+    text-transform $UI.textTransforms[size]
 
 text(key = default) // DEPRECATED
   p('text() mixin is deprecated, use font() instead')
