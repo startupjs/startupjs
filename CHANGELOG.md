@@ -1,3 +1,23 @@
+# [0.57.0-canary.27](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.26...v0.57.0-canary.27) (2024-07-19)
+
+
+### Bug Fixes
+
+* **ui/Input:** change label color ([5a8403b](https://github.com/startupjs/startupjs/commit/5a8403b46bee19a8788e5793fb79be966af9e89d))
+* **ui/Span:** prevent font-weight override ([bb616b7](https://github.com/startupjs/startupjs/commit/bb616b7889ac876fb48f698b61bbe95f797293d0))
+
+
+### Features
+
+* **ui/Button:** add ability to customie opacity for disabled state ([02ef49d](https://github.com/startupjs/startupjs/commit/02ef49d431d8d4b0245f3f0ede0cdae342dc68be))
+* **ui/Checkbox:** extend config for component customization ([a6e0e70](https://github.com/startupjs/startupjs/commit/a6e0e70564740b18527e7172e466545cca2e299a))
+* **ui/Radio:** extend config for component customization ([24017e6](https://github.com/startupjs/startupjs/commit/24017e61519c23b47b58677e8d86782820dd099b))
+* **ui/TextInput:** add ability to customize text color ([bbd265f](https://github.com/startupjs/startupjs/commit/bbd265f08d6bfeee7f21b1fa48b994e25d51b020))
+* **ui/theming:** fix palette creating and extend component colors ([9938066](https://github.com/startupjs/startupjs/commit/9938066158432bcd3e1c7b395d45b10f7c47b458))
+* **ui/typography:** add ability to specify letter-spacing and font-weight for 'font' mixin ([ad5f6b7](https://github.com/startupjs/startupjs/commit/ad5f6b7b18752ca9e021b06698b571ceb726ca60))
+
+
+
 # [0.57.0-canary.26](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.25...v0.57.0-canary.26) (2024-07-18)
 
 
