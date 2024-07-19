@@ -130,7 +130,17 @@ export function transformOverrides (overrides, palette, Color) {
 }
 
 /* eslint-disable dot-notation, no-multi-spaces */
-export function prepareColorsObject (palette, Color, { overrides = {}, high, low, middle }) {
+export function prepareColorsObject (
+  palette,
+  Color,
+  {
+    overrides = {},
+    componentOverrides,
+    high,
+    low,
+    middle
+  }
+) {
   const C = {}
   const transformedOverrides = transformOverrides(overrides, palette, Color)
   if (transformedOverrides) Object.assign(C, transformedOverrides)
@@ -220,6 +230,12 @@ export function prepareColorsObject (palette, Color, { overrides = {}, high, low
 
   // generate component colors
   const CC = {}
+
+  if (componentOverrides) {
+    const transformedOverrides = transformOverrides(componentOverrides, palette, Color)
+    if (transformedOverrides) Object.assign(CC, transformedOverrides)
+  }
+
   CC[Colors['--AutoSuggest-itemBg']]        ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
   CC[Colors['--Carousel-arrowWrapperBg']]   ??= Color('main', high, { alpha: 0.1 })
   CC[Colors['--Div-hoverBg']]               ??= C[Colors['bg-main']].highContrast().setAlpha(0.05)
@@ -229,6 +245,7 @@ export function prepareColorsObject (palette, Color, { overrides = {}, high, low
   CC[Colors['--Modal-overlayBg']]           ??= Color('main', high - 2, { alpha: 0.25 })
   CC[Colors['--Checkbox-switchBg']]         ??= Color('main', middle)
   CC[Colors['--Checkbox-switchBulletBg']]   ??= Color('main', low)
+  CC[Colors['--Checkbox-switchBulletBg-checked']]   ??= C[Colors['text-on-primary']]
   CC[Colors['--Range-labelBg']]             ??= C[Colors['bg-main']].subtler(7)
   CC[Colors['--Range-labelText']]           ??= C[Colors['text-main']].subtler(7)
 
