@@ -33,17 +33,17 @@ $this = merge({
     l: 1u,
     xl: 1.5u,
     xxl: 1.5u
-  }
+  },
+  disabledOpacity: 0.25
 }, $UI.Button, true)
 
 // ----- COMPONENT
 
 _sizes = ('xs' 's' 'm' 'l' 'xl' 'xxl')
-_disabledOpacity = 0.25
 
 .root
   &.disabled
-    opacity _disabledOpacity
+    opacity $this.disabledOpacity
 
 .label
   fontFamily('normal', 500)
