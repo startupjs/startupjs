@@ -8,7 +8,6 @@ import { TextInput, Platform } from 'react-native'
 import { pug, observer, useIsomorphicLayoutEffect, useDidUpdate } from 'startupjs'
 import Div from './../../Div'
 import Icon from './../../Icon'
-import getCssVariable from '../../../theming/getCssVariable'
 import themed from '../../../theming/themed'
 import { useColors } from '../../../hooks'
 import STYLES from './index.styl'
@@ -21,7 +20,6 @@ const {
 
 const IS_WEB = Platform.OS === 'web'
 const IS_ANDROID = Platform.OS === 'android'
-
 const ICON_SIZES = {
   s: 'm',
   m: 'm',
@@ -153,7 +151,7 @@ function TextInputInput ({
         lineHeight: lH
       }]
       styleName=inputStyleName
-      selectionColor=getCssVariable(caretColor)
+      selectionColor=caretColor
       placeholder=placeholder
       placeholderTextColor=getColor('text-placeholder')
       value=value

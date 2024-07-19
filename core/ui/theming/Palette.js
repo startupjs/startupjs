@@ -9,9 +9,9 @@ export default class Palette {
     Object.assign(this, getPaletteMeta(palette))
   }
 
-  generateColors = (overrides) => {
+  generateColors = (overrides, componentOverrides) => {
     const { low, high, middle } = this
-    return prepareColorsObject(this.colors, this.Color, { overrides, low, middle, high })
+    return prepareColorsObject(this.colors, this.Color, { overrides, componentOverrides, low, middle, high })
   }
 
   Color = (name, level, { alpha } = {}) => {

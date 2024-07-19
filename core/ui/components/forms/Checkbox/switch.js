@@ -3,8 +3,16 @@ import { Animated, Easing } from 'react-native'
 import { pug, observer, useDidUpdate } from 'startupjs'
 import Div from './../../Div'
 import themed from '../../../theming/themed'
-import './index.styl'
+import STYLES from './index.styl'
 
+const {
+  config: {
+    switch: {
+      circleLeftPosition,
+      circleRightPosition
+    }
+  }
+} = STYLES
 const AnimatedView = Animated.View
 
 function SwitchInput ({
@@ -12,6 +20,7 @@ function SwitchInput ({
   _hasError,
   ...props
 }) {
+  console.log(circleLeftPosition)
   const animation = useRef(new Animated.Value(value ? 1 : 0)).current
 
   useDidUpdate(() => {
@@ -43,12 +52,13 @@ function SwitchInput ({
       styleName=[{ checked: value, error: _hasError }]
       ...props
     )
-      AnimatedView.switch-animation(
+      AnimatedView.switch-circle(
+        part='switchCircle'
         style={
           transform: [{
             translateX: animation.interpolate({
               inputRange: [0, 1],
-              outputRange: [0, 8]
+              outputRange: [circleLeftPosition, circleRightPosition]
             })
           }]
         }

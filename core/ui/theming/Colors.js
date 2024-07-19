@@ -87,6 +87,8 @@ export const ComponentColors = {
   '--Modal-overlayBg': '--Modal-overlayBg',
   '--Checkbox-switchBg': '--Checkbox-switchBg',
   '--Checkbox-switchBulletBg': '--Checkbox-switchBulletBg',
+  '--Checkbox-switchBulletBg-checked': '--Checkbox-switchBulletBg-checked',
+  '--TextInput-text-color': '--TextInput-text-color',
   '--Range-labelBg': '--Range-labelBg',
   '--Range-labelText': '--Range-labelText'
 }

@@ -1,5 +1,11 @@
 $radioSize = 2u
 
+$this = merge({
+  size: 2u,
+  borderWidth: 2px,
+  borderColor: var(--color-border-main)
+}, $UI.Radio, true)
+
 .root
   &.row
     flex-direction row
@@ -17,11 +23,11 @@ $radioSize = 2u
   padding-bottom @padding-top
 
 .radio
-  width 2u
+  width: $this.size
   height @width
-  border-color var(--color-border-main)
+  border-color: $this.borderColor
   radius(circle)
-  border-width 0.25u
+  border-width: $this.borderWidth
   justify-content center
   align-items center
 
@@ -33,7 +39,7 @@ $radioSize = 2u
 
 .circle
   radius(circle)
-  width ($radioSize / 2)
+  width $this.circleSize ? $this.circleSize : ($this.size / 2)
   height @width
   background-color var(--color-bg-primary)
 

@@ -1,7 +1,6 @@
 // ----- CONFIG: $UI.TextInput
-
 $this = merge({
-  caretColor: --color-text-secondary,
+  textColor: var(--TextInput-text-color) || var(--color-text-secondary),
   borderWidth: 1,
   heights: {
     s: 3u,
@@ -20,14 +19,14 @@ $this = merge({
   }
 }, $UI.TextInput, true)
 
+$this.caretColor = $this.textColor
+
 // ----- COMPONENT
 
 $inputBg = var(--color-bg-main-strong)
 $inputBorderColor = var(--color-border-main)
 $inputBgDisabled = var(--color-bg-main-subtle)
 $inputBorderWidth = 1px
-$inputCaretColor = var($this.caretColor)
-$inputTextColor = var(--color-text-secondary)
 
 .input-input
   margin 0 // important for safari
@@ -37,7 +36,7 @@ $inputTextColor = var(--color-text-secondary)
   // on the web is important for textarea (override default paddings)
   padding-left 1u
   padding-right @padding-left
-  color $inputTextColor
+  color: $this.textColor
   background-color $inputBg
   border-width $inputBorderWidth
   border-style solid
@@ -47,7 +46,7 @@ $inputTextColor = var(--color-text-secondary)
 
   +web()
     outline 0
-    caret-color $inputCaretColor
+    caret-color: $this.caretColor ? $this.caretColor : this.textColor
 
   &.s
     font-size $this.fontSizes.s

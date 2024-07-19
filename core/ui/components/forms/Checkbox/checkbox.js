@@ -5,8 +5,9 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck'
 import Icon from './../../Icon'
 import Div from './../../Div'
 import themed from '../../../theming/themed'
-import './index.styl'
+import STYLES from './index.styl'
 
+const { config: { checkbox: { iconSize } } } = STYLES
 const AnimatedView = Animated.View
 
 function CheckboxInput ({
@@ -48,7 +49,7 @@ function CheckboxInput ({
       Icon.checkbox-icon(
         styleName=[checkedStyleName]
         icon= icon || faCheck
-        size='s'
+        size=iconSize
       )
       AnimatedView.checkbox-animation(
         styleName=[{ animated }]

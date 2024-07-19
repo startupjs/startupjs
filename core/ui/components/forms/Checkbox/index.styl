@@ -2,21 +2,40 @@ $checkboxBorderColor = var(--color-border-main)
 $checkedIconColor = var(--color-text-on-primary)
 $height = 2u
 
+$this = merge({
+  checkbox: {
+    size: 2u,
+    borderWidth: 2px,
+    borderColor: $checkboxBorderColor,
+    borderRadius: 2px,
+    iconSize: 12
+  },
+  switch: {
+    width: 3u,
+    height: 2u,
+    circleSize: 10px,
+    circleBg: var(--Checkbox-switchBulletBg),
+    circleBgChecked: var(--Checkbox-switchBulletBg-checked),
+    circleLeftPosition: 3px,
+    circleRightPosition: 11px
+  }
+}, $UI.Checkbox, true)
+
 .readonly
   fontFamily('normal', 900)
   font-size 2u
   line-height $height
 
 .checkbox
-  height $height
+  height: $this.checkbox.size
   width @height
-  border-width 2px
-  border-color $checkboxBorderColor
+  border-width: $this.checkbox.borderWidth
+  border-color: $this.checkbox.borderColor
   justify-content center
   align-items center
   // due to border-radius on emulator
   // you can see white 1px boundary between border and background
-  border-radius 2px
+  border-radius: $this.checkbox.borderRadius
   overflow hidden
 
   // NOTE:
@@ -54,12 +73,12 @@ $height = 2u
     opacity 1
 
 .switch
-  width 3u
-  height $height
+  width: $this.switch.width
+  height $this.switch.height
   radius(circle)
   justify-content center
   background-color var(--Checkbox-switchBg)
-  padding 0 3px
+  // padding 0 3px
 
   // IMPORTANT: checked modifier should overlap error modifier
   &.error
@@ -68,11 +87,17 @@ $height = 2u
   &.checked
     background-color var(--color-bg-primary)
 
-.switch-animation
-  width 10px
+.switch-circle
+  width: $this.switch.circleSize
   height @width
-  background-color var(--Checkbox-switchBulletBg)
+  background-color: $this.switch.circleBg
   radius(circle)
 
+  if $this.switch.circleShadowLevel
+    shadow($this.switch.circleShadowLevel)
+
   &.checked
-    background-color $checkedIconColor
+    background-color: $this.switch.circleBgChecked
+
+:export
+  config: $this
