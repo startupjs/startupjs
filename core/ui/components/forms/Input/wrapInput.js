@@ -105,6 +105,7 @@ export default function wrapInput (Component, configuration) {
           key='description'
           styleName=[
             layout,
+            descriptionPosition,
             layout + '-' + descriptionPosition
           ]
           description
@@ -219,6 +220,7 @@ styl`
 
   // common
   .label
+    color var(--color-text-secondary)
     align-self flex-start
     font(body2)
 
