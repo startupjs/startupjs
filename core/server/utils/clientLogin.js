@@ -3,7 +3,7 @@ import { axios, BASE_URL, setSessionData } from 'startupjs'
 import openAuthSessionAsync from '@startupjs/utils/openAuthSessionAsync'
 import { AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_FINISH_URL } from './constants.js'
 
-export default async function login (provider, { extraScopes } = {}) {
+export default async function login (provider, { extraScopes, redirectUrl } = {}) {
   if (!provider) throw Error('No provider specified')
   const res = await axios.post(`${BASE_URL}${AUTH_GET_URL}`, { provider, extraScopes })
   let authUrl = res.data?.url
@@ -17,7 +17,12 @@ export default async function login (provider, { extraScopes } = {}) {
 
   // add state to later track what to do after auth
   const state = {}
-  if (Platform.OS === 'web') Object.assign(state, { platform: 'web', redirectUrl: window.location.href })
+  if (Platform.OS === 'web') {
+    Object.assign(state, {
+      platform: 'web',
+      redirectUrl: redirectUrl || window.location.href
+    })
+  }
   // add scopes to state to later understand what operations are permitted with the issued token
   const urlParams = new URLSearchParams(authUrl.split('?')[1])
   state.scopes = urlParams.get('scope').split(' ')
