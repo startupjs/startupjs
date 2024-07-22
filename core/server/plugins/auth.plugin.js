@@ -102,8 +102,7 @@ function getAuthUrl (req, provider, providers, { extraScopes } = {}) {
   const config = getProviderConfig(providers, provider)
   if (!config) throw Error(`Provider ${provider} is not supported`)
   const redirectUri = getRedirectUri(req, provider)
-  const authUrl = _getAuthUrl(config, provider, { redirectUri, extraScopes })
-  return authUrl
+  return _getAuthUrl(config, provider, { redirectUri, extraScopes })
 }
 
 function getRedirectUri (req, provider) {
@@ -266,7 +265,7 @@ const DEFAULT_PROVIDERS = {
     tokenUrl: 'https://oauth2.googleapis.com/token',
     userinfoUrl: 'https://openidconnect.googleapis.com/v1/userinfo',
     scopes: ['openid', 'profile', 'email'],
-    getPrivateInfo: ({ id, email }) => ({ id, email }),
+    getPrivateInfo: ({ sub, email }) => ({ id: sub, email }),
     getPublicInfo: ({ name, picture }) => ({ name, avatarUrl: picture }),
     allowAutoMergeByEmail: true,
     saveRawUserinfo: true
