@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Express.js with plugged in ShareDB",
-  "version": "0.57.0-canary.26",
+  "version": "0.57.0-canary.28",
   "type": "module",
   "main": "index.js",
   "exports": {

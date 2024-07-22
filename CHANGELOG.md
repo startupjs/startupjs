@@ -1,3 +1,12 @@
+# [0.57.0-canary.28](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.27...v0.57.0-canary.28) (2024-07-22)
+
+
+### Bug Fixes
+
+* **auth/google:** fixes getting user id from the provider ([#1230](https://github.com/startupjs/startupjs/issues/1230)) ([c6cfa40](https://github.com/startupjs/startupjs/commit/c6cfa407177c387b6f9709c152c99251d97efe46))
+
+
+
 # [0.57.0-canary.27](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.26...v0.57.0-canary.27) (2024-07-19)
 
 
