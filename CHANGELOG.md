@@ -1,3 +1,12 @@
+# [0.57.0-canary.29](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.28...v0.57.0-canary.29) (2024-07-22)
+
+
+### Bug Fixes
+
+* **ui/typography:** fixes font function (checking for size from $UI.letterSpacings and textTransforms) ([879adca](https://github.com/startupjs/startupjs/commit/879adcad6d8ea74d015fa0a27e85bd4db51a50ff))
+
+
+
 # [0.57.0-canary.28](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.27...v0.57.0-canary.28) (2024-07-22)
 
 
