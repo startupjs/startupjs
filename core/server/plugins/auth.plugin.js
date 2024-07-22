@@ -266,7 +266,7 @@ const DEFAULT_PROVIDERS = {
     tokenUrl: 'https://oauth2.googleapis.com/token',
     userinfoUrl: 'https://openidconnect.googleapis.com/v1/userinfo',
     scopes: ['openid', 'profile', 'email'],
-    getPrivateInfo: ({ id, email }) => ({ id, email }),
+    getPrivateInfo: ({ sub, email }) => ({ id: sub, email }),
     getPublicInfo: ({ name, picture }) => ({ name, avatarUrl: picture }),
     allowAutoMergeByEmail: true,
     saveRawUserinfo: true
