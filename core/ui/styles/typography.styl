@@ -26,7 +26,7 @@ font(size = body2)
   font-size: $UI.fontSizes[size]
   line-height: $UI.lineHeights[size]
 
-  if $UI.letterSpacings[size]
+  if $UI.letterSpacings && $UI.letterSpacings[size]
     letter-spacing: $UI.letterSpacings[size]
 
   fontFamily(
@@ -34,7 +34,7 @@ font(size = body2)
     $UI.fontWeights[size]
   )
 
-  if $UI.textTransforms[size]
+  if $UI.textTransforms && $UI.textTransforms[size]
     text-transform $UI.textTransforms[size]
 
 text(key = default) // DEPRECATED
