@@ -1,7 +1,7 @@
 {
   "name": "expoapp",
   "main": "expo-router/entry",
-  "version": "0.57.0-canary.27",
+  "version": "0.57.0-canary.30",
   "type": "module",
   "scripts": {
     "start": "EXPO_USE_METRO_WORKSPACE_ROOT=1 npx expo start",
@@ -25,7 +25,7 @@
     "@react-native-picker/picker": "^2.6.1",
     "@react-navigation/native": "^6.0.2",
     "@startupjs/router": "^0.57.0-canary.26",
-    "@startupjs/ui": "^0.57.0-canary.27",
+    "@startupjs/ui": "^0.57.0-canary.29",
     "expo": "~50.0.14",
     "expo-document-picker": "^11.10.1",
     "expo-font": "~11.10.3",
@@ -44,7 +44,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-svg": "^14.1.0",
     "react-native-web": "~0.19.6",
-    "startupjs": "^0.57.0-canary.26"
+    "startupjs": "^0.57.0-canary.30"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

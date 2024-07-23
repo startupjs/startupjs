@@ -1,7 +1,13 @@
 import { Platform } from 'react-native'
 import { deleteSessionData } from 'startupjs'
+import { getPlugin } from '@startupjs/registry'
+import { AUTH_PLUGIN_NAME } from './constants.js'
 
 export default async function logout () {
+  const plugin = getPlugin(AUTH_PLUGIN_NAME)
+  if (!plugin.enabled) {
+    throw new Error(`Plugin ${AUTH_PLUGIN_NAME} hasn't been enabled`)
+  }
   await deleteSessionData()
   if (Platform.OS === 'web') {
     // reload the page to clear the session

@@ -3,10 +3,10 @@ import { createPlugin } from '@startupjs/registry'
 import jwt from 'jsonwebtoken'
 import { SESSION_KEY } from '../utils/clientSessionData.js'
 import createToken from '../utils/createToken.js'
-import { AUTH_URL, AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_FINISH_URL } from '../utils/constants.js'
+import { AUTH_URL, AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_FINISH_URL, AUTH_PLUGIN_NAME } from '../utils/constants.js'
 
 export default createPlugin({
-  name: 'auth',
+  name: AUTH_PLUGIN_NAME,
   order: 'system session',
   enabled () {
     const { enableServer, enableConnection, enableOAuth2 } = this.module.options
@@ -102,8 +102,7 @@ function getAuthUrl (req, provider, providers, { extraScopes } = {}) {
   const config = getProviderConfig(providers, provider)
   if (!config) throw Error(`Provider ${provider} is not supported`)
   const redirectUri = getRedirectUri(req, provider)
-  const authUrl = _getAuthUrl(config, provider, { redirectUri, extraScopes })
-  return authUrl
+  return _getAuthUrl(config, provider, { redirectUri, extraScopes })
 }
 
 function getRedirectUri (req, provider) {
@@ -266,7 +265,7 @@ const DEFAULT_PROVIDERS = {
     tokenUrl: 'https://oauth2.googleapis.com/token',
     userinfoUrl: 'https://openidconnect.googleapis.com/v1/userinfo',
     scopes: ['openid', 'profile', 'email'],
-    getPrivateInfo: ({ id, email }) => ({ id, email }),
+    getPrivateInfo: ({ sub, email }) => ({ id: sub, email }),
     getPublicInfo: ({ name, picture }) => ({ name, avatarUrl: picture }),
     allowAutoMergeByEmail: true,
     saveRawUserinfo: true
