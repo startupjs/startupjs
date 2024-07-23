@@ -11,73 +11,13 @@ import {
 import RouterContext from '@startupjs/utils/RouterContext'
 import useParentBasename from './useParentBasename'
 import useParentPathname from './useParentPathname'
+import useTransformRoutes from './useTransformRoutes.js'
 import SlotsHost from './SlotsHost.js'
 
 const IS_WEB = Platform.OS === 'web'
 
-const CheckFilters = ({ filters = [], children }) => {
-  const [isReady, setIsReady] = useState()
-
-  useEffect(() => {
-    const executeFilters = (index = 0) => {
-      if (index >= filters.length) {
-        setIsReady(true)
-        return
-      }
-
-      const next = () => executeFilters(index + 1)
-      const redirect = (path = '/') => {
-        // TODO: add redirect here
-        // router.replace(path)
-      }
-
-      filters[index](next, redirect)
-    }
-
-    executeFilters()
-  }, [])
-
-  if (!isReady) return null
-  return children
-}
-
-const transformRoutes = (routes, cache) => {
-  const transform = (route) => {
-    if (cache.has(route)) {
-      return cache.get(route)
-    }
-
-    let newRoute = { ...route }
-
-    if (route.filters?.length) {
-      delete newRoute.filters
-
-      newRoute = {
-        ...newRoute,
-        element: (
-          <CheckFilters filters={route.filters}>
-            {route.element}
-          </CheckFilters>
-        ),
-      }
-    }
-
-    if (route.children) {
-      newRoute.children = route.children.map(transform)
-    }
-
-    cache.set(route, newRoute)
-    return newRoute
-  }
-
-  const transformedRoutes = routes.map(transform)
-  return transformedRoutes
-}
-
 export default memo(function Routes ({ basename, routes }) {
   if (!Array.isArray(routes)) throw Error(ERRORS.notArray)
-  const cacheRef = useRef(new WeakMap())
-  const transformedRoutes = transformRoutes(routes, cacheRef.current)
   const parentBasename = useParentBasename()
   const parentPathname = useParentPathname()
   basename = basename || parentBasename
@@ -86,7 +26,7 @@ export default memo(function Routes ({ basename, routes }) {
     el(MemoryRouter, { basename, initialEntries },
       el(UseRouterProvider, { basename },
         el(SlotsHost, null,
-          el(RoutesSelector, { routes: transformedRoutes })
+          el(RoutesSelector, { routes })
         )
       )
     )
@@ -94,6 +34,7 @@ export default memo(function Routes ({ basename, routes }) {
 })
 
 const RoutesSelector = memo(function RoutesSelector ({ routes }) {
+  routes = useTransformRoutes(routes)
   const element = useRoutes(routes)
   return element
 })
