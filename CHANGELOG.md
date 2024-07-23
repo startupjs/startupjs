@@ -1,3 +1,12 @@
+# [0.57.0-canary.30](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.29...v0.57.0-canary.30) (2024-07-23)
+
+
+### Bug Fixes
+
+* **auth:** adds redirectUrl option for clientLogin util ([#1231](https://github.com/startupjs/startupjs/issues/1231)) ([4a42817](https://github.com/startupjs/startupjs/commit/4a42817ca6c0f73c378eb288c008c8fbd4108ef7))
+
+
+
 # [0.57.0-canary.29](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.28...v0.57.0-canary.29) (2024-07-22)
 
 
