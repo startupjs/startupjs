@@ -3,10 +3,10 @@ import { createPlugin } from '@startupjs/registry'
 import jwt from 'jsonwebtoken'
 import { SESSION_KEY } from '../utils/clientSessionData.js'
 import createToken from '../utils/createToken.js'
-import { AUTH_URL, AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_FINISH_URL } from '../utils/constants.js'
+import { AUTH_URL, AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_FINISH_URL, AUTH_PLUGIN_NAME } from '../utils/constants.js'
 
 export default createPlugin({
-  name: 'auth',
+  name: AUTH_PLUGIN_NAME,
   order: 'system session',
   enabled () {
     const { enableServer, enableConnection, enableOAuth2 } = this.module.options
