@@ -220,7 +220,7 @@ styl`
 
   // common
   .label
-    color var(--color-text-secondary)
+    color var(--InputWrapper-label-color)
     align-self flex-start
     font(body2)
 
