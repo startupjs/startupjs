@@ -8,7 +8,7 @@ export default async function login (provider, { extraScopes, redirectUrl } = {}
   if (!provider) throw new Error('No provider specified')
   const plugin = getPlugin(AUTH_PLUGIN_NAME)
   if (!plugin.enabled) {
-    throw new Error(`Plugin ${AUTH_PLUGIN_NAME} hasn't been initialized`)
+    throw new Error(`Plugin ${AUTH_PLUGIN_NAME} hasn't been enabled`)
   }
   const res = await axios.post(`${BASE_URL}${AUTH_GET_URL}`, { provider, extraScopes })
   let authUrl = res.data?.url

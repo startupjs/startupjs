@@ -6,7 +6,7 @@ import { AUTH_PLUGIN_NAME } from './constants.js'
 export default async function logout () {
   const plugin = getPlugin(AUTH_PLUGIN_NAME)
   if (!plugin.enabled) {
-    throw new Error(`Plugin ${AUTH_PLUGIN_NAME} hasn't been initialized`)
+    throw new Error(`Plugin ${AUTH_PLUGIN_NAME} hasn't been enabled`)
   }
   await deleteSessionData()
   if (Platform.OS === 'web') {
