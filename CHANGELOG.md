@@ -1,3 +1,12 @@
+# [0.57.0-canary.31](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.30...v0.57.0-canary.31) (2024-07-23)
+
+
+### Features
+
+* **InputWrapper:** add ability to specify label color ([6255bb9](https://github.com/startupjs/startupjs/commit/6255bb98c2ed857d47c1295b8793fe84b1eb8062))
+
+
+
 # [0.57.0-canary.30](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.29...v0.57.0-canary.30) (2024-07-23)
 
 

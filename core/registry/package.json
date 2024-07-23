@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/registry",
-  "version": "0.57.0-canary.30",
+  "version": "0.57.0-canary.31",
   "type": "module",
   "engines": {
     "node": ">= 14"
