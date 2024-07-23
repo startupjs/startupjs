@@ -1,9 +1,17 @@
-import { memo, useMemo, createElement as el } from 'react'
+import { memo, useMemo, createElement as el, useRef, useState, useEffect, useContext } from 'react'
 import { Platform } from 'react-native'
-import { useRoutes, useNavigate, MemoryRouter, useResolvedPath, resolvePath, useLocation } from 'react-router'
+import {
+  useRoutes,
+  useNavigate,
+  MemoryRouter,
+  useResolvedPath,
+  resolvePath,
+  useLocation
+} from 'react-router'
 import RouterContext from '@startupjs/utils/RouterContext'
 import useParentBasename from './useParentBasename'
 import useParentPathname from './useParentPathname'
+import useTransformRoutes from './useTransformRoutes.js'
 import SlotsHost from './SlotsHost.js'
 
 const IS_WEB = Platform.OS === 'web'
@@ -26,6 +34,7 @@ export default memo(function Routes ({ basename, routes }) {
 })
 
 const RoutesSelector = memo(function RoutesSelector ({ routes }) {
+  routes = useTransformRoutes(routes)
   const element = useRoutes(routes)
   return element
 })
