@@ -1,14 +1,19 @@
 import { Platform } from 'react-native'
 import { axios, BASE_URL, setSessionData } from 'startupjs'
+import { getPlugin } from '@startupjs/registry'
 import openAuthSessionAsync from '@startupjs/utils/openAuthSessionAsync'
-import { AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_FINISH_URL } from './constants.js'
+import { AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_FINISH_URL, AUTH_PLUGIN_NAME } from './constants.js'
 
-export default async function login (provider, { extraScopes } = {}) {
-  if (!provider) throw Error('No provider specified')
+export default async function login (provider, { extraScopes, redirectUrl } = {}) {
+  if (!provider) throw new Error('No provider specified')
+  const plugin = getPlugin(AUTH_PLUGIN_NAME)
+  if (!plugin.enabled) {
+    throw new Error(`Plugin ${AUTH_PLUGIN_NAME} hasn't been enabled`)
+  }
   const res = await axios.post(`${BASE_URL}${AUTH_GET_URL}`, { provider, extraScopes })
   let authUrl = res.data?.url
   if (!authUrl) {
-    throw Error(`
+    throw new Error(`
       No auth url received for provider ${provider}
       URL: ${BASE_URL}${AUTH_GET_URL}
       Received: ${JSON.stringify(res.data)}
@@ -17,7 +22,12 @@ export default async function login (provider, { extraScopes } = {}) {
 
   // add state to later track what to do after auth
   const state = {}
-  if (Platform.OS === 'web') Object.assign(state, { platform: 'web', redirectUrl: window.location.href })
+  if (Platform.OS === 'web') {
+    Object.assign(state, {
+      platform: 'web',
+      redirectUrl: redirectUrl || plugin.optionsByEnv.client?.redirectUrl || window.location.href
+    })
+  }
   // add scopes to state to later understand what operations are permitted with the issued token
   const urlParams = new URLSearchParams(authUrl.split('?')[1])
   state.scopes = urlParams.get('scope').split(' ')
