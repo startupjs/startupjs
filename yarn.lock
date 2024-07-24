@@ -7643,7 +7643,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/ui@npm:^0.57.0-canary.31, @startupjs/ui@workspace:core/ui":
+"@startupjs/ui@npm:^0.57.0-canary.32, @startupjs/ui@workspace:core/ui":
   version: 0.0.0-use.local
   resolution: "@startupjs/ui@workspace:core/ui"
   dependencies:
@@ -15233,7 +15233,7 @@ __metadata:
     "@react-native-picker/picker": "npm:^2.6.1"
     "@react-navigation/native": "npm:^6.0.2"
     "@startupjs/router": "npm:^0.57.0-canary.26"
-    "@startupjs/ui": "npm:^0.57.0-canary.31"
+    "@startupjs/ui": "npm:^0.57.0-canary.32"
     "@types/react": "npm:~18.2.45"
     eslint: "npm:^8.56.0"
     eslint-config-startupjs: "npm:^0.57.0-canary.0"

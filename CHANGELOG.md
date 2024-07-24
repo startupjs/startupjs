@@ -1,3 +1,17 @@
+# [0.57.0-canary.32](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.31...v0.57.0-canary.32) (2024-07-24)
+
+
+### Bug Fixes
+
+* **ui:** change 'color' prop-type to string for components ([4a813ed](https://github.com/startupjs/startupjs/commit/4a813ede2911b39706f80304991e7bd9c979eb12))
+
+
+### Features
+
+* **ui:** improve 'font' mixin to add a default font-family ([14ccab1](https://github.com/startupjs/startupjs/commit/14ccab1e056a7e19fbc4d83579c90878e08a9aab))
+
+
+
 # [0.57.0-canary.31](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.30...v0.57.0-canary.31) (2024-07-23)
 
 
