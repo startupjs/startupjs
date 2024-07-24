@@ -137,7 +137,7 @@ function Drawer ({
               TouchableWithoutFeedback.overlayCase(onPress=onDismiss)
                 Animated.View.overlay(style={ opacity: animateStates.opacity })
 
-            Animated.View.content(
+            Animated.View(
               ref=refContent
               styleName={
                 contentDefault: isShow,
