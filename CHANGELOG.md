@@ -1,3 +1,12 @@
+# [0.57.0-canary.33](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.32...v0.57.0-canary.33) (2024-07-24)
+
+
+### Bug Fixes
+
+* **popups/Drawer:** removes redundant z-index from elements ([#1232](https://github.com/startupjs/startupjs/issues/1232)) ([045e8e8](https://github.com/startupjs/startupjs/commit/045e8e87e7df763040557855bcc8c3b4ad5cc5a0))
+
+
+
 # [0.57.0-canary.32](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.31...v0.57.0-canary.32) (2024-07-24)
 
 
