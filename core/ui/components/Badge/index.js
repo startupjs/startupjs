@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
-import Colors, { ColorValues } from '../../theming/Colors'
+import Colors from '../../theming/Colors'
 import themed from '../../theming/themed'
 import useColors from '../../hooks/useColors'
 import './index.styl'
@@ -92,7 +92,7 @@ Badge.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   badgeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
-  color: PropTypes.oneOf(ColorValues),
+  color: PropTypes.string,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.object,
   position: PropTypes.oneOf(['top', 'bottom']),
