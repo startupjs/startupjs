@@ -266,7 +266,16 @@ const DEFAULT_PROVIDERS = {
     userinfoUrl: 'https://openidconnect.googleapis.com/v1/userinfo',
     scopes: ['openid', 'profile', 'email'],
     getPrivateInfo: ({ sub, email }) => ({ id: sub, email }),
-    getPublicInfo: ({ name, picture }) => ({ name, avatarUrl: picture }),
+    getPublicInfo: (profile) => {
+      const { name, picture: avatarUrl, given_name: firstName, family_name: lastName } = profile
+
+      return {
+        name,
+        avatarUrl,
+        firstName,
+        lastName
+      }
+    },
     allowAutoMergeByEmail: true,
     saveRawUserinfo: true
   },
@@ -276,8 +285,14 @@ const DEFAULT_PROVIDERS = {
     userinfoUrl: 'https://api.github.com/user',
     scopes: ['user:email'],
     getPrivateInfo: ({ id, email }) => ({ id, email }),
-    // eslint-disable-next-line camelcase
-    getPublicInfo: ({ name, avatar_url }) => ({ name, avatarUrl: avatar_url }),
+    getPublicInfo: (profile) => {
+      const { name, avatar_url: avatarUrl } = profile
+
+      return {
+        name,
+        avatarUrl
+      }
+    },
     allowAutoMergeByEmail: true,
     saveRawUserinfo: true
   }
