@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useImperativeHandle } from 'react'
 import { View, TouchableWithoutFeedback } from 'react-native'
-import { pug, observer, useBind, useValue } from 'startupjs'
+import { pug, observer, useBind, $ } from 'startupjs'
 import PropTypes from 'prop-types'
 import AbstractPopover from './../../AbstractPopover'
 import DeprecatedPopover from './Deprecated'
@@ -47,7 +47,7 @@ const Popover = observer(({
       open: () => $visible.setDiff(true),
       close: () => $visible.setDiff(false)
     }))
-    ;[, $visible] = useValue(false)
+    $visible = $(false)
   }
 
   ;({ visible, onChange } = useBind({ visible, $visible, onChange }))
