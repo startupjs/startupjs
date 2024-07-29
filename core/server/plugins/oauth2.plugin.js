@@ -54,7 +54,10 @@ export default createPlugin({
     },
     session (expressApp) {
       expressApp.use(async (req, res, next) => {
-        const token = req.headers.authorization?.split('Bearer ')[1]
+        let token
+        token ??= req.query?.access_token // query
+        token ??= req.body?.access_token // body
+        token ??= req.headers.authorization?.split('Bearer ')[1] // header
         if (!token) return next()
         try {
           req.session = jwt.verify(token, await getAppSecret())
