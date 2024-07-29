@@ -1,3 +1,12 @@
+# [0.57.0-canary.34](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.33...v0.57.0-canary.34) (2024-07-29)
+
+
+### Bug Fixes
+
+* **ui/Popover:** refactor useValue to new api ([8911a8f](https://github.com/startupjs/startupjs/commit/8911a8f49f837647d97b77d332db021f45b985eb))
+
+
+
 # [0.57.0-canary.33](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.32...v0.57.0-canary.33) (2024-07-24)
 
 
