@@ -1,3 +1,12 @@
+# [0.57.0-canary.36](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.35...v0.57.0-canary.36) (2024-07-29)
+
+
+### Features
+
+* **server/oauth2:** take the Bearer access_token also from query params and body ([bb47b9c](https://github.com/startupjs/startupjs/commit/bb47b9ce17742696b59b9ddac6be3e95f95ed030))
+
+
+
 # [0.57.0-canary.35](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.34...v0.57.0-canary.35) (2024-07-29)
 
 
