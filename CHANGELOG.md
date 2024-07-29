@@ -1,3 +1,12 @@
+# [0.57.0-canary.35](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.34...v0.57.0-canary.35) (2024-07-29)
+
+
+### Bug Fixes
+
+* **ui/Popover:** remove padding and fix the default background to be bg-main-strong ([be96a86](https://github.com/startupjs/startupjs/commit/be96a86eb14dbbf3444b15dd525bcae589927ef6))
+
+
+
 # [0.57.0-canary.34](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.33...v0.57.0-canary.34) (2024-07-29)
 
 
