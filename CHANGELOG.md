@@ -1,3 +1,12 @@
+# [0.57.0-canary.37](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.36...v0.57.0-canary.37) (2024-07-30)
+
+
+### Bug Fixes
+
+* **core/ui/components/forms/NumberInput/index.styl:** add flex-shrink 1 to number input content ([7b5a25a](https://github.com/startupjs/startupjs/commit/7b5a25af217bc9fccb7e6eca769cc3568daae05f))
+
+
+
 # [0.57.0-canary.36](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.35...v0.57.0-canary.36) (2024-07-29)
 
 
