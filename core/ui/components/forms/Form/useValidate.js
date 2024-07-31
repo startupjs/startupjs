@@ -90,6 +90,10 @@ class Validate {
     this.#validator.activate()
   }
 
+  deactivate () {
+    this.#validator.deactivate()
+  }
+
   makeReactive () {
     this.#isReactive = true
   }
@@ -164,6 +168,10 @@ export class Validator {
     this.#active = true
   }
 
+  deactivate () {
+    this.#active = false
+  }
+
   getErrors () {
     return this.#$errors?.get()
   }
@@ -188,7 +196,7 @@ export class Validator {
       const newErrors = transformAjvErrors(this.#validate.errors)
       const hadErrors = this.#hasErrors
       this.#hasErrors = true
-      this.#$errors.setDiffDeep(newErrors)
+      this.#$errors.set(newErrors)
       if (!hadErrors) {
         this.#forceUpdate?.()
         this.onHasErrorsChange?.({ formId: this.#formId })
