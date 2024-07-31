@@ -90,6 +90,10 @@ class Validate {
     this.#validator.activate()
   }
 
+  deactivate () {
+    this.#validator.deactivate()
+  }
+
   makeReactive () {
     this.#isReactive = true
   }
@@ -162,6 +166,10 @@ export class Validator {
 
   activate () {
     this.#active = true
+  }
+
+  deactivate () {
+    this.#active = false
   }
 
   getErrors () {
