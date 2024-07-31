@@ -188,7 +188,7 @@ export class Validator {
       const newErrors = transformAjvErrors(this.#validate.errors)
       const hadErrors = this.#hasErrors
       this.#hasErrors = true
-      this.#$errors.setDiffDeep(newErrors)
+      this.#$errors.set(newErrors)
       if (!hadErrors) {
         this.#forceUpdate?.()
         this.onHasErrorsChange?.({ formId: this.#formId })
