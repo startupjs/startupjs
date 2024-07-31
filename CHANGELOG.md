@@ -1,3 +1,12 @@
+# [0.57.0-canary.38](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.37...v0.57.0-canary.38) (2024-07-31)
+
+
+### Bug Fixes
+
+* **core/ui/components/forms/Form/useValidate.js:** replace setDiffDeep with set method ([#1236](https://github.com/startupjs/startupjs/issues/1236)) ([9d25eb4](https://github.com/startupjs/startupjs/commit/9d25eb4381430e0d3ae370ad696450995ecabc81))
+
+
+
 # [0.57.0-canary.37](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.36...v0.57.0-canary.37) (2024-07-30)
 
 
