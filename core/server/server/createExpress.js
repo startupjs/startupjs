@@ -56,17 +56,20 @@ export default async function createExpress ({ backend, session, channel, option
     next()
   })
 
+  // host static files
   MODULE.hook('static', expressApp)
+  expressApp.use(express.static(options.publicPath, { maxAge: '1h', index: false }))
+  if (!options.isExpo) {
+    expressApp.use('/build/client', express.static(options.dirname + '/build/client', { maxAge: '1h' }))
+  }
 
-  expressApp
-    .use(express.static(options.publicPath, { maxAge: '1h' }))
-    .use('/build/client', express.static(options.dirname + '/build/client', { maxAge: '1h' }))
-    .use(cookieParser())
-    .use(methodOverride())
+  expressApp.use(cookieParser())
+  expressApp.use(methodOverride())
 
   const startupjsMiddleware = await _createMiddleware({ backend, session, channel, options })
   expressApp.use(startupjsMiddleware)
 
+  // render the single page client app for any route which wasn't handled by the server routes
   if (options.isExpo) {
     const indexFile = readFileSync(join(options.publicPath, 'index.html'), 'utf8')
     expressApp.use((req, res, next) => { res.status(200).send(indexFile) })
