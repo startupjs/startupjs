@@ -1,3 +1,12 @@
+# [0.57.0-canary.39](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.38...v0.57.0-canary.39) (2024-08-01)
+
+
+### Bug Fixes
+
+* **server:** do not cache the main index.html file ([49367fb](https://github.com/startupjs/startupjs/commit/49367fb7d9615bbd1caefae21bb6f22000371eb5))
+
+
+
 # [0.57.0-canary.38](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.37...v0.57.0-canary.38) (2024-07-31)
 
 
