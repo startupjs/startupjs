@@ -1,3 +1,12 @@
+# [0.57.0-canary.40](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.39...v0.57.0-canary.40) (2024-08-02)
+
+
+### Bug Fixes
+
+* **ui/table:** refactor Th and Td to teamplay api ([ff55f62](https://github.com/startupjs/startupjs/commit/ff55f62851f3f86109b38cebd654b7241c9d419b))
+
+
+
 # [0.57.0-canary.39](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.38...v0.57.0-canary.39) (2024-08-01)
 
 
