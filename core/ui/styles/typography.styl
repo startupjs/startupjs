@@ -14,7 +14,7 @@ $fontWeightNamesMap = {
 
 DEPRECATED_SIZES = default xs 's' m l xl xxl xxxl xxxxl xxxxxl
 
-font(size = $UI.defaultFontSize)
+font(size = $UI.defaultFontSize, weight = $UI.fontWeights.normal)
   // Workaround global built-in function s()
   // http://stylus-lang.com/docs/bifs.html#sfmt-
   size = 's' if size is s
@@ -23,7 +23,7 @@ font(size = $UI.defaultFontSize)
   if size in DEPRECATED_SIZES
     p('font() mixin: size ' + size + ' is deprecated')
 
-  fontFamily($UI.fontFamilies[size], $UI.fontWeights[size])
+  fontFamily($UI.fontFamilies[size], $UI.fontWeights[size] || weight)
 
   font-size: $UI.fontSizes[size]
   line-height: $UI.lineHeights[size]
