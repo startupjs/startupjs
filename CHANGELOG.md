@@ -1,3 +1,12 @@
+# [0.57.0-canary.41](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.40...v0.57.0-canary.41) (2024-08-05)
+
+
+### Features
+
+* **ui:** add ability to specify font-weight in 'font' mixin ([c010118](https://github.com/startupjs/startupjs/commit/c010118dafd2450c1697b7015f6a9ef61eb744dc))
+
+
+
 # [0.57.0-canary.40](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.39...v0.57.0-canary.40) (2024-08-02)
 
 
