@@ -1,3 +1,12 @@
+# [0.57.0-canary.42](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.41...v0.57.0-canary.42) (2024-08-06)
+
+
+### Bug Fixes
+
+* upgrade teamplay to add aggregations support and fix rendering on query params change ([00621c2](https://github.com/startupjs/startupjs/commit/00621c25c2a671f448e2514c9a34c8be989d95d6))
+
+
+
 # [0.57.0-canary.41](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.40...v0.57.0-canary.41) (2024-08-05)
 
 
