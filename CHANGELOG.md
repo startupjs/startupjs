@@ -1,3 +1,12 @@
+# [0.57.0-canary.43](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.42...v0.57.0-canary.43) (2024-08-06)
+
+
+### Bug Fixes
+
+* upgrade teamplay ([6466fa6](https://github.com/startupjs/startupjs/commit/6466fa6668b8f4c062c624a0ab07fda2425a05f1))
+
+
+
 # [0.57.0-canary.42](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.41...v0.57.0-canary.42) (2024-08-06)
 
 
