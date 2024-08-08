@@ -8007,15 +8007,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@teamplay/backend@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@teamplay/backend@npm:0.2.1"
+"@teamplay/backend@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@teamplay/backend@npm:0.2.2"
   dependencies:
-    "@teamplay/schema": "npm:^0.2.1"
-    "@teamplay/server-aggregate": "npm:^0.2.1"
-    "@teamplay/sharedb-access": "npm:^0.2.1"
-    "@teamplay/sharedb-schema": "npm:^0.2.1"
-    "@teamplay/utils": "npm:^0.2.1"
+    "@teamplay/schema": "npm:^0.2.2"
+    "@teamplay/server-aggregate": "npm:^0.2.2"
+    "@teamplay/sharedb-access": "npm:^0.2.2"
+    "@teamplay/sharedb-schema": "npm:^0.2.2"
+    "@teamplay/utils": "npm:^0.2.2"
     "@types/ioredis-mock": "npm:^8.2.5"
     ioredis: "npm:^5.3.2"
     ioredis-mock: "npm:^8.9.0"
@@ -8027,79 +8027,79 @@ __metadata:
     sharedb-mongo: "npm:^4.1.2"
     sharedb-redis-pubsub: "npm:^2.0.1"
     sqlite3: "npm:^5.1.6"
-  checksum: 10c0/c873c7cf3ea54b6f8bd4058fcb117fa749bd4b652e67b0194e2c224cec97153dad106087aff0cbacd1dd6f7ae8c5cd3e66139f596457e763e461176ed4e710a3
+  checksum: 10c0/ad47389a1cb421ae6f613f6288499deba6cff68880b0c2323f94a474dfbd2ee4d58ce563f523796757d8253404c07ea5880121afa4137e50c0bceef534d2cb97
   languageName: node
   linkType: hard
 
-"@teamplay/cache@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@teamplay/cache@npm:0.2.1"
+"@teamplay/cache@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@teamplay/cache@npm:0.2.2"
   dependencies:
-    "@teamplay/debug": "npm:^0.2.1"
-  checksum: 10c0/25da85fed4bb8aeb77b4c3240ad4b046d4cd1a9e8575d3ec58b9cf02e9e4375d0893d412a71a340b16a61f53d1cc9439f88cabc970f005f1a31af6f4a598fcdf
+    "@teamplay/debug": "npm:^0.2.2"
+  checksum: 10c0/30510a3fe772b458294bb45e5aeb584928dea42b1f0d88ceecca9be9f641c2789507268e30967ac23e294fda0e3658296b5d6f65036fcf711a71af014ce7660d
   languageName: node
   linkType: hard
 
-"@teamplay/channel@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@teamplay/channel@npm:0.2.1"
+"@teamplay/channel@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@teamplay/channel@npm:0.2.2"
   dependencies:
     sockjs: "github:sockjs/sockjs-node#46d2f846653a91822a02794b852886c7f137378c"
     sockjs-client: "npm:^1.6.1"
     ws: "npm:^1.1"
-  checksum: 10c0/63422f2693dadd1f26fa918325a5e148267f95ff8aa2f51f54507ab7aafd34769a7f6f463d932d99a2186de389311010db58e8ba994c456561a65cc3d2fa851d
+  checksum: 10c0/cb2bbbc14fd8448c20cc3766c43f195e6b8b331d1e4beb0b36370072fb1fcceaf4836c8fcb4f36cf5e25124e7ff441046fb88930ed4de584fbc8b9f5103b6e9c
   languageName: node
   linkType: hard
 
-"@teamplay/debug@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@teamplay/debug@npm:0.2.1"
-  checksum: 10c0/089b4227d03d598cede7df75dad2d52d0232767426854384e58094ff728e0a0f90b34b514074a14df10e6c852af69a3d07fff8099e1a7b070225cf9a48087e38
+"@teamplay/debug@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@teamplay/debug@npm:0.2.2"
+  checksum: 10c0/9168d53b3d77a7aba8b6656f2a9ae88e683709c3d8e7c6df4b6d136408534c6cb2673bd85d84db9881a58bcc1298e50c9a5526270ec13ded916e81082ad1b0e2
   languageName: node
   linkType: hard
 
-"@teamplay/schema@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@teamplay/schema@npm:0.2.1"
+"@teamplay/schema@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@teamplay/schema@npm:0.2.2"
   dependencies:
     ajv: "npm:^8.12.0"
     lodash: "npm:^4.17.20"
-  checksum: 10c0/bd77f823df33749c7910f4feba6b3fdf7387268c9a6d57fd931276542eee42378f580b66aedf675b649207c509caf41d3d53955a78f02bf7920c547078162af8
+  checksum: 10c0/5c1508ee871387e10e542ecfaed5dd8799e89ef697b7156eda805426238979f60c1cc5054a281180eda9ea6ff291a997fd24405344258809544db6ce32f28837
   languageName: node
   linkType: hard
 
-"@teamplay/server-aggregate@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@teamplay/server-aggregate@npm:0.2.1"
-  checksum: 10c0/b6f8ea59abc8b8b26fe39a8f5fb88dada5a4c1117b3732ffee943455c84bd1bf2d4c840bf10d2bf7d7d19234141a1e126d0c43f4c7e6632b9258bd0d9f4fb1d4
+"@teamplay/server-aggregate@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@teamplay/server-aggregate@npm:0.2.2"
+  checksum: 10c0/3f084117bc33f76895223c0c49548329617bfbdc8a2e1bbc4a2efcac22d084a38a018187e5a88d2622395f9cd6b257e9c7f16a2efa3591b5111c474b4528fb50
   languageName: node
   linkType: hard
 
-"@teamplay/sharedb-access@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@teamplay/sharedb-access@npm:0.2.1"
+"@teamplay/sharedb-access@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@teamplay/sharedb-access@npm:0.2.2"
   dependencies:
     debug: "npm:*"
     lodash: "npm:^4.17.20"
-  checksum: 10c0/4fa488eec5de3994ca825b68aaff1f1ceb99874b8195f4922013ab7653a52a99aa4d19208652667222ff0f81372f35afa0f217999352e4b27c1ee58d3d266c38
+  checksum: 10c0/2220971abfeeae7a483302de52f30899dc734fb5356c2b3645c303f7bf1dfa436cb9567eb4215bb4b3915e40bd682219ee47755ed64b72f1df6dee286fae35c5
   languageName: node
   linkType: hard
 
-"@teamplay/sharedb-schema@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@teamplay/sharedb-schema@npm:0.2.1"
+"@teamplay/sharedb-schema@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@teamplay/sharedb-schema@npm:0.2.2"
   dependencies:
     z-schema: "npm:^4.2.3"
-  checksum: 10c0/9ab216d80ede2fdc611bfa75865a38f5db32990141cc20be8978141ff869cdcc65e093f0a939b8d94372810c4b35b7d6e740eaa5b0a9d9ebe41ad46b84d9b767
+  checksum: 10c0/4f328689fe5034f8b14085fe27c4b80f0ec136aba16ed73feee36b67a5675818ea15c412597b8d894db00d78e5e5d8a1ca44abd4f2cb46a6fbdcc6360a0df421
   languageName: node
   linkType: hard
 
-"@teamplay/utils@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@teamplay/utils@npm:0.2.1"
+"@teamplay/utils@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@teamplay/utils@npm:0.2.2"
   dependencies:
     uuid: "npm:^3.4.0"
-  checksum: 10c0/6e33e7a415e2158f418135c17f21db5528e42d382c293a5da257d36c6780ba4e45c5a272b369c22cf443ea1d49f9cb961eb4d71a5b1b8fe508cf02370aefe096
+  checksum: 10c0/0f2e469af4a69734a8474c2bbc76f23d35443099f210f78bdb8e022bb65fd70835bb3982aad0233c26205d6cf0cc58c01a8285f0afc96911e40fd6770adf280c
   languageName: node
   linkType: hard
 
@@ -29449,7 +29449,7 @@ __metadata:
     "@startupjs/utils": "npm:^0.57.0-canary.26"
     babel-preset-startupjs: "npm:^0.57.0-canary.39"
     lodash: "npm:^4.17.20"
-    teamplay: "npm:^0.2.1"
+    teamplay: "npm:^0.2.2"
   peerDependencies:
     react: "*"
     react-native: "*"
@@ -30216,17 +30216,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"teamplay@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "teamplay@npm:0.2.1"
+"teamplay@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "teamplay@npm:0.2.2"
   dependencies:
     "@nx-js/observer-util": "npm:^4.1.3"
-    "@teamplay/backend": "npm:^0.2.1"
-    "@teamplay/cache": "npm:^0.2.1"
-    "@teamplay/channel": "npm:^0.2.1"
-    "@teamplay/debug": "npm:^0.2.1"
-    "@teamplay/schema": "npm:^0.2.1"
-    "@teamplay/utils": "npm:^0.2.1"
+    "@teamplay/backend": "npm:^0.2.2"
+    "@teamplay/cache": "npm:^0.2.2"
+    "@teamplay/channel": "npm:^0.2.2"
+    "@teamplay/debug": "npm:^0.2.2"
+    "@teamplay/schema": "npm:^0.2.2"
+    "@teamplay/utils": "npm:^0.2.2"
     diff-match-patch: "npm:^1.0.5"
     events: "npm:^3.3.0"
     json0-ot-diff: "npm:^1.1.2"
@@ -30238,7 +30238,7 @@ __metadata:
   peerDependenciesMeta:
     sharedb-mingo-memory:
       optional: true
-  checksum: 10c0/9f75ee0cf2f8f36fbdca83f057b1b6ae389ddaa1fb3ff0926323960369c387ee4b050819d7b1e64d7d6ffaa95d2b236b4af19cb5ad4c67939c2aac41f668058d
+  checksum: 10c0/6c5d783825e74d1f13b3baeadbd41168b22ec0b95590b9f2a50a94b8507cdac56e5384f3d80d978b862b54016344cb5295557b9f45af42953b1b650255940354
   languageName: node
   linkType: hard
 
