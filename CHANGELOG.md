@@ -1,3 +1,12 @@
+# [0.57.0-canary.44](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.43...v0.57.0-canary.44) (2024-08-08)
+
+
+### Bug Fixes
+
+* update teamplay to improve the way setDiffDeep works ([9fe91cd](https://github.com/startupjs/startupjs/commit/9fe91cdff3a19cbc033412a730c3adbe31667175))
+
+
+
 # [0.57.0-canary.43](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.42...v0.57.0-canary.43) (2024-08-06)
 
 
