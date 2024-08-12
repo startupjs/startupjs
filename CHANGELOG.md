@@ -1,3 +1,12 @@
+# [0.57.0-canary.46](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.45...v0.57.0-canary.46) (2024-08-12)
+
+
+### Bug Fixes
+
+* **server/auth:** fix auth on Android ([93183c1](https://github.com/startupjs/startupjs/commit/93183c1da57fd0c57fa88e7b0e0f4e68df07f922))
+
+
+
 # [0.57.0-canary.45](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.44...v0.57.0-canary.45) (2024-08-12)
 
 
