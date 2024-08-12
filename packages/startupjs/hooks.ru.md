@@ -316,7 +316,7 @@ export default createPlugin({
 
 ```json
   "exports": {
-    "./test.plugin.js": "./test.plugin.js"
+    "./test.plugin": "./test.plugin.js"
   }
 ```
 

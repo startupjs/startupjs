@@ -39,7 +39,7 @@ Cтруктура нашего модуля выглядит так:
 
 ```json
   "exports": {
-    "./module.js": "./module.js"
+    "./module": "./module.js"
   }
 ```
 

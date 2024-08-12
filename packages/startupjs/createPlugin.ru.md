@@ -54,9 +54,9 @@ export default createPlugin({
 
 ```json
 "exports": {
-  "./plugins/customInputType.plugin.js": "./plugins/customInputType.plugin.js",
-  "./plugins/firstPlugin.plugin.js": "./plugins/firstPlugin.plugin.js",
-  "./plugins/secondPlugin.plugin.js": "./plugins/secondPlugin.plugin.js"
+  "./plugins/customInputType.plugin": "./plugins/customInputType.plugin.js",
+  "./plugins/firstPlugin.plugin": "./plugins/firstPlugin.plugin.js",
+  "./plugins/secondPlugin.plugin": "./plugins/secondPlugin.plugin.js"
 }
 ```
 
