@@ -112,9 +112,7 @@ function getRedirectUri (req, provider) {
     host = 'localhost'
     host += port ? `:${port}` : ''
   }
-  console.log('>>> host:', host)
   const baseUrl = `${req.protocol}://${host}`
-  console.log('>>> baseUrl:', baseUrl)
   return `${baseUrl}${AUTH_URL}/${provider}/callback`
 }
 
