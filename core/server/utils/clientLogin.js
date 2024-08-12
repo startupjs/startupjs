@@ -46,8 +46,7 @@ export default async function login (provider, { extraScopes, redirectUrl } = {}
     await new Promise(resolve => setTimeout(resolve, 30000))
     return
   }
-  // const result = await openAuthSessionAsync(authUrl, `${BASE_URL}${AUTH_FINISH_URL}`)
-  const result = await openAuthSessionAsync(authUrl)
+  const result = await openAuthSessionAsync(authUrl, getLinkingUri())
   if (result.type === 'success' && result.url) {
     console.log('Auth result:', result)
     const urlParams = new URLSearchParams(new URL(result.url).search)

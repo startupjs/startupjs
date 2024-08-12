@@ -1,4 +1,4 @@
-import { Platform } from 'react-native'
+import { DevSettings, Platform } from 'react-native'
 import { deleteSessionData } from 'startupjs'
 import { getPlugin } from '@startupjs/registry'
 import reloadAppAsync from '@startupjs/utils/reloadAppAsync'
@@ -14,6 +14,8 @@ export default async function logout () {
     // reload the page to clear the session
     window.location.reload()
     await new Promise(resolve => setTimeout(resolve, 10000))
+  } else if (process.env.NODE_ENV !== 'production' && DevSettings?.reload) {
+    return DevSettings.reload()
   } else if (reloadAppAsync) {
     return reloadAppAsync('Logged out. Requires restart')
   } else {
