@@ -2,7 +2,8 @@ import { Platform } from 'react-native'
 import { axios, BASE_URL, setSessionData } from 'startupjs'
 import { getPlugin } from '@startupjs/registry'
 import openAuthSessionAsync from '@startupjs/utils/openAuthSessionAsync'
-import { AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_FINISH_URL, AUTH_PLUGIN_NAME } from './constants.js'
+import getLinkingUri from '@startupjs/utils/getLinkingUri'
+import { AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_PLUGIN_NAME } from './constants.js'
 
 export default async function login (provider, { extraScopes, redirectUrl } = {}) {
   if (!provider) throw new Error('No provider specified')
@@ -27,6 +28,11 @@ export default async function login (provider, { extraScopes, redirectUrl } = {}
       platform: 'web',
       redirectUrl: redirectUrl || plugin.optionsByEnv.client?.redirectUrl || window.location.href
     })
+  } else {
+    Object.assign(state, {
+      platform: 'mobile',
+      redirectUrl: getLinkingUri()
+    })
   }
   // add scopes to state to later understand what operations are permitted with the issued token
   const urlParams = new URLSearchParams(authUrl.split('?')[1])
@@ -40,7 +46,8 @@ export default async function login (provider, { extraScopes, redirectUrl } = {}
     await new Promise(resolve => setTimeout(resolve, 30000))
     return
   }
-  const result = await openAuthSessionAsync(authUrl, `${BASE_URL}${AUTH_FINISH_URL}`)
+  // const result = await openAuthSessionAsync(authUrl, `${BASE_URL}${AUTH_FINISH_URL}`)
+  const result = await openAuthSessionAsync(authUrl)
   if (result.type === 'success' && result.url) {
     console.log('Auth result:', result)
     const urlParams = new URLSearchParams(new URL(result.url).search)

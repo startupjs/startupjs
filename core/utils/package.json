@@ -19,6 +19,14 @@
       "node": "./openAuthSessionAsync.server.js",
       "default": "./openAuthSessionAsync.js"
     },
+    "./getLinkingUri": {
+      "node": "./getLinkingUri.server.js",
+      "default": "./getLinkingUri.js"
+    },
+    "./reloadAppAsync": {
+      "node": "./reloadAppAsync.server.js",
+      "default": "./reloadAppAsync.js"
+    },
     "./isWeb": "./isWeb.js",
     "./isDevelopment": "./isDevelopment.js",
     "./useIsomorphicLayoutEffect": "./useIsomorphicLayoutEffect.js",
@@ -37,12 +45,16 @@
     "access": "public"
   },
   "peerDependencies": {
+    "expo": "*",
     "expo-constants": "*",
     "expo-router": "*",
     "expo-web-browser": "*",
     "react": "*"
   },
   "peerDependenciesMeta": {
+    "expo": {
+      "optional": true
+    },
     "expo-constants": {
       "optional": true
     },

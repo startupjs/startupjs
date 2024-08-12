@@ -76,7 +76,7 @@ export default createPlugin({
               res.send(getSuccessHtml(session, state.redirectUrl))
             } else {
               const sessionEncoded = encodeURIComponent(JSON.stringify(session))
-              res.redirect(`${AUTH_FINISH_URL}?${AUTH_TOKEN_KEY}=${sessionEncoded}`)
+              res.redirect(`${state.redirectUrl}?${AUTH_TOKEN_KEY}=${sessionEncoded}`)
             }
           } catch (err) {
             console.error(err)
@@ -106,7 +106,15 @@ function getAuthUrl (req, provider, providers, { extraScopes } = {}) {
 }
 
 function getRedirectUri (req, provider) {
-  const baseUrl = `${req.protocol}://${req.headers.host}`
+  let host = req.headers.host
+  const port = host.split(':')[1]
+  if (/192\.168\./.test(host) || /10\./.test(host)) {
+    host = 'localhost'
+    host += port ? `:${port}` : ''
+  }
+  console.log('>>> host:', host)
+  const baseUrl = `${req.protocol}://${host}`
+  console.log('>>> baseUrl:', baseUrl)
   return `${baseUrl}${AUTH_URL}/${provider}/callback`
 }
 
