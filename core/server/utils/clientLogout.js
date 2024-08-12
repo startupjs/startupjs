@@ -1,6 +1,7 @@
 import { Platform } from 'react-native'
 import { deleteSessionData } from 'startupjs'
 import { getPlugin } from '@startupjs/registry'
+import reloadAppAsync from '@startupjs/utils/reloadAppAsync'
 import { AUTH_PLUGIN_NAME } from './constants.js'
 
 export default async function logout () {
@@ -13,8 +14,12 @@ export default async function logout () {
     // reload the page to clear the session
     window.location.reload()
     await new Promise(resolve => setTimeout(resolve, 10000))
-    return
+  } else if (reloadAppAsync) {
+    return reloadAppAsync('Logged out. Requires restart')
+  } else {
+    throw Error(`
+      logout is not fully supported on a pure React Native app.
+      Please catch this error and do a full app restart manually.
+    `)
   }
-  console.error('>>> logout on mobile is not fully implemented. Have to reload the app')
-  // TODO: implement logout for mobile - get a new anonymous token and force a full app re-render
 }
