@@ -108,6 +108,10 @@ function getAuthUrl (req, provider, providers, { extraScopes } = {}) {
 function getRedirectUri (req, provider) {
   let host = req.headers.host
   const port = host.split(':')[1]
+  // hack for local development of expo app.
+  // When opening app in iOS emulator it uses the local IP address as a BASE_URL
+  // instead of localhost. Which is a problem because the auth callback URL
+  // expects 'localhost' as a host. So we need to replace the IP address with 'localhost'.
   if (/192\.168\./.test(host) || /10\./.test(host)) {
     host = 'localhost'
     host += port ? `:${port}` : ''
