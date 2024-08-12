@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/hooks",
   "type": "module",
-  "version": "0.57.0-canary.26",
+  "version": "0.57.0-canary.45",
   "engines": {
     "node": ">= 14"
   },
@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@startupjs/utils": "^0.57.0-canary.26",
+    "@startupjs/utils": "^0.57.0-canary.45",
     "lodash": "^4.17.20"
   },
   "peerDependencies": {

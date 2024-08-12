@@ -1,3 +1,12 @@
+# [0.57.0-canary.45](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.44...v0.57.0-canary.45) (2024-08-12)
+
+
+### Features
+
+* **server/auth:** support auth on mobile ([#1237](https://github.com/startupjs/startupjs/issues/1237)) ([fb83cfd](https://github.com/startupjs/startupjs/commit/fb83cfdf443c73183aeac6800410f9cd3a2ca53f))
+
+
+
 # [0.57.0-canary.44](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.43...v0.57.0-canary.44) (2024-08-08)
 
 
