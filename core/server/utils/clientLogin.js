@@ -3,14 +3,17 @@ import { axios, BASE_URL, setSessionData } from 'startupjs'
 import { getPlugin } from '@startupjs/registry'
 import openAuthSessionAsync from '@startupjs/utils/openAuthSessionAsync'
 import getLinkingUri from '@startupjs/utils/getLinkingUri'
-import { AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_PLUGIN_NAME } from './constants.js'
+import { reload } from './reload.js'
+import { AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_PLUGIN_NAME, AUTH_URL, AUTH_LOCAL_PROVIDER } from './constants.js'
 
-export default async function login (provider, { extraScopes, redirectUrl } = {}) {
+export default async function login (provider, { extraScopes, redirectUrl, ...localUserinfo } = {}) {
   if (!provider) throw new Error('No provider specified')
   const plugin = getPlugin(AUTH_PLUGIN_NAME)
   if (!plugin.enabled) {
     throw new Error(`Plugin ${AUTH_PLUGIN_NAME} hasn't been enabled`)
   }
+  redirectUrl ??= plugin.optionsByEnv.client?.redirectUrl
+  if (provider === AUTH_LOCAL_PROVIDER) return await localLogin({ redirectUrl, ...localUserinfo })
   const res = await axios.post(`${BASE_URL}${AUTH_GET_URL}`, { provider, extraScopes })
   let authUrl = res.data?.url
   if (!authUrl) {
@@ -26,7 +29,7 @@ export default async function login (provider, { extraScopes, redirectUrl } = {}
   if (Platform.OS === 'web') {
     Object.assign(state, {
       platform: 'web',
-      redirectUrl: redirectUrl || plugin.optionsByEnv.client?.redirectUrl || window.location.href
+      redirectUrl: redirectUrl || '/'
     })
   } else {
     Object.assign(state, {
@@ -53,9 +56,35 @@ export default async function login (provider, { extraScopes, redirectUrl } = {}
     let session = urlParams.get(AUTH_TOKEN_KEY)
     if (!session) return console.error('Session data was not received')
     session = JSON.parse(session)
-    await setSessionData(session)
+    await setSessionData(session, { silent: true })
     console.log('Auth success:', session)
+    await new Promise(resolve => setTimeout(resolve, 500))
+    try { await reload(redirectUrl) } catch (err) {}
   } else {
     console.error('Auth failed:', result)
+  }
+}
+
+async function localLogin ({ redirectUrl, register, ...userinfo } = {}) {
+  let url
+  if (register) {
+    url = `${BASE_URL}${AUTH_URL}/${AUTH_LOCAL_PROVIDER}/register`
+  } else {
+    url = `${BASE_URL}${AUTH_URL}/${AUTH_LOCAL_PROVIDER}/login`
+  }
+  const res = await axios.post(url, userinfo)
+  const { session, error } = res.data || {}
+  if (error) throw Error(error)
+  if (!session) throw Error('Auth failed (no session data received). Please try again later')
+  // TODO: show full screen loading page while setting session data (in StartupjsProvider),
+  //       wait for a bit, like 500ms, then set the session data, wait another 500ms and navigate
+  await setSessionData(session, { silent: true })
+  console.log('Auth success:', session)
+  if (Platform.OS === 'web') {
+    window.location.href = redirectUrl || '/'
+    await new Promise(resolve => setTimeout(resolve, 30000))
+  } else {
+    await new Promise(resolve => setTimeout(resolve, 500))
+    try { await reload(redirectUrl) } catch (err) {}
   }
 }

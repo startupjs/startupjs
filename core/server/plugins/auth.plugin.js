@@ -1,9 +1,12 @@
+import { Suspense, createElement as el } from 'react'
 import { axios, $, sub, Signal } from 'startupjs'
 import { createPlugin } from '@startupjs/registry'
+import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { SESSION_KEY } from '../utils/clientSessionData.js'
 import createToken from '../utils/createToken.js'
-import { AUTH_URL, AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_FINISH_URL, AUTH_PLUGIN_NAME } from '../utils/constants.js'
+import { maybeRestoreUrl } from '../utils/reload.js'
+import { AUTH_URL, AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_FINISH_URL, AUTH_PLUGIN_NAME, AUTH_LOCAL_PROVIDER } from '../utils/constants.js'
 
 export default createPlugin({
   name: AUTH_PLUGIN_NAME,
@@ -49,6 +52,66 @@ export default createPlugin({
             res.status(500).json({ error: 'Error during auth' })
           }
         })
+        {
+          const provider = AUTH_LOCAL_PROVIDER
+          expressApp.post(`${AUTH_URL}/${provider}/register`, async (req, res) => {
+            try {
+              const userinfo = JSON.parse(JSON.stringify(req.body || {}))
+              if (!(typeof userinfo?.email === 'string' && typeof userinfo?.password === 'string')) {
+                return res.json({ error: 'Email and password are required' })
+              }
+              userinfo.email = userinfo.email.trim().toLowerCase()
+              userinfo.password = userinfo.password.trim()
+              if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userinfo.email)) return res.json({ error: 'Email is invalid' })
+              let [$auth] = await sub($.auths, { [`${provider}.id`]: userinfo.email })
+              if ($auth) return res.json({ error: 'User with this email already exists' })
+              if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(userinfo.password)) {
+                return res.json({
+                  error: 'Password has to be at least 8 characters long and ' +
+                    'contain at least one number, one lowercase and one uppercase letter'
+                })
+              }
+              if (typeof userinfo.confirmPassword === 'string') {
+                userinfo.confirmPassword = userinfo.confirmPassword.trim()
+                if (userinfo.password !== userinfo.confirmPassword) {
+                  return res.json({ error: 'Confirm password does not match' })
+                }
+              }
+              const token = await bcrypt.hash(userinfo.password, 10) // hash password before saving
+              delete userinfo.password
+              delete userinfo.confirmPassword
+              const config = getProviderConfig(providers, provider)
+              $auth = await getOrCreateAuth(config, provider, { userinfo, token })
+              const session = await getSessionData($auth)
+              res.json({ session })
+            } catch (err) {
+              console.error(err)
+              res.json({ error: 'Error during registration. Please try again later' })
+            }
+          })
+          expressApp.post(`${AUTH_URL}/${provider}/login`, async (req, res) => {
+            try {
+              let { email, password } = req.body || {}
+              if (!(typeof email === 'string' && typeof password === 'string')) {
+                return res.json({ error: 'Email and password are required' })
+              }
+              email = email.trim().toLowerCase()
+              password = password.trim()
+              if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.json({ error: 'Email is invalid' })
+              const [$auth] = await sub($.auths, { [`${provider}.id`]: email })
+              const wrongCredentialsError = { error: 'Login or password are incorrect' }
+              if (!$auth) return res.json(wrongCredentialsError)
+              const token = $auth[provider].token.get()
+              const passwordMatch = await bcrypt.compare(password, token)
+              if (!passwordMatch) return res.json(wrongCredentialsError)
+              const session = await getSessionData($auth)
+              res.json({ session })
+            } catch (err) {
+              console.error(err)
+              res.json({ error: 'Error during login. Please try again later.' })
+            }
+          })
+        }
         expressApp.get(`${AUTH_URL}/:provider/callback`, async (req, res) => {
           try {
             const { provider } = req.params
@@ -67,10 +130,7 @@ export default createPlugin({
             const $auth = await getOrCreateAuth(
               config, provider, { userinfo, token: accessToken, scopes }
             )
-            const userId = $auth.getId()
-            const payload = { userId, loggedIn: true, authProviderIds: $auth.providerIds.get() }
-            const token = await createToken(payload)
-            const session = { ...payload, token }
+            const session = await getSessionData($auth)
             if (state.platform === 'web') {
               res.setHeader('Content-Type', 'text/html')
               res.send(getSuccessHtml(session, state.redirectUrl))
@@ -88,8 +148,32 @@ export default createPlugin({
         })
       }
     }
-  }
+  },
+  client: () => ({
+    renderRoot ({ children }) {
+      return (
+        el(Suspense, { fallback: null },
+          el(MaybeRestoreUrl, {},
+            children
+          )
+        )
+      )
+    }
+  })
 })
+
+const maybeRestoreUrlOnce = makeOnceFn(maybeRestoreUrl)
+function MaybeRestoreUrl ({ children }) {
+  maybeRestoreUrlOnce()
+  return children
+}
+
+async function getSessionData ($auth) {
+  const userId = $auth.getId()
+  const payload = { userId, loggedIn: true, authProviderIds: $auth.providerIds.get() }
+  const token = await createToken(payload)
+  return { ...payload, token }
+}
 
 function getSuccessHtml (session, redirectUrl) {
   return `<script>
@@ -211,6 +295,7 @@ async function getUserinfo (config, provider, { token }) {
 
 async function getOrCreateAuth (config, provider, { userinfo, token, scopes } = {}) {
   const { id: providerUserId, ...privateInfo } = getPrivateInfo(config, userinfo)
+  if (!providerUserId) throw Error(ERRORS.noIdField)
   const publicInfo = getPublicInfo(config, userinfo)
   async function updateProviderInfo ($auth) {
     const raw = config.saveRawUserinfo ? userinfo : undefined
@@ -290,6 +375,10 @@ const DEFAULT_PROVIDERS = {
     getPublicInfo: ({ name, avatar_url }) => ({ name, avatarUrl: avatar_url }),
     allowAutoMergeByEmail: true,
     saveRawUserinfo: true
+  },
+  local: {
+    getPrivateInfo: ({ email }) => ({ id: email, email }),
+    getPublicInfo: ({ name }) => ({ name })
   }
 }
 
@@ -340,10 +429,38 @@ export function getUsersSchema () {
   }
 }
 
+function makeOnceFn (fn) {
+  let promise, initialized, error, result
+  return (...args) => {
+    if (initialized) return result
+    if (error) throw error
+    if (promise) return promise
+    promise = (async () => {
+      try {
+        const resultOrPromise = fn(...args)
+        if (resultOrPromise?.then) result = await resultOrPromise
+        else result = resultOrPromise
+        initialized = true
+        return result
+      } catch (err) {
+        error = err
+      } finally {
+        promise = undefined
+      }
+    })()
+    if (initialized) return result // in case of sync result
+    return promise
+  }
+}
+
 const ERRORS = {
   missingUserinfoUrl: provider => `
     \`userinfoUrl\` is missing for provider ${provider}.
     And the access_token is an opaque token instead of JWT so no user information can be extracted from it.
   `,
-  missingScopes: provider => `Scopes are missing for provider ${provider}`
+  missingScopes: provider => `Scopes are missing for provider ${provider}`,
+  noIdField: `
+    auth: did not receive 'id' from userinfo.
+    You have probably forgot to return the 'id' field from getPrivateInfo()
+  `
 }

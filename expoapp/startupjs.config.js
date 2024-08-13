@@ -25,6 +25,11 @@ export default {
         message: 'Startupjs app',
         defaultVisible: false
       }
+    },
+    auth: {
+      client: {
+        redirectUrl: '/two'
+      }
     }
   }
 }

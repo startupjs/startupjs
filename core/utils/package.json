@@ -23,6 +23,10 @@
       "node": "./getLinkingUri.server.js",
       "default": "./getLinkingUri.js"
     },
+    "./navigate": {
+      "node": "./navigate.server.js",
+      "default": "./navigate.js"
+    },
     "./reloadAppAsync": {
       "node": "./reloadAppAsync.server.js",
       "default": "./reloadAppAsync.js"
