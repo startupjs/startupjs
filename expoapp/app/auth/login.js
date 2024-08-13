@@ -1,6 +1,6 @@
 import React from 'react'
 import { pug, styl, observer, useSub, $, login, logout } from 'startupjs'
-import { Content, Button, User, Card, Tag } from '@startupjs/ui'
+import { Content, Button, User, Card, Input, H6, Tag, Alert, Br } from '@startupjs/ui'
 
 const PROVIDERS = ['github']
 
@@ -35,6 +35,8 @@ export default observer(function Success () {
               variant='text'
               onPress=() => login('github', { extraScopes: ['read:user'] })
             ) Grant access to GitHub profile
+      if !loggedIn
+        Local
       if loggedIn
         Button.button(
           variant='text'
@@ -50,3 +52,92 @@ export default observer(function Success () {
       width 30u
   `
 })
+
+const Local = observer(() => {
+  const $login = $({})
+  const $loginError = $()
+  const $register = $({})
+  const $registerError = $()
+
+  async function handleLogin () {
+    try {
+      await login('local', $login.get())
+    } catch (err) {
+      $loginError.set(err.message)
+    }
+  }
+  async function handleRegister () {
+    try {
+      await login('local', { register: true, ...$register.get() })
+    } catch (err) {
+      $registerError.set(err.message)
+    }
+  }
+  return pug`
+    Card
+      H6 Login
+      Br
+      Input(
+        type='object'
+        properties=loginProperties
+        $value=$login
+      )
+      if $loginError.get()
+        Br
+        Alert(variant='error')= $loginError.get()
+      Br
+      Button(onPress=handleLogin) Login
+    Br
+    Card
+      H6 Register
+      Br
+      Input(
+        type='object'
+        properties=registerProperties
+        $value=$register
+      )
+      if $registerError.get()
+        Br
+        Alert(variant='error')= $registerError.get()
+      Br
+      Button(onPress=handleRegister) Register
+  `
+})
+
+const loginProperties = {
+  email: {
+    type: 'string',
+    label: 'Email',
+    required: true
+  },
+  password: {
+    type: 'string',
+    label: 'Password',
+    input: 'password',
+    required: true
+  }
+}
+
+const registerProperties = {
+  email: {
+    type: 'string',
+    label: 'Email',
+    required: true
+  },
+  password: {
+    type: 'string',
+    label: 'Password',
+    input: 'password',
+    required: true
+  },
+  confirmPassword: {
+    type: 'string',
+    label: 'Confirm password',
+    input: 'password',
+    required: true
+  },
+  name: {
+    type: 'string',
+    label: 'Name'
+  }
+}

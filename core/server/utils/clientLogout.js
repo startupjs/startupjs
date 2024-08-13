@@ -15,9 +15,11 @@ export default async function logout () {
     window.location.reload()
     await new Promise(resolve => setTimeout(resolve, 10000))
   } else if (process.env.NODE_ENV !== 'production' && DevSettings?.reload) {
-    return DevSettings.reload()
+    await new Promise(resolve => setTimeout(resolve, 500))
+    try { return DevSettings.reload() } catch (err) {}
   } else if (reloadAppAsync) {
-    return reloadAppAsync('Logged out. Requires restart')
+    await new Promise(resolve => setTimeout(resolve, 500))
+    try { return reloadAppAsync('Logged out. Requires restart') } catch (err) {}
   } else {
     throw Error(`
       logout is not fully supported on a pure React Native app.

@@ -10,11 +10,12 @@ export async function getSessionData () {
   return session
 }
 
-export async function setSessionData (session) {
+export async function setSessionData (session, { silent = false } = {}) {
   validateSession(session)
   const oldSessionString = await AsyncStorage.getItem(SESSION_KEY)
   const newSessionString = JSON.stringify(session)
   if (newSessionString !== oldSessionString) await AsyncStorage.setItem(SESSION_KEY, newSessionString)
+  if (silent) return
   for (const key in session) $.session[key].set(session[key])
   axios.defaults.headers.common.Authorization = 'Bearer ' + session.token
   await emitInitSession(session)
