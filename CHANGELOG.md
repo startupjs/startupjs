@@ -1,3 +1,12 @@
+# [0.57.0-canary.47](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.46...v0.57.0-canary.47) (2024-08-13)
+
+
+### Features
+
+* **server:** implement local auth. TODO: still need to fix some issues with restarting the native app after login and after logout ([#1238](https://github.com/startupjs/startupjs/issues/1238)) ([d1aeea0](https://github.com/startupjs/startupjs/commit/d1aeea01e586e9d85483d23c148af3c4ae92e6b8))
+
+
+
 # [0.57.0-canary.46](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.45...v0.57.0-canary.46) (2024-08-12)
 
 
