@@ -7305,14 +7305,14 @@ __metadata:
     axios: "npm:^1.6.5"
   peerDependencies:
     expo: "*"
-    expo-constants: "*"
+    expo-linking: "*"
     expo-router: "*"
     expo-web-browser: "*"
     react: "*"
   peerDependenciesMeta:
     expo:
       optional: true
-    expo-constants:
+    expo-linking:
       optional: true
     expo-router:
       optional: true

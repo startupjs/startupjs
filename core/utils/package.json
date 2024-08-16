@@ -50,7 +50,7 @@
   },
   "peerDependencies": {
     "expo": "*",
-    "expo-constants": "*",
+    "expo-linking": "*",
     "expo-router": "*",
     "expo-web-browser": "*",
     "react": "*"
@@ -59,7 +59,7 @@
     "expo": {
       "optional": true
     },
-    "expo-constants": {
+    "expo-linking": {
       "optional": true
     },
     "expo-router": {

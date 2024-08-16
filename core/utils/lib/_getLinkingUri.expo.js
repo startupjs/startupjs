@@ -1,5 +1,5 @@
-import Constants from 'expo-constants'
+import { createURL } from 'expo-linking'
 
 export default function getLinkingUri () {
-  return Constants.linkingUri
+  return createURL('')
 }
