@@ -1,3 +1,12 @@
+# [0.57.0-canary.48](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.47...v0.57.0-canary.48) (2024-08-16)
+
+
+### Bug Fixes
+
+* **server/auth:** use expo-linking to get the redirect url with correct app schema ([2fbd0d3](https://github.com/startupjs/startupjs/commit/2fbd0d325b185d2a6388473eceb7e56b30a16f2d))
+
+
+
 # [0.57.0-canary.47](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.46...v0.57.0-canary.47) (2024-08-13)
 
 
