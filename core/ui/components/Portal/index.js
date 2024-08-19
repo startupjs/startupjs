@@ -18,7 +18,7 @@ const Host = observer(({ $state }) => {
   return pug`
     each componentId in order
       React.Fragment(key=componentId)
-        = nodes[componentId]
+        = nodes[componentId]?.()
   `
 })
 
@@ -28,7 +28,7 @@ function Portal ({ children }) {
   const $state = useContext(PortalContext)
 
   useEffect(() => {
-    $state.nodes[componentId].set(children)
+    $state.nodes[componentId].set(() => children)
     const { $order } = $state
     if (!$order.get().includes(componentId)) $order.push(componentId)
   }, [children])
