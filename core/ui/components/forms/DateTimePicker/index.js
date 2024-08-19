@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useImperativeHandle
 } from 'react'
+import { Platform } from 'react-native'
 import { pug, observer, useBind, $ } from 'startupjs'
 import { useMedia } from '@startupjs/ui'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle'
@@ -49,6 +50,7 @@ function DateTimePicker ({
   calendarTestID,
   onFocus,
   onBlur,
+  onPressIn,
   onChangeDate,
   onRequestOpen,
   onRequestClose,
@@ -152,6 +154,11 @@ function DateTimePicker ({
     onFocus && onFocus(...args)
   }
 
+  function _onPressIn (...args) {
+    onChangeVisible(true)
+    onPressIn && onPressIn(...args)
+  }
+
   function onDismiss () {
     onChangeVisible(false)
   }
@@ -170,17 +177,22 @@ function DateTimePicker ({
     editable: false
   }
 
+  if (Platform.OS === 'web') {
+    inputProps.onFocus = _onFocus
+  } else {
+    inputProps.onPressIn = _onPressIn
+  }
+
   const caption = pug`
     if renderInput
       // Do we need to pass properties to 'renderInput' at all?
-      = renderInput(Object.assign({ onChangeVisible, onFocus, onBlur }, inputProps))
+      = renderInput(Object.assign({ onChangeVisible, onBlur }, inputProps))
     else
       TextInput(
         ...inputProps
         showSoftInputOnFocus=false
         secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
         onSecondaryIconPress=() => onChangeDate && onChangeDate()
-        onFocus=_onFocus
         onBlur=(...args) => {
           onBlur && onBlur(...args)
         }
