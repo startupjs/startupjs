@@ -1,3 +1,12 @@
+# [0.57.0-canary.50](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.49...v0.57.0-canary.50) (2024-08-19)
+
+
+### Features
+
+* **server -> auth plugin:** add beforeLogin and  afteRegister hooks, missing awaitr ([#1239](https://github.com/startupjs/startupjs/issues/1239)) ([5a2f1b0](https://github.com/startupjs/startupjs/commit/5a2f1b03b5808dc819b8e3330734f9138be67d58))
+
+
+
 # [0.57.0-canary.49](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.48...v0.57.0-canary.49) (2024-08-19)
 
 
