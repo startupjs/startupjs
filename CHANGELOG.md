@@ -1,3 +1,12 @@
+# [0.57.0-canary.49](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.48...v0.57.0-canary.49) (2024-08-19)
+
+
+### Bug Fixes
+
+* **ui/Portal:** fix updating children ([bb77fdb](https://github.com/startupjs/startupjs/commit/bb77fdb4a00024a2fafdeb53ec58ef978bea7039))
+
+
+
 # [0.57.0-canary.48](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.47...v0.57.0-canary.48) (2024-08-16)
 
 
