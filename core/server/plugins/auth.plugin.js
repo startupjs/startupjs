@@ -82,6 +82,7 @@ export default createPlugin({
               delete userinfo.confirmPassword
               const config = getProviderConfig(providers, provider)
               $auth = await getOrCreateAuth(config, provider, { userinfo, token })
+              await afterRegister(config, $auth)
               const session = await getSessionData($auth)
               res.json({ session })
             } catch (err) {
@@ -104,6 +105,8 @@ export default createPlugin({
               const token = $auth[provider].token.get()
               const passwordMatch = await bcrypt.compare(password, token)
               if (!passwordMatch) return res.json(wrongCredentialsError)
+              const config = getProviderConfig(providers, provider)
+              await beforeLogin(config, $auth)
               const session = await getSessionData($auth)
               res.json({ session })
             } catch (err) {
@@ -130,6 +133,7 @@ export default createPlugin({
             const $auth = await getOrCreateAuth(
               config, provider, { userinfo, token: accessToken, scopes }
             )
+            await beforeLogin(config, $auth)
             const session = await getSessionData($auth)
             if (state.platform === 'web') {
               res.setHeader('Content-Type', 'text/html')
@@ -299,7 +303,7 @@ async function getOrCreateAuth (config, provider, { userinfo, token, scopes } = 
   const publicInfo = getPublicInfo(config, userinfo)
   async function updateProviderInfo ($auth) {
     const raw = config.saveRawUserinfo ? userinfo : undefined
-    addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, raw, token, scopes })
+    await addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, raw, token, scopes })
     return $auth
   }
   // first try to find the exact match with the provider's id
@@ -351,6 +355,20 @@ function getPrivateInfo (config, userinfo) {
 
 function getPublicInfo (config, userinfo) {
   return config.getPublicInfo?.(userinfo) || defaultGetPublicInfo(userinfo)
+}
+
+async function beforeLogin (config, $auth) {
+  if (!config.beforeLogin) return
+
+  const beforeLoginResult = config.beforeLogin({ $auth })
+  if (beforeLoginResult?.then) await beforeLoginResult
+}
+
+async function afterRegister (config, $auth) {
+  if (!config.afterRegister) return
+
+  const afterRegisterResult = config.afterRegister({ $auth })
+  if (afterRegisterResult?.then) await afterRegisterResult
 }
 
 const PROVIDER_IDS = ['google', 'github']
