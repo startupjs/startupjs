@@ -1,3 +1,12 @@
+# [0.57.0-canary.51](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.50...v0.57.0-canary.51) (2024-08-19)
+
+
+### Bug Fixes
+
+* **DateTimePicker:** fix opening on native ([03fef91](https://github.com/startupjs/startupjs/commit/03fef910d0287b0cbfad13d85b6456946c27a936))
+
+
+
 # [0.57.0-canary.50](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.49...v0.57.0-canary.50) (2024-08-19)
 
 
