@@ -1,6 +1,8 @@
 import { ROOT_MODULE as MODULE, ROOT_MODULE } from '@startupjs/registry'
 import { existsSync, readdirSync } from 'fs'
 import { join } from 'path'
+import _defaults from 'lodash/defaults.js'
+import _cloneDeep from 'lodash/cloneDeep.js'
 import express from 'express'
 import bodyParser from 'body-parser'
 import { router } from 'express-file-routing'
@@ -8,6 +10,11 @@ import { router } from 'express-file-routing'
 const SERVER_FOLDER = 'server'
 const MIDDLEWARE_FILENAME_REGEX = /^middleware\.[mc]?[jt]sx?$/
 const API_ROUTES_FOLDER = join(SERVER_FOLDER, 'api')
+const DEFAULT_BODY_PARSER_OPTIONS = {
+  urlencoded: {
+    extended: true
+  }
+}
 
 /**
  * A connect middleware with core startupjs functionality. You can plug this into your
@@ -24,8 +31,8 @@ export default async function createMiddleware (...args) {
 export async function _createMiddleware ({ backend, session, channel, options }) {
   const publicApp = express.Router()
 
-  publicApp.use(bodyParser.json(options.bodyParser?.json))
-  publicApp.use(bodyParser.urlencoded({ extended: true, ...options.bodyParser?.urlencoded }))
+  publicApp.use(bodyParser.json(getBodyParserOptionsByType('json', options.bodyParser)))
+  publicApp.use(bodyParser.urlencoded(getBodyParserOptionsByType('urlencoded', options.bodyParser)))
 
   publicApp.use(channel.middleware)
 
@@ -111,3 +118,12 @@ const ERRORS = {
 // function isAuthenticatedRequest (req) {
 //   return req.headers.authorization || req.headers['x-requested-with'] === 'XMLHttpRequest'
 // }
+
+function getBodyParserOptionsByType (type, options = {}) {
+  return _defaults(
+    _cloneDeep(options[type]),
+    options.general,
+    DEFAULT_BODY_PARSER_OPTIONS[type],
+    DEFAULT_BODY_PARSER_OPTIONS.general
+  )
+}
