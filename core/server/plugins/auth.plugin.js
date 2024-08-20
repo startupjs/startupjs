@@ -88,7 +88,7 @@ export default createPlugin({
               res.json({ session })
             } catch (err) {
               console.error(err)
-              const errorMessage = handleDeletedAccountError(
+              const errorMessage = getPublicError(
                 err,
                 'Error during registration. Please try again later'
               )
@@ -116,7 +116,7 @@ export default createPlugin({
               res.json({ session })
             } catch (err) {
               console.error(err)
-              const errorMessage = handleDeletedAccountError(
+              const errorMessage = getPublicError(
                 err,
                 'Error during login. Please try again later.'
               )
@@ -154,7 +154,7 @@ export default createPlugin({
             }
           } catch (err) {
             console.error(err)
-            const errorMessage = handleDeletedAccountError(
+            const errorMessage = getPublicError(
               err,
               'Error during auth'
             )
@@ -180,8 +180,8 @@ export default createPlugin({
   })
 })
 
-function handleDeletedAccountError (err, fallback) {
-  return err.type === 'deletedAccount'
+function getPublicError (err, fallback) {
+  return err.type === 'public'
     ? err.message
     : fallback
 }
