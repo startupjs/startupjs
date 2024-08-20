@@ -1,3 +1,12 @@
+# [0.57.0-canary.52](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.51...v0.57.0-canary.52) (2024-08-20)
+
+
+### Features
+
+* **ui/ScrollView:** add support for 'ref' ([6dbeccb](https://github.com/startupjs/startupjs/commit/6dbeccb08ec5f038af7c96cd81da51a088257e87))
+
+
+
 # [0.57.0-canary.51](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.50...v0.57.0-canary.51) (2024-08-19)
 
 
