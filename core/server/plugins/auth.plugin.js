@@ -64,6 +64,7 @@ export default createPlugin({
               userinfo.password = userinfo.password.trim()
               if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userinfo.email)) return res.json({ error: 'Email is invalid' })
               let [$auth] = await sub($.auths, { [`${provider}.id`]: userinfo.email })
+
               if ($auth) return res.json({ error: 'User with this email already exists' })
               if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(userinfo.password)) {
                 return res.json({
@@ -87,7 +88,11 @@ export default createPlugin({
               res.json({ session })
             } catch (err) {
               console.error(err)
-              res.json({ error: 'Error during registration. Please try again later' })
+              const errorMessage = handleDeletedAccountError(
+                err,
+                'Error during registration. Please try again later'
+              )
+              res.json({ error: errorMessage })
             }
           })
           expressApp.post(`${AUTH_URL}/${provider}/login`, async (req, res) => {
@@ -111,7 +116,11 @@ export default createPlugin({
               res.json({ session })
             } catch (err) {
               console.error(err)
-              res.json({ error: 'Error during login. Please try again later.' })
+              const errorMessage = handleDeletedAccountError(
+                err,
+                'Error during login. Please try again later.'
+              )
+              res.json({ error: errorMessage })
             }
           })
         }
@@ -133,6 +142,7 @@ export default createPlugin({
             const $auth = await getOrCreateAuth(
               config, provider, { userinfo, token: accessToken, scopes }
             )
+
             await beforeLogin(config, $auth)
             const session = await getSessionData($auth)
             if (state.platform === 'web') {
@@ -144,7 +154,11 @@ export default createPlugin({
             }
           } catch (err) {
             console.error(err)
-            res.status(500).send('Error during auth')
+            const errorMessage = handleDeletedAccountError(
+              err,
+              'Error during auth'
+            )
+            res.status(500).send(errorMessage)
           }
         })
         expressApp.get(AUTH_FINISH_URL, (req, res) => {
@@ -165,6 +179,12 @@ export default createPlugin({
     }
   })
 })
+
+function handleDeletedAccountError (err, fallback) {
+  return err.type === 'deletedAccount'
+    ? err.message
+    : fallback
+}
 
 const maybeRestoreUrlOnce = makeOnceFn(maybeRestoreUrl)
 function MaybeRestoreUrl ({ children }) {
