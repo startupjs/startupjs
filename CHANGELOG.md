@@ -1,3 +1,12 @@
+# [0.57.0-canary.53](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.52...v0.57.0-canary.53) (2024-08-20)
+
+
+### Features
+
+* **server -> auth plugin:** handle deleted account error ([#1240](https://github.com/startupjs/startupjs/issues/1240)) ([fa05863](https://github.com/startupjs/startupjs/commit/fa05863a35a46a2048325defec4702e6888dc7ac))
+
+
+
 # [0.57.0-canary.52](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.51...v0.57.0-canary.52) (2024-08-20)
 
 
