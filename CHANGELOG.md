@@ -1,3 +1,17 @@
+# [0.57.0-canary.55](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.54...v0.57.0-canary.55) (2024-08-21)
+
+
+### Bug Fixes
+
+* **core/ui/components/forms/NumberInput/index.js:** replace , with . before test number ([#1242](https://github.com/startupjs/startupjs/issues/1242)) ([ace86e5](https://github.com/startupjs/startupjs/commit/ace86e5b9f66c2aa764ce16cf647f04c1892647f))
+
+
+### Features
+
+* **server:** add gracefulShutdownTimeout option (3000ms by default) to wait before exit in production ([a653a1b](https://github.com/startupjs/startupjs/commit/a653a1b5be95bd096c0ddaf3e2dfc35ba7867ce9))
+
+
+
 # [0.57.0-canary.54](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.53...v0.57.0-canary.54) (2024-08-21)
 
 
