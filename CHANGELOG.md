@@ -1,3 +1,7 @@
+# [0.57.0-canary.54](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.53...v0.57.0-canary.54) (2024-08-21)
+
+
+
 # [0.57.0-canary.53](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.52...v0.57.0-canary.53) (2024-08-20)
 
 
