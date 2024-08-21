@@ -83,16 +83,34 @@ let shuttingDown = false
 async function gracefulShutdown (exitCode = 0) {
   if (shuttingDown) return
   shuttingDown = true
-  console.log('Exiting...')
   const promises = []
   if (server) promises.push(new Promise(resolve => server.close(resolve)))
-  // delay exit by 3000 ms for extra safety in production.
-  // In development this is also used as a force exit timeout
-  setTimeout(() => process.exit(exitCode), 3000)
-  // in development we exit as soon as the http server is closed
-  if (process.env.NODE_ENV !== 'production') {
+  const { gracefulShutdownTimeout = 3000 } = MODULE.options
+  const performGracefulShutdown = process.env.NODE_ENV === 'production' && gracefulShutdownTimeout !== false
+  if (performGracefulShutdown) {
+    // delay exit by 3000 ms (by default) for extra safety in production.
+    console.log(`Exiting with ${gracefulShutdownTimeout / 1000} seconds graceful shutdown...`)
+    let secondsLeft = gracefulShutdownTimeout / 1000
+    const interval = setInterval(() => {
+      secondsLeft -= 5
+      console.log(`Gracefully shutting down... Force exiting in ${secondsLeft} seconds...`)
+    }, 5000)
+    setTimeout(async () => {
+      clearInterval(interval)
+      waitAndExit()
+    }, gracefulShutdownTimeout)
+  } else {
+    // in development we exit as soon as the http server is closed
+    console.log('Waiting for server to close and exiting...')
+    waitAndExit()
+  }
+
+  async function waitAndExit () {
+    setTimeout(() => {
+      console.error('WARNING! Server did not close in 60 seconds during the shutdown process. Forcing exit...')
+      process.exit(exitCode)
+    }, 60000) // fallback to force exit after 60 seconds
     await Promise.all(promises)
-    console.log(`Closed everything. Exiting... (exit code: ${exitCode})`)
     process.exit(exitCode)
   }
 }
