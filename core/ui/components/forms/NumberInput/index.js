@@ -57,6 +57,9 @@ function NumberInput ({
   }, [value, min, max, precision, onChangeNumber])
 
   function onChangeText (newValue) {
+    // replace comma with dot for some locales
+    if (precision > 0) newValue = newValue.replace(/,/g, '.')
+
     if (!regexp.test(newValue)) return
 
     let updateValue
@@ -69,9 +72,6 @@ function NumberInput ({
         // TODO: display tip?
         return
       }
-
-      // replace comma with dot for some locales
-      if (precision > 0) newValue = newValue.replace(/,/g, '.')
 
       updateValue = Number(newValue)
     }
