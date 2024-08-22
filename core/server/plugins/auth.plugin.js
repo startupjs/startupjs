@@ -405,8 +405,10 @@ async function getOrCreateAuth (config, provider, { userinfo, token, scopes } = 
   // then we can merge the provider into the existing user.
   if (config.allowAutoMergeByEmail && privateInfo.email) {
     const [$auth] = await sub($.auths, { email: privateInfo.email, [provider]: { $exists: false } })
-    if ($auth) await updateProviderInfo($auth)
-    return [$auth, false]
+    if ($auth) {
+      await updateProviderInfo($auth)
+      return [$auth, false]
+    }
   }
   // create a new user
   {
