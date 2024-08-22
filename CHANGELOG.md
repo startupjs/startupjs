@@ -1,3 +1,12 @@
+# [0.57.0-canary.56](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.55...v0.57.0-canary.56) (2024-08-22)
+
+
+### Features
+
+* **server/auth:** implement Apple auth ([#1243](https://github.com/startupjs/startupjs/issues/1243)) ([fbbbdec](https://github.com/startupjs/startupjs/commit/fbbbdec7b39b76781808d17d04ea10e671198ff2))
+
+
+
 # [0.57.0-canary.55](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.54...v0.57.0-canary.55) (2024-08-21)
 
 
