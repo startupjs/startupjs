@@ -480,7 +480,12 @@ const DEFAULT_PROVIDERS = {
     jwksUrl: 'https://appleid.apple.com/auth/keys',
     scopes: ['name', 'email'],
     getPrivateInfo: ({ sub, email }) => ({ id: sub, email }),
-    getPublicInfo: ({ user }) => ({ name: `${user?.name?.firstName || ''} ${user?.name?.lastName || ''}`.trim() }),
+    getPublicInfo: ({ user }) => {
+      const res = {}
+      const name = `${user?.name?.firstName || ''} ${user?.name?.lastName || ''}`.trim()
+      if (name) res.name = name
+      return res
+    },
     authUrlSearchParams: {
       response_mode: 'form_post',
       response_type: 'code id_token'
