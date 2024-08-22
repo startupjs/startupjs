@@ -3,6 +3,7 @@ import { axios, $, sub, Signal } from 'startupjs'
 import { createPlugin } from '@startupjs/registry'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import jwksClient from 'jwks-rsa'
 import { SESSION_KEY } from '../utils/clientSessionData.js'
 import createToken from '../utils/createToken.js'
 import { maybeRestoreUrl } from '../utils/reload.js'
@@ -82,17 +83,19 @@ export default createPlugin({
               delete userinfo.password
               delete userinfo.confirmPassword
               const config = getProviderConfig(providers, provider)
-              $auth = await getOrCreateAuth(config, provider, { userinfo, token })
+              ;[$auth] = await getOrCreateAuth(config, provider, { userinfo, token })
+
+              // run hooks
               await afterRegister(config, $auth)
+              await beforeLogin(config, $auth)
+
+              // login
               const session = await getSessionData($auth)
               res.json({ session })
             } catch (err) {
               console.error(err)
-              const errorMessage = getPublicError(
-                err,
-                'Error during registration. Please try again later'
-              )
-              res.json({ error: errorMessage })
+              const publicError = getPublicError(err, 'Error during registration. Please try again later')
+              res.json({ error: publicError })
             }
           })
           expressApp.post(`${AUTH_URL}/${provider}/login`, async (req, res) => {
@@ -111,16 +114,69 @@ export default createPlugin({
               const passwordMatch = await bcrypt.compare(password, token)
               if (!passwordMatch) return res.json(wrongCredentialsError)
               const config = getProviderConfig(providers, provider)
+
+              // run hooks
               await beforeLogin(config, $auth)
+
+              // login
               const session = await getSessionData($auth)
               res.json({ session })
             } catch (err) {
               console.error(err)
-              const errorMessage = getPublicError(
-                err,
-                'Error during login. Please try again later.'
-              )
-              res.json({ error: errorMessage })
+              const publicError = getPublicError(err, 'Error during login. Please try again later.')
+              res.json({ error: publicError })
+            }
+          })
+        }
+        {
+          // apple has a magic flow:
+          // - it make a POST request to the callback URL and all params are in the body
+          // - it sends user data in a magic 'user' field
+          // - we are checking the token validity by fetching JWKS and decoding the token
+          const provider = 'apple'
+          expressApp.post(`${AUTH_URL}/${provider}/callback`, async (req, res) => {
+            try {
+              const config = getProviderConfig(providers, provider)
+              if (!config) return res.status(400).send(`Provider ${provider} is not supported`)
+              const { id_token: idToken } = req.body
+              if (!idToken) return res.status(400).send('Id token is missing')
+
+              // validate the idToken
+              const { jwksUrl } = config
+              if (!jwksUrl) return res.status(400).send('jwksUrl is not set in config')
+              const client = jwksClient({ jwksUri: jwksUrl, timeout: 30000 })
+              const { header: kid } = jwt.decode(idToken, { complete: true })
+              const publicKey = (await client.getSigningKey(kid)).getPublicKey()
+              const { sub, email } = jwt.verify(idToken, publicKey)
+
+              // get the passed state
+              let { state } = req.body
+              if (typeof state === 'string') state = JSON.parse(state)
+              if (typeof state !== 'object') return res.status(400).send('State is invalid')
+
+              // assemble userinfo
+              // NOTE: apple sends the name in the magic 'user' field
+              let { user } = req.body
+              if (typeof user === 'string') user = JSON.parse(user)
+              const userinfo = { sub, email, user }
+
+              // get or create user
+              // NOTE: apple only provides the user info on initial login, so we never actually "update" it
+              const { scopes } = state
+              if (!Array.isArray(scopes)) return res.status(400).send('Returned scopes are invalid')
+              const [$auth, registered] = await getOrCreateAuth(config, provider, { userinfo, scopes })
+
+              // run hooks
+              if (registered) await afterRegister(config, $auth)
+              await beforeLogin(config, $auth)
+
+              // login
+              const session = await getSessionData($auth)
+              await redirectBackToApp(res, session, state)
+            } catch (err) {
+              console.error(err)
+              const publicError = getPublicError(err, 'Error during auth. Please try again later')
+              res.status(500).send(publicError)
             }
           })
         }
@@ -131,34 +187,33 @@ export default createPlugin({
             if (!config) return res.status(400).send(`Provider ${provider} is not supported`)
             const { code } = req.query
             if (!code) return res.status(400).send('Code is missing')
+
+            // get the passed state
             let { state } = req.query
             try { state = JSON.parse(state) } catch (err) {}
             if (typeof state !== 'object') return res.status(400).send('State is invalid')
-            const { scopes } = state
-            if (!Array.isArray(scopes)) return res.status(400).send('Returned scopes are invalid')
+
+            // get userinfo
             const redirectUri = getRedirectUri(req, provider)
             const accessToken = await getAccessToken(config, provider, { code, redirectUri })
             const userinfo = await getUserinfo(config, provider, { token: accessToken })
-            const $auth = await getOrCreateAuth(
-              config, provider, { userinfo, token: accessToken, scopes }
-            )
 
+            // update or create user
+            const { scopes } = state
+            if (!Array.isArray(scopes)) return res.status(400).send('Returned scopes are invalid')
+            const [$auth, registered] = await getOrCreateAuth(config, provider, { userinfo, token: accessToken, scopes })
+
+            // run hooks
+            if (registered) await afterRegister(config, $auth)
             await beforeLogin(config, $auth)
+
+            // login
             const session = await getSessionData($auth)
-            if (state.platform === 'web') {
-              res.setHeader('Content-Type', 'text/html')
-              res.send(getSuccessHtml(session, state.redirectUrl))
-            } else {
-              const sessionEncoded = encodeURIComponent(JSON.stringify(session))
-              res.redirect(`${state.redirectUrl}?${AUTH_TOKEN_KEY}=${sessionEncoded}`)
-            }
+            await redirectBackToApp(res, session, state)
           } catch (err) {
             console.error(err)
-            const errorMessage = getPublicError(
-              err,
-              'Error during auth'
-            )
-            res.status(500).send(errorMessage)
+            const publicError = getPublicError(err, 'Error during auth. Please try again later')
+            res.status(500).send(publicError)
           }
         })
         expressApp.get(AUTH_FINISH_URL, (req, res) => {
@@ -192,18 +247,27 @@ function MaybeRestoreUrl ({ children }) {
   return children
 }
 
+async function redirectBackToApp (res, session, { redirectUrl, platform }) {
+  if (!redirectUrl) throw Error('Redirect URL is missing. It must be passed in the state from the client')
+  if (platform === 'web') {
+    res.setHeader('Content-Type', 'text/html')
+    res.send(`
+      <script>
+        localStorage.setItem('${SESSION_KEY}', '${JSON.stringify(session)}');
+        window.location.href = '${redirectUrl || '/'}';
+      </script>
+    `)
+  } else {
+    const sessionEncoded = encodeURIComponent(JSON.stringify(session))
+    res.redirect(`${redirectUrl}?${AUTH_TOKEN_KEY}=${sessionEncoded}`)
+  }
+}
+
 async function getSessionData ($auth) {
   const userId = $auth.getId()
   const payload = { userId, loggedIn: true, authProviderIds: $auth.providerIds.get() }
   const token = await createToken(payload)
   return { ...payload, token }
-}
-
-function getSuccessHtml (session, redirectUrl) {
-  return `<script>
-    localStorage.setItem('${SESSION_KEY}', '${JSON.stringify(session)}');
-    window.location.href = '${redirectUrl || '/'}';
-  </script>`
 }
 
 function getAuthUrl (req, provider, providers, { extraScopes } = {}) {
@@ -231,14 +295,15 @@ function getRedirectUri (req, provider) {
 function _getAuthUrl (config, provider, { redirectUri, extraScopes = [] }) {
   const { authUrl } = config
   const clientId = getClientId(config, provider)
-  let { scopes } = config
+  let { scopes, authUrlSearchParams } = config
   if (!scopes) throw Error(ERRORS.missingScopes(provider))
   scopes = [...new Set([...scopes, ...extraScopes])]
   const params = new URLSearchParams(Object.entries({
     response_type: 'code',
     client_id: clientId,
     redirect_uri: redirectUri,
-    scope: scopes.join(' ')
+    scope: scopes.join(' '),
+    ...authUrlSearchParams
   })).toString()
   return `${authUrl}?${params}`
 }
@@ -324,26 +389,33 @@ async function getOrCreateAuth (config, provider, { userinfo, token, scopes } = 
   async function updateProviderInfo ($auth) {
     const raw = config.saveRawUserinfo ? userinfo : undefined
     await addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, raw, token, scopes })
-    return $auth
   }
   // first try to find the exact match with the provider's id
   {
     const [$auth] = await sub($.auths, { [`${provider}.id`]: providerUserId })
-    // TODO: update user info if it was changed
-    if ($auth) return await updateProviderInfo($auth)
+    // update user info if it was changed
+    if ($auth) {
+      const { autoUpdateInfo = true } = config
+      if (autoUpdateInfo) await updateProviderInfo($auth)
+      return [$auth, false] // second parameter is 'registered' flag
+    }
   }
   // then see if we already have a user with such email but without this provider.
   // If the provider is trusted (it definitely provides correct and confirmed email),
   // then we can merge the provider into the existing user.
   if (config.allowAutoMergeByEmail && privateInfo.email) {
     const [$auth] = await sub($.auths, { email: privateInfo.email, [provider]: { $exists: false } })
-    if ($auth) return await updateProviderInfo($auth)
+    if ($auth) {
+      await updateProviderInfo($auth)
+      return [$auth, false]
+    }
   }
   // create a new user
   {
     const userId = await $.auths.add({ ...privateInfo, createdAt: Date.now() })
     const $auth = await sub($.auths[userId]) // subscribe to the new user just to keep a reference
-    return await updateProviderInfo($auth)
+    await updateProviderInfo($auth)
+    return [$auth, true]
   }
 }
 
@@ -402,6 +474,23 @@ const DEFAULT_PROVIDERS = {
     getPublicInfo: ({ name, picture }) => ({ name, avatarUrl: picture }),
     allowAutoMergeByEmail: true,
     saveRawUserinfo: true
+  },
+  apple: {
+    authUrl: 'https://appleid.apple.com/auth/authorize',
+    jwksUrl: 'https://appleid.apple.com/auth/keys',
+    scopes: ['name', 'email'],
+    getPrivateInfo: ({ sub, email }) => ({ id: sub, email }),
+    getPublicInfo: ({ user }) => {
+      const res = {}
+      const name = `${user?.name?.firstName || ''} ${user?.name?.lastName || ''}`.trim()
+      if (name) res.name = name
+      return res
+    },
+    authUrlSearchParams: {
+      response_mode: 'form_post',
+      response_type: 'code id_token'
+    },
+    autoUpdateInfo: false
   },
   github: {
     authUrl: 'https://github.com/login/oauth/authorize',
