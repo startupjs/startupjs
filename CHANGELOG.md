@@ -1,3 +1,12 @@
+# [0.57.0-canary.58](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.57...v0.57.0-canary.58) (2024-08-22)
+
+
+### Bug Fixes
+
+* **server -> auth plugin:** pass provider to beforeLogin and afterRegister hooks ([#1244](https://github.com/startupjs/startupjs/issues/1244)) ([c25efc2](https://github.com/startupjs/startupjs/commit/c25efc23b79594851c49c2ef243888639d549d25))
+
+
+
 # [0.57.0-canary.57](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.56...v0.57.0-canary.57) (2024-08-22)
 
 
