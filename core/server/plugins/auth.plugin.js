@@ -86,8 +86,8 @@ export default createPlugin({
               ;[$auth] = await getOrCreateAuth(config, provider, { userinfo, token })
 
               // run hooks
-              await afterRegister(config, provider, $auth)
-              await beforeLogin(config, provider, $auth)
+              await afterRegister({ config, provider, $auth })
+              await beforeLogin({ config, provider, $auth })
 
               // login
               const session = await getSessionData($auth)
@@ -116,7 +116,7 @@ export default createPlugin({
               const config = getProviderConfig(providers, provider)
 
               // run hooks
-              await beforeLogin(config, provider, $auth)
+              await beforeLogin({ config, provider, $auth })
 
               // login
               const session = await getSessionData($auth)
@@ -167,8 +167,8 @@ export default createPlugin({
               const [$auth, registered] = await getOrCreateAuth(config, provider, { userinfo, scopes })
 
               // run hooks
-              if (registered) await afterRegister(config, provider, $auth)
-              await beforeLogin(config, provider, $auth)
+              if (registered) await afterRegister({ config, provider, $auth })
+              await beforeLogin({ config, provider, $auth })
 
               // login
               const session = await getSessionData($auth)
@@ -204,8 +204,8 @@ export default createPlugin({
             const [$auth, registered] = await getOrCreateAuth(config, provider, { userinfo, token: accessToken, scopes })
 
             // run hooks
-            if (registered) await afterRegister(config, provider, $auth)
-            await beforeLogin(config, provider, $auth)
+            if (registered) await afterRegister({ config, provider, $auth })
+            await beforeLogin({ config, provider, $auth })
 
             // login
             const session = await getSessionData($auth)
@@ -449,14 +449,14 @@ function getPublicInfo (config, userinfo) {
   return config.getPublicInfo?.(userinfo) || defaultGetPublicInfo(userinfo)
 }
 
-async function beforeLogin (config, provider, $auth) {
+async function beforeLogin ({ config, provider, $auth }) {
   if (!config.beforeLogin) return
 
   const beforeLoginResult = config.beforeLogin({ $auth, provider })
   if (beforeLoginResult?.then) await beforeLoginResult
 }
 
-async function afterRegister (config, provider, $auth) {
+async function afterRegister ({ config, provider, $auth }) {
   if (!config.afterRegister) return
 
   const afterRegisterResult = config.afterRegister({ $auth, provider })
