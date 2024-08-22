@@ -145,7 +145,7 @@ export default createPlugin({
               const { jwksUrl } = config
               if (!jwksUrl) return res.status(400).send('jwksUrl is not set in config')
               const client = jwksClient({ jwksUri: jwksUrl, timeout: 30000 })
-              const { header: kid } = jwt.decode(idToken, { complete: true })
+              const { header: { kid } } = jwt.decode(idToken, { complete: true })
               const publicKey = (await client.getSigningKey(kid)).getPublicKey()
               const { sub, email } = jwt.verify(idToken, publicKey)
 
