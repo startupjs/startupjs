@@ -1,3 +1,12 @@
+# [0.57.0-canary.57](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.56...v0.57.0-canary.57) (2024-08-22)
+
+
+### Bug Fixes
+
+* **server/auth:** fix apple token check ([3736ba6](https://github.com/startupjs/startupjs/commit/3736ba6d03a97b8c2623ce92b2678796b919f4f5))
+
+
+
 # [0.57.0-canary.56](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.55...v0.57.0-canary.56) (2024-08-22)
 
 
