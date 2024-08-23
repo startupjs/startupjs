@@ -1,3 +1,12 @@
+# [0.57.0-canary.59](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.58...v0.57.0-canary.59) (2024-08-23)
+
+
+### Features
+
+* **server/auth:** add 'Login as...' provider to be used by trusted users ([#1245](https://github.com/startupjs/startupjs/issues/1245)) ([a5ebfc4](https://github.com/startupjs/startupjs/commit/a5ebfc4631f3e940f039b76a45aa05b85c8a15f2))
+
+
+
 # [0.57.0-canary.58](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.57...v0.57.0-canary.58) (2024-08-22)
 
 
