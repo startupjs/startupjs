@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Express.js with plugged in ShareDB",
-  "version": "0.57.0-canary.55",
+  "version": "0.57.0-canary.59",
   "type": "module",
   "main": "index.js",
   "exports": {
@@ -39,6 +39,7 @@
     "express-session": "^1.17.2",
     "hsts": "^2.1.0",
     "jsonwebtoken": "^9.0.2",
+    "jwks-rsa": "^3.1.0",
     "lodash": "^4.17.20",
     "method-override": "~2.3.10",
     "uuid": "^9.0.1"

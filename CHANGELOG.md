@@ -1,3 +1,39 @@
+# [0.57.0-canary.59](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.58...v0.57.0-canary.59) (2024-08-23)
+
+
+### Features
+
+* **server/auth:** add 'Login as...' provider to be used by trusted users ([#1245](https://github.com/startupjs/startupjs/issues/1245)) ([a5ebfc4](https://github.com/startupjs/startupjs/commit/a5ebfc4631f3e940f039b76a45aa05b85c8a15f2))
+
+
+
+# [0.57.0-canary.58](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.57...v0.57.0-canary.58) (2024-08-22)
+
+
+### Bug Fixes
+
+* **server -> auth plugin:** pass provider to beforeLogin and afterRegister hooks ([#1244](https://github.com/startupjs/startupjs/issues/1244)) ([c25efc2](https://github.com/startupjs/startupjs/commit/c25efc23b79594851c49c2ef243888639d549d25))
+
+
+
+# [0.57.0-canary.57](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.56...v0.57.0-canary.57) (2024-08-22)
+
+
+### Bug Fixes
+
+* **server/auth:** fix apple token check ([3736ba6](https://github.com/startupjs/startupjs/commit/3736ba6d03a97b8c2623ce92b2678796b919f4f5))
+
+
+
+# [0.57.0-canary.56](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.55...v0.57.0-canary.56) (2024-08-22)
+
+
+### Features
+
+* **server/auth:** implement Apple auth ([#1243](https://github.com/startupjs/startupjs/issues/1243)) ([fbbbdec](https://github.com/startupjs/startupjs/commit/fbbbdec7b39b76781808d17d04ea10e671198ff2))
+
+
+
 # [0.57.0-canary.55](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.54...v0.57.0-canary.55) (2024-08-21)
 
 
