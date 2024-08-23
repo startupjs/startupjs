@@ -1,3 +1,6 @@
+// TODO
+// Think about resize and numberOfLines properties, should they be removed?
+// If not, think about to make them work
 import React, {
   useState,
   useMemo,
@@ -14,7 +17,8 @@ import STYLES from './index.styl'
 
 const {
   config: {
-    caretColor, heights, lineHeights, borderWidth
+    caretColor,
+    heights
   }
 } = STYLES
 
@@ -108,15 +112,9 @@ function TextInputInput ({
     return resize || numberOfLines > 1
   }, [resize, numberOfLines])
 
-  const [lH, verticalGutter] = useMemo(() => {
-    const lH = lineHeights[size]
-    const h = heights[size]
-    return [lH, (h - lH) / 2 - borderWidth]
-  }, [size])
-
   const fullHeight = useMemo(() => {
-    return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
-  }, [currentNumberOfLines, lH, verticalGutter])
+    return currentNumberOfLines * heights[size]
+  }, [currentNumberOfLines])
 
   function onLayoutIcon (e) {
     if (IS_WEB) {
@@ -145,11 +143,6 @@ function TextInputInput ({
     TextInput.input-input(
       part='input'
       ref=inputRef
-      style=[{
-        paddingTop: verticalGutter,
-        paddingBottom: verticalGutter,
-        lineHeight: lH
-      }]
       styleName=inputStyleName
       selectionColor=caretColor
       placeholder=placeholder

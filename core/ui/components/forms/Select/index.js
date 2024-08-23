@@ -33,8 +33,6 @@ function Select ({
   }
 
   return pug`
-    //- WORKAROUND
-    //- multiline prop is added to prevent select text on input when hit the 'Tab' key on web
     //- TODO
     //- Add onKeyPress to 'keyDown' key that opens select dropdown
     TextInput(
@@ -45,7 +43,6 @@ function Select ({
       iconPosition='right'
       _renderWrapper=renderWrapper
       editable=false /* HACK: Fixes cursor visibility when focusing on Select because we're focusing on TextInput */
-      multiline
       ...props
     )
   `
