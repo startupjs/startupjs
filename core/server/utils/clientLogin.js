@@ -4,16 +4,17 @@ import { getPlugin } from '@startupjs/registry'
 import openAuthSessionAsync from '@startupjs/utils/openAuthSessionAsync'
 import getLinkingUri from '@startupjs/utils/getLinkingUri'
 import { reload } from './reload.js'
-import { AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_PLUGIN_NAME, AUTH_URL, AUTH_LOCAL_PROVIDER } from './constants.js'
+import { AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_PLUGIN_NAME, AUTH_URL, AUTH_LOCAL_PROVIDER, AUTH_FORCE_PROVIDER } from './constants.js'
 
-export default async function login (provider, { extraScopes, redirectUrl, ...localUserinfo } = {}) {
+export default async function login (provider, { extraScopes, redirectUrl, ...props } = {}) {
   if (!provider) throw new Error('No provider specified')
   const plugin = getPlugin(AUTH_PLUGIN_NAME)
   if (!plugin.enabled) {
     throw new Error(`Plugin ${AUTH_PLUGIN_NAME} hasn't been enabled`)
   }
   redirectUrl ??= plugin.optionsByEnv.client?.redirectUrl
-  if (provider === AUTH_LOCAL_PROVIDER) return await localLogin({ redirectUrl, ...localUserinfo })
+  if (provider === AUTH_LOCAL_PROVIDER) return await localLogin({ redirectUrl, ...props })
+  if (provider === AUTH_FORCE_PROVIDER) return await forceLogin({ redirectUrl, ...props })
   const res = await axios.post(`${BASE_URL}${AUTH_GET_URL}`, { provider, extraScopes })
   let authUrl = res.data?.url
   if (!authUrl) {
@@ -80,6 +81,22 @@ async function localLogin ({ redirectUrl, register, ...userinfo } = {}) {
   //       wait for a bit, like 500ms, then set the session data, wait another 500ms and navigate
   await setSessionData(session, { silent: true })
   console.log('Auth success:', session)
+  await hardRedirect(redirectUrl)
+}
+
+async function forceLogin ({ redirectUrl, userId }) {
+  const url = `${BASE_URL}${AUTH_URL}/${AUTH_FORCE_PROVIDER}/login`
+  if (!userId) throw Error('No userId specified')
+  const res = await axios.post(url, { userId })
+  const { session, error } = res.data || {}
+  if (error) throw Error(error)
+  if (!session) throw Error('Force auth failed (no session data received). Something went wrong')
+  await setSessionData(session, { silent: true })
+  console.log('Auth success:', session)
+  await hardRedirect(redirectUrl)
+}
+
+async function hardRedirect (redirectUrl) {
   if (Platform.OS === 'web') {
     window.location.href = redirectUrl || '/'
     await new Promise(resolve => setTimeout(resolve, 30000))

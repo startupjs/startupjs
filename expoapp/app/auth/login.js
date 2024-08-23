@@ -1,6 +1,6 @@
 import React from 'react'
 import { pug, styl, observer, useSub, $, login, logout } from 'startupjs'
-import { Content, Button, User, Card, Input, H6, Tag, Alert, Br } from '@startupjs/ui'
+import { Content, Button, User, Card, Input, H6, Tag, Alert, Br, ScrollView, Item } from '@startupjs/ui'
 
 const PROVIDERS = ['github']
 
@@ -10,9 +10,10 @@ export default observer(function Success () {
   const $auth = useSub($.auths[userId])
   const authProviderIds = $.session.authProviderIds.get() || []
   const loggedIn = $.session.loggedIn.get()
+  const $showForceLogin = $()
 
   return pug`
-    Content(padding gap full align='center' vAlign='center')
+    ScrollView(full): Content(padding gap full align='center' vAlign='center')
       if $user.get()
         Card.card
           User(
@@ -43,6 +44,9 @@ export default observer(function Success () {
           color='error'
           onPress=logout
         ) Logout
+        Input(type='checkbox' $value=$showForceLogin label='Show force login')
+        if $showForceLogin.get()
+          ForceLogin
   `
   styl`
     .card
@@ -50,6 +54,18 @@ export default observer(function Success () {
       padding-bottom 1u
     .button
       width 30u
+  `
+})
+
+const ForceLogin = observer(() => {
+  const $users = useSub($.users, {})
+  return pug`
+    Card
+      each $user in $users
+        Item(
+          key=$user.getId()
+          onPress=() => login('force', { userId: $user.getId() })
+        ) #{$user.name.get()}
   `
 })
 
