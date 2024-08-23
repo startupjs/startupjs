@@ -1,3 +1,12 @@
+# [0.57.0-canary.60](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.59...v0.57.0-canary.60) (2024-08-23)
+
+
+### Bug Fixes
+
+* **ui/TextInput:** delete HACK with line-height for iOS ([f37870c](https://github.com/startupjs/startupjs/commit/f37870cdbf34285db31d4604cc177d59a697270b))
+
+
+
 # [0.57.0-canary.59](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.58...v0.57.0-canary.59) (2024-08-23)
 
 
