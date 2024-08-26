@@ -106,6 +106,8 @@ function initModels (registry, projectModels) {
   models = registry.rootModule.reduceHook('models', projectModels)
   registry.rootModule.models = models
   for (const modelPattern in models) {
-    addModel(modelPattern, models[modelPattern].default)
+    const model = models[modelPattern].default
+    if (!model) continue
+    addModel(modelPattern, model)
   }
 }
