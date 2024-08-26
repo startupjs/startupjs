@@ -11,7 +11,8 @@ const plugins = createPlugins()
 
 export default {
   features: {
-    enableOAuth2: true
+    enableOAuth2: true,
+    accessControl: true
   },
   client: {
     init: () => {
