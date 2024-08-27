@@ -86,7 +86,19 @@ exporting `access` from your model files.
 
 By default all operations are denied.
 
-If you want to allow operation, return `true` from the access checking function.
+If you want to allow operation, return `true` from the access checking function:
+
+```js
+// only owner of the document can update it
+update: ({ doc, session }) => doc.userId === session.userId
+```
+
+If you want to allow an operation for everyone, you can just set `true` for it:
+
+```js
+// anyone can read the document
+read: true
+```
 
 ### Usage
 
@@ -102,18 +114,24 @@ If you want to allow operation, return `true` from the access checking function.
     }
     ```
 
-2. Call `accessControl` function from `startupjs/orm` and export result as `access` from the model file for a collection.
+2. Call `accessControl` function from `startupjs` and export result as `access` from the model file for a collection.
 
     **Important:** You can only add access control to collection files, NOT document files. For example `games.js`, but not `games.[id].js`.
 
     ```js
     // in model/users.js file
-    import { accessControl } from 'startupjs/orm'
+    import { accessControl } from 'startupjs'
     export const access = accessControl({
-      create: async (doc, { model, collection, docId, session }) => session.isAdmin,
-      read: async (doc, { model, collection, docId, session }) => true,
-      update: async (doc, { model, collection, docId, session, updatedDoc, ops }) => doc.userId === session.userId || session.isAdmin,
-      delete: async (doc, { model, collection, docId, session }) => session.isAdmin
+      // only admins can create a new user
+      create: async ({ newDoc, docId, session, collection, type }) => session.isAdmin,
+      // everyone can read other users info (it's public)
+      read: async ({ doc, docId, session, collection, type }) => true,
+      // only user itself can update their data. Except of the admin who can update anyone's data.
+      update: async ({ doc, newDoc, docId, session, ops, collection, type }) => {
+        return session.userId === docId || session.isAdmin
+      },
+      // only admins can delete users
+      delete: async ({ doc, docId, session, collection, type }) => session.isAdmin
     })
     ```
 
@@ -137,7 +155,7 @@ In the client code the same exact schema can be passed to `<Form fields={schema}
 
     ```js
     // in model/users.js file
-    import { belongsTo, hasOne, GUID_PATTERN } from 'startupjs/orm'
+    import { belongsTo, hasOne, GUID_PATTERN } from 'startupjs'
     export const schema = {
       orgId: {
         ...belongsTo('orgs'),
@@ -180,7 +198,7 @@ Then define your aggregations explicitly in your model files in the `model/` fol
 
 **Important:** You can only add aggregations in collection files, NOT document files. For example `games.js`, but not `games.[id].js`.
 
-### `aggregate(getAggregationFn)`
+### `aggregation(getAggregationFn)`
 
 Define an aggregation using this function and export it as a named export const from your model file.
 
@@ -191,10 +209,10 @@ Define an aggregation using this function and export it as a named export const 
 query params passed into
 
 ```js
-useQuery$($$aggregation, params)
+useSub($$aggregation, params)
 ```
 
-or to Racer's model:
+or as a parametrized query:
 
 ```js
 model.query($$aggregation.collection, {
@@ -208,7 +226,6 @@ model.query($$aggregation.collection, {
 ```js
 {
   session, // current user's server-side session (usually would have things things like `session.userId`, `session.loggedIn`, etc.)
-  model, // root model
   collection // name of the collection (useful for cases when you want to reuse the same aggregation function across multiple collections in different model files)
 }
 ```
@@ -219,16 +236,16 @@ If access is allowed for the current user, it must return either an object `{ $a
 
 If anything else is returned it's treated as access denied. So basically to deny access to query you can just do an early return. If you return a string it will be be used as the access denied error message.
 
-### `useQuery$($$aggregation, params)`
+### `useSub($$aggregation, params)`
 
-`useQuery$` can accept the aggregation itself with params for it.
+`useSub` can accept the aggregation itself with params for it.
 
 ### Example
 
 `model/games.js`:
 
 ```js
-import { aggregation, BaseModel, accessControl } from 'startupjs/orm'
+import { aggregation, BaseModel, accessControl } from 'startupjs'
 import { getAppName, getRoleId, DEFAULT_USER_ID } from 'server-lib'
 
 const appName = getAppName()
@@ -267,12 +284,12 @@ export default class GamesModel extends BaseModel {
 
 ```jsx
 import { $$createdByUser } from '@/model/games'
-import { observer, useQuery$, $ } from 'startupjs'
+import { observer, useSub, $ } from 'startupjs'
 import { Span } from '@startupjs/ui'
 
 export default observer(() => {
   const userId = $.session.userId.get()
-  const $games = useQuery$($$createdByUser, { userId })
+  const $games = useSub($$createdByUser, { userId })
   return $games.map($game => <Span key={$game.id.get()}>{$game.name.get()}</Span>)
 })
 ```

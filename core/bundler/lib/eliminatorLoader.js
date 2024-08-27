@@ -15,10 +15,11 @@ module.exports = function eliminatorLoader (source) {
   // - remove accessControl() calls
   const clientModel = this.query.clientModel
 
-  // ensure that this loader is only used on plugins, startupjs.config.js and loadStartupjsConfig.js files
+  // ensure that this loader is only used on plugins, startupjs.config.js and loadStartupjsConfig.js files.
+  // Or on the client it should also run in model/*.js files
   if (!(
     isStartupjsPluginEcosystemFile(filename) ||
-    (clientModel && hasOrmImport(source))
+    (clientModel && isModelFile(filename, source))
   )) return source
 
   const envs = this.query.envs
@@ -106,7 +107,7 @@ module.exports = function eliminatorLoader (source) {
                 //   __aggregationHeader({ collection: 'games', name: '$$byGameId' })
                 //
                 functionName: 'aggregation',
-                magicImports: ['@startupjs/orm', 'startupjs/orm'],
+                magicImports: ['startupjs'],
                 requirements: {
                   directNamedExportedAsConst: true
                 },
@@ -138,7 +139,7 @@ module.exports = function eliminatorLoader (source) {
                 //   __aggregationHeader({ collection: 'games', name: 'byGameId' })
                 //
                 functionName: 'aggregation',
-                magicImports: ['@startupjs/orm', 'startupjs/orm'],
+                magicImports: ['startupjs'],
                 requirements: {
                   argumentsAmount: 2
                 },
@@ -150,7 +151,7 @@ module.exports = function eliminatorLoader (source) {
               }, {
                 // remove accessControl() calls (replace with undefined)
                 functionName: 'accessControl',
-                magicImports: ['@startupjs/orm', 'startupjs/orm'],
+                magicImports: ['startupjs'],
                 replaceWith: {
                   remove: true // replace the whole function call with undefined
                 }
@@ -165,6 +166,8 @@ module.exports = function eliminatorLoader (source) {
   return code
 }
 
-function hasOrmImport (code) {
-  return /['"]@?startupjs\/orm['"]/.test(code)
+const MODEL_FILE_REGEX = /(?:^|[.\\/])model[\\/].*\.[mc]?[jt]sx?$/
+const STARTUPJS_REGEX = /['"]startupjs['"]/
+function isModelFile (filename, code) {
+  return MODEL_FILE_REGEX.test(filename) && STARTUPJS_REGEX.test(code)
 }

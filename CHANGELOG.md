@@ -1,3 +1,12 @@
+# [0.57.0-canary.61](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.60...v0.57.0-canary.61) (2024-08-26)
+
+
+### Features
+
+* **server:** add accessControl with a nice API ([#1246](https://github.com/startupjs/startupjs/issues/1246)) ([1b423c1](https://github.com/startupjs/startupjs/commit/1b423c1365589a2934c0d8f164623f0e347d4564))
+
+
+
 # [0.57.0-canary.60](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.59...v0.57.0-canary.60) (2024-08-23)
 
 
