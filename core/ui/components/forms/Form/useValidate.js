@@ -209,19 +209,35 @@ export class Validator {
 // transform errors from ajv to our format
 function transformAjvErrors (errors) {
   const res = {}
+
   for (const error of errors) {
-    const path = error.instancePath.replace(/^\//, '').split('/')
-    // handle special case for 'required' fields.
-    // It happens on the level above the field which is actually required
-    // and the actual field name is located in params.missingProperty
-    let message = error.message
-    if (error.keyword === 'required') {
-      if (path.length > 0 && path[path.length - 1] === '') path.pop()
-      path.push(error.params.missingProperty)
-      message = 'This field is required'
+    let path
+    let message
+
+    // Handling errors related to required fields
+    // since required errors are declared at the root of the schema,
+    // the instancePath for them is ''
+    if (error.instancePath === '') {
+      if (error.keyword === 'required') {
+        path = error.params.missingProperty
+        message = 'This field is required'
+      } else if (
+        error.keyword === 'errorMessage' &&
+        error.params.errors[0].keyword === 'required'
+      ) {
+        // Handling ajv-errors errors
+        // ajv-errors generates the 'errorMessage' keyword with params.errors
+        path = error.params.errors[0].params.missingProperty
+        message = error.message
+      }
+    } else {
+      // Handling other types of errors
+      path = error.instancePath.replace(/^\//, '').split('/')
+      message = error.message
     }
     if (!_get(res, path)) _set(res, path, [])
     _get(res, path).push(message)
   }
+
   return res
 }
