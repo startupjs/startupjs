@@ -1,3 +1,17 @@
+# [0.57.0-canary.62](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.61...v0.57.0-canary.62) (2024-08-28)
+
+
+### Bug Fixes
+
+* **Dropdown|Popover/Deprecated:** refactors useValue ([#1248](https://github.com/startupjs/startupjs/issues/1248)) ([468872a](https://github.com/startupjs/startupjs/commit/468872a63fd3cc1a19335185cb0381ec20feefad))
+
+
+### Features
+
+* **@startupjs/ui:** add ability to specify custom errors for Form component ([#1247](https://github.com/startupjs/startupjs/issues/1247)) ([22fc453](https://github.com/startupjs/startupjs/commit/22fc453c8aa041021d7f1dfdb6ca50e3a475d227))
+
+
+
 # [0.57.0-canary.61](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.60...v0.57.0-canary.61) (2024-08-26)
 
 
