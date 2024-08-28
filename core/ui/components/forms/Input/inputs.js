@@ -344,7 +344,6 @@ const inputs = {
       ...props
     }, ref) => {
       ;({ value, onChangeText } = useBind({ value, $value, onChangeText }))
-
       return {
         value,
         configuration: { isLabelClickable: !props.disabled && !props.readonly },

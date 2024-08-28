@@ -25,9 +25,10 @@ function Input ({
     `)
   }
 
+  console.log(props)
   // ref: https://stackoverflow.com/a/68163315 (why innerRef is needed here)
   const innerRef = useRef(null)
-  const componentProps = useProps({ ...props, testID }, innerRef)
+  const componentProps = useProps({ ...props,...props.visuals, testID }, innerRef)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useImperativeHandle(ref, () => innerRef.current, [Component])
