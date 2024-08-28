@@ -195,7 +195,7 @@ run_step_build () {
   maybe_import_env
   _log "validate_step_build" && validate_step_build
   _log "copy_source_code" && copy_source_code
-  _log "build_image_kaniko" && build_image_kaniko
+  # _log "build_image_kaniko" && build_image_kaniko
 }
 
 validate_step_build () {
