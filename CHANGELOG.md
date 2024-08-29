@@ -1,3 +1,12 @@
+# [0.57.0-canary.63](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.62...v0.57.0-canary.63) (2024-08-29)
+
+
+### Features
+
+* **core/ui:** update datetimepicker ([#1251](https://github.com/startupjs/startupjs/issues/1251)) ([2cfbed7](https://github.com/startupjs/startupjs/commit/2cfbed7da151321965d476ce114dd8b2da5df5b5))
+
+
+
 # [0.57.0-canary.62](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.61...v0.57.0-canary.62) (2024-08-28)
 
 

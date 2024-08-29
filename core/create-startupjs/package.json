@@ -1,6 +1,6 @@
 {
   "name": "create-startupjs",
-  "version": "0.57.0-canary.24",
+  "version": "0.57.0-canary.63",
   "description": "Bootstrap a new StartupJS application.",
   "type": "module",
   "main": "index.js",
