@@ -23,7 +23,7 @@ function Form ({
   ...props
 }) {
   if (properties) throw Error(ERROR_PROPERTIES)
-  const { disabled, readonly, $value, $visuals } = props
+  const { disabled, readonly, $value } = props
 
   const formId = useId()
   const forceUpdate = useForceUpdate()
@@ -92,7 +92,6 @@ function Form ({
         ObjectInput(
           properties=$fields?.get() || memoizedFields
           $value=$value
-          $visuals=$visuals
           order=order
           row=row
           errors=errors || $errors.get()

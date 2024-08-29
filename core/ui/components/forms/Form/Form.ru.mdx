@@ -116,6 +116,67 @@ createPlugin({
 })
 ```
 
+### Добавление пользовательских иконок в инпуты
+
+Структура схемы формы позволяет передавать только JSON данные, по этой причине мы не можем напрямую передавать иконки.
+Для этого в схеме у нас доступно поле iconName
+
+example: {
+  type: 'string',
+  iconName: 'exampleIcon'
+},
+
+После чего мы должны создать плагин, который предоставит объект с иконками. Ключ это название иконки, которое мы используем в схеме, а значение это сама иконка.
+
+function createPlugins () {
+  return {
+    customIcons: createPlugin({
+      name: 'exampleIcons',
+      order: 'ui',
+      client: () => ({
+        icons: () => {
+          return {
+            'exampleIcon': faTimes,
+          }
+        }}
+      )}
+    ),
+  }
+}
+
+В этом хуке вы должны вернуть объект с пользовательскими инпутами.
+
+```jsx
+// startupjs.config.js
+import { observer } from 'startupjs'
+import { NumberInput } from '@startupjs/ui'
+import { createPlugin } from 'startupjs/registry'
+
+export default {
+  plugins: {
+    // если у плагина нет опций, просто укажите `true`, чтобы включить плагин.
+    myCustomInputs: {
+      minAge: 18
+    }
+  }
+}
+
+createPlugin({
+  name: 'myCustomInputs',
+  client: ({ minAge }) => ({
+    customFormInputs: () => ({
+      age: observer(({ $value }) => {
+        function setAge (age) {
+          if (age < minAge) age = minAge
+          $value.set(age)
+        }
+        return <NumberInput value={$value.get()} onChangeNumber={setAge} />
+      })
+    })
+  })
+})
+```
+
 ## Совместимость с JSON-схемой
 
 Свойство `fields` совместимо с JSON-схемой.

@@ -10,7 +10,6 @@ function ObjectInput ({
   style,
   inputStyle,
   $value,
-  $visuals,
   errors,
   properties,
   order,
@@ -38,8 +37,7 @@ function ObjectInput ({
         return {
           ...inputProps,
           key,
-          $value: $value[key],
-          visuals: $visuals[key].get()
+          $value: $value[key]
         }
       // TODO: When the dependsOn field changes and this field is no longer visible -- clear it.
       }).filter(Boolean)
