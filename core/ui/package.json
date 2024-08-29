@@ -112,6 +112,7 @@
     "@ptomasroos/react-native-multi-slider": "ptomasroos/react-native-multi-slider",
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.57.0-canary.0",
     "@startupjs/utils": "^0.57.0-canary.48",
+    "@react-native-community/datetimepicker": "^8.2.0",
     "busboy": "^1.6.0",
     "color": "^3.1.2",
     "date-fns": "^2.0.1",
