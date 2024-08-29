@@ -127,6 +127,7 @@
     "sharp": "^0.33.2"
   },
   "peerDependencies": {
+    "@react-native-community/datetimepicker": "*",
     "@react-native-picker/picker": "*",
     "expo-document-picker": "*",
     "expo-router": "*",
