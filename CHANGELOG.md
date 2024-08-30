@@ -1,3 +1,13 @@
+# [0.57.0-canary.64](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.63...v0.57.0-canary.64) (2024-08-30)
+
+
+### Bug Fixes
+
+* **bundler:** don't attach server to metro bundler if we run the build in a CI environment ([139c4a4](https://github.com/startupjs/startupjs/commit/139c4a4b2d5ea6fd4939f5c65c379087b2621c2c))
+* **core/ui/components/forms/DateTimePicker:** force to use light color scheme ([#1253](https://github.com/startupjs/startupjs/issues/1253)) ([48ec9ec](https://github.com/startupjs/startupjs/commit/48ec9ec0bfa76cd7d8c3476eede3d93e1493b83f))
+
+
+
 # [0.57.0-canary.63](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.62...v0.57.0-canary.63) (2024-08-29)
 
 

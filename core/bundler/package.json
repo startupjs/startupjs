@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/bundler",
-  "version": "0.57.0-canary.61",
+  "version": "0.57.0-canary.64",
   "description": "Opinionated scripts and configs to develop a react-native-web project",
   "main": "index.js",
   "publishConfig": {
@@ -35,7 +35,7 @@
     "assets-webpack-plugin": "^7.1.1",
     "autoprefixer": "^10.4.0",
     "babel-loader": "^8.2.3",
-    "babel-preset-startupjs": "^0.57.0-canary.61",
+    "babel-preset-startupjs": "^0.57.0-canary.64",
     "connect": "^3.7.0",
     "css-loader": "^6.5.0",
     "css-minimizer-webpack-plugin": "^5.0.0",
