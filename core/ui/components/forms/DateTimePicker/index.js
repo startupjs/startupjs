@@ -320,6 +320,8 @@ function DateTimePicker ({
             is24Hour=is24Hour
             disabled=disabled
             mode=mode
+            themeVariant='light'
+            textColor='#000000cc'
             maximumDate=maxDate ? new Date(maxDate) : undefined
             minimumDate=minDate ? new Date(minDate) : undefined
             onChange=(event, selectedDate) => {
