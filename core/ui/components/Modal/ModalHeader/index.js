@@ -11,7 +11,9 @@ import './index.styl'
 function ModalHeader ({
   style,
   children,
-  onCrossPress // @private
+  onCrossPress, // @private
+  closeIcon=faTimes,
+  iconStyle
 }) {
   return pug`
     Div.root(row style=style styleName=children ? 'between' : 'right' vAlign='center')
@@ -21,7 +23,11 @@ function ModalHeader ({
         = children
       if onCrossPress
         Div.close(onPress=onCrossPress)
-          Icon.icon(icon=faTimes size='xl')
+          Icon.icon(
+            style=iconStyle
+            icon=closeIcon
+            size='xl'
+          )
   `
 }
 
