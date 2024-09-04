@@ -1,6 +1,5 @@
 import React from 'react'
 import { pug, useBind } from 'startupjs'
-import { ROOT_MODULE as MODULE } from 'startupjs/registry'
 import wrapInput, { isWrapped } from './wrapInput'
 import ArrayInput from '../ArrayInput'
 import Card from './../../Card'
@@ -18,6 +17,7 @@ import Select from '../Select'
 import TextInput from '../TextInput'
 import FileInput from '../FileInput'
 import useCustomInputs from '../Form/useCustomInputs'
+import { customInputs } from '../../../globalCustomInputs'
 
 function cardWrapper (style, children) {
   return pug`
@@ -355,14 +355,7 @@ const inputs = {
   }
 }
 
-// add extra inputs from plugins
-export const customFormInputs = MODULE.hook('customFormInputs')
-  .reduce((allInputs, pluginInputs = {}) => {
-    for (const input in pluginInputs) {
-      if (allInputs[input]) console.warn(ERRORS.inputAlreadyDefined(input))
-    }
-    return { ...allInputs, ...pluginInputs }
-  }, {})
+export const customFormInputs = customInputs
 
 export default inputs
 

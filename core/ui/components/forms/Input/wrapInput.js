@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text } from 'react-native'
 import { pug, styl, observer } from 'startupjs'
-import { ROOT_MODULE as MODULE } from 'startupjs/registry'
 import PropTypes from 'prop-types'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle'
 import merge from 'lodash/merge'
@@ -79,12 +78,6 @@ export default function wrapInput (Component, configuration) {
 
     const hasError = Array.isArray(error) ? error.length > 0 : !!error
 
-    const [customIcons] = useMemo(() => MODULE.hook('icons').flat(), [])
-    const getCustomIcon = () => {
-      if (!props.iconName) return
-      return customIcons?.[props.iconName]
-    }
-
     const _label = pug`
       if label
         Span.label(
@@ -121,6 +114,8 @@ export default function wrapInput (Component, configuration) {
 
     const passRef = isForwardRef(Component) ? { ref } : {}
 
+    const icon = props.icon || props.iconName
+
     const input = pug`
       Component(
         key='input'
@@ -129,7 +124,7 @@ export default function wrapInput (Component, configuration) {
         _hasError=hasError
         onFocus=handleFocus
         onBlur=handleBlur
-        icon=getCustomIcon()
+        icon=icon
         ...passRef
         ...props
       )

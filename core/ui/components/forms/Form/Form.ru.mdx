@@ -53,6 +53,7 @@ import { Form, useFormProps } from '@startupjs/ui'
 
 function App () {
   const minAge = 18
+  $value={$value}
   return (
     <Form
       minAge={minAge}
@@ -61,7 +62,8 @@ function App () {
       }}
       fields={{
         age: {
-          type: 'age',
+          type: 'number',
+          input: 'age',
           description: 'Ваш возраст (18+)'
         }
       }}
@@ -148,6 +150,35 @@ createPlugin({
   })
 })
 ```
+
+Jxs при этом будет выглядеть следующим образом:
+
+```jsx
+import { observer } from 'startupjs'
+import { Form } from '@startupjs/ui'
+
+function App () {
+  const $value = useValue$({})
+
+  return (
+    <Form
+      $value={$value}
+      fields={{
+        age: {
+          type: 'number',
+          input: 'age'
+          description: 'Ваш возраст (18+)'
+        }
+      }}
+    />
+  )
+}
+```
+
+Все необходимые константы мы передаем в качестве options в плагин (в нашем случае это minAge). В самой же форме описываем
+type в соответствии с его реальным типом (у нас это будет number), а так же добавляем свойство input, которое будет иметь
+пользовательский тип, полученный из плагина (у нас это age).
+
 
 ### Добавление пользовательских иконок в инпуты
 

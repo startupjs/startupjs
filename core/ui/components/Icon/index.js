@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import themed from '../../theming/themed'
 import Colors from '../../theming/Colors'
 import { useColors } from '../../hooks'
+import { customIcons } from '../../globalCustomInputs.js'
 
 const SIZES = {
   xs: u(1),
@@ -27,12 +28,18 @@ function Icon ({
 
   if (!icon) return null
 
+  let CustomIcon
+
   style = StyleSheet.flatten([{ color: getColor(Colors['text-secondary']) }, style])
 
   if (typeof icon === 'function') {
-    const CustomIcon = icon
-    const { color: fill, width = _size, height = _size, ...iconStyle } = style
+    CustomIcon = icon
+  } else if (typeof icon === 'string') {
+    CustomIcon = customIcons[icon]
+  }
 
+  if (CustomIcon) {
+    const { color: fill, width = _size, height = _size, ...iconStyle } = style
     return pug`
       CustomIcon(
         style=iconStyle
@@ -70,7 +77,7 @@ Icon.defaultProps = {
 
 Icon.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string]).isRequired,
   size: PropTypes.oneOfType([
     PropTypes.oneOf(Object.keys(SIZES)),
     PropTypes.number
