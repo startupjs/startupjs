@@ -1,3 +1,17 @@
+# [0.57.0-canary.65](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.64...v0.57.0-canary.65) (2024-09-04)
+
+
+### Bug Fixes
+
+* **auth:** implements sever option extraQueryToForceRegister ([#1255](https://github.com/startupjs/startupjs/issues/1255)) ([9ad6129](https://github.com/startupjs/startupjs/commit/9ad6129c00d2cf5f16d9de88ec41a7d10b9a0ca5))
+
+
+### Features
+
+* **core/ui/components/popups/Drawer/index.js:** add ability to pass Area and Content components via props ([#1256](https://github.com/startupjs/startupjs/issues/1256)) ([c646b2b](https://github.com/startupjs/startupjs/commit/c646b2bdfa9185f6cbcd21f7a66759c8e18a2ee4))
+
+
+
 # [0.57.0-canary.64](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.63...v0.57.0-canary.64) (2024-08-30)
 
 
