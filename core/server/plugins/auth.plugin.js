@@ -39,7 +39,7 @@ export default createPlugin({
       }
     }
   }),
-  server: ({ providers, getUsersFilterQueryParams }) => ({
+  server: ({ providers, getUsersFilterQueryParams = () => ({}) }) => ({
     beforeSession (expressApp) {
       expressApp.post(AUTH_GET_URL, (req, res) => {
         try {
@@ -63,8 +63,7 @@ export default createPlugin({
             userinfo.email = userinfo.email.trim().toLowerCase()
             userinfo.password = userinfo.password.trim()
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userinfo.email)) return res.json({ error: 'Email is invalid' })
-            const extraQueryParams = getUsersFilterQueryParams ? getUsersFilterQueryParams() : {}
-            let [$auth] = await sub($.auths, { [`${provider}.id`]: userinfo.email, ...extraQueryParams })
+            let [$auth] = await sub($.auths, { [`${provider}.id`]: userinfo.email, ...getUsersFilterQueryParams() })
             if ($auth) return res.json({ error: 'User with this email already exists' })
             if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(userinfo.password)) {
               return res.json({
@@ -106,8 +105,7 @@ export default createPlugin({
             password = password.trim()
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.json({ error: 'Email is invalid' })
 
-            const extraQueryParams = getUsersFilterQueryParams ? getUsersFilterQueryParams() : {}
-            const [$auth] = await sub($.auths, { [`${provider}.id`]: email, ...extraQueryParams })
+            const [$auth] = await sub($.auths, { [`${provider}.id`]: email, ...getUsersFilterQueryParams() })
             const wrongCredentialsError = { error: 'Login or password are incorrect' }
             if (!$auth) return res.json(wrongCredentialsError)
             const token = $auth[provider].token.get()
@@ -414,10 +412,9 @@ async function getOrCreateAuth (config, provider, { userinfo, token, scopes, get
     const raw = config.saveRawUserinfo ? userinfo : undefined
     await addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, raw, token, scopes })
   }
-  const extraQueryParams = getUsersFilterQueryParams ? getUsersFilterQueryParams() : {}
   // first try to find the exact match with the provider's id
   {
-    const [$auth] = await sub($.auths, { [`${provider}.id`]: providerUserId, ...extraQueryParams })
+    const [$auth] = await sub($.auths, { [`${provider}.id`]: providerUserId, ...getUsersFilterQueryParams() })
     // update user info if it was changed
     if ($auth) {
       const { autoUpdateInfo = true } = config
@@ -432,7 +429,7 @@ async function getOrCreateAuth (config, provider, { userinfo, token, scopes, get
     const [$auth] = await sub($.auths, {
       email: privateInfo.email,
       [provider]: { $exists: false },
-      ...extraQueryParams
+      ...getUsersFilterQueryParams()
     })
     if ($auth) {
       await updateProviderInfo($auth)
