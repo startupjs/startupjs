@@ -54,13 +54,8 @@ function DateTimePicker ({
   onRequestClose,
   _hasError
 }, ref) {
-  const _date = date
-    ? new Date(+moment.tz(date, timezone).seconds(0).milliseconds(0))
-    : new Date()
-
   const media = useMedia()
   const [textInput, setTextInput] = useState('')
-  const [tempDate, setTempDate] = useState(_date)
   const refTimeSelect = useRef()
   const inputRef = useRef()
 
@@ -80,6 +75,8 @@ function DateTimePicker ({
 
   let { onChangeVisible } = bindProps
   ;({ visible, onChangeVisible } = useBind({ $visible, visible, onChangeVisible }))
+
+  const [tempDate, setTempDate] = useTempDate({ visible, date, timezone })
 
   useEffect(() => {
     if (typeof date === 'undefined') {
@@ -291,8 +288,8 @@ function DateTimePicker ({
               timeInterval=timeInterval
               onChangeDate=(newTime) => {
                 const finalDate = new Date(tempDate)
-                finalDate.setHours(newTime.getHours())
-                finalDate.setMinutes(newTime.getMinutes())
+                finalDate.setHours(new Date(newTime).getHours())
+                finalDate.setMinutes(new Date(newTime).getMinutes())
                 _onChangeDate(finalDate)
               }
             )
@@ -412,4 +409,21 @@ function getTimestampFromValue (value) {
   }
 
   return value
+}
+
+function useTempDate ({ visible, date, timezone }) {
+  const [tempDate, setTempDate] = useState(getTempDate(date))
+
+  useEffect(() => {
+    const tempDate = getTempDate(date, timezone)
+    setTempDate(tempDate)
+  }, [visible, date, timezone])
+
+  return [tempDate, setTempDate]
+}
+
+function getTempDate (date, timezone) {
+  return date
+    ? new Date(+moment.tz(date, timezone).seconds(0).milliseconds(0))
+    : new Date()
 }
