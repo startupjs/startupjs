@@ -1,3 +1,12 @@
+# [0.57.0-canary.66](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.65...v0.57.0-canary.66) (2024-09-04)
+
+
+### Bug Fixes
+
+* **core/ui/components/forms/DateTimePicker/index.js:** update picker state when visible changed ([#1257](https://github.com/startupjs/startupjs/issues/1257)) ([8c48bf1](https://github.com/startupjs/startupjs/commit/8c48bf1d56b1ffc12604c4a02d585b55dc39593c))
+
+
+
 # [0.57.0-canary.65](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.64...v0.57.0-canary.65) (2024-09-04)
 
 
