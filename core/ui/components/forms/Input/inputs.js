@@ -17,7 +17,7 @@ import Select from '../Select'
 import TextInput from '../TextInput'
 import FileInput from '../FileInput'
 import useCustomInputs from '../Form/useCustomInputs'
-import { customInputs } from '../../../globalCustomInputs'
+import { customInputs } from './globalCustomInputs'
 
 function cardWrapper (style, children) {
   return pug`
