@@ -231,8 +231,12 @@ function DateTimePicker ({
     editable: false
   }
 
+  const wrapperProps = {}
+
   if (Platform.OS === 'web') {
     inputProps.onFocus = _onFocus
+  } else if (Platform.OS === 'android') {
+    wrapperProps.onPressIn = _onPressIn
   } else {
     inputProps.onPressIn = _onPressIn
   }
@@ -241,15 +245,16 @@ function DateTimePicker ({
     if renderInput
       = renderInput(Object.assign({ onChangeVisible, onBlur }, inputProps))
     else
-      TextInput(
-        ...inputProps
-        showSoftInputOnFocus=false
-        secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
-        onSecondaryIconPress=() => onChangeDate && onChangeDate()
-        onBlur=(...args) => {
-          onBlur && onBlur(...args)
-        }
-      )
+      Div(...wrapperProps)
+        TextInput(
+          ...inputProps
+          showSoftInputOnFocus=false
+          secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
+          onSecondaryIconPress=() => onChangeDate && onChangeDate()
+          onBlur=(...args) => {
+            onBlur && onBlur(...args)
+          }
+        )
   `
 
   function renderPopoverContent () {
