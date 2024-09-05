@@ -1,9 +1,10 @@
 import { createElement as el } from 'react'
 import { createPlugin, ROOT_MODULE as MODULE } from 'startupjs/registry'
-import { setCustomInputs, setCustomIcons } from './globalCustomInputs'
+import { setCustomInputs } from './globalCustomInputs'
+import { setCustomIcons } from './globalCustomIcons'
 import UiProvider from './UiProvider'
 
-let executedFormHook = false
+let hasCustomElementsInitialized = false
 
 export default createPlugin({
   name: 'ui',
@@ -11,8 +12,8 @@ export default createPlugin({
   order: 'system ui',
   client: (props) => ({
     renderRoot ({ children }) {
-      if (!executedFormHook) {
-        executedFormHook = true
+      if (!hasCustomElementsInitialized) {
+        hasCustomElementsInitialized = true
         const mergePlugins = (hookName, errorMessage, setFunction) => {
           const data = MODULE.hook(hookName)
             .reduce((allItems, pluginItems = {}) => {
@@ -25,8 +26,8 @@ export default createPlugin({
             }, {})
           setFunction(data)
         }
-        mergePlugins('icons', ERRORS.iconAlreadyDefined, setCustomIcons)
-        mergePlugins('customFormInputs', ERRORS.inputAlreadyDefined, setCustomInputs)
+        mergePlugins('customIcons', ERRORS.iconAlreadyDefined, setCustomIcons)
+        mergePlugins('customInputs', ERRORS.inputAlreadyDefined, setCustomInputs)
       }
       return el(UiProvider, props, children)
     }

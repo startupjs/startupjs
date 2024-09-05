@@ -114,8 +114,6 @@ export default function wrapInput (Component, configuration) {
 
     const passRef = isForwardRef(Component) ? { ref } : {}
 
-    const icon = props.icon || props.iconName
-
     const input = pug`
       Component(
         key='input'
@@ -124,7 +122,6 @@ export default function wrapInput (Component, configuration) {
         _hasError=hasError
         onFocus=handleFocus
         onBlur=handleBlur
-        icon=icon
         ...passRef
         ...props
       )

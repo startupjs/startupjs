@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import themed from '../../theming/themed'
 import Colors from '../../theming/Colors'
 import { useColors } from '../../hooks'
-import { customIcons } from '../../globalCustomInputs.js'
+import { customIcons } from '../../globalCustomIcons'
 
 const SIZES = {
   xs: u(1),

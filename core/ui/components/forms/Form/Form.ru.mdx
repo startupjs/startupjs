@@ -83,7 +83,7 @@ const CustomAgeInput = observer(({ $value, ...props }) => {
 
 ### Добавление пользовательских инпутов глобально
 
-Вы можете добавить пользовательские инпуты глобально, создав плагин, который использует клиентский хук `customFormInputs`.
+Вы можете добавить пользовательские инпуты глобально, создав плагин, который использует клиентский хук `customInputs`.
 
 В этом хуке вы должны вернуть объект с пользовательскими инпутами.
 
@@ -105,7 +105,7 @@ export default {
 createPlugin({
   name: 'myCustomInputs',
   client: ({ minAge }) => ({
-    customFormInputs: () => ({
+    customInputs: () => ({
       age: observer(({ $value }) => {
         function setAge (age) {
           if (age < minAge) age = minAge
@@ -138,7 +138,7 @@ export default {
 createPlugin({
   name: 'myCustomInputs',
   client: ({ minAge }) => ({
-    customFormInputs: () => ({
+    customInputs: () => ({
       age: observer(({ $value }) => {
         function setAge (age) {
           if (age < minAge) age = minAge
@@ -192,21 +192,18 @@ example: {
 
 После чего мы должны создать плагин, который предоставит объект с иконками. Ключ это название иконки, которое мы используем в схеме, а значение это сама иконка.
 
-function createPlugins () {
-  return {
-    customIcons: createPlugin({
-      name: 'exampleIcons',
-      order: 'ui',
-      client: () => ({
-        icons: () => {
+
+createPlugin({
+  name: 'myCustomIcons',
+  order: 'ui',
+  client: () => ({
+      customIcons: () => {
           return {
             'exampleIcon': faTimes,
           }
-        }}
-      )}
-    ),
-  }
-}
+      }
+    })
+  })
 
 
 ## Совместимость с JSON-схемой
