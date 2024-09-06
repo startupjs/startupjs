@@ -13,3 +13,7 @@ export async function deleteSessionData () {
 export async function emitInitSession () {
   throw Error('Can not be called on server')
 }
+
+export function onInitSession () {
+  throw Error('Can not be called on server')
+}
