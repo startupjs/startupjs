@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import { Platform } from 'react-native'
 import RNDateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
-import { pug, observer, useBind, $ } from 'startupjs'
+import { pug, observer, useBind, $, styl } from 'startupjs'
 import { useMedia, Button } from '@startupjs/ui'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle'
 import PropTypes from 'prop-types'
@@ -46,8 +46,6 @@ function DateTimePicker ({
   $visible,
   testID,
   calendarTestID,
-  onFocus,
-  onBlur,
   onPressIn,
   onChangeDate,
   onRequestOpen,
@@ -64,7 +62,20 @@ function DateTimePicker ({
   let bindProps = useMemo(() => {
     if (typeof $visible !== 'undefined') return { $visible }
     if (typeof onRequestOpen === 'function' && typeof onRequestClose === 'function') {
-      return { visible, onChangeVisible: value => value ? onRequestOpen() : onRequestClose() }
+      return {
+        visible,
+        onChangeVisible: (value) => {
+          if (value) {
+            onRequestOpen()
+          } else {
+            onRequestClose()
+          }
+
+          if (Platform.OS === 'android' && value) {
+            showAndroidPicker()
+          }
+        }
+      }
     }
   }, [])
 
@@ -77,6 +88,16 @@ function DateTimePicker ({
   ;({ visible, onChangeVisible } = useBind({ $visible, visible, onChangeVisible }))
 
   const [tempDate, setTempDate] = useTempDate({ visible, date, timezone })
+
+  useEffect(() => {
+    // Prevent crashes when custom renderer passed via props
+    if (renderInput) return
+    if (visible) {
+      inputRef?.current?.focus()
+    } else {
+      inputRef?.current?.blur()
+    }
+  }, [visible])
 
   useEffect(() => {
     if (typeof date === 'undefined') {
@@ -135,17 +156,13 @@ function DateTimePicker ({
     onChangeVisible(false)
   }
 
-  function _onFocus (...args) {
-    onChangeVisible(true)
-    onFocus && onFocus(...args)
-  }
-
   function _onPressIn (...args) {
     if (Platform.OS === 'android') {
-      return showAndroidPicker()
-    } else {
-      onChangeVisible(true)
+      showAndroidPicker()
     }
+
+    onChangeVisible(true)
+
     onPressIn && onPressIn(...args)
   }
 
@@ -227,35 +244,50 @@ function DateTimePicker ({
     placeholder,
     _hasError,
     value: textInput,
-    testID,
-    editable: false
+    testID
   }
 
-  const wrapperProps = {}
+  if (Platform.OS === 'web' || Platform.OS === 'ios') {
+    inputProps.editable = false
+  }
 
-  if (Platform.OS === 'web') {
-    inputProps.onFocus = _onFocus
-  } else if (Platform.OS === 'android') {
-    wrapperProps.onPressIn = _onPressIn
-  } else {
-    inputProps.onPressIn = _onPressIn
+  function handleRenderedInputPress (value) {
+    if (Platform.OS === 'android' && value) {
+      showAndroidPicker()
+    }
+
+    onChangeVisible(value)
   }
 
   const caption = pug`
     if renderInput
-      = renderInput(Object.assign({ onChangeVisible, onBlur }, inputProps))
+      = renderInput(Object.assign({ onChangeVisible: handleRenderedInputPress }, inputProps))
     else
-      Div(...wrapperProps)
-        TextInput(
-          ...inputProps
-          showSoftInputOnFocus=false
-          secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
-          onSecondaryIconPress=() => onChangeDate && onChangeDate()
-          onBlur=(...args) => {
-            onBlur && onBlur(...args)
-          }
-        )
+      TextInput(
+        ...inputProps
+        showSoftInputOnFocus=false
+        secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
+        onSecondaryIconPress=() => onChangeDate && onChangeDate()
+        _renderWrapper=renderTextInputWrapper
+      )
   `
+
+  function renderTextInputWrapper (props = {}, children) {
+    return pug`
+      Div(...props onPress=_onPressIn)
+        = children
+        Div.overlay
+    `
+    styl`
+      .overlay
+        position absolute
+        top 0
+        right 0
+        bottom 0
+        left 0
+        z-index 1
+    `
+  }
 
   function renderPopoverContent () {
     return pug`
@@ -393,7 +425,6 @@ DateTimePicker.propTypes = {
   disabledDays: PropTypes.array,
   dateFormat: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
-  onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onChangeDate: PropTypes.func,
   _hasError: PropTypes.bool // @private
