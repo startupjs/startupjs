@@ -1,3 +1,12 @@
+# [0.57.0-canary.68](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.67...v0.57.0-canary.68) (2024-09-06)
+
+
+### Features
+
+* **startupjs:** export onInitSession to do extra things on session inits ([e03f489](https://github.com/startupjs/startupjs/commit/e03f4896898546019795ae3f0b371c04a91a8dcb))
+
+
+
 # [0.57.0-canary.67](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.66...v0.57.0-canary.67) (2024-09-06)
 
 
