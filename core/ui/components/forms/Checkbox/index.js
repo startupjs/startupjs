@@ -62,7 +62,7 @@ Checkbox.propTypes = {
   inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   variant: PropTypes.oneOf(['checkbox', 'switch']),
   value: PropTypes.bool,
-  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string]),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   onChange: PropTypes.func,

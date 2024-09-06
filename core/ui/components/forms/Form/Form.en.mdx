@@ -53,15 +53,18 @@ import { Form, useFormProps } from '@startupjs/ui'
 
 function App () {
   const minAge = 18
+  const $value = useValue$({})
   return (
     <Form
       minAge={minAge}
+      $value={$value}
       customInputs={{
         age: CustomAgeInput
       }}
       fields={{
         age: {
-          type: 'age',
+          type: 'number',
+          input: 'age',
           description: 'Your age (18+)'
         }
       }}
@@ -115,6 +118,34 @@ createPlugin({
   })
 })
 ```
+
+Jxs will look like this:
+
+```jsx
+import { observer } from 'startupjs'
+import { Form } from '@startupjs/ui'
+
+function App () {
+  const $value = useValue$({})
+
+  return (
+    <Form
+      $value={$value}
+      fields={{
+        age: {
+          type: 'number',
+          input: 'age'
+          description: 'Your age (18+)'
+        }
+      }}
+    />
+  )
+}
+```
+
+We pass all necessary constants as options to the plugin (in our case, it's minAge).
+In the form we define the type according to its actual type (in our case, it will be number),
+and we also add an input property, which will have a custom type derived from the plugin (in our case, it's 'age').
 
 ## JSON-Schema compatilibily
 

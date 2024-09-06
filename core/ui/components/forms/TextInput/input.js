@@ -141,7 +141,10 @@ function TextInputInput ({
     style: [{ height: fullHeight }, style]
   }, pug`
     TextInput.input-input(
-      part='input'
+      part=['input', {
+        inputIconLeft: icon && iconPosition === 'left',
+        inputIconRight: icon && iconPosition === 'right'
+      }]
       ref=inputRef
       styleName=inputStyleName
       selectionColor=caretColor

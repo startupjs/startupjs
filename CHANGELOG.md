@@ -1,3 +1,12 @@
+# [0.57.0-canary.67](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.66...v0.57.0-canary.67) (2024-09-06)
+
+
+### Features
+
+* add custom input icons from plugin ([#1250](https://github.com/startupjs/startupjs/issues/1250)) ([0dacc56](https://github.com/startupjs/startupjs/commit/0dacc567ea374923462092e2599396edd5c1e1aa))
+
+
+
 # [0.57.0-canary.66](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.65...v0.57.0-canary.66) (2024-09-04)
 
 
