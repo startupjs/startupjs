@@ -48,7 +48,7 @@ TextInput.propTypes = {
   readonly: PropTypes.bool,
   resize: PropTypes.bool,
   numberOfLines: PropTypes.number,
-  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string]),
   iconPosition: PropTypes.oneOf(['left', 'right']),
   secondaryIcon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   onIconPress: PropTypes.func,
