@@ -1,3 +1,12 @@
+# [0.57.0-canary.69](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.68...v0.57.0-canary.69) (2024-09-08)
+
+
+### Features
+
+* **server/auth:** add isImitator flag and imitatorUserId to force login's session ([ec293f2](https://github.com/startupjs/startupjs/commit/ec293f2f711d6f6be96e9a95a15f8afb2348b216))
+
+
+
 # [0.57.0-canary.68](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.67...v0.57.0-canary.68) (2024-09-06)
 
 
