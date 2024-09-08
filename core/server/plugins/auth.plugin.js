@@ -236,7 +236,12 @@ export default createPlugin({
           await validateAccess({ session, targetUserId, config, provider })
 
           // login
-          const targetSession = await getSessionData($targetAuth)
+          const targetSession = await getSessionData($targetAuth, {
+            extraPayload: {
+              isImitator: true,
+              imitatorUserId: session.userId
+            }
+          })
           res.json({ session: targetSession })
         } catch (err) {
           console.warn(`User auth error (${provider}):`, err)
@@ -285,9 +290,9 @@ async function redirectBackToApp (res, session, { redirectUrl, platform }) {
   }
 }
 
-async function getSessionData ($auth) {
+async function getSessionData ($auth, { extraPayload } = {}) {
   const userId = $auth.getId()
-  const payload = { userId, loggedIn: true, authProviderIds: $auth.providerIds.get() }
+  const payload = { userId, loggedIn: true, authProviderIds: $auth.providerIds.get(), ...extraPayload }
   const token = await createToken(payload)
   return { ...payload, token }
 }
