@@ -1,3 +1,12 @@
+# [0.57.0-canary.70](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.69...v0.57.0-canary.70) (2024-09-09)
+
+
+### Bug Fixes
+
+* **core/ui/components/forms/TextInput/input.js:** fix textinput ui ([#1258](https://github.com/startupjs/startupjs/issues/1258)) ([87db6e5](https://github.com/startupjs/startupjs/commit/87db6e519f5abbffc1053bf991712160ffb6ecf2))
+
+
+
 # [0.57.0-canary.69](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.68...v0.57.0-canary.69) (2024-09-08)
 
 
