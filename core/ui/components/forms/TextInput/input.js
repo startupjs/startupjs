@@ -124,7 +124,7 @@ function TextInputInput ({
   }
 
   const inputExtraProps = {}
-  if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
+  if (IS_ANDROID && multiline) inputExtraProps.textAlignVertical = 'top'
 
   const inputStyleName = [
     size,
