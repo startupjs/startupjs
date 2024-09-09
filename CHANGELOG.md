@@ -1,3 +1,12 @@
+# [0.57.0-canary.71](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.70...v0.57.0-canary.71) (2024-09-09)
+
+
+### Bug Fixes
+
+* **server/auth:** rename imitator to impostor (a more hyped and easier to remember name) ([90f7791](https://github.com/startupjs/startupjs/commit/90f77918550733096bb7ddad1678ae211d61ad86))
+
+
+
 # [0.57.0-canary.70](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.69...v0.57.0-canary.70) (2024-09-09)
 
 
