@@ -238,8 +238,8 @@ export default createPlugin({
           // login
           const targetSession = await getSessionData($targetAuth, {
             extraPayload: {
-              isImitator: true,
-              imitatorUserId: session.userId
+              isImpostor: true,
+              impostorUserId: session.userId
             }
           })
           res.json({ session: targetSession })
