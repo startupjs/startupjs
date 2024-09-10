@@ -1,5 +1,5 @@
-import { NativeModules } from 'react-native'
+import { I18nManager } from 'react-native'
 
 export default function getLocale () {
-  return NativeModules.I18nManager.localeIdentifier
+  return I18nManager.getConstants().localeIdentifier
 }
