@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import { Platform } from 'react-native'
 import RNDateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
-import { pug, observer, useBind, $, styl } from 'startupjs'
+import { pug, observer, useBind, $ } from 'startupjs'
 import { useMedia, Button } from '@startupjs/ui'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle'
 import PropTypes from 'prop-types'
@@ -50,7 +50,8 @@ function DateTimePicker ({
   onChangeDate,
   onRequestOpen,
   onRequestClose,
-  _hasError
+  _hasError,
+  ...props
 }, ref) {
   const media = useMedia()
   const [textInput, setTextInput] = useState('')
@@ -244,11 +245,24 @@ function DateTimePicker ({
     placeholder,
     _hasError,
     value: textInput,
-    testID
+    testID,
+    ...props
   }
 
-  if (Platform.OS === 'web' || Platform.OS === 'ios') {
+  if (Platform.OS === 'web') {
     inputProps.editable = false
+    inputProps.onFocus = _onPressIn
+  }
+
+  if (Platform.OS === 'android') {
+    inputProps.onFocus = _onPressIn
+    // Hide cursor for android
+    inputProps.cursorColor = 'transparent'
+  }
+
+  if (Platform.OS === 'ios') {
+    inputProps.editable = false
+    inputProps.onPressIn = _onPressIn
   }
 
   function handleRenderedInputPress (value) {
@@ -268,26 +282,8 @@ function DateTimePicker ({
         showSoftInputOnFocus=false
         secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
         onSecondaryIconPress=() => onChangeDate && onChangeDate()
-        _renderWrapper=renderTextInputWrapper
       )
   `
-
-  function renderTextInputWrapper (props = {}, children) {
-    return pug`
-      Div(...props onPress=_onPressIn)
-        = children
-        Div.overlay
-    `
-    styl`
-      .overlay
-        position absolute
-        top 0
-        right 0
-        bottom 0
-        left 0
-        z-index 1
-    `
-  }
 
   function renderPopoverContent () {
     return pug`
