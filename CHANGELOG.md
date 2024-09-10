@@ -1,3 +1,12 @@
+# [0.57.0-canary.72](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.71...v0.57.0-canary.72) (2024-09-10)
+
+
+### Bug Fixes
+
+* **DateTimePicker:** use a newer API to get locale ([87f5cc6](https://github.com/startupjs/startupjs/commit/87f5cc6a8fc7a39b3cdd470553e61afc782f44de))
+
+
+
 # [0.57.0-canary.71](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.70...v0.57.0-canary.71) (2024-09-09)
 
 

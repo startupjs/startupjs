@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/ui",
-  "version": "0.57.0-canary.70",
+  "version": "0.57.0-canary.72",
   "description": "UI components for react-native",
   "main": "index.js",
   "type": "module",
