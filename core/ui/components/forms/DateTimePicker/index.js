@@ -261,7 +261,6 @@ function DateTimePicker ({
   }
 
   if (Platform.OS === 'ios') {
-    inputProps.editable = false
     inputProps.onPressIn = _onPressIn
   }
 
