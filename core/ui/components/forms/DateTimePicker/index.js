@@ -278,10 +278,10 @@ function DateTimePicker ({
       = renderInput(Object.assign({ onChangeVisible: handleRenderedInputPress }, inputProps))
     else
       TextInput(
-        ...inputProps
         showSoftInputOnFocus=false
         secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
         onSecondaryIconPress=() => onChangeDate && onChangeDate()
+        ...inputProps
       )
   `
 
