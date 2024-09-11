@@ -176,7 +176,7 @@ function DateTimePicker ({
       DateTimePickerAndroid.open({
         value: selectedDate,
         mode: 'time',
-        display,
+        display: 'time',
         is24Hour,
         onChange: (event, selectedTime) => {
           if (event.type === 'set') {
@@ -195,7 +195,7 @@ function DateTimePicker ({
       DateTimePickerAndroid.open({
         value: tempDate,
         mode: 'date',
-        display,
+        display: 'calendar',
         maximumDate: maxDate ? new Date(maxDate) : undefined,
         minimumDate: minDate ? new Date(minDate) : undefined,
         onChange: (event, selectedDate) => {
@@ -220,6 +220,7 @@ function DateTimePicker ({
         DateTimePickerAndroid.open({
           value: tempDate,
           mode: 'time',
+          display: 'clock',
           is24Hour,
           onChange: (event, selectedTime) => {
             if (event.type === 'set') {
