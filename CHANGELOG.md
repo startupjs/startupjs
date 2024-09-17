@@ -1,3 +1,13 @@
+# [0.57.0-canary.73](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.72...v0.57.0-canary.73) (2024-09-17)
+
+
+### Bug Fixes
+
+* **core/ui/components/forms/DateTimePicker/index.js:** change datepicker mode for android ([#1260](https://github.com/startupjs/startupjs/issues/1260)) ([f8324f7](https://github.com/startupjs/startupjs/commit/f8324f7fad87dd084f689c7d4e4d7692d47cfa22))
+* update teamplay to v0.3.x ([7f60d20](https://github.com/startupjs/startupjs/commit/7f60d2062012a56acba143b3d2db7d82962104db))
+
+
+
 # [0.57.0-canary.72](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.71...v0.57.0-canary.72) (2024-09-10)
 
 

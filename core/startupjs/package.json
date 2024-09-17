@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.57.0-canary.71",
+  "version": "0.57.0-canary.73",
   "engines": {
     "node": ">= 14"
   },
