@@ -4,10 +4,20 @@ import { createPlugin } from '@startupjs/registry'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
+import speakeasy from 'speakeasy'
 import { SESSION_KEY } from '../utils/clientSessionData.js'
 import createToken from '../utils/createToken.js'
 import { maybeRestoreUrl } from '../utils/reload.js'
-import { AUTH_URL, AUTH_TOKEN_KEY, AUTH_GET_URL, AUTH_FINISH_URL, AUTH_PLUGIN_NAME, AUTH_LOCAL_PROVIDER, AUTH_FORCE_PROVIDER } from '../utils/constants.js'
+import {
+  AUTH_URL,
+  AUTH_TOKEN_KEY,
+  AUTH_GET_URL,
+  AUTH_FINISH_URL,
+  AUTH_PLUGIN_NAME,
+  AUTH_LOCAL_PROVIDER,
+  AUTH_FORCE_PROVIDER,
+  AUTH_2FA_PROVIDER
+} from '../utils/constants.js'
 
 export default createPlugin({
   name: AUTH_PLUGIN_NAME,
@@ -58,23 +68,27 @@ export default createPlugin({
           try {
             const userinfo = JSON.parse(JSON.stringify(req.body || {}))
             if (!(typeof userinfo?.email === 'string' && typeof userinfo?.password === 'string')) {
-              return res.json({ error: 'Email and password are required' })
+              return res.json({ error: { message: 'Email and password are required' } })
             }
             userinfo.email = userinfo.email.trim().toLowerCase()
             userinfo.password = userinfo.password.trim()
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userinfo.email)) return res.json({ error: 'Email is invalid' })
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userinfo.email)) {
+              return res.json({ error: { message: 'Email is invalid' } })
+            }
             let [$auth] = await sub($.auths, { [`${provider}.id`]: userinfo.email, ...getUsersFilterQueryParams() })
-            if ($auth) return res.json({ error: 'User with this email already exists' })
+            if ($auth) return res.json({ error: { message: 'User with this email already exists' } })
             if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(userinfo.password)) {
               return res.json({
-                error: 'Password has to be at least 8 characters long and ' +
-                  'contain at least one number, one lowercase and one uppercase letter'
+                error: {
+                  message: 'Password has to be at least 8 characters long and ' +
+                    'contain at least one number, one lowercase and one uppercase letter'
+                }
               })
             }
             if (typeof userinfo.confirmPassword === 'string') {
               userinfo.confirmPassword = userinfo.confirmPassword.trim()
               if (userinfo.password !== userinfo.confirmPassword) {
-                return res.json({ error: 'Confirm password does not match' })
+                return res.json({ error: { message: 'Confirm password does not match' } })
               }
             }
             const token = await bcrypt.hash(userinfo.password, 10) // hash password before saving
@@ -91,22 +105,28 @@ export default createPlugin({
             res.json({ session })
           } catch (err) {
             console.warn(`User auth error (${provider}) register:`, err)
+            const redirectUrl = getRedirectUrlFromError(err)
+
+            if (redirectUrl) return res.json({ error: { redirectUrl } })
+
             const publicError = getPublicError(err, 'Error during registration. Please try again later')
-            res.json({ error: publicError })
+            res.json({ error: { message: publicError } })
           }
         })
         expressApp.post(`${AUTH_URL}/${provider}/login`, async (req, res) => {
           try {
             let { email, password } = req.body || {}
             if (!(typeof email === 'string' && typeof password === 'string')) {
-              return res.json({ error: 'Email and password are required' })
+              return res.json({ error: { message: 'Email and password are required' } })
             }
             email = email.trim().toLowerCase()
             password = password.trim()
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.json({ error: 'Email is invalid' })
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+              return res.json({ error: { message: 'Email is invalid' } })
+            }
 
             const [$auth] = await sub($.auths, { [`${provider}.id`]: email, ...getUsersFilterQueryParams() })
-            const wrongCredentialsError = { error: 'Login or password are incorrect' }
+            const wrongCredentialsError = { error: { message: 'Login or password are incorrect' } }
             if (!$auth) return res.json(wrongCredentialsError)
             const token = $auth[provider].token.get()
             const passwordMatch = await bcrypt.compare(password, token)
@@ -121,8 +141,12 @@ export default createPlugin({
             res.json({ session })
           } catch (err) {
             console.warn(`User auth error (${provider}) login:`, err)
+            const redirectUrl = getRedirectUrlFromError(err)
+
+            if (redirectUrl) return res.json({ error: { redirectUrl } })
+
             const publicError = getPublicError(err, 'Error during login. Please try again later.')
-            res.json({ error: publicError })
+            res.json({ error: { message: publicError } })
           }
         })
       }
@@ -133,6 +157,11 @@ export default createPlugin({
         // - we are checking the token validity by fetching JWKS and decoding the token
         const provider = 'apple'
         expressApp.post(`${AUTH_URL}/${provider}/callback`, async (req, res) => {
+          // get the passed state
+          let { state } = req.body
+          if (typeof state === 'string') state = JSON.parse(state)
+          if (typeof state !== 'object') return res.status(400).send('State is invalid')
+
           try {
             const config = getProviderConfig(providers, provider)
             if (!config) return res.status(400).send(`Provider ${provider} is not supported`)
@@ -146,11 +175,6 @@ export default createPlugin({
             const { header: { kid } } = jwt.decode(idToken, { complete: true })
             const publicKey = (await client.getSigningKey(kid)).getPublicKey()
             const { sub, email } = jwt.verify(idToken, publicKey)
-
-            // get the passed state
-            let { state } = req.body
-            if (typeof state === 'string') state = JSON.parse(state)
-            if (typeof state !== 'object') return res.status(400).send('State is invalid')
 
             // assemble userinfo
             // NOTE: apple sends the name in the magic 'user' field
@@ -170,16 +194,27 @@ export default createPlugin({
 
             // login
             const session = await getSessionData($auth)
-            await redirectBackToApp(res, session, state)
+            redirectBackToApp(res, session, state)
           } catch (err) {
             console.warn(`User auth error (${provider}):`, err)
+            const redirectUrl = getRedirectUrlFromError(err)
+
+            if (redirectUrl) {
+              return redirectBackToAppError({ res, err: { redirectUrl }, state })
+            }
+
             const publicError = getPublicError(err, 'Error during auth. Please try again later')
-            res.status(500).send(publicError)
+            redirectBackToAppError({ res, err: { message: publicError }, state })
           }
         })
       }
       expressApp.get(`${AUTH_URL}/:provider/callback`, async (req, res) => {
         let provider
+        // get the passed state
+        let { state } = req.query
+        try { state = JSON.parse(state) } catch (err) {}
+        if (typeof state !== 'object') return res.status(400).send('State is invalid')
+
         try {
           provider = req.params.provider
           const config = getProviderConfig(providers, provider)
@@ -208,13 +243,49 @@ export default createPlugin({
 
           // login
           const session = await getSessionData($auth)
-          await redirectBackToApp(res, session, state)
+          redirectBackToApp(res, session, state)
         } catch (err) {
           console.warn(`User auth error (${provider}):`, err)
+          const redirectUrl = getRedirectUrlFromError(err)
+
+          if (redirectUrl) {
+            return redirectBackToAppError({ res, err: { redirectUrl }, state })
+          }
+
           const publicError = getPublicError(err, 'Error during auth. Please try again later')
-          res.status(500).send(publicError)
+          redirectBackToAppError({ res, err: { message: publicError }, state })
         }
       })
+      {
+        const provider = AUTH_2FA_PROVIDER
+        expressApp.post(`${AUTH_URL}/${provider}/login`, async (req, res) => {
+          try {
+            const { secret, code } = req.body
+            if (!secret) return res.status(400).send('Secret is missing')
+            if (!code) return res.status(400).send('Code is missing')
+
+            const [$auth] = await sub($.auths, { [`${provider}.secret`]: secret })
+            if (!$auth) return res.json({ error: { message: 'Secret is invalid' } })
+
+            const config = getProviderConfig(providers, provider)
+            const { verify, duration, numberOfDigits } = config
+            const isVerfied = await verify({ $auth, code, duration, numberOfDigits })
+            if (!isVerfied) return res.json({ error: { message: 'Code is invalid' } })
+
+            // run hooks
+            await beforeLogin({ config, provider, $auth })
+
+            // login
+            const session = await getSessionData($auth)
+            res.json({ session })
+          } catch (err) {
+            console.warn(`User auth error (${provider}):`, err)
+
+            const publicError = getPublicError(err, 'Error during login. Please try again later.')
+            res.json({ error: { message: publicError } })
+          }
+        })
+      }
       expressApp.get(AUTH_FINISH_URL, (req, res) => {
         res.send('Authenticated successfully')
       })
@@ -226,13 +297,13 @@ export default createPlugin({
       expressApp.post(`${AUTH_URL}/${provider}/login`, async (req, res) => {
         try {
           const { userId: targetUserId } = req.body
-          if (typeof targetUserId !== 'string') return res.json({ error: 'User ID is required' })
+          if (typeof targetUserId !== 'string') return res.json({ error: { message: 'User ID is required' } })
           const config = getProviderConfig(providers, provider)
           const { validateAccess } = config
           const { session } = req
-          if (!session.loggedIn) return res.json({ error: 'You are not logged in' })
+          if (!session.loggedIn) return res.json({ error: { message: 'You are not logged in' } })
           const $targetAuth = await sub($.auths[targetUserId])
-          if (!$targetAuth.get()) return res.json({ error: 'No user found with userId ' + targetUserId })
+          if (!$targetAuth.get()) return res.json({ error: { message: 'No user found with userId ' + targetUserId } })
           await validateAccess({ session, targetUserId, config, provider })
 
           // login
@@ -245,8 +316,12 @@ export default createPlugin({
           res.json({ session: targetSession })
         } catch (err) {
           console.warn(`User auth error (${provider}):`, err)
+          const redirectUrl = getRedirectUrlFromError(err)
+
+          if (redirectUrl) return res.json({ error: { redirectUrl } })
+
           const publicError = getPublicError(err, 'Error during login. Please try again later.')
-          res.json({ error: publicError })
+          res.json({ error: { message: publicError } })
         }
       })
     }
@@ -268,13 +343,17 @@ function getPublicError (err, fallback) {
   return err.public ? err.message : fallback
 }
 
+function getRedirectUrlFromError (err) {
+  return err.redirectUrl
+}
+
 const maybeRestoreUrlOnce = makeOnceFn(maybeRestoreUrl)
 function MaybeRestoreUrl ({ children }) {
   maybeRestoreUrlOnce()
   return children
 }
 
-async function redirectBackToApp (res, session, { redirectUrl, platform }) {
+function redirectBackToApp (res, session, { redirectUrl, platform }) {
   if (!redirectUrl) throw Error('Redirect URL is missing. It must be passed in the state from the client')
   if (platform === 'web') {
     res.setHeader('Content-Type', 'text/html')
@@ -287,6 +366,29 @@ async function redirectBackToApp (res, session, { redirectUrl, platform }) {
   } else {
     const sessionEncoded = encodeURIComponent(JSON.stringify(session))
     res.redirect(`${redirectUrl}?${AUTH_TOKEN_KEY}=${sessionEncoded}`)
+  }
+}
+
+function redirectBackToAppError ({ res, err, state }) {
+  const { redirectUrl, platform } = state
+
+  if (!redirectUrl) {
+    throw new Error('Redirect URL is missing. It must be passed in the state from the client')
+  }
+  const { redirectUrl: errRedirectUrl, message } = err
+
+  if (platform === 'web') {
+    let href = errRedirectUrl || redirectUrl
+    if (message) href += `?err=${encodeURIComponent(JSON.stringify({ message }))}`
+    res.setHeader('Content-Type', 'text/html')
+    res.send(`
+      <script>
+        window.location.href = '${href}';
+      </script>
+    `)
+  } else {
+    const errEncoded = encodeURIComponent(JSON.stringify(err))
+    res.redirect(`${redirectUrl}?err=${errEncoded}`)
   }
 }
 
@@ -545,15 +647,27 @@ const DEFAULT_PROVIDERS = {
       // If env var doesn't exist, this feature is disabled.
       // In production app you should implement a more secure way to validate admin access
       const clientSecret = await getClientSecret({ config, provider })
-      if (!clientSecret) throw Error('Access denied. Secret token is missing')
+      if (!clientSecret) throw new PublicError('Access denied. Secret token is missing')
       const myUserId = session.userId
       const $myAuth = await sub($.auths[myUserId])
       const token = $myAuth[provider].token.get()
-      if (token !== clientSecret) {
-        const err = Error('Access denied. Secret token is invalid')
-        err.public = true
-        throw err
-      }
+      if (token !== clientSecret) throw new PublicError('Access denied. Secret token is invalid')
+    }
+  },
+  '2fa': {
+    duration: 60 * 10, // 10 minutes
+    numberOfDigits: 4,
+    async verify ({ $auth, code, duration, numberOfDigits }) {
+      const secret = $auth['2fa'].base32.get()
+
+      return speakeasy.totp.verify({
+        secret,
+        encoding: 'base32',
+        token: code,
+        step: duration,
+        digits: numberOfDigits,
+        window: 1
+      })
     }
   }
 }
@@ -626,6 +740,13 @@ function makeOnceFn (fn) {
     })()
     if (initialized) return result // in case of sync result
     return promise
+  }
+}
+
+class PublicError extends Error {
+  constructor (...args) {
+    super(...args)
+    this.public = true
   }
 }
 
