@@ -1,3 +1,12 @@
+# [0.57.0-canary.74](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.73...v0.57.0-canary.74) (2024-09-19)
+
+
+### Features
+
+* **ui/FileInput:** Implement saving files to MongoDB GridFS ([#1262](https://github.com/startupjs/startupjs/issues/1262)) ([c623eed](https://github.com/startupjs/startupjs/commit/c623eed065b5fc56058f4da0ab334c283bdcf299))
+
+
+
 # [0.57.0-canary.73](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.72...v0.57.0-canary.73) (2024-09-17)
 
 
