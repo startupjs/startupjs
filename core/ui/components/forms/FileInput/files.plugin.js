@@ -1,9 +1,9 @@
 import { createPlugin } from 'startupjs/registry'
-import { Signal, $, sub } from 'startupjs'
-import { sqlite } from 'startupjs/server'
+import { Signal, $, sub, BASE_URL } from 'startupjs'
 import busboy from 'busboy'
 import sharp from 'sharp'
 import { GET_FILE_URL, UPLOAD_SINGLE_FILE_URL, DELETE_FILE_URL, getFileUrl, getUploadFileUrl, getDeleteFileUrl } from './constants.js'
+import { deleteFile, getFileBlob, saveFileBlob, getDefaultStorageType } from './providers/index.js'
 
 export default createPlugin({
   name: 'files',
@@ -11,21 +11,22 @@ export default createPlugin({
   order: 'system ui',
   isomorphic: () => ({
     models: models => {
-      if (models.files) throw Error(ERRORS.modelAlreadyExists)
       return {
         ...models,
         files: {
           default: FilesModel,
-          schema
+          schema,
+          ...models.files
         },
         'files.*': {
-          default: FileModel
+          default: FileModel,
+          ...models['files.*']
         }
       }
     }
   }),
   server: () => ({
-    api: expressApp => {
+    serverRoutes: expressApp => {
       expressApp.get(GET_FILE_URL, async (req, res) => {
         let { fileId } = req.params
         // if id has extension, remove it
@@ -72,13 +73,8 @@ export default createPlugin({
         }
 
         try {
-          let fileBuffer
-          if (storageType === 'sqlite') {
-            const blob = await getFileBlobFromSqlite(fileId)
-            fileBuffer = Buffer.from(blob) // Convert BLOB to buffer
-          } else {
-            throw Error(ERRORS.unsupportedStorageType(storageType))
-          }
+          const blob = await getFileBlob(storageType, fileId)
+          const fileBuffer = Buffer.from(blob) // Convert BLOB to buffer
 
           // set the Content-Type header
           res.type(mimeType)
@@ -97,8 +93,14 @@ export default createPlugin({
       })
 
       // this handles both creating and updating a file
-      expressApp.post(UPLOAD_SINGLE_FILE_URL, (req, res) => {
-        let { fileId } = req.params
+      expressApp.post(UPLOAD_SINGLE_FILE_URL, async (req, res) => {
+        let { fileId, storageType } = req.params
+        try {
+          storageType ??= await getDefaultStorageType()
+        } catch (err) {
+          console.error(err)
+          return res.status(500).send('Error getting default storage type')
+        }
         const bb = busboy({ headers: req.headers })
 
         let blob
@@ -127,12 +129,10 @@ export default createPlugin({
 
           stream.on('end', async () => {
             blob = Buffer.concat(buffers)
-            meta = { filename, mimeType, encoding } // Update meta here to ensure it includes modifications for images
+            meta = { filename, mimeType, encoding, storageType } // Update meta here to ensure it includes modifications for images
 
             if (!blob) return res.status(500).send('No file was uploaded')
-            // only support sqlite for now
-            if (!sqlite) throw Error(ERRORS.noSqlite)
-            meta.storageType = 'sqlite'
+
             // extract extension from filename
             console.log('meta.filename', meta.filename)
             const extension = meta.filename?.match(/\.([^.]+)$/)?.[1]
@@ -140,7 +140,12 @@ export default createPlugin({
             const create = !fileId
             if (!fileId) fileId = $.id()
             // try to save file to sqlite first to do an early exit if it fails
-            await saveFileBlobToSqlite(fileId, blob)
+            try {
+              await saveFileBlob(storageType, fileId, blob)
+            } catch (err) {
+              console.error(err)
+              return res.status(500).send('Error saving file')
+            }
             if (create) {
               const doc = { id: fileId, ...meta }
               // if some of the meta fields were undefined, remove them from the doc
@@ -150,6 +155,18 @@ export default createPlugin({
               await $.files.addNew(doc)
             } else {
               const $file = await sub($.files[fileId])
+
+              // when changing storageType we should delete the file from the old storageType
+              const oldStorageType = $file.storageType.get()
+              if (oldStorageType !== meta.storageType) {
+                try {
+                  await deleteFile(oldStorageType, fileId)
+                } catch (err) {
+                  console.error(err)
+                  return res.status(500).send(`Error deleting file from old storageType ${oldStorageType}`)
+                }
+              }
+
               const doc = { ...$file.get(), ...meta, updatedAt: Date.now() }
               // if some of the meta fields were undefined, remove them from the doc
               for (const key in meta) {
@@ -157,7 +174,7 @@ export default createPlugin({
               }
               await $file.set(doc)
             }
-            console.log('Uploaded file', fileId)
+            console.log(`Uploaded file to ${storageType}`, fileId)
             res.json({ fileId })
           })
         })
@@ -173,11 +190,7 @@ export default createPlugin({
         const { storageType } = file
         if (!storageType) return res.status(500).send(ERRORS.fileStorageTypeNotSet)
         try {
-          if (storageType === 'sqlite') {
-            await deleteFileFromSqlite(fileId)
-          } else {
-            throw Error(ERRORS.unsupportedStorageType(storageType))
-          }
+          await deleteFile(storageType, fileId)
           await $file.del()
           res.json({ fileId })
         } catch (err) {
@@ -213,25 +226,25 @@ class FilesModel extends Signal {
   }
 
   getUrl (fileId, extension) {
-    return getFileUrl(fileId, extension)
+    return BASE_URL + getFileUrl(fileId, extension)
   }
 
   getDownloadUrl (fileId, extension) {
-    return getFileUrl(fileId, extension) + '?download=true'
+    return BASE_URL + getFileUrl(fileId, extension) + '?download=true'
   }
 
   getUploadUrl (fileId) {
-    return getUploadFileUrl(fileId)
+    return BASE_URL + getUploadFileUrl(fileId)
   }
 
   getDeleteUrl (fileId) {
-    return getDeleteFileUrl(fileId)
+    return BASE_URL + getDeleteFileUrl(fileId)
   }
 }
 
 class FileModel extends Signal {
   getUrl () {
-    return getFileUrl(this.getId(), this.extension.get())
+    return BASE_URL + getFileUrl(this.getId(), this.extension.get())
   }
 
   getDownloadUrl () {
@@ -239,70 +252,16 @@ class FileModel extends Signal {
   }
 
   getUploadUrl () {
-    return getUploadFileUrl(this.getId())
+    return BASE_URL + getUploadFileUrl(this.getId())
   }
 
   getDeleteUrl () {
-    return getDeleteFileUrl(this.getId())
+    return BASE_URL + getDeleteFileUrl(this.getId())
   }
 }
 
-async function getFileBlobFromSqlite (fileId) {
-  if (!sqlite) throw Error(ERRORS.noSqlite)
-  return await new Promise((resolve, reject) => {
-    sqlite.get('SELECT * FROM files WHERE id = ?', [fileId], (err, row) => {
-      if (err) return reject(err)
-      if (!row) return reject(ERRORS.fileNotFoundInSqlite)
-      if (!row.data) return reject(ERRORS.fileDataNotFoundInSqlite)
-      resolve(row.data)
-    })
-  })
-}
-
-async function saveFileBlobToSqlite (fileId, blob) {
-  if (!sqlite) throw Error(ERRORS.noSqlite)
-  return await new Promise((resolve, reject) => {
-    sqlite.run('INSERT OR REPLACE INTO files (id, data) VALUES (?, ?)', [fileId, blob], err => {
-      if (err) return reject(err)
-      resolve()
-    })
-  })
-}
-
-async function deleteFileFromSqlite (fileId) {
-  if (!sqlite) throw Error(ERRORS.noSqlite)
-  return await new Promise((resolve, reject) => {
-    sqlite.run('DELETE FROM files WHERE id = ?', [fileId], err => {
-      if (err) return reject(err)
-      resolve()
-    })
-  })
-}
-
 const ERRORS = {
-  modelAlreadyExists: '[@startupjs/ui] FileInput: "files" model already exist',
   fileNotFound: 'File not found',
   fileMimeTypeNotSet: 'File mimeType is not set. This should never happen',
-  fileStorageTypeNotSet: 'File storageType is not set. This should never happen',
-  noSqlite: `
-    [@startupjs/ui] FileInput: You tried getting file from SQlite,
-    but it's not used in your project.
-    This should never happen.
-    If you migrated your DB from local SQLite in dev
-    to MongoDB in production, you must reupload all your files from SQLite to MongoDB
-    while also changing 'storageType' to 'mongo' in your 'files' collection.
-  `,
-  fileNotFoundInSqlite: `
-    File exists in 'files' collection but was not found in SQLite.
-    This should never happen.
-    Files in 'files' collection are out of sync with SQLite's 'files' table.
-  `,
-  fileDataNotFoundInSqlite: `
-    File exists in SQLite but its data was not found.
-    This should never happen.
-    Some error probably occurred while uploading the file.
-  `,
-  unsupportedStorageType: storageType => `
-    [@startupjs/ui] FileInput: Unsupported storageType "${storageType}"
-  `
+  fileStorageTypeNotSet: 'File storageType is not set. This should never happen'
 }

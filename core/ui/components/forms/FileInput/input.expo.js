@@ -1,12 +1,12 @@
 import React from 'react'
 import { Platform } from 'react-native'
-import { pug, observer, axios } from 'startupjs'
+import { pug, observer, axios, BASE_URL } from 'startupjs'
 import PropTypes from 'prop-types'
 import * as DocumentPicker from 'expo-document-picker'
+import * as ImagePicker from 'expo-image-picker'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons/faTrashAlt'
 import Button from '../../Button'
 import Div from '../../Div'
-import Alert from '../../Alert'
 import themed from '../../../theming/themed'
 import { getUploadFileUrl, getDeleteFileUrl } from './constants'
 import alert from '../../dialogs/alert'
@@ -17,18 +17,27 @@ const isWeb = Platform.OS === 'web'
 function FileInput ({
   value: fileId,
   mimeTypes,
+  image,
   onChange
 }) {
-  // TODO: Add support on iOS and Android
-  if (!isWeb) return pug`Alert File upload is only supported in browser`
-
   async function pickFile () {
-    const { cancelled, assets } = await DocumentPicker.getDocumentAsync({ type: mimeTypes })
+    let result
+    if (image) {
+      result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1
+      })
+    } else {
+      result = await DocumentPicker.getDocumentAsync({ type: mimeTypes })
+    }
+    const { cancelled, assets } = result
     if (cancelled || !assets) return
     let handled
     for (const asset of assets) {
       if (handled) throw Error('Only one file is allowed')
-      fileId = await _uploadFile(asset.file, fileId)
+      fileId = await _uploadFile(asset, fileId)
       if (!fileId) return
       onChange(fileId)
       handled = true
@@ -52,11 +61,28 @@ function FileInput ({
   `
 }
 
-async function _uploadFile (file, fileId) {
+async function _uploadFile (asset, fileId) {
   try {
     const formData = new FormData()
-    formData.append('file', file)
-    const res = await axios.post(getUploadFileUrl(fileId), formData, {
+    let type = asset.mimeType
+    const name = asset.name || asset.fileName || getFilenameFromUri(asset.uri)
+    if (!type) {
+      if (asset.type === 'image') type = getImageMimeType(asset.uri || asset.fileName || asset.name)
+    }
+    console.log('>>> got asset', asset)
+    globalThis.asset = asset
+    if (isWeb) {
+      // on web we'll receive it as a uri blob
+      const blob = await (await fetch(asset.uri)).blob()
+      formData.append('file', blob, name)
+    } else {
+      formData.append('file', {
+        uri: asset.uri,
+        name,
+        type
+      })
+    }
+    const res = await axios.post(BASE_URL + getUploadFileUrl(fileId), formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -73,7 +99,7 @@ async function _uploadFile (file, fileId) {
 
 async function _deleteFile (fileId) {
   try {
-    const res = await axios.post(getDeleteFileUrl(fileId))
+    const res = await axios.post(BASE_URL + getDeleteFileUrl(fileId))
     fileId = res.data?.fileId
     if (!fileId) throw Error('File delete failed. No deleted fileId returned from server')
     return true
@@ -81,6 +107,35 @@ async function _deleteFile (fileId) {
     console.error(err)
     await alert('Error deleting file')
   }
+}
+
+function getFilenameFromUri (uri) {
+  if (uri.length > 1000) return 'file' // if it's a base64 encoded uri
+  return uri.split(/[/\\]/).pop().toLowerCase()
+}
+
+function getImageMimeType (filename) {
+  // Extract the file extension from the filename
+  const extension = filename.split('.').pop().toLowerCase()
+
+  // Map of image extensions to MIME types
+  const mimeTypes = {
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    gif: 'image/gif',
+    bmp: 'image/bmp',
+    webp: 'image/webp',
+    tiff: 'image/tiff',
+    svg: 'image/svg+xml',
+    ico: 'image/vnd.microsoft.icon',
+    heic: 'image/heic',
+    heif: 'image/heif',
+    avif: 'image/avif'
+  }
+
+  // Return the corresponding MIME type or default to image/{extension}
+  return mimeTypes[extension] || `image/${extension}`
 }
 
 FileInput.propTypes = {

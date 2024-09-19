@@ -130,7 +130,9 @@
     "@react-native-community/datetimepicker": "*",
     "@react-native-picker/picker": "*",
     "expo-document-picker": "*",
+    "expo-image-picker": "*",
     "expo-router": "*",
+    "mongodb": "*",
     "react": "*",
     "react-native": "*",
     "react-native-gesture-handler": "*",
@@ -141,6 +143,12 @@
   },
   "peerDependenciesMeta": {
     "expo-document-picker": {
+      "optional": true
+    },
+    "expo-image-picker": {
+      "optional": true
+    },
+    "mongodb": {
       "optional": true
     },
     "react-router": {
