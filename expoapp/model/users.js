@@ -1,5 +1,8 @@
 import { accessControl } from 'startupjs'
 
 export const access = accessControl({
-  read: true
+  read: true,
+  update: ({ session, docId }) => {
+    return session.userId === docId
+  }
 })

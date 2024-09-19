@@ -1,6 +1,7 @@
 import React from 'react'
+import { Image } from 'react-native'
 import { pug, styl, observer, useSub, $, login, logout } from 'startupjs'
-import { Content, Button, User, Card, Input, H6, Tag, Alert, Br, ScrollView, Item } from '@startupjs/ui'
+import { Content, Button, User, Card, Input, H6, Tag, Alert, Br, ScrollView, Item, Modal } from '@startupjs/ui'
 
 const PROVIDERS = ['github']
 
@@ -11,15 +12,25 @@ export default observer(function Success () {
   const authProviderIds = $.session.authProviderIds.get() || []
   const loggedIn = $.session.loggedIn.get()
   const $showForceLogin = $()
+  const $showChangePhoto = $()
 
   return pug`
     ScrollView(full): Content(padding gap full align='center' vAlign='center')
       if $user.get()
-        Card.card
-          User(
-            avatarUrl=$user.avatarUrl.get()
-            name=$user.name.get()
-          )
+        Card.card(onPress=() => $showChangePhoto.set(true))
+          if $user.avatarFileId.get()
+            Photo(
+              key=$user.avatarFileId.get()
+              fileId=$user.avatarFileId.get()
+              name=$user.name.get()
+            )
+          else
+            User(
+              avatarUrl=$user.avatarUrl.get()
+              name=$user.name.get()
+            )
+        Modal($visible=$showChangePhoto)
+          ChangePhoto($fileId=$user.avatarFileId)
       each provider in PROVIDERS
         - const loggedIn = authProviderIds.includes(provider)
         Button.button(
@@ -54,6 +65,38 @@ export default observer(function Success () {
       padding-bottom 1u
     .button
       width 30u
+  `
+})
+
+const Photo = observer(({ fileId, name }) => {
+  const $file = useSub($.files[fileId])
+  let url
+  try { url = $file.getUrl() } catch (err) {}
+  return pug`
+    User(key=url part='root' avatarUrl=url name=name)
+  `
+})
+
+const ChangePhoto = observer(({ $fileId }) => {
+  return pug`
+    if ($fileId.get())
+      PhotoPreview(key=$fileId.get() $fileId=$fileId)
+    Input(type='file' label='My photo' $value=$fileId image)
+  `
+})
+
+const PhotoPreview = observer(({ $fileId }) => {
+  const $file = useSub($.files[$fileId.get()])
+  let url
+  try { url = $file.getUrl() } catch (err) {}
+  return pug`
+    if url
+      Image.preview(key=url source={ uri: url })
+  `
+  styl`
+    .preview
+      width 200px
+      height @width
   `
 })
 
