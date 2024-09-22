@@ -30,9 +30,10 @@ StartupJS is a **full-stack framework** that consists of:
 
 ### Requirements
 
-StartupJS app requires: [Node 22+](https://nodejs.org/), [Yarn](https://yarnpkg.com/) (optional, but strongly recommended)
+StartupJS app requires:
 
-Alternatively, you can run everything in [Docker](https://docs.docker.com/install/), in which case follow [Docker development Quick Start](#docker-development-quick-start). **Important** to note is that Docker won't allow you to test Android or iOS.
+- [Node 22+](https://nodejs.org/)
+- [Yarn](https://yarnpkg.com/) (optional, but strongly recommended)
 
 ### Installation
 
