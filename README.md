@@ -108,6 +108,8 @@ specify a different JS engine (`jsc`) in `app.json`:
 }
 ```
 
+If you would have issues running Android, you can use V8 engine on it: [`react-native-v8`](https://github.com/Kudo/react-native-v8)
+
 ## Native Development (iOS and Android)
 
 ### Requiremens
