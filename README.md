@@ -57,11 +57,13 @@ StartupJS app requires:
         corepack enable && echo 'nodeLinker: node-modules' > .yarnrc.yml && corepack use yarn@4
         ```
 
-        > **Warning:** If you are on Mac, you might first need to install `corepack` separately with:
+        > **Warning:** If `corepack` is not installed in your system, install it with:
         >
         >    ```
-        >    brew install corepack
+        >    npm install -g corepack
         >    ```
+        >
+        > and re-run the last command.
 
     - if you are using **npm**:
 
