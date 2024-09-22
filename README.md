@@ -24,7 +24,7 @@
 
 StartupJS is a **full-stack framework** that consists of:
 
-- **Frontend**: Isomorphic React [native](https://facebook.github.io/react-native/) and [web](https://react.dev/)
+- **Frontend**: Isomorphic React [native](https://facebook.github.io/react-native/) and [web](https://react.dev/) based on [Expo](https://expo.dev/)
 - **Backend**: [ExpressJS](https://expressjs.com/)
 - **Collaborative Database**: [MongoDB](https://www.mongodb.com/) which runs behind [ShareDB](https://github.com/share/sharedb) and a client-server observable [ORM](https://teamplay.dev/)
 
