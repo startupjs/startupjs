@@ -16,8 +16,6 @@
   <a href="#documentation">Docs</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="#production">Production</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="#version-migration-guides">Migration</a>
 </div>
 
 ## What is StartupJS?
