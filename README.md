@@ -15,6 +15,8 @@
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="#documentation">Docs</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#production">Production</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="#version-migration-guides">Migration</a>
 </div>
 
@@ -151,6 +153,19 @@ The main things you'll need to know to get started with StartupJS are:
 Before launching your app to production you are strongly encouraged to implement:
 
 1. [Security](#security)
+
+## Production
+
+To deploy your app to production, run `yarn build` to build the server and web code and `yarn start-production` to run it.
+
+By default for local development instead of a full MongoDB and Redis the startupjs app uses their mocks.
+It is strongly recommended to use the actual MongoDB and Redis in production (and it is **required** if you want to run multiple instances of the application).
+
+To use MongoDB and Redis, specify `MONGO_URL` and `REDIS_URL` environment variables when running the `yarn start-production` command.
+
+You can also provide this environment variables when doing local development through the `yarn start -c` command.
+
+To deploy the native apps use the [Expo EAS](https://expo.dev/eas) service -- `eas build` and `eas submit`.
 
 ### Advanced
 
