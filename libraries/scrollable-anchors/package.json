@@ -1,0 +1,13 @@
+{
+  "name": "@startupjs/scrollable-anchors",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Immitation of scrollable anchors",
+  "version": "0.57.0-canary.0",
+  "main": "index.js",
+  "peerDependencies": {
+    "@startupjs/ui": "*",
+    "startupjs": "*"
+  }
+}

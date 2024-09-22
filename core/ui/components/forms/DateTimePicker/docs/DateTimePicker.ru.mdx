@@ -1,0 +1,98 @@
+import { useState } from 'react'
+import { pug, $ } from 'startupjs'
+import DateTimePicker from '../'
+import { Sandbox } from '@startupjs/docs'
+
+# DateTimePicker
+
+DateTimePicker позволяет отображать и изменять дату и время
+
+```jsx
+import { DateTimePicker } from '@startupjs/ui'
+```
+
+## Простой пример
+
+```jsx example
+const [date, setDate] = useState(+new Date())
+
+return pug`
+  DateTimePicker(
+    date=date
+    onChangeDate=v=> setDate(v)
+  )
+`
+```
+
+## Управление видимостью
+
+Для управления видимостью `DateTimePicker` есть три варианта:
+
+1.  Передав скоуп модель в свойство `$visible`, из состояния которой идет управление видимостью.
+
+```jsx example
+const $visible = $()
+const [date, onChangeDate] = useState()
+
+return pug`
+  DateTimePicker(
+    date=date
+    $visible=$visible
+    onChangeDate=onChangeDate
+  )
+`
+```
+
+2. Передав свойства `visible`, `onRequestOpen` и `onRequestClose`, которые определяют является ли `DateTimePicker` видимым.
+
+```jsx example
+const $visible = $()
+const [date, onChangeDate] = useState()
+
+return pug`
+  DateTimePicker(
+    date=date
+    visible=visible
+    onRequestOpen=() => $visible.set(true)
+    onRequestClose=() => $visible.del()
+    onChangeDate=onChangeDate
+  )
+`
+```
+
+3. Неконтролируемый.
+
+```jsx example
+const [date, onChangeDate] = useState()
+
+return pug`
+  DateTimePicker(
+    date=date
+    onChangeDate=onChangeDate
+  )
+`
+```
+
+## Свойства
+
+**date** - исходная дата в формате временной метки
+
+**onChangeDate** - калбэк для изменения даты
+
+**disabled** - отключенный пикер
+
+**dateFormat** - строка для форматирования даты из [moment](https://momentjscom.readthedocs.io/en/latest/moment/04-displaying/01-format/)
+
+**maxDate** - максимальная доступная дата в формате временной метки
+
+**minDate** - минимальная доступная дата в формате временной метки
+
+**timeInterval** - интервал через который можно выбрать минуты (по умолчанию - 1)
+
+**mode** - определяет тип пикера: datetime - дата и время, date - дата, time - время (по умолчанию - datetime)
+
+**placeholder** - плейсхолдер для инпута на вебе и кнопки в нативном приложении если дата не выбрана
+
+**size** - размеры инпута на вебе и кнопки в нативном приложении, доступные значения: l, m и s (по умолчанию - m)
+
+<Sandbox Component={DateTimePicker} block />

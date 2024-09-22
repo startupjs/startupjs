@@ -1,0 +1,15 @@
+{
+  "name": "@startupjs/2fa-manager",
+  "version": "0.57.0-canary.0",
+  "type": "module",
+  "description": "Two factor authentication meta package",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@startupjs/ui": "*",
+    "startupjs": "*"
+  }
+}

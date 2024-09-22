@@ -1,0 +1,94 @@
+// ----- CONFIG: $UI.TextInput
+$this = merge({
+  textColor: var(--TextInput-text-color),
+  borderWidth: 1,
+  heights: {
+    s: 3u,
+    m: 4u,
+    l: 5u
+  },
+  fontSizes: {
+    s: 1.75u,
+    m: 1.75u,
+    l: 2u
+  }
+}, $UI.TextInput, true)
+
+$this.caretColor = $this.textColor
+
+// ----- COMPONENT
+
+$inputBg = var(--color-bg-main-strong)
+$inputBorderColor = var(--color-border-main)
+$inputBgDisabled = var(--color-bg-main-subtle)
+$inputBorderWidth = 1px
+
+.input-input
+  margin 0 // important for safari
+  flex 1 // important for multiline
+  // padding-top, padding-bottom is important
+  // for android because it has invisible paddings
+  // on the web is important for textarea (override default paddings)
+  padding-left 1u
+  padding-right @padding-left
+  color: $this.textColor
+  background-color $inputBg
+  border-width $inputBorderWidth
+  border-style solid
+  border-color var(--color-border-main)
+  min-width 8u
+  radius()
+
+  +web()
+    outline 0
+    caret-color: $this.caretColor ? $this.caretColor : this.textColor
+
+  &.s
+    font-size $this.fontSizes.s
+
+  &.m
+    font-size $this.fontSizes.m
+
+  &.l
+    font-size $this.fontSizes.l
+
+  &.disabled
+    background-color $inputBgDisabled
+
+    +web()
+      cursor default
+
+  &.focused
+    border-color var(--color-border-primary)
+
+  &.error
+    border-color var(--color-border-error)
+
+  for side in (left right)
+    &.icon-{side}
+      &.l
+        padding-{side} 5u
+
+      &.m
+        padding-{side} 4u
+
+      &.s
+        padding-{side} 4u
+
+.input-icon
+  position absolute
+  top 0
+  bottom 0
+  justify-content center
+  z-index 1
+
+  &.left
+    left 1u
+
+  &.right
+    right 1u
+
+// ----- JS EXPORTS
+
+:export
+  config: $this

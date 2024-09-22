@@ -1,0 +1,20 @@
+{
+  "name": "@startupjs/push-notifications",
+  "version": "0.57.0-canary.0",
+  "type": "module",
+  "description": "Push notifications module",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "firebase-admin": "^9.7.0"
+  },
+  "peerDependencies": {
+    "@react-native-community/push-notification-ios": "*",
+    "@startupjs/ui": "*",
+    "react-native-push-notification": "*",
+    "startupjs": "*"
+  }
+}

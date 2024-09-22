@@ -1,0 +1,54 @@
+$radioSize = 2u
+
+$this = merge({
+  size: 2u,
+  borderWidth: 2px,
+  borderColor: var(--color-border-main)
+}, $UI.Radio, true)
+
+.root
+  &.row
+    flex-direction row
+
+.input
+  &.row
+    margin-left 2u
+
+  &.first
+    margin-left 0
+
+.input-input
+  align-self flex-start
+  padding-top 1u
+  padding-bottom @padding-top
+
+.radio
+  width: $this.size
+  height @width
+  border-color: $this.borderColor
+  radius(circle)
+  border-width: $this.borderWidth
+  justify-content center
+  align-items center
+
+  &.checked
+    border-color var(--color-border-primary)
+
+  &.error
+    border-color var(--color-border-error)
+
+.circle
+  radius(circle)
+  width $this.circleSize ? $this.circleSize : ($this.size / 2)
+  height @width
+  background-color var(--color-bg-primary)
+
+  &.error
+    background-color var(--color-bg-error)
+
+.container
+  margin-left 1u
+  flex-shrink 1
+
+.description
+  font(caption)

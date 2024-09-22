@@ -1,0 +1,36 @@
+{
+  "name": "@startupjs/babel-plugin-i18n-extract",
+  "version": "0.57.0-canary.0",
+  "description": "Extract translation keys",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "react",
+    "i18n"
+  ],
+  "scripts": {
+    "test": "rm -f translations.json && jest"
+  },
+  "author": "Pavel Zhukov",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/startupjs/startupjs"
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.0.0",
+    "babel-plugin-tester": "^9.1.0",
+    "jest": "^26.0.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.20"
+  }
+}

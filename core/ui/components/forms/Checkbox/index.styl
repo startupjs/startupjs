@@ -1,0 +1,103 @@
+$checkboxBorderColor = var(--color-border-main)
+$checkedIconColor = var(--color-text-on-primary)
+$height = 2u
+
+$this = merge({
+  checkbox: {
+    size: 2u,
+    borderWidth: 2px,
+    borderColor: $checkboxBorderColor,
+    borderRadius: 2px,
+    iconSize: 12
+  },
+  switch: {
+    width: 3u,
+    height: 2u,
+    circleSize: 10px,
+    circleBg: var(--Checkbox-switchBulletBg),
+    circleBgChecked: var(--Checkbox-switchBulletBg-checked),
+    circleLeftPosition: 3px,
+    circleRightPosition: 11px
+  }
+}, $UI.Checkbox, true)
+
+.readonly
+  fontFamily('normal', 900)
+  font-size 2u
+  line-height $height
+
+.checkbox
+  height: $this.checkbox.size
+  width @height
+  border-width: $this.checkbox.borderWidth
+  border-color: $this.checkbox.borderColor
+  justify-content center
+  align-items center
+  // due to border-radius on emulator
+  // you can see white 1px boundary between border and background
+  border-radius: $this.checkbox.borderRadius
+  overflow hidden
+
+  // NOTE:
+  // We do not change the background color for the error
+  // because this behavior is not possible
+  // but if it is necessary for some reason
+  // then we need to change it for the checkbox-animation class too
+  // IMPORTANT: checked modifier should overlaps error modifier
+  &.error
+    border-color var(--color-border-error)
+
+  &.checked
+    background-color var(--color-bg-primary)
+    border-color var(--color-border-primary)
+
+.checkbox-icon
+  display none
+  color $checkedIconColor
+
+  &.checked
+    display flex
+
+// NOTE: opacity is workaround because display none and position absolute doesn't work right
+// https://github.com/facebook/react-native/issues/18415
+.checkbox-animation
+  opacity 0
+  position absolute
+  left 0
+  top 0
+  bottom 0
+  right 0
+  background-color var(--color-bg-primary)
+
+  &.animated
+    opacity 1
+
+.switch
+  width: $this.switch.width
+  height $this.switch.height
+  radius(circle)
+  justify-content center
+  background-color var(--Checkbox-switchBg)
+  // padding 0 3px
+
+  // IMPORTANT: checked modifier should overlap error modifier
+  &.error
+    background-color var(--color-bg-error)
+
+  &.checked
+    background-color var(--color-bg-primary)
+
+.switch-circle
+  width: $this.switch.circleSize
+  height @width
+  background-color: $this.switch.circleBg
+  radius(circle)
+
+  if $this.switch.circleShadowLevel
+    shadow($this.switch.circleShadowLevel)
+
+  &.checked
+    background-color: $this.switch.circleBgChecked
+
+:export
+  config: $this

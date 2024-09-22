@@ -1,0 +1,37 @@
+{
+  "name": "@startupjs/babel-plugin-rn-stylename-inline",
+  "version": "0.57.0-canary.71",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Use styleName attributes with inline css and styl template strings",
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "react",
+    "lazy",
+    "import"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Pavel Zhukov",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/startupjs/startupjs"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.0.0",
+    "@babel/template": "^7.4.0",
+    "@babel/types": "^7.0.0",
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.57.0-canary.0",
+    "@startupjs/bundler": "^0.57.0-canary.71"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.0.0",
+    "babel-plugin-tester": "^9.1.0",
+    "jest": "^26.0.1"
+  }
+}

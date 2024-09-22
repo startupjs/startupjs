@@ -1,0 +1,24 @@
+{
+  "name": "@startupjs/i18n",
+  "version": "0.57.0-canary.0",
+  "description": "Internationalization framework for startupjs",
+  "main": "client/index.js",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^5.12.0",
+    "lodash": "^4.17.20",
+    "resolve": "^1.20.0"
+  },
+  "peerDependencies": {
+    "@startupjs/ui": "*",
+    "axios": "*",
+    "express": "4.x",
+    "react": "*",
+    "react-native": "*",
+    "startupjs": "*"
+  }
+}

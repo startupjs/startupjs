@@ -1,0 +1,99 @@
+$fontWeightNamesMap = {
+  '100': 'Thin',
+  '200': 'ExtraLight',
+  '300': 'Light',
+  '400': 'Regular',
+  '500': 'Medium',
+  '600': 'SemiBold',
+  '700': 'Bold',
+  '800': 'ExtraBold'
+  '900': 'Black',
+  normal: 'Regular',
+  bold: 'Bold'
+}
+
+DEPRECATED_SIZES = default xs 's' m l xl xxl xxxl xxxxl xxxxxl
+
+font(size = $UI.defaultFontSize, weight = $UI.fontWeights.normal)
+  // Workaround global built-in function s()
+  // http://stylus-lang.com/docs/bifs.html#sfmt-
+  size = 's' if size is s
+  size = body2 if size is default // DEPRECATED
+
+  if size in DEPRECATED_SIZES
+    p('font() mixin: size ' + size + ' is deprecated')
+
+  fontFamily($UI.fontFamilies[size], $UI.fontWeights[size] || weight)
+
+  font-size: $UI.fontSizes[size]
+  line-height: $UI.lineHeights[size]
+
+  if $UI.letterSpacings && $UI.letterSpacings[size]
+    letter-spacing: $UI.letterSpacings[size]
+
+  if $UI.textTransforms && $UI.textTransforms[size]
+    text-transform: $UI.textTransforms[size]
+
+text(key = default) // DEPRECATED
+  p('text() mixin is deprecated, use font() instead')
+  // color
+  if key is description
+    color: var(--color-text-description)
+  else
+    color: var(--color-text-main)
+
+  // font, line
+  if key is default
+    font()
+  else if key is description
+    font()
+  else if key is h1
+    font(xxxxxl)
+  else if key is h2
+    font(xxxxl)
+  else if key is h3
+    font(xxxl)
+  else if key is h4
+    font(xxl)
+  else if key is h5
+    font(xl)
+  else if key is h6
+    font(l)
+
+fontFamily(
+  fontName = 'normal',
+  fontWeight = $UI.fontWeights.normal,
+  fontStyle = 'normal'
+)
+  fontName = fontName or 'normal'
+  fontWeight = fontWeight or $UI.fontWeights.normal
+  fontStyle = fontStyle or 'normal'
+
+  defaultFontFamilies = $UI.fontFamilies.default || {}
+  platformFontFamilies = $UI.fontFamilies[$PLATFORM] || {}
+  fontFamily = defaultFontFamilies[fontName] or platformFontFamilies[fontName] or fontName
+
+  if (isCustomFont(fontFamily)) {
+    thickness = $fontWeightNamesMap[fontWeight]
+    isRegular = thickness is 'Regular'
+    isItalic = fontStyle is italic
+
+    fontFamily += '-'
+    // add thickness
+    // don't add thickness to font family name if regular and italic
+    if (!isRegular || !isItalic) {
+      fontFamily += $fontWeightNamesMap['' + fontWeight]
+    }
+    // add style
+    if (isItalic) {
+      fontFamily += 'Italic'
+    }
+  } else {
+    font-weight fontWeight
+    font-style fontStyle
+  }
+
+  font-family fontFamily
+
+isCustomFont(fontFamily)
+  return index($UI.customFontFamilies, fontFamily) isnt null

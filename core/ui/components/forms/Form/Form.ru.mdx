@@ -1,0 +1,268 @@
+import { useMemo, useEffect } from 'react'
+import Form from '../Form'
+import { useValue$ } from 'startupjs'
+
+# Form (форма)
+
+Обёртка вокруг ObjectInput, которая предоставляет возможность добавления дополнительных типов инпутов и сохраняет свои пропсы в контекст.
+
+```jsx
+import { Form } from '@startupjs/ui'
+```
+
+## Простой пример
+
+```jsx example
+const $value = useValue$({})
+
+return (
+  <Form
+    $value={$value}
+    fields={{
+      name: {
+        type: 'string',
+        label: 'Ваше имя',
+        required: true,
+        placeholder: 'Джон Смит'
+      },
+      gender: {
+        type: 'string',
+        enum: ['male', 'female', 'other']
+      },
+      age: {
+        type: 'number',
+        description: 'Ваш возраст (18+)',
+        min: 18,
+        max: 100,
+        step: 1
+      }
+    }}
+  />
+)
+```
+
+## Пользовательские инпуты
+
+Передайте пользовательские инпуты в `Form` используя свойство `customInputs`.
+
+Внутри пользовательских инпутов вы можете получить доступ к пропсам Form с помощью хука `useFormProps`.
+
+```jsx
+import { observer } from 'startupjs'
+import { Form, useFormProps } from '@startupjs/ui'
+
+function App () {
+  const minAge = 18
+  $value={$value}
+  return (
+    <Form
+      minAge={minAge}
+      customInputs={{
+        age: CustomAgeInput
+      }}
+      fields={{
+        age: {
+          type: 'number',
+          input: 'age',
+          description: 'Ваш возраст (18+)'
+        }
+      }}
+    />
+  )
+}
+
+const CustomAgeInput = observer(({ $value, ...props }) => {
+  const { minAge } = useFormProps()
+  function setAge (age) {
+    if (age < minAge) return minAge
+    $value.set(age)
+  }
+  return <NumberInput value={$value.get()} onChangeNumber={setAge} {...props} />
+})
+```
+
+### Добавление пользовательских инпутов глобально
+
+Вы можете добавить пользовательские инпуты глобально, создав плагин, который использует клиентский хук `customInputs`.
+
+В этом хуке вы должны вернуть объект с пользовательскими инпутами.
+
+```jsx
+// startupjs.config.js
+import { observer } from 'startupjs'
+import { NumberInput } from '@startupjs/ui'
+import { createPlugin } from 'startupjs/registry'
+
+export default {
+  plugins: {
+    // если у плагина нет опций, просто укажите `true`, чтобы включить плагин.
+    myCustomInputs: {
+      minAge: 18
+    }
+  }
+}
+
+createPlugin({
+  name: 'myCustomInputs',
+  client: ({ minAge }) => ({
+    customInputs: () => ({
+      age: observer(({ $value }) => {
+        function setAge (age) {
+          if (age < minAge) age = minAge
+          $value.set(age)
+        }
+        return <NumberInput value={$value.get()} onChangeNumber={setAge} />
+      })
+    })
+  })
+})
+```
+
+В этом хуке вы должны вернуть объект с пользовательскими инпутами.
+
+```jsx
+// startupjs.config.js
+import { observer } from 'startupjs'
+import { NumberInput } from '@startupjs/ui'
+import { createPlugin } from 'startupjs/registry'
+
+export default {
+  plugins: {
+    // если у плагина нет опций, просто укажите `true`, чтобы включить плагин.
+    myCustomInputs: {
+      minAge: 18
+    }
+  }
+}
+
+createPlugin({
+  name: 'myCustomInputs',
+  client: ({ minAge }) => ({
+    customInputs: () => ({
+      age: observer(({ $value }) => {
+        function setAge (age) {
+          if (age < minAge) age = minAge
+          $value.set(age)
+        }
+        return <NumberInput value={$value.get()} onChangeNumber={setAge} />
+      })
+    })
+  })
+})
+```
+
+Jxs при этом будет выглядеть следующим образом:
+
+```jsx
+import { observer } from 'startupjs'
+import { Form } from '@startupjs/ui'
+
+function App () {
+  const $value = useValue$({})
+
+  return (
+    <Form
+      $value={$value}
+      fields={{
+        age: {
+          type: 'number',
+          input: 'age'
+          description: 'Ваш возраст (18+)'
+        }
+      }}
+    />
+  )
+}
+```
+
+Все необходимые константы мы передаем в качестве options в плагин (в нашем случае это minAge). В самой же форме описываем
+type в соответствии с его реальным типом (у нас это будет number), а так же добавляем свойство input, которое будет иметь
+пользовательский тип, полученный из плагина (у нас это age).
+
+
+### Добавление пользовательских иконок в инпуты
+
+Структура схемы формы позволяет передавать только JSON данные, по этой причине мы не можем напрямую передавать иконки.
+Для этого в схеме у нас доступно поле iconName
+
+example: {
+  type: 'string',
+  iconName: 'exampleIcon'
+},
+
+После чего мы должны создать плагин, который предоставит объект с иконками. Ключ это название иконки, которое мы используем в схеме, а значение это сама иконка.
+
+
+createPlugin({
+  name: 'myCustomIcons',
+  order: 'ui',
+  client: () => ({
+      customIcons: () => {
+          return {
+            'exampleIcon': faTimes,
+          }
+      }
+    })
+  })
+
+
+## Совместимость с JSON-схемой
+
+Свойство `fields` совместимо с JSON-схемой.
+
+Чтобы указать как тип из JSON-схемы, так и явный тип инпута, то помимо поля `type` укажите дополнительно ещё и поле `input`.
+
+## Валидация
+
+По умолчанию `Form` не выполняет никакой валидации.
+
+Чтобы включить валидацию формы, передайте опцию `validate={true}`.
+
+В этом случае переданный `fields` (совместимый с json-schema) будет использован для постоянной валидации вашей формы и реактивного отображения любых ошибок.
+
+```jsx
+<Form validate={true} />
+```
+
+### `useValidate()`
+
+Для запуска валидации вручную используйте хук `useValidate()`.
+
+Он вернет функцию `validate`, которую вы можете вызвать вручную для выполнения валидации. Эта функция вернет `true`, если валидация пройдена (нет ошибок).
+
+Если ошибки есть, то они будут доступны в `validate.hasErrors` (`true` или `false`) и `validate.errors` (сами ошибки в виде объекта с именами полей и массивом ошибок: `{ name: ['Это поле обязательно'], age: ['только старше 18'] }`)
+
+### `useValidate({ always: true })`
+
+По умолчанию, только после первого ручного вызова `validate()` форма начнет показывать ошибки и обновлять их реактивно (при каждом изменении формы).
+
+Если вы хотите, чтобы форма начала показывать ошибки сразу после рендеринга и обновляла их реактивно, передайте в хук опцию `always: true`.
+
+Это заставит форму вести себя так, как если бы был передан `validate={true}`, но также даст вам доступ к функции `validate` для ее ручного вызова по мере необходимости.
+
+### Пример с валидацией ошибок
+
+```jsx
+import { $ } from 'startupjs'
+import { useValidate, Form, Button } from '@startupjs/ui'
+
+const fields = {
+  name: { type: 'string', required: true },
+  age: { type: 'number' }
+}
+const { $newUser } = $.session
+
+export default function App () {
+  const validate = useValidate()
+
+  function submit () {
+    if (!validate()) return
+    console.log('Создать нового пользователя', $newUser.get())
+  }
+
+  return [
+    <Form fields={fields} $value={$newUser} validate={validate} />,
+    <Button disabled={validate.hasErrors} onPress={submit}>Отправить</Button>
+  ]
+}
+```

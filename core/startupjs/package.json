@@ -1,0 +1,50 @@
+{
+  "name": "startupjs",
+  "type": "module",
+  "version": "0.57.0-canary.74",
+  "engines": {
+    "node": ">= 14"
+  },
+  "description": "React Native + Web + Node.js full-stack framework",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./server": "./server.js",
+    "./startServer": "./startServer.js",
+    "./registry": "./registry.js",
+    "./nodeRegister": "./nodeRegister.js",
+    "./nconf": "./nconf.js",
+    "./isomorphicHelpers": "./isomorphicHelpers.js",
+    "./loadConfig": "./loadConfig.js",
+    "./metro-config": "./metro-config.cjs",
+    "./metro-babel-transformer": "./metro-babel-transformer.cjs",
+    "./babel": "./babel.cjs",
+    "./startupjs.config": "./startupjs.config.cjs",
+    "./package.json": "./package.json",
+    "./plugins/cssMediaUpdater.plugin": "./plugins/cssMediaUpdater.plugin.js"
+  },
+  "bin": "./cli.js",
+  "license": "MIT",
+  "dependencies": {
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.57.0-canary.0",
+    "@startupjs/bundler": "^0.57.0-canary.71",
+    "@startupjs/cli": "^0.57.0-canary.74",
+    "@startupjs/hooks": "^0.57.0-canary.48",
+    "@startupjs/isomorphic-helpers": "^0.57.0-canary.0",
+    "@startupjs/registry": "^0.57.0-canary.61",
+    "@startupjs/server": "^0.57.0-canary.71",
+    "@startupjs/utils": "^0.57.0-canary.48",
+    "babel-preset-startupjs": "^0.57.0-canary.71",
+    "lodash": "^4.17.20",
+    "teamplay": "^0.3.14"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "peerDependenciesMeta": {
+    "react-native": {
+      "optional": true
+    }
+  }
+}

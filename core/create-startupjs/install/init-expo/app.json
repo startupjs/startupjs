@@ -1,0 +1,7 @@
+{
+  "expo": {
+    "web": {
+      "output": "single"
+    }
+  }
+}

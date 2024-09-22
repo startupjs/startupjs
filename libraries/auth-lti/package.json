@@ -1,0 +1,24 @@
+{
+  "name": "@startupjs/auth-lti",
+  "version": "0.57.0-canary.0",
+  "type": "module",
+  "description": "LTI auth plugin for StartupJS auth module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "index.js",
+  "keywords": [
+    "lti",
+    "auth"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@dmapper/passport-lms-lti": "^3.1.1"
+  },
+  "peerDependencies": {
+    "@startupjs/auth": "*",
+    "@startupjs/ui": "*",
+    "prop-types": "*",
+    "startupjs": "*"
+  }
+}

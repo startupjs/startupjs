@@ -1,0 +1,19 @@
+{
+  "name": "@startupjs/2fa",
+  "version": "0.57.0-canary.0",
+  "type": "module",
+  "description": "Two factor authentication module",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "qrcode": "^1.4.4",
+    "speakeasy": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@startupjs/ui": "*",
+    "startupjs": "*"
+  }
+}

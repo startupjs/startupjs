@@ -1,0 +1,207 @@
+import { useMemo, useEffect } from 'react'
+import Form from '../Form'
+import { useValue$ } from 'startupjs'
+
+# Form
+
+Wrapper around ObjectInput which provides a way to add extra input types and saves its props into the context.
+
+```jsx
+import { Form } from '@startupjs/ui'
+```
+
+## Simple example
+
+```jsx example
+const $value = useValue$({})
+
+return (
+  <Form
+    $value={$value}
+    fields={{
+      name: {
+        type: 'string',
+        label: 'Your name',
+        required: true,
+        placeholder: 'John Smith'
+      },
+      gender: {
+        type: 'string',
+        enum: ['male', 'female', 'other']
+      },
+      age: {
+        type: 'number',
+        description: 'Your age (18+)',
+        min: 18,
+        max: 100,
+        step: 1
+      }
+    }}
+  />
+)
+```
+
+## Custom inputs
+
+Pass custom inputs to the `Form` using the `customInputs` prop.
+
+Inside custom inputs you can access Form's props using the `useFormProps` hook.
+
+```jsx
+import { observer } from 'startupjs'
+import { Form, useFormProps } from '@startupjs/ui'
+
+function App () {
+  const minAge = 18
+  const $value = useValue$({})
+  return (
+    <Form
+      minAge={minAge}
+      $value={$value}
+      customInputs={{
+        age: CustomAgeInput
+      }}
+      fields={{
+        age: {
+          type: 'number',
+          input: 'age',
+          description: 'Your age (18+)'
+        }
+      }}
+    />
+  )
+}
+
+const CustomAgeInput = observer(({ $value, ...props }) => {
+  const { minAge } = useFormProps()
+  function setAge (age) {
+    if (age < minAge) return minAge
+    $value.set(age)
+  }
+  return <NumberInput value={$value.get()} onChangeNumber={setAge} {...props} />
+})
+```
+
+### Adding custom inputs globally
+
+You can add custom inputs globally by creating a plugin which uses the client's `customFormInputs` hook.
+
+You should return an object with the custom inputs in this hook.
+
+```jsx
+// startupjs.config.js
+import { observer } from 'startupjs'
+import { NumberInput } from '@startupjs/ui'
+import { createPlugin } from 'startupjs/registry'
+
+export default {
+  plugins: {
+    // if there are no plugin options, just specify `true` to enable the plugin.
+    myCustomInputs: {
+      minAge: 18
+    }
+  }
+}
+
+createPlugin({
+  name: 'myCustomInputs',
+  client: ({ minAge }) => ({
+    customFormInputs: () => ({
+      age: observer(({ $value }) => {
+        function setAge (age) {
+          if (age < minAge) age = minAge
+          $value.set(age)
+        }
+        return <NumberInput value={$value.get()} onChangeNumber={setAge} />
+      })
+    })
+  })
+})
+```
+
+Jxs will look like this:
+
+```jsx
+import { observer } from 'startupjs'
+import { Form } from '@startupjs/ui'
+
+function App () {
+  const $value = useValue$({})
+
+  return (
+    <Form
+      $value={$value}
+      fields={{
+        age: {
+          type: 'number',
+          input: 'age'
+          description: 'Your age (18+)'
+        }
+      }}
+    />
+  )
+}
+```
+
+We pass all necessary constants as options to the plugin (in our case, it's minAge).
+In the form we define the type according to its actual type (in our case, it will be number),
+and we also add an input property, which will have a custom type derived from the plugin (in our case, it's 'age').
+
+## JSON-Schema compatilibily
+
+`fields` prop is json-schema compatible.
+
+If you want to specify both the json-schema type and the input type, you can use `input` prop in addition to the `type` prop.
+
+## Validation
+
+By default `Form` does not run any validation.
+
+By passing `validate={true}` it will use the `fields` (which is json-schema compatible) to always validate your form and reactively show any errors.
+
+```jsx
+<Form validate={true} />
+```
+
+### `useValidate()`
+
+To trigger validation manually, use `useValidate()` hook.
+
+It will return the `validate` function which you can call manually to run the validation. It will return `true` if validation has passed (there are NO errors).
+
+If there are errors, they will be available in `validate.hasErrors` (`true` or `false`) and `validate.errors` (errors themselves as an object of field names and an array of errors: `{ name: ['This field is required'], age: ['must be above 18'] }`)
+
+### `useValidate({ always: true })`
+
+By default, only after the first manual `validate()` call the `Form` will start showing errors and update them reactively (on each change to the form).
+
+If you want the `Form` to start showing errors right away and update them reactively as soon as it renders, pass an `always: true` option to the hook.
+
+This will effectively make the `Form` behave as if `validate={true}` was passed but also give you access to the `validate` function to manually call it when needed.
+
+### Example with errors validation
+
+```jsx
+import { $ } from 'startupjs'
+import { useValidate, Form, Button } from '@startupjs/ui'
+
+const fields = {
+  name: { type: 'string', required: true },
+  age: { type: 'number' }
+}
+const { $newUser } = $.session
+
+export default function App () {
+  const validate = useValidate()
+
+  function submit () {
+    if (!validate()) return
+    console.log('Create new user', $newUser.get())
+  }
+
+  return [
+    <Form fields={fields} $value={$newUser} validate={validate} />,
+    <Button disabled={validate.hasErrors} onPress={submit}>Submit</Button>
+  ]
+}
+```

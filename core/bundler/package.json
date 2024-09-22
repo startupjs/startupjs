@@ -1,0 +1,62 @@
+{
+  "name": "@startupjs/bundler",
+  "version": "0.57.0-canary.71",
+  "description": "Opinionated scripts and configs to develop a react-native-web project",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Pavel Zhukov",
+    "email": "cray0000@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-syntax-jsx": "^7.0.0",
+    "@babel/polyfill": "^7.8.0",
+    "@mdx-js/loader": "^2.3.0",
+    "@mdx-js/mdx": "^2.3.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
+    "@startupjs/babel-plugin-eliminator": "^0.57.0-canary.0",
+    "@startupjs/babel-plugin-react-css-modules": "^6.5.4-1",
+    "@startupjs/babel-plugin-react-pug-classnames": "^0.57.0-canary.0",
+    "@startupjs/babel-plugin-startupjs-plugins": "^0.57.0-canary.0",
+    "@startupjs/babel-plugin-transform-react-pug": "^7.0.1-0",
+    "@startupjs/css-to-react-native-transform": "^1.9.0-2",
+    "@startupjs/server": "^0.57.0-canary.71",
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
+    "@svgr/plugin-svgo": "^8.1.0",
+    "@svgr/webpack": "^8.1.0",
+    "assets-webpack-plugin": "^7.1.1",
+    "autoprefixer": "^10.4.0",
+    "babel-loader": "^8.2.3",
+    "babel-preset-startupjs": "^0.57.0-canary.71",
+    "connect": "^3.7.0",
+    "css-loader": "^6.5.0",
+    "css-minimizer-webpack-plugin": "^5.0.0",
+    "file-loader": "^6.2.0",
+    "lodash": "^4.17.20",
+    "mini-css-extract-plugin": "^2.4.3",
+    "moment": "^2.0.0",
+    "moment-locales-webpack-plugin": "^1.0.7",
+    "postcss": "^8.3.11",
+    "postcss-loader": "^7.2.0",
+    "process": "^0.11.10",
+    "react-native-svg-transformer": "0.20.0",
+    "react-refresh": "^0.10.0",
+    "remark-gfm": "^1.0.0",
+    "style-loader": "^3.3.1",
+    "stylus": "0.54.7",
+    "stylus-loader": "^6.2.0",
+    "terser-webpack-plugin": "^5.2.4",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react-native-svg": "*"
+  }
+}

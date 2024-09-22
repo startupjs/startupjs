@@ -1,0 +1,52 @@
+.content
+  flex-direction column
+  padding 1u
+  flex-shrink 1
+
+  +from($UI.media.tablet)
+    flex-direction row
+    height 42u
+
+.divider
+  align-self center
+  width 60%
+  height 1px
+  margin 1u 0
+
+  +from($UI.media.tablet)
+    height 95%
+    width 1px
+    margin 0 2u
+
+.drawer
+  height 95%
+  border-radius 0
+  padding-top 3u
+
+  +native()
+    height auto
+
+.actions
+  justify-content space-between
+
+.rnPicker
+  margin-top 2u
+
+.swipe
+  height 3u
+
+.popoverWrapper
+.popoverOverlay
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
+
+  +web()
+    cursor default
+
+.popover
+  background-color var(--color-bg-main-strong)
+  radius()
+  shadow(3)

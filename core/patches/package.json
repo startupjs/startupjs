@@ -1,0 +1,14 @@
+{
+  "name": "@startupjs/patches",
+  "version": "0.57.0-canary.0",
+  "type": "module",
+  "description": "Patches for libraries used by StartupJS",
+  "main": "index.js",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "patch-package": "^7.0.0"
+  }
+}

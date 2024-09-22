@@ -1,0 +1,20 @@
+{
+  "name": "@startupjs/mailgun",
+  "description": "Library to send email messages in app via mailgun",
+  "version": "0.57.0-canary.0",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "server/index.js",
+  "dependencies": {
+    "form-data": "^4.0.0",
+    "inline-css": "4.0.1",
+    "mailgun.js": "^8.2.1"
+  },
+  "peerDependencies": {
+    "express": "4.x",
+    "lodash": "*",
+    "nconf": "*"
+  }
+}

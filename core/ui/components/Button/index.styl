@@ -1,0 +1,69 @@
+// ----- CONFIG: $UI.Button
+
+$this = merge({
+  heights: {
+    xs: 2u,
+    s: 3u,
+    m: 4u,
+    l: 5u,
+    xl: 6u,
+    xxl: 7u
+  },
+  fontSizes: {
+    xs: 1.25u,
+    s: $UI.fontSizes.caption,
+    m: $UI.fontSizes.body2,
+    l: $UI.fontSizes.body1,
+    xl: $UI.fontSizes.h5,
+    xxl: $UI.fontSizes.h4
+  },
+  lineHeights: {
+    xs: 1.75u,
+    s: $UI.lineHeights.caption,
+    m: $UI.lineHeights.body2,
+    l: $UI.lineHeights.body1,
+    xl: $UI.lineHeights.h5,
+    xxl: $UI.lineHeights.h4
+  },
+  outlinedBorderWidth: 1px,
+  iconMargins: {
+    xs: .5u,
+    s: .5u,
+    m: 1u,
+    l: 1u,
+    xl: 1.5u,
+    xxl: 1.5u
+  },
+  disabledOpacity: 0.25
+}, $UI.Button, true)
+
+// ----- COMPONENT
+
+_sizes = ('xs' 's' 'm' 'l' 'xl' 'xxl')
+
+.root
+  &.disabled
+    opacity $this.disabledOpacity
+
+.label
+  fontFamily('normal', 500)
+
+  &.invisible
+    opacity 0
+
+  for size in _sizes
+    &.{size}
+      font-size $this.fontSizes[size]
+      line-height $this.lineHeights[size]
+
+.icon
+  &.invisible
+    opacity 0
+
+.loader
+  position absolute
+
+// ----- JS EXPORTS
+
+:export
+  config: $this

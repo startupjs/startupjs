@@ -1,5 +1,5 @@
 {
-  "version": "0.56.0-alpha.69",
+  "version": "0.57.0-canary.74",
   "command": {
     "publish": {
       "ignoreChanges": [
@@ -9,5 +9,11 @@
       ]
     }
   },
+  "packages": [
+    "core/*",
+    "libraries/*",
+    "docker",
+    "expoapp"
+  ],
   "npmClient": "yarn"
 }

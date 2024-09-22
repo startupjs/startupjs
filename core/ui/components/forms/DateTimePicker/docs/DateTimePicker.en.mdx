@@ -1,0 +1,98 @@
+import { useState } from 'react'
+import { pug, $ } from 'startupjs'
+import DateTimePicker from '../'
+import { Sandbox } from '@startupjs/docs'
+
+# DateTimePicker
+
+DateTimePicker allows to display and change the date and time
+
+```jsx
+import { DateTimePicker } from '@startupjs/ui'
+```
+
+## Simple example
+
+```jsx example
+const [date, setDate] = useState(+new Date())
+
+return pug`
+  DateTimePicker(
+    date=date
+    onChangeDate=v=> setDate(v)
+  )
+`
+```
+
+## Managing visibility
+
+There are three options for managing visiblity of a `DateTimePicker`:
+
+1. By passing the scoped model to the `$visible` property from the state of which visibility is controlled.
+
+```jsx example
+const $visible = $()
+const [date, onChangeDate] = useState()
+
+return pug`
+  DateTimePicker(
+    date=date
+    $visible=$visible
+    onChangeDate=onChangeDate
+  )
+`
+```
+
+2. By passing the `visible`, `onRequestOpen` and `onRequestClose` properties that determines whether `DateTimePicker` is visible.
+
+```jsx example
+const $visible = $()
+const [date, onChangeDate] = useState()
+
+return pug`
+  DateTimePicker(
+    date=date
+    visible=visible
+    onChangeDate=onChangeDate
+    onRequestOpen=() => $visible.set(true)
+    onRequestClose=() => $visible.del()
+  )
+`
+```
+
+3. Uncontrolled.
+
+```jsx example
+const [date, onChangeDate] = useState()
+
+return pug`
+  DateTimePicker(
+    date=date
+    onChangeDate=onChangeDate
+  )
+`
+```
+
+## Props
+
+**date** - initial date or time in timestamp
+
+**onChangeDate** - date and time selection handler, returns a timestamp
+
+**disabled** - disabled picker
+
+**dateFormat** - date formatting string from [moment](https://momentjscom.readthedocs.io/en/latest/moment/04-displaying/01-format/)
+
+**maxDate** - maximum available date in timestamp
+
+**minDate** - minimum available date in timestamp
+
+**timeInterval** - the interval at which minutes can be selected (default - 1)
+
+**mode** - defines the picker type: datetime - date and time, date - date, time - time (default - datetime)
+
+**placeholder** - placeholder for input on the web and button in the native application if the date is not selected
+
+**size** - the sizes of the input on the web and the button in the native application, possible values are: l, m and s (default - m)
+
+<Sandbox Component={DateTimePicker} block />

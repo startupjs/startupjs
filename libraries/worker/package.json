@@ -1,0 +1,23 @@
+{
+  "name": "@startupjs/worker",
+  "version": "0.57.0-canary.1",
+  "type": "module",
+  "description": "Worker to perform specified actions",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --file test/hooks.js 'test/*.mocha.js'"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "mocha": "^8.1.3"
+  },
+  "peerDependencies": {
+    "teamplay": "*"
+  }
+}

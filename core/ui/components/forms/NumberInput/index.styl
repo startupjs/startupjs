@@ -1,0 +1,86 @@
+$sizes = 'l' 'm' 's'
+// border color should be taken from text input config
+// because the input border and the button border overlap each other
+$inputBorderColor = var(--color-border-main)
+$padding = {
+  l: 6u,
+  m: 5u,
+  s: 4u
+}
+
+.input-wrapper
+  flex-grow 1
+
+  &.right
+    flex-direction row-reverse
+
+  &.readonly
+    align-self flex-start
+
+.input-units
+  align-self center
+
+  &.l
+    font(body1)
+
+  &.readonly
+    &.left
+      margin-right 0.5u
+
+    &.right
+      margin-left 0.5u
+
+.input-container
+  flex-grow 1
+  flex-shrink 1
+
+  &.left
+    margin-left 1u
+
+  &.right
+    margin-right 1u
+
+.input-input
+  for size in $sizes
+    padding = $padding[size]
+
+    &.vertical.{size}
+      padding-right padding
+
+    &.horizontal.{size}
+      padding-left padding
+      padding-right @padding-left
+
+.input-button
+  position absolute
+  border-color $inputBorderColor
+
+  &.vertical
+    right 0
+    height 50%
+
+    &.increase
+      top 0
+      border-top-left-radius 0
+      border-bottom-left-radius 0
+      border-bottom-right-radius 0
+
+    &.decrease
+      bottom 0
+      border-top-left-radius 0
+      border-bottom-left-radius 0
+      border-top-right-radius 0
+
+  &.horizontal
+    top 0
+    bottom 0
+
+    &.increase
+      right 0
+      border-top-left-radius 0
+      border-bottom-left-radius 0
+
+    &.decrease
+      left 0
+      border-top-right-radius 0
+      border-bottom-right-radius 0

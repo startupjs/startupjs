@@ -1,0 +1,35 @@
+{
+  "name": "@startupjs/babel-plugin-startupjs-utils",
+  "version": "0.57.0-canary.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Additional transformations for startupjs configs and other stuff",
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "startupjs",
+    "utils"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Pavel Zhukov",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/startupjs/startupjs"
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.0.0",
+    "@babel/template": "^7.4.0",
+    "@babel/types": "^7.4.0",
+    "babel-plugin-tester": "^9.1.0",
+    "jest": "^26.0.1"
+  }
+}

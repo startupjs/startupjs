@@ -4,7 +4,8 @@
     "node": ">= 20.10"
   },
   "workspaces": [
-    "packages/*",
+    "core/*",
+    "libraries/*",
     "docker",
     "expoapp"
   ],
@@ -39,6 +40,8 @@
     "publish-minor": "yarn before-publish && npx lerna publish minor --no-push && yarn publish-update-changelog",
     "publish-alpha": "yarn before-publish && npx lerna publish preminor --force-publish --dist-tag next --no-push && yarn publish-update-changelog",
     "publish-alpha-patch": "yarn before-publish && npx lerna publish prerelease --dist-tag next --no-push && yarn publish-update-changelog",
+    "publish-canary": "yarn before-publish && npx lerna publish preminor --force-publish --preid canary --dist-tag canary --no-push && yarn publish-update-changelog",
+    "publish-canary-patch": "yarn before-publish && npx lerna publish prerelease --preid canary --dist-tag canary --no-push && yarn publish-update-changelog",
     "before-publish": "./scripts/tasks.sh before-publish",
     "publish-update-changelog": "./scripts/tasks.sh update-changelog",
     "test-e2e": "cd styleguide && yarn test-e2e",
@@ -48,7 +51,7 @@
     "@playwright/test": "^1.40.0",
     "conventional-changelog-cli": "^2.1.1",
     "eslint": "^8.53.0",
-    "eslint-config-startupjs": "workspace:packages/eslint-config-startupjs",
+    "eslint-config-startupjs": "workspace:core/eslint-config-startupjs",
     "husky": "^4.3.0",
     "lerna": "^3.22.1",
     "lint-staged": "^9.5.0"
@@ -60,9 +63,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "! grep -q '\"resolutions\":' ./package.json || (echo '\\033[0;31mError: \"resolutions\" found in package.json. Remove \"resolutions\" to proceed with commit.\\033[0m' && exit 1) && lint-staged"
     }
   },
   "license": "MIT",
-  "packageManager": "yarn@4.0.2+sha256.825003a0f561ad09a3b1ac4a3b3ea6207af2796d54f62a9420520915721f5186"
+  "//resolutions": {
+    "teamplay": "portal:../teamplay/packages/teamplay",
+    "@teamplay/channel": "portal:../teamplay/packages/channel"
+  },
+  "packageManager": "yarn@4.2.1+sha512.4326f6a5a916363bfd3533f984bc4c91d47a0c6af2d79fc6e8a25dec14a1be88ec354e2b1d2919461647ec8df1d39303575f7726827704cdf9909d38621c9300"
 }

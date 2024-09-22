@@ -1,6 +1,6 @@
 import React from 'react'
 import { createPlugin } from 'startupjs/registry'
-import { pug, styl, $, observer } from 'startupjs'
+import { pug, styl, $, sub, observer } from 'startupjs'
 import { Span, Div, Button, alert } from '@startupjs/ui'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle'
@@ -10,11 +10,26 @@ const $banner = $.session.banner
 const plugins = createPlugins()
 
 export default {
+  features: {
+    enableOAuth2: true,
+    accessControl: true
+  },
+  client: {
+    init: () => {
+      globalThis.$ = $
+      globalThis.sub = sub
+    }
+  },
   plugins: {
     [plugins.banner]: {
       client: {
         message: 'Startupjs app',
         defaultVisible: false
+      }
+    },
+    auth: {
+      client: {
+        redirectUrl: '/two'
       }
     }
   }
@@ -34,7 +49,7 @@ function createPlugins () {
         // NOTE: if module uses dynamicPlugins, the init function will be executed
         //       every time the plugins/onlyPlugins option changes.
         //       So it's important to make the initialization logic idempotent if possible.
-        $banner.visible.setNull(defaultVisible)
+        $banner.visible.set(defaultVisible)
         // return actual hooks for the root module
         return {
           renderRoot ({ children }) {
@@ -60,7 +75,7 @@ const Banner = observer(({ children, message }) => {
         )
       Button(
         color='text-description' variant='text' icon=faTimes
-        onPress=() => $banner.visible.setDiff(false)
+        onPress=() => $banner.visible.set(false)
       )
   `
   styl`
