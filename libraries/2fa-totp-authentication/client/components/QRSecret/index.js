@@ -19,7 +19,7 @@ function QRSecret ({ style }) {
       }
     }
     getQR()
-  })
+  }, [])
 
   return pug`
     Div(style=style)
