@@ -170,7 +170,7 @@ You can also provide these environment variables when doing local development th
 
 To deploy the native apps use the [Expo EAS](https://expo.dev/eas) service -- `eas build` and `eas submit`.
 
-### Advanced
+## Advanced
 
 To gain further deep knowledge of StartupJS stack you'll need get familiar with the following technologies it's built on:
 
