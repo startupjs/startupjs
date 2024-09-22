@@ -43,7 +43,7 @@ StartupJS app requires:
 
     **Note:** You can use any Expo template you want
 
-    - if you are using **yarn**:
+    - if you are using **yarn** (recommended):
 
         ```
         yarn create expo-app myapp
