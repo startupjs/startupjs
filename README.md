@@ -96,8 +96,9 @@ StartupJS app requires:
 
 4. Start expo app with `yarn start` (or `npm start`).
 
-5. If Fast Refresh (hot reloading) is not working (this might be the case if you created a bare expo project),
-add `import '@expo/metro-runtime'` to the top of your entry file.
+> [!WARNING]
+> If Fast Refresh (hot reloading) is not working (this might be the case if you created a bare expo project),
+> add `import '@expo/metro-runtime'` to the top of your entry file.
 
 ## Known issues
 
