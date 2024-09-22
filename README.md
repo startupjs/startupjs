@@ -152,8 +152,9 @@ The main things you'll need to know to get started with StartupJS are:
 1. [Teamplay ORM](https://teamplay.dev/) (all `teamplay` stuff should be imported directly from `startupjs`)
 1. [StartupJS UI Components](https://startupjs-ui.dev.dmapper.co)
 
-Before launching your app to production you are strongly encouraged to implement:
+To launch your app to production read the following sections:
 
+1. [Production](#production)
 1. [Security](#security)
 
 ## Production
