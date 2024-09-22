@@ -118,8 +118,6 @@ If you would have issues running Android, you can use V8 engine on it: [`react-n
 
 ## Native Development (iOS and Android)
 
-### Requiremens
-
 StartupJS uses Expo by default which should guide you through installation steps itself, just run `yarn start -c`
 (`-c` flag is to clear the JS compilation cache) and press `i` to launch iOS simulator or `a` to launch Android simulator.
 
