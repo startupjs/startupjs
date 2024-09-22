@@ -50,17 +50,15 @@ Alternatively, you can run everything in [Docker](https://docs.docker.com/instal
         cd myapp
         ```
 
-        - To use the latest Yarn Berry v4 (**recommended**), do the following:
+        ```
+        corepack enable && echo 'nodeLinker: node-modules' > .yarnrc.yml && corepack use yarn@4
+        ```
 
-            ```
-            corepack enable && echo 'nodeLinker: node-modules' > .yarnrc.yml && corepack use yarn@4
-            ```
-
-            > **Warning:** If you are on Mac, you might first need to install `corepack` separately with:
-            >
-            >    ```
-            >    brew install corepack
-            >    ```
+        > **Warning:** If you are on Mac, you might first need to install `corepack` separately with:
+        >
+        >    ```
+        >    brew install corepack
+        >    ```
 
     - if you are using **npm**:
 
