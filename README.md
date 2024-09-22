@@ -96,7 +96,7 @@ add `import '@expo/metro-runtime'` to the top of your entry file.
 
 ## Known issues
 
-On the current version of Expo the Hermes JS engine does not support `FinalizationRegistry` yet on iOS/Android.
+On the current version of Expo (v51) the Hermes JS engine does not support `FinalizationRegistry` yet on iOS/Android.
 Because of this there are known memory leaks. To workaround this issue until Hermes adds support for it, please
 specify a different JS engine (`jsc`) in `app.json`:
 
