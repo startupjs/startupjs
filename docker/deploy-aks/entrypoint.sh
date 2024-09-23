@@ -306,7 +306,7 @@ update_deployments () {
   then
     if [ -n "$DEPLOYMENTS" ]
     then
-      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json \
+      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json | jq '[.items[] | select(.metadata.labels.microservice != "cron")]' \
         | kubectl-neat \
         | jq '.items[]' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
@@ -323,7 +323,7 @@ update_deployments () {
         | jq ".spec.template.spec.containers[0].image = \"${REGISTRY_SERVER}/${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}:${COMMIT_SHA}\"" \
         | kubectl apply -f -
     else
-      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json \
+      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json | jq '[.items[] | select(.metadata.labels.microservice != "cron")]' \
         | kubectl-neat \
         | jq '.items[]' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
@@ -394,9 +394,9 @@ update_deployments () {
     fi
   else
     for _name in $(kubectl get deployments -l "managed-by=terraform,part-of=${APP}" --no-headers -o custom-columns=":metadata.name"); do
-      SERVICE=$(echo $NAME | cut -d "-" -f 2)
+      SERVICE=$(echo "${_name}" | cut -d "-" -f 2)
       if [[ "$DEPLOYMENTS" =~ .*"$SERVICE:".* ]]; then
-        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}" 
+        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}"
         kubectl annotate "deployment/$_name" kubernetes.io/change-cause="Set image: $_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}"
       else
         kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}"
