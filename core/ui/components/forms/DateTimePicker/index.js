@@ -10,9 +10,9 @@ import RNDateTimePicker, { DateTimePickerAndroid } from '@react-native-community
 import { pug, observer, useBind, $ } from 'startupjs'
 import { useMedia, Button } from '@startupjs/ui'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import PropTypes from 'prop-types'
 import moment from 'moment-timezone'
-import 'moment/min/locales'
 import Div from '../../Div'
 import Divider from '../../Divider'
 import TextInput from '../TextInput'
@@ -21,10 +21,12 @@ import Drawer from '../../popups/Drawer'
 import { getLocale } from './helpers'
 import { Calendar, TimeSelect } from './components'
 import themed from '../../../theming/themed'
+import 'moment/min/locales'
 import './index.styl'
 
 function DateTimePicker ({
   style,
+  contentStyle = {},
   dateFormat,
   display,
   timeInterval,
@@ -57,6 +59,7 @@ function DateTimePicker ({
   const [textInput, setTextInput] = useState('')
   const refTimeSelect = useRef()
   const inputRef = useRef()
+  const insets = useSafeAreaInsets()
 
   useImperativeHandle(ref, () => inputRef.current, [])
 
@@ -287,7 +290,12 @@ function DateTimePicker ({
 
   function renderPopoverContent () {
     return pug`
-      Div.content
+      Div.content(
+        style={
+          paddingBottom: (media.tablet && Platform.OS === 'ios') ? 0 : insets.bottom,
+          ...contentStyle
+        }
+      )
         if Platform.OS === 'web'
           if (mode === 'date') || (mode === 'datetime')
             Calendar(
@@ -389,6 +397,7 @@ function DateTimePicker ({
           visible=visible
           position='bottom'
           swipeStyleName='swipe'
+          AreaComponent=Div
           onDismiss=onDismiss
         )= renderPopoverContent()
   `
