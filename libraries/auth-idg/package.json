@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-idg",
-  "version": "0.57.0-canary.0",
+  "version": "0.57.0-canary.75",
   "type": "module",
   "description": "iDecisionGames auth plugin for StartupJS auth module",
   "main": "index.js",

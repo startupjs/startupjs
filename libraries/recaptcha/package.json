@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/recaptcha",
-  "version": "0.57.0-canary.0",
+  "version": "0.57.0-canary.75",
   "type": "module",
   "description": "reCAPTCHA plugin",
   "main": "index.js",

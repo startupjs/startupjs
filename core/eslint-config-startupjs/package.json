@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-startupjs",
-  "version": "0.57.0-canary.0",
+  "version": "0.57.0-canary.75",
   "description": "ESLint config for StartupJS projects",
   "main": "index.js",
   "publishConfig": {
@@ -17,7 +17,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-startupjs": "^0.57.0-canary.0"
+    "eslint-plugin-startupjs": "^0.57.0-canary.75"
   },
   "peerDependencies": {
     "eslint": "*",

@@ -1,3 +1,13 @@
+# [0.57.0-canary.75](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.74...v0.57.0-canary.75) (2024-09-23)
+
+
+### Bug Fixes
+
+* **2fa-totp-authentication:** reappy fix of infinite token refetching ([1a54fb2](https://github.com/startupjs/startupjs/commit/1a54fb28c1ce8abecc73e4c73c82d817fa3a966a))
+* **core/ui/components/forms/DateTimePicker/index.js:** remove safearea insets ([ab5c5ef](https://github.com/startupjs/startupjs/commit/ab5c5ef14b5adad54a2594a6251eb3c08238339a))
+
+
+
 # [0.57.0-canary.74](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.73...v0.57.0-canary.74) (2024-09-19)
 
 
