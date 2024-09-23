@@ -302,7 +302,7 @@ _get_keyvault_secrets_yaml () {
 }
 
 update_deployments () {
-  if [ -n "$FEATURE"  ]
+  if [ -n "$FEATURE" ]
   then
     if [ -n "$DEPLOYMENTS" ]
     then
