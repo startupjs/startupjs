@@ -1,3 +1,12 @@
+# [0.57.0-canary.76](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.75...v0.57.0-canary.76) (2024-09-23)
+
+
+### Features
+
+* **auth:** implement 2fa - first working version ([#1261](https://github.com/startupjs/startupjs/issues/1261)) ([3cc02e4](https://github.com/startupjs/startupjs/commit/3cc02e460303f266005814be8ece1a5dcbc9d2ac))
+
+
+
 # [0.57.0-canary.75](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.74...v0.57.0-canary.75) (2024-09-23)
 
 
