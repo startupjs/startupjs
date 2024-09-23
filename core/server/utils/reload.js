@@ -6,7 +6,7 @@ import reloadAppAsync from '@startupjs/utils/reloadAppAsync'
 export const RESTORE_URL_KEY = 'startupjs.restoreUrl'
 
 export async function reload (restoreUrl) {
-  if (restoreUrl) AsyncStorage.setItem(RESTORE_URL_KEY, restoreUrl)
+  if (restoreUrl) await AsyncStorage.setItem(RESTORE_URL_KEY, restoreUrl)
   if (process.env.NODE_ENV !== 'production' && DevSettings?.reload) {
     return DevSettings.reload()
   } else if (reloadAppAsync) {

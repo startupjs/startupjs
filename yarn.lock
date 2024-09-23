@@ -7250,6 +7250,7 @@ __metadata:
     "@startupjs/registry": "npm:^0.57.0-canary.75"
     "@startupjs/utils": "npm:^0.57.0-canary.75"
     "@types/jsonwebtoken": "npm:^9"
+    "@types/speakeasy": "npm:^2"
     bcrypt: "npm:^5.1.1"
     body-parser: "npm:1.20.0"
     compression: "npm:^1.6.0"
@@ -7264,6 +7265,7 @@ __metadata:
     jwks-rsa: "npm:^3.1.0"
     lodash: "npm:^4.17.20"
     method-override: "npm:~2.3.10"
+    speakeasy: "npm:^2.0.0"
     uuid: "npm:^9.0.1"
   peerDependencies:
     "@react-native-async-storage/async-storage": "*"
@@ -8315,6 +8317,15 @@ __metadata:
     "@types/mime": "npm:^1"
     "@types/node": "npm:*"
   checksum: 10c0/7f3de245cbb11f3a9d7977b6e763585c6022ebfc079fa746f8d824411bb6b343521c1cff5407edc0d5196f4b7d6fea431fb36455843f4a6717d295c235065cf2
+  languageName: node
+  linkType: hard
+
+"@types/speakeasy@npm:^2":
+  version: 2.0.10
+  resolution: "@types/speakeasy@npm:2.0.10"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/4a9304373a4fe5b7931409384fd948c1ff3ae4cb0b2f5a69f407852f2e3186c4276c969292c634ea722bab859e84cdaf7d006588ce8a3c48ee4199b2deb2dc08
   languageName: node
   linkType: hard
 
