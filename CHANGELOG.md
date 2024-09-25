@@ -1,3 +1,12 @@
+# [0.57.0-canary.79](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.78...v0.57.0-canary.79) (2024-09-25)
+
+
+### Features
+
+* re-export schema from startupjs - 'startupjs/schema'. Use it in ui instead of directly using teamplay/schema ([785518c](https://github.com/startupjs/startupjs/commit/785518c2a284bb253bafd1236220e1a54b8a0894))
+
+
+
 # [0.57.0-canary.76](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.75...v0.57.0-canary.76) (2024-09-23)
 
 
