@@ -1,6 +1,6 @@
 import React from 'react'
 import { TabView } from 'react-native-tab-view'
-import { pug, styl, observer, useIsomorphicLayoutEffect, $ } from 'startupjs'
+import { pug, styl, observer, $ } from 'startupjs'
 import PropTypes from 'prop-types'
 import findIndex from 'lodash/findIndex'
 import pick from 'lodash/pick'
