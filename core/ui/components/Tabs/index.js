@@ -23,15 +23,9 @@ function Tabs ({
   //       Use `style` instead. This was needed before to workaround underlying tabs lib issue
   if (tabsStyle) console.warn('[@startupjs/ui -> Tabs] `tabsStyle` prop is deprecated. Use `style` instead.')
 
-  const $localValue = $(initialKey || routes[0]?.key)
+  const $localValue = $value || $(initialKey || routes[0]?.key)
   const tabBarProps = pick(props, Object.keys(Bar.propTypes))
   const tabViewProps = pick(props, Object.keys(ObservedTabs.propTypes))
-
-  useIsomorphicLayoutEffect(() => {
-    if (!$value) return
-    $localValue.ref($value)
-    return () => $localValue.removeRef()
-  }, [])
 
   const tabIndex = findIndex(routes, { key: $localValue.get() })
 
