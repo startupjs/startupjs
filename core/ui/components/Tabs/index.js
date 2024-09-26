@@ -1,6 +1,6 @@
 import React from 'react'
 import { TabView } from 'react-native-tab-view'
-import { pug, styl, observer, useValue, useIsomorphicLayoutEffect } from 'startupjs'
+import { pug, styl, observer, $ } from 'startupjs'
 import PropTypes from 'prop-types'
 import findIndex from 'lodash/findIndex'
 import pick from 'lodash/pick'
@@ -23,17 +23,11 @@ function Tabs ({
   //       Use `style` instead. This was needed before to workaround underlying tabs lib issue
   if (tabsStyle) console.warn('[@startupjs/ui -> Tabs] `tabsStyle` prop is deprecated. Use `style` instead.')
 
-  const [localValue, $localValue] = useValue(initialKey || routes[0]?.key)
+  const $localValue = $value || $(initialKey || routes[0]?.key)
   const tabBarProps = pick(props, Object.keys(Bar.propTypes))
   const tabViewProps = pick(props, Object.keys(ObservedTabs.propTypes))
 
-  useIsomorphicLayoutEffect(() => {
-    if (!$value) return
-    $localValue.ref($value)
-    return () => $localValue.removeRef()
-  }, [])
-
-  const tabIndex = findIndex(routes, { key: localValue })
+  const tabIndex = findIndex(routes, { key: $localValue.get() })
 
   function _renderTabBar (props) {
     if (renderTabBar) return renderTabBar(props)
