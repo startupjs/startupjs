@@ -1,3 +1,12 @@
+# [0.57.0-canary.80](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.79...v0.57.0-canary.80) (2024-09-26)
+
+
+### Bug Fixes
+
+* **core/ui/components/Tabs/index.js:** replace useValue with $ ([#1268](https://github.com/startupjs/startupjs/issues/1268)) ([462b3b1](https://github.com/startupjs/startupjs/commit/462b3b1badf416f0cb668e6bcc8fa2708cab152e))
+
+
+
 # [0.57.0-canary.79](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.78...v0.57.0-canary.79) (2024-09-25)
 
 
