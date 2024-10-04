@@ -1,5 +1,5 @@
 const dotenv = require('dotenv')
 
-dotenv.config({ path: ['.env.local', '.env'] })
+dotenv.config({ path: [`.env.${process.env.STAGE || 'local'}`, '.env'] })
 
 module.exports = () => {}
