@@ -1,3 +1,12 @@
+# [0.57.0-canary.82](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.81...v0.57.0-canary.82) (2024-10-04)
+
+
+### Features
+
+* support other .env files besides .env.local by providing STAGE=name ([2fb1095](https://github.com/startupjs/startupjs/commit/2fb10950f9c82f24e8d14b59d4d11b3416530fa0))
+
+
+
 # [0.57.0-canary.81](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.80...v0.57.0-canary.81) (2024-09-29)
 
 
