@@ -1,3 +1,12 @@
+# [0.57.0-canary.83](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.82...v0.57.0-canary.83) (2024-10-07)
+
+
+### Features
+
+* **startupjs:** add 'serverOnly' helper to cut out server code from client (useful in models) ([16234ab](https://github.com/startupjs/startupjs/commit/16234abfd4134e47e8622010a0e3375779d70094))
+
+
+
 # [0.57.0-canary.82](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.81...v0.57.0-canary.82) (2024-10-04)
 
 
