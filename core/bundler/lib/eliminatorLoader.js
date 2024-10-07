@@ -155,6 +155,13 @@ module.exports = function eliminatorLoader (source) {
                 replaceWith: {
                   remove: true // replace the whole function call with undefined
                 }
+              }, {
+                // remove serverOnly() calls (replace with undefined)
+                functionName: 'serverOnly',
+                magicImports: ['startupjs'],
+                replaceWith: {
+                  remove: true // replace the whole function call with undefined
+                }
               }]
             }
           : {}

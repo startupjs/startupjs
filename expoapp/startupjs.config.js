@@ -20,6 +20,16 @@ export default {
       globalThis.sub = sub
     }
   },
+  server: {
+    init: () => {
+      // test the serverOnly on the 'secrets' collection (whole class) and documents (methods)
+      setTimeout(async () => {
+        const $secrets = await sub($.secrets, {})
+        $.secrets.printSalt()
+        for (const $secret of $secrets) $secret.printWithSalt()
+      }, 1000)
+    }
+  },
   plugins: {
     [plugins.banner]: {
       client: {

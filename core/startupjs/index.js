@@ -13,6 +13,11 @@ export function css (cssString) { return cssString }
 export function styl (stylString) { return stylString }
 // dummy pug function (it gets compiled to jsx by babel pug plugin)
 export function pug (pugString) { return pugString }
+
+// wrap serverOnly around the value to remove it from the client bundle
+// (it will be replaced with `undefined` on the client by the babel-plugin-eliminator)
+export function serverOnly (value) { return value }
+
 export { default as StartupjsProvider } from './StartupjsProvider.js'
 
 // loading config should be performed first

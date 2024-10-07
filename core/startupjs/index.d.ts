@@ -13,4 +13,6 @@ export function css (css: TemplateStringsArray): any
 export function styl (styl: TemplateStringsArray): any
 export function pug (pug: TemplateStringsArray): any
 
+export function serverOnly (value: any): any
+
 export { default as StartupjsProvider } from './StartupjsProvider.js'
