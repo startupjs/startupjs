@@ -183,10 +183,9 @@ maybe_login_az () {
 
 init_secondary_variables () {
   CLUSTER_NAME=$( gcloud container clusters list --format="value(name)" )
-
-#  RESOURCE_GROUP_NAME=$( az aks list --query '[].resourceGroup' -o tsv | head -1 )
   REGISTRY_SERVER_REGION=$( gcloud artifacts repositories list --format="json" 2>/dev/null | jq -r '.[].name | split("/")[3]' )
   REGISTRY_SERVER="$REGISTRY_SERVER_REGION-docker.pkg.dev"
+  REPOSITORY=$( gcloud artifacts repositories list --format="value(name)" 2>/dev/null )
 }
 
 # -----------------------------------------------------------------------------
@@ -212,7 +211,7 @@ copy_source_code () {
 
 build_image_kaniko () {
   # authorize to registry
-  gcloud auth configure-docker
+  gcloud auth configure-docker $REGISTRY_SERVER
   gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin $REGISTRY_SERVER
   if [ -n "$DEPLOYMENTS" ]
   then
@@ -226,14 +225,14 @@ build_image_kaniko () {
           executor \
             --context /_project \
             --dockerfile "$DOCKERFILE_PATH" \
-            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}-${SERVICE}-${FEATURE}:${COMMIT_SHA}" \
-            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}-${SERVICE}-${FEATURE}:latest"
+            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${SERVICE}-${FEATURE}:${COMMIT_SHA}" \
+            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${SERVICE}-${FEATURE}:latest"
         else
           executor \
             --context /_project \
             --dockerfile "$DOCKERFILE_PATH" \
-            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}-${SERVICE}:${COMMIT_SHA}" \
-            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}-${SERVICE}:latest"
+            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${SERVICE}:${COMMIT_SHA}" \
+            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${SERVICE}:latest"
         fi
     done
   fi
@@ -245,14 +244,14 @@ build_image_kaniko () {
       executor \
         --context /_project \
         --dockerfile "$DOCKERFILE_PATH" \
-        --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}-${FEATURE}:${COMMIT_SHA}" \
-        --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}-${FEATURE}:latest"
+        --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${FEATURE}:${COMMIT_SHA}" \
+        --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${FEATURE}:latest"
     else
       executor \
         --context /_project \
         --dockerfile "$DOCKERFILE_PATH" \
-        --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}:${COMMIT_SHA}" \
-        --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}:latest"
+        --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}:${COMMIT_SHA}" \
+        --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}:latest"
     fi
   fi
 }
