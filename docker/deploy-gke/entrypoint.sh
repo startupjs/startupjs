@@ -226,14 +226,14 @@ build_image_kaniko () {
           executor \
             --context /_project \
             --dockerfile "$DOCKERFILE_PATH" \
-            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}-${SERVICE}-${FEATURE}:${COMMIT_SHA}" \
-            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}-${SERVICE}-${FEATURE}:latest"
+            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}-${SERVICE}-${FEATURE}:${COMMIT_SHA}" \
+            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}-${SERVICE}-${FEATURE}:latest"
         else
           executor \
             --context /_project \
             --dockerfile "$DOCKERFILE_PATH" \
-            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}-${SERVICE}:${COMMIT_SHA}" \
-            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}-${SERVICE}:latest"
+            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}-${SERVICE}:${COMMIT_SHA}" \
+            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}-${SERVICE}:latest"
         fi
     done
   fi
