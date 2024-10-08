@@ -132,7 +132,8 @@ install_generic () {
 }
 
 install_kubectl () {
-  az aks install-cli
+  gcloud components update
+  gcloud components install kubectl
 }
 
 install_neat () {
@@ -160,24 +161,21 @@ run_step_prepare () {
 }
 
 validate_step_prepare () {
-  if [ ! -n "$AZURE_CREDENTIALS" ]; then echo "AZURE_CREDENTIALS env var is required" && exit 1; fi
+  if [ ! -n "$GCP_CREDENTIALS" ]; then echo "AZURE_CREDENTIALS env var is required" && exit 1; fi
   if [ ! -n "$APP" ]; then echo "APP env var is required" && exit 1; fi
   if [ ! -n "$COMMIT_SHA" ]; then echo "COMMIT_SHA env var is required" && exit 1; fi
 }
 
 init_primary_variables () {
-  CLIENT_ID=$( _get_json_value 'clientId' )
-  CLIENT_SECRET=$( _get_json_value 'clientSecret' )
-  TENANT_ID=$( _get_json_value 'tenantId' )
+  return 0
 }
 
 maybe_login_az () {
   if [ -n "$DONE_maybe_login_az" ]; then return 0; fi
-  az login \
-    --service-principal \
-    -u "$CLIENT_ID" \
-    -p "$CLIENT_SECRET" \
-    --tenant "$TENANT_ID"
+  echo "$GCP_CREDENTIALS" > /tmp/service-account.json
+  export GOOGLE_APPLICATION_CREDENTIALS="/tmp/service-account.json"
+  gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
+  rm /tmp/service-account.json
   DONE_maybe_login_az="1"
 }
 
