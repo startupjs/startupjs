@@ -13,7 +13,7 @@
 FROM gcr.io/kaniko-project/executor:v1.22.0 AS kaniko
 
 # Google Cloud CLI is the main binary so it makes sense to just use as the base image
-FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:489.0.0-stable
+FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:489.0.0-alpine
 
 # Add kaniko to this image by re-using binaries and steps from official image
 COPY --from=kaniko /kaniko/executor /kaniko/executor
@@ -26,7 +26,7 @@ ENV DOCKER_CONFIG /kaniko/.docker/
 # ref: https://github.com/GoogleContainerTools/kaniko/issues/1542#issuecomment-853929795
 ENV container docker
 
-RUN apk add jq curl git
+RUN apk --update add gcompat openjdk8-jre jq curl git
 
 WORKDIR /
 

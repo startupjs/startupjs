@@ -108,7 +108,7 @@ run_batch () {
   # NOTE: run_step_init is executed as RUN when building an image from Dockerfile
   _step "prepare" && run_step_prepare
   _step "build" && run_step_build
-  _step "apply" && run_step_apply
+#  _step "apply" && run_step_apply
 }
 
 validate_batch () {
@@ -161,7 +161,7 @@ run_step_prepare () {
 }
 
 validate_step_prepare () {
-  if [ ! -n "$GCP_CREDENTIALS" ]; then echo "AZURE_CREDENTIALS env var is required" && exit 1; fi
+  if [ ! -n "$GCP_CREDENTIALS" ]; then echo "GCP_CREDENTIALS env var is required" && exit 1; fi
   if [ ! -n "$APP" ]; then echo "APP env var is required" && exit 1; fi
   if [ ! -n "$COMMIT_SHA" ]; then echo "COMMIT_SHA env var is required" && exit 1; fi
 }
@@ -180,9 +180,9 @@ maybe_login_az () {
 }
 
 init_secondary_variables () {
-  CLUSTER_NAME=$( az aks list --query '[].name' -o tsv | head -1 )
-  RESOURCE_GROUP_NAME=$( az aks list --query '[].resourceGroup' -o tsv | head -1 )
-  REGISTRY_SERVER=$( az acr list --query '[].loginServer' -o tsv | head -1 )
+  CLUSTER_NAME=$( gcloud container clusters list --format="value(name)" )
+#  RESOURCE_GROUP_NAME=$( az aks list --query '[].resourceGroup' -o tsv | head -1 )
+#  REGISTRY_SERVER=$( az acr list --query '[].loginServer' -o tsv | head -1 )
 }
 
 # -----------------------------------------------------------------------------
@@ -207,9 +207,8 @@ copy_source_code () {
 }
 
 build_image_kaniko () {
-  mkdir -p /kaniko/.docker
   # authorize to registry
-  echo "{\"auths\":{\"${REGISTRY_SERVER}\":{\"auth\":\"$(printf "%s:%s" "${CLIENT_ID}" "${CLIENT_SECRET}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+  gcloud auth configure-docker
   if [ -n "$DEPLOYMENTS" ]
   then
     for dockerfile in $(echo $DEPLOYMENTS | tr "," "\n")
