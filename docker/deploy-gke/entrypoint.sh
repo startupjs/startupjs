@@ -108,7 +108,7 @@ run_batch () {
   # NOTE: run_step_init is executed as RUN when building an image from Dockerfile
   _step "prepare" && run_step_prepare
   _step "build" && run_step_build
-#  _step "apply" && run_step_apply
+  _step "apply" && run_step_apply
 }
 
 validate_batch () {
@@ -283,14 +283,11 @@ update_secret () {
   echo "$_secrets_yaml" | kubectl apply -f -
 }
 
-# TODO: Make keyvault update optional -- just ignore it if it doesn't exist
 _get_keyvault_secrets_yaml () {
-  _cluster_name_hash=$(printf "$CLUSTER_NAME" | md5sum | awk '{print $1}' | grep -o '.....$')
-  _vault_name="${APP}-${_cluster_name_hash}"
   touch ./secrets.env
-  for _name in $(az keyvault secret list --vault-name "$_vault_name" --query "[].name" -o tsv); do
-    _value=$(az keyvault secret show --vault-name "$_vault_name" -n "$_name" --query "value" -o tsv)
-    _name=$(echo "$_name" | sed 's/-/_/g')
+  for _name in $(gcloud secrets list --filter="name ~ ${CLUSTER_NAME}-{$APP}" --format="value(name)"); do
+    _value=$(gcloud secrets versions access latest --secret "$_name")
+    _name=$(echo "$_name" | sed 's/^${CLUSTER_NAME}-{$APP}//')
     echo "${_name}=${_value}" >> ./secrets.env
   done
   # Next command will output the yaml to stdout and we'll catch it outside
@@ -317,7 +314,7 @@ update_deployments () {
         | jq ".spec.selector.matchLabels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq ".spec.template.metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq '.spec.template.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
-        | jq ".spec.template.spec.containers[0].image = \"${REGISTRY_SERVER}/${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}:${COMMIT_SHA}\"" \
+        | jq ".spec.template.spec.containers[0].image = \"${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}:${COMMIT_SHA}\"" \
         | kubectl apply -f -
     else
       kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json | jq '{items: [.items[] | select(.metadata.labels.microservice != "cron")]}' \
@@ -334,7 +331,7 @@ update_deployments () {
         | jq ".spec.selector.matchLabels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq ".spec.template.metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq '.spec.template.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
-        | jq ".spec.template.spec.containers[0].image = \"${REGISTRY_SERVER}/${APP}-${FEATURE}:${COMMIT_SHA}\"" \
+        | jq ".spec.template.spec.containers[0].image = \"${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${FEATURE}:${COMMIT_SHA}\"" \
         | kubectl apply -f -
     fi
 
@@ -393,11 +390,11 @@ update_deployments () {
     for _name in $(kubectl get deployments -l "managed-by=terraform,part-of=${APP}" --no-headers -o custom-columns=":metadata.name"); do
       SERVICE=$(echo "${_name}" | cut -d "-" -f 2)
       if [[ "$DEPLOYMENTS" =~ .*"$SERVICE:".* ]]; then
-        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}"
-        kubectl annotate "deployment/$_name" kubernetes.io/change-cause="Set image: $_name=${REGISTRY_SERVER}/${_name}:${COMMIT_SHA}"
+        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${_name}:${COMMIT_SHA}"
+        kubectl annotate "deployment/$_name" kubernetes.io/change-cause="Set image: $_name=${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${_name}:${COMMIT_SHA}"
       else
-        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}"
-        kubectl annotate "deployment/$_name" kubernetes.io/change-cause="Set image: $_name=${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}"
+        kubectl set image "deployment/$_name" "$_name=${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}:${COMMIT_SHA}"
+        kubectl annotate "deployment/$_name" kubernetes.io/change-cause="Set image: $_name=${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}:${COMMIT_SHA}"
       fi
     done
   fi
@@ -406,8 +403,8 @@ update_deployments () {
 # ----- test -----
 
 integration_test () {
-  az aks list -o table
-  az acr list -o table
+  gcloud container clusters list
+  gcloud artifacts repositories list
   kubectl get pods
 }
 
@@ -422,11 +419,9 @@ maybe_export_env () {
   mkdir -p "$( dirname "$ENV_VARS_FILE" )"
   {
     echo "export CLUSTER_NAME=$CLUSTER_NAME"
-    echo "export RESOURCE_GROUP_NAME=$RESOURCE_GROUP_NAME"
     echo "export REGISTRY_SERVER=$REGISTRY_SERVER"
-    echo "export CLIENT_ID=$CLIENT_ID"
-    echo "export CLIENT_SECRET=$CLIENT_SECRET"
-    echo "export TENANT_ID=$TENANT_ID"
+    echo "export REPOSITORY=$REPOSITORY"
+    echo "export REGION=$REGION"
     echo "export APP=$APP"
     echo "export COMMIT_SHA=$COMMIT_SHA"
   } > "$ENV_VARS_FILE"
@@ -438,11 +433,9 @@ maybe_import_env () {
   # shellcheck source=/dev/null
   . "$ENV_VARS_FILE"
   if [ ! -n "$CLUSTER_NAME" ]; then echo "CLUSTER_NAME env var is required" && exit 1; fi
-  if [ ! -n "$RESOURCE_GROUP_NAME" ]; then echo "RESOURCE_GROUP_NAME env var is required" && exit 1; fi
+  if [ ! -n "$REGION" ]; then echo "REGION env var is required" && exit 1; fi
   if [ ! -n "$REGISTRY_SERVER" ]; then echo "REGISTRY_SERVER env var is required" && exit 1; fi
-  if [ ! -n "$CLIENT_ID" ]; then echo "CLIENT_ID env var is required" && exit 1; fi
-  if [ ! -n "$CLIENT_SECRET" ]; then echo "CLIENT_SECRET env var is required" && exit 1; fi
-  if [ ! -n "$TENANT_ID" ]; then echo "TENANT_ID env var is required" && exit 1; fi
+  if [ ! -n "$REPOSITORY" ]; then echo "REPOSITORY env var is required" && exit 1; fi
   if [ ! -n "$APP" ]; then echo "APP env var is required" && exit 1; fi
   if [ ! -n "$COMMIT_SHA" ]; then echo "COMMIT_SHA env var is required" && exit 1; fi
 }
@@ -456,7 +449,7 @@ maybe_delete_env () {
 
 _get_json_value () {
   _key=$1
-  echo "$AZURE_CREDENTIALS" | grep -o "\"${_key}\"[^\"]*\"[^\"]*" | sed -n 's/"[^"]*"[^"]*"//p'
+  echo "$GCP_CREDENTIALS" | grep -o "\"${_key}\"[^\"]*\"[^\"]*" | sed -n 's/"[^"]*"[^"]*"//p'
 }
 
 _step () {
