@@ -176,7 +176,7 @@ maybe_login_az () {
   export GOOGLE_APPLICATION_CREDENTIALS="/tmp/service-account.json"
   gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
   PROJECT_ID=$( jq -r '.project_id' /tmp/service-account.json )
-  gcloud config set project PROJECT_ID
+  gcloud config set project $PROJECT_ID
   rm /tmp/service-account.json
   DONE_maybe_login_az="1"
 }
