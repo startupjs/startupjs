@@ -175,12 +175,15 @@ maybe_login_az () {
   echo "$GCP_CREDENTIALS" > /tmp/service-account.json
   export GOOGLE_APPLICATION_CREDENTIALS="/tmp/service-account.json"
   gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
+  PROJECT_ID=$( jq -r '.project_id' /tmp/service-account.json )
+  gcloud config set project PROJECT_ID
   rm /tmp/service-account.json
   DONE_maybe_login_az="1"
 }
 
 init_secondary_variables () {
   CLUSTER_NAME=$( gcloud container clusters list --format="value(name)" )
+
 #  RESOURCE_GROUP_NAME=$( az aks list --query '[].resourceGroup' -o tsv | head -1 )
 #  REGISTRY_SERVER=$( az acr list --query '[].loginServer' -o tsv | head -1 )
 }
