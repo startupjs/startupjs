@@ -18,7 +18,7 @@ set -e
 #
 #   Requirements:
 #     a) You have to pass the following env vars:
-#        - AZURE_CREDENTIALS
+#        - GCP_CREDENTIALS
 #        - APP
 #        - COMMIT_SHA
 #      b) Mount the source code of your app as `/project`
@@ -48,7 +48,7 @@ set -e
 #
 #    Requirements:
 #      a) You have to pass the following env vars:
-#         - AZURE_CREDENTIALS
+#         - GCP_CREDENTIALS
 #         - APP
 #         - COMMIT_SHA
 #      b) You have to provide the volume mount for the /tmp/vars folder in the container
@@ -288,7 +288,6 @@ _get_keyvault_secrets_yaml () {
   for _name in $(gcloud secrets list --filter="name ~ ${CLUSTER_NAME}-${APP}" --format="value(name)"); do
     _value=$(gcloud secrets versions access latest --secret "$_name")
     _name=$(echo "$_name" | sed "s/^${CLUSTER_NAME}-${APP}_//")
-    echo "${_name}=${_value}"
     echo "${_name}=${_value}" >> ./secrets.env
   done
   # Next command will output the yaml to stdout and we'll catch it outside
