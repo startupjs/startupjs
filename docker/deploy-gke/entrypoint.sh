@@ -185,7 +185,8 @@ init_secondary_variables () {
   CLUSTER_NAME=$( gcloud container clusters list --format="value(name)" )
 
 #  RESOURCE_GROUP_NAME=$( az aks list --query '[].resourceGroup' -o tsv | head -1 )
-#  REGISTRY_SERVER=$( az acr list --query '[].loginServer' -o tsv | head -1 )
+  REGISTRY_SERVER_REGION=$( gcloud artifacts repositories list --format="json" 2>/dev/null | jq -r '.[].name | split("/")[3]' )
+  REGISTRY_SERVER="https://$REGISTRY_SERVER_REGION-docker.pkg.dev"
 }
 
 # -----------------------------------------------------------------------------
@@ -212,6 +213,7 @@ copy_source_code () {
 build_image_kaniko () {
   # authorize to registry
   gcloud auth configure-docker
+  gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin $REGISTRY_SERVER
   if [ -n "$DEPLOYMENTS" ]
   then
     for dockerfile in $(echo $DEPLOYMENTS | tr "," "\n")
@@ -224,14 +226,14 @@ build_image_kaniko () {
           executor \
             --context /_project \
             --dockerfile "$DOCKERFILE_PATH" \
-            --destination "${REGISTRY_SERVER}/${APP}-${SERVICE}-${FEATURE}:${COMMIT_SHA}" \
-            --destination "${REGISTRY_SERVER}/${APP}-${SERVICE}-${FEATURE}:latest"
+            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}-${SERVICE}-${FEATURE}:${COMMIT_SHA}" \
+            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}-${SERVICE}-${FEATURE}:latest"
         else
           executor \
             --context /_project \
             --dockerfile "$DOCKERFILE_PATH" \
-            --destination "${REGISTRY_SERVER}/${APP}-${SERVICE}:${COMMIT_SHA}" \
-            --destination "${REGISTRY_SERVER}/${APP}-${SERVICE}:latest"
+            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}-${SERVICE}:${COMMIT_SHA}" \
+            --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}-${SERVICE}:latest"
         fi
     done
   fi
