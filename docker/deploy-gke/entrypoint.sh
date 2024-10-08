@@ -183,8 +183,8 @@ maybe_login_az () {
 
 init_secondary_variables () {
   CLUSTER_NAME=$( gcloud container clusters list --format="value(name)" )
-  REGISTRY_SERVER_REGION=$( gcloud artifacts repositories list --format="json" 2>/dev/null | jq -r '.[].name | split("/")[3]' )
-  REGISTRY_SERVER="$REGISTRY_SERVER_REGION-docker.pkg.dev"
+  REGION=$( gcloud artifacts repositories list --format="json" 2>/dev/null | jq -r '.[].name | split("/")[3]' )
+  REGISTRY_SERVER="$REGION-docker.pkg.dev"
   REPOSITORY=$( gcloud artifacts repositories list --format="value(name)" 2>/dev/null )
 }
 
@@ -275,11 +275,7 @@ validate_step_apply () {
 }
 
 login_kubectl () {
-  az aks get-credentials --resource-group "$RESOURCE_GROUP_NAME" --name "$CLUSTER_NAME"
-  kubelogin convert-kubeconfig \
-    -l spn \
-    --client-id "$CLIENT_ID" \
-    --client-secret "$CLIENT_SECRET"  
+  gcloud container clusters get-credentials $CLUSTER_NAME --region=$REGION
 }
 
 update_secret () {
