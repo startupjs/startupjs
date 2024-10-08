@@ -186,7 +186,7 @@ init_secondary_variables () {
 
 #  RESOURCE_GROUP_NAME=$( az aks list --query '[].resourceGroup' -o tsv | head -1 )
   REGISTRY_SERVER_REGION=$( gcloud artifacts repositories list --format="json" 2>/dev/null | jq -r '.[].name | split("/")[3]' )
-  REGISTRY_SERVER="https://$REGISTRY_SERVER_REGION-docker.pkg.dev"
+  REGISTRY_SERVER="$REGISTRY_SERVER_REGION-docker.pkg.dev"
 }
 
 # -----------------------------------------------------------------------------
@@ -245,14 +245,14 @@ build_image_kaniko () {
       executor \
         --context /_project \
         --dockerfile "$DOCKERFILE_PATH" \
-        --destination "${REGISTRY_SERVER}/${APP}-${FEATURE}:${COMMIT_SHA}" \
-        --destination "${REGISTRY_SERVER}/${APP}-${FEATURE}:latest"
+        --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}-${FEATURE}:${COMMIT_SHA}" \
+        --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}-${FEATURE}:latest"
     else
       executor \
         --context /_project \
         --dockerfile "$DOCKERFILE_PATH" \
-        --destination "${REGISTRY_SERVER}/${APP}:${COMMIT_SHA}" \
-        --destination "${REGISTRY_SERVER}/${APP}:latest"
+        --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}:${COMMIT_SHA}" \
+        --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${APP}/${APP}:latest"
     fi
   fi
 }
