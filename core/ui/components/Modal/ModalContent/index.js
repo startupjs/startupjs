@@ -21,12 +21,13 @@ function ModalContent ({
     return child
   })
 
-  if (!ContentComponent) ContentComponent = ScrollView
+  const Component = ContentComponent || ScrollView
+  const extraProps = ContentComponent ? {} : props
 
   return pug`
-    ContentComponent.root(
+    Component.root(
       style=style
-      ...props
+      ...extraProps
     )= content
   `
 }
