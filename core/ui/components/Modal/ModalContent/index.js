@@ -9,7 +9,8 @@ import './index.styl'
 function ModalContent ({
   style,
   children,
-  ContentComponent
+  ContentComponent,
+  ...props
 }) {
   const content = React.Children.map(children, (child, index) => {
     if (typeof child === 'string') {
@@ -20,14 +21,12 @@ function ModalContent ({
     return child
   })
 
-  const extraProps = {}
-
   if (!ContentComponent) ContentComponent = ScrollView
 
   return pug`
     ContentComponent.root(
       style=style
-      ...extraProps
+      ...props
     )= content
   `
 }
