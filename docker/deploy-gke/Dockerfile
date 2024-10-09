@@ -2,7 +2,7 @@
 #
 # REQUIREMENTS:
 #   a) You have to pass the following env vars:
-#      - AZURE_CREDENTIALS
+#      - GCP_CREDENTIALS
 #      - APP
 #      - COMMIT_SHA
 #   b) Mount the source code of your app as `/project`

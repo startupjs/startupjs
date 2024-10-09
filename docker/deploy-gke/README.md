@@ -1,10 +1,10 @@
-# startupjs/deploy-eks
+# startupjs/deploy-gke
 
 > fully universal docker container to build and deploy the startupjs app to an opinionated AKS cluster.
 
 It uses `kaniko` under the hood to build an image in any `docker` runtime, so you can use docker binary of any CI/CD provider or Kubernetes or your local Docker. It does **NOT** need root or `--privileged` or any other custom configuration, only a regular `docker run` with an ability to pass env vars and mount the source code inside it.
 
-## EKS cluster requirements:
+## GKE cluster requirements:
 
 1. You must provide a service principal key `GCP_CREDENTIALS` which has access to only one GCP project which has only one GKE cluster. It doesn't matter how you name them.
 

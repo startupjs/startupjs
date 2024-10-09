@@ -155,7 +155,7 @@ install_neat () {
 run_step_prepare () {
   _log "validate_step_prepare" && validate_step_prepare
   _log "init_primary_variables" && init_primary_variables
-  _log "maybe_login_az" && maybe_login_az
+  _log "maybe_login" && maybe_login
   _log "init_secondary_variables" && init_secondary_variables
   maybe_export_env
 }
@@ -170,15 +170,15 @@ init_primary_variables () {
   return 0
 }
 
-maybe_login_az () {
-  if [ -n "$DONE_maybe_login_az" ]; then return 0; fi
+maybe_login () {
+  if [ -n "$DONE_maybe_login" ]; then return 0; fi
   echo "$GCP_CREDENTIALS" > /tmp/service-account.json
   export GOOGLE_APPLICATION_CREDENTIALS="/tmp/service-account.json"
   gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
   PROJECT_ID=$( jq -r '.project_id' /tmp/service-account.json )
   gcloud config set project $PROJECT_ID
   rm /tmp/service-account.json
-  DONE_maybe_login_az="1"
+  DONE_maybe_login="1"
 }
 
 init_secondary_variables () {
@@ -263,7 +263,7 @@ build_image_kaniko () {
 run_step_apply () {
   maybe_import_env
   _log "validate_step_apply" && validate_step_apply
-  _log "maybe_login_az" && maybe_login_az
+  _log "maybe_login" && maybe_login
   _log "login_kubectl" && login_kubectl
   _log "update_secret" && update_secret
   _log "update_deployments" && update_deployments
