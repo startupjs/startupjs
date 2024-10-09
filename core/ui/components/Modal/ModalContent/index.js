@@ -21,11 +21,18 @@ function ModalContent ({
     return child
   })
 
-  const Component = ContentComponent || ScrollView
-  const extraProps = ContentComponent ? {} : props
+  const extraProps = {}
+
+  // If no ContentComponent is provided, use ScrollView.
+  // In this case, we merge extraProps with props to ensure all
+  // additional properties are passed to the default ScrollView.
+  if (!ContentComponent) {
+    ContentComponent = ScrollView
+    Object.assign(extraProps, props)
+  }
 
   return pug`
-    Component.root(
+    ContentComponent.root(
       style=style
       ...extraProps
     )= content
