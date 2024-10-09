@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useImperativeHandle } from 'react'
 import { Platform } from 'react-native'
 import { pug, observer, axios, BASE_URL } from 'startupjs'
 import PropTypes from 'prop-types'
@@ -18,8 +18,18 @@ function FileInput ({
   value: fileId,
   mimeTypes,
   image,
-  onChange
-}) {
+  uploadImmediately = true,
+  onChange,
+  render
+}, ref) {
+  useImperativeHandle(ref, () => {
+    return {
+      pickFile,
+      deleteFile,
+      uploadFile: _uploadFile
+    }
+  }, [])
+
   async function pickFile () {
     let result
     if (image) {
@@ -34,6 +44,9 @@ function FileInput ({
     }
     const { cancelled, assets } = result
     if (cancelled || !assets) return
+
+    if (!uploadImmediately) return assets[0]
+
     let handled
     for (const asset of assets) {
       if (handled) throw Error('Only one file is allowed')
@@ -51,13 +64,22 @@ function FileInput ({
     onChange(undefined)
   }
 
+  function renderDefault () {
+    return pug`
+      if fileId
+        Div(row)
+          Button(onPress=pickFile) Change
+          Button(pushed onPress=deleteFile variant='text' icon=faTrashAlt)
+      else
+        Button(onPress=pickFile) Upload file
+    `
+  }
+
   return pug`
-    if fileId
-      Div(row)
-        Button(onPress=pickFile) Change
-        Button(pushed onPress=deleteFile variant='text' icon=faTrashAlt)
+    if render
+      = render()
     else
-      Button(onPress=pickFile) Upload file
+      = renderDefault()
   `
 }
 
@@ -69,8 +91,7 @@ async function _uploadFile (asset, fileId) {
     if (!type) {
       if (asset.type === 'image') type = getImageMimeType(asset.uri || asset.fileName || asset.name)
     }
-    console.log('>>> got asset', asset)
-    globalThis.asset = asset
+
     if (isWeb) {
       // on web we'll receive it as a uri blob
       const blob = await (await fetch(asset.uri)).blob()
@@ -144,4 +165,4 @@ FileInput.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 }
 
-export default observer(themed('FileInput', FileInput))
+export default observer(themed('FileInput', FileInput), { forwardRef: true })
