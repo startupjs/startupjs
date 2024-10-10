@@ -1,3 +1,12 @@
+# [0.57.0-canary.84](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.83...v0.57.0-canary.84) (2024-10-10)
+
+
+### Features
+
+* **ui -> FileInput:** allow to customize default view ([#1274](https://github.com/startupjs/startupjs/issues/1274)) ([34c00bc](https://github.com/startupjs/startupjs/commit/34c00bca74bf61aef6839555d4ac5c977cb8dc77))
+
+
+
 # [0.57.0-canary.83](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.82...v0.57.0-canary.83) (2024-10-07)
 
 
