@@ -1,5 +1,5 @@
 import { createPlugin } from 'startupjs/registry'
-import { Signal, $, sub, BASE_URL } from 'startupjs'
+import { Signal, $, sub, BASE_URL, serverOnly } from 'startupjs'
 import busboy from 'busboy'
 import sharp from 'sharp'
 import { GET_FILE_URL, UPLOAD_SINGLE_FILE_URL, DELETE_FILE_URL, getFileUrl, getUploadFileUrl, getDeleteFileUrl } from './constants.js'
@@ -258,6 +258,10 @@ class FileModel extends Signal {
   getDeleteUrl () {
     return BASE_URL + getDeleteFileUrl(this.getId())
   }
+
+  getBlob = serverOnly(function () {
+    return getFileBlob(this.storageType.get(), this.getId())
+  })
 }
 
 const ERRORS = {
