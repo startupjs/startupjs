@@ -1,3 +1,12 @@
+# [0.57.0-canary.85](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.84...v0.57.0-canary.85) (2024-10-10)
+
+
+### Features
+
+* **ui -> files.plugin:** add 'getBlob' method to FileModel ([#1275](https://github.com/startupjs/startupjs/issues/1275)) ([195881a](https://github.com/startupjs/startupjs/commit/195881a916148d4fa4314481edcfadc0b05f985d))
+
+
+
 # [0.57.0-canary.84](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.83...v0.57.0-canary.84) (2024-10-10)
 
 
