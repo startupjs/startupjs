@@ -63,7 +63,7 @@ function FileInput ({
       handled = true
     }
 
-    if (beforeUpload) {
+    if (afterUpload) {
       const afterUploadResult = afterUpload()
       if (afterUploadResult?.then) await afterUploadResult
     }
