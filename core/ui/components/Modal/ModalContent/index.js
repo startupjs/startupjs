@@ -12,6 +12,7 @@ function ModalContent ({
   ContentComponent,
   ...props
 }) {
+
   const content = React.Children.map(children, (child, index) => {
     if (typeof child === 'string') {
       return pug`
@@ -21,20 +22,12 @@ function ModalContent ({
     return child
   })
 
-  const extraProps = {}
-
-  // If no ContentComponent is provided, use ScrollView.
-  // In this case, we merge extraProps with props to ensure all
-  // additional properties are passed to the default ScrollView.
-  if (!ContentComponent) {
-    ContentComponent = ScrollView
-    Object.assign(extraProps, props)
-  }
+  if (!ContentComponent) ContentComponent = ScrollView
 
   return pug`
     ContentComponent.root(
       style=style
-      ...extraProps
+      ...props
     )= content
   `
 }
