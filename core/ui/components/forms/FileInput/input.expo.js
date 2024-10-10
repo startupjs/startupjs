@@ -19,6 +19,8 @@ function FileInput ({
   mimeTypes,
   image,
   uploadImmediately = true,
+  beforeUpload,
+  afterUpload,
   onChange,
   render
 }, ref) {
@@ -47,6 +49,11 @@ function FileInput ({
 
     if (!uploadImmediately) return assets[0]
 
+    if (beforeUpload) {
+      const beforeUploadResult = beforeUpload()
+      if (beforeUploadResult?.then) await beforeUploadResult
+    }
+
     let handled
     for (const asset of assets) {
       if (handled) throw Error('Only one file is allowed')
@@ -54,6 +61,11 @@ function FileInput ({
       if (!fileId) return
       onChange(fileId)
       handled = true
+    }
+
+    if (beforeUpload) {
+      const afterUploadResult = afterUpload()
+      if (afterUploadResult?.then) await afterUploadResult
     }
   }
 
