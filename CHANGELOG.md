@@ -1,3 +1,12 @@
+# [0.57.0-canary.86](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.85...v0.57.0-canary.86) (2024-10-14)
+
+
+### Features
+
+* **FileInput:** export uploadFile and deleteFile ([#1276](https://github.com/startupjs/startupjs/issues/1276)) ([5941b05](https://github.com/startupjs/startupjs/commit/5941b0587ecabe327342e6453b6c921a5e463070))
+
+
+
 # [0.57.0-canary.85](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.84...v0.57.0-canary.85) (2024-10-10)
 
 
