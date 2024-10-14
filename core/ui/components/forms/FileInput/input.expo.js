@@ -8,7 +8,7 @@ import Button from '../../Button'
 import Div from '../../Div'
 import themed from '../../../theming/themed'
 import confirm from '../../dialogs/confirm'
-import deleteFileUI from './deleteFile'
+import deleteFile from './deleteFile'
 import uploadFile from './uploadFile'
 
 function FileInput ({
@@ -24,7 +24,7 @@ function FileInput ({
   useImperativeHandle(ref, () => {
     return {
       pickFile,
-      deleteFile: deleteFileUI,
+      deleteFile,
       uploadFile
     }
   }, [])
@@ -66,9 +66,9 @@ function FileInput ({
     }
   }
 
-  async function deleteFile () {
+  async function _deleteFile () {
     if (!await confirm('Are you sure you want to delete this file?')) return
-    const deleted = await deleteFileUI(fileId)
+    const deleted = await deleteFile(fileId)
     if (!deleted) return
     onChange(undefined)
   }
@@ -78,7 +78,7 @@ function FileInput ({
       if fileId
         Div(row)
           Button(onPress=pickFile) Change
-          Button(pushed onPress=deleteFile variant='text' icon=faTrashAlt)
+          Button(pushed onPress=_deleteFile variant='text' icon=faTrashAlt)
       else
         Button(onPress=pickFile) Upload file
     `
