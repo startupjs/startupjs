@@ -47,6 +47,8 @@
     "./Select": "./components/forms/Select/index.js",
     "./TextInput": "./components/forms/TextInput/index.js",
     "./FileInput": "./components/forms/FileInput/index.js",
+    "./deleteFile": "./components/forms/FileInput/deleteFile.js",
+    "./uploadFile": "./components/forms/FileInput/uploadFile.js",
     "./Icon": "./components/Icon/index.js",
     "./Item": "./components/Item/index.js",
     "./Layout": "./components/Layout/index.js",
