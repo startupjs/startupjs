@@ -1,3 +1,12 @@
+# [0.57.0-canary.87](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.86...v0.57.0-canary.87) (2024-10-18)
+
+
+### Bug Fixes
+
+* **ui -> files.plugin:** add 'rotate()' call to sharp pipeline to force sharp to apply EXIF metadata ([#1277](https://github.com/startupjs/startupjs/issues/1277)) ([8158f98](https://github.com/startupjs/startupjs/commit/8158f98bbe5f6c01dc5e10a74caa704e9f5da9cf))
+
+
+
 # [0.57.0-canary.86](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.85...v0.57.0-canary.86) (2024-10-14)
 
 
