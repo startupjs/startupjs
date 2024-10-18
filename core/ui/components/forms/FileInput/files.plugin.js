@@ -114,6 +114,7 @@ export default createPlugin({
           if (mimeType.startsWith('image/')) {
             // If it's an image, pipe it through sharp for resizing and conversion
             stream = file.pipe(sharp()
+              .rotate()
               .resize(1000, 1000, {
                 fit: sharp.fit.inside,
                 withoutEnlargement: true
