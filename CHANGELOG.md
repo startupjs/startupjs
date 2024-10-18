@@ -1,3 +1,12 @@
+# [0.57.0-canary.88](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.87...v0.57.0-canary.88) (2024-10-18)
+
+
+### Bug Fixes
+
+* password input autocomplete prop ([#1278](https://github.com/startupjs/startupjs/issues/1278)) ([21e9dc0](https://github.com/startupjs/startupjs/commit/21e9dc0c15cbf394fc6369bd3d94ff83faa7030c))
+
+
+
 # [0.57.0-canary.87](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.86...v0.57.0-canary.87) (2024-10-18)
 
 
