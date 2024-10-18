@@ -12,7 +12,7 @@ function PasswordInput ({ ...props }, ref) {
     TextInput(
       ...props
       ref=ref
-      autoCompleteType='password'
+      autoComplete='password'
       secureTextEntry=textHidden
       icon=textHidden ? faEye : faEyeSlash
       iconPosition='right'
