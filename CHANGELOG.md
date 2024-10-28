@@ -1,3 +1,12 @@
+# [0.57.0-canary.89](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.88...v0.57.0-canary.89) (2024-10-28)
+
+
+### Bug Fixes
+
+* **toast:** replaces not implemented unshift with a pair of set/get ([#1279](https://github.com/startupjs/startupjs/issues/1279)) ([cb59661](https://github.com/startupjs/startupjs/commit/cb59661c706aef43a8c885d1bd0190e577aa410f))
+
+
+
 # [0.57.0-canary.88](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.87...v0.57.0-canary.88) (2024-10-18)
 
 
