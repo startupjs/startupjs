@@ -72,7 +72,7 @@ export default function toast ({
     updateMatrixPositions()
   }
 
-  $toasts.unshift({
+  $toasts.set([{
     key: toastId,
     show: true,
     topPosition: 0,
@@ -85,5 +85,5 @@ export default function toast ({
     onAction,
     onClose: onRemove,
     onLayout
-  })
+  }, ...$toasts.get() || []])
 }
