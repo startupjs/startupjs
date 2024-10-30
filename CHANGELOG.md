@@ -1,3 +1,12 @@
+# [0.57.0-canary.90](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.89...v0.57.0-canary.90) (2024-10-30)
+
+
+### Bug Fixes
+
+* header title on mobile ([#1280](https://github.com/startupjs/startupjs/issues/1280)) ([a70cdc1](https://github.com/startupjs/startupjs/commit/a70cdc1a738744661632a31b200cd98af479896a))
+
+
+
 # [0.57.0-canary.89](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.88...v0.57.0-canary.89) (2024-10-28)
 
 
