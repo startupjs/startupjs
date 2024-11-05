@@ -87,7 +87,7 @@ function isExpo (rootPath) {
   return Boolean(dependencies.expo)
 }
 
-export { mongo, mongoClient, createMongoIndex, redis, redlock, sqlite } from 'teamplay/server'
+export { mongo, mongoClient, createMongoIndex, redis, redlock, sqlite, Redis, getRedis } from 'teamplay/server'
 export { default as getAppSecret } from './utils/getAppSecret.js'
 
 export function NO_DEAD_CODE_ELIMINATION () {
