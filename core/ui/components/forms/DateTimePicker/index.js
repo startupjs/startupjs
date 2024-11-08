@@ -362,6 +362,7 @@ function DateTimePicker ({
             textColor='#000000cc'
             maximumDate=maxDate ? new Date(maxDate) : undefined
             minimumDate=minDate ? new Date(minDate) : undefined
+            timeZoneName=timezone
             onChange=(event, selectedDate) => {
               if (event.type !== 'dismissed') {
                 setTempDate(selectedDate)
