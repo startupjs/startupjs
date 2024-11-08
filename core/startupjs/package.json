@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.57.0-canary.91",
+  "version": "0.58.0-canary.0",
   "engines": {
     "node": ">= 14"
   },
@@ -27,15 +27,15 @@
   "bin": "./cli.js",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.57.0-canary.75",
-    "@startupjs/bundler": "^0.57.0-canary.91",
-    "@startupjs/cli": "^0.57.0-canary.75",
-    "@startupjs/hooks": "^0.57.0-canary.75",
-    "@startupjs/isomorphic-helpers": "^0.57.0-canary.75",
-    "@startupjs/registry": "^0.57.0-canary.75",
-    "@startupjs/server": "^0.57.0-canary.91",
-    "@startupjs/utils": "^0.57.0-canary.75",
-    "babel-preset-startupjs": "^0.57.0-canary.91",
+    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.58.0-canary.0",
+    "@startupjs/bundler": "^0.58.0-canary.0",
+    "@startupjs/cli": "^0.58.0-canary.0",
+    "@startupjs/hooks": "^0.58.0-canary.0",
+    "@startupjs/isomorphic-helpers": "^0.58.0-canary.0",
+    "@startupjs/registry": "^0.58.0-canary.0",
+    "@startupjs/server": "^0.58.0-canary.0",
+    "@startupjs/utils": "^0.58.0-canary.0",
+    "babel-preset-startupjs": "^0.58.0-canary.0",
     "lodash": "^4.17.20",
     "teamplay": "^0.3.21"
   },
