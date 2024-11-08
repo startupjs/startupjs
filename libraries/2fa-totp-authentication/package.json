@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/2fa-totp-authentication",
-  "version": "0.58.0-canary.0",
+  "version": "0.59.0-canary.0",
   "type": "module",
   "description": "Two factor authentication module for Google Authenticator",
   "main": "index.js",
@@ -15,5 +15,6 @@
   "peerDependencies": {
     "@startupjs/ui": "*",
     "startupjs": "*"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

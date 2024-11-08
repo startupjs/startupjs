@@ -1,11 +1,12 @@
 {
   "name": "@startupjs/pm",
-  "version": "0.58.0-canary.0",
+  "version": "0.59.0-canary.0",
   "description": "project management automation and guidelines for github projects",
   "main": "index.js",
   "type": "module",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

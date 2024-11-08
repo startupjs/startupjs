@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth",
-  "version": "0.58.0-canary.0",
+  "version": "0.59.0-canary.0",
   "type": "module",
   "description": "Auth module for StartupJS apps",
   "main": "index.js",
@@ -18,5 +18,6 @@
     "@react-native-cookies/cookies": ">= 6.0.0",
     "@startupjs/ui": "*",
     "startupjs": "*"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

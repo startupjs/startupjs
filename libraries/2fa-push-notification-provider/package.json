@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/2fa-push-notification-provider",
-  "version": "0.58.0-canary.0",
+  "version": "0.59.0-canary.0",
   "type": "module",
   "description": "Push notification provider for @startupjs/2fa-manager package",
   "main": "index.js",
@@ -11,5 +11,6 @@
   "peerDependencies": {
     "@startupjs/2fa-manager": "*",
     "@startupjs/push-notifications": "*"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

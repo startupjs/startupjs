@@ -4,11 +4,11 @@
     "access": "public"
   },
   "description": "MDX provider with a set of custom components for react-native support and syntax highlighting",
-  "version": "0.58.0-canary.0",
+  "version": "0.59.0-canary.0",
   "main": "index.js",
   "dependencies": {
     "@mdx-js/react": "~2.3.0",
-    "@startupjs/scrollable-anchors": "^0.58.0-canary.0",
+    "@startupjs/scrollable-anchors": "^0.59.0-canary.0",
     "refractor": "^3.0.0"
   },
   "peerDependencies": {
@@ -16,5 +16,6 @@
     "@startupjs/ui": "*",
     "react": "*",
     "startupjs": "*"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

@@ -4,10 +4,11 @@
     "access": "public"
   },
   "description": "Immitation of scrollable anchors",
-  "version": "0.58.0-canary.0",
+  "version": "0.59.0-canary.0",
   "main": "index.js",
   "peerDependencies": {
     "@startupjs/ui": "*",
     "startupjs": "*"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

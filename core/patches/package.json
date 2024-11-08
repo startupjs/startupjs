@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/patches",
-  "version": "0.58.0-canary.0",
+  "version": "0.59.0-canary.0",
   "type": "module",
   "description": "Patches for libraries used by StartupJS",
   "main": "index.js",
@@ -10,5 +10,6 @@
   },
   "dependencies": {
     "patch-package": "^7.0.0"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }
