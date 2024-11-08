@@ -37,7 +37,7 @@
     "@startupjs/utils": "^0.59.0-canary.0",
     "babel-preset-startupjs": "^0.59.0-canary.0",
     "lodash": "^4.17.20",
-    "teamplay": "^0.3.22"
+    "teamplay": "^0.3.23"
   },
   "peerDependencies": {
     "react": "*",
