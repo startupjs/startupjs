@@ -182,10 +182,12 @@ maybe_login () {
 }
 
 init_secondary_variables () {
-  CLUSTER_NAME=$( gcloud container clusters list --format="value(name)" )
-  REGION=$( gcloud artifacts repositories list --format="json" 2>/dev/null | jq -r '.[].name | split("/")[3]' )
+#  CLUSTER_NAME=$( gcloud container clusters list --format="value(name)" )
+  CLUSTER_NAME=$(echo "$GCP_CREDENTIALS" | jq -r '.client_email' | sed 's/-cicd@.*//')
+  REGION=$( gcloud artifacts repositories list --filter="name:repositories/$CLUSTER_NAME"--format="json" 2>/dev/null | jq -r '.[].name | split("/")[3]' )
   REGISTRY_SERVER="$REGION-docker.pkg.dev"
-  REPOSITORY=$( gcloud artifacts repositories list --format="value(name)" 2>/dev/null )
+#  REPOSITORY=$( gcloud artifacts repositories list --format="value(name)" 2>/dev/null )
+  REPOSITORY=$CLUSTER_NAME
 }
 
 # -----------------------------------------------------------------------------
