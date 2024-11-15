@@ -184,7 +184,9 @@ maybe_login () {
 init_secondary_variables () {
 #  CLUSTER_NAME=$( gcloud container clusters list --format="value(name)" )
   CLUSTER_NAME=$(echo "$GCP_CREDENTIALS" | jq -r '.client_email' | sed 's/-cicd@.*//')
-  REGION=$( gcloud artifacts repositories list --filter="name:repositories/$CLUSTER_NAME"--format="json" 2>/dev/null | jq -r '.[].name | split("/")[3]' )
+  CLUSTER_REGION=$(gcloud container clusters list --filter="name:$CLUSTER_NAME" --format="value(location)")
+  REGION=$( gcloud artifacts repositories list --filter="name:repositories/$CLUSTER_NAME" --format="json" 2>/dev/null | jq -r '.[].name | split("/")[3]' )
+  gcloud artifacts repositories list --filter="name:repositories/$CLUSTER_NAME"--format="json" 2>/dev/null | jq -r '.[].name | split("/")[3]'
   REGISTRY_SERVER="$REGION-docker.pkg.dev"
 #  REPOSITORY=$( gcloud artifacts repositories list --format="value(name)" 2>/dev/null )
   REPOSITORY=$CLUSTER_NAME
@@ -277,7 +279,7 @@ validate_step_apply () {
 }
 
 login_kubectl () {
-  gcloud container clusters get-credentials $CLUSTER_NAME --region=$REGION
+  gcloud container clusters get-credentials $CLUSTER_NAME --region=$CLUSTER_REGION
 }
 
 update_secret () {
