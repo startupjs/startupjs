@@ -1,0 +1,21 @@
+{
+  "name": "@startupjs/worker",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Worker based on bullmq",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./plugin": "./plugin.js"
+  },
+  "dependencies": {
+    "@bull-board/express": "^6.5.0",
+    "@startupjs/registry": "^0.59.0-canary.0",
+    "bullmq": "^5.25.6"
+  },
+  "peerDependencies": {
+    "startupjs": "*"
+  }
+}
