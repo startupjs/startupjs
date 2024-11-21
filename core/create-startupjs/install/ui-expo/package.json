@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "expo-document-picker": "sdk-%%EXPO_MAJOR%%",
-    "expo-image-picker": "sdk-%%EXPO_MAJOR%%"
+    "expo-document-picker": "^13.0.1",
+    "expo-image-picker": "^16.0.2"
   }
 }
