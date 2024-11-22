@@ -1,3 +1,12 @@
+# [0.59.0-canary.3](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.2...v0.59.0-canary.3) (2024-11-22)
+
+
+### Bug Fixes
+
+* **Drawer:** fix positioning for native ([889ee68](https://github.com/startupjs/startupjs/commit/889ee68e86b9e4600eb8653e06d6bc293bbce9e6))
+
+
+
 # [0.59.0-canary.2](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.1...v0.59.0-canary.2) (2024-11-08)
 
 
