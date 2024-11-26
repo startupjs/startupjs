@@ -1,3 +1,12 @@
+# [0.59.0-canary.4](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.3...v0.59.0-canary.4) (2024-11-26)
+
+
+### Bug Fixes
+
+* **Select:** make picker overlay clickable on ios ([e534eda](https://github.com/startupjs/startupjs/commit/e534eda4e2b6ee736cc9d8ea9c51fa42068b7304))
+
+
+
 # [0.59.0-canary.3](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.2...v0.59.0-canary.3) (2024-11-22)
 
 
