@@ -6,23 +6,20 @@ $grayLight = #dedede
   position relative
 
 .overlay
-  z-index 1
   position absolute
   top 0
   left 0
   right 0
   bottom 0
-  width 100%
-  height 100%
-  background-color transparent
-  opacity 0
-  padding 0
-  margin 0
+  z-index 10
 
   +web()
     appearance none
     border-width 0
     cursor pointer
+
+  +android()
+    opacity 0
 
 .modalTop
   flex 1
