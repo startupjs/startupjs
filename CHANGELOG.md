@@ -1,3 +1,12 @@
+# [0.59.0-canary.5](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.4...v0.59.0-canary.5) (2024-11-29)
+
+
+### Features
+
+* **NumberInput:** add default returnKeyType prop ([#1284](https://github.com/startupjs/startupjs/issues/1284)) ([ba76a26](https://github.com/startupjs/startupjs/commit/ba76a262f02401eb227815ace12d0ced94b12e7d))
+
+
+
 # [0.59.0-canary.4](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.3...v0.59.0-canary.4) (2024-11-26)
 
 
