@@ -15,7 +15,10 @@ import {
   AUTH_2FA_PROVIDER
 } from './constants.js'
 
-export default async function login (provider, { extraScopes, redirectUrl, handleError, ...props } = {}) {
+export default async function login (
+  provider,
+  { extraScopes, redirectUrl, handleError, ...props } = {}
+) {
   if (!provider) throw new Error('No provider specified')
   const plugin = getPlugin(AUTH_PLUGIN_NAME)
   if (!plugin.enabled) {
@@ -51,6 +54,9 @@ export default async function login (provider, { extraScopes, redirectUrl, handl
   // add scopes to state to later understand what operations are permitted with the issued token
   const urlParams = new URLSearchParams(authUrl.split('?')[1])
   state.scopes = urlParams.get('scope').split(' ')
+
+  if (props.state) Object.assign(state, props.state)
+
   // update authUrl to include state
   authUrl = authUrl + `&state=${encodeURIComponent(JSON.stringify(state))}`
   console.log('Auth url:', authUrl)

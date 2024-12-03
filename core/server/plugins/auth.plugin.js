@@ -95,9 +95,12 @@ export default createPlugin({
             delete userinfo.password
             delete userinfo.confirmPassword
             const config = getProviderConfig(providers, provider)
+            const state = userinfo.state
+            if (state) delete userinfo.state
+
             ;[$auth] = await getOrCreateAuth(config, provider, { userinfo, token, getUsersFilterQueryParams })
             // run hooks
-            await afterRegister({ config, provider, $auth })
+            await afterRegister({ config, provider, $auth, state })
             await beforeLogin({ config, provider, $auth })
 
             // login
@@ -189,7 +192,7 @@ export default createPlugin({
             const [$auth, registered] = await getOrCreateAuth(config, provider, { userinfo, scopes, getUsersFilterQueryParams })
 
             // run hooks
-            if (registered) await afterRegister({ config, provider, $auth })
+            if (registered) await afterRegister({ config, provider, $auth, state })
             await beforeLogin({ config, provider, $auth })
 
             // login
@@ -238,7 +241,7 @@ export default createPlugin({
           const [$auth, registered] = await getOrCreateAuth(config, provider, { userinfo, token: accessToken, scopes, getUsersFilterQueryParams })
 
           // run hooks
-          if (registered) await afterRegister({ config, provider, $auth })
+          if (registered) await afterRegister({ config, provider, $auth, state })
           await beforeLogin({ config, provider, $auth })
 
           // login
@@ -589,10 +592,10 @@ async function beforeLogin ({ config, provider, $auth }) {
   if (beforeLoginResult?.then) await beforeLoginResult
 }
 
-async function afterRegister ({ config, provider, $auth }) {
+async function afterRegister ({ config, provider, $auth, state }) {
   if (!config.afterRegister) return
 
-  const afterRegisterResult = config.afterRegister({ $auth, provider })
+  const afterRegisterResult = config.afterRegister({ $auth, provider, state })
   if (afterRegisterResult?.then) await afterRegisterResult
 }
 
