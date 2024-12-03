@@ -1,3 +1,12 @@
+# [0.59.0-canary.6](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.5...v0.59.0-canary.6) (2024-12-03)
+
+
+### Bug Fixes
+
+* **ui/Select:** fix appearance for web ([036e28f](https://github.com/startupjs/startupjs/commit/036e28f95dcf78bcc6a6c8fad9d8b85b6e52108a))
+
+
+
 # [0.59.0-canary.5](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.4...v0.59.0-canary.5) (2024-11-29)
 
 
