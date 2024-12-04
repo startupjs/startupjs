@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react'
+import { Platform } from 'react-native'
 import { pug, observer } from 'startupjs'
 import pick from 'lodash/pick'
 import PropTypes from 'prop-types'
@@ -7,6 +8,8 @@ import Div from './../../Div'
 import Span from './../../typography/Span'
 import Buttons from './Buttons'
 import './index.styl'
+
+const IS_IOS = Platform.OS === 'ios'
 
 function NumberInput ({
   style,
@@ -22,6 +25,7 @@ function NumberInput ({
   units,
   unitsPosition,
   onChangeNumber,
+  returnKeyType,
   ...props
 }, ref) {
   const [inputValue, setInputValue] = useState()
@@ -94,6 +98,18 @@ function NumberInput ({
     onChangeText(String(newValue))
   }
 
+  function getReturnKeyType () {
+    let res
+
+    if (IS_IOS && returnKeyType === 'none') {
+      res = 'default'
+    } else {
+      res = returnKeyType
+    }
+
+    return res
+  }
+
   const extraStyleName = {}
 
   if (units) {
@@ -149,6 +165,7 @@ function NumberInput ({
       size=size
       disabled=disabled
       keyboardType='numeric'
+      returnKeyType=getReturnKeyType()
       onChangeText=onChangeText
       _renderWrapper=renderInputWrapper
       ...props
@@ -167,7 +184,8 @@ NumberInput.defaultProps = {
   ),
   buttonsMode: 'vertical',
   step: 1,
-  unitsPosition: 'left'
+  unitsPosition: 'left',
+  returnKeyType: 'done'
 }
 
 NumberInput.propTypes = {
@@ -193,6 +211,7 @@ NumberInput.propTypes = {
   step: PropTypes.number,
   units: PropTypes.string,
   unitsPosition: PropTypes.oneOf(['left', 'right']),
+  returnKeyType: PropTypes.string,
   onChangeNumber: PropTypes.func
 }
 

@@ -1,3 +1,48 @@
+# [0.59.0-canary.7](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.6...v0.59.0-canary.7) (2024-12-03)
+
+
+### Features
+
+* **server -> auth:** pass state to afterRegister hook ([#1285](https://github.com/startupjs/startupjs/issues/1285)) ([afc8e8b](https://github.com/startupjs/startupjs/commit/afc8e8b72ee6c0e1d34a2be45c748e0575e662cc))
+
+
+
+# [0.59.0-canary.6](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.5...v0.59.0-canary.6) (2024-12-03)
+
+
+### Bug Fixes
+
+* **ui/Select:** fix appearance for web ([036e28f](https://github.com/startupjs/startupjs/commit/036e28f95dcf78bcc6a6c8fad9d8b85b6e52108a))
+
+
+
+# [0.59.0-canary.5](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.4...v0.59.0-canary.5) (2024-11-29)
+
+
+### Features
+
+* **NumberInput:** add default returnKeyType prop ([#1284](https://github.com/startupjs/startupjs/issues/1284)) ([ba76a26](https://github.com/startupjs/startupjs/commit/ba76a262f02401eb227815ace12d0ced94b12e7d))
+
+
+
+# [0.59.0-canary.4](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.3...v0.59.0-canary.4) (2024-11-26)
+
+
+### Bug Fixes
+
+* **Select:** make picker overlay clickable on ios ([e534eda](https://github.com/startupjs/startupjs/commit/e534eda4e2b6ee736cc9d8ea9c51fa42068b7304))
+
+
+
+# [0.59.0-canary.3](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.2...v0.59.0-canary.3) (2024-11-22)
+
+
+### Bug Fixes
+
+* **Drawer:** fix positioning for native ([889ee68](https://github.com/startupjs/startupjs/commit/889ee68e86b9e4600eb8653e06d6bc293bbce9e6))
+
+
+
 # [0.59.0-canary.2](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.1...v0.59.0-canary.2) (2024-11-08)
 
 
