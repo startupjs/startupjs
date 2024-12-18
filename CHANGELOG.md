@@ -1,3 +1,21 @@
+# [0.59.0-canary.8](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.7...v0.59.0-canary.8) (2024-12-09)
+
+
+### Bug Fixes
+
+* **ui -> Dropdown:** import UIManager directly form react-native ([#1286](https://github.com/startupjs/startupjs/issues/1286)) ([bd6a647](https://github.com/startupjs/startupjs/commit/bd6a64707bd374008b48edc847e86b3a841d41b3))
+
+
+
+# [0.59.0-canary.7](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.6...v0.59.0-canary.7) (2024-12-03)
+
+
+### Features
+
+* **server -> auth:** pass state to afterRegister hook ([#1285](https://github.com/startupjs/startupjs/issues/1285)) ([afc8e8b](https://github.com/startupjs/startupjs/commit/afc8e8b72ee6c0e1d34a2be45c748e0575e662cc))
+
+
+
 # [0.59.0-canary.6](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.5...v0.59.0-canary.6) (2024-12-03)
 
 
