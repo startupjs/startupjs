@@ -1,3 +1,12 @@
+# [0.59.0-canary.9](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.8...v0.59.0-canary.9) (2024-12-18)
+
+
+### Bug Fixes
+
+* **ui/DateTimePicker:** add missing timezone ([cbeb80e](https://github.com/startupjs/startupjs/commit/cbeb80ee236c525df9578dc51747e1f1d78a44da))
+
+
+
 # [0.59.0-canary.8](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.7...v0.59.0-canary.8) (2024-12-09)
 
 
