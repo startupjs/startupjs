@@ -228,12 +228,14 @@ build_image_kaniko () {
         then
           executor \
             --context /_project \
+            --build-arg STAGE=$STAGE \
             --dockerfile "$DOCKERFILE_PATH" \
             --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${SERVICE}-${FEATURE}:${COMMIT_SHA}" \
             --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${SERVICE}-${FEATURE}:latest"
         else
           executor \
             --context /_project \
+            --build-arg STAGE=$STAGE \
             --dockerfile "$DOCKERFILE_PATH" \
             --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${SERVICE}:${COMMIT_SHA}" \
             --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${SERVICE}:latest"
@@ -247,12 +249,14 @@ build_image_kaniko () {
     then
       executor \
         --context /_project \
+        --build-arg STAGE=$STAGE \
         --dockerfile "$DOCKERFILE_PATH" \
         --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${FEATURE}:${COMMIT_SHA}" \
         --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}-${FEATURE}:latest"
     else
       executor \
         --context /_project \
+        --build-arg STAGE=$STAGE \
         --dockerfile "$DOCKERFILE_PATH" \
         --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}:${COMMIT_SHA}" \
         --destination "${REGISTRY_SERVER}/${PROJECT_ID}/${REPOSITORY}/${APP}:latest"
