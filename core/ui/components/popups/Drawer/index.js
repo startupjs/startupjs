@@ -125,7 +125,6 @@ function Drawer ({
   ])
 
   const _styleContent = StyleSheet.flatten([
-    contentSize.width ? {} : { top: -999, left: -999 },
     { transform: [{ [POSITION_NAMES[position]]: animateStates.position }] },
     style
   ])

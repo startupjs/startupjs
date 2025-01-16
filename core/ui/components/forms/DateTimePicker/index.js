@@ -7,10 +7,10 @@ import React, {
 } from 'react'
 import { Platform } from 'react-native'
 import RNDateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { pug, observer, useBind, $ } from 'startupjs'
 import { useMedia, Button } from '@startupjs/ui'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import PropTypes from 'prop-types'
 import moment from 'moment-timezone'
 import Div from '../../Div'
@@ -362,6 +362,7 @@ function DateTimePicker ({
             textColor='#000000cc'
             maximumDate=maxDate ? new Date(maxDate) : undefined
             minimumDate=minDate ? new Date(minDate) : undefined
+            timeZoneName=timezone
             onChange=(event, selectedDate) => {
               if (event.type !== 'dismissed') {
                 setTempDate(selectedDate)
@@ -453,7 +454,7 @@ function getTimestampFromValue (value) {
 }
 
 function useTempDate ({ visible, date, timezone }) {
-  const [tempDate, setTempDate] = useState(getTempDate(date))
+  const [tempDate, setTempDate] = useState(getTempDate(date, timezone))
 
   useEffect(() => {
     const tempDate = getTempDate(date, timezone)

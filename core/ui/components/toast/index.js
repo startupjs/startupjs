@@ -72,7 +72,7 @@ export default function toast ({
     updateMatrixPositions()
   }
 
-  const newToast = {
+ const newToast = {
     key: toastId,
     show: true,
     topPosition: 0,

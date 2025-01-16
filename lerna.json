@@ -1,5 +1,5 @@
 {
-  "version": "0.57.0-canary.87",
+  "version": "0.59.0-canary.9",
   "command": {
     "publish": {
       "ignoreChanges": [

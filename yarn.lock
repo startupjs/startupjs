@@ -6671,7 +6671,7 @@ __metadata:
   resolution: "@startupjs/auth-local@workspace:libraries/auth-local"
   dependencies:
     "@hapi/joi": "npm:^17.1.1"
-    "@startupjs/recaptcha": "npm:^0.57.0-canary.75"
+    "@startupjs/recaptcha": "npm:^0.59.0-canary.0"
     bcrypt: "npm:^5.0.1"
     passport-local: "npm:^1.0.0"
   peerDependencies:
@@ -6718,7 +6718,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-dotenv@npm:^0.57.0-canary.75, @startupjs/babel-plugin-dotenv@workspace:core/babel-plugin-dotenv":
+"@startupjs/babel-plugin-dotenv@npm:^0.59.0-canary.0, @startupjs/babel-plugin-dotenv@workspace:core/babel-plugin-dotenv":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-dotenv@workspace:core/babel-plugin-dotenv"
   dependencies:
@@ -6729,7 +6729,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-eliminator@npm:^0.57.0-canary.75, @startupjs/babel-plugin-eliminator@workspace:core/babel-plugin-eliminator":
+"@startupjs/babel-plugin-eliminator@npm:^0.59.0-canary.0, @startupjs/babel-plugin-eliminator@workspace:core/babel-plugin-eliminator":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-eliminator@workspace:core/babel-plugin-eliminator"
   dependencies:
@@ -6738,7 +6738,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-i18n-extract@npm:^0.57.0-canary.75, @startupjs/babel-plugin-i18n-extract@workspace:core/babel-plugin-i18n-extract":
+"@startupjs/babel-plugin-i18n-extract@npm:^0.59.0-canary.0, @startupjs/babel-plugin-i18n-extract@workspace:core/babel-plugin-i18n-extract":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-i18n-extract@workspace:core/babel-plugin-i18n-extract"
   dependencies:
@@ -6749,7 +6749,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-import-to-react-lazy@npm:^0.57.0-canary.75, @startupjs/babel-plugin-import-to-react-lazy@workspace:core/babel-plugin-import-to-react-lazy":
+"@startupjs/babel-plugin-import-to-react-lazy@npm:^0.59.0-canary.0, @startupjs/babel-plugin-import-to-react-lazy@workspace:core/babel-plugin-import-to-react-lazy":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-import-to-react-lazy@workspace:core/babel-plugin-import-to-react-lazy"
   dependencies:
@@ -6784,7 +6784,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/babel-plugin-react-pug-classnames@npm:^0.57.0-canary.75, @startupjs/babel-plugin-react-pug-classnames@workspace:core/babel-plugin-react-pug-classnames":
+"@startupjs/babel-plugin-react-pug-classnames@npm:^0.59.0-canary.0, @startupjs/babel-plugin-react-pug-classnames@workspace:core/babel-plugin-react-pug-classnames":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-react-pug-classnames@workspace:core/babel-plugin-react-pug-classnames"
   dependencies:
@@ -6794,7 +6794,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-rn-stylename-inline@npm:^0.57.0-canary.83, @startupjs/babel-plugin-rn-stylename-inline@workspace:core/babel-plugin-rn-stylename-inline":
+"@startupjs/babel-plugin-rn-stylename-inline@npm:^0.59.0-canary.9, @startupjs/babel-plugin-rn-stylename-inline@workspace:core/babel-plugin-rn-stylename-inline":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-rn-stylename-inline@workspace:core/babel-plugin-rn-stylename-inline"
   dependencies:
@@ -6802,14 +6802,14 @@ __metadata:
     "@babel/plugin-syntax-jsx": "npm:^7.0.0"
     "@babel/template": "npm:^7.4.0"
     "@babel/types": "npm:^7.0.0"
-    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.57.0-canary.75"
-    "@startupjs/bundler": "npm:^0.57.0-canary.83"
+    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.59.0-canary.0"
+    "@startupjs/bundler": "npm:^0.59.0-canary.9"
     babel-plugin-tester: "npm:^9.1.0"
     jest: "npm:^26.0.1"
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-rn-stylename-to-style@npm:^0.57.0-canary.75, @startupjs/babel-plugin-rn-stylename-to-style@workspace:core/babel-plugin-rn-stylename-to-style":
+"@startupjs/babel-plugin-rn-stylename-to-style@npm:^0.59.0-canary.0, @startupjs/babel-plugin-rn-stylename-to-style@workspace:core/babel-plugin-rn-stylename-to-style":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-rn-stylename-to-style@workspace:core/babel-plugin-rn-stylename-to-style"
   dependencies:
@@ -6828,7 +6828,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-startupjs-debug@npm:^0.57.0-canary.75, @startupjs/babel-plugin-startupjs-debug@workspace:core/babel-plugin-startupjs-debug":
+"@startupjs/babel-plugin-startupjs-debug@npm:^0.59.0-canary.0, @startupjs/babel-plugin-startupjs-debug@workspace:core/babel-plugin-startupjs-debug":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs-debug@workspace:core/babel-plugin-startupjs-debug"
   dependencies:
@@ -6840,7 +6840,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-startupjs-plugins@npm:^0.57.0-canary.75, @startupjs/babel-plugin-startupjs-plugins@workspace:core/babel-plugin-startupjs-plugins":
+"@startupjs/babel-plugin-startupjs-plugins@npm:^0.59.0-canary.0, @startupjs/babel-plugin-startupjs-plugins@workspace:core/babel-plugin-startupjs-plugins":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs-plugins@workspace:core/babel-plugin-startupjs-plugins"
   dependencies:
@@ -6851,7 +6851,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-startupjs-utils@npm:^0.57.0-canary.75, @startupjs/babel-plugin-startupjs-utils@workspace:core/babel-plugin-startupjs-utils":
+"@startupjs/babel-plugin-startupjs-utils@npm:^0.59.0-canary.0, @startupjs/babel-plugin-startupjs-utils@workspace:core/babel-plugin-startupjs-utils":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs-utils@workspace:core/babel-plugin-startupjs-utils"
   dependencies:
@@ -6863,7 +6863,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-startupjs@npm:^0.57.0-canary.75, @startupjs/babel-plugin-startupjs@workspace:core/babel-plugin-startupjs":
+"@startupjs/babel-plugin-startupjs@npm:^0.59.0-canary.0, @startupjs/babel-plugin-startupjs@workspace:core/babel-plugin-startupjs":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs@workspace:core/babel-plugin-startupjs"
   dependencies:
@@ -6904,7 +6904,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/bundler@npm:^0.57.0-canary.83, @startupjs/bundler@workspace:core/bundler":
+"@startupjs/bundler@npm:^0.59.0-canary.9, @startupjs/bundler@workspace:core/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:core/bundler"
   dependencies:
@@ -6914,13 +6914,13 @@ __metadata:
     "@mdx-js/loader": "npm:^2.3.0"
     "@mdx-js/mdx": "npm:^2.3.0"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.1"
-    "@startupjs/babel-plugin-eliminator": "npm:^0.57.0-canary.75"
+    "@startupjs/babel-plugin-eliminator": "npm:^0.59.0-canary.0"
     "@startupjs/babel-plugin-react-css-modules": "npm:^6.5.4-1"
-    "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.57.0-canary.75"
-    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.57.0-canary.75"
+    "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.59.0-canary.0"
+    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.59.0-canary.0"
     "@startupjs/babel-plugin-transform-react-pug": "npm:^7.0.1-0"
     "@startupjs/css-to-react-native-transform": "npm:^1.9.0-2"
-    "@startupjs/server": "npm:^0.57.0-canary.82"
+    "@startupjs/server": "npm:^0.59.0-canary.9"
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
     "@svgr/plugin-svgo": "npm:^8.1.0"
@@ -6928,7 +6928,7 @@ __metadata:
     assets-webpack-plugin: "npm:^7.1.1"
     autoprefixer: "npm:^10.4.0"
     babel-loader: "npm:^8.2.3"
-    babel-preset-startupjs: "npm:^0.57.0-canary.83"
+    babel-preset-startupjs: "npm:^0.59.0-canary.9"
     connect: "npm:^3.7.0"
     css-loader: "npm:^6.5.0"
     css-minimizer-webpack-plugin: "npm:^5.0.0"
@@ -6953,15 +6953,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/cli@npm:^0.57.0-canary.75, @startupjs/cli@workspace:core/cli":
+"@startupjs/cli@npm:^0.59.0-canary.3, @startupjs/cli@workspace:core/cli":
   version: 0.0.0-use.local
   resolution: "@startupjs/cli@workspace:core/cli"
   dependencies:
-    "@startupjs/patches": "npm:^0.57.0-canary.75"
-    "@startupjs/pm": "npm:^0.57.0-canary.75"
+    "@startupjs/patches": "npm:^0.59.0-canary.0"
+    "@startupjs/pm": "npm:^0.59.0-canary.0"
     chalk: "npm:^5.3.0"
     commander: "npm:^12.0.0"
-    create-startupjs: "npm:^0.57.0-canary.75"
+    create-startupjs: "npm:^0.59.0-canary.3"
     execa: "npm:^8.0.1"
   languageName: unknown
   linkType: soft
@@ -6988,8 +6988,8 @@ __metadata:
   resolution: "@startupjs/docs@workspace:libraries/docs"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
-    "@startupjs/mdx": "npm:^0.57.0-canary.75"
-    "@startupjs/scrollable-anchors": "npm:^0.57.0-canary.75"
+    "@startupjs/mdx": "npm:^0.59.0-canary.0"
+    "@startupjs/scrollable-anchors": "npm:^0.59.0-canary.0"
     parse-prop-types: "npm:^0.3.0"
   peerDependencies:
     "@startupjs/ui": "*"
@@ -7016,11 +7016,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/hooks@npm:^0.57.0-canary.75, @startupjs/hooks@workspace:core/hooks":
+"@startupjs/hooks@npm:^0.59.0-canary.0, @startupjs/hooks@workspace:core/hooks":
   version: 0.0.0-use.local
   resolution: "@startupjs/hooks@workspace:core/hooks"
   dependencies:
-    "@startupjs/utils": "npm:^0.57.0-canary.75"
+    "@startupjs/utils": "npm:^0.59.0-canary.0"
     lodash: "npm:^4.17.20"
   peerDependencies:
     react: "*"
@@ -7054,7 +7054,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/isomorphic-helpers@npm:^0.57.0-canary.75, @startupjs/isomorphic-helpers@workspace:core/isomorphic-helpers":
+"@startupjs/isomorphic-helpers@npm:^0.59.0-canary.0, @startupjs/isomorphic-helpers@workspace:core/isomorphic-helpers":
   version: 0.0.0-use.local
   resolution: "@startupjs/isomorphic-helpers@workspace:core/isomorphic-helpers"
   languageName: unknown
@@ -7074,12 +7074,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/mdx@npm:^0.57.0-canary.75, @startupjs/mdx@workspace:libraries/mdx":
+"@startupjs/mdx@npm:^0.59.0-canary.0, @startupjs/mdx@workspace:libraries/mdx":
   version: 0.0.0-use.local
   resolution: "@startupjs/mdx@workspace:libraries/mdx"
   dependencies:
     "@mdx-js/react": "npm:~2.3.0"
-    "@startupjs/scrollable-anchors": "npm:^0.57.0-canary.75"
+    "@startupjs/scrollable-anchors": "npm:^0.59.0-canary.0"
     refractor: "npm:^3.0.0"
   peerDependencies:
     "@react-native-clipboard/clipboard": "*"
@@ -7112,7 +7112,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/patches@npm:^0.57.0-canary.75, @startupjs/patches@workspace:core/patches":
+"@startupjs/patches@npm:^0.59.0-canary.0, @startupjs/patches@workspace:core/patches":
   version: 0.0.0-use.local
   resolution: "@startupjs/patches@workspace:core/patches"
   dependencies:
@@ -7120,7 +7120,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/pm@npm:^0.57.0-canary.75, @startupjs/pm@workspace:libraries/pm":
+"@startupjs/pm@npm:^0.59.0-canary.0, @startupjs/pm@workspace:libraries/pm":
   version: 0.0.0-use.local
   resolution: "@startupjs/pm@workspace:libraries/pm"
   languageName: unknown
@@ -7185,7 +7185,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/recaptcha@npm:^0.57.0-canary.75, @startupjs/recaptcha@workspace:libraries/recaptcha":
+"@startupjs/recaptcha@npm:^0.59.0-canary.0, @startupjs/recaptcha@workspace:libraries/recaptcha":
   version: 0.0.0-use.local
   resolution: "@startupjs/recaptcha@workspace:libraries/recaptcha"
   peerDependencies:
@@ -7196,7 +7196,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/registry@npm:^0.57.0-canary.75, @startupjs/registry@workspace:core/registry":
+"@startupjs/registry@npm:^0.59.0-canary.0, @startupjs/registry@workspace:core/registry":
   version: 0.0.0-use.local
   resolution: "@startupjs/registry@workspace:core/registry"
   dependencies:
@@ -7207,11 +7207,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/router@npm:^0.57.0-canary.75, @startupjs/router@workspace:core/router":
+"@startupjs/router@npm:^0.59.0-canary.0, @startupjs/router@workspace:core/router":
   version: 0.0.0-use.local
   resolution: "@startupjs/router@workspace:core/router"
   dependencies:
-    "@startupjs/utils": "npm:^0.57.0-canary.75"
+    "@startupjs/utils": "npm:^0.59.0-canary.0"
     react-router: "npm:^6.22.3"
   peerDependencies:
     expo-router: "*"
@@ -7223,7 +7223,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/scrollable-anchors@npm:^0.57.0-canary.75, @startupjs/scrollable-anchors@workspace:libraries/scrollable-anchors":
+"@startupjs/scrollable-anchors@npm:^0.59.0-canary.0, @startupjs/scrollable-anchors@workspace:libraries/scrollable-anchors":
   version: 0.0.0-use.local
   resolution: "@startupjs/scrollable-anchors@workspace:libraries/scrollable-anchors"
   peerDependencies:
@@ -7243,12 +7243,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/server@npm:^0.57.0-canary.82, @startupjs/server@workspace:core/server":
+"@startupjs/server@npm:^0.59.0-canary.9, @startupjs/server@workspace:core/server":
   version: 0.0.0-use.local
   resolution: "@startupjs/server@workspace:core/server"
   dependencies:
-    "@startupjs/registry": "npm:^0.57.0-canary.75"
-    "@startupjs/utils": "npm:^0.57.0-canary.75"
+    "@startupjs/registry": "npm:^0.59.0-canary.0"
+    "@startupjs/utils": "npm:^0.59.0-canary.0"
     "@types/jsonwebtoken": "npm:^9"
     "@types/speakeasy": "npm:^2"
     bcrypt: "npm:^5.1.1"
@@ -7286,7 +7286,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/ui@npm:^0.57.0-canary.87, @startupjs/ui@workspace:core/ui":
+"@startupjs/ui@npm:^0.59.0-canary.9, @startupjs/ui@workspace:core/ui":
   version: 0.0.0-use.local
   resolution: "@startupjs/ui@workspace:core/ui"
   dependencies:
@@ -7296,8 +7296,8 @@ __metadata:
     "@fortawesome/react-native-fontawesome": "npm:^0.3.0"
     "@nx-js/observer-util": "npm:^4.1.3"
     "@ptomasroos/react-native-multi-slider": ptomasroos/react-native-multi-slider
-    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.57.0-canary.75"
-    "@startupjs/utils": "npm:^0.57.0-canary.75"
+    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.59.0-canary.0"
+    "@startupjs/utils": "npm:^0.59.0-canary.0"
     busboy: "npm:^1.6.0"
     color: "npm:^3.1.2"
     date-fns: "npm:^2.0.1"
@@ -7336,7 +7336,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/utils@npm:^0.57.0-canary.75, @startupjs/utils@workspace:core/utils":
+"@startupjs/utils@npm:^0.59.0-canary.0, @startupjs/utils@workspace:core/utils":
   version: 0.0.0-use.local
   resolution: "@startupjs/utils@workspace:core/utils"
   dependencies:
@@ -7659,16 +7659,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@teamplay/backend@npm:^0.3.18":
-  version: 0.3.18
-  resolution: "@teamplay/backend@npm:0.3.18"
+"@teamplay/backend@npm:^0.3.24":
+  version: 0.3.24
+  resolution: "@teamplay/backend@npm:0.3.24"
   dependencies:
     "@startupjs/sharedb-mingo-memory": "npm:^4.0.0-1"
-    "@teamplay/schema": "npm:^0.3.18"
-    "@teamplay/server-aggregate": "npm:^0.3.18"
-    "@teamplay/sharedb-access": "npm:^0.3.18"
-    "@teamplay/sharedb-schema": "npm:^0.3.18"
-    "@teamplay/utils": "npm:^0.3.18"
+    "@teamplay/schema": "npm:^0.3.24"
+    "@teamplay/server-aggregate": "npm:^0.3.24"
+    "@teamplay/sharedb-access": "npm:^0.3.24"
+    "@teamplay/sharedb-schema": "npm:^0.3.24"
+    "@teamplay/utils": "npm:^0.3.24"
     "@types/ioredis-mock": "npm:^8.2.5"
     ioredis: "npm:^5.3.2"
     ioredis-mock: "npm:^8.9.0"
@@ -7679,80 +7679,80 @@ __metadata:
     sharedb-mongo: "npm:^4.1.2"
     sharedb-redis-pubsub: "npm:^2.0.1"
     sqlite3: "npm:^5.1.6"
-  checksum: 10c0/902c515973bdaa2e50d4381ac9568f83730ce9d566a89438849690678a6d9d1e2b9a68774e053c14b61b3051be31e4217bf6047f35da7e2c09599e69bfce06ac
+  checksum: 10c0/c630371b821596d662d2c868d7662d8856a57d016e278aafac0df950deb9f9bfe7f4f4b3a8e13f8eb1123d4ccdba779ccb3567b25e0dfce7e41c5bea374844c3
   languageName: node
   linkType: hard
 
-"@teamplay/cache@npm:^0.3.18":
-  version: 0.3.18
-  resolution: "@teamplay/cache@npm:0.3.18"
+"@teamplay/cache@npm:^0.3.24":
+  version: 0.3.24
+  resolution: "@teamplay/cache@npm:0.3.24"
   dependencies:
-    "@teamplay/debug": "npm:^0.3.18"
-  checksum: 10c0/8107209d219e2bb74d4e13e8ba0c4e737826680ea2fc5566e5c73b505fd5da8f10a13d03517f0321dc8112108a7a748cd221ee5d3fb864641311a15a1490ad8e
+    "@teamplay/debug": "npm:^0.3.24"
+  checksum: 10c0/194d0e5869fede7d3303e460e96003fc55711d99757f15bc0ea43bc902c63c3b61a7d0caecbf9d5b36f94dd4ecf5079c9c51d6c75bc0e014960fe14f619e75b8
   languageName: node
   linkType: hard
 
-"@teamplay/channel@npm:^0.3.18":
-  version: 0.3.18
-  resolution: "@teamplay/channel@npm:0.3.18"
+"@teamplay/channel@npm:^0.3.24":
+  version: 0.3.24
+  resolution: "@teamplay/channel@npm:0.3.24"
   dependencies:
     sockjs: "github:sockjs/sockjs-node#46d2f846653a91822a02794b852886c7f137378c"
     sockjs-client: "npm:^1.6.1"
     ws: "npm:^1.1"
-  checksum: 10c0/a575ca9c4409520930118865ec83b3bad66e14171f38ad9361ddd8c3d5865256834f8fe05b5bb85399ab5840bdbc238a1ad5586f58fba6ab952a57cc9a512216
+  checksum: 10c0/3d93a51a31ac0a0154b695d359375ca913fe8566186de3bd25c76306851bf79724a73d1a5daeab98da812a90676fb7d5e810144f67f7488fae36efaef7374bae
   languageName: node
   linkType: hard
 
-"@teamplay/debug@npm:^0.3.18":
-  version: 0.3.18
-  resolution: "@teamplay/debug@npm:0.3.18"
-  checksum: 10c0/41fb5cfdde4eea96b8844343bad3b50f589d625e801395e9b087f0a1d31f9ecbd7475fef3093184b8f499b80c926d101c50d26130e66d0005f995c76c4ba00df
+"@teamplay/debug@npm:^0.3.24":
+  version: 0.3.24
+  resolution: "@teamplay/debug@npm:0.3.24"
+  checksum: 10c0/4992f8fe393f590c2af30c9e16920da96d2b6e6de98d0a8874ebe94adb15c14177dfae9c145b07e1d6a9328afa9bdd6baee79ea04f40fb6143a674bab229c7f5
   languageName: node
   linkType: hard
 
-"@teamplay/schema@npm:^0.3.18":
-  version: 0.3.18
-  resolution: "@teamplay/schema@npm:0.3.18"
+"@teamplay/schema@npm:^0.3.24":
+  version: 0.3.24
+  resolution: "@teamplay/schema@npm:0.3.24"
   dependencies:
     ajv: "npm:^8.12.0"
     ajv-errors: "npm:^3.0.0"
     lodash: "npm:^4.17.20"
-  checksum: 10c0/1777944b5e25c5b18d90e4813f52aafaff453d0eb8bde0333af9e6113f92f00dd63d4a7019a831a23ee5e85c3eecad1ed70adfca163f24b1fdd15c165785e7bb
+  checksum: 10c0/fc32700cc9dcdac8412d4a13b3231982e96b7340f750af615c8f478ab3a92ec95cf4b2a827d2d6f2de290e5309ec5b509891b06216891f1edde937dfea0e785e
   languageName: node
   linkType: hard
 
-"@teamplay/server-aggregate@npm:^0.3.18":
-  version: 0.3.18
-  resolution: "@teamplay/server-aggregate@npm:0.3.18"
-  checksum: 10c0/1eebd0728570ccfc05135abb9133b26230c283f83fb3277573eefc4d73c9b18716822cfefe03a7a54359fc3928389689d428e0d28058e57585e6c3548ea730cc
+"@teamplay/server-aggregate@npm:^0.3.24":
+  version: 0.3.24
+  resolution: "@teamplay/server-aggregate@npm:0.3.24"
+  checksum: 10c0/af230bd2c79d0fca75961c14d6963edf728db0c1c9b91b8e8b15185834f6360d54fb3ad1695f38c3936bdfecb2aca0b6a018e9bfd3ef162ad3dcab5eb6f6d985
   languageName: node
   linkType: hard
 
-"@teamplay/sharedb-access@npm:^0.3.18":
-  version: 0.3.18
-  resolution: "@teamplay/sharedb-access@npm:0.3.18"
+"@teamplay/sharedb-access@npm:^0.3.24":
+  version: 0.3.24
+  resolution: "@teamplay/sharedb-access@npm:0.3.24"
   dependencies:
     debug: "npm:*"
     lodash: "npm:^4.17.20"
-  checksum: 10c0/3ff09ff1ac98939d0e2860aea43c230e27014934791b5dda43ad10160491fe00b17a28e3a289e0fa354f37d88030e4653ffcc91a6ea7771a7ed62e07dff55aa7
+  checksum: 10c0/4e455f90e937b07049c6c9b808b2310d52e708b9b05cbd8110cdb2ec01a75f62b2633c5d7ece68e5000715799437a51560d2362b1524c8c63fdb6fc33d6c00a0
   languageName: node
   linkType: hard
 
-"@teamplay/sharedb-schema@npm:^0.3.18":
-  version: 0.3.18
-  resolution: "@teamplay/sharedb-schema@npm:0.3.18"
+"@teamplay/sharedb-schema@npm:^0.3.24":
+  version: 0.3.24
+  resolution: "@teamplay/sharedb-schema@npm:0.3.24"
   dependencies:
     z-schema: "npm:^4.2.3"
-  checksum: 10c0/3391d6a62fd9b0fd46a3c1421c7ec32fd5148f1808a563ec9c613b803fca44aaf76d993c48f81ed8e4ebe064422a6a882a397d0eb8232c6495108cdbb30eb3c9
+  checksum: 10c0/7664cf1d686e6328ff3e2389325789c31afe35910c95a76786a488d4ee1215d01a7f25ca805e8828d49354208fcf12b97b2e7d07475d91d2104d122ab6c29dff
   languageName: node
   linkType: hard
 
-"@teamplay/utils@npm:^0.3.18":
-  version: 0.3.18
-  resolution: "@teamplay/utils@npm:0.3.18"
+"@teamplay/utils@npm:^0.3.24":
+  version: 0.3.24
+  resolution: "@teamplay/utils@npm:0.3.24"
   dependencies:
     uuid: "npm:^3.4.0"
-  checksum: 10c0/9455cbb3bcefd96df2aa47317f77e4c6e95b446c5df32bc2cd5672f8cbc7cfc4f5bc7a61f831014c4b2758067e008ab69c28e0924d5d52b25381b0e29831c3a9
+  checksum: 10c0/4fb659e526da2c378f61779071e484e5e099919c435c54a4b1ee1d3f87f65249819d26c224ed6195ff7f80ccdc72d4cc01ab175f3d42da4bea318e49988e1371
   languageName: node
   linkType: hard
 
@@ -9926,7 +9926,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-startupjs@npm:^0.57.0-canary.83, babel-preset-startupjs@workspace:core/babel-preset-startupjs":
+"babel-preset-startupjs@npm:^0.59.0-canary.9, babel-preset-startupjs@workspace:core/babel-preset-startupjs":
   version: 0.0.0-use.local
   resolution: "babel-preset-startupjs@workspace:core/babel-preset-startupjs"
   dependencies:
@@ -9946,18 +9946,18 @@ __metadata:
     "@babel/plugin-transform-runtime": "npm:^7.0.0"
     "@babel/plugin-transform-typescript": "npm:^7.5.0"
     "@babel/runtime": "npm:^7.9.0"
-    "@startupjs/babel-plugin-dotenv": "npm:^0.57.0-canary.75"
-    "@startupjs/babel-plugin-i18n-extract": "npm:^0.57.0-canary.75"
-    "@startupjs/babel-plugin-import-to-react-lazy": "npm:^0.57.0-canary.75"
+    "@startupjs/babel-plugin-dotenv": "npm:^0.59.0-canary.0"
+    "@startupjs/babel-plugin-i18n-extract": "npm:^0.59.0-canary.0"
+    "@startupjs/babel-plugin-import-to-react-lazy": "npm:^0.59.0-canary.0"
     "@startupjs/babel-plugin-react-css-modules": "npm:^6.5.4-1"
-    "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.57.0-canary.75"
-    "@startupjs/babel-plugin-rn-stylename-inline": "npm:^0.57.0-canary.83"
-    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.57.0-canary.75"
-    "@startupjs/babel-plugin-startupjs": "npm:^0.57.0-canary.75"
-    "@startupjs/babel-plugin-startupjs-debug": "npm:^0.57.0-canary.75"
-    "@startupjs/babel-plugin-startupjs-utils": "npm:^0.57.0-canary.75"
+    "@startupjs/babel-plugin-react-pug-classnames": "npm:^0.59.0-canary.0"
+    "@startupjs/babel-plugin-rn-stylename-inline": "npm:^0.59.0-canary.9"
+    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.59.0-canary.0"
+    "@startupjs/babel-plugin-startupjs": "npm:^0.59.0-canary.0"
+    "@startupjs/babel-plugin-startupjs-debug": "npm:^0.59.0-canary.0"
+    "@startupjs/babel-plugin-startupjs-utils": "npm:^0.59.0-canary.0"
     "@startupjs/babel-plugin-transform-react-pug": "npm:^7.0.1-0"
-    "@startupjs/bundler": "npm:^0.57.0-canary.83"
+    "@startupjs/bundler": "npm:^0.59.0-canary.9"
     babel-plugin-module-resolver: "npm:^5.0.0"
     babel-plugin-react-native-platform-specific-extensions: "npm:^1.1.1"
     babel-plugin-react-native-web-pass-classname: "npm:^0.2.1"
@@ -12320,7 +12320,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-startupjs@npm:^0.57.0-canary.75, create-startupjs@workspace:core/create-startupjs":
+"create-startupjs@npm:^0.59.0-canary.3, create-startupjs@workspace:core/create-startupjs":
   version: 0.0.0-use.local
   resolution: "create-startupjs@workspace:core/create-startupjs"
   dependencies:
@@ -14051,7 +14051,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-startupjs@npm:^0.57.0-canary.75, eslint-config-startupjs@workspace:core/eslint-config-startupjs":
+"eslint-config-startupjs@npm:^0.59.0-canary.0, eslint-config-startupjs@workspace:core/eslint-config-startupjs":
   version: 0.0.0-use.local
   resolution: "eslint-config-startupjs@workspace:core/eslint-config-startupjs"
   dependencies:
@@ -14065,7 +14065,7 @@ __metadata:
     eslint-plugin-promise: "npm:^6.1.1"
     eslint-plugin-react: "npm:^7.33.2"
     eslint-plugin-react-hooks: "npm:^4.6.0"
-    eslint-plugin-startupjs: "npm:^0.57.0-canary.75"
+    eslint-plugin-startupjs: "npm:^0.59.0-canary.0"
   peerDependencies:
     eslint: "*"
     react: "*"
@@ -14215,7 +14215,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-startupjs@npm:^0.57.0-canary.75, eslint-plugin-startupjs@workspace:core/eslint-plugin-startupjs":
+"eslint-plugin-startupjs@npm:^0.59.0-canary.0, eslint-plugin-startupjs@workspace:core/eslint-plugin-startupjs":
   version: 0.0.0-use.local
   resolution: "eslint-plugin-startupjs@workspace:core/eslint-plugin-startupjs"
   peerDependencies:
@@ -14884,11 +14884,11 @@ __metadata:
     "@react-native-community/datetimepicker": "npm:8.0.1"
     "@react-native-picker/picker": "npm:2.7.5"
     "@react-navigation/native": "npm:^6.0.2"
-    "@startupjs/router": "npm:^0.57.0-canary.75"
-    "@startupjs/ui": "npm:^0.57.0-canary.87"
+    "@startupjs/router": "npm:^0.59.0-canary.0"
+    "@startupjs/ui": "npm:^0.59.0-canary.9"
     "@types/react": "npm:~18.2.79"
     eslint: "npm:^8.56.0"
-    eslint-config-startupjs: "npm:^0.57.0-canary.75"
+    eslint-config-startupjs: "npm:^0.59.0-canary.0"
     expo: "npm:~51.0.31"
     expo-document-picker: "npm:~12.0.2"
     expo-font: "npm:~12.0.9"
@@ -14913,7 +14913,7 @@ __metadata:
     react-native-svg: "npm:15.2.0"
     react-native-web: "npm:~0.19.6"
     react-test-renderer: "npm:18.2.0"
-    startupjs: "npm:^0.57.0-canary.83"
+    startupjs: "npm:^0.59.0-canary.9"
     typescript: "npm:^5.1.3"
   languageName: unknown
   linkType: soft
@@ -29099,21 +29099,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.57.0-canary.83, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.59.0-canary.9, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
-    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.57.0-canary.75"
-    "@startupjs/bundler": "npm:^0.57.0-canary.83"
-    "@startupjs/cli": "npm:^0.57.0-canary.75"
-    "@startupjs/hooks": "npm:^0.57.0-canary.75"
-    "@startupjs/isomorphic-helpers": "npm:^0.57.0-canary.75"
-    "@startupjs/registry": "npm:^0.57.0-canary.75"
-    "@startupjs/server": "npm:^0.57.0-canary.82"
-    "@startupjs/utils": "npm:^0.57.0-canary.75"
-    babel-preset-startupjs: "npm:^0.57.0-canary.83"
+    "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.59.0-canary.0"
+    "@startupjs/bundler": "npm:^0.59.0-canary.9"
+    "@startupjs/cli": "npm:^0.59.0-canary.3"
+    "@startupjs/hooks": "npm:^0.59.0-canary.0"
+    "@startupjs/isomorphic-helpers": "npm:^0.59.0-canary.0"
+    "@startupjs/registry": "npm:^0.59.0-canary.0"
+    "@startupjs/server": "npm:^0.59.0-canary.9"
+    "@startupjs/utils": "npm:^0.59.0-canary.0"
+    babel-preset-startupjs: "npm:^0.59.0-canary.9"
     lodash: "npm:^4.17.20"
-    teamplay: "npm:^0.3.18"
+    teamplay: "npm:^0.3.24"
   peerDependencies:
     react: "*"
     react-native: "*"
@@ -29855,17 +29855,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"teamplay@npm:^0.3.18":
-  version: 0.3.18
-  resolution: "teamplay@npm:0.3.18"
+"teamplay@npm:^0.3.24":
+  version: 0.3.24
+  resolution: "teamplay@npm:0.3.24"
   dependencies:
     "@nx-js/observer-util": "npm:^4.1.3"
-    "@teamplay/backend": "npm:^0.3.18"
-    "@teamplay/cache": "npm:^0.3.18"
-    "@teamplay/channel": "npm:^0.3.18"
-    "@teamplay/debug": "npm:^0.3.18"
-    "@teamplay/schema": "npm:^0.3.18"
-    "@teamplay/utils": "npm:^0.3.18"
+    "@teamplay/backend": "npm:^0.3.24"
+    "@teamplay/cache": "npm:^0.3.24"
+    "@teamplay/channel": "npm:^0.3.24"
+    "@teamplay/debug": "npm:^0.3.24"
+    "@teamplay/schema": "npm:^0.3.24"
+    "@teamplay/utils": "npm:^0.3.24"
     diff-match-patch: "npm:^1.0.5"
     events: "npm:^3.3.0"
     json0-ot-diff: "npm:^1.1.2"
@@ -29877,7 +29877,7 @@ __metadata:
   peerDependenciesMeta:
     "@startupjs/sharedb-mingo-memory":
       optional: true
-  checksum: 10c0/1a68fb0a6175473a316a34f86bbf8b4de8a11bcdbada7244a14634e3ce3c07139bd1ffe43f7b74b52d05405e0a46aebf8cc6ae78cd1d31c93efa0f703d5574d4
+  checksum: 10c0/98ebeaa19e0806b6d635bf593d7f8cc6fb6d744d8d3a3051fe8d0034dd2726a595d49384f01e8479b20f9aaf128956e6cb240128f16d87835c024884e3760864
   languageName: node
   linkType: hard
 

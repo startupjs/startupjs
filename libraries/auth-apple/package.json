@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-apple",
-  "version": "0.57.0-canary.75",
+  "version": "0.59.0-canary.0",
   "type": "module",
   "description": "Auth plugin for StartupJS auth module",
   "main": "index.js",
@@ -16,5 +16,6 @@
   "peerDependencies": {
     "@invertase/react-native-apple-authentication": ">= 2.1.0",
     "@startupjs/auth": "*"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

@@ -4,13 +4,13 @@
     "access": "public"
   },
   "description": "MDX documentation generator",
-  "version": "0.57.0-canary.75",
+  "version": "0.59.0-canary.0",
   "type": "module",
   "main": "index.js",
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
-    "@startupjs/mdx": "^0.57.0-canary.75",
-    "@startupjs/scrollable-anchors": "^0.57.0-canary.75",
+    "@startupjs/mdx": "^0.59.0-canary.0",
+    "@startupjs/scrollable-anchors": "^0.59.0-canary.0",
     "parse-prop-types": "^0.3.0"
   },
   "peerDependencies": {
@@ -18,5 +18,6 @@
     "react": "*",
     "react-native": "*",
     "startupjs": "*"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

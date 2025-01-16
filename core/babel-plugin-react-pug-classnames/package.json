@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-react-pug-classnames",
-  "version": "0.57.0-canary.75",
+  "version": "0.59.0-canary.0",
   "publishConfig": {
     "access": "public"
   },
@@ -35,5 +35,6 @@
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "babel-plugin-tester": "^9.1.0",
     "jest": "^26.0.1"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

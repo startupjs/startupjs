@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/cli",
-  "version": "0.57.0-canary.75",
+  "version": "0.59.0-canary.3",
   "description": "The command-line tool for StartupJS apps.",
   "type": "module",
   "main": "index.js",
@@ -9,11 +9,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@startupjs/patches": "^0.57.0-canary.75",
-    "@startupjs/pm": "^0.57.0-canary.75",
+    "@startupjs/patches": "^0.59.0-canary.0",
+    "@startupjs/pm": "^0.59.0-canary.0",
     "chalk": "^5.3.0",
     "commander": "^12.0.0",
-    "create-startupjs": "^0.57.0-canary.75",
+    "create-startupjs": "^0.59.0-canary.3",
     "execa": "^8.0.1"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

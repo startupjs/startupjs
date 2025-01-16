@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-dotenv",
-  "version": "0.57.0-canary.75",
+  "version": "0.59.0-canary.0",
   "publishConfig": {
     "access": "public"
   },
@@ -33,5 +33,6 @@
   "devDependencies": {
     "babel-plugin-tester": "^9.1.0",
     "jest": "^26.0.1"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

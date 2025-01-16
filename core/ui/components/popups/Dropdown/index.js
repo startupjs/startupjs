@@ -1,7 +1,7 @@
 import React, { useState, useRef, useImperativeHandle, useEffect } from 'react'
 import {
   Dimensions,
-  NativeModules,
+  UIManager,
   ScrollView,
   StyleSheet,
   Text,
@@ -20,7 +20,6 @@ import themed from '../../../theming/themed'
 import STYLES from './index.styl'
 
 const { PLACEMENTS_ORDER } = CONSTANTS
-const { UIManager } = NativeModules
 
 // TODO: key event change scroll
 function Dropdown ({

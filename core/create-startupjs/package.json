@@ -1,6 +1,6 @@
 {
   "name": "create-startupjs",
-  "version": "0.57.0-canary.75",
+  "version": "0.59.0-canary.3",
   "description": "Bootstrap a new StartupJS application.",
   "type": "module",
   "main": "index.js",
@@ -19,5 +19,6 @@
     "execa": "^8.0.1",
     "json-diff": "1.0.6",
     "lodash": "^4.17.20"
-  }
+  },
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

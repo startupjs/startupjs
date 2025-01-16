@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "expo-web-browser": "sdk-%%EXPO_MAJOR%%"
+    "expo-web-browser": "^14.0.1"
   }
 }

@@ -1,3 +1,109 @@
+# [0.59.0-canary.9](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.8...v0.59.0-canary.9) (2024-12-18)
+
+
+### Bug Fixes
+
+* **ui/DateTimePicker:** add missing timezone ([cbeb80e](https://github.com/startupjs/startupjs/commit/cbeb80ee236c525df9578dc51747e1f1d78a44da))
+
+
+
+# [0.59.0-canary.8](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.7...v0.59.0-canary.8) (2024-12-09)
+
+
+### Bug Fixes
+
+* **ui -> Dropdown:** import UIManager directly form react-native ([#1286](https://github.com/startupjs/startupjs/issues/1286)) ([bd6a647](https://github.com/startupjs/startupjs/commit/bd6a64707bd374008b48edc847e86b3a841d41b3))
+
+
+
+# [0.59.0-canary.7](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.6...v0.59.0-canary.7) (2024-12-03)
+
+
+### Features
+
+* **server -> auth:** pass state to afterRegister hook ([#1285](https://github.com/startupjs/startupjs/issues/1285)) ([afc8e8b](https://github.com/startupjs/startupjs/commit/afc8e8b72ee6c0e1d34a2be45c748e0575e662cc))
+
+
+
+# [0.59.0-canary.6](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.5...v0.59.0-canary.6) (2024-12-03)
+
+
+### Bug Fixes
+
+* **ui/Select:** fix appearance for web ([036e28f](https://github.com/startupjs/startupjs/commit/036e28f95dcf78bcc6a6c8fad9d8b85b6e52108a))
+
+
+
+# [0.59.0-canary.5](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.4...v0.59.0-canary.5) (2024-11-29)
+
+
+### Features
+
+* **NumberInput:** add default returnKeyType prop ([#1284](https://github.com/startupjs/startupjs/issues/1284)) ([ba76a26](https://github.com/startupjs/startupjs/commit/ba76a262f02401eb227815ace12d0ced94b12e7d))
+
+
+
+# [0.59.0-canary.4](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.3...v0.59.0-canary.4) (2024-11-26)
+
+
+### Bug Fixes
+
+* **Select:** make picker overlay clickable on ios ([e534eda](https://github.com/startupjs/startupjs/commit/e534eda4e2b6ee736cc9d8ea9c51fa42068b7304))
+
+
+
+# [0.59.0-canary.3](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.2...v0.59.0-canary.3) (2024-11-22)
+
+
+### Bug Fixes
+
+* **Drawer:** fix positioning for native ([889ee68](https://github.com/startupjs/startupjs/commit/889ee68e86b9e4600eb8653e06d6bc293bbce9e6))
+
+
+
+# [0.59.0-canary.2](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.1...v0.59.0-canary.2) (2024-11-08)
+
+
+
+# [0.59.0-canary.1](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.0...v0.59.0-canary.1) (2024-11-08)
+
+
+
+# [0.59.0-canary.0](https://github.com/startupjs/startupjs/compare/v0.58.0-canary.0...v0.59.0-canary.0) (2024-11-08)
+
+
+
+# [0.57.0-canary.91](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.90...v0.57.0-canary.91) (2024-11-05)
+
+
+
+# [0.57.0-canary.90](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.89...v0.57.0-canary.90) (2024-10-30)
+
+
+### Bug Fixes
+
+* header title on mobile ([#1280](https://github.com/startupjs/startupjs/issues/1280)) ([a70cdc1](https://github.com/startupjs/startupjs/commit/a70cdc1a738744661632a31b200cd98af479896a))
+
+
+
+# [0.57.0-canary.89](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.88...v0.57.0-canary.89) (2024-10-28)
+
+
+### Bug Fixes
+
+* **toast:** replaces not implemented unshift with a pair of set/get ([#1279](https://github.com/startupjs/startupjs/issues/1279)) ([cb59661](https://github.com/startupjs/startupjs/commit/cb59661c706aef43a8c885d1bd0190e577aa410f))
+
+
+
+# [0.57.0-canary.88](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.87...v0.57.0-canary.88) (2024-10-18)
+
+
+### Bug Fixes
+
+* password input autocomplete prop ([#1278](https://github.com/startupjs/startupjs/issues/1278)) ([21e9dc0](https://github.com/startupjs/startupjs/commit/21e9dc0c15cbf394fc6369bd3d94ff83faa7030c))
+
+
+
 # [0.57.0-canary.87](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.86...v0.57.0-canary.87) (2024-10-18)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/recaptcha",
-  "version": "0.57.0-canary.75",
+  "version": "0.59.0-canary.0",
   "type": "module",
   "description": "reCAPTCHA plugin",
   "main": "index.js",
@@ -14,5 +14,6 @@
     "react-native-webview": "*"
   },
   "license": "MIT",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }
