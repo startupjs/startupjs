@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/cli",
-  "version": "0.59.0-canary.3",
+  "version": "0.59.0-canary.10",
   "description": "The command-line tool for StartupJS apps.",
   "type": "module",
   "main": "index.js",

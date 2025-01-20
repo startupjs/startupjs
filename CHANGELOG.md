@@ -1,3 +1,12 @@
+# [0.59.0-canary.10](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.9...v0.59.0-canary.10) (2025-01-20)
+
+
+### Features
+
+* **worker:** implement new package based on BullMQ  ([#1289](https://github.com/startupjs/startupjs/issues/1289)) ([a8ac607](https://github.com/startupjs/startupjs/commit/a8ac607ed0b858612063d456b5f3cbb50ad4570a))
+
+
+
 # [0.59.0-canary.9](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.8...v0.59.0-canary.9) (2024-12-18)
 
 
