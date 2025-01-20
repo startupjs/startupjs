@@ -12,6 +12,7 @@
     "./server": "./server.js",
     "./schema": "./schema.js",
     "./startServer": "./startServer.js",
+    "./startWorker": "./startWorker.js",
     "./registry": "./registry.js",
     "./nodeRegister": "./nodeRegister.js",
     "./nconf": "./nconf.js",

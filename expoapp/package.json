@@ -12,7 +12,8 @@
     "start-production": "npx startupjs start-production",
     "test": "jest --watchAll",
     "startupjs:help": "npx startupjs --help",
-    "postinstall": "npx startupjs postinstall"
+    "postinstall": "npx startupjs postinstall",
+    "worker": "npx startupjs start-worker"
   },
   "jest": {
     "preset": "jest-expo"
@@ -27,6 +28,7 @@
     "@react-navigation/native": "^6.0.2",
     "@startupjs/router": "^0.59.0-canary.0",
     "@startupjs/ui": "^0.59.0-canary.9",
+    "@startupjs/worker": "^0.59.0-canary.0",
     "expo": "~51.0.31",
     "expo-document-picker": "~12.0.2",
     "expo-font": "~12.0.9",
