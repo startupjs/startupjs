@@ -5,13 +5,14 @@ import getQueueRedis from './getQueueRedis.js'
 
 export default function createQueue ({ name, options = {} }) {
   const optionsCopy = cloneDeep(options)
+  const connection = getQueueRedis()
 
   return {
     queue: new Queue(
       name,
       {
         prefix: redisPrefix,
-        connection: getQueueRedis(),
+        connection,
         ...optionsCopy
       }
     ),
@@ -19,7 +20,7 @@ export default function createQueue ({ name, options = {} }) {
       name,
       {
         prefix: redisPrefix,
-        connection: getQueueRedis(),
+        connection,
         ...optionsCopy
       }
     )
