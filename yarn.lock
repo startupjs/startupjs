@@ -7435,7 +7435,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/worker@workspace:core/worker":
+"@startupjs/worker@npm:^0.59.0-canary.0, @startupjs/worker@workspace:core/worker":
   version: 0.0.0-use.local
   resolution: "@startupjs/worker@workspace:core/worker"
   dependencies:
@@ -15077,6 +15077,7 @@ __metadata:
     "@react-navigation/native": "npm:^6.0.2"
     "@startupjs/router": "npm:^0.59.0-canary.0"
     "@startupjs/ui": "npm:^0.59.0-canary.6"
+    "@startupjs/worker": "npm:^0.59.0-canary.0"
     "@types/react": "npm:~18.2.79"
     eslint: "npm:^8.56.0"
     eslint-config-startupjs: "npm:^0.59.0-canary.0"

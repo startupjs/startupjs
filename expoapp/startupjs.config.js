@@ -2,6 +2,7 @@ import React from 'react'
 import { createPlugin } from 'startupjs/registry'
 import { pug, styl, $, sub, observer } from 'startupjs'
 import { Span, Div, Button, alert } from '@startupjs/ui'
+// import workerPlugin from '@startupjs/worker/plugin'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle'
 
@@ -40,6 +41,11 @@ export default {
     auth: {
       client: {
         redirectUrl: '/two'
+      }
+    },
+    worker: {
+      server: {
+        queueName: 'startupjs'
       }
     }
   }

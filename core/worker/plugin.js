@@ -1,10 +1,9 @@
 import { createPlugin, getPlugin } from 'startupjs/registry'
-import initDashboardRoutes from './initDashboardRoutes.js'
+import initDashboardRoute from './initDashboardRoute.js'
 
 export default createPlugin({
   name: 'worker',
   enabled: true,
-  order: 'router',
   server: () => ({
     serverRoutes (expressApp) {
       const plugin = getPlugin('worker')
@@ -12,12 +11,9 @@ export default createPlugin({
       const dashboardParams = plugin.optionsByEnv.server.dashboard
 
       if (dashboardParams) {
-        const { workerRoute, cronRoute } = dashboardParams
-
-        initDashboardRoutes({
+        initDashboardRoute({
           expressApp,
-          workerRoute,
-          cronRoute
+          ...dashboardParams
         })
       }
     }

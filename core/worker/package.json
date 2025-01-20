@@ -1,5 +1,6 @@
 {
   "name": "@startupjs/worker",
+  "version": "0.59.0-canary.0",
   "publishConfig": {
     "access": "public"
   },
@@ -8,7 +9,14 @@
   "main": "index.js",
   "exports": {
     ".": "./index.js",
-    "./plugin": "./plugin.js"
+    "./plugin": "./plugin.js",
+    "./initDashboardRoute": "./initDashboardRoute.js",
+    "./addSingletonJob": "./utils/addSingletonJob.js",
+    "./addThrottledJob": "./utils/addThrottledJob.js",
+    "./createQueue": "./utils/createQueue.js",
+    "./createWorker": "./utils/createWorker.js",
+    "./getQueueRedis": "./utils/getQueueRedis.js",
+    "./getWorkerRedis": "./utils/getWorkerRedis.js"
   },
   "dependencies": {
     "@bull-board/express": "^6.5.0",
