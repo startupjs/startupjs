@@ -72,7 +72,7 @@ export default function toast ({
     updateMatrixPositions()
   }
 
- const newToast = {
+const newToast = {
     key: toastId,
     show: true,
     topPosition: 0,
@@ -86,6 +86,11 @@ export default function toast ({
     onClose: onRemove,
     onLayout
   }
+
+  // TODO: The current implementation modifies the toast data directly, which violates the immutability principle of the model.
+  // This works only because the data is local, but it's a hacky solution. 
+  // We should implement an .unshift() method on the Signal to handle this correctly in the future.
+  // For now, this serves as a quick fix, but we need to address this properly to ensure data immutability.
 
   const toasts = $toasts.get() || []
   toasts.unshift(newToast)
