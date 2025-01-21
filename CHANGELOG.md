@@ -1,3 +1,12 @@
+# [0.59.0-canary.11](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.10...v0.59.0-canary.11) (2025-01-21)
+
+
+### Bug Fixes
+
+* toast position ([#1288](https://github.com/startupjs/startupjs/issues/1288)) ([c118490](https://github.com/startupjs/startupjs/commit/c118490795da2ceeff1f0478acde5e8a7595fef7))
+
+
+
 # [0.59.0-canary.10](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.9...v0.59.0-canary.10) (2025-01-20)
 
 
