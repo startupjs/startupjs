@@ -41,15 +41,15 @@
     "teamplay": "^0.3.24"
   },
   "peerDependencies": {
+    "@startupjs/worker": "*",
     "react": "*",
-    "react-native": "*",
-    "@startupjs/worker": "*"
+    "react-native": "*"
   },
   "peerDependenciesMeta": {
-    "react-native": {
+    "@startupjs/worker": {
       "optional": true
     },
-    "@startupjs/worker": {
+    "react-native": {
       "optional": true
     }
   },
