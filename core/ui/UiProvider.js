@@ -51,7 +51,7 @@ export default observer(function UiProvider ({ children, style, palette, colors,
     StyleContext.Provider(value=style)
       Portal.Provider
         ToastProvider
+        DialogsProvider
         = children
-      DialogsProvider
   `
 })
