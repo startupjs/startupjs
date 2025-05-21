@@ -100,22 +100,6 @@ StartupJS app requires:
 > If Fast Refresh (hot reloading) is not working (this might be the case if you created a bare expo project),
 > add `import '@expo/metro-runtime'` to the top of your entry file.
 
-## Known issues
-
-On the current version of Expo (v51) the Hermes JS engine does not support `FinalizationRegistry` yet on iOS/Android.
-Because of this there are known memory leaks. To workaround this issue until Hermes adds support for it, please
-specify a different JS engine (`jsc`) in `app.json`:
-
-```json
-{
-  "expo": {
-    "jsEngine": "jsc"
-  }
-}
-```
-
-If you would have issues running Android, you can use V8 engine on it: [`react-native-v8`](https://github.com/Kudo/react-native-v8)
-
 ## Native Development (iOS and Android)
 
 StartupJS uses Expo by default which should guide you through installation steps itself, just run `yarn start -c`
