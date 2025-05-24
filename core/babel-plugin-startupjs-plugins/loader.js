@@ -168,7 +168,6 @@ function resolveNodeModuleDir (root, packageName) {
 
 function getPackagePathsFromPackageJson (root, packageJson) {
   return Object.keys({
-    ...packageJson.peerDependencies,
     ...packageJson.dependencies,
     ...packageJson.devDependencies
   })

@@ -35,12 +35,13 @@ export default () => {}
 import { registry } from "startupjs/registry";
 import config from "../../startupjs.config.js";
 import dummy from "@dummy/dummy";
-import _default from "@startupjs/server/plugins/clientSession.plugin";
-import _default2 from "@startupjs/ui/plugin";
-import _default3 from "startupjs/plugins/cssMediaUpdater.plugin";
-import _default4 from "module-1/plugin";
-import _default5 from "module-1-plugin/thePlugin.plugin";
-import _default6 from "../../dummyPlugin.plugin.js";
+import _default from "module-1/plugin";
+import _default2 from "module-1-plugin/thePlugin.plugin";
+import _default3 from "@startupjs/server/plugins/clientSession.plugin";
+import _default4 from "@startupjs/server/plugins/oauth2.plugin";
+import _default5 from "@startupjs/server/plugins/auth.plugin";
+import _default6 from "startupjs/plugins/cssMediaUpdater.plugin";
+import _default7 from "../../dummyPlugin.plugin.js";
 const plugins = [
   _default,
   _default2,
@@ -48,6 +49,7 @@ const plugins = [
   _default4,
   _default5,
   _default6,
+  _default7,
 ];
 const features = {
   enableServer: true,
@@ -129,12 +131,13 @@ import * as _model_sessionGamesJs from "../../model/_session.games.js";
 import * as _modelIndexJs from "../../model/index.js";
 import * as _modelUsersIdJs from "../../model/users.[id].js";
 import * as _modelUsersJs from "../../model/users.js";
-import _default from "@startupjs/server/plugins/clientSession.plugin";
-import _default2 from "@startupjs/ui/plugin";
-import _default3 from "startupjs/plugins/cssMediaUpdater.plugin";
-import _default4 from "module-1/plugin";
-import _default5 from "module-1-plugin/thePlugin.plugin";
-import _default6 from "../../dummyPlugin.plugin.js";
+import _default from "module-1/plugin";
+import _default2 from "module-1-plugin/thePlugin.plugin";
+import _default3 from "@startupjs/server/plugins/clientSession.plugin";
+import _default4 from "@startupjs/server/plugins/oauth2.plugin";
+import _default5 from "@startupjs/server/plugins/auth.plugin";
+import _default6 from "startupjs/plugins/cssMediaUpdater.plugin";
+import _default7 from "../../dummyPlugin.plugin.js";
 const plugins = [
   _default,
   _default2,
@@ -142,6 +145,7 @@ const plugins = [
   _default4,
   _default5,
   _default6,
+  _default7,
 ];
 const features = {
   enableServer: true,
@@ -185,12 +189,13 @@ import * as _model_sessionGamesJs from "../../model/_session.games.js";
 import * as _modelIndexJs from "../../model/index.js";
 import * as _modelUsersIdJs from "../../model/users.[id].js";
 import * as _modelUsersJs from "../../model/users.js";
-import _default from "@startupjs/server/plugins/clientSession.plugin";
-import _default2 from "@startupjs/ui/plugin";
-import _default3 from "startupjs/plugins/cssMediaUpdater.plugin";
-import _default4 from "module-1/plugin";
-import _default5 from "module-1-plugin/thePlugin.plugin";
-import _default6 from "../../dummyPlugin.plugin.js";
+import _default from "module-1/plugin";
+import _default2 from "module-1-plugin/thePlugin.plugin";
+import _default3 from "@startupjs/server/plugins/clientSession.plugin";
+import _default4 from "@startupjs/server/plugins/oauth2.plugin";
+import _default5 from "@startupjs/server/plugins/auth.plugin";
+import _default6 from "startupjs/plugins/cssMediaUpdater.plugin";
+import _default7 from "../../dummyPlugin.plugin.js";
 const plugins = [
   _default,
   _default2,
@@ -198,6 +203,7 @@ const plugins = [
   _default4,
   _default5,
   _default6,
+  _default7,
 ];
 const features = {
   enableServer: true,
