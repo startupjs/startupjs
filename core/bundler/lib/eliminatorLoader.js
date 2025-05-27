@@ -109,15 +109,46 @@ module.exports = function eliminatorLoader (source) {
                 functionName: 'aggregation',
                 magicImports: ['startupjs'],
                 requirements: {
+                  argumentsAmount: 1,
                   directNamedExportedAsConst: true
                 },
-                throwIfRequirementsNotMet: true, // TODO: remove this when the next transformation is implemented
                 replaceWith: {
                   newFunctionNameFromSameImport: '__aggregationHeader',
                   newCallArgumentsTemplate: `[
                     {
                       collection: %%filenameWithoutExtension%%,
                       name: %%directNamedExportConstName%%
+                    }
+                  ]`
+                }
+              }, {
+                // export default inside of aggregation() within a separate model/*.$$myAggregation.js files
+                // are replaced with aggregationHeader() calls.
+                // Filepath is stripped of the extensions and split into sections (by dots and slashes)
+                // 'name' is the last section.
+                // 'collection' is the section before it.
+                //
+                // Example:
+                //
+                //   // in model/games/$$active.js
+                //   export default aggregation(({ gameId }) => ({ gameId }))
+                //
+                // will be replaced with:
+                //
+                //   __aggregationHeader({ collection: 'games', name: '$$active' })
+                //
+                functionName: 'aggregation',
+                magicImports: ['startupjs'],
+                requirements: {
+                  argumentsAmount: 1,
+                  directDefaultExported: true
+                },
+                replaceWith: {
+                  newFunctionNameFromSameImport: '__aggregationHeader',
+                  newCallArgumentsTemplate: `[
+                    {
+                      collection: %%folderAndFilenameWithoutExtension%%.split(/[\\\\/\\.]/).at(-2),
+                      name: %%folderAndFilenameWithoutExtension%%.split(/[\\\\/\\.]/).at(-1)
                     }
                   ]`
                 }

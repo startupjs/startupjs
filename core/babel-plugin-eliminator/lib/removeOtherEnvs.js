@@ -238,7 +238,47 @@ function transformFunctionCall ({
   requirements = {},
   throwIfRequirementsNotMet = false
 }) {
-  let handled = false
+  // check requirements
+  let requirementsMet = true
+  if (requirements.directNamedExportedAsConst) {
+    const $variableDeclarator = $callExpression.parentPath
+    if (!$variableDeclarator.isVariableDeclarator()) {
+      requirementsMet = false
+      if (throwIfRequirementsNotMet) {
+        throw $callExpression.buildCodeFrameError(`
+          [eliminator/transformFunctionCalls]
+          The direct named export of function call must be assigned to a const
+        `)
+      }
+    }
+  }
+  if (requirements.directDefaultExported) {
+    const $exportDefaultDeclaration = $callExpression.parentPath
+    if (!$exportDefaultDeclaration.isExportDefaultDeclaration()) {
+      requirementsMet = false
+      if (throwIfRequirementsNotMet) {
+        throw $callExpression.buildCodeFrameError(`
+          [eliminator/transformFunctionCalls]
+          The direct default export of function call must be assigned to a const
+        `)
+      }
+    }
+  }
+  if (requirements.argumentsAmount) {
+    const $arguments = $callExpression.get('arguments')
+    if ($arguments.length !== requirements.argumentsAmount) {
+      requirementsMet = false
+      if (throwIfRequirementsNotMet) {
+        throw $callExpression.buildCodeFrameError(`
+          [eliminator/transformFunctionCalls]
+          The function call must have ${requirements.argumentsAmount} arguments
+        `)
+      }
+    }
+  }
+  if (!requirementsMet) return false
+
+  // -- handle transformations --
 
   // remove the function call
   if (replaceWith.remove) {
@@ -247,25 +287,33 @@ function transformFunctionCall ({
     return true
   }
 
+  let handled = false
+
   if (replaceWith.newCallArgumentsTemplate) {
-    const newCallArgumentsTemplate = template(replaceWith.newCallArgumentsTemplate)
-    let directNamedExportConstName
-    if (requirements.directNamedExportedAsConst) {
-      const $variableDeclarator = $callExpression.parentPath
-      if ($variableDeclarator.isVariableDeclarator()) {
-        directNamedExportConstName = $variableDeclarator.get('id').node.name
-      } else if (throwIfRequirementsNotMet) {
-        throw $callExpression.buildCodeFrameError(`
-          [eliminator/transformFunctionCalls]
-          The direct named export of function call must be assigned to a const
-        `)
-      }
+    // fill in template variables
+    const templateVars = {}
+    if ($callExpression.parentPath.isVariableDeclarator()) {
+      // TODO: this is NOT actually direct export. Rename this to directConstName
+      templateVars.directNamedExportConstName = t.stringLiteral($callExpression.parentPath.get('id').node.name)
+      templateVars.isDirectNamedExportedAsConst = t.booleanLiteral(true)
     }
-    const filenameWithoutExtension = filename.replace(/^.*[\\/]/, '').replace(/\.[^.]+$/, '')
-    const newCallArguments = newCallArgumentsTemplate({
-      filenameWithoutExtension: t.stringLiteral(filenameWithoutExtension),
-      directNamedExportConstName: t.stringLiteral(directNamedExportConstName)
+    if ($callExpression.parentPath.isExportDefaultDeclaration()) {
+      templateVars.isDirectDefaultExported = t.booleanLiteral(true)
+    }
+    templateVars.folderAndFilenameWithoutExtension = t.stringLiteral(filename.split(/[\\/]/).slice(-2).join('/').replace(/\.[^.]+$/, ''))
+    templateVars.filenameWithoutExtension = t.stringLiteral(filename.replace(/^.*[\\/]/, '').replace(/\.[^.]+$/, ''))
+    // $callExpression arguments (0-based index - arguments0, arguments1, etc.)
+    $callExpression.get('arguments').forEach(($item, index) => {
+      templateVars[`argument${index}`] = $item.node
     })
+
+    // keep only templateVars that are used in the template
+    for (const key in templateVars) {
+      if (!replaceWith.newCallArgumentsTemplate.includes(`%%${key}%%`)) delete templateVars[key]
+    }
+
+    const newCallArgumentsTemplate = template(replaceWith.newCallArgumentsTemplate)
+    const newCallArguments = newCallArgumentsTemplate(templateVars)
     if (!(
       t.isExpressionStatement(newCallArguments) &&
       t.isArrayExpression(newCallArguments.expression)

@@ -54,20 +54,33 @@ const plugins = [
 const features = {
   enableServer: true,
 };
-const __modelsContext = require.context(
-  "../../model",
-  false,
-  /\\.[mc]?[jt]sx?$/
-);
-const models = __modelsContext.keys().reduce((res, filename) => {
-  const pattern = __getModelPattern(filename);
-  return {
-    ...res,
-    [pattern]: __modelsContext(filename),
-  };
-}, {});
+const __modelsContext = require.context("../../model", true, /\\.[mc]?[jt]sx?$/);
+const models = (() => {
+  let modelPatterns = __modelsContext.keys().reduce((res, filePath) => {
+    const pattern = __getModelPattern(filePath, "../../model");
+    if (pattern === null) return res;
+    return {
+      ...res,
+      [pattern]: filePath,
+    };
+  }, {});
+  modelPatterns = __sanitizeAndMergeModelPatterns(modelPatterns);
+  const res = {};
+  for (const [modelPattern, parts] in Object.entries(modelPatterns)) {
+    const fileParts = parts.map((part) => {
+      if (part.type === "model") return __modelsContext(part.value);
+      else
+        return {
+          [part.name]: __modelsContext(part.value).default,
+        };
+    });
+    res[modelPattern] = Object.assign({}, ...fileParts);
+  }
+  return res;
+})();
 function __getModelPattern() {
   const modelFilename = arguments[0];
+  const modelFolder = arguments[1];
   const MODEL_PATTERN_REGEX = /^[a-zA-Z0-9$_*.]+$/;
   let pattern = modelFilename;
   if (/\\*/.test(pattern)) {
@@ -77,8 +90,11 @@ function __getModelPattern() {
     );
   }
   pattern = pattern.replace(/\\[[^\\]]*\\]/g, "*");
-  pattern = pattern.replace(/^.+[\\\\/]/, "");
+  pattern = pattern.replace(modelFolder + "/", "");
   pattern = pattern.replace(/\\.[^.]+$/, "");
+  pattern = pattern.replace(/[\\\\/]/g, ".");
+  if (pattern.split(".").some((section) => section.startsWith("-")))
+    return null;
   if (!MODEL_PATTERN_REGEX.test(pattern)) {
     throw Error(
       "[models] Invalid model filename pattern: " +
@@ -90,7 +106,34 @@ function __getModelPattern() {
     );
   }
   if (pattern === "index") pattern = "";
+  if (/\\.index$/.test(pattern)) pattern = pattern.replace(/\\.index$/, "");
   return pattern;
+}
+function __sanitizeAndMergeModelPatterns() {
+  const modelPatterns = arguments[0];
+  const res = {};
+  for (const [modelPattern, value] of Object.entries(modelPatterns)) {
+    const sections = modelPattern.split(".");
+    const lastSection = sections.pop();
+    let pattern = sections.join(".");
+    let type;
+    let method = "push";
+    if (/^\\$\\$/.test(lastSection)) type = "aggregation";
+    else if (lastSection === "schema") type = "schema";
+    else if (lastSection === "access") type = "access";
+    else {
+      type = "model";
+      pattern = modelPattern;
+      method = "unshift";
+    }
+    res[pattern] ??= [];
+    res[pattern][method]({
+      type,
+      name: lastSection,
+      value,
+    });
+  }
+  return res;
 }
 config.features = features;
 registry.init(config, {
@@ -129,33 +172,67 @@ import dummy from "@dummy/dummy";
 import * as _model_sessionGamesIdJs from "../../model/_session.games.[id].js";
 import * as _model_sessionGamesJs from "../../model/_session.games.js";
 import * as _modelIndexJs from "../../model/index.js";
-import * as _modelUsersIdJs from "../../model/users.[id].js";
+import * as _modelPlayersIndexJs from "../../model/players/index.js";
+import _default from "../../model/players/$$active.js";
+import _default2 from "../../model/players/access.js";
+import _default3 from "../../model/players/schema.js";
+import * as _modelPlayersIdJs from "../../model/players/[id].js";
 import * as _modelUsersJs from "../../model/users.js";
-import _default from "module-1/plugin";
-import _default2 from "module-1-plugin/thePlugin.plugin";
-import _default3 from "@startupjs/server/plugins/clientSession.plugin";
-import _default4 from "@startupjs/server/plugins/oauth2.plugin";
-import _default5 from "@startupjs/server/plugins/auth.plugin";
-import _default6 from "startupjs/plugins/cssMediaUpdater.plugin";
-import _default7 from "../../dummyPlugin.plugin.js";
+import _default4 from "../../model/users.$$adult.js";
+import _default5 from "../../model/users.$$recent.js";
+import _default6 from "../../model/users.schema.js";
+import * as _modelUsersIdJs from "../../model/users.[id].js";
+import _default7 from "module-1/plugin";
+import _default8 from "module-1-plugin/thePlugin.plugin";
+import _default9 from "@startupjs/server/plugins/clientSession.plugin";
+import _default0 from "@startupjs/server/plugins/oauth2.plugin";
+import _default1 from "@startupjs/server/plugins/auth.plugin";
+import _default10 from "startupjs/plugins/cssMediaUpdater.plugin";
+import _default11 from "../../dummyPlugin.plugin.js";
 const plugins = [
-  _default,
-  _default2,
-  _default3,
-  _default4,
-  _default5,
-  _default6,
   _default7,
+  _default8,
+  _default9,
+  _default0,
+  _default1,
+  _default10,
+  _default11,
 ];
 const features = {
   enableServer: true,
 };
 const models = {
-  "_session.games.*": _model_sessionGamesIdJs,
-  "_session.games": _model_sessionGamesJs,
-  "": _modelIndexJs,
-  "users.*": _modelUsersIdJs,
-  users: _modelUsersJs,
+  "_session.games.*": Object.assign({}, _model_sessionGamesIdJs),
+  "_session.games": Object.assign({}, _model_sessionGamesJs),
+  "": Object.assign({}, _modelIndexJs),
+  players: Object.assign(
+    {},
+    _modelPlayersIndexJs,
+    {
+      $$active: _default,
+    },
+    {
+      access: _default2,
+    },
+    {
+      schema: _default3,
+    }
+  ),
+  "players.*": Object.assign({}, _modelPlayersIdJs),
+  users: Object.assign(
+    {},
+    _modelUsersJs,
+    {
+      $$adult: _default4,
+    },
+    {
+      $$recent: _default5,
+    },
+    {
+      schema: _default6,
+    }
+  ),
+  "users.*": Object.assign({}, _modelUsersIdJs),
 };
 config.features = features;
 registry.init(config, {
@@ -187,33 +264,67 @@ import config from "../../startupjs.config.js";
 import * as _model_sessionGamesIdJs from "../../model/_session.games.[id].js";
 import * as _model_sessionGamesJs from "../../model/_session.games.js";
 import * as _modelIndexJs from "../../model/index.js";
-import * as _modelUsersIdJs from "../../model/users.[id].js";
+import * as _modelPlayersIndexJs from "../../model/players/index.js";
+import _default from "../../model/players/$$active.js";
+import _default2 from "../../model/players/access.js";
+import _default3 from "../../model/players/schema.js";
+import * as _modelPlayersIdJs from "../../model/players/[id].js";
 import * as _modelUsersJs from "../../model/users.js";
-import _default from "module-1/plugin";
-import _default2 from "module-1-plugin/thePlugin.plugin";
-import _default3 from "@startupjs/server/plugins/clientSession.plugin";
-import _default4 from "@startupjs/server/plugins/oauth2.plugin";
-import _default5 from "@startupjs/server/plugins/auth.plugin";
-import _default6 from "startupjs/plugins/cssMediaUpdater.plugin";
-import _default7 from "../../dummyPlugin.plugin.js";
+import _default4 from "../../model/users.$$adult.js";
+import _default5 from "../../model/users.$$recent.js";
+import _default6 from "../../model/users.schema.js";
+import * as _modelUsersIdJs from "../../model/users.[id].js";
+import _default7 from "module-1/plugin";
+import _default8 from "module-1-plugin/thePlugin.plugin";
+import _default9 from "@startupjs/server/plugins/clientSession.plugin";
+import _default0 from "@startupjs/server/plugins/oauth2.plugin";
+import _default1 from "@startupjs/server/plugins/auth.plugin";
+import _default10 from "startupjs/plugins/cssMediaUpdater.plugin";
+import _default11 from "../../dummyPlugin.plugin.js";
 const plugins = [
-  _default,
-  _default2,
-  _default3,
-  _default4,
-  _default5,
-  _default6,
   _default7,
+  _default8,
+  _default9,
+  _default0,
+  _default1,
+  _default10,
+  _default11,
 ];
 const features = {
   enableServer: true,
 };
 const models = {
-  "_session.games.*": _model_sessionGamesIdJs,
-  "_session.games": _model_sessionGamesJs,
-  "": _modelIndexJs,
-  "users.*": _modelUsersIdJs,
-  users: _modelUsersJs,
+  "_session.games.*": Object.assign({}, _model_sessionGamesIdJs),
+  "_session.games": Object.assign({}, _model_sessionGamesJs),
+  "": Object.assign({}, _modelIndexJs),
+  players: Object.assign(
+    {},
+    _modelPlayersIndexJs,
+    {
+      $$active: _default,
+    },
+    {
+      access: _default2,
+    },
+    {
+      schema: _default3,
+    }
+  ),
+  "players.*": Object.assign({}, _modelPlayersIdJs),
+  users: Object.assign(
+    {},
+    _modelUsersJs,
+    {
+      $$adult: _default4,
+    },
+    {
+      $$recent: _default5,
+    },
+    {
+      schema: _default6,
+    }
+  ),
+  "users.*": Object.assign({}, _modelUsersIdJs),
 };
 config.features = features;
 registry.init(config, {

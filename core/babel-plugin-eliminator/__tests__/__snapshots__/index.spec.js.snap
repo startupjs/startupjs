@@ -431,13 +431,13 @@ You can only use keys listed in \`ensureOnlyKeys\`:
   - isomorphic
   - server
   - build
-[0m [90m 11 |[39m         roles[33m:[39m [[32m'admin'[39m[33m,[39m [32m'user'[39m][0m
-[0m [90m 12 |[39m       }[33m,[39m[0m
-[0m[31m[1m>[22m[39m[90m 13 |[39m       magic[33m:[39m {[0m
-[0m [90m    |[39m       [31m[1m^[22m[39m[0m
-[0m [90m 14 |[39m         testMagic[33m:[39m [32m'hello magic'[39m[0m
-[0m [90m 15 |[39m       }[0m
-[0m [90m 16 |[39m     }[0m
+[0m [90m 11 |[39m         roles[33m:[39m [[32m'admin'[39m[33m,[39m [32m'user'[39m]
+ [90m 12 |[39m       }[33m,[39m
+[31m[1m>[22m[39m[90m 13 |[39m       magic[33m:[39m {
+ [90m    |[39m       [31m[1m^[22m[39m
+ [90m 14 |[39m         testMagic[33m:[39m [32m'hello magic'[39m
+ [90m 15 |[39m       }
+ [90m 16 |[39m     }[0m
 
 `;
 
@@ -543,6 +543,54 @@ export function bar () {}
       ↓ ↓ ↓ ↓ ↓ ↓
 
 Error: /ws/dummy/index.js: You cannot specify both \`removeExports\` and \`keepExports\`
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator transform function calls with manipulation of arguments: transform function calls with manipulation of arguments 1`] = `
+
+import { aggregation } from 'startupjs/orm'
+import { getAppName, DEFAULT_USER_ID } from 'server-lib'
+
+const appName = getAppName()
+
+export const $$gamesByUserId = aggregation(({ userId = DEFAULT_USER_ID }) => ({
+  userId,
+  $sort: { createdAt: -1 },
+  appName
+}), { collection: 'games', name: '$$byUserId' })
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { __aggregationHeader } from "startupjs/orm";
+export const $$gamesByUserId = __aggregationHeader({
+  collection: "games",
+  name: "$$byUserId",
+});
+
+
+`;
+
+exports[`@startupjs/babel-plugin-eliminator transform function calls with more complex js logic (for aggregation): transform function calls with more complex js logic (for aggregation) 1`] = `
+
+import { aggregation } from 'startupjs/orm'
+import { getAppName, DEFAULT_USER_ID } from 'server-lib'
+
+const appName = getAppName()
+
+export default aggregation(({ userId = DEFAULT_USER_ID }) => ({
+  userId,
+  $sort: { createdAt: -1 },
+  appName
+}))
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { __aggregationHeader } from "startupjs/orm";
+export default __aggregationHeader({
+  collection: "games/$$active".split(/[\\\\/\\.]/).at(-2),
+  name: "games/$$active".split(/[\\\\/\\.]/).at(-1),
+});
+
 
 `;
 
