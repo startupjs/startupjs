@@ -21,7 +21,7 @@
  * The plugins found in "exports" are going to be automatically imported in
  * @startupjs/registry/loadStartupjsConfig.js file
  */
-const { existsSync, readFileSync, readdirSync } = require('fs')
+const { existsSync, readFileSync, readdirSync, lstatSync } = require('fs')
 const { join, dirname, relative, resolve: pathResolve } = require('path')
 const resolve = require('resolve')
 
@@ -45,20 +45,31 @@ exports.getRelativeConfigImport = (sourceFilename, root = ROOT) => {
   return relativePath
 }
 
-exports.getRelativeModelRequireContextPath = (sourceFilename, root = ROOT) => {
+exports.getRelativeModelPath = (sourceFilePath, root = ROOT) => {
   const modelFolder = join(root, 'model')
-  return relative(dirname(pathResolve(root, sourceFilename)), modelFolder)
+  return relative(dirname(pathResolve(root, sourceFilePath)), modelFolder)
 }
 
-exports.getRelativeModelImports = (sourceFilename, root = ROOT) => {
+exports.getRelativeModelImports = (sourceFilePath, root = ROOT) => {
   // find model folder
   const modelFolder = join(root, 'model')
-  if (!existsSync(modelFolder)) return {}
-  // find all files in the model folder
-  const modelImports = {}
-  for (const filename of readdirSync(modelFolder)) {
+  return getRelativeImports(modelFolder, sourceFilePath, root)
+}
+
+function getRelativeImports (folder, sourceFilePath, root) {
+  if (!existsSync(folder)) return {}
+  // recursively find all files in folder
+  const modelImports = []
+  for (const filename of readdirSync(folder)) {
+    const filePath = join(folder, filename)
+    if (lstatSync(filePath).isDirectory()) {
+      const subImports = getRelativeImports(filePath, sourceFilePath, root)
+      modelImports.push(...subImports)
+      continue
+    }
     if (!/\.[mc]?[jt]sx?$/.test(filename)) continue
-    modelImports[filename] = relative(dirname(pathResolve(root, sourceFilename)), join(modelFolder, filename))
+    const relativePath = relative(dirname(pathResolve(root, sourceFilePath)), filePath)
+    modelImports.push(relativePath)
   }
   return modelImports
 }

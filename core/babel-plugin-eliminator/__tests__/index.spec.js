@@ -359,9 +359,10 @@ pluginTester({
           functionName: 'aggregation',
           magicImports: ['@startupjs/orm', 'startupjs/orm'],
           requirements: {
+            argumentsAmount: 1,
             directNamedExportedAsConst: true
           },
-          throwIfRequirementsNotMet: true, // TODO: remove this when the next transformation is implemented
+          throwIfRequirementsNotMet: true,
           replaceWith: {
             newFunctionNameFromSameImport: '__aggregationHeader',
             newCallArgumentsTemplate: `[
@@ -408,6 +409,121 @@ pluginTester({
             await this.add({ name: 'New Game' })
           }
         }
+      `
+    },
+    'transform function calls with more complex js logic (for aggregation)': {
+      pluginOptions: {
+        transformFunctionCalls: [{
+          // export default inside of aggregation() within a separate model/*.$$myAggregation.js files
+          // are replaced with aggregationHeader() calls.
+          // Filepath is stripped of the extensions and split into sections (by dots and slashes)
+          // 'name' is the last section.
+          // 'collection' is the section before it.
+          //
+          // Example:
+          //
+          //   // in model/games/$$active.js
+          //   export default aggregation(({ gameId }) => ({ gameId }))
+          //
+          // will be replaced with:
+          //
+          //   __aggregationHeader({ collection: 'games', name: '$$active' })
+          //
+          functionName: 'aggregation',
+          magicImports: ['@startupjs/orm', 'startupjs/orm'],
+          requirements: {
+            argumentsAmount: 1,
+            directDefaultExported: true
+          },
+          throwIfRequirementsNotMet: true,
+          replaceWith: {
+            newFunctionNameFromSameImport: '__aggregationHeader',
+            newCallArgumentsTemplate: `[
+              {
+                collection: %%folderAndFilenameWithoutExtension%%.split(/[\\\\/\\.]/).at(-2),
+                name: %%folderAndFilenameWithoutExtension%%.split(/[\\\\/\\.]/).at(-1)
+              }
+            ]`
+          }
+        }]
+      },
+      babelOptions: {
+        filename: '/ws/dummy/model/games/$$active.js'
+      },
+      code: /* js */`
+        import { aggregation } from 'startupjs/orm'
+        import { getAppName, DEFAULT_USER_ID } from 'server-lib'
+
+        const appName = getAppName()
+
+        export default aggregation(({ userId = DEFAULT_USER_ID }) => ({
+          userId,
+          $sort: { createdAt: -1 },
+          appName
+        }))
+      `
+    },
+    'transform function calls with manipulation of arguments': {
+      pluginOptions: {
+        transformFunctionCalls: [{
+          // this tests that the previous transformation is not applied to this call
+          // (because it has different requirements)
+          functionName: 'aggregation',
+          magicImports: ['@startupjs/orm', 'startupjs/orm'],
+          requirements: {
+            argumentsAmount: 1,
+            directNamedExportedAsConst: true
+          },
+          replaceWith: {
+            newFunctionNameFromSameImport: '__aggregationHeader',
+            newCallArgumentsTemplate: `[
+              {
+                collection: %%filenameWithoutExtension%%,
+                name: %%directNamedExportConstName%%
+              }
+            ]`
+          }
+        }, {
+          // any other calls to aggregation() must explicitly define the collection and name
+          // as the second argument. If not, the build will fail.
+          //
+          // Example:
+          //
+          //   aggregation(
+          //     ({ gameId }) => ({ gameId }),
+          //     { collection: 'games', name: 'byGameId' }
+          //   )
+          //
+          // will be replaced with:
+          //
+          //   __aggregationHeader({ collection: 'games', name: 'byGameId' })
+          //
+          functionName: 'aggregation',
+          magicImports: ['@startupjs/orm', 'startupjs/orm'],
+          requirements: {
+            argumentsAmount: 2
+          },
+          throwIfRequirementsNotMet: true,
+          replaceWith: {
+            newFunctionNameFromSameImport: '__aggregationHeader',
+            newCallArgumentsTemplate: '[%%argument1%%]' // 0-based index
+          }
+        }]
+      },
+      babelOptions: {
+        filename: '/ws/dummy/model/-helpers/aBunchOfAggregations.js'
+      },
+      code: /* js */`
+        import { aggregation } from 'startupjs/orm'
+        import { getAppName, DEFAULT_USER_ID } from 'server-lib'
+
+        const appName = getAppName()
+
+        export const $$gamesByUserId = aggregation(({ userId = DEFAULT_USER_ID }) => ({
+          userId,
+          $sort: { createdAt: -1 },
+          appName
+        }), { collection: 'games', name: '$$byUserId' })
       `
     }
   }
