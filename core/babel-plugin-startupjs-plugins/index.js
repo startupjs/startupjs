@@ -131,7 +131,7 @@ function loadVirtualModelsRequireContext ($import, { $program, filename, t, temp
     const %%name%% = (() => {
       let modelPatterns = __modelsContext.keys().reduce(
         (res, filePath) => {
-          const pattern = __getModelPattern(filePath, %%folder%%)
+          const pattern = __getModelPattern(filePath, '.') // context returns relative paths from the context folder
           if (pattern === null) return res // ignore files which start with a dash
           return { ...res, [pattern]: filePath }
         },
@@ -139,7 +139,7 @@ function loadVirtualModelsRequireContext ($import, { $program, filename, t, temp
       )
       modelPatterns = __sanitizeAndMergeModelPatterns(modelPatterns)
       const res = {}
-      for (const [modelPattern, parts] in Object.entries(modelPatterns)) {
+      for (const [modelPattern, parts] of Object.entries(modelPatterns)) {
         const fileParts = parts.map(part => {
           // if it's a model file, we return all its exports
           if (part.type === 'model') return __modelsContext(part.value)
