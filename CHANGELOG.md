@@ -1,3 +1,12 @@
+# [0.59.0-canary.13](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.12...v0.59.0-canary.13) (2025-05-29)
+
+
+### Bug Fixes
+
+* **babel-plugin-startupjs-plugins:** fix require.context() paths handling ([f7d5207](https://github.com/startupjs/startupjs/commit/f7d520736a87ad912afbcb4e66fdafb069348fdd))
+
+
+
 # [0.59.0-canary.12](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.11...v0.59.0-canary.12) (2025-05-29)
 
 

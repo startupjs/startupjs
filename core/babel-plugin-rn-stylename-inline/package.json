@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-rn-stylename-inline",
-  "version": "0.59.0-canary.12",
+  "version": "0.59.0-canary.13",
   "publishConfig": {
     "access": "public"
   },
@@ -27,7 +27,7 @@
     "@babel/template": "^7.4.0",
     "@babel/types": "^7.0.0",
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.59.0-canary.0",
-    "@startupjs/bundler": "^0.59.0-canary.12"
+    "@startupjs/bundler": "^0.59.0-canary.13"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.0.0",

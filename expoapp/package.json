@@ -1,7 +1,7 @@
 {
   "name": "expoapp",
   "main": "expo-router/entry",
-  "version": "0.59.0-canary.12",
+  "version": "0.59.0-canary.13",
   "type": "module",
   "scripts": {
     "start": "npm run check-redis && EXPO_USE_METRO_WORKSPACE_ROOT=1 npx expo start",
@@ -49,7 +49,7 @@
     "react-native-screens": "~4.10.0",
     "react-native-svg": "15.11.2",
     "react-native-web": "~0.20.0",
-    "startupjs": "^0.59.0-canary.12"
+    "startupjs": "^0.59.0-canary.13"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
