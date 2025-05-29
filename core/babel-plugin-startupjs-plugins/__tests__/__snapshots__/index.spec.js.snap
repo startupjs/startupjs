@@ -57,7 +57,7 @@ const features = {
 const __modelsContext = require.context("../../model", true, /\\.[mc]?[jt]sx?$/);
 const models = (() => {
   let modelPatterns = __modelsContext.keys().reduce((res, filePath) => {
-    const pattern = __getModelPattern(filePath, "../../model");
+    const pattern = __getModelPattern(filePath, ".");
     if (pattern === null) return res;
     return {
       ...res,
@@ -66,7 +66,7 @@ const models = (() => {
   }, {});
   modelPatterns = __sanitizeAndMergeModelPatterns(modelPatterns);
   const res = {};
-  for (const [modelPattern, parts] in Object.entries(modelPatterns)) {
+  for (const [modelPattern, parts] of Object.entries(modelPatterns)) {
     const fileParts = parts.map((part) => {
       if (part.type === "model") return __modelsContext(part.value);
       else
