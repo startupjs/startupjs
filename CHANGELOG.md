@@ -1,3 +1,17 @@
+# [0.59.0-canary.12](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.11...v0.59.0-canary.12) (2025-05-29)
+
+
+### Bug Fixes
+
+* **babel-plugin-startupjsj-plugins:** don't take peerDependencies into account when traversing package.json to find plugins to auto-connect ([74fd6d1](https://github.com/startupjs/startupjs/commit/74fd6d1c2c8631b98590c78102cf964bd2b8e849))
+
+
+### Features
+
+* **orm:** support splitting models into parts and support subfolder structure ([#1292](https://github.com/startupjs/startupjs/issues/1292)) ([9e238f2](https://github.com/startupjs/startupjs/commit/9e238f2b5260a6b181d4db0c59cead576cac7ecb))
+
+
+
 # [0.59.0-canary.11](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.10...v0.59.0-canary.11) (2025-01-21)
 
 
