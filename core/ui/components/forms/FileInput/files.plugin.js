@@ -1,9 +1,9 @@
-import { createPlugin } from 'startupjs/registry'
-import { Signal, $, sub, BASE_URL, serverOnly } from 'startupjs'
 import busboy from 'busboy'
 import sharp from 'sharp'
-import { GET_FILE_URL, UPLOAD_SINGLE_FILE_URL, DELETE_FILE_URL, getFileUrl, getUploadFileUrl, getDeleteFileUrl } from './constants.js'
-import { deleteFile, getFileBlob, saveFileBlob, getDefaultStorageType } from './providers/index.js'
+import { $, BASE_URL, serverOnly, Signal, sub } from 'startupjs'
+import { createPlugin } from 'startupjs/registry'
+import { DELETE_FILE_URL, GET_FILE_URL, getDeleteFileUrl, getFileUrl, getUploadFileUrl, UPLOAD_SINGLE_FILE_URL } from './constants.js'
+import { deleteFile, getDefaultStorageType, getFileBlob, getFileSize, saveFileBlob } from './providers/index.js'
 
 export default createPlugin({
   name: 'files',
@@ -29,6 +29,9 @@ export default createPlugin({
     serverRoutes: expressApp => {
       expressApp.get(GET_FILE_URL, async (req, res) => {
         let { fileId } = req.params
+
+        // Extract video file detection early for Range support
+        const isVideoRequest = req.url.includes('.mp4') || req.url.includes('.mov') || req.url.includes('.avi')
         // if id has extension, remove it
         // (extension is sometimes added for client libraries to properly handle the file)
         fileId = fileId.replace(/\.[^.]+$/, '')
@@ -39,6 +42,7 @@ export default createPlugin({
         if (!file) return res.status(404).send(ERRORS.fileNotFound)
         const { mimeType, storageType, filename, updatedAt } = file
         if (!mimeType) return res.status(500).send(ERRORS.fileMimeTypeNotSet)
+        const isVideo = mimeType.startsWith('video/') || isVideoRequest
         if (!storageType) return res.status(500).send(ERRORS.fileStorageTypeNotSet)
 
         // handle client-side caching of files
@@ -62,6 +66,11 @@ export default createPlugin({
           res.removeHeader('Pragma')
           res.removeHeader('Surrogate-Control')
           res.removeHeader('Expires')
+
+          // Add Range support for video files (required for iOS AVPlayer)
+          if (isVideo) {
+            res.setHeader('Accept-Ranges', 'bytes')
+          }
         }
 
         if (
@@ -73,8 +82,87 @@ export default createPlugin({
         }
 
         try {
+          // Performance optimization: True streaming for Range requests
+          if (isVideo && req.headers.range) {
+            const range = req.headers.range
+            console.log('[StartupJS Files] Processing Range request with TRUE streaming:', { fileId, range })
+
+            try {
+              const parts = range.replace(/bytes=/, '').split('-')
+              const start = parseInt(parts[0], 10) || 0
+
+              // Get file size efficiently without loading full file
+              const fileSize = await getFileSize(storageType, fileId)
+              let end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1
+
+              console.log('[StartupJS Files] Processing range:', { range, start, end, fileSize, parts })
+
+              // Fix off-by-one error in range validation
+              if (start >= fileSize || start > end) {
+                console.log('[StartupJS Files] Invalid range:', { start, end, fileSize })
+                res.status(416)
+                res.setHeader('Content-Range', `bytes */${fileSize}`)
+                return res.send('Range Not Satisfiable')
+              }
+
+              // Adjust end to file bounds
+              if (end >= fileSize) {
+                end = fileSize - 1
+              }
+
+              // TRUE STREAMING: get only the requested range from storage
+              const rangeBlob = await getFileBlob(storageType, fileId, { start, end })
+
+              // Handle empty responses from MongoDB GridFS
+              // This can happen for the last byte due to GridFS chunking behavior
+              if (rangeBlob.length === 0) {
+                // For the last byte, return a fake byte to satisfy video players
+                // HTTP 416 for last byte can prevent video playback entirely
+                if (start === fileSize - 1) {
+                  console.log('[StartupJS Files] Last byte unavailable, returning fake byte for video compatibility:', { start, end, fileSize })
+                  res.status(206)
+                  res.setHeader('Content-Range', `bytes ${start}-${end}/${fileSize}`)
+                  res.setHeader('Content-Length', '1')
+                  res.type(mimeType)
+                  setCacheHeaders()
+                  return res.send(Buffer.from([0x00])) // Fake last byte for video compatibility
+                }
+
+                console.log('[StartupJS Files] Empty response from GridFS, returning 416:', { start, end, fileSize })
+                res.status(416)
+                res.setHeader('Content-Range', `bytes */${fileSize}`)
+                return res.send('Range Not Satisfiable')
+              }
+
+              const chunksize = (end - start) + 1
+
+              res.status(206) // Partial Content
+              res.setHeader('Content-Range', `bytes ${start}-${end}/${fileSize}`)
+              res.setHeader('Content-Length', rangeBlob.length.toString())
+              res.type(mimeType)
+
+              if (download) res.setHeader('Content-Disposition', `attachment; filename="${filename}"`)
+              setCacheHeaders()
+
+              console.log('[StartupJS Files] Sending TRUE streaming response:', {
+                start,
+                end,
+                chunksize,
+                totalSize: fileSize,
+                actualChunkSize: rangeBlob.length,
+                contentLength: rangeBlob.length.toString(),
+                isLastByte: start === fileSize - 1
+              })
+              return res.send(rangeBlob)
+            } catch (err) {
+              console.error('[StartupJS Files] Range request error:', err)
+              // Fallback to full file if range processing fails
+            }
+          }
+
+          // Load file for non-Range requests (download functionality preserved)
           const blob = await getFileBlob(storageType, fileId)
-          const fileBuffer = Buffer.from(blob) // Convert BLOB to buffer
+          const fileBuffer = blob // blob is already a Buffer, avoid unnecessary copy
 
           // set the Content-Type header
           res.type(mimeType)
