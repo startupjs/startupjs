@@ -1,7 +1,11 @@
-import { sqlite, mongo } from 'startupjs/server'
+import { mongo, sqlite } from 'startupjs/server'
 
-export async function getFileBlob (storageType, fileId) {
-  return (await getStorageProvider(storageType)).getFileBlob(fileId)
+export async function getFileBlob (storageType, fileId, range) {
+  return (await getStorageProvider(storageType)).getFileBlob(fileId, range)
+}
+
+export async function getFileSize (storageType, fileId) {
+  return (await getStorageProvider(storageType)).getFileSize(fileId)
 }
 
 export async function saveFileBlob (storageType, fileId, blob) {
@@ -13,6 +17,9 @@ export async function deleteFile (storageType, fileId) {
 }
 
 export async function getDefaultStorageType () {
+  const storage = process.env.DEFAULT_STORAGE_TYPE;
+
+  if (storage) return storage;
   if (mongo) return 'mongo'
   if (sqlite) return 'sqlite'
   throw Error(ERRORS.noDefaultStorageProvider)
@@ -28,6 +35,8 @@ async function getStorageProvider (storageType) {
     theModule = await import('./sqlite.js')
   } else if (storageType === 'mongo') {
     theModule = await import('./mongo.js')
+  } else if (storageType === 'azureblob') {
+    theModule = await import('./azureblob.js')
   } else {
     throw Error(ERRORS.unsupportedStorageType(storageType))
   }

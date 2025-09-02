@@ -7,6 +7,12 @@
 yarn add @startupjs/ui
 ```
 
+If you plan to use Azure Blob Storage in FileInput component, add extra packages
+
+```sh
+yarn add @azure/storage-blob
+```
+
 ### Requirements
 
 ```
