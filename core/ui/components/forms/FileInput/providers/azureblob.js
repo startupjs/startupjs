@@ -1,19 +1,19 @@
 import { BlobServiceClient } from '@azure/storage-blob';
 
 // Replace with your Azure Blob Storage connection string or Azurite connection string
-const AZURE_CONNECTION_STRING = process.env.AZURE_BLOB_STORAGE_CONNECTION_STRING
+const AZURE_BLOB_STORAGE_CONNECTION_STRING = process.env.AZURE_BLOB_STORAGE_CONNECTION_STRING
 const CONTAINER_NAME = 'fs' // Container name for storing blobs
 
 let blobServiceClient;
 let containerClient;
 
 export function validateSupport() {
-  if (!AZURE_CONNECTION_STRING) {
+  if (!AZURE_BLOB_STORAGE_CONNECTION_STRING) {
     throw new Error(ERRORS.azureNotAvailable);
   }
   // Initialize the BlobServiceClient and ContainerClient once
   if (!blobServiceClient) {
-    blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_CONNECTION_STRING);
+    blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_BLOB_STORAGE_CONNECTION_STRING);
     containerClient = blobServiceClient.getContainerClient(CONTAINER_NAME);
     // Ensure container exists
     containerClient.createIfNotExists().catch((err) => {
