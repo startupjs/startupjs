@@ -100,6 +100,16 @@ StartupJS app requires:
 > If Fast Refresh (hot reloading) is not working (this might be the case if you created a bare expo project),
 > add `import '@expo/metro-runtime'` to the top of your entry file.
 
+### Upgrading to newer StartupJS versions
+
+```
+npx startupjs install --fix
+```
+
+This will upgrade to the latest minor version of `startupjs` and all the `@startupjs/*` packages and also upgrade Expo and all its packages to the latest minor version.
+
+If you want to upgrade to a newer BREAKING version -- manually change the `startupjs` and `expo` to a higher major version and then run the same command `npx startupjs install --fix`. When upgrading to a new breaking version you might have to run this command twice.
+
 ## Native Development (iOS and Android)
 
 StartupJS uses Expo by default which should guide you through installation steps itself, just run `yarn start -c`
