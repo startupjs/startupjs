@@ -141,7 +141,8 @@
     "react-native-gesture-handler": "*",
     "react-native-pager-view": "*",
     "react-native-svg": "*",
-    "startupjs": "*"
+    "startupjs": "*",
+    "@azure/storage-blob": "*"
   },
   "peerDependenciesMeta": {
     "expo-document-picker": {
@@ -154,6 +155,9 @@
       "optional": true
     },
     "react-router": {
+      "optional": true
+    },
+    "@azure/storage-blob": {
       "optional": true
     }
   },
