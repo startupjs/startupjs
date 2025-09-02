@@ -130,6 +130,7 @@
     "sharp": "^0.33.2"
   },
   "peerDependencies": {
+    "@azure/storage-blob": "*",
     "@react-native-community/datetimepicker": "*",
     "@react-native-picker/picker": "*",
     "expo-document-picker": "*",
@@ -141,10 +142,12 @@
     "react-native-gesture-handler": "*",
     "react-native-pager-view": "*",
     "react-native-svg": "*",
-    "startupjs": "*",
-    "@azure/storage-blob": "*"
+    "startupjs": "*"
   },
   "peerDependenciesMeta": {
+    "@azure/storage-blob": {
+      "optional": true
+    },
     "expo-document-picker": {
       "optional": true
     },
@@ -155,9 +158,6 @@
       "optional": true
     },
     "react-router": {
-      "optional": true
-    },
-    "@azure/storage-blob": {
       "optional": true
     }
   },

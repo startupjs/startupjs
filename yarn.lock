@@ -6256,6 +6256,7 @@ __metadata:
     react-native-tab-view: "npm:^3.0.0"
     sharp: "npm:^0.33.2"
   peerDependencies:
+    "@azure/storage-blob": "*"
     "@react-native-community/datetimepicker": "*"
     "@react-native-picker/picker": "*"
     expo-document-picker: "*"
@@ -6269,6 +6270,8 @@ __metadata:
     react-native-svg: "*"
     startupjs: "*"
   peerDependenciesMeta:
+    "@azure/storage-blob":
+      optional: true
     expo-document-picker:
       optional: true
     expo-image-picker:
