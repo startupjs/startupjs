@@ -150,7 +150,7 @@ export async function deleteFile(fileId) {
 const ERRORS = {
   azureNotAvailable: `
     Azure Blob Storage connection is not available.
-    Make sure you have configured the AZURE_CONNECTION_STRING environment variable.
+    Make sure you have configured the AZURE_BLOB_STORAGE_CONNECTION_STRING environment variable.
   `,
   fileNotFound: `
     File not found in Azure Blob Storage.
