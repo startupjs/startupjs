@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-startupjs-plugins",
-  "version": "0.59.0-canary.13",
+  "version": "0.59.0-canary.14",
   "type": "commonjs",
   "publishConfig": {
     "access": "public"

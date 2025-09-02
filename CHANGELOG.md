@@ -1,3 +1,12 @@
+# [0.59.0-canary.14](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.13...v0.59.0-canary.14) (2025-09-02)
+
+
+### Features
+
+* **ui/FileInput:** Range requests support for videos (chunking) + Azure Blob Storage support ([#1295](https://github.com/startupjs/startupjs/issues/1295)) ([7b8b5a4](https://github.com/startupjs/startupjs/commit/7b8b5a4489484842cb79806d6b8a2dbf3dfb693e))
+
+
+
 # [0.59.0-canary.13](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.12...v0.59.0-canary.13) (2025-05-29)
 
 
