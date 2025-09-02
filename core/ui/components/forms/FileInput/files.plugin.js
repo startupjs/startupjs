@@ -162,7 +162,7 @@ export default createPlugin({
 
           // Load file for non-Range requests (download functionality preserved)
           const blob = await getFileBlob(storageType, fileId)
-          const fileBuffer = blob // blob is already a Buffer, avoid unnecessary copy
+          const fileBuffer = (blob instanceof Buffer) ? blob : Buffer.from(blob) // avoid unnecessary copy
 
           // set the Content-Type header
           res.type(mimeType)

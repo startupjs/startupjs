@@ -7,7 +7,7 @@ export function validateSupport () {
   if (!mongo) throw Error(ERRORS.mongoNotAvailable)
   // Initialize the GridFSBucket once
   if (!bucket) {
-    bucket = new GridFSBucket(mongo, { bucketName: 'files' })
+    bucket = new GridFSBucket(mongo)
   }
 }
 

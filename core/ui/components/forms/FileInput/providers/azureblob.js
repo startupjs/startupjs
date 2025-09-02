@@ -1,8 +1,8 @@
 import { BlobServiceClient } from '@azure/storage-blob';
 
 // Replace with your Azure Blob Storage connection string or Azurite connection string
-const AZURE_CONNECTION_STRING = process.env.FILEINPUT_STORAGE_CONNECTION || 'DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;';
-const CONTAINER_NAME = 'files'; // Container name for storing blobs
+const AZURE_CONNECTION_STRING = process.env.AZURE_CONNECTION_STRING
+const CONTAINER_NAME = 'fs' // Container name for storing blobs
 
 let blobServiceClient;
 let containerClient;

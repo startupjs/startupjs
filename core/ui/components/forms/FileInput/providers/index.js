@@ -17,7 +17,7 @@ export async function deleteFile (storageType, fileId) {
 }
 
 export async function getDefaultStorageType () {
-  const storage = process.env.FILEINPUT_STORAGE;
+  const storage = process.env.DEFAULT_STORAGE_TYPE;
 
   if (storage) return storage;
   if (mongo) return 'mongo'
