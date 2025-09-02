@@ -7,4 +7,4 @@
     - sqlite
     - azureblob. If specified, then AZURE_CONNECTION_STRING to Azure Blob Storage must be specified.
 
-- AZURE_CONNECTION_STRING. Connection string to Azure Blob Storage.
+- AZURE_BLOB_STORAGE_CONNECTION_STRING. Connection string to Azure Blob Storage.
