@@ -1,3 +1,12 @@
+# [0.59.0-canary.15](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.14...v0.59.0-canary.15) (2025-09-03)
+
+
+### Bug Fixes
+
+* **ui/FileInput:** Azure error fixed ([#1296](https://github.com/startupjs/startupjs/issues/1296)) ([93711a4](https://github.com/startupjs/startupjs/commit/93711a433b3365ac2a3b6e9f1f97d67036c69b71))
+
+
+
 # [0.59.0-canary.14](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.13...v0.59.0-canary.14) (2025-09-02)
 
 

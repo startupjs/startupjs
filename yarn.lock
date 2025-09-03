@@ -6230,7 +6230,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/ui@npm:^0.59.0-canary.14, @startupjs/ui@workspace:core/ui":
+"@startupjs/ui@npm:^0.59.0-canary.15, @startupjs/ui@workspace:core/ui":
   version: 0.0.0-use.local
   resolution: "@startupjs/ui@workspace:core/ui"
   dependencies:
@@ -13723,7 +13723,7 @@ __metadata:
     "@react-native-picker/picker": "npm:2.11.0"
     "@react-navigation/native": "npm:^6.0.2"
     "@startupjs/router": "npm:^0.59.0-canary.0"
-    "@startupjs/ui": "npm:^0.59.0-canary.14"
+    "@startupjs/ui": "npm:^0.59.0-canary.15"
     "@startupjs/worker": "npm:^0.59.0-canary.10"
     "@types/react": "npm:~19.0.10"
     eslint: "npm:^9.25.0"
