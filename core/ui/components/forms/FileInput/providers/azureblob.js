@@ -2,7 +2,7 @@ import { BlobServiceClient } from '@azure/storage-blob';
 
 // Replace with your Azure Blob Storage connection string or Azurite connection string
 const AZURE_BLOB_STORAGE_CONNECTION_STRING = process.env.AZURE_BLOB_STORAGE_CONNECTION_STRING
-const CONTAINER_NAME = 'fs' // Container name for storing blobs
+const CONTAINER_NAME = 'files' // Container name for storing blobs
 
 let blobServiceClient;
 let containerClient;
