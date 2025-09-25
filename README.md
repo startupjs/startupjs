@@ -167,7 +167,7 @@ To deploy the native apps use the [Expo EAS](https://expo.dev/eas) service -- `e
 
 ## Advanced
 
-To gain further deep knowledge of StartupJS stack you'll need get familiar with the following technologies it's built on:
+To gain further deep knowledge of StartupJS stack you'll need to get familiar with the following technologies it's built on:
 
 1. [React](https://reactjs.org/)
 1. [React Native](https://facebook.github.io/react-native/) for the Native-frontend (iOS, Android, etc.).
