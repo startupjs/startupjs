@@ -190,7 +190,7 @@ To gain further deep knowledge of StartupJS stack you'll need to get familiar wi
 
 ## Version migration guides
 
-The following guides are available to assist with migration to new major versions of StartupJS:
+The following guides are available to assist with the migration to new major versions of StartupJS:
 
 - [Migration Guides](/docs/migration-guides)
 
