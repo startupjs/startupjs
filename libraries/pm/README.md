@@ -40,7 +40,7 @@ following their according guidelines:
 1. Install the module with scripts:
 
     ```sh
-    yarn add @startupjs/pm
+    yarn add -D @startupjs/pm
     ```
 
 1. create a new GitHub project with the same name as your github repo from
