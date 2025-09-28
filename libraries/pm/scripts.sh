@@ -750,8 +750,6 @@ _requestPrReview () {
 _getParentIssueNumber () {
   _child=$1
   _num=$(gh api \
-    -H "Accept: application/vnd.github+json" \
-    -H "X-GitHub-Api-Version: 2022-11-28" \
     "repos/$(_getOwner)/$(_getRepo)/issues/${_child}/parent" \
     -q '.number' 2>/dev/null || true)
 
@@ -773,8 +771,6 @@ _getParentIssueNumber () {
 _getIssueRestId () {
   _num=$1
   gh api \
-    -H "Accept: application/vnd.github+json" \
-    -H "X-GitHub-Api-Version: 2022-11-28" \
     "repos/$(_getOwner)/$(_getRepo)/issues/${_num}" \
     -q '.id'
 }
@@ -790,8 +786,6 @@ _unlinkIssueFromParent () {
   printf '{"sub_issue_id": %s}\n' "$_childId" \
   | gh api \
       -X DELETE \
-      -H "Accept: application/vnd.github+json" \
-      -H "X-GitHub-Api-Version: 2022-11-28" \
       "repos/$(_getOwner)/$(_getRepo)/issues/${_parent}/sub_issue" \
       --input - --silent
 }
@@ -808,31 +802,23 @@ _linkPrToIssue () {
   | gh pr edit "$_pr" -F -
 }
 
-# Appends "- #<prNumber>" to the end of the parent issue body (idempotent).
+# Appends "- #<prNumber>" to the end of the parent issue body (idempotent, POSIX-sh)
 _appendPrToParentIssueBody () {
-  _pr=$1        # PR number (same as original issue number post-conversion)
-  _parent=$2    # parent issue number
+  _pr=$1
+  _parent=$2
 
   # Get current body (normalize CRLF -> LF)
-  _body=$( gh issue view "$_parent" --json body -q '.body' | tr -d '\r' | cat )
+  _body=$(gh issue view "$_parent" --json body -q '.body' | tr -d '\r')
 
   # If already present, do nothing
-  printf "%s\n" "$_body" | grep -Eq '(^|\n)-[[:space:]]+#'"$_pr"'([[:space:]]|$)' && return 0
+  printf '%s\n' "$_body" | grep -Eq '(^|\n)-[[:space:]]+#'"$_pr"'([[:space:]]|$)' && return 0
 
-  # Ensure a single newline separator before appending
   if [ -n "$_body" ]; then
-    case "$_body" in
-      *$'\n') _sep="";;
-      *)      _sep=$'\n';;
-    esac
-    _newBody="${_body}${_sep}- #${_pr}
-"
+    _newBody=$(printf '%s\n- #%s\n' "$_body" "$_pr")
   else
-    _newBody="- #${_pr}
-"
+    _newBody=$(printf -- '- #%s\n' "$_pr")
   fi
 
-  # Patch the parent body (raw-field preserves newlines)
   gh api -X PATCH \
     "repos/$(_getOwner)/$(_getRepo)/issues/${_parent}" \
     --silent \
