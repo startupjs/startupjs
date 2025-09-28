@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.59.0-canary.14",
+  "version": "0.59.0-canary.16",
   "engines": {
     "node": ">= 14"
   },
@@ -30,7 +30,7 @@
   "dependencies": {
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.59.0-canary.0",
     "@startupjs/bundler": "^0.59.0-canary.14",
-    "@startupjs/cli": "^0.59.0-canary.10",
+    "@startupjs/cli": "^0.59.0-canary.16",
     "@startupjs/hooks": "^0.59.0-canary.0",
     "@startupjs/isomorphic-helpers": "^0.59.0-canary.0",
     "@startupjs/registry": "^0.59.0-canary.0",

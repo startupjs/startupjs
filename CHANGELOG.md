@@ -1,3 +1,12 @@
+# [0.59.0-canary.16](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.15...v0.59.0-canary.16) (2025-09-28)
+
+
+### Bug Fixes
+
+* **pm:** handle sub-issues ([#1297](https://github.com/startupjs/startupjs/issues/1297)) ([c252001](https://github.com/startupjs/startupjs/commit/c2520018691c28216bf22c794d7e00dbdb1f8572))
+
+
+
 # [0.59.0-canary.15](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.14...v0.59.0-canary.15) (2025-09-03)
 
 

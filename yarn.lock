@@ -5897,12 +5897,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/cli@npm:^0.59.0-canary.10, @startupjs/cli@workspace:core/cli":
+"@startupjs/cli@npm:^0.59.0-canary.16, @startupjs/cli@workspace:core/cli":
   version: 0.0.0-use.local
   resolution: "@startupjs/cli@workspace:core/cli"
   dependencies:
     "@startupjs/patches": "npm:^0.59.0-canary.0"
-    "@startupjs/pm": "npm:^0.59.0-canary.0"
+    "@startupjs/pm": "npm:^0.59.0-canary.16"
     chalk: "npm:^5.3.0"
     commander: "npm:^12.0.0"
     create-startupjs: "npm:^0.59.0-canary.3"
@@ -6064,7 +6064,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/pm@npm:^0.59.0-canary.0, @startupjs/pm@workspace:libraries/pm":
+"@startupjs/pm@npm:^0.59.0-canary.16, @startupjs/pm@workspace:libraries/pm":
   version: 0.0.0-use.local
   resolution: "@startupjs/pm@workspace:libraries/pm"
   languageName: unknown
@@ -13752,7 +13752,7 @@ __metadata:
     react-native-svg: "npm:15.11.2"
     react-native-web: "npm:~0.20.0"
     react-test-renderer: "npm:19.0.0"
-    startupjs: "npm:^0.59.0-canary.14"
+    startupjs: "npm:^0.59.0-canary.16"
     typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
@@ -27956,13 +27956,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.59.0-canary.14, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.59.0-canary.16, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
     "@startupjs/babel-plugin-rn-stylename-to-style": "npm:^0.59.0-canary.0"
     "@startupjs/bundler": "npm:^0.59.0-canary.14"
-    "@startupjs/cli": "npm:^0.59.0-canary.10"
+    "@startupjs/cli": "npm:^0.59.0-canary.16"
     "@startupjs/hooks": "npm:^0.59.0-canary.0"
     "@startupjs/isomorphic-helpers": "npm:^0.59.0-canary.0"
     "@startupjs/registry": "npm:^0.59.0-canary.0"
