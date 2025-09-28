@@ -126,6 +126,16 @@ pr () {
   git push -u origin HEAD || true
   echo "Pushed"
 
+  # --- Detect and detach from parent if this is a Sub-Issue ---
+  _parentIssue=$(_getParentIssueNumber "$_issue" || true)
+  if [ -n "$_parentIssue" ] ; then
+    echo "Detected parent issue: #${_parentIssue}. Unlinking sub-issue from parent before conversion..."
+    _unlinkIssueFromParent "$_issue" "$_parentIssue" || true
+    echo "Unlinked sub-issue from parent."
+  else
+    echo "No parent issue detected for #${_issue}."
+  fi
+
   # Submit a new PR if it doesn't exist yet
   if ! _hasPr "$_issue" ; then
     _makeNewPr "$_issue"
@@ -142,6 +152,16 @@ pr () {
     _statusId=$(_getFieldId "Status")
     _onReviewOptionId=$(_getFieldOptionId "Status" "$STATUS_ON_REVIEW")
     _setFieldValue $_prNodeId $_projectId $_statusId $_onReviewOptionId
+  fi
+
+  # --- NEW: link the new PR back to the original parent, if any ---
+  if [ -n "$_parentIssue" ] ; then
+    echo "Linking PR #${_issue} to parent issue #${_parentIssue}..."
+    _linkPrToIssue "$_issue" "$_parentIssue" || true
+    echo "Linked PR to parent."
+    echo "Appending PR to the end of parent issue description..."
+    _appendPrToParentIssueBody "$_issue" "$_parentIssue" || true
+    echo "Parent issue updated."
   fi
 
   echo "Link to PR:"
@@ -720,6 +740,103 @@ _requestPrReview () {
   _body=$( echo "{ \"reviewers\": [ ${_usersArray} ] }" )
   echo "pr api reviewers:" "$_body"
   echo $_body | gh api "/repos/$(_getOwner)/$(_getRepo)/pulls/${_pullRequest}/requested_reviewers" --silent --input -
+}
+
+# ============================
+# Sub-Issue helpers (REST, official)
+# ============================
+
+# Returns the parent issue number (empty if none)
+_getParentIssueNumber () {
+  _child=$1
+  _num=$(gh api \
+    -H "Accept: application/vnd.github+json" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    "repos/$(_getOwner)/$(_getRepo)/issues/${_child}/parent" \
+    -q '.number' 2>/dev/null || true)
+
+  # trim only CR/LF/spaces; accept only pure digits
+  _num=$(printf '%s' "$_num" | tr -d '\r\n ')
+
+  case "$_num" in
+    (''|*[!0-9]*)
+      return 1
+      ;;
+    (*)
+      printf '%s\n' "$_num"
+      return 0
+      ;;
+  esac
+}
+
+# Internal: fetch the REST "id" of an issue (not the number)
+_getIssueRestId () {
+  _num=$1
+  gh api \
+    -H "Accept: application/vnd.github+json" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    "repos/$(_getOwner)/$(_getRepo)/issues/${_num}" \
+    -q '.id'
+}
+
+# Remove the child from the parent's sub-issues (official endpoint)
+_unlinkIssueFromParent () {
+  _child=$1
+  _parent=$2
+
+  _childId=$(_getIssueRestId "$_child")
+  [ -z "$_childId" ] && return 0
+
+  printf '{"sub_issue_id": %s}\n' "$_childId" \
+  | gh api \
+      -X DELETE \
+      -H "Accept: application/vnd.github+json" \
+      -H "X-GitHub-Api-Version: 2022-11-28" \
+      "repos/$(_getOwner)/$(_getRepo)/issues/${_parent}/sub_issue" \
+      --input - --silent
+}
+
+# Adds a non-closing backlink from PR -> Parent issue at the top of the PR body
+_linkPrToIssue () {
+  _pr=$1
+  _parent=$2
+
+  _body=$( gh pr view "$_pr" --json body -q '.body' | cat )
+  printf "%s\n" "$_body" | grep -Eq "(^|\s)#${_parent}(\b|[^0-9])" && return 0
+
+  { printf "Parent issue: #%s\n\n" "$_parent"; printf "%s" "$_body"; } \
+  | gh pr edit "$_pr" -F -
+}
+
+# Appends "- #<prNumber>" to the end of the parent issue body (idempotent).
+_appendPrToParentIssueBody () {
+  _pr=$1        # PR number (same as original issue number post-conversion)
+  _parent=$2    # parent issue number
+
+  # Get current body (normalize CRLF -> LF)
+  _body=$( gh issue view "$_parent" --json body -q '.body' | tr -d '\r' | cat )
+
+  # If already present, do nothing
+  printf "%s\n" "$_body" | grep -Eq '(^|\n)-[[:space:]]+#'"$_pr"'([[:space:]]|$)' && return 0
+
+  # Ensure a single newline separator before appending
+  if [ -n "$_body" ]; then
+    case "$_body" in
+      *$'\n') _sep="";;
+      *)      _sep=$'\n';;
+    esac
+    _newBody="${_body}${_sep}- #${_pr}
+"
+  else
+    _newBody="- #${_pr}
+"
+  fi
+
+  # Patch the parent body (raw-field preserves newlines)
+  gh api -X PATCH \
+    "repos/$(_getOwner)/$(_getRepo)/issues/${_parent}" \
+    --silent \
+    --raw-field body="$_newBody"
 }
 
 main "$@"; exit
