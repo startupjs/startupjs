@@ -1,6 +1,6 @@
-# Experimental Hooks
+# Экспериментальные хуки
 
-## Hooks: server
+## Хуки: server
 
 ### `logs`
 
@@ -85,4 +85,3 @@ req, socket, head. Больше информации о событии upgrade �
     delete schema.properties.unwantedField;
     return schema;
   }
-```
