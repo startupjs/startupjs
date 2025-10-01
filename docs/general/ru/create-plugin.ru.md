@@ -135,7 +135,7 @@ export default createPlugin({
 
 ### For (опционально)
 
-Свойство for указывает, для какого модуля создается этот плагин. Например, если вы создаете плагин для модуля admin, вы можете указать for: 'admin'. [Детальнее про модули можно почитать тут](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/aboutModules.ru.md)
+Свойство for указывает, для какого модуля создается этот плагин. Например, если вы создаете плагин для модуля admin, вы можете указать for: 'admin'. [Детальнее про модули можно почитать тут](https://github.com/startupjs/startupjs/blob/master/docs/general/ru/about-modules.ru.md)
 
 Например,
 
@@ -154,4 +154,4 @@ export default createPlugin({
 
 
 ## Читайте дальше:
-- [Хуки для плагинов](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/hooks.ru.md)
+- [Хуки для плагинов](https://github.com/startupjs/startupjs/blob/master/docs/general/ru/hooks.ru.md)

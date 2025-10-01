@@ -190,7 +190,7 @@ https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/
 
 Хук 'models' получает модели (projectModels), которые были добавлены в проект. С помощью этого хука можно модифицировать модели или добавлять новые.
 
-Здесь мы покажем, как в целом добавляется хук, а более детальные примеры использования можно посмотреть [здесь](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/models.ru.md)
+Здесь мы покажем, как в целом добавляется хук, а более детальные примеры использования можно посмотреть [здесь](https://github.com/startupjs/startupjs/blob/master/docs/general/ru/models.ru.md)
 
 ```js
   export default createPlugins({
@@ -321,4 +321,4 @@ export default createPlugin({
 ```
 
 ## Читайте дальше:
-- [Что такое модули и как с ними работать](https://github.com/startupjs/startupjs/blob/master/packages/startupjs/aboutModules.ru.md)
+- [Что такое модули и как с ними работать](https://github.com/startupjs/startupjs/blob/master/docs/general/ru/about-modules.ru.md)
