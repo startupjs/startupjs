@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { pug, observer, useValue } from 'startupjs'
+import { pug, observer, $ } from 'startupjs'
 import PropTypes from 'prop-types'
 import Div from '../../Div'
 import Span from './../../typography/Span'
@@ -7,15 +7,15 @@ import themed from '../../../theming/themed'
 import './index.styl'
 
 function Td ({ style, children, ellipsis, ...props }) {
-  const [open, $open] = useValue()
+  const $full = $()
 
-  useEffect(() => () => $open.del(), [])
+  useEffect(() => () => $full.del(), [])
 
   const options = {}
 
   if (ellipsis) {
-    options.onPress = () => $open.set(!open)
-    if (!open) {
+    options.onPress = () => $full.set(!$full.get())
+    if (!$full.get()) {
       options.numberOfLines = 1
       options.ellipsizeMode = 'tail'
     }

@@ -5,7 +5,7 @@ export default class ClientPlugin extends Plugin {
   runDynamicHook (dynamicHooks, hookName, ...args) {
     this.validateHook(hookName)
     const hooks = dynamicHooks || this.hooks
-    return hooks[hookName].apply(this.getContext(), args)
+    return hooks[hookName].apply(this, args)
   }
 
   getDynamicHooks (dynamicOptions = {}) {
@@ -20,7 +20,7 @@ export default class ClientPlugin extends Plugin {
     for (const env in this.initsByEnv) {
       const options = Object.assign({}, this.optionsByEnv[env] || {}, dynamicOptions)
       const init = this.initsByEnv[env]
-      Object.assign(dynamicHooks, init(options, this))
+      Object.assign(dynamicHooks, init.call(this, options, this))
     }
     return dynamicHooks
   }

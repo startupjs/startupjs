@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ScrollView
 } from 'react-native'
-import { pug, observer, useValue, useIsomorphicLayoutEffect } from 'startupjs'
+import { pug, observer, $, useIsomorphicLayoutEffect } from 'startupjs'
 import PropTypes from 'prop-types'
 import Arrow from './Arrow'
 import Portal from '../../../Portal'
@@ -63,9 +63,9 @@ function Popover ({
   const refGeometry = useRef({})
   const captionInfo = useRef({})
 
-  const [step, $step] = useValue(STEPS.CLOSE)
+  const $step = $(STEPS.CLOSE)
   const [validPlacement, setValidPlacement] = useState(position + '-' + attachment)
-  const [dimensions, $dimensions] = useValue({
+  const $dimensions = $({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height
   })
@@ -87,7 +87,7 @@ function Popover ({
     const handleDimensions = () => {
       if (!mounted) return
       $step.set(STEPS.CLOSE)
-      $dimensions.setDiff({
+      $dimensions.set({
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height
       })
@@ -109,12 +109,12 @@ function Popover ({
 
   // -main
   useEffect(() => {
-    if (step === STEPS.CLOSE && visible) {
+    if ($step.get() === STEPS.CLOSE && visible) {
       $step.set(STEPS.RENDER)
       setTimeout(runShow, 0)
     }
 
-    if (step !== STEPS.CLOSE && !visible) {
+    if ($step.get() !== STEPS.CLOSE && !visible) {
       runHide()
     }
   }, [visible])
@@ -171,7 +171,7 @@ function Popover ({
           contentInfo,
           placements,
           hasArrow,
-          dimensions
+          dimensions: $dimensions.get()
         })
 
         setValidPlacement(refGeometry.current.validPlacement)
@@ -251,7 +251,7 @@ function Popover ({
 
   const _popoverStyle = StyleSheet.flatten([
     style,
-    isStampInit(step)
+    isStampInit($step.get())
       ? {
           position: 'absolute',
           opacity: animateStates.opacity,
@@ -266,12 +266,12 @@ function Popover ({
   ])
 
   const [validPosition] = validPlacement.split('-')
-  if (isStampInit(step) && validPosition === 'top') _popoverStyle.bottom = 0
-  if (isStampInit(step) && validPosition === 'left') _popoverStyle.right = 0
-  if (isStampInit(step) && validPlacement === 'left-end') _popoverStyle.bottom = 0
-  if (isStampInit(step) && validPlacement === 'right-end') _popoverStyle.bottom = 0
+  if (isStampInit($step.get()) && validPosition === 'top') _popoverStyle.bottom = 0
+  if (isStampInit($step.get()) && validPosition === 'left') _popoverStyle.right = 0
+  if (isStampInit($step.get()) && validPlacement === 'left-end') _popoverStyle.bottom = 0
+  if (isStampInit($step.get()) && validPlacement === 'right-end') _popoverStyle.bottom = 0
 
-  if (step === STEPS.ANIMATE && animateType === 'default') {
+  if ($step.get() === STEPS.ANIMATE && animateType === 'default') {
     delete _popoverStyle.minHeight
     _popoverStyle.height = animateStates.height
   }
@@ -286,14 +286,14 @@ function Popover ({
   if (hasWidthCaption && captionInfo.current) {
     _popoverStyle.width = captionInfo.current.width
   }
-  if (step === STEPS.ANIMATE) {
+  if ($step.get() === STEPS.ANIMATE) {
     _popoverStyle.width = animateStates.width
     _popoverStyle.height = animateStates.height
   }
 
   return pug`
     = caption
-    if step !== STEPS.CLOSE
+    if $step.get() !== STEPS.CLOSE
       Portal
         if hasOverlay
           TouchableWithoutFeedback(onPress=onDismiss)
@@ -314,7 +314,7 @@ function Popover ({
               ScrollView.content(
                 ref=ref
                 styleName={ hasArrow }
-                showsVerticalScrollIndicator=step !== STEPS.ANIMATE
+                showsVerticalScrollIndicator=$step.get() !== STEPS.ANIMATE
               )= content
             else
               = content

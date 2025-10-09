@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { pug } from 'startupjs'
+import { pug, $ } from 'startupjs'
 import DateTimePicker from '../'
-import { useValue } from 'startupjs'
 import { Sandbox } from '@startupjs/docs'
 
 # DateTimePicker
@@ -32,7 +31,7 @@ There are three options for managing visiblity of a `DateTimePicker`:
 1. By passing the scoped model to the `$visible` property from the state of which visibility is controlled.
 
 ```jsx example
-const [, $visible] = useValue()
+const $visible = $()
 const [date, onChangeDate] = useState()
 
 return pug`
@@ -47,7 +46,7 @@ return pug`
 2. By passing the `visible`, `onRequestOpen` and `onRequestClose` properties that determines whether `DateTimePicker` is visible.
 
 ```jsx example
-const [visible, $visible] = useValue()
+const $visible = $()
 const [date, onChangeDate] = useState()
 
 return pug`

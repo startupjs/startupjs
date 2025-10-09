@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.57.0-canary.11",
+  "version": "0.57.0-canary.74",
   "engines": {
     "node": ">= 14"
   },
@@ -12,7 +12,7 @@
     "./server": "./server.js",
     "./startServer": "./startServer.js",
     "./registry": "./registry.js",
-    "./initClient": "./initClient.js",
+    "./nodeRegister": "./nodeRegister.js",
     "./nconf": "./nconf.js",
     "./isomorphicHelpers": "./isomorphicHelpers.js",
     "./loadConfig": "./loadConfig.js",
@@ -27,16 +27,16 @@
   "license": "MIT",
   "dependencies": {
     "@startupjs/babel-plugin-rn-stylename-to-style": "^0.57.0-canary.0",
-    "@startupjs/bundler": "^0.57.0-canary.5",
-    "@startupjs/cli": "^0.57.0-canary.10",
-    "@startupjs/hooks": "^0.57.0-canary.1",
+    "@startupjs/bundler": "^0.57.0-canary.71",
+    "@startupjs/cli": "^0.57.0-canary.74",
+    "@startupjs/hooks": "^0.57.0-canary.48",
     "@startupjs/isomorphic-helpers": "^0.57.0-canary.0",
-    "@startupjs/registry": "^0.57.0-canary.0",
-    "@startupjs/server": "^0.57.0-canary.5",
-    "@startupjs/utils": "^0.57.0-canary.1",
-    "babel-preset-startupjs": "^0.57.0-canary.5",
+    "@startupjs/registry": "^0.57.0-canary.61",
+    "@startupjs/server": "^0.57.0-canary.71",
+    "@startupjs/utils": "^0.57.0-canary.48",
+    "babel-preset-startupjs": "^0.57.0-canary.71",
     "lodash": "^4.17.20",
-    "teamplay": "^0.1.14"
+    "teamplay": "^0.3.14"
   },
   "peerDependencies": {
     "react": "*",

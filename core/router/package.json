@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/router",
   "type": "module",
-  "version": "0.57.0-canary.1",
+  "version": "0.57.0-canary.48",
   "description": "Define programmatic routes using react-router. Compatible with expo-router",
   "main": "index.js",
   "exports": {
@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@startupjs/utils": "^0.57.0-canary.1",
+    "@startupjs/utils": "^0.57.0-canary.48",
     "react-router": "^6.22.3"
   },
   "peerDependencies": {

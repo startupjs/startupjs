@@ -15,6 +15,7 @@ const INIT_JSON_PATH = join(__dirname, './init/package.json')
 const INIT_METRO_CONFIG_PATH = join(__dirname, './init/metro.config.cjs')
 const INIT_GITIGNORE_PATH = join(__dirname, './init/gitignore')
 const INIT_STARTUPJS_CONFIG_PATH = join(__dirname, './init/startupjs.config.js')
+const INIT_EXPO_JSON_PATH = join(__dirname, './init-expo/package.json')
 const INIT_EXPO_APP_JSON_PATH = join(__dirname, './init-expo/app.json')
 const DEVELOPMENT_JSON_PATH = join(__dirname, './dev/package.json')
 const UI_JSON_PATH = join(__dirname, './ui/package.json')
@@ -65,10 +66,13 @@ export const options = [{
 }, {
   name: '--skip-install',
   description: 'Skip running the package manager install command after modifying the package.json'
+}, {
+  name: '--second-fix-pass',
+  description: 'NOTE: for internal use only. Runs the fix command again to account for install script updates.'
 }]
 
 export async function action ({ skipInstall, ...options } = {}) {
-  let { fix, dev, ui, init, router, all } = options
+  let { fix, secondFixPass, dev, ui, init, router, all } = options
   // if no options are passed, assume --all
   if (Object.keys(options).length === 0) all = true
   if (all) {
@@ -77,20 +81,23 @@ export async function action ({ skipInstall, ...options } = {}) {
     router = true
     init = true
   }
-  if (fix || dev || ui || init || router) {
+  if (secondFixPass || fix || dev || ui || init || router) {
     return await runInstall({
       setupDevelopment: dev,
       setupUi: ui,
       setupRouter: router,
       setupInit: init,
       isSetup: dev || ui || init,
-      skipInstall
+      skipInstall,
+      secondFixPass
     })
   }
   throw exitWithError('You must pass one of the options. Run `npx startupjs install --help` for more information.')
 }
 
-async function runInstall ({ setupDevelopment, setupUi, setupRouter, setupInit, isSetup, skipInstall } = {}) {
+async function runInstall ({
+  setupDevelopment, setupUi, setupRouter, setupInit, isSetup, skipInstall, secondFixPass
+} = {}) {
   if (!existsSync(PROJECT_JSON_PATH)) throw exitWithError(ERRORS.noPackageJson)
   const packageJson = JSON.parse(readFileSync(PROJECT_JSON_PATH, 'utf8'))
   let startupjsVersion = packageJson?.dependencies?.startupjs
@@ -105,11 +112,15 @@ async function runInstall ({ setupDevelopment, setupUi, setupRouter, setupInit, 
   // we need to use the minor.0 version since @startupjs/ui might not have the exact version
   // as the startupjs package
   const STARTUPJS_MINOR_ZERO = startupjsVersion.replace(/\.\d+$/, '.0').replace(/^[^\d]*/, '')
+  const EXPO_MAJOR = packageJson.dependencies.expo?.match(/\d+/)
 
   const templates = []
 
   // always add this template since it's the base and has the 'startupjs' dependency itself
   templates.push(JSON.parse(fromTemplateFile(INIT_JSON_PATH)))
+  if (packageJson.dependencies.expo) {
+    templates.push(JSON.parse(fromTemplateFile(INIT_EXPO_JSON_PATH)))
+  }
 
   if (setupDevelopment || packageJson.devDependencies?.['eslint-config-startupjs']) {
     templates.push(JSON.parse(fromTemplateFile(DEVELOPMENT_JSON_PATH)))
@@ -136,7 +147,7 @@ async function runInstall ({ setupDevelopment, setupUi, setupRouter, setupInit, 
     for (const key in template) {
       if (isDependencies(key)) {
         await processPackageJsonDependencies({
-          key, template, packageJson, triggerModified: triggerPackageJsonModified, STARTUPJS_MINOR_ZERO
+          key, template, packageJson, triggerModified: triggerPackageJsonModified, STARTUPJS_MINOR_ZERO, EXPO_MAJOR
         })
       } else if (isSetup) {
         processPackageJsonMeta({
@@ -182,6 +193,14 @@ async function runInstall ({ setupDevelopment, setupUi, setupRouter, setupInit, 
         throw Error(`Exit code: ${exitCode}`)
       }
     }
+    if (secondFixPass) {
+      if (packageJson.dependencies.expo) {
+        await $({ stdio: 'inherit' })`npx expo install --fix`
+      }
+    } else {
+      // run the fix command again to account for install script updates
+      await $({ stdio: 'inherit' })`npx startupjs install --second-fix-pass`
+    }
   } catch (error) {
     console.log(chalk.red(`\nError running package manager install command:\n${error.message || error}`))
     finalLog.push(chalk.red('There was an error running package manager install command. Please run it manually.'))
@@ -201,13 +220,13 @@ function isDependencies (key) {
 }
 
 async function processPackageJsonDependencies ({
-  key, template, packageJson, triggerModified, STARTUPJS_MINOR_ZERO
+  key, template, packageJson, triggerModified, STARTUPJS_MINOR_ZERO, EXPO_MAJOR
 }) {
   // always overwrite dependencies with the correct versions
   for (const dependencyName in template[key]) {
     if (!packageJson[key]) packageJson[key] = {}
     const version = await transformDependencyVersion({
-      name: dependencyName, version: template[key][dependencyName], STARTUPJS_MINOR_ZERO
+      name: dependencyName, version: template[key][dependencyName], STARTUPJS_MINOR_ZERO, EXPO_MAJOR
     })
     if (packageJson[key][dependencyName] !== version) {
       packageJson[key][dependencyName] = version
@@ -255,7 +274,7 @@ function fromTemplateFile (filename, vars = {}) {
 }
 
 // dynamically find the correct version for the dependency if it's templatized
-async function transformDependencyVersion ({ name, version, STARTUPJS_MINOR_ZERO } = {}) {
+async function transformDependencyVersion ({ name, version, STARTUPJS_MINOR_ZERO, EXPO_MAJOR } = {}) {
   const match = version.match(/%%([^%]+)%%/)
   if (match) {
     const theVar = match[1]
@@ -264,6 +283,9 @@ async function transformDependencyVersion ({ name, version, STARTUPJS_MINOR_ZERO
       const semver = version.replace(match[0], STARTUPJS_MINOR_ZERO)
       const latestMatchingVersion = await getLatestMatchingVersion(name, semver)
       return version.replace(match[0], latestMatchingVersion)
+    } else if (theVar === 'EXPO_MAJOR') {
+      if (!EXPO_MAJOR) throw Error('EXPO_MAJOR is required to find EXPO_MAJOR')
+      return version.replace(match[0], EXPO_MAJOR)
     } else {
       throw Error(`Unknown variable for ${name}: ${match[0]}`)
     }

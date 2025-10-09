@@ -18,6 +18,7 @@ export const {
   ROOT_MODULE, // root module ('startupjs' framework itself)
   getModule,
   createPlugin,
+  getPlugin,
   createModule,
   initRegistry
 } = createRegistry({ RegistryClass, rootModuleName: ROOT_MODULE_NAME })

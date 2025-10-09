@@ -4,4 +4,7 @@
 //            which takes precedence over '.js')
 import getBaseUrl from './lib/getBaseUrl'
 
-export default getBaseUrl()
+export let BASE_URL = getBaseUrl()
+export function setBaseUrl (url) {
+  BASE_URL = url
+}

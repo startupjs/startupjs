@@ -6,7 +6,7 @@ import colorToRGBA from '../../helpers/colorToRGBA'
 import Div from '../Div'
 import Icon from '../Icon'
 import Span from '../typography/Span'
-import Colors, { ColorValues } from '../../theming/Colors'
+import Colors from '../../theming/Colors'
 import themed from '../../theming/themed'
 import useColors from '../../hooks/useColors'
 import './index.styl'
@@ -147,7 +147,7 @@ Tag.propTypes = {
   iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   secondaryIconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   variant: PropTypes.oneOf(['flat', 'outlined', 'outlined-bg']),
-  color: PropTypes.oneOf(ColorValues),
+  color: PropTypes.string,
   shape: PropTypes.oneOf(['circle', 'rounded']),
   size: PropTypes.oneOf(['s', 'm']),
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),

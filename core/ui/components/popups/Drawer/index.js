@@ -31,6 +31,8 @@ const POSITION_NAMES = {
 // https://material-ui.com/ru/components/drawers/#%D1%81%D1%82%D0%BE%D0%B9%D0%BA%D0%B0%D1%8F-%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D1%8C
 function Drawer ({
   style,
+  AreaComponent = SafeAreaView,
+  ContentComponent = View,
   swipeStyle,
   children,
   visible,
@@ -131,13 +133,13 @@ function Drawer ({
   return pug`
     if isShow
       Portal
-        SafeAreaView.area
-          View.case(style=_styleCase)
+        AreaComponent.area
+          ContentComponent.case(style=_styleCase)
             if hasOverlay
               TouchableWithoutFeedback.overlayCase(onPress=onDismiss)
                 Animated.View.overlay(style={ opacity: animateStates.opacity })
 
-            Animated.View.content(
+            Animated.View(
               ref=refContent
               styleName={
                 contentDefault: isShow,

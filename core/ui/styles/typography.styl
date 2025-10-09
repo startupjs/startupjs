@@ -14,15 +14,25 @@ $fontWeightNamesMap = {
 
 DEPRECATED_SIZES = default xs 's' m l xl xxl xxxl xxxxl xxxxxl
 
-font(size = body2)
+font(size = $UI.defaultFontSize, weight = $UI.fontWeights.normal)
   // Workaround global built-in function s()
   // http://stylus-lang.com/docs/bifs.html#sfmt-
   size = 's' if size is s
   size = body2 if size is default // DEPRECATED
+
   if size in DEPRECATED_SIZES
     p('font() mixin: size ' + size + ' is deprecated')
+
+  fontFamily($UI.fontFamilies[size], $UI.fontWeights[size] || weight)
+
   font-size: $UI.fontSizes[size]
   line-height: $UI.lineHeights[size]
+
+  if $UI.letterSpacings && $UI.letterSpacings[size]
+    letter-spacing: $UI.letterSpacings[size]
+
+  if $UI.textTransforms && $UI.textTransforms[size]
+    text-transform: $UI.textTransforms[size]
 
 text(key = default) // DEPRECATED
   p('text() mixin is deprecated, use font() instead')
@@ -51,37 +61,39 @@ text(key = default) // DEPRECATED
     font(l)
 
 fontFamily(
-  fontName = normal,
+  fontName = 'normal',
   fontWeight = $UI.fontWeights.normal,
-  fontStyle = normal
+  fontStyle = 'normal'
 )
+  fontName = fontName or 'normal'
+  fontWeight = fontWeight or $UI.fontWeights.normal
+  fontStyle = fontStyle or 'normal'
+
   defaultFontFamilies = $UI.fontFamilies.default || {}
   platformFontFamilies = $UI.fontFamilies[$PLATFORM] || {}
-  fontFamily = defaultFontFamilies[fontName] || platformFontFamilies[fontName] || fontName
+  fontFamily = defaultFontFamilies[fontName] or platformFontFamilies[fontName] or fontName
 
-  if (fontFamily) {
-    if (isCustomFont(fontFamily)) {
-      thickness = $fontWeightNamesMap['' + fontWeight]
-      isRegular = thickness is 'Regular'
-      isItalic = fontStyle is italic
+  if (isCustomFont(fontFamily)) {
+    thickness = $fontWeightNamesMap[fontWeight]
+    isRegular = thickness is 'Regular'
+    isItalic = fontStyle is italic
 
-      fontFamily += '-'
-      // add thickness
-      // don't add thickness to font family name if regular and italic
-      if (!isRegular || !isItalic) {
-        fontFamily += $fontWeightNamesMap['' + fontWeight]
-      }
-      // add style
-      if (isItalic) {
-        fontFamily += 'Italic'
-      }
-    } else {
-      font-weight fontWeight
-      font-style fontStyle
+    fontFamily += '-'
+    // add thickness
+    // don't add thickness to font family name if regular and italic
+    if (!isRegular || !isItalic) {
+      fontFamily += $fontWeightNamesMap['' + fontWeight]
     }
-
-    font-family fontFamily
+    // add style
+    if (isItalic) {
+      fontFamily += 'Italic'
+    }
+  } else {
+    font-weight fontWeight
+    font-style fontStyle
   }
+
+  font-family fontFamily
 
 isCustomFont(fontFamily)
   return index($UI.customFontFamilies, fontFamily) isnt null

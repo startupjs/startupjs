@@ -1,3 +1,598 @@
+# [0.57.0-canary.74](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.73...v0.57.0-canary.74) (2024-09-19)
+
+
+### Features
+
+* **ui/FileInput:** Implement saving files to MongoDB GridFS ([#1262](https://github.com/startupjs/startupjs/issues/1262)) ([c623eed](https://github.com/startupjs/startupjs/commit/c623eed065b5fc56058f4da0ab334c283bdcf299))
+
+
+
+# [0.57.0-canary.73](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.72...v0.57.0-canary.73) (2024-09-17)
+
+
+### Bug Fixes
+
+* **core/ui/components/forms/DateTimePicker/index.js:** change datepicker mode for android ([#1260](https://github.com/startupjs/startupjs/issues/1260)) ([f8324f7](https://github.com/startupjs/startupjs/commit/f8324f7fad87dd084f689c7d4e4d7692d47cfa22))
+* update teamplay to v0.3.x ([7f60d20](https://github.com/startupjs/startupjs/commit/7f60d2062012a56acba143b3d2db7d82962104db))
+
+
+
+# [0.57.0-canary.72](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.71...v0.57.0-canary.72) (2024-09-10)
+
+
+### Bug Fixes
+
+* **DateTimePicker:** use a newer API to get locale ([87f5cc6](https://github.com/startupjs/startupjs/commit/87f5cc6a8fc7a39b3cdd470553e61afc782f44de))
+
+
+
+# [0.57.0-canary.71](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.70...v0.57.0-canary.71) (2024-09-09)
+
+
+### Bug Fixes
+
+* **server/auth:** rename imitator to impostor (a more hyped and easier to remember name) ([90f7791](https://github.com/startupjs/startupjs/commit/90f77918550733096bb7ddad1678ae211d61ad86))
+
+
+
+# [0.57.0-canary.70](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.69...v0.57.0-canary.70) (2024-09-09)
+
+
+### Bug Fixes
+
+* **core/ui/components/forms/TextInput/input.js:** fix textinput ui ([#1258](https://github.com/startupjs/startupjs/issues/1258)) ([87db6e5](https://github.com/startupjs/startupjs/commit/87db6e519f5abbffc1053bf991712160ffb6ecf2))
+
+
+
+# [0.57.0-canary.69](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.68...v0.57.0-canary.69) (2024-09-08)
+
+
+### Features
+
+* **server/auth:** add isImitator flag and imitatorUserId to force login's session ([ec293f2](https://github.com/startupjs/startupjs/commit/ec293f2f711d6f6be96e9a95a15f8afb2348b216))
+
+
+
+# [0.57.0-canary.68](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.67...v0.57.0-canary.68) (2024-09-06)
+
+
+### Features
+
+* **startupjs:** export onInitSession to do extra things on session inits ([e03f489](https://github.com/startupjs/startupjs/commit/e03f4896898546019795ae3f0b371c04a91a8dcb))
+
+
+
+# [0.57.0-canary.67](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.66...v0.57.0-canary.67) (2024-09-06)
+
+
+### Features
+
+* add custom input icons from plugin ([#1250](https://github.com/startupjs/startupjs/issues/1250)) ([0dacc56](https://github.com/startupjs/startupjs/commit/0dacc567ea374923462092e2599396edd5c1e1aa))
+
+
+
+# [0.57.0-canary.66](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.65...v0.57.0-canary.66) (2024-09-04)
+
+
+### Bug Fixes
+
+* **core/ui/components/forms/DateTimePicker/index.js:** update picker state when visible changed ([#1257](https://github.com/startupjs/startupjs/issues/1257)) ([8c48bf1](https://github.com/startupjs/startupjs/commit/8c48bf1d56b1ffc12604c4a02d585b55dc39593c))
+
+
+
+# [0.57.0-canary.65](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.64...v0.57.0-canary.65) (2024-09-04)
+
+
+### Bug Fixes
+
+* **auth:** implements sever option extraQueryToForceRegister ([#1255](https://github.com/startupjs/startupjs/issues/1255)) ([9ad6129](https://github.com/startupjs/startupjs/commit/9ad6129c00d2cf5f16d9de88ec41a7d10b9a0ca5))
+
+
+### Features
+
+* **core/ui/components/popups/Drawer/index.js:** add ability to pass Area and Content components via props ([#1256](https://github.com/startupjs/startupjs/issues/1256)) ([c646b2b](https://github.com/startupjs/startupjs/commit/c646b2bdfa9185f6cbcd21f7a66759c8e18a2ee4))
+
+
+
+# [0.57.0-canary.64](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.63...v0.57.0-canary.64) (2024-08-30)
+
+
+### Bug Fixes
+
+* **bundler:** don't attach server to metro bundler if we run the build in a CI environment ([139c4a4](https://github.com/startupjs/startupjs/commit/139c4a4b2d5ea6fd4939f5c65c379087b2621c2c))
+* **core/ui/components/forms/DateTimePicker:** force to use light color scheme ([#1253](https://github.com/startupjs/startupjs/issues/1253)) ([48ec9ec](https://github.com/startupjs/startupjs/commit/48ec9ec0bfa76cd7d8c3476eede3d93e1493b83f))
+
+
+
+# [0.57.0-canary.63](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.62...v0.57.0-canary.63) (2024-08-29)
+
+
+### Features
+
+* **core/ui:** update datetimepicker ([#1251](https://github.com/startupjs/startupjs/issues/1251)) ([2cfbed7](https://github.com/startupjs/startupjs/commit/2cfbed7da151321965d476ce114dd8b2da5df5b5))
+
+
+
+# [0.57.0-canary.62](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.61...v0.57.0-canary.62) (2024-08-28)
+
+
+### Bug Fixes
+
+* **Dropdown|Popover/Deprecated:** refactors useValue ([#1248](https://github.com/startupjs/startupjs/issues/1248)) ([468872a](https://github.com/startupjs/startupjs/commit/468872a63fd3cc1a19335185cb0381ec20feefad))
+
+
+### Features
+
+* **@startupjs/ui:** add ability to specify custom errors for Form component ([#1247](https://github.com/startupjs/startupjs/issues/1247)) ([22fc453](https://github.com/startupjs/startupjs/commit/22fc453c8aa041021d7f1dfdb6ca50e3a475d227))
+
+
+
+# [0.57.0-canary.61](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.60...v0.57.0-canary.61) (2024-08-26)
+
+
+### Features
+
+* **server:** add accessControl with a nice API ([#1246](https://github.com/startupjs/startupjs/issues/1246)) ([1b423c1](https://github.com/startupjs/startupjs/commit/1b423c1365589a2934c0d8f164623f0e347d4564))
+
+
+
+# [0.57.0-canary.60](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.59...v0.57.0-canary.60) (2024-08-23)
+
+
+### Bug Fixes
+
+* **ui/TextInput:** delete HACK with line-height for iOS ([f37870c](https://github.com/startupjs/startupjs/commit/f37870cdbf34285db31d4604cc177d59a697270b))
+
+
+
+# [0.57.0-canary.59](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.58...v0.57.0-canary.59) (2024-08-23)
+
+
+### Features
+
+* **server/auth:** add 'Login as...' provider to be used by trusted users ([#1245](https://github.com/startupjs/startupjs/issues/1245)) ([a5ebfc4](https://github.com/startupjs/startupjs/commit/a5ebfc4631f3e940f039b76a45aa05b85c8a15f2))
+
+
+
+# [0.57.0-canary.58](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.57...v0.57.0-canary.58) (2024-08-22)
+
+
+### Bug Fixes
+
+* **server -> auth plugin:** pass provider to beforeLogin and afterRegister hooks ([#1244](https://github.com/startupjs/startupjs/issues/1244)) ([c25efc2](https://github.com/startupjs/startupjs/commit/c25efc23b79594851c49c2ef243888639d549d25))
+
+
+
+# [0.57.0-canary.57](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.56...v0.57.0-canary.57) (2024-08-22)
+
+
+### Bug Fixes
+
+* **server/auth:** fix apple token check ([3736ba6](https://github.com/startupjs/startupjs/commit/3736ba6d03a97b8c2623ce92b2678796b919f4f5))
+
+
+
+# [0.57.0-canary.56](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.55...v0.57.0-canary.56) (2024-08-22)
+
+
+### Features
+
+* **server/auth:** implement Apple auth ([#1243](https://github.com/startupjs/startupjs/issues/1243)) ([fbbbdec](https://github.com/startupjs/startupjs/commit/fbbbdec7b39b76781808d17d04ea10e671198ff2))
+
+
+
+# [0.57.0-canary.55](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.54...v0.57.0-canary.55) (2024-08-21)
+
+
+### Bug Fixes
+
+* **core/ui/components/forms/NumberInput/index.js:** replace , with . before test number ([#1242](https://github.com/startupjs/startupjs/issues/1242)) ([ace86e5](https://github.com/startupjs/startupjs/commit/ace86e5b9f66c2aa764ce16cf647f04c1892647f))
+
+
+### Features
+
+* **server:** add gracefulShutdownTimeout option (3000ms by default) to wait before exit in production ([a653a1b](https://github.com/startupjs/startupjs/commit/a653a1b5be95bd096c0ddaf3e2dfc35ba7867ce9))
+
+
+
+# [0.57.0-canary.54](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.53...v0.57.0-canary.54) (2024-08-21)
+
+
+
+# [0.57.0-canary.53](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.52...v0.57.0-canary.53) (2024-08-20)
+
+
+### Features
+
+* **server -> auth plugin:** handle deleted account error ([#1240](https://github.com/startupjs/startupjs/issues/1240)) ([fa05863](https://github.com/startupjs/startupjs/commit/fa05863a35a46a2048325defec4702e6888dc7ac))
+
+
+
+# [0.57.0-canary.52](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.51...v0.57.0-canary.52) (2024-08-20)
+
+
+### Features
+
+* **ui/ScrollView:** add support for 'ref' ([6dbeccb](https://github.com/startupjs/startupjs/commit/6dbeccb08ec5f038af7c96cd81da51a088257e87))
+
+
+
+# [0.57.0-canary.51](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.50...v0.57.0-canary.51) (2024-08-19)
+
+
+### Bug Fixes
+
+* **DateTimePicker:** fix opening on native ([03fef91](https://github.com/startupjs/startupjs/commit/03fef910d0287b0cbfad13d85b6456946c27a936))
+
+
+
+# [0.57.0-canary.50](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.49...v0.57.0-canary.50) (2024-08-19)
+
+
+### Features
+
+* **server -> auth plugin:** add beforeLogin and  afteRegister hooks, missing awaitr ([#1239](https://github.com/startupjs/startupjs/issues/1239)) ([5a2f1b0](https://github.com/startupjs/startupjs/commit/5a2f1b03b5808dc819b8e3330734f9138be67d58))
+
+
+
+# [0.57.0-canary.49](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.48...v0.57.0-canary.49) (2024-08-19)
+
+
+### Bug Fixes
+
+* **ui/Portal:** fix updating children ([bb77fdb](https://github.com/startupjs/startupjs/commit/bb77fdb4a00024a2fafdeb53ec58ef978bea7039))
+
+
+
+# [0.57.0-canary.48](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.47...v0.57.0-canary.48) (2024-08-16)
+
+
+### Bug Fixes
+
+* **server/auth:** use expo-linking to get the redirect url with correct app schema ([2fbd0d3](https://github.com/startupjs/startupjs/commit/2fbd0d325b185d2a6388473eceb7e56b30a16f2d))
+
+
+
+# [0.57.0-canary.47](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.46...v0.57.0-canary.47) (2024-08-13)
+
+
+### Features
+
+* **server:** implement local auth. TODO: still need to fix some issues with restarting the native app after login and after logout ([#1238](https://github.com/startupjs/startupjs/issues/1238)) ([d1aeea0](https://github.com/startupjs/startupjs/commit/d1aeea01e586e9d85483d23c148af3c4ae92e6b8))
+
+
+
+# [0.57.0-canary.46](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.45...v0.57.0-canary.46) (2024-08-12)
+
+
+### Bug Fixes
+
+* **server/auth:** fix auth on Android ([93183c1](https://github.com/startupjs/startupjs/commit/93183c1da57fd0c57fa88e7b0e0f4e68df07f922))
+
+
+
+# [0.57.0-canary.45](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.44...v0.57.0-canary.45) (2024-08-12)
+
+
+### Features
+
+* **server/auth:** support auth on mobile ([#1237](https://github.com/startupjs/startupjs/issues/1237)) ([fb83cfd](https://github.com/startupjs/startupjs/commit/fb83cfdf443c73183aeac6800410f9cd3a2ca53f))
+
+
+
+# [0.57.0-canary.44](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.43...v0.57.0-canary.44) (2024-08-08)
+
+
+### Bug Fixes
+
+* update teamplay to improve the way setDiffDeep works ([9fe91cd](https://github.com/startupjs/startupjs/commit/9fe91cdff3a19cbc033412a730c3adbe31667175))
+
+
+
+# [0.57.0-canary.43](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.42...v0.57.0-canary.43) (2024-08-06)
+
+
+### Bug Fixes
+
+* upgrade teamplay ([6466fa6](https://github.com/startupjs/startupjs/commit/6466fa6668b8f4c062c624a0ab07fda2425a05f1))
+
+
+
+# [0.57.0-canary.42](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.41...v0.57.0-canary.42) (2024-08-06)
+
+
+### Bug Fixes
+
+* upgrade teamplay to add aggregations support and fix rendering on query params change ([00621c2](https://github.com/startupjs/startupjs/commit/00621c25c2a671f448e2514c9a34c8be989d95d6))
+
+
+
+# [0.57.0-canary.41](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.40...v0.57.0-canary.41) (2024-08-05)
+
+
+### Features
+
+* **ui:** add ability to specify font-weight in 'font' mixin ([c010118](https://github.com/startupjs/startupjs/commit/c010118dafd2450c1697b7015f6a9ef61eb744dc))
+
+
+
+# [0.57.0-canary.40](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.39...v0.57.0-canary.40) (2024-08-02)
+
+
+### Bug Fixes
+
+* **ui/table:** refactor Th and Td to teamplay api ([ff55f62](https://github.com/startupjs/startupjs/commit/ff55f62851f3f86109b38cebd654b7241c9d419b))
+
+
+
+# [0.57.0-canary.39](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.38...v0.57.0-canary.39) (2024-08-01)
+
+
+### Bug Fixes
+
+* **server:** do not cache the main index.html file ([49367fb](https://github.com/startupjs/startupjs/commit/49367fb7d9615bbd1caefae21bb6f22000371eb5))
+
+
+
+# [0.57.0-canary.38](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.37...v0.57.0-canary.38) (2024-07-31)
+
+
+### Bug Fixes
+
+* **core/ui/components/forms/Form/useValidate.js:** replace setDiffDeep with set method ([#1236](https://github.com/startupjs/startupjs/issues/1236)) ([9d25eb4](https://github.com/startupjs/startupjs/commit/9d25eb4381430e0d3ae370ad696450995ecabc81))
+
+
+
+# [0.57.0-canary.37](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.36...v0.57.0-canary.37) (2024-07-30)
+
+
+### Bug Fixes
+
+* **core/ui/components/forms/NumberInput/index.styl:** add flex-shrink 1 to number input content ([7b5a25a](https://github.com/startupjs/startupjs/commit/7b5a25af217bc9fccb7e6eca769cc3568daae05f))
+
+
+
+# [0.57.0-canary.36](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.35...v0.57.0-canary.36) (2024-07-29)
+
+
+### Features
+
+* **server/oauth2:** take the Bearer access_token also from query params and body ([bb47b9c](https://github.com/startupjs/startupjs/commit/bb47b9ce17742696b59b9ddac6be3e95f95ed030))
+
+
+
+# [0.57.0-canary.35](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.34...v0.57.0-canary.35) (2024-07-29)
+
+
+### Bug Fixes
+
+* **ui/Popover:** remove padding and fix the default background to be bg-main-strong ([be96a86](https://github.com/startupjs/startupjs/commit/be96a86eb14dbbf3444b15dd525bcae589927ef6))
+
+
+
+# [0.57.0-canary.34](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.33...v0.57.0-canary.34) (2024-07-29)
+
+
+### Bug Fixes
+
+* **ui/Popover:** refactor useValue to new api ([8911a8f](https://github.com/startupjs/startupjs/commit/8911a8f49f837647d97b77d332db021f45b985eb))
+
+
+
+# [0.57.0-canary.33](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.32...v0.57.0-canary.33) (2024-07-24)
+
+
+### Bug Fixes
+
+* **popups/Drawer:** removes redundant z-index from elements ([#1232](https://github.com/startupjs/startupjs/issues/1232)) ([045e8e8](https://github.com/startupjs/startupjs/commit/045e8e87e7df763040557855bcc8c3b4ad5cc5a0))
+
+
+
+# [0.57.0-canary.32](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.31...v0.57.0-canary.32) (2024-07-24)
+
+
+### Bug Fixes
+
+* **ui:** change 'color' prop-type to string for components ([4a813ed](https://github.com/startupjs/startupjs/commit/4a813ede2911b39706f80304991e7bd9c979eb12))
+
+
+### Features
+
+* **ui:** improve 'font' mixin to add a default font-family ([14ccab1](https://github.com/startupjs/startupjs/commit/14ccab1e056a7e19fbc4d83579c90878e08a9aab))
+
+
+
+# [0.57.0-canary.31](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.30...v0.57.0-canary.31) (2024-07-23)
+
+
+### Features
+
+* **InputWrapper:** add ability to specify label color ([6255bb9](https://github.com/startupjs/startupjs/commit/6255bb98c2ed857d47c1295b8793fe84b1eb8062))
+
+
+
+# [0.57.0-canary.30](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.29...v0.57.0-canary.30) (2024-07-23)
+
+
+### Bug Fixes
+
+* **auth:** adds redirectUrl option for clientLogin util ([#1231](https://github.com/startupjs/startupjs/issues/1231)) ([4a42817](https://github.com/startupjs/startupjs/commit/4a42817ca6c0f73c378eb288c008c8fbd4108ef7))
+
+
+
+# [0.57.0-canary.29](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.28...v0.57.0-canary.29) (2024-07-22)
+
+
+### Bug Fixes
+
+* **ui/typography:** fixes font function (checking for size from $UI.letterSpacings and textTransforms) ([879adca](https://github.com/startupjs/startupjs/commit/879adcad6d8ea74d015fa0a27e85bd4db51a50ff))
+
+
+
+# [0.57.0-canary.28](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.27...v0.57.0-canary.28) (2024-07-22)
+
+
+### Bug Fixes
+
+* **auth/google:** fixes getting user id from the provider ([#1230](https://github.com/startupjs/startupjs/issues/1230)) ([c6cfa40](https://github.com/startupjs/startupjs/commit/c6cfa407177c387b6f9709c152c99251d97efe46))
+
+
+
+# [0.57.0-canary.27](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.26...v0.57.0-canary.27) (2024-07-19)
+
+
+### Bug Fixes
+
+* **ui/Input:** change label color ([5a8403b](https://github.com/startupjs/startupjs/commit/5a8403b46bee19a8788e5793fb79be966af9e89d))
+* **ui/Span:** prevent font-weight override ([bb616b7](https://github.com/startupjs/startupjs/commit/bb616b7889ac876fb48f698b61bbe95f797293d0))
+
+
+### Features
+
+* **ui/Button:** add ability to customie opacity for disabled state ([02ef49d](https://github.com/startupjs/startupjs/commit/02ef49d431d8d4b0245f3f0ede0cdae342dc68be))
+* **ui/Checkbox:** extend config for component customization ([a6e0e70](https://github.com/startupjs/startupjs/commit/a6e0e70564740b18527e7172e466545cca2e299a))
+* **ui/Radio:** extend config for component customization ([24017e6](https://github.com/startupjs/startupjs/commit/24017e61519c23b47b58677e8d86782820dd099b))
+* **ui/TextInput:** add ability to customize text color ([bbd265f](https://github.com/startupjs/startupjs/commit/bbd265f08d6bfeee7f21b1fa48b994e25d51b020))
+* **ui/theming:** fix palette creating and extend component colors ([9938066](https://github.com/startupjs/startupjs/commit/9938066158432bcd3e1c7b395d45b10f7c47b458))
+* **ui/typography:** add ability to specify letter-spacing and font-weight for 'font' mixin ([ad5f6b7](https://github.com/startupjs/startupjs/commit/ad5f6b7b18752ca9e021b06698b571ceb726ca60))
+
+
+
+# [0.57.0-canary.26](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.25...v0.57.0-canary.26) (2024-07-18)
+
+
+### Bug Fixes
+
+* **auth:** fix auth on native ([b1a7e6d](https://github.com/startupjs/startupjs/commit/b1a7e6d99bec10cf3c5be138a54088461a9fa794))
+
+
+
+# [0.57.0-canary.25](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.24...v0.57.0-canary.25) (2024-07-18)
+
+
+### Bug Fixes
+
+* **ui/DateTimePicker:** replaces old useValue with $ ([#1228](https://github.com/startupjs/startupjs/issues/1228)) ([dffe8e2](https://github.com/startupjs/startupjs/commit/dffe8e205bee87df8e59e5b26eeba522b3ec43b6))
+
+
+
+# [0.57.0-canary.24](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.23...v0.57.0-canary.24) (2024-07-15)
+
+
+### Bug Fixes
+
+* **cli:** fix 'yarn pr' command ([4d81cad](https://github.com/startupjs/startupjs/commit/4d81cada3d5ed4225269c4a16ffd76757c909c99))
+
+
+
+# [0.57.0-canary.23](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.22...v0.57.0-canary.23) (2024-07-03)
+
+
+### Bug Fixes
+
+* **create-startupjs:** make --fix command run twice to account for the install script changes. On the second pass also run 'npx expo install --fix' to update expo dependencies to the ones expo expects ([b190d3d](https://github.com/startupjs/startupjs/commit/b190d3d10053af159a2776251c857da5c73f9cb5))
+
+
+
+# [0.57.0-canary.22](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.21...v0.57.0-canary.22) (2024-07-03)
+
+
+### Features
+
+* **startupjs:** upgrade teamplay to use the explicit useSub() function in react components instead of a universal sub(). A regular sub() function is now always asynchronous and has to be await'ed ([018bdef](https://github.com/startupjs/startupjs/commit/018bdef399f1804a22c85eb87ddc1e4935fba6bb))
+
+
+
+# [0.57.0-canary.21](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.20...v0.57.0-canary.21) (2024-06-30)
+
+
+### Bug Fixes
+
+* **create-startupjs:** fix init-expo package.json path ([aee5b0f](https://github.com/startupjs/startupjs/commit/aee5b0f232323f119c5d2e5131a29bf1b591ea3f))
+
+
+
+# [0.57.0-canary.20](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.19...v0.57.0-canary.20) (2024-06-30)
+
+
+### Features
+
+* **server/auth:** support specifying extraScopes in login() to allow for gradual permissions requests ([9684494](https://github.com/startupjs/startupjs/commit/968449480c4a102fbf6007cd586f9da5a06b0f44))
+
+
+
+# [0.57.0-canary.19](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.18...v0.57.0-canary.19) (2024-06-30)
+
+
+### Features
+
+* **server/auth:** save oauth2 token from provider for later use; implement logout() function; rename auth() to login(); update provider userinfo on each login ([c363b27](https://github.com/startupjs/startupjs/commit/c363b27a32331f13e4742a675c4420a7a8f1e5ea))
+
+
+
+# [0.57.0-canary.18](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.17...v0.57.0-canary.18) (2024-06-29)
+
+
+### Features
+
+* **startupjs:** add 'auth(provider)' function to run authentication flow of a particular oauth2 provider by its name. ([233f3df](https://github.com/startupjs/startupjs/commit/233f3dfe9ffd8c079814e18a7e97a7a558a34347))
+
+
+
+# [0.57.0-canary.17](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.16...v0.57.0-canary.17) (2024-06-29)
+
+
+### Bug Fixes
+
+* **server/oauth2:** authorize sockjs and websocket connections using jwt token. Save user-related data on server into req.session since it's effectively a readonly session ([5ed1d50](https://github.com/startupjs/startupjs/commit/5ed1d50438a8e06b7cd4638a127f3b2553b3fa71))
+
+
+
+# [0.57.0-canary.16](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.15...v0.57.0-canary.16) (2024-06-23)
+
+
+### Features
+
+* **server/auth:** make userinfoUrl optional. Add an explicit flag to provider config 'saveRawUserinfo' which is false by default ([9875f24](https://github.com/startupjs/startupjs/commit/9875f245e8ed1d1675e54cc8fab5504071396ebb))
+
+
+
+# [0.57.0-canary.15](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.14...v0.57.0-canary.15) (2024-06-23)
+
+
+### Features
+
+* **server:** implement universal authentication through oauth2 for any providers. Replace nconf with dotenv. ([6f7445b](https://github.com/startupjs/startupjs/commit/6f7445b514ec05b90e3153f472b82e346da15d51))
+
+
+
+# [0.57.0-canary.14](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.13...v0.57.0-canary.14) (2024-06-21)
+
+
+### Features
+
+* **create-startupjs:** in new projects use session-less oauth2 jwt tokens for auth ([e33f247](https://github.com/startupjs/startupjs/commit/e33f2477bfe8a70680791c34d030aa2f47857658))
+
+
+
+# [0.57.0-canary.13](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.12...v0.57.0-canary.13) (2024-06-21)
+
+
+### Bug Fixes
+
+* **server:** change implementation of startupjs middleware to use express.Router() and to dynamically decide whether to use the auth-protected middlewares if request has a token or not. This lets us simplify the architecture of handling authenticated requests and does not tie us to a correctly configured instance of axios. ([144122d](https://github.com/startupjs/startupjs/commit/144122d5722d944cb1a9505e022073ead69b9ad6))
+
+
+
+# [0.57.0-canary.12](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.11...v0.57.0-canary.12) (2024-06-20)
+
+
+### Features
+
+* implement oauth2 jwt tokens authorization and auto-issuing token for anonymous users. Fix production build ([bbb247a](https://github.com/startupjs/startupjs/commit/bbb247af5c6409c51d26b270c72821ef6db486e8))
+
+
+
 # [0.57.0-canary.11](https://github.com/startupjs/startupjs/compare/v0.57.0-canary.10...v0.57.0-canary.11) (2024-06-06)
 
 

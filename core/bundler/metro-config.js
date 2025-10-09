@@ -35,57 +35,44 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, { upstreamCon
 
   // Add startupjs server middleware.
   // Unless we're building (yarn build), in which case we don't need it.
-  if (!process.env.IS_BUILD && features.enableServer) addServer(config)
+  if (!isBuild() && features.enableServer) addServer(config)
 
   // Support Yarn's `resolutions` field from doing `yarn link`
-  maybeWatchYarnLink(config, { packageJson, projectRoot })
+  handleYarnLink(config, { packageJson, projectRoot })
 
   return config
+}
+
+function isBuild () {
+  return process.env.IS_BUILD || process.env.CI || process.env.EAS_BUILD
 }
 
 function addServer (config) {
   config.server ??= {}
   config.server.enhanceMiddleware = metroMiddleware =>
     connect()
-      .use(metroMiddleware)
       .use(getStartupjsMiddleware())
+      .use(metroMiddleware)
 }
 
-function maybeWatchYarnLink (config, { packageJson, projectRoot }) {
-  let resolutionsFolderPath = projectRoot
-  let resolutions
-  if (process.env.EXPO_USE_METRO_WORKSPACE_ROOT) {
-    // if we are inside monorepo, resolutions will be in the monorepo's root package.json
-    const { packageJson, folderPath } = getMonorepoRootPackageJson(projectRoot) || {}
-    if (!(packageJson && folderPath)) return
-    resolutionsFolderPath = folderPath
-    resolutions = packageJson.resolutions
-  } else {
-    resolutions = packageJson.resolutions
-  }
+function handleYarnLink (config, { packageJson, projectRoot }) {
+  const { packageJson: monorepoPackageJson, folderPath: monorepoRoot } = getMonorepoRootPackageJson(projectRoot) || {}
+  const isMonorepo = monorepoPackageJson && monorepoRoot
+  const resolutions = isMonorepo ? monorepoPackageJson.resolutions : packageJson.resolutions
   if (!resolutions) return
+
+  const resolutionsRoot = isMonorepo ? monorepoRoot : projectRoot
 
   // `yarn link` adds paths with a prefix 'portal:' so we handle only those
   const linkPaths = Object.values(resolutions)
     .filter(path => path.startsWith('portal:'))
     .map(path => path.replace(/^portal:/, ''))
-    // paths might be relative
-    .map(path => resolve(resolutionsFolderPath, path))
-
-  // if there are no `portal:` links, we don't need to do anything
-  if (linkPaths.length === 0) return
+    // paths might be specified as relative so we need to resolve them to absolute
+    .map(path => resolve(resolutionsRoot, path))
 
   config.watchFolders = [...new Set([
     ...(config.watchFolders || []),
-    projectRoot,
     ...linkPaths
-  ])]
-
-  config.resolver.nodeModulesPaths = [...new Set([
-    ...(config.resolver.nodeModulesPaths || []),
-    // this is supposed to be the default behavior of Metro, but after changing
-    // the watchFolders it stops working for some reason
-    resolve(projectRoot, 'node_modules')
   ])]
 }
 

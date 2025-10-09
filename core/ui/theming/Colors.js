@@ -80,15 +80,18 @@ export const ShadowColors = {
 export const ComponentColors = {
   '--AutoSuggest-itemBg': '--AutoSuggest-itemBg',
   '--Carousel-arrowWrapperBg': '--Carousel-arrowWrapperBg',
+  '--Checkbox-switchBg': '--Checkbox-switchBg',
+  '--Checkbox-switchBulletBg': '--Checkbox-switchBulletBg',
+  '--Checkbox-switchBulletBg-checked': '--Checkbox-switchBulletBg-checked',
   '--Div-hoverBg': '--Div-hoverBg',
   '--Div-activeBg': '--Div-activeBg',
   '--Div-tooltipBg': '--Div-tooltipBg',
   '--Div-tooltipText': '--Div-tooltipText',
   '--Modal-overlayBg': '--Modal-overlayBg',
-  '--Checkbox-switchBg': '--Checkbox-switchBg',
-  '--Checkbox-switchBulletBg': '--Checkbox-switchBulletBg',
+  '--InputWrapper-label-color': '--InputWrapper-label-color',
   '--Range-labelBg': '--Range-labelBg',
-  '--Range-labelText': '--Range-labelText'
+  '--Range-labelText': '--Range-labelText',
+  '--TextInput-text-color': '--TextInput-text-color'
 }
 
 const Colors = {

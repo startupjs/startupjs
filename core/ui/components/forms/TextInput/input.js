@@ -1,3 +1,6 @@
+// TODO
+// Think about resize and numberOfLines properties, should they be removed?
+// If not, think about to make them work
 import React, {
   useState,
   useMemo,
@@ -8,20 +11,19 @@ import { TextInput, Platform } from 'react-native'
 import { pug, observer, useIsomorphicLayoutEffect, useDidUpdate } from 'startupjs'
 import Div from './../../Div'
 import Icon from './../../Icon'
-import getCssVariable from '../../../theming/getCssVariable'
 import themed from '../../../theming/themed'
 import { useColors } from '../../../hooks'
 import STYLES from './index.styl'
 
 const {
   config: {
-    caretColor, heights, lineHeights, borderWidth
+    caretColor,
+    heights
   }
 } = STYLES
 
 const IS_WEB = Platform.OS === 'web'
 const IS_ANDROID = Platform.OS === 'android'
-
 const ICON_SIZES = {
   s: 'm',
   m: 'm',
@@ -110,15 +112,9 @@ function TextInputInput ({
     return resize || numberOfLines > 1
   }, [resize, numberOfLines])
 
-  const [lH, verticalGutter] = useMemo(() => {
-    const lH = lineHeights[size]
-    const h = heights[size]
-    return [lH, (h - lH) / 2 - borderWidth]
-  }, [size])
-
   const fullHeight = useMemo(() => {
-    return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
-  }, [currentNumberOfLines, lH, verticalGutter])
+    return currentNumberOfLines * heights[size]
+  }, [currentNumberOfLines])
 
   function onLayoutIcon (e) {
     if (IS_WEB) {
@@ -128,7 +124,7 @@ function TextInputInput ({
   }
 
   const inputExtraProps = {}
-  if (IS_ANDROID) inputExtraProps.textAlignVertical = 'top'
+  if (IS_ANDROID && multiline) inputExtraProps.textAlignVertical = 'top'
 
   const inputStyleName = [
     size,
@@ -145,15 +141,13 @@ function TextInputInput ({
     style: [{ height: fullHeight }, style]
   }, pug`
     TextInput.input-input(
-      part='input'
-      ref=inputRef
-      style=[{
-        paddingTop: verticalGutter,
-        paddingBottom: verticalGutter,
-        lineHeight: lH
+      part=['input', {
+        inputIconLeft: icon && iconPosition === 'left',
+        inputIconRight: icon && iconPosition === 'right'
       }]
+      ref=inputRef
       styleName=inputStyleName
-      selectionColor=getCssVariable(caretColor)
+      selectionColor=caretColor
       placeholder=placeholder
       placeholderTextColor=getColor('text-placeholder')
       value=value

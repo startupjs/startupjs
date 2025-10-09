@@ -2,7 +2,7 @@ import React from 'react'
 import { ActivityIndicator } from 'react-native'
 import { pug, observer } from 'startupjs'
 import PropTypes from 'prop-types'
-import Colors, { ColorValues } from '../../theming/Colors'
+import Colors from '../../theming/Colors'
 import themed from '../../theming/themed'
 import useColors from '../../hooks/useColors'
 
@@ -28,7 +28,7 @@ Loader.defaultProps = {
 
 Loader.propTypes = {
   size: PropTypes.oneOf(['s', 'm']),
-  color: PropTypes.oneOf(ColorValues)
+  color: PropTypes.string
 }
 
 export default observer(themed('Loader', Loader))

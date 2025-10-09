@@ -5,8 +5,10 @@ import React, {
   useEffect,
   useImperativeHandle
 } from 'react'
-import { pug, observer, useValue, useBind } from 'startupjs'
-import { useMedia } from '@startupjs/ui'
+import { Platform } from 'react-native'
+import RNDateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
+import { pug, observer, useBind, $ } from 'startupjs'
+import { useMedia, Button } from '@startupjs/ui'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle'
 import PropTypes from 'prop-types'
 import moment from 'moment-timezone'
@@ -21,18 +23,15 @@ import { Calendar, TimeSelect } from './components'
 import themed from '../../../theming/themed'
 import './index.styl'
 
-// NOTE
-// What about rename date property to value property like in other inputs?
 function DateTimePicker ({
   style,
   dateFormat,
+  display,
   timeInterval,
   is24Hour,
   size,
   mode,
-  renderCaption, // DEPRECATED replace InputComponent
-  renderContent, // DEPRECATED replace renderCaption
-  renderInput, // replace renderContent
+  renderInput,
   locale,
   range,
   timezone,
@@ -47,23 +46,13 @@ function DateTimePicker ({
   $visible,
   testID,
   calendarTestID,
-  onFocus,
-  onBlur,
+  onPressIn,
   onChangeDate,
   onRequestOpen,
   onRequestClose,
-  _hasError
+  _hasError,
+  ...props
 }, ref) {
-  if (renderCaption) {
-    console.log('[@startupjs/ui] DateTimePicker: renderCaption is deprecated, use renderInput instead')
-  }
-
-  if (renderContent) {
-    console.log('[@startupjs/ui] DateTimePicker: renderContent is deprecated, use renderInput instead')
-  }
-
-  renderInput = renderInput || renderContent || renderCaption
-
   const media = useMedia()
   const [textInput, setTextInput] = useState('')
   const refTimeSelect = useRef()
@@ -72,23 +61,44 @@ function DateTimePicker ({
   useImperativeHandle(ref, () => inputRef.current, [])
 
   let bindProps = useMemo(() => {
-    // controlled via two way data binding
     if (typeof $visible !== 'undefined') return { $visible }
-    // controlled via state
     if (typeof onRequestOpen === 'function' && typeof onRequestClose === 'function') {
-      return { visible, onChangeVisible: value => value ? onRequestOpen() : onRequestClose() }
+      return {
+        visible,
+        onChangeVisible: (value) => {
+          if (value) {
+            onRequestOpen()
+          } else {
+            onRequestClose()
+          }
+
+          if (Platform.OS === 'android' && value) {
+            showAndroidPicker()
+          }
+        }
+      }
     }
   }, [])
 
-  // if no bindProps then uncontrolled
   if (!bindProps) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    ;[, $visible] = useValue(false)
+    $visible = $(false)
     bindProps = { $visible }
   }
 
   let { onChangeVisible } = bindProps
   ;({ visible, onChangeVisible } = useBind({ $visible, visible, onChangeVisible }))
+
+  const [tempDate, setTempDate] = useTempDate({ visible, date, timezone })
+
+  useEffect(() => {
+    // Prevent crashes when custom renderer passed via props
+    if (renderInput) return
+    if (visible) {
+      inputRef?.current?.focus()
+    } else {
+      inputRef?.current?.blur()
+    }
+  }, [visible])
 
   useEffect(() => {
     if (typeof date === 'undefined') {
@@ -99,6 +109,7 @@ function DateTimePicker ({
     let value = getDate(date)
     value = +moment.tz(date, timezone).seconds(0).milliseconds(0)
     setTextInput(getFormatDate(value))
+    setTempDate(new Date(value))
   }, [date])
 
   const exactLocale = useMemo(() => {
@@ -123,14 +134,12 @@ function DateTimePicker ({
   }
 
   function getDate (value) {
-    // check interval
     const interval = (timeInterval * 60 * 1000)
 
     const bottom = value - (value % interval)
     const top = bottom + interval
     value = top > bottom ? bottom : top
 
-    // check min, max
     if (minDate != null && value < minDate) {
       value = minDate
     }
@@ -143,17 +152,89 @@ function DateTimePicker ({
   }
 
   function _onChangeDate (value) {
-    onChangeDate && onChangeDate(value)
+    const timestamp = getTimestampFromValue(value)
+    onChangeDate && onChangeDate(timestamp)
     onChangeVisible(false)
   }
 
-  function _onFocus (...args) {
+  function _onPressIn (...args) {
+    if (Platform.OS === 'android') {
+      showAndroidPicker()
+    }
+
     onChangeVisible(true)
-    onFocus && onFocus(...args)
+
+    onPressIn && onPressIn(...args)
   }
 
   function onDismiss () {
     onChangeVisible(false)
+  }
+
+  function showAndroidPicker () {
+    const showTimepicker = (selectedDate) => {
+      DateTimePickerAndroid.open({
+        value: selectedDate,
+        mode: 'time',
+        display: 'time',
+        is24Hour,
+        onChange: (event, selectedTime) => {
+          if (event.type === 'set') {
+            const finalDate = new Date(selectedDate)
+            finalDate.setHours(selectedTime.getHours())
+            finalDate.setMinutes(selectedTime.getMinutes())
+            _onChangeDate(finalDate)
+          } else {
+            onDismiss()
+          }
+        }
+      })
+    }
+
+    const showDatepicker = () => {
+      DateTimePickerAndroid.open({
+        value: tempDate,
+        mode: 'date',
+        display: 'calendar',
+        maximumDate: maxDate ? new Date(maxDate) : undefined,
+        minimumDate: minDate ? new Date(minDate) : undefined,
+        onChange: (event, selectedDate) => {
+          if (event.type === 'set') {
+            if (mode === 'datetime') {
+              showTimepicker(selectedDate)
+            } else {
+              _onChangeDate(selectedDate)
+            }
+          } else {
+            onDismiss()
+          }
+        }
+      })
+    }
+
+    switch (mode) {
+      case 'date':
+        showDatepicker()
+        break
+      case 'time':
+        DateTimePickerAndroid.open({
+          value: tempDate,
+          mode: 'time',
+          display: 'clock',
+          is24Hour,
+          onChange: (event, selectedTime) => {
+            if (event.type === 'set') {
+              _onChangeDate(selectedTime)
+            } else {
+              onDismiss()
+            }
+          }
+        })
+        break
+      case 'datetime':
+        showDatepicker()
+        break
+    }
   }
 
   const inputProps = {
@@ -166,62 +247,118 @@ function DateTimePicker ({
     _hasError,
     value: textInput,
     testID,
-    // don't show keyboard on focus input
-    editable: false
+    ...props
+  }
+
+  if (Platform.OS === 'web') {
+    inputProps.editable = false
+    inputProps.onFocus = _onPressIn
+  }
+
+  if (Platform.OS === 'android') {
+    inputProps.onFocus = _onPressIn
+    // Hide cursor for android
+    inputProps.cursorColor = 'transparent'
+  }
+
+  if (Platform.OS === 'ios') {
+    inputProps.onPressIn = _onPressIn
+  }
+
+  function handleRenderedInputPress (value) {
+    if (Platform.OS === 'android' && value) {
+      showAndroidPicker()
+    }
+
+    onChangeVisible(value)
   }
 
   const caption = pug`
     if renderInput
-      // Do we need to pass properties to 'renderInput' at all?
-      = renderInput(Object.assign({ onChangeVisible, onFocus, onBlur }, inputProps))
+      = renderInput(Object.assign({ onChangeVisible: handleRenderedInputPress }, inputProps))
     else
       TextInput(
-        ...inputProps
         showSoftInputOnFocus=false
         secondaryIcon=textInput && !renderInput ? faTimesCircle : undefined,
         onSecondaryIconPress=() => onChangeDate && onChangeDate()
-        onFocus=_onFocus
-        onBlur=(...args) => {
-          onBlur && onBlur(...args)
-        }
+        ...inputProps
       )
   `
-
-  const _date = date
-    ? +moment.tz(date, timezone).seconds(0).milliseconds(0)
-    : undefined
 
   function renderPopoverContent () {
     return pug`
       Div.content
-        if (mode === 'date') || (mode === 'datetime')
-          Calendar(
-            date=_date
-            exactLocale=exactLocale
-            disabledDays=disabledDays
-            locale=locale
-            maxDate=maxDate
-            minDate=minDate
-            range=range
-            timezone=timezone
-            testID=calendarTestID
-            onChangeDate=_onChangeDate
-          )
+        if Platform.OS === 'web'
+          if (mode === 'date') || (mode === 'datetime')
+            Calendar(
+              date=tempDate
+              exactLocale=exactLocale
+              disabledDays=disabledDays
+              locale=locale
+              maxDate=maxDate
+              minDate=minDate
+              range=range
+              timezone=timezone
+              testID=calendarTestID
+              onChangeDate=(newDate) => {
+                setTempDate(newDate)
+                if (mode === 'date') _onChangeDate(newDate)
+              }
+            )
 
-        if mode === 'datetime'
-          Divider.divider
+          if mode === 'datetime'
+            Divider.divider
 
-        if (mode === 'time') || (mode === 'datetime')
-          TimeSelect(
-            date=_date
-            ref=refTimeSelect
-            maxDate=maxDate
-            minDate=minDate
-            timezone=timezone
-            exactLocale=exactLocale
+          if (mode === 'time') || (mode === 'datetime')
+            TimeSelect(
+              date=tempDate
+              ref=refTimeSelect
+              maxDate=maxDate
+              minDate=minDate
+              timezone=timezone
+              exactLocale=exactLocale
+              is24Hour=is24Hour
+              timeInterval=timeInterval
+              onChangeDate=(newTime) => {
+                const finalDate = new Date(tempDate)
+                finalDate.setHours(new Date(newTime).getHours())
+                finalDate.setMinutes(new Date(newTime).getMinutes())
+                _onChangeDate(finalDate)
+              }
+            )
+        else if Platform.OS === 'ios'
+          Div.actions(row)
+            Button(
+              size='s'
+              color='secondary'
+              variant='text'
+              onPress=() => {
+                onDismiss()
+              }
+            ) Cancel
+            Button(
+              size='s'
+              color='primary'
+              variant='text'
+              onPress=() => {
+                _onChangeDate(tempDate)
+              }
+            ) Done
+          RNDateTimePicker.rnPicker(
+            value=tempDate
+            display=display
             is24Hour=is24Hour
-            timeInterval=timeInterval
-            onChangeDate=_onChangeDate
+            disabled=disabled
+            mode=mode
+            themeVariant='light'
+            textColor='#000000cc'
+            maximumDate=maxDate ? new Date(maxDate) : undefined
+            minimumDate=minDate ? new Date(minDate) : undefined
+            onChange=(event, selectedDate) => {
+              if (event.type !== 'dismissed') {
+                setTempDate(selectedDate)
+              }
+            }
           )
     `
   }
@@ -235,25 +372,30 @@ function DateTimePicker ({
   }
 
   return pug`
-    if media.tablet
+    // Android datetimepicker rendered inside its own modal
+    if Platform.OS === 'android'
       = caption
-      AbstractPopover.popover(
-        visible=visible
-        anchorRef=inputRef
-        renderWrapper=renderWrapper
-      )= renderPopoverContent()
     else
-      = caption
-      Drawer.drawer(
-        visible=visible
-        position='bottom'
-        swipeStyleName='swipe'
-        onDismiss=onDismiss
-      )= renderPopoverContent()
+      if media.tablet
+        = caption
+        AbstractPopover.popover(
+          visible=visible
+          anchorRef=inputRef
+          renderWrapper=renderWrapper
+        )= renderPopoverContent()
+      else
+        = caption
+        Drawer.drawer(
+          visible=visible
+          position='bottom'
+          swipeStyleName='swipe'
+          onDismiss=onDismiss
+        )= renderPopoverContent()
   `
 }
 
 DateTimePicker.defaultProps = {
+  display: 'spinner',
   mode: 'datetime',
   size: 'm',
   timeInterval: 5,
@@ -266,19 +408,19 @@ DateTimePicker.propTypes = {
   is24Hour: PropTypes.bool,
   date: PropTypes.number,
   disabled: PropTypes.bool,
+  display: PropTypes.oneOf(['default', 'spinner', 'calendar', 'clock']),
   readonly: PropTypes.bool,
   placeholder: PropTypes.string,
   maxDate: PropTypes.number,
   minDate: PropTypes.number,
-  mode: PropTypes.oneOf(['date', 'time', 'datetime']),
-  renderCaption: PropTypes.func,
+  mode: PropTypes.oneOf(['date', 'time', 'datetime', 'countdown']),
+  renderInput: PropTypes.func,
   range: PropTypes.array,
   locale: PropTypes.string,
   timezone: PropTypes.string,
   disabledDays: PropTypes.array,
   dateFormat: PropTypes.string,
   size: PropTypes.oneOf(['l', 'm', 's']),
-  onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onChangeDate: PropTypes.func,
   _hasError: PropTypes.bool // @private
@@ -288,3 +430,32 @@ export default observer(
   themed('DateTimePicker', DateTimePicker),
   { forwardRef: true }
 )
+
+function getTimestampFromValue (value) {
+  if (value?.nativeEvent?.timestamp) {
+    return value.nativeEvent.timestamp
+  }
+
+  if (value instanceof Date) {
+    return value.getTime()
+  }
+
+  return value
+}
+
+function useTempDate ({ visible, date, timezone }) {
+  const [tempDate, setTempDate] = useState(getTempDate(date))
+
+  useEffect(() => {
+    const tempDate = getTempDate(date, timezone)
+    setTempDate(tempDate)
+  }, [visible, date, timezone])
+
+  return [tempDate, setTempDate]
+}
+
+function getTempDate (date, timezone) {
+  return date
+    ? new Date(+moment.tz(date, timezone).seconds(0).milliseconds(0))
+    : new Date()
+}

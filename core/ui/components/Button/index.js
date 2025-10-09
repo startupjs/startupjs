@@ -8,7 +8,7 @@ import Div from '../Div'
 import Icon from '../Icon'
 import Loader from '../Loader'
 import Span from '../typography/Span'
-import Colors, { ColorValues } from '../../theming/Colors'
+import Colors from '../../theming/Colors'
 import themed from '../../theming/themed'
 import useColors from '../../hooks/useColors'
 import STYLES from './index.styl'
@@ -184,7 +184,7 @@ Button.propTypes = {
     EXTENDED_PROPS
   ),
   textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  color: PropTypes.oneOf(ColorValues),
+  color: PropTypes.string,
   children: PropTypes.node,
   variant: PropTypes.oneOf(['flat', 'outlined', 'text']),
   size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),

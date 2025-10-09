@@ -1,6 +1,6 @@
 import React from 'react'
 import { createPlugin } from 'startupjs/registry'
-import { pug, styl, $, observer } from 'startupjs'
+import { pug, styl, $, sub, observer } from 'startupjs'
 import { Span, Div, Button, alert } from '@startupjs/ui'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle'
@@ -10,11 +10,26 @@ const $banner = $.session.banner
 const plugins = createPlugins()
 
 export default {
+  features: {
+    enableOAuth2: true,
+    accessControl: true
+  },
+  client: {
+    init: () => {
+      globalThis.$ = $
+      globalThis.sub = sub
+    }
+  },
   plugins: {
     [plugins.banner]: {
       client: {
         message: 'Startupjs app',
         defaultVisible: false
+      }
+    },
+    auth: {
+      client: {
+        redirectUrl: '/two'
       }
     }
   }

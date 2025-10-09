@@ -1,42 +1,50 @@
 import { ROOT_MODULE as MODULE, ROOT_MODULE } from '@startupjs/registry'
 import { existsSync, readdirSync } from 'fs'
 import { join } from 'path'
+import _defaults from 'lodash/defaults.js'
+import _cloneDeep from 'lodash/cloneDeep.js'
 import express from 'express'
+import bodyParser from 'body-parser'
 import { router } from 'express-file-routing'
-import { v4 as uuid } from 'uuid'
 
 const SERVER_FOLDER = 'server'
 const MIDDLEWARE_FILENAME_REGEX = /^middleware\.[mc]?[jt]sx?$/
 const API_ROUTES_FOLDER = join(SERVER_FOLDER, 'api')
+const DEFAULT_BODY_PARSER_OPTIONS = {
+  urlencoded: {
+    extended: true
+  }
+}
 
 /**
  * A connect middleware with core startupjs functionality. You can plug this into your
  * existing node server.
  * @returns {express.Application}
  */
-export default async function createMiddleware ({ backend, session, channel, options }) {
-  const app = express()
+export default async function createMiddleware (...args) {
+  const expressApp = express()
+  const middleware = await _createMiddleware(...args)
+  expressApp.use(middleware)
+  return expressApp
+}
 
-  MODULE.hook('beforeSession', app)
+export async function _createMiddleware ({ backend, session, channel, options }) {
+  const publicApp = express.Router()
 
-  app.use(channel.middleware)
+  publicApp.use(bodyParser.json(getBodyParserOptionsByType('json', options.bodyParser)))
+  publicApp.use(bodyParser.urlencoded(getBodyParserOptionsByType('urlencoded', options.bodyParser)))
+
+  publicApp.use(channel.middleware)
+
+  MODULE.hook('beforeSession', publicApp)
+
   // TODO: change this to maybe use a $ created for each user. And set it as req.$
-  // app.use(backend.modelMiddleware())
-  app.use(session)
+  // publicApp.use(backend.modelMiddleware())
+  if (session) publicApp.use(session)
+  MODULE.hook('session', publicApp)
 
-  options.ee.emit('afterSession', app) // DEPRECATED (use 'afterSession' hook instead)
-  MODULE.hook('afterSession', app)
-
-  // userId
-  app.use((req, res, next) => {
-    // TODO: change this to maybe set _session.userId again, but using $
-    // const model = req.model
-    // Set anonymous userId unless it was set by some end-user auth middleware
-    if (req.session.userId == null) req.session.userId = uuid()
-    // Set userId into model
-    // model.set('_session.userId', req.session.userId)
-    next()
-  })
+  const protectedApp = express.Router()
+  MODULE.hook('afterSession', protectedApp)
 
   // Pipe env to client through the model
   // TODO: reimplement this using $ or req.$
@@ -47,8 +55,7 @@ export default async function createMiddleware ({ backend, session, channel, opt
   //   next()
   // })
 
-  options.ee.emit('middleware', app) // DEPRECATED (use 'middleware' hook instead)
-  MODULE.hook('middleware', app)
+  MODULE.hook('middleware', protectedApp)
 
   // filesystem-based middleware
   if (existsSync(join(options.dirname, SERVER_FOLDER))) {
@@ -58,35 +65,43 @@ export default async function createMiddleware ({ backend, session, channel, opt
         if (!(typeof middleware === 'function' || Array.isArray(middleware))) {
           throw Error(ERRORS.incorrectMiddlewareFile(file))
         }
-        app.use(middleware)
+        protectedApp.use(middleware)
         break
       }
     }
   }
 
-  MODULE.hook('api', app)
+  MODULE.hook('api', protectedApp)
 
   // filesystem-based routing for hosting project's server/api folder as /api
   if (ROOT_MODULE.options.enableServer && existsSync(join(options.dirname, API_ROUTES_FOLDER))) {
     try {
-      app.use('/api', await router({ directory: join(options.dirname, API_ROUTES_FOLDER) }))
+      protectedApp.use('/api', await router({ directory: join(options.dirname, API_ROUTES_FOLDER) }))
     } catch (err) {
       console.error(ERRORS.serverRoutes)
       throw err
     }
   }
 
-  options.ee.emit('routes', app) // DEPRECATED (use 'serverRoutes' hook instead)
-  MODULE.hook('serverRoutes', app)
+  if (MODULE.options.enableOAuth2) {
+    publicApp.use((req, res, next) => {
+      if (!req.session) return next()
+      protectedApp(req, res, next)
+    })
+  } else {
+    publicApp.use(protectedApp)
+  }
 
-  app.use(function (err, req, res, next) {
+  MODULE.hook('serverRoutes', publicApp)
+
+  publicApp.use(function (err, req, res, next) {
     if (err.name === 'MongoError' && err.message === 'Topology was destroyed') {
       process.exit()
     }
     next(err)
   })
 
-  return app
+  return publicApp
 }
 
 const ERRORS = {
@@ -98,4 +113,17 @@ const ERRORS = {
     [@startupjs/server] Incorrect ${SERVER_FOLDER}/${filename} middleware file.
     It should have a default export which is a middleware function or an array of middleware functions.
   `
+}
+
+// function isAuthenticatedRequest (req) {
+//   return req.headers.authorization || req.headers['x-requested-with'] === 'XMLHttpRequest'
+// }
+
+function getBodyParserOptionsByType (type, options = {}) {
+  return _defaults(
+    _cloneDeep(options[type]),
+    options.general,
+    DEFAULT_BODY_PARSER_OPTIONS[type],
+    DEFAULT_BODY_PARSER_OPTIONS.general
+  )
 }

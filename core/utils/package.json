@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/utils",
   "type": "module",
-  "version": "0.57.0-canary.1",
+  "version": "0.57.0-canary.48",
   "description": "Isomorphic utils for internal cross-package usage",
   "main": "index.js",
   "exports": {
@@ -14,6 +14,22 @@
     "./isExpo": {
       "node": "./isExpo.server.js",
       "default": "./isExpo.js"
+    },
+    "./openAuthSessionAsync": {
+      "node": "./openAuthSessionAsync.server.js",
+      "default": "./openAuthSessionAsync.js"
+    },
+    "./getLinkingUri": {
+      "node": "./getLinkingUri.server.js",
+      "default": "./getLinkingUri.js"
+    },
+    "./navigate": {
+      "node": "./navigate.server.js",
+      "default": "./navigate.js"
+    },
+    "./reloadAppAsync": {
+      "node": "./reloadAppAsync.server.js",
+      "default": "./reloadAppAsync.js"
     },
     "./isWeb": "./isWeb.js",
     "./isDevelopment": "./isDevelopment.js",
@@ -33,15 +49,23 @@
     "access": "public"
   },
   "peerDependencies": {
-    "expo-constants": "*",
+    "expo": "*",
+    "expo-linking": "*",
     "expo-router": "*",
+    "expo-web-browser": "*",
     "react": "*"
   },
   "peerDependenciesMeta": {
-    "expo-constants": {
+    "expo": {
+      "optional": true
+    },
+    "expo-linking": {
       "optional": true
     },
     "expo-router": {
+      "optional": true
+    },
+    "expo-web-browser": {
       "optional": true
     },
     "react": {

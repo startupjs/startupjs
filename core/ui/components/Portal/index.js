@@ -19,7 +19,7 @@ const Host = observer(({ $order, nodes, $count }) => {
   return pug`
     each componentId in $order.get()
       React.Fragment(key=componentId)
-        = nodes[componentId]
+        = nodes[componentId]?.()
   `
 })
 
