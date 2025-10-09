@@ -1,3 +1,12 @@
+# [0.59.0-canary.17](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.16...v0.59.0-canary.17) (2025-10-09)
+
+
+### Features
+
+* **startupjs:** upgrade teamplay to support 'extra' for count queries ([4c37135](https://github.com/startupjs/startupjs/commit/4c371356253cbf0d58075acf3eacc336c79aebb8))
+
+
+
 # [0.59.0-canary.16](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.15...v0.59.0-canary.16) (2025-09-28)
 
 
