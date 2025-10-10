@@ -19,28 +19,30 @@ const Host = observer(({ $order, nodes, $count }) => {
   return pug`
     each componentId in $order.get()
       React.Fragment(key=componentId)
-        = nodes[componentId]?.()
+        = nodes[componentId]
   `
 })
 
-// TODO: this probably rerenders each time and works incorrectly since children is new each time
 function Portal ({ children }) {
-  const componentId = useId()
+  const uuid = useId()
   const { $order, nodes, $count } = useContext(PortalContext)
+  const componentIdRef = useRef(uuid)
 
   useEffect(() => {
+    const componentId = componentIdRef.current
     nodes[componentId] = children
     if (!$order.get().includes(componentId)) $order.push(componentId)
     setTimeout(() => $count.increment(), 0)
-  }, [children])
+  }, [$count, $order, children, nodes])
 
   useEffect(() => {
+    const componentId = componentIdRef.current
     return () => {
       delete nodes[componentId]
       const index = $order.get().indexOf(componentId)
-      $order[index].del()
+      if (index !== -1 && $order.get()[index]) $order[index].del()
     }
-  }, [])
+  }, [$order, nodes])
 
   return null
 }
