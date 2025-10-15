@@ -6,3 +6,4 @@ export const AUTO_REMOVE_JOB_OPTIONS = {
 export const CONCURRENCY = 300
 export const JOB_TIMEOUT = 30000
 export const USE_WORKER_THREADS = true
+export const AUTO_START = true

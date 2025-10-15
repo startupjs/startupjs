@@ -2,6 +2,7 @@ import { createBackend } from 'startupjs/server'
 import { readdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import createWorker from './utils/createWorker.js'
 import getParam from './utils/getParam.js'
 import handleThrottledJobFinish from './utils/handleThrottledJobFinish.js'
@@ -16,18 +17,28 @@ const __filename = fileURLToPath(import.meta.url)
 let worker = null
 
 export default async function startWorker () {
-  createBackend()
-
   const queueName = getParam('QUEUE_NAME')
   const concurrency = Number(getParam('CONCURRENCY'))
   const useSeparateProcess = getParam('USE_SEPARATE_PROCESS')
   // this only works if useSeparateProcess is true
   const useWorkerThreads = getParam('USE_WORKER_THREADS')
+  const autoStart = getParam('AUTO_START')
 
-  if (!isJobsFolderExists()) {
+  // Initialize backend only if the worker runs in a separate process
+  // In the main process the backend is already initialized by startupjs
+  if (useSeparateProcess === true || useSeparateProcess === 'true') {
+    createBackend()
+  }
+
+  if (autoStart === 'false' || autoStart === false) {
+    console.log('[@startupjs/worker] startWorker: autoStart отключен, worker не запускается')
+    return
+  }
+
+  const hasJobsFolder = isJobsFolderExists()
+  if (!hasJobsFolder) {
     console.log('[@startupjs/worker] startWorker: workerJobs folder not found')
     await maybeRemoveJobSchedulers(queue, [])
-    return
   }
 
   const options = {}
@@ -62,24 +73,82 @@ export default async function startWorker () {
   })
 
   const schedulerIds = []
+  const allJobs = {}
 
-  for (const fileName of readdirSync(join(process.cwd(), 'workerJobs'))) {
-    const { default: action, cron } = await import(join(process.cwd(), 'workerJobs', fileName))
+  // 1. First, load jobs from workerJobs/ files (if the folder exists)
+  if (hasJobsFolder) {
+    for (const fileName of readdirSync(join(process.cwd(), 'workerJobs'))) {
+      const { default: action, cron } = await import(join(process.cwd(), 'workerJobs', fileName))
 
-    if (!action) continue
-    const type = fileName.split('.')[0]
+      if (!action) continue
+      const type = fileName.split('.')[0]
 
-    setAction(type, action)
+      setAction(type, action)
 
-    const { pattern, jobData = {} } = cron || {}
-    if (!pattern) continue
+      const { pattern, jobData = {} } = cron || {}
+      if (!pattern) continue
 
-    schedulerIds.push(type)
+      // Save the job for subsequent processing
+      allJobs[type] = {
+        action,
+        pattern,
+        jobData,
+        source: 'file'
+      }
+    }
+  }
+
+  // 2. Then collect jobs from plugin hooks
+  try {
+    const pluginJobs = MODULE.reduceHook('workerJobs', {})
+    console.log('[@startupjs/worker] Собраны джобы из плагинов:', Object.keys(pluginJobs))
+
+    // Add jobs from plugins
+    for (const jobName in pluginJobs) {
+      const job = pluginJobs[jobName]
+      if (!job || !job.enabled) continue
+
+      // Create an action function from the handler
+      const action = async (jobData) => {
+        try {
+          await job.handler(jobData)
+        } catch (error) {
+          console.error(`[@startupjs/worker] Ошибка в джобе '${jobName}':`, error)
+          throw error
+        }
+      }
+
+      setAction(jobName, action)
+
+      allJobs[jobName] = {
+        action,
+        pattern: job.schedule,
+        jobData: {
+          type: jobName,
+          description: job.description,
+          retryCount: job.retryCount,
+          timeout: job.timeout,
+          ...job.jobData
+        },
+        source: 'plugin'
+      }
+    }
+  } catch (error) {
+    console.error('[@startupjs/worker] Ошибка при сборе джобов из плагинов:', error)
+  }
+
+  // 3. Register all jobs in the queue
+  for (const jobName in allJobs) {
+    const { pattern, jobData } = allJobs[jobName]
+
+    schedulerIds.push(jobName)
     await queue.upsertJobScheduler(
-      type,
-      { pattern, key: type },
-      { data: { type, ...jobData } }
+      jobName,
+      { pattern, key: jobName },
+      { data: { type: jobName, ...jobData } }
     )
+
+    console.log(`[@startupjs/worker] Зарегистрирован джоб '${jobName}' с расписанием '${pattern}'`)
   }
 
   await maybeRemoveJobSchedulers(queue, schedulerIds)
