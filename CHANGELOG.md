@@ -7,15 +7,6 @@
 
 
 
-## [0.54.15](https://github.com/startupjs/startupjs/compare/v0.54.14...v0.54.15) (2025-10-16)
-
-
-### Bug Fixes
-
-* **app:** add ability to open external url using emit('url', url) ([ffd0e49](https://github.com/startupjs/startupjs/commit/ffd0e49b623daacdf526150ad2a91233907343e8))
-
-
-
 ## [0.54.13](https://github.com/startupjs/startupjs/compare/v0.54.12...v0.54.13) (2023-11-07)
 
 
