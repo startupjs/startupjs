@@ -5886,8 +5886,8 @@ __metadata:
   resolution: "@startupjs/docs@workspace:packages/docs"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
-    "@startupjs/mdx": "npm:^0.54.13"
-    "@startupjs/scrollable-anchors": "npm:^0.54.13"
+    "@startupjs/mdx": "npm:^0.54.14"
+    "@startupjs/scrollable-anchors": "npm:^0.54.14"
     "@startupjs/ui": "npm:^0.54.6"
     parse-prop-types: "npm:^0.3.0"
   peerDependencies:
@@ -5951,7 +5951,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/init@npm:^0.54.6, @startupjs/init@workspace:packages/init":
+"@startupjs/init@npm:^0.54.14, @startupjs/init@workspace:packages/init":
   version: 0.0.0-use.local
   resolution: "@startupjs/init@workspace:packages/init"
   dependencies:
@@ -5964,7 +5964,7 @@ __metadata:
     "@babel/preset-stage-0": "npm:^7.0.0"
     "@babel/register": "npm:^7.0.0"
     "@babel/runtime": "npm:^7.0.0"
-    "@startupjs/react-sharedb": "npm:^0.54.6"
+    "@startupjs/react-sharedb": "npm:^0.54.14"
     babel-plugin-add-module-exports: "npm:^0.1.2"
     babel-plugin-transform-decorators-legacy: "npm:^1.3.5"
     racer: "npm:1.0.1"
@@ -5996,12 +5996,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/mdx@npm:^0.54.0, @startupjs/mdx@npm:^0.54.13, @startupjs/mdx@workspace:packages/mdx":
+"@startupjs/mdx@npm:^0.54.0, @startupjs/mdx@npm:^0.54.14, @startupjs/mdx@workspace:packages/mdx":
   version: 0.0.0-use.local
   resolution: "@startupjs/mdx@workspace:packages/mdx"
   dependencies:
     "@mdx-js/react": "npm:~2.3.0"
-    "@startupjs/scrollable-anchors": "npm:^0.54.13"
+    "@startupjs/scrollable-anchors": "npm:^0.54.14"
     "@startupjs/ui": "npm:^0.54.6"
     refractor: "npm:^3.0.0"
   peerDependencies:
@@ -6097,7 +6097,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/react-sharedb-hooks@npm:^0.54.6, @startupjs/react-sharedb-hooks@workspace:packages/react-sharedb-hooks":
+"@startupjs/react-sharedb-hooks@npm:^0.54.14, @startupjs/react-sharedb-hooks@workspace:packages/react-sharedb-hooks":
   version: 0.0.0-use.local
   resolution: "@startupjs/react-sharedb-hooks@workspace:packages/react-sharedb-hooks"
   dependencies:
@@ -6106,7 +6106,7 @@ __metadata:
     "@startupjs/debug": "npm:^0.54.2"
     "@startupjs/model": "npm:^0.54.1"
     "@startupjs/react-sharedb-util": "npm:^0.54.2"
-    "@startupjs/signals": "npm:^0.54.5"
+    "@startupjs/signals": "npm:^0.54.14"
     co: "npm:~4.6.0"
     lodash: "npm:^4.17.20"
   peerDependencies:
@@ -6127,7 +6127,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/react-sharedb@npm:^0.54.6, @startupjs/react-sharedb@workspace:packages/react-sharedb":
+"@startupjs/react-sharedb@npm:^0.54.14, @startupjs/react-sharedb@workspace:packages/react-sharedb":
   version: 0.0.0-use.local
   resolution: "@startupjs/react-sharedb@workspace:packages/react-sharedb"
   dependencies:
@@ -6144,7 +6144,7 @@ __metadata:
     "@oskarer/enzyme-wait": "npm:^1.3.0"
     "@startupjs/model": "npm:^0.54.1"
     "@startupjs/react-sharedb-classes": "npm:^0.54.2"
-    "@startupjs/react-sharedb-hooks": "npm:^0.54.6"
+    "@startupjs/react-sharedb-hooks": "npm:^0.54.14"
     "@startupjs/react-sharedb-util": "npm:^0.54.2"
     babel-plugin-add-module-exports: "npm:^0.1.2"
     babel-plugin-transform-decorators-legacy: "npm:^1.3.5"
@@ -6185,12 +6185,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/scrollable-anchors@npm:^0.54.0, @startupjs/scrollable-anchors@npm:^0.54.13, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
+"@startupjs/scrollable-anchors@npm:^0.54.0, @startupjs/scrollable-anchors@npm:^0.54.14, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
   version: 0.0.0-use.local
   resolution: "@startupjs/scrollable-anchors@workspace:packages/scrollable-anchors"
   dependencies:
     "@startupjs/ui": "npm:^0.54.6"
-    startupjs: "npm:^0.54.13"
+    startupjs: "npm:^0.54.14"
   languageName: unknown
   linkType: soft
 
@@ -6252,7 +6252,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/signals@npm:^0.54.5, @startupjs/signals@workspace:packages/signals":
+"@startupjs/signals@npm:^0.54.14, @startupjs/signals@workspace:packages/signals":
   version: 0.0.0-use.local
   resolution: "@startupjs/signals@workspace:packages/signals"
   dependencies:
@@ -29224,7 +29224,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.54.0, startupjs@npm:^0.54.13, startupjs@workspace:packages/startupjs":
+"startupjs@npm:^0.54.0, startupjs@npm:^0.54.14, startupjs@workspace:packages/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:packages/startupjs"
   dependencies:
@@ -29235,11 +29235,11 @@ __metadata:
     "@startupjs/docker": "npm:^0.54.0"
     "@startupjs/hooks": "npm:^0.54.2"
     "@startupjs/i18n": "npm:^0.54.4"
-    "@startupjs/init": "npm:^0.54.6"
+    "@startupjs/init": "npm:^0.54.14"
     "@startupjs/isomorphic-helpers": "npm:^0.54.2"
     "@startupjs/orm": "npm:^0.54.2"
     "@startupjs/patches": "npm:^0.54.1"
-    "@startupjs/react-sharedb": "npm:^0.54.6"
+    "@startupjs/react-sharedb": "npm:^0.54.14"
     "@startupjs/server": "npm:^0.54.2"
     babel-preset-startupjs: "npm:^0.54.2"
     react-native-web: "npm:^0.18.0"

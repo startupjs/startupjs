@@ -12,6 +12,7 @@ import RouterComponent from './RouterComponent'
 import Routes from './Routes'
 import Error from './Error'
 
+const EXTERNAL_LINK_REGEXP = /^(https?:\/\/|\/\/)/
 const isWeb = Platform.OS === 'web'
 
 export default observer(function Router (props) {
@@ -65,20 +66,45 @@ const AppsFactory = observer(function AppsFactoryComponent ({
       : _goTo(url, options)
   }
 
-  function _goTo (url, options = {}) {
+  async function _goTo (url, options = {}) {
+    if (EXTERNAL_LINK_REGEXP.test(url)) {
+      await _openExternalLink(url)
+      return
+    }
+
     const route = getRouteMeta(url.replace(/[?#].*$/, ''), routes)
 
-    if (!route) return emit('error', 404)
+    if (!route) {
+      emit('error', 404)
+      return
+    }
 
     const app = route.app
     const { replace } = options
 
     if (app) {
       history[replace ? 'replace' : 'push'](url)
-    } else {
-      isWeb
-        ? window.open(url, '_blank')
-        : Linking.openURL(url)
+      return
+    }
+
+    await _openExternalLink(url)
+  }
+
+  async function _openExternalLink (url) {
+    try {
+      if (isWeb) {
+        const win = window.open(url, '_blank', 'noopener,noreferrer')
+        if (!win) window.location.href = url // fallback if browser blocks pop-up
+      } else {
+        const supported = await Linking.canOpenURL(url)
+        if (supported) {
+          await Linking.openURL(url)
+        } else {
+          console.warn(`Can't open URL: ${url}`)
+        }
+      }
+    } catch (err) {
+      console.error('Failed to open external link:', err)
     }
   }
 

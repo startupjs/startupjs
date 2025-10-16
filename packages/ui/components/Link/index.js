@@ -10,7 +10,7 @@ import themed from '../../theming/themed'
 import './index.styl'
 
 const isWeb = Platform.OS === 'web'
-const EXTERNAL_LINK_REGEXP = /^(https?:\/\/|\/\/)/i
+const EXTERNAL_LINK_REGEXP = /^(https?:\/\/|\/\/)/
 
 // IDEA
 // Think about to remove Span, Div properties (variant, bold, italic, etc) and
