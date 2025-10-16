@@ -1,9 +1,6 @@
 # @startupjs/worker
 
-Надежный воркер на базе BullMQ с автостартом по умолчанию. Поддерживает:
-- загрузку джобов из папки `workerJobs/`
-- регистрацию джобов из плагинов через хук `workerJobs`
-- отдельный процесс/worker threads
+Worker на базе BullMQ с автостартом по умолчанию.
 
 ## Установка
 ```bash
@@ -76,41 +73,3 @@ export default {
   }
 }
 ```
-
-## Отдельный процесс / worker threads
-- Отдельный процесс:
-```bash
-USE_SEPARATE_PROCESS=true
-```
-- Worker Threads (только если отдельный процесс включен):
-```bash
-USE_WORKER_THREADS=true
-```
-
-## Полезные env-переменные
-- `AUTO_START` — автостарт воркера (по умолчанию `true`)
-- `CONCURRENCY` — параллелизм выполнения
-- `JOB_TIMEOUT` — таймаут джобы (мс)
-- `QUEUE_NAME` — имя очереди (если требуется несколько очередей)
-- `USE_SEPARATE_PROCESS` — запуск в отдельном процессе
-- `USE_WORKER_THREADS` — включить worker threads (при отдельном процессе)
-
-## Минимальный рабочий пример
-1) Подключите плагин:
-```javascript
-export default {
-  plugins: ['worker']
-}
-```
-2) Создайте файл `workerJobs/ping.js`:
-```javascript
-export default async function action () {
-  console.log('[worker] ping!')
-}
-
-export const cron = { pattern: '*/1 * * * *' } // каждую минуту
-```
-3) Запустите сервер — воркер стартует автоматически и начнет выполнять джобы.
-
----
-Вопросы/проблемы: проверьте наличие папки `workerJobs/`, корректность cron-паттернов и доступность Redis.
