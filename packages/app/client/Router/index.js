@@ -93,8 +93,7 @@ const AppsFactory = observer(function AppsFactoryComponent ({
   async function _openExternalLink (url) {
     try {
       if (isWeb) {
-        const win = window.open(url, '_blank', 'noopener,noreferrer')
-        if (!win) window.location.href = url // fallback if browser blocks pop-up
+        window.open(url, '_blank', 'noopener,noreferrer')
       } else {
         const supported = await Linking.canOpenURL(url)
         if (supported) {
