@@ -1,3 +1,12 @@
+## [0.54.16](https://github.com/startupjs/startupjs/compare/v0.54.15...v0.54.16) (2025-10-16)
+
+
+### Bug Fixes
+
+* **app:** remove fallback when open url in new window ([edef41f](https://github.com/startupjs/startupjs/commit/edef41f9d0e267b8a2939467b70acf44601f3092))
+
+
+
 ## [0.54.15](https://github.com/startupjs/startupjs/compare/v0.54.14...v0.54.15) (2025-10-16)
 
 
