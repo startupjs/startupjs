@@ -31,7 +31,7 @@ export default async function startWorker () {
   }
 
   if (autoStart === 'false' || autoStart === false) {
-    console.log('[@startupjs/worker] startWorker: autoStart отключен, worker не запускается')
+    console.log('[@startupjs/worker] startWorker: autoStart disabled, worker not starting')
     return
   }
 
@@ -101,7 +101,7 @@ export default async function startWorker () {
   // 2. Then collect jobs from plugin hooks
   try {
     const pluginJobs = MODULE.reduceHook('workerJobs', {})
-    console.log('[@startupjs/worker] Собраны джобы из плагинов:', Object.keys(pluginJobs))
+    console.log('[@startupjs/worker] Collected jobs from plugins:', Object.keys(pluginJobs))
 
     // Add jobs from plugins
     for (const jobName in pluginJobs) {
@@ -113,7 +113,7 @@ export default async function startWorker () {
         try {
           await job.handler(jobData)
         } catch (error) {
-          console.error(`[@startupjs/worker] Ошибка в джобе '${jobName}':`, error)
+          console.error(`[@startupjs/worker] Error in job '${jobName}':`, error)
           throw error
         }
       }
@@ -134,7 +134,7 @@ export default async function startWorker () {
       }
     }
   } catch (error) {
-    console.error('[@startupjs/worker] Ошибка при сборе джобов из плагинов:', error)
+    console.error('[@startupjs/worker] Error collecting jobs from plugins:', error)
   }
 
   // 3. Register all jobs in the queue
@@ -148,7 +148,7 @@ export default async function startWorker () {
       { data: { type: jobName, ...jobData } }
     )
 
-    console.log(`[@startupjs/worker] Зарегистрирован джоб '${jobName}' с расписанием '${pattern}'`)
+    console.log(`[@startupjs/worker] Registered job '${jobName}' with schedule '${pattern}'`)
   }
 
   await maybeRemoveJobSchedulers(queue, schedulerIds)
