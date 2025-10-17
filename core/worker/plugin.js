@@ -1,11 +1,13 @@
 import { createPlugin, getPlugin } from 'startupjs/registry'
 import initDashboardRoute from './initDashboardRoute.js'
 
+const workerStarted = false
+
 export default createPlugin({
   name: 'worker',
   enabled: true,
   server: (pluginOptions) => ({
-    serverRoutes (expressApp) {
+    async serverRoutes (expressApp) {
       const plugin = getPlugin('worker')
 
       const dashboardParams = plugin.optionsByEnv?.server?.dashboard
@@ -16,15 +18,14 @@ export default createPlugin({
           ...dashboardParams
         })
       }
-    },
-    async onServerStart () {
-      const plugin = getPlugin('worker')
+
       const autoStart = plugin.optionsByEnv?.server?.autoStart ?? pluginOptions?.autoStart ?? true
 
-      if (autoStart) {
+      if (autoStart && !workerStarted) {
+        workerStarted = true
         const { default: startWorker } = await import('./index.js')
         await startWorker()
       }
-    }
+    },
   })
 })
