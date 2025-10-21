@@ -1,3 +1,12 @@
+## [0.54.17](https://github.com/startupjs/startupjs/compare/v0.54.16...v0.54.17) (2025-10-21)
+
+
+### Bug Fixes
+
+* **ui/TextInput:** make wrapper stretch by child size ([6e20b2f](https://github.com/startupjs/startupjs/commit/6e20b2fc07d237d846060496f969bd56575cc393))
+
+
+
 ## [0.54.16](https://github.com/startupjs/startupjs/compare/v0.54.15...v0.54.16) (2025-10-16)
 
 
