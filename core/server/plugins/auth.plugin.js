@@ -33,7 +33,7 @@ export class UserDBStorage {
    * @param {string} provider - The authentication provider name
    * @param {string} providerId - The unique identifier from the provider
    * @param {Object} filterParams - Additional query parameters for filtering users
-   * @returns {Promise<Object|null>} User authentication data object with userId property or null if not found
+   * @returns {Promise<Object|null>} Object with { auth: userData, $auth?: scopedModel } or null if not found
    */
   async findUserByProvider (provider, providerId, filterParams) {
     throw new Error('findUserByProvider method must be implemented')
@@ -42,7 +42,7 @@ export class UserDBStorage {
   /**
    * Get a user by their unique user ID
    * @param {string} userId - The unique user identifier
-   * @returns {Promise<Object|null>} User object with provider information and userId property or null if not found
+   * @returns {Promise<Object|null>} Object with { auth: userData, $auth?: scopedModel } or null if not found
    */
   async getUserById (userId) {
     throw new Error('getUserById method must be implemented')
@@ -52,7 +52,7 @@ export class UserDBStorage {
    * Find a user by their email address
    * @param {string} email - The user's email address
    * @param {Object} additionalQuery - Additional query parameters
-   * @returns {Promise<Object|null>} User authentication data object with userId property or null if not found
+   * @returns {Promise<Object|null>} Object with { auth: userData, $auth?: scopedModel } or null if not found
    */
   async findUserByEmail (email, additionalQuery) {
     throw new Error('findUserByEmail method must be implemented')
@@ -62,7 +62,7 @@ export class UserDBStorage {
    * Find a user by their provider secret (used for 2FA authentication)
    * @param {string} provider - The authentication provider name
    * @param {string} secret - The secret token
-   * @returns {Promise<Object|null>} User authentication data object with userId property or null if not found
+   * @returns {Promise<Object|null>} Object with { auth: userData, $auth?: scopedModel } or null if not found
    */
   async findUserBySecret (provider, secret) {
     throw new Error('findUserBySecret method must be implemented')
@@ -71,7 +71,7 @@ export class UserDBStorage {
   /**
    * Create a new user with authentication data
    * @param {Object} authData - User data object
-   * @returns {Promise<string>} The newly created user's unique ID
+   * @returns {Promise<Object>} Object with { auth: { userId }, $auth?: scopedModel }
    */
   async createUser (authData) {
     throw new Error('createUser method must be implemented')
@@ -100,7 +100,7 @@ export class LocalDBStorage extends UserDBStorage {
   async findUserByProvider (provider, providerId, filterParams = {}) {
     const [$auth] = await sub($.auths, { [`${provider}.id`]: providerId, ...filterParams })
     if (!$auth?.get()) return null
-    return { auth: { ...$auth.get(), userId: $auth.getId() }, $auth }
+    return { $auth, auth: { ...$auth.get(), userId: $auth.getId() } }
   }
 
   /**
@@ -139,7 +139,7 @@ export class LocalDBStorage extends UserDBStorage {
   async createUser (authData) {
     const userId = await $.auths.add({ ...authData, createdAt: Date.now() })
     const $auth = await sub($.auths[userId])
-    return { $auth, auth: { userId } }
+    return { $auth, auth: { ...$auth.get(), userId } }
   }
 
   /**
@@ -261,19 +261,19 @@ export default createPlugin({
               return res.json({ error: { message: 'Email is invalid' } })
             }
 
-            const authData = await storage.findUserByProvider(provider, email, storage.getUsersFilterQueryParams())
+            const user = await storage.findUserByProvider(provider, email, storage.getUsersFilterQueryParams())
             const wrongCredentialsError = { error: { message: 'Login or password are incorrect' } }
-            if (!authData) return res.json(wrongCredentialsError)
-            const token = authData[provider].token
+            if (!user) return res.json(wrongCredentialsError)
+            const token = user.auth[provider].token
             const passwordMatch = await bcrypt.compare(password, token)
             if (!passwordMatch) return res.json(wrongCredentialsError)
             const config = getProviderConfig(providers, provider)
 
             // run hooks
-            await beforeLogin({ $auth: authData.$auth, config, provider, userId: authData.userId })
+            await beforeLogin({ $auth: user.$auth, config, provider, userId: user.auth.userId })
 
             // login
-            const session = await getSessionData(authData.userId, { storage })
+            const session = await getSessionData(user.auth.userId, { storage })
             res.json({ session })
           } catch (err) {
             console.warn(`User auth error (${provider}) login:`, err)
