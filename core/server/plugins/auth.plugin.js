@@ -24,7 +24,7 @@ import {
  * Can be extended to implement custom database logic
  */
 export class UserDBStorage {
-  constructor(getUsersFilterQueryParams = () => ({})) {
+  constructor (getUsersFilterQueryParams = () => ({})) {
     this.getUsersFilterQueryParams = getUsersFilterQueryParams
   }
 
@@ -35,7 +35,7 @@ export class UserDBStorage {
    * @param {Object} filterParams - Additional query parameters for filtering users
    * @returns {Promise<Object|null>} User authentication data object with userId property or null if not found
    */
-  async findUserByProvider(provider, providerId, filterParams) {
+  async findUserByProvider (provider, providerId, filterParams) {
     throw new Error('findUserByProvider method must be implemented')
   }
 
@@ -44,7 +44,7 @@ export class UserDBStorage {
    * @param {string} userId - The unique user identifier
    * @returns {Promise<Object|null>} User object with provider information and userId property or null if not found
    */
-  async getUserById(userId) {
+  async getUserById (userId) {
     throw new Error('getUserById method must be implemented')
   }
 
@@ -54,7 +54,7 @@ export class UserDBStorage {
    * @param {Object} additionalQuery - Additional query parameters
    * @returns {Promise<Object|null>} User authentication data object with userId property or null if not found
    */
-  async findUserByEmail(email, additionalQuery) {
+  async findUserByEmail (email, additionalQuery) {
     throw new Error('findUserByEmail method must be implemented')
   }
 
@@ -64,7 +64,7 @@ export class UserDBStorage {
    * @param {string} secret - The secret token
    * @returns {Promise<Object|null>} User authentication data object with userId property or null if not found
    */
-  async findUserBySecret(provider, secret) {
+  async findUserBySecret (provider, secret) {
     throw new Error('findUserBySecret method must be implemented')
   }
 
@@ -73,7 +73,7 @@ export class UserDBStorage {
    * @param {Object} authData - User data object
    * @returns {Promise<string>} The newly created user's unique ID
    */
-  async createUser(authData) {
+  async createUser (authData) {
     throw new Error('createUser method must be implemented')
   }
 
@@ -84,7 +84,7 @@ export class UserDBStorage {
    * @param {Object} providerData - Provider-specific authentication data
    * @returns {Promise<void>}
    */
-  async addNewProvider(userId, provider, providerData) {
+  async addNewProvider (userId, provider, providerData) {
     throw new Error('addNewProvider method must be implemented')
   }
 }
@@ -97,54 +97,55 @@ export class LocalDBStorage extends UserDBStorage {
   /**
    * Find a user by their provider and provider ID using StartupJS scoped models
    */
-  async findUserByProvider(provider, providerId, filterParams = {}) {
+  async findUserByProvider (provider, providerId, filterParams = {}) {
     const [$auth] = await sub($.auths, { [`${provider}.id`]: providerId, ...filterParams })
     if (!$auth?.get()) return null
-    return { ...$auth.get(), userId: $auth.getId() }
+    return { auth: { ...$auth.get(), userId: $auth.getId() }, $auth }
   }
 
   /**
    * Get a user by their unique user ID using StartupJS scoped models
    */
-  async getUserById(userId) {
+  async getUserById (userId) {
     const $auth = await sub($.auths[userId])
     if (!$auth?.get()) return null
-    return { ...$auth.get(), userId: $auth.getId() }
+    return { $auth, auth: { ...$auth.get(), userId: $auth.getId() } }
   }
 
   /**
    * Find a user by their email address using StartupJS scoped models
    */
-  async findUserByEmail(email, additionalQuery = {}) {
+  async findUserByEmail (email, additionalQuery = {}) {
     const [$auth] = await sub($.auths, {
       email,
       ...additionalQuery
     })
     if (!$auth?.get()) return null
-    return { ...$auth.get(), userId: $auth.getId() }
+    return { $auth, auth: { ...$auth.get(), userId: $auth.getId() } }
   }
 
   /**
    * Find a user by their provider secret using StartupJS scoped models
    */
-  async findUserBySecret(provider, secret) {
+  async findUserBySecret (provider, secret) {
     const [$auth] = await sub($.auths, { [`${provider}.secret`]: secret })
     if (!$auth?.get()) return null
-    return { ...$auth.get(), userId: $auth.getId() }
+    return { $auth, auth: { ...$auth.get(), userId: $auth.getId() } }
   }
 
   /**
    * Create a new user using StartupJS scoped models
    */
-  async createUser(authData) {
+  async createUser (authData) {
     const userId = await $.auths.add({ ...authData, createdAt: Date.now() })
-    return userId
+    const $auth = await sub($.auths[userId])
+    return { $auth, auth: { userId } }
   }
 
   /**
    * Add a new authentication provider to an existing user using StartupJS scoped models
    */
-  async addNewProvider(userId, provider, providerData) {
+  async addNewProvider (userId, provider, providerData) {
     const $auth = await sub($.auths[userId])
     await addProviderToAuth($auth, provider, providerData)
   }
@@ -230,10 +231,10 @@ export default createPlugin({
             const state = userinfo.state
             if (state) delete userinfo.state
 
-            const { userId, registered } = await getOrCreateAuth(config, provider, { userinfo, token, storage })
+            const { userId, registered, $auth } = await getOrCreateAuth(config, provider, { userinfo, token, storage })
             // run hooks
-            if (registered) await afterRegister({ config, provider, userId, state })
-            await beforeLogin({ config, provider, userId })
+            if (registered) await afterRegister({ $auth, config, provider, userId, state })
+            await beforeLogin({ $auth, config, provider, userId })
 
             // login
             const session = await getSessionData(userId, { storage })
@@ -269,7 +270,7 @@ export default createPlugin({
             const config = getProviderConfig(providers, provider)
 
             // run hooks
-            await beforeLogin({ config, provider, userId: authData.userId })
+            await beforeLogin({ $auth: authData.$auth, config, provider, userId: authData.userId })
 
             // login
             const session = await getSessionData(authData.userId, { storage })
@@ -321,11 +322,11 @@ export default createPlugin({
             // NOTE: apple only provides the user info on initial login, so we never actually "update" it
             const { scopes } = state
             if (!Array.isArray(scopes)) return res.status(400).send('Returned scopes are invalid')
-            const { userId, registered } = await getOrCreateAuth(config, provider, { userinfo, scopes, storage })
+            const { userId, registered, $auth } = await getOrCreateAuth(config, provider, { userinfo, scopes, storage })
 
             // run hooks
-            if (registered) await afterRegister({ config, provider, userId, state })
-            await beforeLogin({ config, provider, userId })
+            if (registered) await afterRegister({ $auth, config, provider, userId, state })
+            await beforeLogin({ $auth, config, provider, userId })
 
             // login
             const session = await getSessionData(userId, { storage })
@@ -370,11 +371,11 @@ export default createPlugin({
           // update or create user
           const { scopes } = state
           if (!Array.isArray(scopes)) return res.status(400).send('Returned scopes are invalid')
-          const { userId, registered } = await getOrCreateAuth(config, provider, { userinfo, token: accessToken, scopes, storage })
+          const { userId, registered, $auth } = await getOrCreateAuth(config, provider, { userinfo, token: accessToken, scopes, storage })
 
           // run hooks
-          if (registered) await afterRegister({ config, provider, userId, state })
-          await beforeLogin({ config, provider, userId })
+          if (registered) await afterRegister({ $auth, config, provider, userId, state })
+          await beforeLogin({ $auth, config, provider, userId })
 
           // login
           const session = await getSessionData(userId, { storage })
@@ -399,19 +400,20 @@ export default createPlugin({
             if (!secret) return res.status(400).send('Secret is missing')
             if (!code) return res.status(400).send('Code is missing')
 
-            const authData = await storage.findUserBySecret(provider, secret)
-            if (!authData) return res.json({ error: { message: 'Secret is invalid' } })
+            const user = await storage.findUserBySecret(provider, secret)
+            if (!user) return res.json({ error: { message: 'Secret is invalid' } })
 
             const config = getProviderConfig(providers, provider)
             const { verify, duration, numberOfDigits } = config
-            const isVerfied = await verify({ userId: authData.userId, code, duration, numberOfDigits, storage })
-            if (!isVerfied) return res.json({ error: { message: 'Code is invalid' } })
+            const { $auth, auth } = user
+            const isVerified = await verify({ userId: auth.userId, code, duration, numberOfDigits, storage })
+            if (!isVerified) return res.json({ error: { message: 'Code is invalid' } })
 
             // run hooks
-            await beforeLogin({ config, provider, userId: authData.userId })
+            await beforeLogin({ $auth, config, provider, userId: auth.userId })
 
             // login
-            const session = await getSessionData(authData.userId, { storage })
+            const session = await getSessionData(auth.userId, { storage })
             res.json({ session })
           } catch (err) {
             console.warn(`User auth error (${provider}):`, err)
@@ -530,8 +532,9 @@ function redirectBackToAppError ({ res, err, state }) {
 }
 
 async function getSessionData (userId, { extraPayload, storage } = {}) {
-  const authData = await storage.getUserById(userId)
-  const authProviderIds = authData?.providerIds || []
+  const user = await storage.getUserById(userId)
+  const { auth } = user
+  const authProviderIds = auth?.providerIds || []
   const payload = { userId, loggedIn: true, authProviderIds, ...extraPayload }
   const token = await createToken(payload)
   return { ...payload, token }
@@ -659,32 +662,34 @@ async function getOrCreateAuth (config, provider, { userinfo, token, scopes, sto
   }
   // first try to find the exact match with the provider's id
   {
-    const authData = await storage.findUserByProvider(provider, providerUserId, storage.getUsersFilterQueryParams())
+    const user = await storage.findUserByProvider(provider, providerUserId, storage.getUsersFilterQueryParams())
     // update user info if it was changed
-    if (authData) {
+    if (user) {
+      const { auth, $auth } = user
       const { autoUpdateInfo = true } = config
-      if (autoUpdateInfo) await updateProviderInfo(authData.userId)
-      return { userId: authData.userId, registered: false }
+      if (autoUpdateInfo) await updateProviderInfo(auth.userId)
+      return { $auth, userId: auth.userId, registered: false }
     }
   }
   // then see if we already have a user with such email but without this provider.
   // If the provider is trusted (it definitely provides correct and confirmed email),
   // then we can merge the provider into the existing user.
   if (config.allowAutoMergeByEmail && privateInfo.email) {
-    const authData = await storage.findUserByEmail(privateInfo.email, {
+    const user = await storage.findUserByEmail(privateInfo.email, {
       [provider]: { $exists: false },
       ...storage.getUsersFilterQueryParams()
     })
-    if (authData) {
-      await updateProviderInfo(authData.userId)
-      return { userId: authData.userId, registered: false }
+    if (user) {
+      const { auth, $auth } = user
+      await updateProviderInfo(auth.userId)
+      return { $auth, userId: auth.userId, registered: false }
     }
   }
   // create a new user
   {
-    const userId = await storage.createUser({ ...privateInfo })
-    await updateProviderInfo(userId)
-    return { userId, registered: true }
+    const { $auth, auth } = await storage.createUser({ ...privateInfo })
+    await updateProviderInfo(auth.userId)
+    return { $auth, userId: auth.userId, registered: true }
   }
 }
 
@@ -718,17 +723,17 @@ function getPublicInfo (config, userinfo) {
   return config.getPublicInfo?.(userinfo) || defaultGetPublicInfo(userinfo)
 }
 
-async function beforeLogin ({ config, provider, userId }) {
+async function beforeLogin ({ $auth, config, provider, userId }) {
   if (!config.beforeLogin) return
 
-  const beforeLoginResult = config.beforeLogin({ userId, provider })
+  const beforeLoginResult = config.beforeLogin({ $auth, userId, provider })
   if (beforeLoginResult?.then) await beforeLoginResult
 }
 
-async function afterRegister ({ config, provider, userId, state }) {
+async function afterRegister ({ $auth, config, provider, userId, state }) {
   if (!config.afterRegister) return
 
-  const afterRegisterResult = config.afterRegister({ userId, provider, state })
+  const afterRegisterResult = config.afterRegister({ $auth, userId, provider, state })
   if (afterRegisterResult?.then) await afterRegisterResult
 }
 
@@ -785,8 +790,8 @@ const DEFAULT_PROVIDERS = {
       const clientSecret = await getClientSecret({ config, provider })
       if (!clientSecret) throw new PublicError('Access denied. Secret token is missing')
       const myUserId = session.userId
-      const myAuthData = await storage.getUserById(myUserId)
-      const token = myAuthData[provider].token
+      const user = await storage.getUserById(myUserId)
+      const token = user.auth[provider].token
       if (token !== clientSecret) throw new PublicError('Access denied. Secret token is invalid')
     }
   },
@@ -794,8 +799,8 @@ const DEFAULT_PROVIDERS = {
     duration: 60 * 10, // 10 minutes
     numberOfDigits: 4,
     async verify ({ userId, code, duration, numberOfDigits, storage }) {
-      const authData = await storage.getUserById(userId)
-      const secret = authData['2fa'].base32
+      const user = await storage.getUserById(userId)
+      const secret = user.auth['2fa'].base32
 
       return speakeasy.totp.verify({
         secret,
