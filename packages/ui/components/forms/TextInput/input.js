@@ -147,7 +147,14 @@ function TextInputInput ({
   ]
 
   return _renderWrapper({
-    style: [{ height: fullHeight }, style]
+    style: [
+      { height: fullHeight },
+      style,
+      // WORKAROUND
+      // The `flex-direction: 'row' is used so that the TextInput
+      // can dynamically adjust wrapper height
+      { flexDirection: 'row' }
+    ]
   }, pug`
     TextInput.input-input(
       ref=inputRef
