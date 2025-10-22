@@ -1,3 +1,12 @@
+## [0.54.18](https://github.com/startupjs/startupjs/compare/v0.54.17...v0.54.18) (2025-10-22)
+
+
+### Bug Fixes
+
+* **ui/TextInput:** support dynamic textarea height ([f7dd892](https://github.com/startupjs/startupjs/commit/f7dd89294a955ea0aeb8f9c16ba83fe2f0236396))
+
+
+
 ## [0.54.17](https://github.com/startupjs/startupjs/compare/v0.54.16...v0.54.17) (2025-10-21)
 
 
