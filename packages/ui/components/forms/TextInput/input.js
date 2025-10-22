@@ -6,7 +6,11 @@ import React, {
   useImperativeHandle
 } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
-import { pug, observer, useDidUpdate } from 'startupjs'
+import {
+  pug,
+  observer
+  // useDidUpdate
+} from 'startupjs'
 import Div from './../../Div'
 import Icon from './../../Icon'
 import themed from '../../../theming/themed'
@@ -50,7 +54,7 @@ function TextInputInput ({
   ...props
 }, ref) {
   const [focused, setFocused] = useState(false)
-  const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
+  // const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
   const inputRef = useRef()
 
   useImperativeHandle(ref, () => inputRef.current, [])
@@ -70,14 +74,14 @@ function TextInputInput ({
     `
   }
 
-  useLayoutEffect(() => {
-    if (resize) {
-      const numberOfLinesInValue = value.split('\n').length
-      if (numberOfLinesInValue >= numberOfLines) {
-        setCurrentNumberOfLines(numberOfLinesInValue)
-      }
-    }
-  }, [value])
+  // useLayoutEffect(() => {
+  //   if (resize) {
+  //     const numberOfLinesInValue = value.split('\n').length
+  //     if (numberOfLinesInValue >= numberOfLines) {
+  //       setCurrentNumberOfLines(numberOfLinesInValue)
+  //     }
+  //   }
+  // }, [value])
 
   if (IS_WEB) {
     // repeat mobile behaviour on the web
@@ -99,11 +103,11 @@ function TextInputInput ({
     }, [])
   }
 
-  useDidUpdate(() => {
-    if (numberOfLines !== currentNumberOfLines) {
-      setCurrentNumberOfLines(numberOfLines)
-    }
-  }, [numberOfLines])
+  // useDidUpdate(() => {
+  //   if (numberOfLines !== currentNumberOfLines) {
+  //     setCurrentNumberOfLines(numberOfLines)
+  //   }
+  // }, [numberOfLines])
 
   const multiline = useMemo(() => {
     return resize || numberOfLines > 1
@@ -115,9 +119,9 @@ function TextInputInput ({
     return [lH, (h - lH) / 2 - borderWidth]
   }, [size])
 
-  const fullHeight = useMemo(() => {
-    return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
-  }, [currentNumberOfLines, lH, verticalGutter])
+  // const fullHeight = useMemo(() => {
+  //   return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
+  // }, [currentNumberOfLines, lH, verticalGutter])
 
   function onLayoutIcon (e) {
     if (IS_WEB) {
@@ -148,12 +152,8 @@ function TextInputInput ({
 
   return _renderWrapper({
     style: [
-      { height: fullHeight },
-      style,
-      // WORKAROUND
-      // The `flex-direction: 'row' is used so that the TextInput
-      // can dynamically adjust wrapper height
-      { flexDirection: 'row' }
+      // { height: fullHeight },
+      style
     ]
   }, pug`
     TextInput.input-input(
@@ -166,6 +166,7 @@ function TextInputInput ({
       value=value
       disabled=IS_WEB ? disabled : undefined
       editable=IS_WEB ? undefined : !disabled
+      numberOfLines=numberOfLines
       multiline=multiline
       selectTextOnFocus=false
       onFocus=handleFocus
