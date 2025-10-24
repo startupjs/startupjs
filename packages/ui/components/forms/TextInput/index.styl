@@ -3,6 +3,8 @@
 $this = merge({
   caretColor: $UI.colors.mainText,
   borderWidth: 1,
+  borderColor: $UI.colors.darkLighter,
+  iconColor: $UI.colors.dark
   heights: {
     s: 3u,
     m: 4u,
@@ -24,11 +26,12 @@ $this = merge({
 // ----- COMPONENT
 
 $inputBg = $UI.colors.white
-$inputBorderColor = $UI.colors.darkLighter
+$inputBorderColor = $this.borderColor
 $inputBgDisabled = $UI.colors.darkLightest
 $inputBorderWidth = 1px
 $inputCaretColor = $this.caretColor
 $inputTextColor = $UI.colors.mainText
+$inputIconColor = $this.iconColor
 $focusedColor = $UI.colors.primary
 $errorColor = $UI.colors.attention
 
@@ -91,6 +94,7 @@ $errorColor = $UI.colors.attention
   bottom 0
   justify-content center
   z-index 1
+  color $inputIconColor
 
   &.left
     left 1u

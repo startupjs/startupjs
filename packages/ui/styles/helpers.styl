@@ -74,9 +74,4 @@ bleed(left = 2u, right = left)
   margin-right (- right)
 
 radius(key = m)
-  if key is m
-    border-radius 4px
-  else if key is l
-    border-radius 8px
-  else if key is circle
-    border-radius 9999px
+  border-radius $UI.borderRadius[key]

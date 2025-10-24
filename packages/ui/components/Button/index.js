@@ -16,7 +16,10 @@ const EXTENDED_PROPS = ['variant', 'disabled', 'pushed']
 
 const {
   config: {
-    heights, outlinedBorderWidth, iconMargins
+    heights,
+    outlinedBorderWidth,
+    outlinedBorderColor,
+    iconMargins
   },
   colors
 } = STYLES
@@ -80,7 +83,7 @@ function Button ({
       break
     case 'outlined':
       rootStyle.borderWidth = outlinedBorderWidth
-      rootStyle.borderColor = colorToRGBA(_color, 0.5)
+      rootStyle.borderColor = outlinedBorderColor || colorToRGBA(_color, 0.5)
       extraHoverStyle = { backgroundColor: colorToRGBA(_color, 0.05) }
       extraActiveStyle = { backgroundColor: colorToRGBA(_color, 0.25) }
       break
