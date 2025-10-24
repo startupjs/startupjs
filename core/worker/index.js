@@ -1,5 +1,5 @@
 import { createBackend } from 'startupjs/server'
-import { readdirSync } from 'fs'
+import { readdirSync, existsSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { ROOT_MODULE as MODULE } from '@startupjs/registry'
@@ -88,7 +88,6 @@ export default async function startWorker () {
       const { pattern, jobData = {} } = cron || {}
       if (!pattern) continue
 
-      // Save the job for subsequent processing
       allJobs[type] = {
         action,
         pattern,
@@ -98,38 +97,36 @@ export default async function startWorker () {
     }
   }
 
-  // 2. Then collect jobs from plugin hooks
+  // 2. Collect jobs from plugins
   try {
-    const pluginJobs = MODULE.reduceHook('workerJobs', {})
+    const existingJobsForHook = {}
+    for (const jobName in allJobs) {
+      const job = allJobs[jobName]
+      if (job.source === 'file') {
+        existingJobsForHook[jobName] = {
+          default: job.action,
+          cron: job.pattern
+        }
+      }
+    }
+
+    const pluginJobs = MODULE.reduceHook('workerJobs', existingJobsForHook)
     console.log('[@startupjs/worker] Collected jobs from plugins:', Object.keys(pluginJobs))
 
     // Add jobs from plugins
     for (const jobName in pluginJobs) {
       const job = pluginJobs[jobName]
-      if (!job || !job.enabled) continue
+      if (!job || !job.default) continue
 
-      // Create an action function from the handler
-      const action = async (jobData) => {
-        try {
-          await job.handler(jobData)
-        } catch (error) {
-          console.error(`[@startupjs/worker] Error in job '${jobName}':`, error)
-          throw error
-        }
-      }
+      setAction(jobName, job.default)
 
-      setAction(jobName, action)
+      const { pattern, jobData = {} } = job.cron || {}
+      if (!pattern) continue
 
       allJobs[jobName] = {
-        action,
-        pattern: job.schedule,
-        jobData: {
-          type: jobName,
-          description: job.description,
-          retryCount: job.retryCount,
-          timeout: job.timeout,
-          ...job.jobData
-        },
+        action: job.default,
+        pattern,
+        jobData,
         source: 'plugin'
       }
     }

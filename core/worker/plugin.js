@@ -1,7 +1,7 @@
 import { createPlugin, getPlugin } from 'startupjs/registry'
 import initDashboardRoute from './initDashboardRoute.js'
 
-const workerStarted = false
+let workerStarted = false
 
 export default createPlugin({
   name: 'worker',
