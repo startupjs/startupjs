@@ -40,7 +40,6 @@ export default async function startWorker () {
     console.log('[@startupjs/worker] startWorker: workerJobs folder not found')
     await maybeRemoveJobSchedulers(queue, [])
   }
-
   const options = {}
   let processJob
   if (concurrency != null) options.concurrency = concurrency
@@ -111,25 +110,45 @@ export default async function startWorker () {
     }
 
     const pluginJobs = MODULE.reduceHook('workerJobs', existingJobsForHook)
-    console.log('[@startupjs/worker] Collected jobs from plugins:', Object.keys(pluginJobs))
 
-    // Add jobs from plugins
     for (const jobName in pluginJobs) {
       const job = pluginJobs[jobName]
-      if (!job || !job.default) continue
+      if (!job) continue
 
-      setAction(jobName, job.default)
+      let jobModule
+      if (job.then) {
+        jobModule = await job
+      } else {
+        jobModule = job
+      }
 
-      const { pattern, jobData = {} } = job.cron || {}
-      if (!pattern) continue
+      if (!jobModule.default) {
+        console.log(`[@startupjs/worker] No default export for job '${jobName}'`)
+        continue
+      }
+
+      setAction(jobName, jobModule.default)
+
+      // Handle both string cron and object cron
+      let pattern, jobData = {}
+      if (typeof jobModule.cron === 'string') {
+        pattern = jobModule.cron
+      } else if (jobModule.cron && jobModule.cron.pattern) {
+        pattern = jobModule.cron.pattern
+        jobData = jobModule.cron.jobData || {}
+      } else {
+        console.log(`[@startupjs/worker] No cron pattern for job '${jobName}'`)
+        continue
+      }
 
       allJobs[jobName] = {
-        action: job.default,
+        action: jobModule.default,
         pattern,
         jobData,
         source: 'plugin'
       }
     }
+
   } catch (error) {
     console.error('[@startupjs/worker] Error collecting jobs from plugins:', error)
   }
@@ -144,8 +163,6 @@ export default async function startWorker () {
       { pattern, key: jobName },
       { data: { type: jobName, ...jobData } }
     )
-
-    console.log(`[@startupjs/worker] Registered job '${jobName}' with schedule '${pattern}'`)
   }
 
   await maybeRemoveJobSchedulers(queue, schedulerIds)
