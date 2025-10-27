@@ -1,3 +1,12 @@
+# [0.59.0-canary.18](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.17...v0.59.0-canary.18) (2025-10-27)
+
+
+### Features
+
+* **startupjs:** upgrade teamplay to support .assign() method for partial object update ([417d6ec](https://github.com/startupjs/startupjs/commit/417d6ecef36015217a9652676e4710488777290a))
+
+
+
 # [0.59.0-canary.17](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.16...v0.59.0-canary.17) (2025-10-09)
 
 
