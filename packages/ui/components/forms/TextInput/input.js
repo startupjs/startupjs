@@ -55,6 +55,7 @@ function TextInputInput ({
 }, ref) {
   const [focused, setFocused] = useState(false)
   // const [currentNumberOfLines, setCurrentNumberOfLines] = useState(numberOfLines)
+  const [currentNumberOfLines] = useState(numberOfLines)
   const inputRef = useRef()
 
   useImperativeHandle(ref, () => inputRef.current, [])
@@ -119,9 +120,9 @@ function TextInputInput ({
     return [lH, (h - lH) / 2 - borderWidth]
   }, [size])
 
-  // const fullHeight = useMemo(() => {
-  //   return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
-  // }, [currentNumberOfLines, lH, verticalGutter])
+  const fullHeight = useMemo(() => {
+    return currentNumberOfLines * lH + 2 * (verticalGutter + borderWidth)
+  }, [currentNumberOfLines, lH, verticalGutter])
 
   function onLayoutIcon (e) {
     if (IS_WEB) {
@@ -152,7 +153,7 @@ function TextInputInput ({
 
   return _renderWrapper({
     style: [
-      // { height: fullHeight },
+      { minHeight: fullHeight },
       style
     ]
   }, pug`
@@ -176,11 +177,12 @@ function TextInputInput ({
     )
     if icon
       Div.input-icon(
-        focusable=false
-        onLayout=onLayoutIcon
         styleName=[size, iconPosition]
-        onPress=onIconPress
+        disabled=disabled
+        accessible=false
         pointerEvents=onIconPress ? undefined : 'none'
+        onPress=onIconPress
+        onLayout=onLayoutIcon
       )
         Icon(
           icon=icon
@@ -189,11 +191,12 @@ function TextInputInput ({
         )
     if secondaryIcon
       Div.input-icon(
-        focusable=false
-        onLayout=onLayoutIcon
         styleName=[size, getOppositePosition(iconPosition)]
-        onPress=onSecondaryIconPress
+        disabled=disabled
+        accessible=false
         pointerEvents=onSecondaryIconPress ? undefined : 'none'
+        onLayout=onLayoutIcon
+        onPress=onSecondaryIconPress
       )
         Icon(
           icon=secondaryIcon
