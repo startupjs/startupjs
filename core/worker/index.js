@@ -102,9 +102,12 @@ export default async function startWorker () {
     for (const jobName in allJobs) {
       const job = allJobs[jobName]
       if (job.source === 'file') {
+        const cronObj = Object.keys(job.jobData || {}).length > 0
+          ? { pattern: job.pattern, jobData: job.jobData }
+          : job.pattern
         existingJobsForHook[jobName] = {
           default: job.action,
-          cron: job.pattern
+          cron: cronObj
         }
       }
     }
@@ -129,7 +132,6 @@ export default async function startWorker () {
 
       setAction(jobName, jobModule.default)
 
-      // Handle both string cron and object cron
       let pattern, jobData = {}
       if (typeof jobModule.cron === 'string') {
         pattern = jobModule.cron
