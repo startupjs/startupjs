@@ -115,7 +115,9 @@ If environment variables are not set, the following defaults are used:
 Create files in `workerJobs/` folder. Each file should export:
 
 - `default`: The job handler function
-- `cron`: Cron pattern for scheduling (optional)
+- `cron`: Cron pattern for scheduling (optional). Can be:
+  - A string with the cron pattern (e.g., `'0 2 * * *'`)
+  - An object with `pattern` (required) and optional `jobData` (e.g., `{ pattern: '0 */6 * * *', jobData: { priority: 'high' } }`)
 
 ### Method 2: Plugin Job Files
 
@@ -147,7 +149,14 @@ export default async function myTask(jobData) {
   // Your task logic here
 }
 
+// cron can be a string
 export const cron = '0 */6 * * *' // Every 6 hours
+
+// or an object with pattern and optional jobData
+export const cron = {
+  pattern: '0 */6 * * *',
+  jobData: { priority: 'high' }
+}
 ```
 
 **Example: `workerJobs/cleanup.js`**
@@ -285,7 +294,9 @@ export default createPlugin({
           default: async (jobData) => {
             console.log('Custom plugin job running...')
           },
+          // cron can be a string
           cron: '0 */6 * * *' // Every 6 hours
+          // or an object: cron: { pattern: '0 */6 * * *', jobData: {...} }
         }
       }
     }
@@ -303,7 +314,8 @@ workerJobs: (existingJobs) => {
     ...existingJobs,
     'cleanup': {
       ...existingJobs.cleanup,
-      cron: '0 3 * * *' // Override the cron schedule
+      // Override the cron schedule (can be string or object)
+      cron: '0 3 * * *' // or { pattern: '0 3 * * *', jobData: {...} }
     }
   }
 }
