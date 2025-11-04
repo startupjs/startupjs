@@ -73,45 +73,32 @@ export default async function startWorker () {
 
   const schedulerIds = []
   const allJobs = {}
+  const existingJobsForHook = {}
 
   // 1. First, load jobs from workerJobs/ files (if the folder exists)
   if (hasJobsFolder) {
     for (const fileName of readdirSync(join(process.cwd(), 'workerJobs'))) {
-      const { default: action, cron } = await import(join(process.cwd(), 'workerJobs', fileName))
+      const job = await import(join(process.cwd(), 'workerJobs', fileName))
 
-      if (!action) continue
+      if (!job.default) continue
+
       const type = fileName.split('.')[0]
 
-      setAction(type, action)
+      setAction(type, job.default)
 
-      const { pattern, jobData = {} } = cron || {}
-      if (!pattern) continue
+      if (!job.cron || (typeof job.cron === 'object' && !job.cron.pattern)) continue
 
-      allJobs[type] = {
-        action,
-        pattern,
-        jobData,
-        source: 'file'
+      allJobs[type] = job
+
+      existingJobsForHook[type] = {
+        default: job.default,
+        cron: job.cron
       }
     }
   }
 
   // 2. Collect jobs from plugins
   try {
-    const existingJobsForHook = {}
-    for (const jobName in allJobs) {
-      const job = allJobs[jobName]
-      if (job.source === 'file') {
-        const cronObj = Object.keys(job.jobData || {}).length > 0
-          ? { pattern: job.pattern, jobData: job.jobData }
-          : job.pattern
-        existingJobsForHook[jobName] = {
-          default: job.action,
-          cron: cronObj
-        }
-      }
-    }
-
     const pluginJobs = MODULE.reduceHook('workerJobs', existingJobsForHook)
 
     for (const jobName in pluginJobs) {
@@ -125,30 +112,13 @@ export default async function startWorker () {
         jobModule = job
       }
 
-      if (!jobModule.default) {
-        console.log(`[@startupjs/worker] No default export for job '${jobName}'`)
-        continue
-      }
+      if (!jobModule.default) continue
 
       setAction(jobName, jobModule.default)
 
-      let pattern, jobData = {}
-      if (typeof jobModule.cron === 'string') {
-        pattern = jobModule.cron
-      } else if (jobModule.cron && jobModule.cron.pattern) {
-        pattern = jobModule.cron.pattern
-        jobData = jobModule.cron.jobData || {}
-      } else {
-        console.log(`[@startupjs/worker] No cron pattern for job '${jobName}'`)
-        continue
-      }
+      if (!jobModule.cron || (typeof jobModule.cron === 'object' && !jobModule.cron.pattern)) continue
 
-      allJobs[jobName] = {
-        action: jobModule.default,
-        pattern,
-        jobData,
-        source: 'plugin'
-      }
+      allJobs[jobName] = jobModule
     }
 
   } catch (error) {
@@ -157,7 +127,13 @@ export default async function startWorker () {
 
   // 3. Register all jobs in the queue
   for (const jobName in allJobs) {
-    const { pattern, jobData } = allJobs[jobName]
+    const { default: jobHandler, cron } = allJobs[jobName]
+
+    const { pattern, jobData = {} } = typeof cron === 'string'
+      ? { pattern: cron }
+      : cron
+
+    if (!pattern) continue
 
     schedulerIds.push(jobName)
     await queue.upsertJobScheduler(
