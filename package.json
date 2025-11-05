@@ -50,7 +50,7 @@
   "devDependencies": {
     "@playwright/test": "^1.40.0",
     "conventional-changelog-cli": "^2.1.1",
-    "eslint": "^8.53.0",
+    "eslint": "^8.56.0",
     "eslint-config-cssxjs": "^0.2.0",
     "husky": "^4.3.0",
     "lerna": "^3.22.1",
