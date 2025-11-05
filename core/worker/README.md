@@ -60,8 +60,6 @@ export default {
     worker: {
       server: {
         // Optional configuration
-        queueName: 'my-app-queue',
-        concurrency: 300,
         autoStart: true,
         dashboard: {
           route: '/admin/queues',
@@ -101,7 +99,7 @@ REDIS_DB=0
 
 If environment variables are not set, the following defaults are used:
 
-- `QUEUE_NAME`: `'default-queue'`
+- `QUEUE_NAME`: (no default; must be set explicitly)
 - `CONCURRENCY`: `300`
 - `JOB_TIMEOUT`: `30000` (30 seconds)
 - `USE_SEPARATE_PROCESS`: `false`
@@ -200,7 +198,7 @@ export const cron = {
 }
 ```
 
-### Method 2: Manual Job Execution
+### Method 3: Manual Job Execution
 
 For jobs without cron (manual execution only):
 
@@ -370,8 +368,6 @@ Jobs that fail will be retried based on the retry configuration. Check logs for 
 The worker provides detailed logging:
 
 ```
-[@startupjs/worker] Registered job 'cleanup' with schedule '0 2 * * *'
-[@startupjs/worker] Collected jobs from plugins: ['online-status-tick']
 [@startupjs/worker] Job 'cleanup' completed successfully
 [@startupjs/worker] Error in job 'cleanup': Error message here
 ```
@@ -399,7 +395,10 @@ export default async function myJob(jobData, { log }) {
 Monitor job execution through the dashboard or programmatically:
 
 ```js
-import { queue } from '@startupjs/worker/queue'
+import createQueue from '@startupjs/worker/createQueue'
+
+// Create a queue instance for introspection (read-only usage)
+const { queue } = createQueue({ name: process.env.QUEUE_NAME })
 
 // Get job status
 const job = await queue.getJob(jobId)
@@ -429,6 +428,8 @@ Use worker threads for better performance:
 ```env
 USE_WORKER_THREADS=true
 ```
+
+Note: Worker threads are applied only when `USE_SEPARATE_PROCESS=true`.
 
 ### Job Timeout
 
@@ -460,7 +461,7 @@ Jobs are automatically cleaned up after completion:
 - Failed jobs are removed after 24 hours
 - This prevents Redis memory buildup
 
-To customize cleanup behavior, modify the `AUTO_REMOVE_JOB_OPTIONS` in the worker configuration.
+Cleanup age is fixed inside the worker (24h). To override it, instantiate your own Worker via `createWorker` and pass `removeOnComplete` / `removeOnFail` options.
 
 ## Troubleshooting
 
