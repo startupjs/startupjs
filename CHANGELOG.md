@@ -1,3 +1,12 @@
+## [0.54.22](https://github.com/startupjs/startupjs/compare/v0.54.21...v0.54.22) (2025-11-05)
+
+
+### Bug Fixes
+
+* **auth-azuread:** add ability to pass cookie encryption keys ([fcc8e1f](https://github.com/startupjs/startupjs/commit/fcc8e1f40d19993fbf8d00581f9404c15b4a087a))
+
+
+
 ## [0.54.20](https://github.com/startupjs/startupjs/compare/v0.54.19...v0.54.20) (2025-10-24)
 
 
