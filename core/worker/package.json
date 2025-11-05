@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/worker",
-  "version": "0.59.0-canary.10",
+  "version": "0.59.0-canary.11",
   "publishConfig": {
     "access": "public"
   },

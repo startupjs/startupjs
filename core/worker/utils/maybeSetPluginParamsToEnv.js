@@ -1,7 +1,9 @@
 import { getPlugin } from '@startupjs/registry'
 
 function maybeSetPluginParamsToEnv () {
-  const pluginParams = getPlugin('worker').optionsByEnv.server
+  const plugin = getPlugin('worker')
+  if (!plugin || !plugin.initialized) return
+  const pluginParams = plugin.optionsByEnv?.server || {}
 
   for (const param in pluginParams) {
     const constant = param
