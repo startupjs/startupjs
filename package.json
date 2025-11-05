@@ -51,7 +51,7 @@
     "@playwright/test": "^1.40.0",
     "conventional-changelog-cli": "^2.1.1",
     "eslint": "^8.53.0",
-    "eslint-config-startupjs": "workspace:core/eslint-config-startupjs",
+    "eslint-config-cssxjs": "^0.2.0",
     "husky": "^4.3.0",
     "lerna": "^3.22.1",
     "lint-staged": "^9.5.0"
@@ -65,6 +65,11 @@
     "hooks": {
       "pre-commit": "! grep -q '\"resolutions\":' ./package.json || (echo '\\033[0;31mError: \"resolutions\" found in package.json. Remove \"resolutions\" to proceed with commit.\\033[0m' && exit 1) && lint-staged"
     }
+  },
+  "eslintConfig": {
+    "extends": [
+      "cssxjs"
+    ]
   },
   "license": "MIT",
   "//resolutions": {

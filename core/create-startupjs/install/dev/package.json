@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "eslint": "^8.56.0",
-    "eslint-config-startupjs": "^%%STARTUPJS_MINOR_LATEST%%",
+    "eslint-config-cssxjs": "^0.2.0",
     "husky": "^4.3.0",
     "lint-staged": "^15.2.2"
   },
@@ -16,6 +16,6 @@
     }
   },
   "eslintConfig": {
-    "extends": ["startupjs"]
+    "extends": ["cssxjs"]
   }
 }
