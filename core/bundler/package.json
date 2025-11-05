@@ -26,11 +26,11 @@
     "@svgr/plugin-svgo": "^8.1.0",
     "babel-preset-startupjs": "^0.59.0-canary.14",
     "connect": "^3.7.0",
-    "cssxjs": "^0.2.9",
     "lodash": "^4.17.20",
     "remark-gfm": "^1.0.0"
   },
   "peerDependencies": {
+    "cssxjs": "*",
     "react-native-svg": "*"
   },
   "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"

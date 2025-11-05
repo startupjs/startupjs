@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import singletonVariables from '@startupjs/babel-plugin-rn-stylename-to-style/variables'
+import { variables as singletonVariables } from 'startupjs'
 
 const VARS_REGEX = /"var\(\s*(--[A-Za-z0-9_-]+)\s*,?\s*(.*?)\s*\)"/g
 

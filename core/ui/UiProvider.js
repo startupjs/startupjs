@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
-import { pug, observer } from 'startupjs'
-import { setDefaultVariables } from '@startupjs/babel-plugin-rn-stylename-to-style/variables'
+import { pug, observer, setDefaultVariables } from 'startupjs'
 import ToastProvider from './components/toast/ToastProvider'
 import DialogsProvider from './components/dialogs/DialogsProvider'
 import Portal from './components/Portal'

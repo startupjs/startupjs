@@ -16,8 +16,7 @@
     "@babel/plugin-syntax-typescript": "^7.23.3",
     "@startupjs/babel-plugin-i18n-extract": "^0.59.0-canary.0",
     "@startupjs/babel-plugin-startupjs": "^0.59.0-canary.0",
-    "@startupjs/babel-plugin-startupjs-debug": "^0.59.0-canary.0",
-    "cssxjs": "^0.2.9"
+    "@startupjs/babel-plugin-startupjs-debug": "^0.59.0-canary.0"
   },
   "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

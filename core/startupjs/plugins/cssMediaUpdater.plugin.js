@@ -1,7 +1,7 @@
 import { memo, Fragment, createElement as el, useCallback, useRef } from 'react'
 import { useWindowDimensions } from 'react-native'
-import dimensions from '@startupjs/babel-plugin-rn-stylename-to-style/dimensions'
 import { createPlugin } from '@startupjs/registry'
+import { dimensions } from 'cssxjs'
 import debounce from 'lodash/debounce'
 
 const DEFAULT_UPDATE_DELAY = 200

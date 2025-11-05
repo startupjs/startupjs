@@ -1,4 +1,4 @@
-import singletonVariables, { defaultVariables } from '@startupjs/babel-plugin-rn-stylename-to-style/variables'
+import { variables as singletonVariables, defaultVariables } from 'startupjs'
 
 export default function getCssVariable (cssVarName, { convertToString = true } = {}) {
   if (!/^--/.test(cssVarName)) throw Error('[getCssVariable]: Incorrect name format - must begin with --')

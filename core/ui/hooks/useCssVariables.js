@@ -1,4 +1,4 @@
-import singletonVariables from '@startupjs/babel-plugin-rn-stylename-to-style/variables'
+import { variables as singletonVariables } from 'startupjs'
 
 export default function useCssVariables () {
   return singletonVariables
