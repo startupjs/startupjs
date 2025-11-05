@@ -57,15 +57,6 @@ module.exports = function eliminatorLoader (source) {
       // support JSX syntax
       require('@babel/plugin-syntax-jsx'),
 
-      // transform pug to jsx. This generates a bunch of new AST nodes
-      // (it's important to do this first before any dead code elimination runs)
-      // [require('cssxjs/babel/plugin-react-pug'), { classAttribute: 'styleName' }],
-
-      // auto-load startupjs plugins
-      // traverse "exports" of package.json and all dependencies to find all startupjs plugins
-      // and automatically import them in the main startupjs.config.js file
-      // [require('@startupjs/babel-plugin-startupjs-plugins'), { useRequireContext }],
-
       // run eliminator to remove code targeting other envs.
       // For example, only keep code related to 'client' and 'isomorphic' envs
       // (in which case any code related to 'server' and 'build' envs will be removed)
