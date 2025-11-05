@@ -6,10 +6,26 @@
 * **auth-azuread:** add ability to pass cookie encryption keys ([fcc8e1f](https://github.com/startupjs/startupjs/commit/fcc8e1f40d19993fbf8d00581f9404c15b4a087a))
 
 
+## [0.54.21](https://github.com/startupjs/startupjs/compare/v0.54.20...v0.54.21) (2025-10-31)
+
+### Bug Fixes
+
+* **ui/TextInput:** add min-height to input wrapper
+ ([261dedd](https://github.com/startupjs/startupjs/commit/261dedd524db1bfe12c4d58ad85ba1783717d5e9))
 
 ## [0.54.20](https://github.com/startupjs/startupjs/compare/v0.54.19...v0.54.20) (2025-10-24)
 
+### Bug Fixes
 
+* **ui:** improve customization
+ ([91a4378](https://github.com/startupjs/startupjs/commit/91a437817cee6bfc0a5399fe0da8ca8b0c56359c))
+
+## [0.54.19](https://github.com/startupjs/startupjs/compare/v0.54.18...v0.54.19) (2025-10-22)
+
+### Bug Fixes
+
+* **ui/TextInput:** remove hacks for IOS
+ ([4a98aa8]([https://github.com/startupjs/startupjs/commit/91a437817cee6bfc0a5399fe0da8ca8b0c56359c](https://github.com/startupjs/startupjs/commit/4a98aa8bbdec1783bb946efa10902fbede56f53a)))
 
 ## [0.54.18](https://github.com/startupjs/startupjs/compare/v0.54.17...v0.54.18) (2025-10-22)
 

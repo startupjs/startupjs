@@ -110,7 +110,7 @@ fn_update_changelog () {
   git add yarn.lock
   git commit --amend --no-edit
   git tag "$current_version" -m "$current_version"
-  git push origin master
+  git push origin 0.54.x
   git push origin --tags
 }
 
