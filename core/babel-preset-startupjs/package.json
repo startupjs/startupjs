@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-startupjs",
-  "version": "0.59.0-canary.14",
+  "version": "0.60.0-canary.0",
   "description": "Babel preset for compiling StartupJS app on server, web, native",
   "main": "index.js",
   "exports": {
@@ -14,9 +14,9 @@
     "@babel/core": "^7.9.0",
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "@babel/plugin-syntax-typescript": "^7.23.3",
-    "@startupjs/babel-plugin-i18n-extract": "^0.59.0-canary.0",
-    "@startupjs/babel-plugin-startupjs": "^0.59.0-canary.0",
-    "@startupjs/babel-plugin-startupjs-debug": "^0.59.0-canary.0"
+    "@startupjs/babel-plugin-i18n-extract": "^0.60.0-canary.0",
+    "@startupjs/babel-plugin-startupjs": "^0.60.0-canary.0",
+    "@startupjs/babel-plugin-startupjs-debug": "^0.60.0-canary.0"
   },
   "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
 }

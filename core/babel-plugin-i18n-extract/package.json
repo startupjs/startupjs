@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-i18n-extract",
-  "version": "0.59.0-canary.0",
+  "version": "0.60.0-canary.0",
   "description": "Extract translation keys",
   "main": "index.js",
   "publishConfig": {

@@ -1,3 +1,12 @@
+# [0.60.0-canary.0](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.18...v0.60.0-canary.0) (2025-11-06)
+
+
+### Features
+
+* move out some packages into CSSX monorepo, refactor to use CSSX under the hood ([#1301](https://github.com/startupjs/startupjs/issues/1301)) ([5a0b724](https://github.com/startupjs/startupjs/commit/5a0b724d137bb2321f40b7223d2f71469106014e))
+
+
+
 # [0.59.0-canary.18](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.17...v0.59.0-canary.18) (2025-10-27)
 
 

@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Express.js with plugged in ShareDB",
-  "version": "0.59.0-canary.10",
+  "version": "0.60.0-canary.0",
   "type": "module",
   "main": "index.js",
   "exports": {
@@ -26,8 +26,8 @@
     "./plugins/auth.plugin": "./plugins/auth.plugin.js"
   },
   "dependencies": {
-    "@startupjs/registry": "^0.59.0-canary.0",
-    "@startupjs/utils": "^0.59.0-canary.0",
+    "@startupjs/registry": "^0.60.0-canary.0",
+    "@startupjs/utils": "^0.60.0-canary.0",
     "bcrypt": "^5.1.1",
     "body-parser": "1.20.0",
     "compression": "^1.6.0",

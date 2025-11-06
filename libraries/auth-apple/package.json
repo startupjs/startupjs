@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-apple",
-  "version": "0.59.0-canary.0",
+  "version": "0.60.0-canary.0",
   "type": "module",
   "description": "Auth plugin for StartupJS auth module",
   "main": "index.js",
