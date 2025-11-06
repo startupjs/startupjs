@@ -24,35 +24,43 @@ export default class LinkedinProvider extends BaseProvider {
   getFirstName () {
     const { profile } = this
 
-    let firstName =
-      profile.name?.givenName ||
-      profile._json?.given_name ||
-      ''
+    if (profile.name?.givenName) return profile.name.givenName
+    if (profile._json?.given_name) return profile._json.given_name
 
-    if (!firstName && profile.displayName) {
-      const parts = profile.displayName.trim().split(/\s+/)
-      firstName = parts[0]
+    if (profile.displayName) {
+      const nameStr = profile.displayName.trim()
+      const commaParts = nameStr.split(',')
+      if (commaParts.length === 2) {
+        return commaParts[1].trim()
+      }
+
+      const parts = nameStr.split(/\s+/)
+      return parts[0] || ''
     }
 
-    return firstName || ''
+    return ''
   }
 
   getLastName () {
     const { profile } = this
 
-    let lastName =
-      profile.name?.familyName ||
-      profile._json?.family_name ||
-      ''
+    if (profile.name?.familyName) return profile.name.familyName
+    if (profile._json?.family_name) return profile._json.family_name
 
-    if (!lastName && profile.displayName) {
-      const parts = profile.displayName.trim().split(/\s+/)
+    if (profile.displayName) {
+      const nameStr = profile.displayName.trim()
+      const commaParts = nameStr.split(',')
+      if (commaParts.length === 2) {
+        return commaParts[0].trim()
+      }
+
+      const parts = nameStr.split(/\s+/)
       if (parts.length > 1) {
-        lastName = parts.slice(1).join(' ')
+        return parts.slice(1).join(' ')
       }
     }
 
-    return lastName || ''
+    return ''
   }
 
   getName () {
@@ -62,7 +70,14 @@ export default class LinkedinProvider extends BaseProvider {
       return profile.displayName
     }
 
-    return profile.firstName + ' ' + profile.lastName
+    const firstName = this.getFirstName()
+    const lastName = this.getLastName()
+
+    if (firstName || lastName) {
+      return [firstName, lastName].filter(Boolean).join(' ')
+    }
+
+    return ''
   }
 
   getAvatarUrl () {
