@@ -122,7 +122,7 @@ async function runInstall ({
     templates.push(JSON.parse(fromTemplateFile(INIT_EXPO_JSON_PATH)))
   }
 
-  if (setupDevelopment || packageJson.devDependencies?.['eslint-config-startupjs']) {
+  if (setupDevelopment || packageJson.devDependencies?.['eslint-config-cssxjs']) {
     templates.push(JSON.parse(fromTemplateFile(DEVELOPMENT_JSON_PATH)))
   }
 

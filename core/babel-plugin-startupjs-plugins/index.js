@@ -19,32 +19,30 @@ module.exports = function (api, options) {
     api.addExternalDependency(configFilePath)
   }
 
-  // private vars to share state inside visitor. You must reset them in pre()
-  let $program, filename
-
   return {
-    pre () {
-      // reset all private vars
-      ;[$program, filename] = []
-    },
     visitor: {
-      Program: ($this, { file }) => {
-        $program = $this
-        filename = file.opts.filename
-      },
-      ImportDeclaration: ($this) => {
-        if (isVirtualImport($this, VIRTUAL_CONFIG_IMPORT_REGEX)) {
-          return loadVirtualConfig($this, { $program, filename, t, root: options.root })
-        } else if (isVirtualImport($this, VIRTUAL_PLUGINS_IMPORT_REGEX)) {
-          return loadVirtualPlugins($this, { $program, filename, t, template, root: options.root })
-        } else if (isVirtualImport($this, VIRTUAL_MODELS_IMPORT_REGEX)) {
-          if (options.useRequireContext) {
-            return loadVirtualModelsRequireContext($this, { $program, filename, t, template, root: options.root })
-          } else {
-            return loadVirtualModels($this, { $program, filename, t, template, root: options.root })
+      Program: ($program, { file }) => {
+        const filename = file.opts.filename
+        for (const $import of $program.get('body')) {
+          if (!$import.isImportDeclaration()) continue
+          if (isVirtualImport($import, VIRTUAL_CONFIG_IMPORT_REGEX)) {
+            loadVirtualConfig($import, { $program, filename, t, root: options.root })
+            continue
+          } else if (isVirtualImport($import, VIRTUAL_PLUGINS_IMPORT_REGEX)) {
+            loadVirtualPlugins($import, { $program, filename, t, template, root: options.root })
+            continue
+          } else if (isVirtualImport($import, VIRTUAL_MODELS_IMPORT_REGEX)) {
+            if (options.useRequireContext) {
+              loadVirtualModelsRequireContext($import, { $program, filename, t, template, root: options.root })
+              continue
+            } else {
+              loadVirtualModels($import, { $program, filename, t, template, root: options.root })
+              continue
+            }
+          } else if (isVirtualImport($import, VIRTUAL_FEATURES_IMPORT_REGEX)) {
+            loadVirtualFeatures($import, { $program, t, template, root: options.root })
+            continue
           }
-        } else if (isVirtualImport($this, VIRTUAL_FEATURES_IMPORT_REGEX)) {
-          return loadVirtualFeatures($this, { $program, t, template, root: options.root })
         }
       }
     }

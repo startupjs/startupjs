@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, pug } from 'startupjs'
 import { Div, Span, Link, Button, Br } from '@startupjs/ui'
 
 export default observer(function Layout () {

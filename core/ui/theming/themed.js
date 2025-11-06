@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import matcher from '@startupjs/babel-plugin-rn-stylename-to-style/matcher'
+import { matcher } from 'startupjs'
 import memoize from 'lodash/memoize'
 import ThemeContext from './ThemeContext'
 import { useStyle } from '../StyleContext'

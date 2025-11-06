@@ -1,6 +1,5 @@
-const platformSingleton = require('@startupjs/babel-plugin-rn-stylename-inline/platformSingleton')
-const stylusToCssLoader = require('./lib/stylusToCssLoader')
-const cssToReactNativeLoader = require('./lib/cssToReactNativeLoader')
+const stylusToCssLoader = require('cssxjs/loaders/stylusToCssLoader')
+const cssToReactNativeLoader = require('cssxjs/loaders/cssToReactNativeLoader')
 const mdxExamplesLoader = require('./lib/mdxExamplesLoader')
 const getMDXLoader = require('./lib/getMDXLoader')
 const eliminatorLoader = require('./lib/eliminatorLoader')
@@ -13,12 +12,10 @@ module.exports.transform = async function startupjsMetroBabelTransform ({
 }) {
   upstreamTransformer ??= getUpstreamTransformer()
   const { platform } = options
-  platformSingleton.value = platform
 
   // from exotic extensions to js
   if (/\.styl$/.test(filename)) {
-    // TODO: Refactor `platform` to be just passed externally as an option in metro and in webpack
-    src = callLoader(stylusToCssLoader, src, filename)
+    src = callLoader(stylusToCssLoader, src, filename, { platform })
     src = callLoader(cssToReactNativeLoader, src, filename)
   } else if (/\.css$/.test(filename)) {
     src = callLoader(cssToReactNativeLoader, src, filename)
@@ -38,7 +35,7 @@ module.exports.transform = async function startupjsMetroBabelTransform ({
       clientModel: true
     })
   }
-  if ((/\.mdx?$/.test(filename) || /\.[mc]?[jt]sx?$/.test(filename)) && /['"](?:startupjs|@env)['"]/.test(src)) {
+  if ((/\.mdx?$/.test(filename) || /\.[mc]?[jt]sx?$/.test(filename)) && /['"](?:startupjs)['"]/.test(src)) {
     src = callLoader(startupjsLoader, src, filename, { platform })
   }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, pug } from 'startupjs'
 import { Slot, SlotProvider } from '@startupjs/router'
 import { Content, Br, Div, Span, Button, alert } from '@startupjs/ui'
 

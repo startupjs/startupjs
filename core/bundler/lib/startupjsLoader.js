@@ -14,10 +14,11 @@ module.exports = function startupjsLoader (source) {
     babelrc: false,
     configFile: false,
     presets: [
-      [require('babel-preset-startupjs/pure'), {
+      [require('babel-preset-startupjs'), {
         platform,
         env
-      }]
+      }],
+      [require('cssxjs/babel'), { platform }]
     ]
   }).code
 }
