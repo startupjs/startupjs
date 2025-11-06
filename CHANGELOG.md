@@ -1,3 +1,12 @@
+## [0.54.24](https://github.com/startupjs/startupjs/compare/v0.54.23...v0.54.24) (2025-11-06)
+
+
+### Bug Fixes
+
+* **auth-azuread:** improve first/last name extraction from Azure AD profilу ([cd362bf](https://github.com/startupjs/startupjs/commit/cd362bf907dfb2722a3a90c08bb957872a9084dc))
+
+
+
 ## [0.54.23](https://github.com/startupjs/startupjs/compare/v0.54.22...v0.54.23) (2025-11-06)
 
 
