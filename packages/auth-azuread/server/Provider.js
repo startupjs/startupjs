@@ -24,29 +24,35 @@ export default class LinkedinProvider extends BaseProvider {
   getFirstName () {
     const { profile } = this
 
-    let firstName = ''
-    if (profile.firstName) {
-      firstName = profile.firstName
-    } else {
-      const { displayName } = profile
-      firstName = (displayName || []).split(' ')[0]
+    let firstName =
+      profile.name?.givenName ||
+      profile._json?.given_name ||
+      ''
+
+    if (!firstName && profile.displayName) {
+      const parts = profile.displayName.trim().split(/\s+/)
+      firstName = parts[0]
     }
 
-    return firstName
+    return firstName || ''
   }
 
   getLastName () {
     const { profile } = this
 
-    let lastName = ''
-    if (profile.lastName) {
-      lastName = profile.lastName
-    } else {
-      const { displayName } = profile
-      lastName = (displayName || []).split(' ')[1]
+    let lastName =
+      profile.name?.familyName ||
+      profile._json?.family_name ||
+      ''
+
+    if (!lastName && profile.displayName) {
+      const parts = profile.displayName.trim().split(/\s+/)
+      if (parts.length > 1) {
+        lastName = parts.slice(1).join(' ')
+      }
     }
 
-    return lastName
+    return lastName || ''
   }
 
   getName () {
