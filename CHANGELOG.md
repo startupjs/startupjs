@@ -1,3 +1,12 @@
+# [0.60.0-canary.1](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.0...v0.60.0-canary.1) (2025-11-07)
+
+
+### Bug Fixes
+
+* remove css media updater plugin (it's now built-in into cssx), fix bindings in babel for elimination loader to work ([4e55187](https://github.com/startupjs/startupjs/commit/4e55187f694ebf221035ac42909b8e2ffe0d648f))
+
+
+
 # [0.60.0-canary.0](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.18...v0.60.0-canary.0) (2025-11-06)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.60.0-canary.0",
+  "version": "0.60.0-canary.1",
   "engines": {
     "node": ">= 14"
   },
@@ -27,7 +27,7 @@
   "bin": "./cli.js",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/bundler": "^0.60.0-canary.0",
+    "@startupjs/bundler": "^0.60.0-canary.1",
     "@startupjs/cli": "^0.60.0-canary.0",
     "@startupjs/hooks": "^0.60.0-canary.0",
     "@startupjs/isomorphic-helpers": "^0.60.0-canary.0",

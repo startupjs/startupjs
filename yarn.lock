@@ -5496,7 +5496,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-startupjs-plugins@npm:^0.60.0-canary.0, @startupjs/babel-plugin-startupjs-plugins@workspace:core/babel-plugin-startupjs-plugins":
+"@startupjs/babel-plugin-startupjs-plugins@npm:^0.60.0-canary.1, @startupjs/babel-plugin-startupjs-plugins@workspace:core/babel-plugin-startupjs-plugins":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs-plugins@workspace:core/babel-plugin-startupjs-plugins"
   dependencies:
@@ -5548,7 +5548,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/bundler@npm:^0.60.0-canary.0, @startupjs/bundler@workspace:core/bundler":
+"@startupjs/bundler@npm:^0.60.0-canary.1, @startupjs/bundler@workspace:core/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:core/bundler"
   dependencies:
@@ -5556,7 +5556,7 @@ __metadata:
     "@babel/plugin-syntax-jsx": "npm:^7.0.0"
     "@mdx-js/mdx": "npm:^2.3.0"
     "@startupjs/babel-plugin-eliminator": "npm:^0.60.0-canary.0"
-    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.60.0-canary.0"
+    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.60.0-canary.1"
     "@startupjs/server": "npm:^0.60.0-canary.0"
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
@@ -5904,7 +5904,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/ui@npm:^0.60.0-canary.0, @startupjs/ui@workspace:core/ui":
+"@startupjs/ui@npm:^0.60.0-canary.1, @startupjs/ui@workspace:core/ui":
   version: 0.0.0-use.local
   resolution: "@startupjs/ui@workspace:core/ui"
   dependencies:
@@ -12906,7 +12906,7 @@ __metadata:
     "@react-native-picker/picker": "npm:2.11.0"
     "@react-navigation/native": "npm:^6.0.2"
     "@startupjs/router": "npm:^0.60.0-canary.0"
-    "@startupjs/ui": "npm:^0.60.0-canary.0"
+    "@startupjs/ui": "npm:^0.60.0-canary.1"
     "@startupjs/worker": "npm:^0.60.0-canary.0"
     "@types/react": "npm:~19.0.10"
     eslint: "npm:^8.56.0"
@@ -12935,7 +12935,7 @@ __metadata:
     react-native-svg: "npm:15.11.2"
     react-native-web: "npm:~0.20.0"
     react-test-renderer: "npm:19.0.0"
-    startupjs: "npm:^0.60.0-canary.0"
+    startupjs: "npm:^0.60.0-canary.1"
     typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
@@ -26741,11 +26741,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.60.0-canary.0, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.60.0-canary.1, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
-    "@startupjs/bundler": "npm:^0.60.0-canary.0"
+    "@startupjs/bundler": "npm:^0.60.0-canary.1"
     "@startupjs/cli": "npm:^0.60.0-canary.0"
     "@startupjs/hooks": "npm:^0.60.0-canary.0"
     "@startupjs/isomorphic-helpers": "npm:^0.60.0-canary.0"
