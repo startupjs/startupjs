@@ -23,27 +23,34 @@ module.exports = function (api, options) {
     visitor: {
       Program: ($program, { file }) => {
         const filename = file.opts.filename
+        let triggered
         for (const $import of $program.get('body')) {
           if (!$import.isImportDeclaration()) continue
           if (isVirtualImport($import, VIRTUAL_CONFIG_IMPORT_REGEX)) {
             loadVirtualConfig($import, { $program, filename, t, root: options.root })
+            triggered = true
             continue
           } else if (isVirtualImport($import, VIRTUAL_PLUGINS_IMPORT_REGEX)) {
             loadVirtualPlugins($import, { $program, filename, t, template, root: options.root })
+            triggered = true
             continue
           } else if (isVirtualImport($import, VIRTUAL_MODELS_IMPORT_REGEX)) {
             if (options.useRequireContext) {
               loadVirtualModelsRequireContext($import, { $program, filename, t, template, root: options.root })
+              triggered = true
               continue
             } else {
               loadVirtualModels($import, { $program, filename, t, template, root: options.root })
+              triggered = true
               continue
             }
           } else if (isVirtualImport($import, VIRTUAL_FEATURES_IMPORT_REGEX)) {
             loadVirtualFeatures($import, { $program, t, template, root: options.root })
+            triggered = true
             continue
           }
         }
+        if (triggered) $program.scope.crawl()
       }
     }
   }

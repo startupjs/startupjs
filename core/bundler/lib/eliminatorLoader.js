@@ -29,6 +29,7 @@ module.exports = function eliminatorLoader (source) {
 
   let code = source
 
+  // Remove code related to other envs
   code = babel.transformSync(code, {
     filename,
     babelrc: false,
@@ -44,18 +45,7 @@ module.exports = function eliminatorLoader (source) {
       // auto-load startupjs plugins
       // traverse "exports" of package.json and all dependencies to find all startupjs plugins
       // and automatically import them in the main startupjs.config.js file
-      [require('@startupjs/babel-plugin-startupjs-plugins'), { useRequireContext }]
-    ]
-  }).code
-
-  // Remove code related to other envs
-  code = babel.transformSync(code, {
-    filename,
-    babelrc: false,
-    configFile: false,
-    plugins: [
-      // support JSX syntax
-      require('@babel/plugin-syntax-jsx'),
+      [require('@startupjs/babel-plugin-startupjs-plugins'), { useRequireContext }],
 
       // run eliminator to remove code targeting other envs.
       // For example, only keep code related to 'client' and 'isomorphic' envs
