@@ -1,3 +1,12 @@
+# [0.60.0-canary.3](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.2...v0.60.0-canary.3) (2025-11-08)
+
+
+### Bug Fixes
+
+* **worker:** fix bullmq-board import ([9340946](https://github.com/startupjs/startupjs/commit/93409468eb3f092884e61b6c1da2e8f77da54844))
+
+
+
 # [0.60.0-canary.2](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.1...v0.60.0-canary.2) (2025-11-08)
 
 
