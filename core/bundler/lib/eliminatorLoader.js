@@ -1,6 +1,6 @@
 // TODO: add support for source maps
 const babel = require('@babel/core')
-const { isStartupjsPluginEcosystemFile, CONFIG_FILENAME_REGEX } = require('./utils')
+const { isStartupjsPluginEcosystemFile, CONFIG_FILENAME_REGEX } = require('babel-preset-startupjs/utils')
 
 const PLUGIN_KEYS = ['name', 'for', 'order', 'enabled']
 const PROJECT_KEYS = ['plugins', 'modules']
@@ -20,7 +20,7 @@ module.exports = function eliminatorLoader (source) {
   if (!(
     isStartupjsPluginEcosystemFile(filename) ||
     (clientModel && isModelFile(filename, source))
-  )) return source
+  )) return source // source inside Program is state.file.code
 
   const envs = this.query.envs
   if (!envs) throw Error("eliminatorLoader: envs not provided (for example ['features', 'isomorphic', 'client'])")

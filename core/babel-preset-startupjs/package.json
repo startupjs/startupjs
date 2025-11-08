@@ -4,7 +4,8 @@
   "description": "Babel preset for compiling StartupJS app on server, web, native",
   "main": "index.js",
   "exports": {
-    ".": "./index.js"
+    ".": "./index.js",
+    "./utils": "./utils.js"
   },
   "publishConfig": {
     "access": "public"

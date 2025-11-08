@@ -2,10 +2,8 @@ const stylusToCssLoader = require('cssxjs/loaders/stylusToCssLoader')
 const cssToReactNativeLoader = require('cssxjs/loaders/cssToReactNativeLoader')
 const mdxExamplesLoader = require('./lib/mdxExamplesLoader')
 const getMDXLoader = require('./lib/getMDXLoader')
-const eliminatorLoader = require('./lib/eliminatorLoader')
 const callLoader = require('./lib/callLoader')
 const asyncSvgLoader = require('./lib/asyncSvgLoader')
-const startupjsLoader = require('./lib/startupjsLoader')
 
 module.exports.transform = async function startupjsMetroBabelTransform ({
   src, filename, options: { upstreamTransformer, ...options } = {}
@@ -25,18 +23,6 @@ module.exports.transform = async function startupjsMetroBabelTransform ({
     const mdxLoader = await getMDXLoader()
     src = callLoader(mdxExamplesLoader, src, filename)
     src = callLoader(mdxLoader, src, filename)
-  }
-
-  // js transformations
-  if (/\.[mc]?[jt]sx?$/.test(filename)) {
-    src = callLoader(eliminatorLoader, src, filename, {
-      envs: ['features', 'isomorphic', 'client'],
-      useRequireContext: true,
-      clientModel: true
-    })
-  }
-  if ((/\.mdx?$/.test(filename) || /\.[mc]?[jt]sx?$/.test(filename)) && /['"](?:startupjs)['"]/.test(src)) {
-    src = callLoader(startupjsLoader, src, filename, { platform })
   }
 
   return upstreamTransformer.transform({ src, filename, options })

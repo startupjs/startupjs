@@ -15,6 +15,7 @@ const INIT_JSON_PATH = join(__dirname, './init/package.json')
 const INIT_METRO_CONFIG_PATH = join(__dirname, './init/metro.config.cjs')
 const INIT_GITIGNORE_PATH = join(__dirname, './init/gitignore')
 const INIT_STARTUPJS_CONFIG_PATH = join(__dirname, './init/startupjs.config.js')
+const INIT_BABEL_CONFIG_PATH = join(__dirname, './init/babel.config.cjs')
 const INIT_EXPO_JSON_PATH = join(__dirname, './init-expo/package.json')
 const INIT_EXPO_APP_JSON_PATH = join(__dirname, './init-expo/app.json')
 const DEVELOPMENT_JSON_PATH = join(__dirname, './dev/package.json')
@@ -176,6 +177,10 @@ async function runInstall ({
     maybeCopyMetroConfig({ triggerModified, onLog: log => finalLog.push(log) })
     maybeCopyStartupjsConfig({ triggerModified })
     maybeRenameBabelConfig({ triggerModified })
+    // our babel config will be copied only if babel config didn't exist before.
+    // If it existed then when the user tries to run the project
+    // we'll throw an error asking to add the startupjs preset manually.
+    maybeCopyBabelConfig({ triggerModified })
     if (triggerModified.wasTriggered() && packageJson.dependencies.expo) {
       // modify expo's config in app.json, but only if we did any actual init modifications before
       // (there is no way to understand if we already did modify app.json before so we rely on the triggerModified flag)
@@ -349,6 +354,13 @@ function maybeRenameBabelConfig ({ triggerModified }) {
   const babelConfig = readFileSync(babelConfigPath, 'utf8')
   if (!babelConfig.includes('module.exports')) return
   renameSync(babelConfigPath, join(process.cwd(), 'babel.config.cjs'))
+  triggerModified?.()
+}
+
+function maybeCopyBabelConfig ({ triggerModified }) {
+  const babelConfigPath = join(process.cwd(), 'babel.config.cjs')
+  if (existsSync(babelConfigPath)) return
+  writeFileSync(babelConfigPath, readFileSync(INIT_BABEL_CONFIG_PATH, 'utf8'))
   triggerModified?.()
 }
 
