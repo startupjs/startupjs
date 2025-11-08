@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/bundler",
-  "version": "0.60.0-canary.1",
+  "version": "0.60.0-canary.2",
   "description": "Opinionated scripts and configs to develop a react-native-web project",
   "main": "index.js",
   "publishConfig": {
@@ -18,13 +18,13 @@
     "@babel/core": "^7.9.0",
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "@mdx-js/mdx": "^2.3.0",
-    "@startupjs/babel-plugin-eliminator": "^0.60.0-canary.0",
+    "@startupjs/babel-plugin-eliminator": "^0.60.0-canary.2",
     "@startupjs/babel-plugin-startupjs-plugins": "^0.60.0-canary.1",
     "@startupjs/server": "^0.60.0-canary.0",
     "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "@svgr/plugin-svgo": "^8.1.0",
-    "babel-preset-startupjs": "^0.60.0-canary.0",
+    "babel-preset-startupjs": "^0.60.0-canary.2",
     "connect": "^3.7.0",
     "lodash": "^4.17.20",
     "remark-gfm": "^1.0.0"

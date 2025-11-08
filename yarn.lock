@@ -5453,7 +5453,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-eliminator@npm:^0.60.0-canary.0, @startupjs/babel-plugin-eliminator@workspace:core/babel-plugin-eliminator":
+"@startupjs/babel-plugin-eliminator@npm:^0.60.0-canary.2, @startupjs/babel-plugin-eliminator@workspace:core/babel-plugin-eliminator":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-eliminator@workspace:core/babel-plugin-eliminator"
   dependencies:
@@ -5485,7 +5485,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-startupjs-debug@npm:^0.60.0-canary.0, @startupjs/babel-plugin-startupjs-debug@workspace:core/babel-plugin-startupjs-debug":
+"@startupjs/babel-plugin-startupjs-debug@npm:^0.60.0-canary.2, @startupjs/babel-plugin-startupjs-debug@workspace:core/babel-plugin-startupjs-debug":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs-debug@workspace:core/babel-plugin-startupjs-debug"
   dependencies:
@@ -5549,20 +5549,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/bundler@npm:^0.60.0-canary.1, @startupjs/bundler@workspace:core/bundler":
+"@startupjs/bundler@npm:^0.60.0-canary.2, @startupjs/bundler@workspace:core/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:core/bundler"
   dependencies:
     "@babel/core": "npm:^7.9.0"
     "@babel/plugin-syntax-jsx": "npm:^7.0.0"
     "@mdx-js/mdx": "npm:^2.3.0"
-    "@startupjs/babel-plugin-eliminator": "npm:^0.60.0-canary.0"
+    "@startupjs/babel-plugin-eliminator": "npm:^0.60.0-canary.2"
     "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.60.0-canary.1"
     "@startupjs/server": "npm:^0.60.0-canary.0"
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
     "@svgr/plugin-svgo": "npm:^8.1.0"
-    babel-preset-startupjs: "npm:^0.60.0-canary.0"
+    babel-preset-startupjs: "npm:^0.60.0-canary.2"
     connect: "npm:^3.7.0"
     lodash: "npm:^4.17.20"
     remark-gfm: "npm:^1.0.0"
@@ -5572,7 +5572,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/cli@npm:^0.60.0-canary.0, @startupjs/cli@workspace:core/cli":
+"@startupjs/cli@npm:^0.60.0-canary.2, @startupjs/cli@workspace:core/cli":
   version: 0.0.0-use.local
   resolution: "@startupjs/cli@workspace:core/cli"
   dependencies:
@@ -5580,7 +5580,7 @@ __metadata:
     "@startupjs/pm": "npm:^0.60.0-canary.0"
     chalk: "npm:^5.3.0"
     commander: "npm:^12.0.0"
-    create-startupjs: "npm:^0.60.0-canary.0"
+    create-startupjs: "npm:^0.60.0-canary.2"
     execa: "npm:^8.0.1"
   languageName: unknown
   linkType: soft
@@ -8203,7 +8203,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-startupjs@npm:^0.60.0-canary.0, babel-preset-startupjs@workspace:core/babel-preset-startupjs":
+"babel-preset-startupjs@npm:^0.60.0-canary.2, babel-preset-startupjs@workspace:core/babel-preset-startupjs":
   version: 0.0.0-use.local
   resolution: "babel-preset-startupjs@workspace:core/babel-preset-startupjs"
   dependencies:
@@ -8212,7 +8212,7 @@ __metadata:
     "@babel/plugin-syntax-typescript": "npm:^7.23.3"
     "@startupjs/babel-plugin-i18n-extract": "npm:^0.60.0-canary.0"
     "@startupjs/babel-plugin-startupjs": "npm:^0.60.0-canary.0"
-    "@startupjs/babel-plugin-startupjs-debug": "npm:^0.60.0-canary.0"
+    "@startupjs/babel-plugin-startupjs-debug": "npm:^0.60.0-canary.2"
   languageName: unknown
   linkType: soft
 
@@ -10551,7 +10551,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-startupjs@npm:^0.60.0-canary.0, create-startupjs@workspace:core/create-startupjs":
+"create-startupjs@npm:^0.60.0-canary.2, create-startupjs@workspace:core/create-startupjs":
   version: 0.0.0-use.local
   resolution: "create-startupjs@workspace:core/create-startupjs"
   dependencies:
@@ -12936,7 +12936,7 @@ __metadata:
     react-native-svg: "npm:15.11.2"
     react-native-web: "npm:~0.20.0"
     react-test-renderer: "npm:19.0.0"
-    startupjs: "npm:^0.60.0-canary.1"
+    startupjs: "npm:^0.60.0-canary.2"
     typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
@@ -26742,18 +26742,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.60.0-canary.1, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.60.0-canary.2, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
-    "@startupjs/bundler": "npm:^0.60.0-canary.1"
-    "@startupjs/cli": "npm:^0.60.0-canary.0"
+    "@startupjs/bundler": "npm:^0.60.0-canary.2"
+    "@startupjs/cli": "npm:^0.60.0-canary.2"
     "@startupjs/hooks": "npm:^0.60.0-canary.0"
     "@startupjs/isomorphic-helpers": "npm:^0.60.0-canary.0"
     "@startupjs/registry": "npm:^0.60.0-canary.0"
     "@startupjs/server": "npm:^0.60.0-canary.0"
     "@startupjs/utils": "npm:^0.60.0-canary.0"
-    babel-preset-startupjs: "npm:^0.60.0-canary.0"
+    babel-preset-startupjs: "npm:^0.60.0-canary.2"
     cssxjs: "npm:^0.2.14"
     lodash: "npm:^4.17.20"
     teamplay: "npm:^0.3.26"

@@ -1,3 +1,12 @@
+# [0.60.0-canary.2](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.1...v0.60.0-canary.2) (2025-11-08)
+
+
+### Features
+
+* **bundler:** refactor client compilation to work through a single babel preset ([9468a2a](https://github.com/startupjs/startupjs/commit/9468a2a57b2443f88b3dd4cddb509075c91cf993))
+
+
+
 # [0.60.0-canary.1](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.0...v0.60.0-canary.1) (2025-11-07)
 
 
