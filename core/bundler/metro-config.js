@@ -150,9 +150,15 @@ function getMonorepoRootPackageJson (projectRoot) {
 
 function _checkStartupjsBabel (projectRoot) {
   const babelConfigPath = join(projectRoot, 'babel.config.cjs')
-  if (!existsSync(babelConfigPath)) throw Error(ERRORS.missingBabelConfig)
+  if (!existsSync(babelConfigPath)) {
+    console.error('ERROR:', ERRORS.missingBabelConfig)
+    throw Error(ERRORS.missingBabelConfig)
+  }
   const babelConfig = readFileSync(join(projectRoot, 'babel.config.cjs'), 'utf8')
-  if (!babelConfig.includes('startupjs/babel')) throw Error(ERRORS.noStartupjsBabelPreset)
+  if (!babelConfig.includes('startupjs/babel')) {
+    console.error('ERROR:', ERRORS.noStartupjsBabelPreset)
+    throw Error(ERRORS.noStartupjsBabelPreset)
+  }
 }
 
 const ERRORS = {
@@ -161,14 +167,16 @@ const ERRORS = {
     Please create babel.config.cjs following the instructions from Expo (or pure React Native) documentation,
     and add 'startupjs/babel' as the LAST item in the 'presets' array.
 
-    To ignore this error, you can pass the option 'checkStartupjsBabel: false'
+    To ignore this error (if you want to use a custom babel preset to transform startupjs code),
+    you can pass the option 'checkStartupjsBabel: false'
     when calling 'getDefaultConfig(projectRoot, options)' from 'metro.config.cjs'.
   `,
   noStartupjsBabelPreset: `
     Your babel.config.cjs is missing 'startupjs/babel' preset.
     Please add 'startupjs/babel' as the LAST item in the 'presets' array of your babel.config.cjs.
 
-    To ignore this error, you can pass the option 'checkStartupjsBabel: false'
+    To ignore this error (if you want to use a custom babel preset to transform startupjs code),
+    you can pass the option 'checkStartupjsBabel: false'
     when calling 'getDefaultConfig(projectRoot, options)' from 'metro.config.cjs'.
   `
 }
