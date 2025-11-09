@@ -1,3 +1,12 @@
+# [0.60.0-canary.4](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.3...v0.60.0-canary.4) (2025-11-09)
+
+
+### Bug Fixes
+
+* **bundler:** log the error if no startujs/babel preset found ([e0db64e](https://github.com/startupjs/startupjs/commit/e0db64e072c5feeccc9445970718914ef0d75e12))
+
+
+
 # [0.60.0-canary.3](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.2...v0.60.0-canary.3) (2025-11-08)
 
 
