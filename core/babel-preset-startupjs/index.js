@@ -45,6 +45,8 @@ module.exports = (api, {
   platform,
   reactType,
   cache,
+  compileCssImports,
+  cssFileExtensions,
   transformCss = true,
   transformPug = true,
   useRequireContext = true,
@@ -52,6 +54,18 @@ module.exports = (api, {
   envs = ['features', 'isomorphic', 'client'],
   isStartupjsFile = createStartupjsFileChecker({ clientOnly })
 } = {}) => {
+  const isMetro = api.caller(caller => caller?.name === 'metro')
+
+  // By default on Metro we don't need to compile CSS imports since we are relying on the custom
+  // StartupJS metro-babel-transformer which handles CSS imports as separate files.
+  if (compileCssImports == null && isMetro) compileCssImports = false
+
+  // on Metro we transform any CSS imports since StartupJS metro-babel-transformer
+  // turns off Expo's default CSS support and handles only our CSS imports.
+  // When used in a plain Web project though though,
+  // we want to only handle the default ['cssx.css', 'cssx.styl'] extensions.
+  if (cssFileExtensions == null && isMetro) cssFileExtensions = ['styl', 'css']
+
   return {
     overrides: [{
       test: isJsxSource,
@@ -85,10 +99,11 @@ module.exports = (api, {
         }],
         // CSS modules (separate .styl/.css file)
         transformCss && [require('cssxjs/babel/plugin-rn-stylename-to-style'), {
-          extensions: ['styl', 'css'],
+          extensions: cssFileExtensions,
           useImport: true,
           reactType,
-          cache
+          cache,
+          compileCssImports
         }],
 
         // auto-load startupjs plugins
