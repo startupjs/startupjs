@@ -1,3 +1,12 @@
+# [0.60.0-canary.6](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.5...v0.60.0-canary.6) (2025-11-10)
+
+
+### Bug Fixes
+
+* **babel-plugin-startupjs-plugins:** fix compilation error when model folder doesn't exist ([9a408fc](https://github.com/startupjs/startupjs/commit/9a408fc4c06fd5b71bd344bb3ecd712480cb7f7f))
+
+
+
 # [0.60.0-canary.5](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.4...v0.60.0-canary.5) (2025-11-10)
 
 

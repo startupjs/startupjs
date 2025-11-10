@@ -5918,7 +5918,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-startupjs-plugins@npm:^0.60.0-canary.1, @startupjs/babel-plugin-startupjs-plugins@workspace:core/babel-plugin-startupjs-plugins":
+"@startupjs/babel-plugin-startupjs-plugins@npm:^0.60.0-canary.6, @startupjs/babel-plugin-startupjs-plugins@workspace:core/babel-plugin-startupjs-plugins":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs-plugins@workspace:core/babel-plugin-startupjs-plugins"
   dependencies:
@@ -5970,7 +5970,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/bundler@npm:^0.60.0-canary.5, @startupjs/bundler@workspace:core/bundler":
+"@startupjs/bundler@npm:^0.60.0-canary.6, @startupjs/bundler@workspace:core/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:core/bundler"
   dependencies:
@@ -5978,7 +5978,7 @@ __metadata:
     "@babel/plugin-syntax-jsx": "npm:^7.0.0"
     "@mdx-js/mdx": "npm:^2.3.0"
     "@startupjs/babel-plugin-eliminator": "npm:^0.60.0-canary.2"
-    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.60.0-canary.1"
+    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.60.0-canary.6"
     "@startupjs/server": "npm:^0.60.0-canary.0"
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
@@ -13423,7 +13423,7 @@ __metadata:
     react-native-svg: "npm:15.12.1"
     react-native-web: "npm:^0.21.0"
     react-test-renderer: "npm:~19.1.0"
-    startupjs: "npm:^0.60.0-canary.5"
+    startupjs: "npm:^0.60.0-canary.6"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -27477,11 +27477,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.60.0-canary.5, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.60.0-canary.6, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
-    "@startupjs/bundler": "npm:^0.60.0-canary.5"
+    "@startupjs/bundler": "npm:^0.60.0-canary.6"
     "@startupjs/cli": "npm:^0.60.0-canary.2"
     "@startupjs/hooks": "npm:^0.60.0-canary.0"
     "@startupjs/isomorphic-helpers": "npm:^0.60.0-canary.0"
