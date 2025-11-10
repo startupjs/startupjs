@@ -1,3 +1,12 @@
+# [0.60.0-canary.5](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.4...v0.60.0-canary.5) (2025-11-10)
+
+
+### Bug Fixes
+
+* **babel-preset-startupjs:** prevent conflicts with compiling CSS imports on pure web projects ([6e40ee0](https://github.com/startupjs/startupjs/commit/6e40ee033ac401880287ecb3d1a8db403be1af55))
+
+
+
 # [0.60.0-canary.4](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.3...v0.60.0-canary.4) (2025-11-09)
 
 
