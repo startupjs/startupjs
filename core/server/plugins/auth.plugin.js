@@ -33,7 +33,7 @@ export class UserDBStorage {
    * @param {string} provider - The authentication provider name
    * @param {string} providerId - The unique identifier from the provider
    * @param {Object} filterParams - Additional query parameters for filtering users
-   * @returns {Promise<Object|null>} Object with { auth: userData, $auth?: scopedModel } or null if not found
+   * @returns {Promise<Object|null>} Object with { $auth: scopedModel, auth: userData, userId: string } or null if not found
    */
   async findUserByProvider (provider, providerId, filterParams) {
     throw new Error('findUserByProvider method must be implemented')
@@ -42,7 +42,7 @@ export class UserDBStorage {
   /**
    * Get a user by their unique user ID
    * @param {string} userId - The unique user identifier
-   * @returns {Promise<Object|null>} Object with { auth: userData, $auth?: scopedModel } or null if not found
+   * @returns {Promise<Object|null>} Object with { $auth: scopedModel, auth: userData, userId: string } or null if not found
    */
   async getUserById (userId) {
     throw new Error('getUserById method must be implemented')
@@ -52,7 +52,7 @@ export class UserDBStorage {
    * Find a user by their email address
    * @param {string} email - The user's email address
    * @param {Object} additionalQuery - Additional query parameters
-   * @returns {Promise<Object|null>} Object with { auth: userData, $auth?: scopedModel } or null if not found
+   * @returns {Promise<Object|null>} Object with { $auth: scopedModel, auth: userData, userId: string } or null if not found
    */
   async findUserByEmail (email, additionalQuery) {
     throw new Error('findUserByEmail method must be implemented')
@@ -62,7 +62,7 @@ export class UserDBStorage {
    * Find a user by their provider secret (used for 2FA authentication)
    * @param {string} provider - The authentication provider name
    * @param {string} secret - The secret token
-   * @returns {Promise<Object|null>} Object with { auth: userData, $auth?: scopedModel } or null if not found
+   * @returns {Promise<Object|null>} Object with { $auth: scopedModel, auth: userData, userId: string } or null if not found
    */
   async findUserBySecret (provider, secret) {
     throw new Error('findUserBySecret method must be implemented')
@@ -71,7 +71,7 @@ export class UserDBStorage {
   /**
    * Create a new user with authentication data
    * @param {Object} authData - User data object
-   * @returns {Promise<Object>} Object with { auth: { userId }, $auth?: scopedModel }
+   * @returns {Promise<Object>} Object with { $auth: scopedModel, auth: userData, userId: string }
    */
   async createUser (authData) {
     throw new Error('createUser method must be implemented')
@@ -100,7 +100,7 @@ export class LocalDBStorage extends UserDBStorage {
   async findUserByProvider (provider, providerId, filterParams = {}) {
     const [$auth] = await sub($.auths, { [`${provider}.id`]: providerId, ...filterParams })
     if (!$auth?.get()) return null
-    return { $auth, auth: { ...$auth.get(), userId: $auth.getId() } }
+    return { $auth, auth: $auth.get(), userId: $auth.getId() }
   }
 
   /**
@@ -109,7 +109,7 @@ export class LocalDBStorage extends UserDBStorage {
   async getUserById (userId) {
     const $auth = await sub($.auths[userId])
     if (!$auth?.get()) return null
-    return { $auth, auth: { ...$auth.get(), userId: $auth.getId() } }
+    return { $auth, auth: $auth.get(), userId: $auth.getId() }
   }
 
   /**
@@ -121,7 +121,7 @@ export class LocalDBStorage extends UserDBStorage {
       ...additionalQuery
     })
     if (!$auth?.get()) return null
-    return { $auth, auth: { ...$auth.get(), userId: $auth.getId() } }
+    return { $auth, auth: $auth.get(), userId: $auth.getId() }
   }
 
   /**
@@ -130,7 +130,7 @@ export class LocalDBStorage extends UserDBStorage {
   async findUserBySecret (provider, secret) {
     const [$auth] = await sub($.auths, { [`${provider}.secret`]: secret })
     if (!$auth?.get()) return null
-    return { $auth, auth: { ...$auth.get(), userId: $auth.getId() } }
+    return { $auth, auth: $auth.get(), userId: $auth.getId() }
   }
 
   /**
@@ -139,7 +139,7 @@ export class LocalDBStorage extends UserDBStorage {
   async createUser (authData) {
     const userId = await $.auths.add({ ...authData, createdAt: Date.now() })
     const $auth = await sub($.auths[userId])
-    return { $auth, auth: { ...$auth.get(), userId } }
+    return { $auth, auth: $auth.get(), userId }
   }
 
   /**
@@ -270,10 +270,10 @@ export default createPlugin({
             const config = getProviderConfig(providers, provider)
 
             // run hooks
-            await beforeLogin({ $auth: user.$auth, config, provider, userId: user.auth.userId })
+            await beforeLogin({ $auth: user.$auth, config, provider, userId: user.userId })
 
             // login
-            const session = await getSessionData(user.auth.userId, { storage })
+            const session = await getSessionData(user.userId, { storage })
             res.json({ session })
           } catch (err) {
             console.warn(`User auth error (${provider}) login:`, err)
@@ -405,15 +405,15 @@ export default createPlugin({
 
             const config = getProviderConfig(providers, provider)
             const { verify, duration, numberOfDigits } = config
-            const { $auth, auth } = user
-            const isVerified = await verify({ userId: auth.userId, code, duration, numberOfDigits, storage })
+            const { $auth, userId } = user
+            const isVerified = await verify({ userId, code, duration, numberOfDigits, storage })
             if (!isVerified) return res.json({ error: { message: 'Code is invalid' } })
 
             // run hooks
-            await beforeLogin({ $auth, config, provider, userId: auth.userId })
+            await beforeLogin({ $auth, config, provider, userId })
 
             // login
-            const session = await getSessionData(auth.userId, { storage })
+            const session = await getSessionData(userId, { storage })
             res.json({ session })
           } catch (err) {
             console.warn(`User auth error (${provider}):`, err)
@@ -665,10 +665,10 @@ async function getOrCreateAuth (config, provider, { userinfo, token, scopes, sto
     const user = await storage.findUserByProvider(provider, providerUserId, storage.getUsersFilterQueryParams())
     // update user info if it was changed
     if (user) {
-      const { auth, $auth } = user
+      const { $auth, userId } = user
       const { autoUpdateInfo = true } = config
-      if (autoUpdateInfo) await updateProviderInfo(auth.userId)
-      return { $auth, userId: auth.userId, registered: false }
+      if (autoUpdateInfo) await updateProviderInfo(userId)
+      return { $auth, userId, registered: false }
     }
   }
   // then see if we already have a user with such email but without this provider.
@@ -680,16 +680,16 @@ async function getOrCreateAuth (config, provider, { userinfo, token, scopes, sto
       ...storage.getUsersFilterQueryParams()
     })
     if (user) {
-      const { auth, $auth } = user
-      await updateProviderInfo(auth.userId)
-      return { $auth, userId: auth.userId, registered: false }
+      const { $auth, userId } = user
+      await updateProviderInfo(userId)
+      return { $auth, userId, registered: false }
     }
   }
   // create a new user
   {
-    const { $auth, auth } = await storage.createUser({ ...privateInfo })
-    await updateProviderInfo(auth.userId)
-    return { $auth, userId: auth.userId, registered: true }
+    const { $auth, userId } = await storage.createUser({ ...privateInfo })
+    await updateProviderInfo(userId)
+    return { $auth, userId, registered: true }
   }
 }
 
