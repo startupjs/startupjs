@@ -19,6 +19,138 @@ import {
   AUTH_2FA_PROVIDER
 } from '../utils/constants.js'
 
+/**
+ * Base class for user database storage operations
+ * Can be extended to implement custom database logic
+ */
+export class UserDBStorage {
+  constructor (getUsersFilterQueryParams = () => ({})) {
+    this.getUsersFilterQueryParams = getUsersFilterQueryParams
+  }
+
+  /**
+   * Find a user by their provider and provider ID
+   * @param {string} provider - The authentication provider name
+   * @param {string} providerId - The unique identifier from the provider
+   * @param {Object} filterParams - Additional query parameters for filtering users
+   * @returns {Promise<Object|null>} Object with { $auth: scopedModel, auth: userData, userId: string } or null if not found
+   */
+  async findUserByProvider (provider, providerId, filterParams) {
+    throw new Error('findUserByProvider method must be implemented')
+  }
+
+  /**
+   * Get a user by their unique user ID
+   * @param {string} userId - The unique user identifier
+   * @returns {Promise<Object|null>} Object with { $auth: scopedModel, auth: userData, userId: string } or null if not found
+   */
+  async getUserById (userId) {
+    throw new Error('getUserById method must be implemented')
+  }
+
+  /**
+   * Find a user by their email address
+   * @param {string} email - The user's email address
+   * @param {Object} additionalQuery - Additional query parameters
+   * @returns {Promise<Object|null>} Object with { $auth: scopedModel, auth: userData, userId: string } or null if not found
+   */
+  async findUserByEmail (email, additionalQuery) {
+    throw new Error('findUserByEmail method must be implemented')
+  }
+
+  /**
+   * Find a user by their provider secret (used for 2FA authentication)
+   * @param {string} provider - The authentication provider name
+   * @param {string} secret - The secret token
+   * @returns {Promise<Object|null>} Object with { $auth: scopedModel, auth: userData, userId: string } or null if not found
+   */
+  async findUserBySecret (provider, secret) {
+    throw new Error('findUserBySecret method must be implemented')
+  }
+
+  /**
+   * Create a new user with authentication data
+   * @param {Object} authData - User data object
+   * @returns {Promise<Object>} Object with { $auth: scopedModel, auth: userData, userId: string }
+   */
+  async createUser (authData) {
+    throw new Error('createUser method must be implemented')
+  }
+
+  /**
+   * Add a new authentication provider to an existing user
+   * @param {string} userId - The unique user identifier
+   * @param {string} provider - The authentication provider name
+   * @param {Object} providerData - Provider-specific authentication data
+   * @returns {Promise<void>}
+   */
+  async addNewProvider (userId, provider, providerData) {
+    throw new Error('addNewProvider method must be implemented')
+  }
+}
+
+/**
+ * Local database storage implementation using StartupJS scoped models
+ * This maintains the current behavior of the auth plugin
+ */
+export class LocalDBStorage extends UserDBStorage {
+  /**
+   * Find a user by their provider and provider ID using StartupJS scoped models
+   */
+  async findUserByProvider (provider, providerId, filterParams = {}) {
+    const [$auth] = await sub($.auths, { [`${provider}.id`]: providerId, ...filterParams })
+    if (!$auth?.get()) return null
+    return { $auth, auth: $auth.get(), userId: $auth.getId() }
+  }
+
+  /**
+   * Get a user by their unique user ID using StartupJS scoped models
+   */
+  async getUserById (userId) {
+    const $auth = await sub($.auths[userId])
+    if (!$auth?.get()) return null
+    return { $auth, auth: $auth.get(), userId: $auth.getId() }
+  }
+
+  /**
+   * Find a user by their email address using StartupJS scoped models
+   */
+  async findUserByEmail (email, additionalQuery = {}) {
+    const [$auth] = await sub($.auths, {
+      email,
+      ...additionalQuery
+    })
+    if (!$auth?.get()) return null
+    return { $auth, auth: $auth.get(), userId: $auth.getId() }
+  }
+
+  /**
+   * Find a user by their provider secret using StartupJS scoped models
+   */
+  async findUserBySecret (provider, secret) {
+    const [$auth] = await sub($.auths, { [`${provider}.secret`]: secret })
+    if (!$auth?.get()) return null
+    return { $auth, auth: $auth.get(), userId: $auth.getId() }
+  }
+
+  /**
+   * Create a new user using StartupJS scoped models
+   */
+  async createUser (authData) {
+    const userId = await $.auths.add({ ...authData, createdAt: Date.now() })
+    const $auth = await sub($.auths[userId])
+    return { $auth, auth: $auth.get(), userId }
+  }
+
+  /**
+   * Add a new authentication provider to an existing user using StartupJS scoped models
+   */
+  async addNewProvider (userId, provider, providerData) {
+    const $auth = await sub($.auths[userId])
+    await addProviderToAuth($auth, provider, providerData)
+  }
+}
+
 export default createPlugin({
   name: AUTH_PLUGIN_NAME,
   order: 'system session',
@@ -49,8 +181,9 @@ export default createPlugin({
       }
     }
   }),
-  server: ({ providers, getUsersFilterQueryParams = () => ({}) }) => ({
+  server: ({ providers, getUsersFilterQueryParams = () => ({}), userDBStorage }) => ({
     beforeSession (expressApp) {
+      const storage = userDBStorage || new LocalDBStorage(getUsersFilterQueryParams)
       expressApp.post(AUTH_GET_URL, (req, res) => {
         try {
           const { provider, extraScopes } = req.body
@@ -75,8 +208,8 @@ export default createPlugin({
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userinfo.email)) {
               return res.json({ error: { message: 'Email is invalid' } })
             }
-            let [$auth] = await sub($.auths, { [`${provider}.id`]: userinfo.email, ...getUsersFilterQueryParams() })
-            if ($auth) return res.json({ error: { message: 'User with this email already exists' } })
+            const existingAuth = await storage.findUserByProvider(provider, userinfo.email, storage.getUsersFilterQueryParams())
+            if (existingAuth) return res.json({ error: { message: 'User with this email already exists' } })
             if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(userinfo.password)) {
               return res.json({
                 error: {
@@ -98,13 +231,13 @@ export default createPlugin({
             const state = userinfo.state
             if (state) delete userinfo.state
 
-            ;[$auth] = await getOrCreateAuth(config, provider, { userinfo, token, getUsersFilterQueryParams })
+            const { userId, registered, $auth } = await getOrCreateAuth(config, provider, { userinfo, token, storage })
             // run hooks
-            await afterRegister({ config, provider, $auth, state })
-            await beforeLogin({ config, provider, $auth })
+            if (registered) await afterRegister({ $auth, config, provider, userId, state })
+            await beforeLogin({ $auth, config, provider, userId })
 
             // login
-            const session = await getSessionData($auth)
+            const session = await getSessionData(userId, { storage })
             res.json({ session })
           } catch (err) {
             console.warn(`User auth error (${provider}) register:`, err)
@@ -128,19 +261,19 @@ export default createPlugin({
               return res.json({ error: { message: 'Email is invalid' } })
             }
 
-            const [$auth] = await sub($.auths, { [`${provider}.id`]: email, ...getUsersFilterQueryParams() })
+            const user = await storage.findUserByProvider(provider, email, storage.getUsersFilterQueryParams())
             const wrongCredentialsError = { error: { message: 'Login or password are incorrect' } }
-            if (!$auth) return res.json(wrongCredentialsError)
-            const token = $auth[provider].token.get()
+            if (!user) return res.json(wrongCredentialsError)
+            const token = user.auth[provider].token
             const passwordMatch = await bcrypt.compare(password, token)
             if (!passwordMatch) return res.json(wrongCredentialsError)
             const config = getProviderConfig(providers, provider)
 
             // run hooks
-            await beforeLogin({ config, provider, $auth })
+            await beforeLogin({ $auth: user.$auth, config, provider, userId: user.userId })
 
             // login
-            const session = await getSessionData($auth)
+            const session = await getSessionData(user.userId, { storage })
             res.json({ session })
           } catch (err) {
             console.warn(`User auth error (${provider}) login:`, err)
@@ -189,14 +322,14 @@ export default createPlugin({
             // NOTE: apple only provides the user info on initial login, so we never actually "update" it
             const { scopes } = state
             if (!Array.isArray(scopes)) return res.status(400).send('Returned scopes are invalid')
-            const [$auth, registered] = await getOrCreateAuth(config, provider, { userinfo, scopes, getUsersFilterQueryParams })
+            const { userId, registered, $auth } = await getOrCreateAuth(config, provider, { userinfo, scopes, storage })
 
             // run hooks
-            if (registered) await afterRegister({ config, provider, $auth, state })
-            await beforeLogin({ config, provider, $auth })
+            if (registered) await afterRegister({ $auth, config, provider, userId, state })
+            await beforeLogin({ $auth, config, provider, userId })
 
             // login
-            const session = await getSessionData($auth)
+            const session = await getSessionData(userId, { storage })
             redirectBackToApp(res, session, state)
           } catch (err) {
             console.warn(`User auth error (${provider}):`, err)
@@ -238,14 +371,14 @@ export default createPlugin({
           // update or create user
           const { scopes } = state
           if (!Array.isArray(scopes)) return res.status(400).send('Returned scopes are invalid')
-          const [$auth, registered] = await getOrCreateAuth(config, provider, { userinfo, token: accessToken, scopes, getUsersFilterQueryParams })
+          const { userId, registered, $auth } = await getOrCreateAuth(config, provider, { userinfo, token: accessToken, scopes, storage })
 
           // run hooks
-          if (registered) await afterRegister({ config, provider, $auth, state })
-          await beforeLogin({ config, provider, $auth })
+          if (registered) await afterRegister({ $auth, config, provider, userId, state })
+          await beforeLogin({ $auth, config, provider, userId })
 
           // login
-          const session = await getSessionData($auth)
+          const session = await getSessionData(userId, { storage })
           redirectBackToApp(res, session, state)
         } catch (err) {
           console.warn(`User auth error (${provider}):`, err)
@@ -267,19 +400,20 @@ export default createPlugin({
             if (!secret) return res.status(400).send('Secret is missing')
             if (!code) return res.status(400).send('Code is missing')
 
-            const [$auth] = await sub($.auths, { [`${provider}.secret`]: secret })
-            if (!$auth) return res.json({ error: { message: 'Secret is invalid' } })
+            const user = await storage.findUserBySecret(provider, secret)
+            if (!user) return res.json({ error: { message: 'Secret is invalid' } })
 
             const config = getProviderConfig(providers, provider)
             const { verify, duration, numberOfDigits } = config
-            const isVerfied = await verify({ $auth, code, duration, numberOfDigits })
-            if (!isVerfied) return res.json({ error: { message: 'Code is invalid' } })
+            const { $auth, userId } = user
+            const isVerified = await verify({ userId, code, duration, numberOfDigits, storage })
+            if (!isVerified) return res.json({ error: { message: 'Code is invalid' } })
 
             // run hooks
-            await beforeLogin({ config, provider, $auth })
+            await beforeLogin({ $auth, config, provider, userId })
 
             // login
-            const session = await getSessionData($auth)
+            const session = await getSessionData(userId, { storage })
             res.json({ session })
           } catch (err) {
             console.warn(`User auth error (${provider}):`, err)
@@ -294,6 +428,7 @@ export default createPlugin({
       })
     },
     afterSession (expressApp) {
+      const storage = userDBStorage || new LocalDBStorage(getUsersFilterQueryParams)
       const provider = AUTH_FORCE_PROVIDER
       // 'Login as...' functionality. Allows to login as another user by his userId.
       // Supposed to be only used by trusted users (e.g. admins).
@@ -305,16 +440,17 @@ export default createPlugin({
           const { validateAccess } = config
           const { session } = req
           if (!session.loggedIn) return res.json({ error: { message: 'You are not logged in' } })
-          const $targetAuth = await sub($.auths[targetUserId])
-          if (!$targetAuth.get()) return res.json({ error: { message: 'No user found with userId ' + targetUserId } })
-          await validateAccess({ session, targetUserId, config, provider })
+          const targetAuthData = await storage.getUserById(targetUserId)
+          if (!targetAuthData) return res.json({ error: { message: 'No user found with userId ' + targetUserId } })
+          await validateAccess({ session, targetUserId, config, provider, storage })
 
           // login
-          const targetSession = await getSessionData($targetAuth, {
+          const targetSession = await getSessionData(targetUserId, {
             extraPayload: {
               isImpostor: true,
               impostorUserId: session.userId
-            }
+            },
+            storage
           })
           res.json({ session: targetSession })
         } catch (err) {
@@ -395,9 +531,11 @@ function redirectBackToAppError ({ res, err, state }) {
   }
 }
 
-async function getSessionData ($auth, { extraPayload } = {}) {
-  const userId = $auth.getId()
-  const payload = { userId, loggedIn: true, authProviderIds: $auth.providerIds.get(), ...extraPayload }
+async function getSessionData (userId, { extraPayload, storage } = {}) {
+  const user = await storage.getUserById(userId)
+  const { auth } = user
+  const authProviderIds = auth?.providerIds || []
+  const payload = { userId, loggedIn: true, authProviderIds, ...extraPayload }
   const token = await createToken(payload)
   return { ...payload, token }
 }
@@ -514,44 +652,44 @@ async function getUserinfo (config, provider, { token }) {
   }
 }
 
-async function getOrCreateAuth (config, provider, { userinfo, token, scopes, getUsersFilterQueryParams } = {}) {
+async function getOrCreateAuth (config, provider, { userinfo, token, scopes, storage } = {}) {
   const { id: providerUserId, ...privateInfo } = getPrivateInfo(config, userinfo)
   if (!providerUserId) throw Error(ERRORS.noIdField)
   const publicInfo = getPublicInfo(config, userinfo)
-  async function updateProviderInfo ($auth) {
+  async function updateProviderInfo (userId) {
     const raw = config.saveRawUserinfo ? userinfo : undefined
-    await addProviderToAuth($auth, provider, { providerUserId, privateInfo, publicInfo, raw, token, scopes })
+    await storage.addNewProvider(userId, provider, { providerUserId, privateInfo, publicInfo, raw, token, scopes })
   }
   // first try to find the exact match with the provider's id
   {
-    const [$auth] = await sub($.auths, { [`${provider}.id`]: providerUserId, ...getUsersFilterQueryParams() })
+    const user = await storage.findUserByProvider(provider, providerUserId, storage.getUsersFilterQueryParams())
     // update user info if it was changed
-    if ($auth) {
+    if (user) {
+      const { $auth, userId } = user
       const { autoUpdateInfo = true } = config
-      if (autoUpdateInfo) await updateProviderInfo($auth)
-      return [$auth, false] // second parameter is 'registered' flag
+      if (autoUpdateInfo) await updateProviderInfo(userId)
+      return { $auth, userId, registered: false }
     }
   }
   // then see if we already have a user with such email but without this provider.
   // If the provider is trusted (it definitely provides correct and confirmed email),
   // then we can merge the provider into the existing user.
   if (config.allowAutoMergeByEmail && privateInfo.email) {
-    const [$auth] = await sub($.auths, {
-      email: privateInfo.email,
+    const user = await storage.findUserByEmail(privateInfo.email, {
       [provider]: { $exists: false },
-      ...getUsersFilterQueryParams()
+      ...storage.getUsersFilterQueryParams()
     })
-    if ($auth) {
-      await updateProviderInfo($auth)
-      return [$auth, false]
+    if (user) {
+      const { $auth, userId } = user
+      await updateProviderInfo(userId)
+      return { $auth, userId, registered: false }
     }
   }
   // create a new user
   {
-    const userId = await $.auths.add({ ...privateInfo, createdAt: Date.now() })
-    const $auth = await sub($.auths[userId]) // subscribe to the new user just to keep a reference
-    await updateProviderInfo($auth)
-    return [$auth, true]
+    const { $auth, userId } = await storage.createUser({ ...privateInfo })
+    await updateProviderInfo(userId)
+    return { $auth, userId, registered: true }
   }
 }
 
@@ -585,17 +723,17 @@ function getPublicInfo (config, userinfo) {
   return config.getPublicInfo?.(userinfo) || defaultGetPublicInfo(userinfo)
 }
 
-async function beforeLogin ({ config, provider, $auth }) {
+async function beforeLogin ({ $auth, config, provider, userId }) {
   if (!config.beforeLogin) return
 
-  const beforeLoginResult = config.beforeLogin({ $auth, provider })
+  const beforeLoginResult = config.beforeLogin({ $auth, userId, provider })
   if (beforeLoginResult?.then) await beforeLoginResult
 }
 
-async function afterRegister ({ config, provider, $auth, state }) {
+async function afterRegister ({ $auth, config, provider, userId, state }) {
   if (!config.afterRegister) return
 
-  const afterRegisterResult = config.afterRegister({ $auth, provider, state })
+  const afterRegisterResult = config.afterRegister({ $auth, userId, provider, state })
   if (afterRegisterResult?.then) await afterRegisterResult
 }
 
@@ -644,7 +782,7 @@ const DEFAULT_PROVIDERS = {
     getPublicInfo: ({ name }) => ({ name })
   },
   force: {
-    async validateAccess ({ session, targetUserId, config, provider }) {
+    async validateAccess ({ session, targetUserId, config, provider, storage }) {
       // By default a very simple check is used to validate access to this feature.
       // `auths[userId].force.token` should match `process.env.FORCE_CLIENT_SECRET`.
       // If env var doesn't exist, this feature is disabled.
@@ -652,16 +790,17 @@ const DEFAULT_PROVIDERS = {
       const clientSecret = await getClientSecret({ config, provider })
       if (!clientSecret) throw new PublicError('Access denied. Secret token is missing')
       const myUserId = session.userId
-      const $myAuth = await sub($.auths[myUserId])
-      const token = $myAuth[provider].token.get()
+      const user = await storage.getUserById(myUserId)
+      const token = user.auth[provider].token
       if (token !== clientSecret) throw new PublicError('Access denied. Secret token is invalid')
     }
   },
   '2fa': {
     duration: 60 * 10, // 10 minutes
     numberOfDigits: 4,
-    async verify ({ $auth, code, duration, numberOfDigits }) {
-      const secret = $auth['2fa'].base32.get()
+    async verify ({ userId, code, duration, numberOfDigits, storage }) {
+      const user = await storage.getUserById(userId)
+      const secret = user.auth['2fa'].base32
 
       return speakeasy.totp.verify({
         secret,
