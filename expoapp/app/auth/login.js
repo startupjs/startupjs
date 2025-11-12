@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image } from 'react-native'
-import { pug, styl, observer, useSub, $, login, logout } from 'startupjs'
+import { pug, styl, observer, useSub, $ } from 'startupjs'
+import { login, logout } from 'startupjs/auth'
 import { Content, Button, User, Card, Input, H6, Tag, Alert, Br, ScrollView, Item, Modal } from '@startupjs/ui'
 
 const PROVIDERS = ['github']
