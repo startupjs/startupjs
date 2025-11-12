@@ -7,6 +7,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "license": "MIT",
-  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
+  "license": "MIT"
 }

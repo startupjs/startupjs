@@ -1,10 +1,12 @@
 import { Platform } from 'react-native'
-import { axios, BASE_URL, setSessionData } from 'startupjs'
+import { BASE_URL } from '@startupjs/utils/BASE_URL'
+import axios from '@startupjs/utils/axios'
 import { getPlugin } from '@startupjs/registry'
 import openAuthSessionAsync from '@startupjs/utils/openAuthSessionAsync'
 import getLinkingUri from '@startupjs/utils/getLinkingUri'
 import { router } from 'expo-router'
 import { reload } from './reload.js'
+import { setSessionData } from './sessionData.js'
 import {
   AUTH_TOKEN_KEY,
   AUTH_GET_URL,

@@ -100,7 +100,6 @@ export {
   redisPrefix,
   generateRedisPrefix
 } from 'teamplay/server'
-export { default as getAppSecret } from './utils/getAppSecret.js'
 
 export function NO_DEAD_CODE_ELIMINATION () {
   return [dummyDotenv, dummyInitServer]

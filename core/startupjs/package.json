@@ -27,6 +27,7 @@
   "bin": "./cli.js",
   "license": "MIT",
   "dependencies": {
+    "@startupjs/auth": "^0.60.0-canary.0",
     "@startupjs/bundler": "^0.60.0-canary.6",
     "@startupjs/cli": "^0.60.0-canary.2",
     "@startupjs/hooks": "^0.60.0-canary.0",
@@ -51,6 +52,5 @@
     "react-native": {
       "optional": true
     }
-  },
-  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
+  }
 }

@@ -19,6 +19,5 @@
     "execa": "^8.0.1",
     "json-diff": "1.0.6",
     "lodash": "^4.17.20"
-  },
-  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
+  }
 }

@@ -1,8 +1,8 @@
 import { DevSettings, Platform } from 'react-native'
-import { deleteSessionData } from 'startupjs'
 import { getPlugin } from '@startupjs/registry'
 import reloadAppAsync from '@startupjs/utils/reloadAppAsync'
 import { AUTH_PLUGIN_NAME } from './constants.js'
+import { deleteSessionData } from './sessionData.js'
 
 export default async function logout () {
   const plugin = getPlugin(AUTH_PLUGIN_NAME)

@@ -1,5 +1,5 @@
 {
-  "name": "@startupjs/auth",
+  "name": "@startupjs/legacy-auth",
   "version": "0.60.0-canary.0",
   "type": "module",
   "description": "Auth module for StartupJS apps",
@@ -18,6 +18,5 @@
     "@react-native-cookies/cookies": ">= 6.0.0",
     "@startupjs/ui": "*",
     "startupjs": "*"
-  },
-  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
+  }
 }

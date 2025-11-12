@@ -11,6 +11,5 @@
   "peerDependencies": {
     "@startupjs/2fa-manager": "*",
     "@startupjs/push-notifications": "*"
-  },
-  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
+  }
 }

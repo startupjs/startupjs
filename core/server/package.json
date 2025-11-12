@@ -8,27 +8,10 @@
   "type": "module",
   "main": "index.js",
   "exports": {
-    ".": "./index.js",
-    "./utils/clientSessionData": {
-      "node": "./utils/clientSessionData.server.js",
-      "default": "./utils/clientSessionData.js"
-    },
-    "./utils/clientLogin": {
-      "node": "./utils/clientLogin.server.js",
-      "default": "./utils/clientLogin.js"
-    },
-    "./utils/clientLogout": {
-      "node": "./utils/clientLogout.server.js",
-      "default": "./utils/clientLogout.js"
-    },
-    "./plugins/clientSession.plugin": "./plugins/clientSession.plugin.js",
-    "./plugins/oauth2.plugin": "./plugins/oauth2.plugin.js",
-    "./plugins/auth.plugin": "./plugins/auth.plugin.js"
+    ".": "./index.js"
   },
   "dependencies": {
     "@startupjs/registry": "^0.60.0-canary.0",
-    "@startupjs/utils": "^0.60.0-canary.0",
-    "bcrypt": "^5.1.1",
     "body-parser": "1.20.0",
     "compression": "^1.6.0",
     "connect-mongo": "^4.4.1",
@@ -38,20 +21,10 @@
     "express-file-routing": "3.0.3",
     "express-session": "^1.17.2",
     "hsts": "^2.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "jwks-rsa": "^3.1.0",
     "lodash": "^4.17.20",
-    "method-override": "~2.3.10",
-    "speakeasy": "^2.0.0",
-    "uuid": "^9.0.1"
+    "method-override": "~2.3.10"
   },
   "peerDependencies": {
-    "@react-native-async-storage/async-storage": "*",
     "teamplay": "*"
-  },
-  "devDependencies": {
-    "@types/jsonwebtoken": "^9",
-    "@types/speakeasy": "^2"
-  },
-  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
+  }
 }
