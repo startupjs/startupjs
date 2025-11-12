@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-lti",
-  "version": "0.60.0-canary.0",
+  "version": "0.60.0-canary.7",
   "type": "module",
   "description": "LTI auth plugin for StartupJS auth module",
   "publishConfig": {

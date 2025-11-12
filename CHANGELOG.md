@@ -1,3 +1,12 @@
+# [0.60.0-canary.7](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.6...v0.60.0-canary.7) (2025-11-12)
+
+
+### Features
+
+* **server/auth:** Generic plugin for auth without using default startupjs datasource ([#1299](https://github.com/startupjs/startupjs/issues/1299)) ([3ab07e6](https://github.com/startupjs/startupjs/commit/3ab07e616e5e1e13f1ead6fb901e82330d3db3ab))
+
+
+
 # [0.60.0-canary.6](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.5...v0.60.0-canary.6) (2025-11-10)
 
 
