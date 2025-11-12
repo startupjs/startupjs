@@ -1,4 +1,4 @@
-import { $, sub } from 'startupjs'
+import { $, sub } from 'teamplay'
 import { v4 as uuid } from 'uuid'
 
 // TODO: sub() on server with fetch does not re-fetch data when calling sub().

@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { axios, $ } from 'startupjs'
+import axios from '@startupjs/utils/axios'
+import { $ } from 'teamplay'
+import { emitInitSession } from './sessionEmitter.js'
 
 export const SESSION_KEY = 'startupjs.session'
 
@@ -29,15 +31,6 @@ function validateSession (session) {
   if (!session) throw Error(ERRORS.jwtNoSession(session))
   if (!session.userId) throw Error(ERRORS.jwtNoUserId(session))
   if (!session.token) throw Error(ERRORS.jwtNoToken(session))
-}
-
-const onInitSessionHandlers = new Set()
-export function onInitSession (cb) { onInitSessionHandlers.add(cb) }
-async function emitInitSession (session) {
-  for (const handler of onInitSessionHandlers) {
-    const promise = handler(session)
-    if (promise?.then) await promise
-  }
 }
 
 const ERRORS = {

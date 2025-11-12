@@ -5859,18 +5859,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth@workspace:libraries/auth":
+"@startupjs/auth@npm:^0.60.0-canary.0, @startupjs/auth@workspace:core/auth":
   version: 0.0.0-use.local
-  resolution: "@startupjs/auth@workspace:libraries/auth"
+  resolution: "@startupjs/auth@workspace:core/auth"
   dependencies:
-    bcrypt: "npm:^5.0.1"
-    js-cookie: "npm:^2.2.1"
-    lodash: "npm:^4.17.20"
-    passport: "npm:^0.6.0"
+    "@startupjs/registry": "npm:^0.60.0-canary.0"
+    "@startupjs/utils": "npm:^0.60.0-canary.0"
+    "@types/jsonwebtoken": "npm:^9"
+    "@types/speakeasy": "npm:^2"
+    bcrypt: "npm:^5.1.1"
+    jsonwebtoken: "npm:^9.0.2"
+    jwks-rsa: "npm:^3.1.0"
+    speakeasy: "npm:^2.0.0"
+    uuid: "npm:^9.0.1"
   peerDependencies:
-    "@react-native-cookies/cookies": ">= 6.0.0"
-    "@startupjs/ui": "*"
-    startupjs: "*"
+    "@react-native-async-storage/async-storage": "*"
+    teamplay: "*"
   languageName: unknown
   linkType: soft
 
@@ -6100,6 +6104,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@startupjs/legacy-auth@workspace:libraries/auth":
+  version: 0.0.0-use.local
+  resolution: "@startupjs/legacy-auth@workspace:libraries/auth"
+  dependencies:
+    bcrypt: "npm:^5.0.1"
+    js-cookie: "npm:^2.2.1"
+    lodash: "npm:^4.17.20"
+    passport: "npm:^0.6.0"
+  peerDependencies:
+    "@react-native-cookies/cookies": ">= 6.0.0"
+    "@startupjs/ui": "*"
+    startupjs: "*"
+  languageName: unknown
+  linkType: soft
+
 "@startupjs/mailgun@workspace:libraries/mailgun":
   version: 0.0.0-use.local
   resolution: "@startupjs/mailgun@workspace:libraries/mailgun"
@@ -6288,10 +6307,6 @@ __metadata:
   resolution: "@startupjs/server@workspace:core/server"
   dependencies:
     "@startupjs/registry": "npm:^0.60.0-canary.0"
-    "@startupjs/utils": "npm:^0.60.0-canary.0"
-    "@types/jsonwebtoken": "npm:^9"
-    "@types/speakeasy": "npm:^2"
-    bcrypt: "npm:^5.1.1"
     body-parser: "npm:1.20.0"
     compression: "npm:^1.6.0"
     connect-mongo: "npm:^4.4.1"
@@ -6301,14 +6316,9 @@ __metadata:
     express-file-routing: "npm:3.0.3"
     express-session: "npm:^1.17.2"
     hsts: "npm:^2.1.0"
-    jsonwebtoken: "npm:^9.0.2"
-    jwks-rsa: "npm:^3.1.0"
     lodash: "npm:^4.17.20"
     method-override: "npm:~2.3.10"
-    speakeasy: "npm:^2.0.0"
-    uuid: "npm:^9.0.1"
   peerDependencies:
-    "@react-native-async-storage/async-storage": "*"
     teamplay: "*"
   languageName: unknown
   linkType: soft
@@ -27481,6 +27491,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
+    "@startupjs/auth": "npm:^0.60.0-canary.0"
     "@startupjs/bundler": "npm:^0.60.0-canary.6"
     "@startupjs/cli": "npm:^0.60.0-canary.2"
     "@startupjs/hooks": "npm:^0.60.0-canary.0"

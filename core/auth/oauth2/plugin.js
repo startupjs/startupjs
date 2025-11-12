@@ -1,13 +1,14 @@
 import { Suspense, createElement as el } from 'react'
-import { axios, $, sub, Signal } from 'startupjs'
 import { createPlugin } from '@startupjs/registry'
+import axios from '@startupjs/utils/axios'
+import { Signal } from 'teamplay'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
 import speakeasy from 'speakeasy'
-import { SESSION_KEY } from '../utils/clientSessionData.js'
-import createToken from '../utils/createToken.js'
-import { maybeRestoreUrl } from '../utils/reload.js'
+import { SESSION_KEY } from '../client/sessionData.js'
+import createToken from '../server/createToken.js'
+import { maybeRestoreUrl } from '../client/reload.js'
 import {
   AUTH_URL,
   AUTH_TOKEN_KEY,
@@ -17,139 +18,8 @@ import {
   AUTH_LOCAL_PROVIDER,
   AUTH_FORCE_PROVIDER,
   AUTH_2FA_PROVIDER
-} from '../utils/constants.js'
-
-/**
- * Base class for user database storage operations
- * Can be extended to implement custom database logic
- */
-export class UserDBStorage {
-  constructor (getUsersFilterQueryParams = () => ({})) {
-    this.getUsersFilterQueryParams = getUsersFilterQueryParams
-  }
-
-  /**
-   * Find a user by their provider and provider ID
-   * @param {string} provider - The authentication provider name
-   * @param {string} providerId - The unique identifier from the provider
-   * @param {Object} filterParams - Additional query parameters for filtering users
-   * @returns {Promise<Object|null>} Object with { $auth: scopedModel, auth: userData, userId: string } or null if not found
-   */
-  async findUserByProvider (provider, providerId, filterParams) {
-    throw new Error('findUserByProvider method must be implemented')
-  }
-
-  /**
-   * Get a user by their unique user ID
-   * @param {string} userId - The unique user identifier
-   * @returns {Promise<Object|null>} Object with { $auth: scopedModel, auth: userData, userId: string } or null if not found
-   */
-  async getUserById (userId) {
-    throw new Error('getUserById method must be implemented')
-  }
-
-  /**
-   * Find a user by their email address
-   * @param {string} email - The user's email address
-   * @param {Object} additionalQuery - Additional query parameters
-   * @returns {Promise<Object|null>} Object with { $auth: scopedModel, auth: userData, userId: string } or null if not found
-   */
-  async findUserByEmail (email, additionalQuery) {
-    throw new Error('findUserByEmail method must be implemented')
-  }
-
-  /**
-   * Find a user by their provider secret (used for 2FA authentication)
-   * @param {string} provider - The authentication provider name
-   * @param {string} secret - The secret token
-   * @returns {Promise<Object|null>} Object with { $auth: scopedModel, auth: userData, userId: string } or null if not found
-   */
-  async findUserBySecret (provider, secret) {
-    throw new Error('findUserBySecret method must be implemented')
-  }
-
-  /**
-   * Create a new user with authentication data
-   * @param {Object} authData - User data object
-   * @returns {Promise<Object>} Object with { $auth: scopedModel, auth: userData, userId: string }
-   */
-  async createUser (authData) {
-    throw new Error('createUser method must be implemented')
-  }
-
-  /**
-   * Add a new authentication provider to an existing user
-   * @param {string} userId - The unique user identifier
-   * @param {string} provider - The authentication provider name
-   * @param {Object} providerData - Provider-specific authentication data
-   * @returns {Promise<void>}
-   */
-  async addNewProvider (userId, provider, providerData) {
-    throw new Error('addNewProvider method must be implemented')
-  }
-}
-
-/**
- * Local database storage implementation using StartupJS scoped models
- * This maintains the current behavior of the auth plugin
- */
-export class LocalDBStorage extends UserDBStorage {
-  /**
-   * Find a user by their provider and provider ID using StartupJS scoped models
-   */
-  async findUserByProvider (provider, providerId, filterParams = {}) {
-    const [$auth] = await sub($.auths, { [`${provider}.id`]: providerId, ...filterParams })
-    if (!$auth?.get()) return null
-    return { $auth, auth: $auth.get(), userId: $auth.getId() }
-  }
-
-  /**
-   * Get a user by their unique user ID using StartupJS scoped models
-   */
-  async getUserById (userId) {
-    const $auth = await sub($.auths[userId])
-    if (!$auth?.get()) return null
-    return { $auth, auth: $auth.get(), userId: $auth.getId() }
-  }
-
-  /**
-   * Find a user by their email address using StartupJS scoped models
-   */
-  async findUserByEmail (email, additionalQuery = {}) {
-    const [$auth] = await sub($.auths, {
-      email,
-      ...additionalQuery
-    })
-    if (!$auth?.get()) return null
-    return { $auth, auth: $auth.get(), userId: $auth.getId() }
-  }
-
-  /**
-   * Find a user by their provider secret using StartupJS scoped models
-   */
-  async findUserBySecret (provider, secret) {
-    const [$auth] = await sub($.auths, { [`${provider}.secret`]: secret })
-    if (!$auth?.get()) return null
-    return { $auth, auth: $auth.get(), userId: $auth.getId() }
-  }
-
-  /**
-   * Create a new user using StartupJS scoped models
-   */
-  async createUser (authData) {
-    const userId = await $.auths.add({ ...authData, createdAt: Date.now() })
-    const $auth = await sub($.auths[userId])
-    return { $auth, auth: $auth.get(), userId }
-  }
-
-  /**
-   * Add a new authentication provider to an existing user using StartupJS scoped models
-   */
-  async addNewProvider (userId, provider, providerData) {
-    const $auth = await sub($.auths[userId])
-    await addProviderToAuth($auth, provider, providerData)
-  }
-}
+} from '../client/constants.js'
+import LocalAuthStorage from './LocalAuthStorage.js'
 
 export default createPlugin({
   name: AUTH_PLUGIN_NAME,
@@ -183,7 +53,7 @@ export default createPlugin({
   }),
   server: ({ providers, getUsersFilterQueryParams = () => ({}), userDBStorage }) => ({
     beforeSession (expressApp) {
-      const storage = userDBStorage || new LocalDBStorage(getUsersFilterQueryParams)
+      const storage = userDBStorage || new LocalAuthStorage(getUsersFilterQueryParams)
       expressApp.post(AUTH_GET_URL, (req, res) => {
         try {
           const { provider, extraScopes } = req.body
@@ -428,7 +298,7 @@ export default createPlugin({
       })
     },
     afterSession (expressApp) {
-      const storage = userDBStorage || new LocalDBStorage(getUsersFilterQueryParams)
+      const storage = userDBStorage || new LocalAuthStorage(getUsersFilterQueryParams)
       const provider = AUTH_FORCE_PROVIDER
       // 'Login as...' functionality. Allows to login as another user by his userId.
       // Supposed to be only used by trusted users (e.g. admins).
@@ -690,26 +560,6 @@ async function getOrCreateAuth (config, provider, { userinfo, token, scopes, sto
     const { $auth, userId } = await storage.createUser({ ...privateInfo })
     await updateProviderInfo(userId)
     return { $auth, userId, registered: true }
-  }
-}
-
-async function addProviderToAuth (
-  $auth,
-  provider,
-  { providerUserId, privateInfo, publicInfo, raw, token, scopes }
-) {
-  await $auth[provider].set({ id: providerUserId, ...privateInfo, ...publicInfo, raw, token, scopes })
-  const providerIds = $auth.providerIds.get() || []
-  if (!providerIds.includes(provider)) await $auth.providerIds.push(provider)
-  const userId = $auth.getId()
-  // update public info of the user if it's missing
-  const $user = await sub($.users[userId])
-  if ($user.get()) {
-    for (const key in publicInfo) {
-      if ($user[key].get() == null && publicInfo[key] != null) await $user[key].set(publicInfo[key])
-    }
-  } else {
-    await $.users[userId].set({ ...publicInfo, createdAt: Date.now() })
   }
 }
 

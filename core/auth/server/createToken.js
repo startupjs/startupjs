@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import getAppSecret from '../utils/getAppSecret.js'
+import getAppSecret from './getAppSecret.js'
 export const TOKEN_EXPIRATION = '30d'
 export const TOKEN_REISSUE_AFTER_SECONDS = 7 * 24 * 60 * 60 // 7 days
 

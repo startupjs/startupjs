@@ -1,8 +1,9 @@
 import { Suspense, createElement as el } from 'react'
-import { axios, $ } from 'startupjs'
 import { createPlugin } from '@startupjs/registry'
+import axios from '@startupjs/utils/axios'
 import isDevelopment from '@startupjs/utils/isDevelopment'
 import { BASE_URL, setBaseUrl } from '@startupjs/utils/BASE_URL'
+import { $ } from 'teamplay'
 import connect from 'teamplay/connect'
 import { v4 as uuid } from 'uuid'
 

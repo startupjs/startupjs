@@ -16,6 +16,5 @@
   "peerDependencies": {
     "@react-native-google-signin/google-signin": ">= 6.0.0",
     "@startupjs/auth": "*"
-  },
-  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
+  }
 }
