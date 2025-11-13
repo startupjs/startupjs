@@ -32,7 +32,7 @@
     "@babel/plugin-syntax-typescript": "^7.10.4",
     "@babel/types": "^7.10.5",
     "typescript-json-schema": "^0.42.0",
-    "uuid": "^8.2.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "babel-plugin-tester": "^9.2.0",

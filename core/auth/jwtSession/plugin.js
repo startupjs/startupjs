@@ -14,7 +14,7 @@ const URL_ANONYMOUS_TOKEN = '/api/auth/token'
 const NOT_CHANGED_KEY = '__NOT_CHANGED__'
 
 export default createPlugin({
-  name: 'oauth2',
+  name: 'jwtSession',
   order: 'system session',
   enabled () {
     const { enableServer, enableConnection, enableOAuth2 } = this.module.options

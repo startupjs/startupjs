@@ -1,25 +1,25 @@
 import { Suspense, createElement as el } from 'react'
 import { createPlugin } from '@startupjs/registry'
-import axios from '@startupjs/utils/axios'
 import { Signal } from 'teamplay'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import jwksClient from 'jwks-rsa'
-import speakeasy from 'speakeasy'
-import { SESSION_KEY } from '../client/sessionData.js'
-import createToken from '../server/createToken.js'
 import { maybeRestoreUrl } from '../client/reload.js'
 import {
   AUTH_URL,
-  AUTH_TOKEN_KEY,
   AUTH_GET_URL,
   AUTH_FINISH_URL,
   AUTH_PLUGIN_NAME,
   AUTH_LOCAL_PROVIDER,
   AUTH_FORCE_PROVIDER,
-  AUTH_2FA_PROVIDER
+  AUTH_2FA_PROVIDER,
+  DEFAULT_ENABLED_PROVIDER_IDS
 } from '../client/constants.js'
-import LocalAuthStorage from './LocalAuthStorage.js'
+import LocalAuthStorage from './storages/LocalAuthStorage.js'
+import apiGetUrl from './api/getUrl.js'
+import apiLocalRegister from './api/local/register.js'
+import apiLocalLogin from './api/local/login.js'
+import apiAppleCallback from './api/apple/callback.js'
+import apiProviderCallback from './api/[provider]/callback.js'
+import api2faLogin from './api/2fa/login.js'
+import apiForceLogin from './api/force/login.js'
 
 export default createPlugin({
   name: AUTH_PLUGIN_NAME,
@@ -28,7 +28,10 @@ export default createPlugin({
     const { enableServer, enableConnection, enableOAuth2 } = this.module.options
     return (enableServer || enableConnection) && enableOAuth2
   },
-  isomorphic: ({ enabledProviderIds = PROVIDER_IDS }) => ({
+  isomorphic: ({
+    // TODO: atm this option does nothing, make it useful by actually checking enabled providers during auth
+    enabledProviderIds = DEFAULT_ENABLED_PROVIDER_IDS
+  }) => ({
     models: models => {
       return {
         ...models,
@@ -53,286 +56,42 @@ export default createPlugin({
   }),
   server: ({ providers, getUsersFilterQueryParams = () => ({}), userDBStorage }) => ({
     beforeSession (expressApp) {
+      // TODO: probably move the storage variable up to be a singleton
       const storage = userDBStorage || new LocalAuthStorage(getUsersFilterQueryParams)
-      expressApp.post(AUTH_GET_URL, (req, res) => {
-        try {
-          const { provider, extraScopes } = req.body
-          if (!provider) return res.status(400).send('Provider is not specified')
-          const url = getAuthUrl(req, provider, providers, { extraScopes })
-          res.json({ url })
-        } catch (err) {
-          console.error(err)
-          res.status(500).json({ error: 'Error during auth' })
-        }
-      })
-      {
-        const provider = AUTH_LOCAL_PROVIDER
-        expressApp.post(`${AUTH_URL}/${provider}/register`, async (req, res) => {
-          try {
-            const userinfo = JSON.parse(JSON.stringify(req.body || {}))
-            if (!(typeof userinfo?.email === 'string' && typeof userinfo?.password === 'string')) {
-              return res.json({ error: { message: 'Email and password are required' } })
-            }
-            userinfo.email = userinfo.email.trim().toLowerCase()
-            userinfo.password = userinfo.password.trim()
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userinfo.email)) {
-              return res.json({ error: { message: 'Email is invalid' } })
-            }
-            const existingAuth = await storage.findUserByProvider(provider, userinfo.email, storage.getUsersFilterQueryParams())
-            if (existingAuth) return res.json({ error: { message: 'User with this email already exists' } })
-            if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(userinfo.password)) {
-              return res.json({
-                error: {
-                  message: 'Password has to be at least 8 characters long and ' +
-                    'contain at least one number, one lowercase and one uppercase letter'
-                }
-              })
-            }
-            if (typeof userinfo.confirmPassword === 'string') {
-              userinfo.confirmPassword = userinfo.confirmPassword.trim()
-              if (userinfo.password !== userinfo.confirmPassword) {
-                return res.json({ error: { message: 'Confirm password does not match' } })
-              }
-            }
-            const token = await bcrypt.hash(userinfo.password, 10) // hash password before saving
-            delete userinfo.password
-            delete userinfo.confirmPassword
-            const config = getProviderConfig(providers, provider)
-            const state = userinfo.state
-            if (state) delete userinfo.state
-
-            const { userId, registered, $auth } = await getOrCreateAuth(config, provider, { userinfo, token, storage })
-            // run hooks
-            if (registered) await afterRegister({ $auth, config, provider, userId, state })
-            await beforeLogin({ $auth, config, provider, userId })
-
-            // login
-            const session = await getSessionData(userId, { storage })
-            res.json({ session })
-          } catch (err) {
-            console.warn(`User auth error (${provider}) register:`, err)
-            const redirectUrl = getRedirectUrlFromError(err)
-
-            if (redirectUrl) return res.json({ error: { redirectUrl } })
-
-            const publicError = getPublicError(err, 'Error during registration. Please try again later')
-            res.json({ error: { message: publicError } })
-          }
-        })
-        expressApp.post(`${AUTH_URL}/${provider}/login`, async (req, res) => {
-          try {
-            let { email, password } = req.body || {}
-            if (!(typeof email === 'string' && typeof password === 'string')) {
-              return res.json({ error: { message: 'Email and password are required' } })
-            }
-            email = email.trim().toLowerCase()
-            password = password.trim()
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-              return res.json({ error: { message: 'Email is invalid' } })
-            }
-
-            const user = await storage.findUserByProvider(provider, email, storage.getUsersFilterQueryParams())
-            const wrongCredentialsError = { error: { message: 'Login or password are incorrect' } }
-            if (!user) return res.json(wrongCredentialsError)
-            const token = user.auth[provider].token
-            const passwordMatch = await bcrypt.compare(password, token)
-            if (!passwordMatch) return res.json(wrongCredentialsError)
-            const config = getProviderConfig(providers, provider)
-
-            // run hooks
-            await beforeLogin({ $auth: user.$auth, config, provider, userId: user.userId })
-
-            // login
-            const session = await getSessionData(user.userId, { storage })
-            res.json({ session })
-          } catch (err) {
-            console.warn(`User auth error (${provider}) login:`, err)
-            const redirectUrl = getRedirectUrlFromError(err)
-
-            if (redirectUrl) return res.json({ error: { redirectUrl } })
-
-            const publicError = getPublicError(err, 'Error during login. Please try again later.')
-            res.json({ error: { message: publicError } })
-          }
-        })
-      }
-      {
-        // apple has a magic flow:
-        // - it make a POST request to the callback URL and all params are in the body
-        // - it sends user data in a magic 'user' field
-        // - we are checking the token validity by fetching JWKS and decoding the token
-        const provider = 'apple'
-        expressApp.post(`${AUTH_URL}/${provider}/callback`, async (req, res) => {
-          // get the passed state
-          let { state } = req.body
-          if (typeof state === 'string') state = JSON.parse(state)
-          if (typeof state !== 'object') return res.status(400).send('State is invalid')
-
-          try {
-            const config = getProviderConfig(providers, provider)
-            if (!config) return res.status(400).send(`Provider ${provider} is not supported`)
-            const { id_token: idToken } = req.body
-            if (!idToken) return res.status(400).send('Id token is missing')
-
-            // validate the idToken
-            const { jwksUrl } = config
-            if (!jwksUrl) return res.status(400).send('jwksUrl is not set in config')
-            const client = jwksClient({ jwksUri: jwksUrl, timeout: 30000 })
-            const { header: { kid } } = jwt.decode(idToken, { complete: true })
-            const publicKey = (await client.getSigningKey(kid)).getPublicKey()
-            const { sub, email } = jwt.verify(idToken, publicKey)
-
-            // assemble userinfo
-            // NOTE: apple sends the name in the magic 'user' field
-            let { user } = req.body
-            if (typeof user === 'string') user = JSON.parse(user)
-            const userinfo = { sub, email, user }
-
-            // get or create user
-            // NOTE: apple only provides the user info on initial login, so we never actually "update" it
-            const { scopes } = state
-            if (!Array.isArray(scopes)) return res.status(400).send('Returned scopes are invalid')
-            const { userId, registered, $auth } = await getOrCreateAuth(config, provider, { userinfo, scopes, storage })
-
-            // run hooks
-            if (registered) await afterRegister({ $auth, config, provider, userId, state })
-            await beforeLogin({ $auth, config, provider, userId })
-
-            // login
-            const session = await getSessionData(userId, { storage })
-            redirectBackToApp(res, session, state)
-          } catch (err) {
-            console.warn(`User auth error (${provider}):`, err)
-            const redirectUrl = getRedirectUrlFromError(err)
-
-            if (redirectUrl) {
-              return redirectBackToAppError({ res, err: { redirectUrl }, state })
-            }
-
-            const publicError = getPublicError(err, 'Error during auth. Please try again later')
-            redirectBackToAppError({ res, err: { message: publicError }, state })
-          }
-        })
-      }
-      expressApp.get(`${AUTH_URL}/:provider/callback`, async (req, res) => {
-        let provider
-        // get the passed state
-        let { state } = req.query
-        try { state = JSON.parse(state) } catch (err) {}
-        if (typeof state !== 'object') return res.status(400).send('State is invalid')
-
-        try {
-          provider = req.params.provider
-          const config = getProviderConfig(providers, provider)
-          if (!config) return res.status(400).send(`Provider ${provider} is not supported`)
-          const { code } = req.query
-          if (!code) return res.status(400).send('Code is missing')
-
-          // get the passed state
-          let { state } = req.query
-          try { state = JSON.parse(state) } catch (err) {}
-          if (typeof state !== 'object') return res.status(400).send('State is invalid')
-
-          // get userinfo
-          const redirectUri = getRedirectUri(req, provider)
-          const accessToken = await getAccessToken(config, provider, { code, redirectUri })
-          const userinfo = await getUserinfo(config, provider, { token: accessToken })
-
-          // update or create user
-          const { scopes } = state
-          if (!Array.isArray(scopes)) return res.status(400).send('Returned scopes are invalid')
-          const { userId, registered, $auth } = await getOrCreateAuth(config, provider, { userinfo, token: accessToken, scopes, storage })
-
-          // run hooks
-          if (registered) await afterRegister({ $auth, config, provider, userId, state })
-          await beforeLogin({ $auth, config, provider, userId })
-
-          // login
-          const session = await getSessionData(userId, { storage })
-          redirectBackToApp(res, session, state)
-        } catch (err) {
-          console.warn(`User auth error (${provider}):`, err)
-          const redirectUrl = getRedirectUrlFromError(err)
-
-          if (redirectUrl) {
-            return redirectBackToAppError({ res, err: { redirectUrl }, state })
-          }
-
-          const publicError = getPublicError(err, 'Error during auth. Please try again later')
-          redirectBackToAppError({ res, err: { message: publicError }, state })
-        }
-      })
-      {
-        const provider = AUTH_2FA_PROVIDER
-        expressApp.post(`${AUTH_URL}/${provider}/login`, async (req, res) => {
-          try {
-            const { secret, code } = req.body
-            if (!secret) return res.status(400).send('Secret is missing')
-            if (!code) return res.status(400).send('Code is missing')
-
-            const user = await storage.findUserBySecret(provider, secret)
-            if (!user) return res.json({ error: { message: 'Secret is invalid' } })
-
-            const config = getProviderConfig(providers, provider)
-            const { verify, duration, numberOfDigits } = config
-            const { $auth, userId } = user
-            const isVerified = await verify({ userId, code, duration, numberOfDigits, storage })
-            if (!isVerified) return res.json({ error: { message: 'Code is invalid' } })
-
-            // run hooks
-            await beforeLogin({ $auth, config, provider, userId })
-
-            // login
-            const session = await getSessionData(userId, { storage })
-            res.json({ session })
-          } catch (err) {
-            console.warn(`User auth error (${provider}):`, err)
-
-            const publicError = getPublicError(err, 'Error during login. Please try again later.')
-            res.json({ error: { message: publicError } })
-          }
-        })
-      }
+      expressApp.post(AUTH_GET_URL,
+        apiGetUrl({ providers })
+      )
+      expressApp.post(`${AUTH_URL}/${AUTH_LOCAL_PROVIDER}/register`,
+        apiLocalRegister({ providers, storage, provider: AUTH_LOCAL_PROVIDER })
+      )
+      expressApp.post(`${AUTH_URL}/${AUTH_LOCAL_PROVIDER}/login`,
+        apiLocalLogin({ providers, storage, provider: AUTH_LOCAL_PROVIDER })
+      )
+      // apple has a magic flow:
+      // - it make a POST request to the callback URL and all params are in the body
+      // - it sends user data in a magic 'user' field
+      // - we are checking the token validity by fetching JWKS and decoding the token
+      expressApp.post(`${AUTH_URL}/apple/callback`,
+        apiAppleCallback({ providers, storage, provider: 'apple' })
+      )
+      expressApp.get(`${AUTH_URL}/:provider/callback`,
+        apiProviderCallback({ providers, storage })
+      )
+      expressApp.post(`${AUTH_URL}/${AUTH_2FA_PROVIDER}/login`,
+        api2faLogin({ providers, storage, provider: AUTH_2FA_PROVIDER })
+      )
       expressApp.get(AUTH_FINISH_URL, (req, res) => {
         res.send('Authenticated successfully')
       })
     },
     afterSession (expressApp) {
+      // TODO: probably move the storage variable up to be a singleton
       const storage = userDBStorage || new LocalAuthStorage(getUsersFilterQueryParams)
-      const provider = AUTH_FORCE_PROVIDER
       // 'Login as...' functionality. Allows to login as another user by his userId.
       // Supposed to be only used by trusted users (e.g. admins).
-      expressApp.post(`${AUTH_URL}/${provider}/login`, async (req, res) => {
-        try {
-          const { userId: targetUserId } = req.body
-          if (typeof targetUserId !== 'string') return res.json({ error: { message: 'User ID is required' } })
-          const config = getProviderConfig(providers, provider)
-          const { validateAccess } = config
-          const { session } = req
-          if (!session.loggedIn) return res.json({ error: { message: 'You are not logged in' } })
-          const targetAuthData = await storage.getUserById(targetUserId)
-          if (!targetAuthData) return res.json({ error: { message: 'No user found with userId ' + targetUserId } })
-          await validateAccess({ session, targetUserId, config, provider, storage })
-
-          // login
-          const targetSession = await getSessionData(targetUserId, {
-            extraPayload: {
-              isImpostor: true,
-              impostorUserId: session.userId
-            },
-            storage
-          })
-          res.json({ session: targetSession })
-        } catch (err) {
-          console.warn(`User auth error (${provider}):`, err)
-          const redirectUrl = getRedirectUrlFromError(err)
-
-          if (redirectUrl) return res.json({ error: { redirectUrl } })
-
-          const publicError = getPublicError(err, 'Error during login. Please try again later.')
-          res.json({ error: { message: publicError } })
-        }
-      })
+      expressApp.post(`${AUTH_URL}/${AUTH_FORCE_PROVIDER}/login`,
+        apiForceLogin({ providers, storage, provider: AUTH_FORCE_PROVIDER })
+      )
     }
   }),
   client: () => ({
@@ -348,342 +107,10 @@ export default createPlugin({
   })
 })
 
-function getPublicError (err, fallback) {
-  return err.public ? err.message : fallback
-}
-
-function getRedirectUrlFromError (err) {
-  return err.redirectUrl
-}
-
 const maybeRestoreUrlOnce = makeOnceFn(maybeRestoreUrl)
 function MaybeRestoreUrl ({ children }) {
   maybeRestoreUrlOnce()
   return children
-}
-
-function redirectBackToApp (res, session, { redirectUrl, platform }) {
-  if (!redirectUrl) throw Error('Redirect URL is missing. It must be passed in the state from the client')
-  if (platform === 'web') {
-    res.setHeader('Content-Type', 'text/html')
-    res.send(`
-      <script>
-        localStorage.setItem('${SESSION_KEY}', '${JSON.stringify(session)}');
-        window.location.href = '${redirectUrl || '/'}';
-      </script>
-    `)
-  } else {
-    const sessionEncoded = encodeURIComponent(JSON.stringify(session))
-    res.redirect(`${redirectUrl}?${AUTH_TOKEN_KEY}=${sessionEncoded}`)
-  }
-}
-
-function redirectBackToAppError ({ res, err, state }) {
-  const { redirectUrl, platform } = state
-
-  if (!redirectUrl) {
-    throw new Error('Redirect URL is missing. It must be passed in the state from the client')
-  }
-  const { redirectUrl: errRedirectUrl, message } = err
-
-  if (platform === 'web') {
-    let href = errRedirectUrl || redirectUrl
-    if (message) href += `?err=${encodeURIComponent(JSON.stringify({ message }))}`
-    res.setHeader('Content-Type', 'text/html')
-    res.send(`
-      <script>
-        window.location.href = '${href}';
-      </script>
-    `)
-  } else {
-    const errEncoded = encodeURIComponent(JSON.stringify(err))
-    res.redirect(`${redirectUrl}?err=${errEncoded}`)
-  }
-}
-
-async function getSessionData (userId, { extraPayload, storage } = {}) {
-  const user = await storage.getUserById(userId)
-  const { auth } = user
-  const authProviderIds = auth?.providerIds || []
-  const payload = { userId, loggedIn: true, authProviderIds, ...extraPayload }
-  const token = await createToken(payload)
-  return { ...payload, token }
-}
-
-function getAuthUrl (req, provider, providers, { extraScopes } = {}) {
-  const config = getProviderConfig(providers, provider)
-  if (!config) throw Error(`Provider ${provider} is not supported`)
-  const redirectUri = getRedirectUri(req, provider)
-  return _getAuthUrl(config, provider, { redirectUri, extraScopes })
-}
-
-function getRedirectUri (req, provider) {
-  let host = req.headers.host
-  const port = host.split(':')[1]
-  // hack for local development of expo app.
-  // When opening app in iOS emulator it uses the local IP address as a BASE_URL
-  // instead of localhost. Which is a problem because the auth callback URL
-  // expects 'localhost' as a host. So we need to replace the IP address with 'localhost'.
-  if (/192\.168\./.test(host) || /10\./.test(host)) {
-    host = 'localhost'
-    host += port ? `:${port}` : ''
-  }
-  const baseUrl = `${req.protocol}://${host}`
-  return `${baseUrl}${AUTH_URL}/${provider}/callback`
-}
-
-function _getAuthUrl (config, provider, { redirectUri, extraScopes = [] }) {
-  const { authUrl } = config
-  const clientId = getClientId({ config, provider })
-  let { scopes, authUrlSearchParams } = config
-  if (!scopes) throw Error(ERRORS.missingScopes(provider))
-  scopes = [...new Set([...scopes, ...extraScopes])]
-  const params = new URLSearchParams(Object.entries({
-    response_type: 'code',
-    client_id: clientId,
-    redirect_uri: redirectUri,
-    scope: scopes.join(' '),
-    ...authUrlSearchParams
-  })).toString()
-  return `${authUrl}?${params}`
-}
-
-async function getAccessToken (config, provider, { redirectUri, code }) {
-  const { tokenUrl } = config
-  if (!tokenUrl) throw Error(`Token URL is missing for provider ${provider}`)
-  const clientId = getClientId({ config, provider })
-  const clientSecret = getClientSecret({ config, provider })
-  const res = await axios.post(tokenUrl, {
-    code,
-    client_id: clientId,
-    client_secret: clientSecret,
-    redirect_uri: redirectUri,
-    grant_type: 'authorization_code'
-  })
-  let token
-  if (typeof res.data === 'string') {
-    if (res.data.startsWith('error=')) throw Error(`Error response from ${tokenUrl}: ${res.data}`)
-    const params = new URLSearchParams(res.data)
-    token = params.get('access_token')
-  } else if (typeof res.data === 'object') {
-    token = res.data.access_token
-  } else {
-    throw Error(`Unexpected response from ${tokenUrl}`)
-  }
-  if (!token) throw Error(`Token is missing in response from ${tokenUrl}`)
-  return token
-}
-
-function getClientId ({ config, provider }) {
-  const clientId = (
-    config.getClientId?.({ config, provider }) ||
-    config.clientId ||
-    process.env[`${provider.toUpperCase()}_CLIENT_ID`]
-  )
-  if (!clientId) throw Error(`Env var ${provider.toUpperCase()}_CLIENT_ID is missing`)
-  return clientId
-}
-
-function getClientSecret ({ config, provider }) {
-  const clientSecret = (
-    config.getClientSecret?.({ config, provider }) ||
-    config.clientSecret ||
-    process.env[`${provider.toUpperCase()}_CLIENT_SECRET`]
-  )
-  if (!clientSecret) throw Error(`Env var ${provider.toUpperCase()}_CLIENT_SECRET is missing`)
-  return clientSecret
-}
-
-function getProviderConfig (providers = {}, provider) {
-  if (!(providers[provider] || DEFAULT_PROVIDERS[provider])) return undefined
-  return {
-    ...DEFAULT_PROVIDERS[provider],
-    ...providers[provider],
-    scopes: [...new Set([
-      ...(DEFAULT_PROVIDERS[provider]?.scopes || []),
-      ...(providers[provider]?.scopes || [])
-    ])] // merge default scopes with additional custom scopes
-  }
-}
-
-async function getUserinfo (config, provider, { token }) {
-  const { userinfoUrl } = config
-  if (userinfoUrl) {
-    const res = await axios.get(userinfoUrl, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    const userinfo = res.data
-    if (!userinfo) throw Error(`Userinfo is missing in response from ${userinfoUrl}`)
-    return userinfo
-  } else {
-    const decoded = jwt.decode(token)
-    if (!decoded) throw Error(ERRORS.missingUserinfoUrl(provider))
-    return decoded
-  }
-}
-
-async function getOrCreateAuth (config, provider, { userinfo, token, scopes, storage } = {}) {
-  const { id: providerUserId, ...privateInfo } = getPrivateInfo(config, userinfo)
-  if (!providerUserId) throw Error(ERRORS.noIdField)
-  const publicInfo = getPublicInfo(config, userinfo)
-  async function updateProviderInfo (userId) {
-    const raw = config.saveRawUserinfo ? userinfo : undefined
-    await storage.addNewProvider(userId, provider, { providerUserId, privateInfo, publicInfo, raw, token, scopes })
-  }
-  // first try to find the exact match with the provider's id
-  {
-    const user = await storage.findUserByProvider(provider, providerUserId, storage.getUsersFilterQueryParams())
-    // update user info if it was changed
-    if (user) {
-      const { $auth, userId } = user
-      const { autoUpdateInfo = true } = config
-      if (autoUpdateInfo) await updateProviderInfo(userId)
-      return { $auth, userId, registered: false }
-    }
-  }
-  // then see if we already have a user with such email but without this provider.
-  // If the provider is trusted (it definitely provides correct and confirmed email),
-  // then we can merge the provider into the existing user.
-  if (config.allowAutoMergeByEmail && privateInfo.email) {
-    const user = await storage.findUserByEmail(privateInfo.email, {
-      [provider]: { $exists: false },
-      ...storage.getUsersFilterQueryParams()
-    })
-    if (user) {
-      const { $auth, userId } = user
-      await updateProviderInfo(userId)
-      return { $auth, userId, registered: false }
-    }
-  }
-  // create a new user
-  {
-    const { $auth, userId } = await storage.createUser({ ...privateInfo })
-    await updateProviderInfo(userId)
-    return { $auth, userId, registered: true }
-  }
-}
-
-function getPrivateInfo (config, userinfo) {
-  const privateInfo = config.getPrivateInfo?.(userinfo) || defaultGetPrivateInfo(userinfo)
-  if (!privateInfo?.id) throw Error('Userinfo: id is missing')
-  return privateInfo
-}
-
-function getPublicInfo (config, userinfo) {
-  return config.getPublicInfo?.(userinfo) || defaultGetPublicInfo(userinfo)
-}
-
-async function beforeLogin ({ $auth, config, provider, userId }) {
-  if (!config.beforeLogin) return
-
-  const beforeLoginResult = config.beforeLogin({ $auth, userId, provider })
-  if (beforeLoginResult?.then) await beforeLoginResult
-}
-
-async function afterRegister ({ $auth, config, provider, userId, state }) {
-  if (!config.afterRegister) return
-
-  const afterRegisterResult = config.afterRegister({ $auth, userId, provider, state })
-  if (afterRegisterResult?.then) await afterRegisterResult
-}
-
-const PROVIDER_IDS = ['google', 'github']
-const DEFAULT_PROVIDERS = {
-  google: {
-    authUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
-    tokenUrl: 'https://oauth2.googleapis.com/token',
-    userinfoUrl: 'https://openidconnect.googleapis.com/v1/userinfo',
-    scopes: ['openid', 'profile', 'email'],
-    getPrivateInfo: ({ sub, email }) => ({ id: sub, email }),
-    getPublicInfo: ({ name, picture }) => ({ name, avatarUrl: picture }),
-    allowAutoMergeByEmail: true,
-    saveRawUserinfo: true
-  },
-  apple: {
-    authUrl: 'https://appleid.apple.com/auth/authorize',
-    jwksUrl: 'https://appleid.apple.com/auth/keys',
-    scopes: ['name', 'email'],
-    getPrivateInfo: ({ sub, email }) => ({ id: sub, email }),
-    getPublicInfo: ({ user }) => {
-      const res = {}
-      const name = `${user?.name?.firstName || ''} ${user?.name?.lastName || ''}`.trim()
-      if (name) res.name = name
-      return res
-    },
-    authUrlSearchParams: {
-      response_mode: 'form_post',
-      response_type: 'code id_token'
-    },
-    autoUpdateInfo: false
-  },
-  github: {
-    authUrl: 'https://github.com/login/oauth/authorize',
-    tokenUrl: 'https://github.com/login/oauth/access_token',
-    userinfoUrl: 'https://api.github.com/user',
-    scopes: ['user:email'],
-    getPrivateInfo: ({ id, email }) => ({ id, email }),
-    // eslint-disable-next-line camelcase
-    getPublicInfo: ({ name, avatar_url }) => ({ name, avatarUrl: avatar_url }),
-    allowAutoMergeByEmail: true,
-    saveRawUserinfo: true
-  },
-  local: {
-    getPrivateInfo: ({ email }) => ({ id: email, email }),
-    getPublicInfo: ({ name }) => ({ name })
-  },
-  force: {
-    async validateAccess ({ session, targetUserId, config, provider, storage }) {
-      // By default a very simple check is used to validate access to this feature.
-      // `auths[userId].force.token` should match `process.env.FORCE_CLIENT_SECRET`.
-      // If env var doesn't exist, this feature is disabled.
-      // In production app you should implement a more secure way to validate admin access
-      const clientSecret = await getClientSecret({ config, provider })
-      if (!clientSecret) throw new PublicError('Access denied. Secret token is missing')
-      const myUserId = session.userId
-      const user = await storage.getUserById(myUserId)
-      const token = user.auth[provider].token
-      if (token !== clientSecret) throw new PublicError('Access denied. Secret token is invalid')
-    }
-  },
-  '2fa': {
-    duration: 60 * 10, // 10 minutes
-    numberOfDigits: 4,
-    async verify ({ userId, code, duration, numberOfDigits, storage }) {
-      const user = await storage.getUserById(userId)
-      const secret = user.auth['2fa'].base32
-
-      return speakeasy.totp.verify({
-        secret,
-        encoding: 'base32',
-        token: code,
-        step: duration,
-        digits: numberOfDigits,
-        window: 1
-      })
-    }
-  }
-}
-
-function defaultGetPrivateInfo (userinfo) {
-  const email = userinfo.email
-  const id = userinfo.id || userinfo.sub || userinfo.user_id || userinfo.email || userinfo.login
-  return { id, email }
-}
-
-function defaultGetPublicInfo (userinfo) {
-  const name = userinfo.displayName || userinfo.name || userinfo.nickname || userinfo.username || userinfo.login
-  const potentialAvatarKeys = [
-    'avatarUrl', 'avatar_url', 'avatarURL', 'avatar', 'photoUrl', 'photo_url', 'photoURL', 'photo',
-    'pictureUrl', 'picture_url', 'pictureURL', 'picture', 'image', 'imageUrl', 'image_url', 'imageURL'
-  ]
-  let avatarUrl
-  for (const key of potentialAvatarKeys) {
-    if (userinfo[key]) {
-      avatarUrl = userinfo[key]
-      break
-    }
-  }
-  return { name, avatarUrl }
 }
 
 export function getAuthsSchema (enabledProviderIds) {
@@ -733,23 +160,4 @@ function makeOnceFn (fn) {
     if (initialized) return result // in case of sync result
     return promise
   }
-}
-
-class PublicError extends Error {
-  constructor (...args) {
-    super(...args)
-    this.public = true
-  }
-}
-
-const ERRORS = {
-  missingUserinfoUrl: provider => `
-    \`userinfoUrl\` is missing for provider ${provider}.
-    And the access_token is an opaque token instead of JWT so no user information can be extracted from it.
-  `,
-  missingScopes: provider => `Scopes are missing for provider ${provider}`,
-  noIdField: `
-    auth: did not receive 'id' from userinfo.
-    You have probably forgot to return the 'id' field from getPrivateInfo()
-  `
 }

@@ -10,7 +10,7 @@ import { v4 as uuid } from 'uuid'
 const URL_SESSION = '/api/serverSession'
 
 export default createPlugin({
-  name: 'clientSession',
+  name: 'cookieSession',
   order: 'system session',
   enabled () {
     const { enableServer, enableConnection, enableOAuth2 } = this.module.options
