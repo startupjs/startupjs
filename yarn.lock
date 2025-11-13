@@ -5886,9 +5886,9 @@ __metadata:
   resolution: "@startupjs/docs@workspace:packages/docs"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
-    "@startupjs/mdx": "npm:^0.54.21"
-    "@startupjs/scrollable-anchors": "npm:^0.54.21"
-    "@startupjs/ui": "npm:^0.54.21"
+    "@startupjs/mdx": "npm:^0.54.25"
+    "@startupjs/scrollable-anchors": "npm:^0.54.25"
+    "@startupjs/ui": "npm:^0.54.25"
     parse-prop-types: "npm:^0.3.0"
   peerDependencies:
     react: "*"
@@ -5996,13 +5996,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/mdx@npm:^0.54.0, @startupjs/mdx@npm:^0.54.21, @startupjs/mdx@workspace:packages/mdx":
+"@startupjs/mdx@npm:^0.54.0, @startupjs/mdx@npm:^0.54.25, @startupjs/mdx@workspace:packages/mdx":
   version: 0.0.0-use.local
   resolution: "@startupjs/mdx@workspace:packages/mdx"
   dependencies:
     "@mdx-js/react": "npm:~2.3.0"
-    "@startupjs/scrollable-anchors": "npm:^0.54.21"
-    "@startupjs/ui": "npm:^0.54.21"
+    "@startupjs/scrollable-anchors": "npm:^0.54.25"
+    "@startupjs/ui": "npm:^0.54.25"
     refractor: "npm:^3.0.0"
   peerDependencies:
     "@react-native-clipboard/clipboard": "*"
@@ -6185,11 +6185,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/scrollable-anchors@npm:^0.54.0, @startupjs/scrollable-anchors@npm:^0.54.21, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
+"@startupjs/scrollable-anchors@npm:^0.54.0, @startupjs/scrollable-anchors@npm:^0.54.25, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
   version: 0.0.0-use.local
   resolution: "@startupjs/scrollable-anchors@workspace:packages/scrollable-anchors"
   dependencies:
-    "@startupjs/ui": "npm:^0.54.21"
+    "@startupjs/ui": "npm:^0.54.25"
     startupjs: "npm:^0.54.16"
   languageName: unknown
   linkType: soft
@@ -6314,7 +6314,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/ui@npm:^0.54.0, @startupjs/ui@npm:^0.54.21, @startupjs/ui@workspace:packages/ui":
+"@startupjs/ui@npm:^0.54.0, @startupjs/ui@npm:^0.54.25, @startupjs/ui@workspace:packages/ui":
   version: 0.0.0-use.local
   resolution: "@startupjs/ui@workspace:packages/ui"
   dependencies:

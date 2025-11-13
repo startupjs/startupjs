@@ -1,3 +1,12 @@
+## [0.54.25](https://github.com/startupjs/startupjs/compare/v0.54.24...v0.54.25) (2025-11-13)
+
+
+### Bug Fixes
+
+* **TextInput:** add default font-family ([39d6ba9](https://github.com/startupjs/startupjs/commit/39d6ba95e105127229cd0a49ae26301f8c4ecade))
+
+
+
 ## [0.54.24](https://github.com/startupjs/startupjs/compare/v0.54.23...v0.54.24) (2025-11-06)
 
 
