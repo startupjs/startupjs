@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Auth module for StartupJS apps. Supports either cookie sessions or JWT tokens.",
-  "version": "0.60.0-canary.7",
+  "version": "0.60.0-canary.8",
   "type": "module",
   "main": "index.js",
   "exports": {
