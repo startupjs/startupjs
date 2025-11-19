@@ -6070,7 +6070,6 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
     "@startupjs/mdx": "npm:^0.60.0-canary.7"
     "@startupjs/scrollable-anchors": "npm:^0.60.0-canary.7"
-    parse-prop-types: "npm:^0.3.0"
   peerDependencies:
     "@startupjs/ui": "*"
     react: "*"
@@ -23674,15 +23673,6 @@ __metadata:
   dependencies:
     pngjs: "npm:^3.3.0"
   checksum: 10c0/5157a8bbb976ae1ca990fc53c7014d42aac0967cb30e2daf36c3fef1876c8db0d551e695400c904f33c5c5add76a572c65b5044721d62417d8cc7abe4c4ffa41
-  languageName: node
-  linkType: hard
-
-"parse-prop-types@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "parse-prop-types@npm:0.3.0"
-  peerDependencies:
-    prop-types: ^15.0.0
-  checksum: 10c0/44c19730094faec4bd885fb8ed3f3043e3bb73f02b22158fb75849f94bed5867a74f40701584456dbbc03e08a55de244274233196e6e4475ecc132dc8c8da8eb
   languageName: node
   linkType: hard
 
