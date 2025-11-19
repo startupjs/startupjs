@@ -3,11 +3,15 @@
   "publishConfig": {
     "access": "public"
   },
+  "type": "module",
   "description": "MDX provider with a set of custom components for react-native support and syntax highlighting",
   "version": "0.60.0-canary.7",
-  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./useMDXComponents": "./useMDXComponents.js"
+  },
   "dependencies": {
-    "@mdx-js/react": "~2.3.0",
+    "@mdx-js/react": "^3.0.0",
     "@startupjs/scrollable-anchors": "^0.60.0-canary.7",
     "refractor": "^3.0.0"
   },

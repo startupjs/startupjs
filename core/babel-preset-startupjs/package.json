@@ -15,8 +15,14 @@
     "@babel/core": "^7.9.0",
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "@babel/plugin-syntax-typescript": "^7.23.3",
+    "@startupjs/babel-plugin-eliminator": "^0.60.0-canary.0",
     "@startupjs/babel-plugin-i18n-extract": "^0.60.0-canary.7",
     "@startupjs/babel-plugin-startupjs": "^0.60.0-canary.7",
-    "@startupjs/babel-plugin-startupjs-debug": "^0.60.0-canary.7"
+    "@startupjs/babel-plugin-startupjs-debug": "^0.60.0-canary.7",
+    "@startupjs/babel-plugin-startupjs-plugins": "^0.60.0-canary.0",
+    "@startupjs/babel-plugin-ts-to-json-schema": "^0.60.0-canary.0"
+  },
+  "peerDependencies": {
+    "cssxjs": "*"
   }
 }

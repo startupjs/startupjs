@@ -1,5 +1,5 @@
 import React from 'react'
-import { pug, observer, useModel, useLocal } from 'startupjs'
+import { pug, observer, $ } from 'startupjs'
 import { themed, Div, Span } from '@startupjs/ui'
 import './index.styl'
 
@@ -17,11 +17,11 @@ export default observer(function GridVisualizer ({
   style,
   children
 }) {
-  const $componentSize = useModel('_session.Renderer.componentSize')
+  const $componentSize = $.session.Renderer.componentSize
 
   function onLayout (e) {
     const { width, height } = e.nativeEvent.layout
-    $componentSize.setDiffDeep({ width, height })
+    $componentSize.set({ width, height })
   }
 
   // TODO: Bring back width check as an option. For now it's commented out.
@@ -45,7 +45,8 @@ export default observer(function GridVisualizer ({
 })
 
 const LeftBar = observer(themed(({ allowHalfUnit, validate, theme }) => {
-  const [height = 0] = useLocal('_session.Renderer.componentSize.height')
+  const $height = $.session.Renderer.componentSize.height
+  const height = $height.get() || 0
   const units = toUnits(height)
   const valid = validate ? validateGrid(height, allowHalfUnit) : true
 

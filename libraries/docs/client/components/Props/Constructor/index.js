@@ -22,8 +22,8 @@ export default observer(themed(function Constructor ({
       Thead.thead
         Tr
           Td: Span.header PROP
+          Td: Span.header DESCRIPTION
           Td: Span.header TYPE
-          Td: Span.header DEFAULT
           Td: Span.header.right VALUE
       Tbody
         each entry, index in entries
@@ -42,8 +42,12 @@ export default observer(themed(function Constructor ({
                   color='error'
                   shape='rounded'
                 ) Required
+              if defaultValue != null
+                Span.valueDefault
+                  Span(description) =#{' '}
+                  Span.value= JSON.stringify(defaultValue)
+            Td: Span(description italic)= entry.description || '-'
             Td: TypeCell(possibleValues=possibleValues type=type)
-            Td: Span.value= JSON.stringify(defaultValue)
             Td.vCenter: ValueCell(entry=entry $props=$props)
   `
 }))
