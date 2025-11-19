@@ -6007,11 +6007,6 @@ __metadata:
     babel-plugin-tester: "npm:^9.1.0"
     jest: "npm:^26.0.1"
     ts-json-schema-generator: "npm:2.0.0"
-  peerDependencies:
-    react: "*"
-  peerDependenciesMeta:
-    react:
-      optional: true
   languageName: unknown
   linkType: soft
 
