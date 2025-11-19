@@ -1,51 +1,25 @@
-# @startupjs/babel-plugin-startupjs-debug
+# @startupjs/babel-plugin-ts-to-json-schema
 
-Additional transformations for development and debugging
+Transform TypeScript interface to JSON Schema to be used in Docs.
 
 ## Usage
 
-For internal usage only.
+When using as part of 'babel-preset-startupjs', enable this plugin by passing the option `docgen: true`:
+
+```js
+presets: [
+  ['babel-preset-startupjs', { docgen: true }]
+]
+```
 
 ### Options
 
 ```js
 // defaults
 {
-  fixObserverHotReloading: true,
-  addFilenamesToObserver: true
+  magicExportName: '_PropsJsonSchema',
+  interfaceMatch: 'export interface'
 }
-```
-
-## Example
-
-fix hot reloading of observer() and add filename
-
-```jsx
-import { observer } from 'startupjs'
-
-export default observer(function Main ({ title }) {
-  return <span>Hello</span>
-}, { forwardRef: true, suspenseProps: { loader: <span>Loading</span> } })
-```
-
-↓ ↓ ↓ ↓ ↓ ↓
-
-```jsx
-import { observer } from "startupjs";
-export default observer.__wrapObserverMeta(
-  observer.__makeObserver(
-    function Main({ title }) {
-      return <span>Hello</span>;
-    },
-    {
-      forwardRef: true,
-      suspenseProps: {
-        loader: <span>Loading</span>,
-      },
-      filename: "/ws/dummy-project/component.js",
-    }
-  )
-);
 ```
 
 ## License
