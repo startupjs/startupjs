@@ -17,7 +17,7 @@
   "dependencies": {
     "@babel/core": "^7.9.0",
     "@babel/plugin-syntax-jsx": "^7.0.0",
-    "@mdx-js/mdx": "^2.3.0",
+    "@mdx-js/mdx": "^3.0.0",
     "@startupjs/babel-plugin-eliminator": "^0.60.0-canary.7",
     "@startupjs/babel-plugin-startupjs-plugins": "^0.60.0-canary.7",
     "@startupjs/server": "^0.60.0-canary.7",
@@ -27,7 +27,7 @@
     "babel-preset-startupjs": "^0.60.0-canary.7",
     "connect": "^3.7.0",
     "lodash": "^4.17.20",
-    "remark-gfm": "^1.0.0"
+    "remark-gfm": "4.0.1"
   },
   "peerDependencies": {
     "cssxjs": "*",

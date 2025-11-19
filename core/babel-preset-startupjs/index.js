@@ -34,6 +34,8 @@
  *       is part of the startupjs ecosystem (a plugin, startupjs.config.js, loadStartupjsConfig.js or a model file).
  *       Default: a function that returns true for all startupjs plugin ecosystem files. And also
  *       when clientOnly is true, it also returns true for model/*.js files to keep only client-relevant code there.
+ *   docgen - Whether to enable docgen features - magic exports of JSON schemas from TypeScript interfaces.
+ *       Default: false
  */
 const { createStartupjsFileChecker, CONFIG_FILENAME_REGEX } = require('./utils.js')
 const PLUGIN_KEYS = ['name', 'for', 'order', 'enabled']
@@ -52,7 +54,8 @@ module.exports = (api, {
   useRequireContext = true,
   clientOnly = true,
   envs = ['features', 'isomorphic', 'client'],
-  isStartupjsFile = createStartupjsFileChecker({ clientOnly })
+  isStartupjsFile = createStartupjsFileChecker({ clientOnly }),
+  docgen = false
 } = {}) => {
   const isMetro = api.caller(caller => caller?.name === 'metro')
 
@@ -89,6 +92,11 @@ module.exports = (api, {
       ]
     }, {
       plugins: [
+        docgen && [require('@startupjs/babel-plugin-ts-to-json-schema'), {
+          magicExportName: '_PropsJsonSchema',
+          interfaceMatch: 'export interface'
+        }],
+
         // transform pug to jsx. This generates a bunch of new AST nodes
         // (it's important to do this first before any dead code elimination runs)
         transformPug && [require('cssxjs/babel/plugin-react-pug'), { classAttribute: 'styleName' }],

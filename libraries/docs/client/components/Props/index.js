@@ -1,18 +1,14 @@
 import React, { useMemo, useState } from 'react'
-import { pug, observer, $root, useComponentId } from 'startupjs'
+import { pug, observer, $, useId } from 'startupjs'
 import { themed, Button, Div, ScrollView } from '@startupjs/ui'
-import parsePropTypesModule from 'parse-prop-types'
 import Constructor from './Constructor'
 import Renderer from './Renderer'
 import './index.styl'
 
-const parsePropTypes = parsePropTypesModule.default || parsePropTypesModule
-if (!parsePropTypes) throw Error('> Can\'t load parse-prop-types module. Issues with bundling')
-
-function useEntries ({ Component, props, extraParams }) {
+function useEntries ({ Component, props, extraParams, propsJsonSchema }) {
   return useMemo(() => {
-    const propTypes = parsePropTypes(Component)
-    const entries = Object.entries(propTypes)
+    if (!propsJsonSchema?.properties) return []
+    const entries = Object.entries(propsJsonSchema.properties)
 
     const res = parseEntries(entries)
       .filter(entry => entry.name[0] !== '_') // skip private properties
@@ -36,33 +32,38 @@ function useEntries ({ Component, props, extraParams }) {
     }
 
     return res
-  }, [])
+  }, [extraParams, props, propsJsonSchema])
 }
 
 function parseEntries (entries) {
   return entries.map(entry => {
     const meta = entry[1]
+    let type = meta.type
+    if (meta.enum) type = 'oneOf'
+    if (meta.$comment && meta.$comment.startsWith('(')) type = 'function'
+    if (!type) type = 'any'
     return {
       name: entry[0],
-      type: meta.type.name,
-      defaultValue: meta.defaultValue && meta.defaultValue.value,
-      possibleValues: meta.type.value,
-      isRequired: meta.required
+      type,
+      defaultValue: meta.default,
+      possibleValues: meta.enum,
+      isRequired: meta.required,
+      description: meta.description
     }
   })
 }
 
 async function useInitDefaultProps ({ entries, $theProps }) {
   if ($theProps.get()) return
-  $theProps.setDiff({})
+  $theProps.set({})
 
   const promises = []
 
   for (const { name, value, defaultValue } of entries) {
     if (value !== undefined) {
-      promises.push($theProps.set(name, value, null))
+      promises.push($theProps[name].set(value))
     } else if (defaultValue !== undefined) {
-      promises.push($theProps.set(name, defaultValue, null))
+      promises.push($theProps[name].set(defaultValue))
     }
   }
   if (promises.length) throw await Promise.all(promises)
@@ -74,6 +75,7 @@ export default observer(themed(function PComponent ({
   Component,
   $props,
   props,
+  propsJsonSchema,
   extraParams,
   componentName,
   showGrid,
@@ -83,17 +85,17 @@ export default observer(themed(function PComponent ({
   block: defaultBlock
 }) {
   const [block, setBlock] = useState(!!defaultBlock)
-  const componentId = useComponentId()
+  const componentId = useId()
 
   const $theProps = useMemo(() => {
     if (!$props) {
-      return $root.scope(`_session.Props.${componentId}`)
+      return $.session.Props[componentId]
     } else {
       return $props
     }
-  }, [$props])
+  }, [$props, componentId])
 
-  const entries = useEntries({ Component, props, extraParams })
+  const entries = useEntries({ Component, props, extraParams, propsJsonSchema })
   useInitDefaultProps({ entries, $theProps })
 
   function Wrapper ({ children }) {

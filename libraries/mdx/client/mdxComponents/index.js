@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Image, ScrollView, Platform } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
-import { pug, $root, observer, useValue } from 'startupjs'
+import { pug, observer, $, BASE_URL } from 'startupjs'
 import {
   Alert,
   Div,
@@ -21,17 +21,16 @@ import {
   Tr,
   Collapse
 } from '@startupjs/ui'
-import { Anchor, scrollTo } from '@startupjs/scrollable-anchors'
-import { faLink } from '@fortawesome/free-solid-svg-icons/faLink'
+// import { Anchor, scrollTo } from '@startupjs/scrollable-anchors'
+// import { faLink } from '@fortawesome/free-solid-svg-icons/faLink'
 import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
 import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy'
-import _kebabCase from 'lodash/kebabCase'
-import _get from 'lodash/get'
-import { BASE_URL } from '@env'
+// import _kebabCase from 'lodash/kebabCase'
+// import _get from 'lodash/get'
 import './index.styl'
 import Code from '../Code'
 
-const RowComponent = props => pug`Div(...props row)`
+// const RowComponent = props => pug`Div(...props row)`
 const ALPHABET = 'abcdefghigklmnopqrstuvwxyz'
 const ListLevelContext = React.createContext()
 const BlockquoteContext = React.createContext()
@@ -52,59 +51,59 @@ function P (props) {
   `
 }
 
-function getTextChildren (children) {
-  const nestedChildren = _get(children, 'props.children')
-  if (nestedChildren) {
-    return getTextChildren(nestedChildren)
-  }
+// function getTextChildren (children) {
+//   const nestedChildren = _get(children, 'props.children')
+//   if (nestedChildren) {
+//     return getTextChildren(nestedChildren)
+//   }
 
-  return children
-}
+//   return children
+// }
 
-function MDXAnchor ({
-  children,
-  style,
-  anchor,
-  size
-}) {
-  const [hover, setHover] = useState()
-  const anchorKebab = _kebabCase(anchor)
+// function MDXAnchor ({
+//   children,
+//   style,
+//   anchor,
+//   size
+// }) {
+//   const [hover, setHover] = useState()
+//   const anchorKebab = _kebabCase(anchor)
 
-  return pug`
-    Anchor.anchor(
-      style=style
-      id=anchorKebab
-      Component=RowComponent
-      vAlign='center'
-      onMouseEnter=() => setHover(true)
-      onMouseLeave=() => setHover()
-    )
-      = children
-      Link.anchor-link(
-        styleName={ hover }
-        to='#' + anchorKebab
-      )
-        Icon(icon=faLink size=size)
-  `
-}
+//   return pug`
+//     Anchor.anchor(
+//       style=style
+//       id=anchorKebab
+//       Component=RowComponent
+//       vAlign='center'
+//       onMouseEnter=() => setHover(true)
+//       onMouseLeave=() => setHover()
+//     )
+//       = children
+//       Link.anchor-link(
+//         styleName={ hover }
+//         to='#' + anchorKebab
+//       )
+//         Icon(icon=faLink size=size)
+//   `
+// }
 
 export default {
   wrapper: ({ children }) => pug`
     Div= children
   `,
+  // TODO: MDXAnchor(anchor=getTextChildren(children) size='xl')
   h1: ({ children }) => pug`
-    MDXAnchor(anchor=getTextChildren(children) size='xl')
-      H2(bold)
-        = children
+    H2(bold)
+      = children
   `,
+  // TODO: MDXAnchor.h2(anchor=getTextChildren(children))
   h2: ({ children }) => pug`
-    MDXAnchor.h2(anchor=getTextChildren(children))
-      H5.h2-text= children
+    H5.h2-text= children
     Div.divider
   `,
+  // TODO: MDXAnchor.h3(anchor=getTextChildren(children) size='s')
   h3: ({ children }) => pug`
-    MDXAnchor.h3(anchor=getTextChildren(children) size='s')
-      H6.h3-text(bold)= children
+    H6.h3-text(bold)= children
   `,
   h4: P,
   h5: P,
@@ -150,21 +149,21 @@ export default {
   th: Th,
   delete: P,
   a: ({ children, href }) => {
-    function onPress (event) {
-      const { url, hash } = $root.get('$render')
-      const [_url, _hash] = href.split('#')
-      if (url === _url && hash === `#${_hash}`) {
-        event.preventDefault()
-        scrollTo({ anchorId: _hash })
-      }
-    }
+    // function onPress (event) {
+    //   const { url, hash } = $root.get('$render')
+    //   const [_url, _hash] = href.split('#')
+    //   if (url === _url && hash === `#${_hash}`) {
+    //     event.preventDefault()
+    //     // scrollTo({ anchorId: _hash })
+    //   }
+    // }
 
+    // TODO: handle Anchor click with onPress
     return pug`
       Link.link(
         to=href
         size='l'
         color='primary'
-        onPress=onPress
       )= children
     `
   },
@@ -286,7 +285,7 @@ export default {
 
     const language = (className || 'language-txt').replace(/language-/, '')
     const [open, setOpen] = useState(false)
-    const [copyText, $copyText] = useValue('Copy code')
+    const $copyText = $('Copy code')
 
     function copyHandler () {
       Clipboard.setString(children)
@@ -295,7 +294,7 @@ export default {
 
     function onMouseEnter () {
       // we need to reutrn default text if it was copied
-      $copyText.setDiff('Copy code')
+      $copyText.set('Copy code')
     }
 
     let example
@@ -317,7 +316,7 @@ export default {
                 )
                   Icon.code-action-collapse(icon=faCode color='error')
                 Div.code-action(
-                  tooltip=copyText
+                  tooltip=$copyText.get()
                   onPress=copyHandler
                   onMouseEnter=onMouseEnter
                 )

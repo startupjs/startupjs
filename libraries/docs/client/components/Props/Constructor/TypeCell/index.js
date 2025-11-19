@@ -1,21 +1,21 @@
 import React, { useCallback, useMemo } from 'react'
-import { pug, observer, useValue } from 'startupjs'
+import { pug, observer, $ } from 'startupjs'
 import { Button, Span, themed } from '@startupjs/ui'
 import '../index.styl'
 
 const MAX_ITEMS = 10
 
 export default observer(themed(function TypeCell ({ possibleValues, theme, type }) {
-  const [collapsed, $collapsed] = useValue(true)
+  const $collapsed = $(true)
 
   const values = useMemo(() => {
     if (!Array.isArray(possibleValues)) return []
-    return collapsed ? possibleValues.slice(0, MAX_ITEMS) : possibleValues
-  }, [collapsed, possibleValues])
+    return $collapsed.get() ? possibleValues.slice(0, MAX_ITEMS) : possibleValues
+  }, [$collapsed, possibleValues])
 
   const toggleList = useCallback(() => {
-    $collapsed.setDiff(!collapsed)
-  }, [collapsed])
+    $collapsed.set(!$collapsed.get())
+  }, [$collapsed])
 
   const renderButton = useCallback(() => {
     if (possibleValues?.length <= MAX_ITEMS) return null
@@ -26,26 +26,26 @@ export default observer(themed(function TypeCell ({ possibleValues, theme, type 
         size='s'
         variant='text'
         onPress=toggleList
-      )= collapsed ? 'More...' : 'Less'
+      )= $collapsed.get() ? 'More...' : 'Less'
     `
-  }, [collapsed, possibleValues])
+  }, [$collapsed, possibleValues, toggleList]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return pug`
-    if type === 'oneOf'
-      Span.possibleValue
-        each value, index in values
-          Span(key=index)
-            if index
-              Span.separator(styleName=[theme]) #{' | '}
-            Span.value(styleName=[theme])= JSON.stringify(value)
-        = renderButton()
-    else if type === 'oneOfType'
+    if type === 'oneOfType'
       Span.possibleType
         each value, index in values
           React.Fragment(key=index)
             if index
               Span.separator #{' | '}
             Span.type(styleName=[theme])= value && value.name
+        = renderButton()
+    else if Array.isArray(possibleValues)
+      Span.possibleValue
+        each value, index in values
+          Span(key=index)
+            if index
+              Span.separator(styleName=[theme]) #{' | '}
+            Span.value(styleName=[theme])= JSON.stringify(value)
         = renderButton()
     else
       Span.type(styleName=[theme])= type

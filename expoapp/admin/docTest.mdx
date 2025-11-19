@@ -1,0 +1,44 @@
+import { useState } from 'react'
+import { pug, $ } from 'startupjs'
+import { Button } from '@startupjs/ui'
+
+# Docs
+
+> The main documentation
+
+Test docs
+
+1. one
+2. two
+3. three
+
+# Button
+
+Buttons allow users to perform an action or to navigate to another page. They have multiple styles for various needs, and are ideal for calling attention to where a user needs to do something in order to move forward in a flow.
+
+```jsx
+import { Button } from '@startupjs/ui'
+```
+
+## Simple example
+
+```jsx example
+const [counter, setCounter] = useState(0)
+
+return (
+  <Button onPress={() => setCounter(counter + 1)}>
+    Clicked {counter} times
+  </Button>
+)
+```
+
+## Pug example
+
+```jsx example
+const $counter = $(0)
+
+return pug`
+  Button(onPress=() => $counter.increment())
+    | Clicked #{$counter.get()} times (in Pug)
+`
+```

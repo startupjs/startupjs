@@ -1,7 +1,7 @@
 const stylusToCssLoader = require('cssxjs/loaders/stylusToCssLoader')
 const cssToReactNativeLoader = require('cssxjs/loaders/cssToReactNativeLoader')
 const mdxExamplesLoader = require('./lib/mdxExamplesLoader')
-const getMDXLoader = require('./lib/getMDXLoader')
+const mdxLoader = require('./lib/mdxLoader')
 const callLoader = require('./lib/callLoader')
 const asyncSvgLoader = require('./lib/asyncSvgLoader')
 
@@ -20,7 +20,6 @@ module.exports.transform = async function startupjsMetroBabelTransform ({
   } else if (/\.svg$/.test(filename)) {
     src = await callLoader(asyncSvgLoader, src, filename)
   } else if (/\.mdx?$/.test(filename)) {
-    const mdxLoader = await getMDXLoader()
     src = callLoader(mdxExamplesLoader, src, filename)
     src = callLoader(mdxLoader, src, filename)
   }

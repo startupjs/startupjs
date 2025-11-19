@@ -53,6 +53,8 @@ function Alert ({
             Span(bold)= title
           if typeof children === 'string'
             Span= children
+          else if Array.isArray(children) && children.every(item => typeof item === 'string')
+            Span= children.join('')
           else
             = children
       if renderActions

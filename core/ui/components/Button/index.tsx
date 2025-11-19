@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { pug, observer, useIsMountedRef } from 'startupjs'
-import PropTypes from 'prop-types'
-import pick from 'lodash/pick'
 import colorToRGBA from '../../helpers/colorToRGBA'
 import Div from '../Div'
 import Icon from '../Icon'
@@ -13,30 +11,60 @@ import themed from '../../theming/themed'
 import useColors from '../../hooks/useColors'
 import STYLES from './index.styl'
 
-const EXTENDED_PROPS = ['variant', 'disabled', 'pushed']
-
 const {
   config: {
     heights, outlinedBorderWidth, iconMargins
   }
 } = STYLES
 
+export const _PropsJsonSchema = {/* ButtonProps */} // used in docs generation
+export interface ButtonProps {
+  /** color name @default 'secondary' */
+  color?: string
+  /** variant @default 'outlined' */
+  variant?: 'flat' | 'outlined' | 'text'
+  /** size @default 'm' */
+  size?: 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'
+  /** icon component */
+  icon?: React.ComponentType | React.JSXElementConstructor<any>
+  /** shape @default 'rounded' */
+  shape?: 'squared' | 'rounded' | 'circle'
+  /** icon position relative to label @default 'left' */
+  iconPosition?: 'left' | 'right'
+  /** disable button */
+  disabled?: boolean
+  /** button label text or a custom react node */
+  children?: string | React.ReactNode
+  /** custom styles for root element */
+  style?: any
+  /** custom styles for icon */
+  iconStyle?: any
+  /** custom styles for label text */
+  textStyle?: any
+  /** custom styles for hover state */
+  hoverStyle?: any
+  /** custom styles for active state */
+  activeStyle?: any
+  /** onPress handler */
+  onPress?: (event: any) => void | Promise<void>
+}
 function Button ({
   style,
   iconStyle,
   textStyle,
   children,
-  color,
-  variant,
-  size,
+  color = Colors.secondary,
+  variant = 'outlined',
+  size = 'm',
+  shape = 'rounded',
   icon,
-  iconPosition,
+  iconPosition = 'left',
   disabled,
   hoverStyle,
   activeStyle,
   onPress,
   ...props
-}) {
+}: ButtonProps) {
   const isMountedRef = useIsMountedRef()
   const [asyncActive, setAsyncActive] = useState(false)
   const getColor = useColors()
@@ -125,6 +153,7 @@ function Button ({
   return pug`
     Div.root(
       row
+      shape=shape
       style=[rootStyle, style]
       styleName=[
         size,
@@ -164,33 +193,6 @@ function Button ({
           styleName=[size, { invisible: asyncActive }]
         )= children
   `
-}
-
-Button.defaultProps = {
-  ...pick(
-    Div.defaultProps,
-    EXTENDED_PROPS
-  ),
-  color: Colors.secondary,
-  variant: 'outlined',
-  size: 'm',
-  shape: 'rounded',
-  iconPosition: 'left'
-}
-
-Button.propTypes = {
-  ...pick(
-    Div.propTypes,
-    EXTENDED_PROPS
-  ),
-  textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  color: PropTypes.string,
-  children: PropTypes.node,
-  variant: PropTypes.oneOf(['flat', 'outlined', 'text']),
-  size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-  shape: Div.propTypes.shape,
-  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  iconPosition: PropTypes.oneOf(['left', 'right'])
 }
 
 export default observer(themed('Button', Button))

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { pug, batch, observer, useValue } from 'startupjs'
+import { pug, batch, observer, $ } from 'startupjs'
 import { Br, Input, Span } from '@startupjs/ui'
 import debounce from 'lodash/debounce'
 import isPlainObject from 'lodash/isPlainObject'
@@ -10,7 +10,7 @@ import omit from 'lodash/omit'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import '../index.styl'
 
-const EDITABLE_TYPES = ['string', 'number', 'bool', 'oneOf', 'array', 'object']
+const EDITABLE_TYPES = ['string', 'number', 'boolean', 'oneOf', 'array', 'object']
 
 const IconSelect = observer(function ({ $value, value }) {
   const _icons = useMemo(
@@ -39,10 +39,10 @@ const JSONInput = observer(function ({ $value, type }) {
     return value ? JSON.stringify(value) : ''
   }, [$value])
 
-  const [tempJSON, $tempJSON] = useValue(_JSONValue)
-  const [badJSON, $badJSON] = useValue(false)
+  const $tempJSON = $(_JSONValue)
+  const $badJSON = $(false)
 
-  const validateJson = useCallback(
+  const validateJson = useCallback( // eslint-disable-line react-hooks/exhaustive-deps
     debounce(text => {
       try {
         if (!text) {
@@ -52,13 +52,13 @@ const JSONInput = observer(function ({ $value, type }) {
           const isValidValue = parsedValue && validateByType(type, parsedValue)
           if (isValidValue) {
             $value.set(parsedValue)
-            $badJSON.setDiff(false)
+            $badJSON.set(false)
           } else {
-            $badJSON.setDiff(true)
+            $badJSON.set(true)
           }
         }
       } catch (error) {
-        $badJSON.setDiff(true)
+        $badJSON.set(true)
       }
     }, 300),
     [$badJSON, $value]
@@ -71,10 +71,10 @@ const JSONInput = observer(function ({ $value, type }) {
 
   return pug`
     Input(
-      inputStyleName={ badJSON }
+      inputStyleName={ badJSON: $badJSON.get() }
       size='s'
       type='text'
-      value=tempJSON || ''
+      value=$tempJSON.get() || ''
       onChangeText=onChangeJSON
     )
   `
@@ -118,7 +118,7 @@ const PropInput = observer(function ({ $value, extraParams = {}, options, type, 
           ...extraParams
         )
       `
-    case 'bool':
+    case 'boolean':
       return pug`
         Input.checkbox(
           type='checkbox'
@@ -159,8 +159,8 @@ const TypesSelect = observer(function ({
       ),
     [possibleValues]
   )
-  const [selectedValue, $selectedValue] = useValue(names[0])
-  const $value = $props.at(name)
+  const $selectedValue = $(names[0])
+  const $value = $props[name]
   const value = $value.get()
 
   function onChange (value) {
@@ -181,15 +181,15 @@ const TypesSelect = observer(function ({
         showEmptyValue=false
         size='s'
         type='select'
-        value=selectedValue
+        value=$selectedValue.get()
         onChange=onChange
       )
       Br(half)
       PropInput(
         $value=$value
         extraParams=extraParams
-        options=options[selectedValue]
-        type=selectedValue
+        options=options[$selectedValue.get()]
+        type=$selectedValue.get()
         value=value
       )
     else
@@ -199,7 +199,7 @@ const TypesSelect = observer(function ({
 
 export default observer(function ValueCell ({ $props, entry }) {
   const { extraParams, name, possibleValues, type } = entry
-  const $value = $props.at(name)
+  const $value = $props[name]
   const value = $value.get()
 
   if (/^\$/.test(name)) { // hide Input for model prop
@@ -230,7 +230,7 @@ function validateByType (type, value) {
       return Array.isArray(value)
     case 'object':
       return isPlainObject(value)
-    case 'bool':
+    case 'boolean':
       return typeof value === 'boolean'
     case 'number':
       return typeof value === 'number'

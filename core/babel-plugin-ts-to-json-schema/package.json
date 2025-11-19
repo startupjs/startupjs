@@ -1,0 +1,44 @@
+{
+  "name": "@startupjs/babel-plugin-ts-to-json-schema",
+  "version": "0.60.0-canary.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Babel plugin to convert TypeScript types to JSON Schema",
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "startupjs",
+    "debug"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Pavel Zhukov",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/startupjs/startupjs"
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "dependencies": {
+    "ts-json-schema-generator": "2.0.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-typescript": "^7.23.3",
+    "babel-plugin-tester": "^9.1.0",
+    "jest": "^26.0.1"
+  },
+  "peerDependencies": {
+    "react": "*"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  }
+}

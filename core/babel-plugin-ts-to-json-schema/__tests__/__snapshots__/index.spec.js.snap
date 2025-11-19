@@ -1,0 +1,187 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@startupjs/babel-plugin-ts-to-json-schema Transforms TS interface to JSON schema: Transforms TS interface to JSON schema 1`] = `
+
+export const _PropsJsonSchema = {/* ButtonProps */} // used in docs generation
+export interface ButtonProps {
+  /** color name @default 'secondary' */
+  color?: string
+  /** variant @default 'outlined' */
+  variant?: 'flat' | 'outlined' | 'text'
+  /** size @default 'm' */
+  size?: 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'
+  /** icon component */
+  icon?: any
+  /** shape @default 'rounded' */
+  shape?: 'squared' | 'rounded' | 'circle'
+  /** icon position relative to label @default 'left' */
+  iconPosition?: 'left' | 'right'
+  /** disable button */
+  disabled?: boolean
+  /** button label text */
+  children?: string
+  /** custom styles for root element */
+  style?: any
+  /** custom styles for icon */
+  iconStyle?: any
+  /** custom styles for label text */
+  textStyle?: any
+  /** custom styles for hover state */
+  hoverStyle?: any
+  /** custom styles for active state */
+  activeStyle?: any
+  /** onPress handler */
+  onPress?: (event: any) => void | Promise<void>
+}
+export default function Button ({
+  style,
+  iconStyle,
+  textStyle,
+  children,
+  color = 'secondary',
+  variant = 'outlined',
+  size = 'm',
+  shape = 'rounded',
+  icon,
+  iconPosition = 'left',
+  disabled,
+  hoverStyle,
+  activeStyle,
+  onPress,
+  ...props
+}: ButtonProps) {
+  return null
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+export const _PropsJsonSchema = {
+  $schema: "http://json-schema.org/draft-07/schema#",
+  type: "object",
+  properties: {
+    color: {
+      type: "string",
+      description: "color name",
+      default: "secondary",
+    },
+    variant: {
+      type: "string",
+      enum: ["flat", "outlined", "text"],
+      description: "variant",
+      default: "outlined",
+    },
+    size: {
+      type: "string",
+      enum: ["xs", "s", "m", "l", "xl", "xxl"],
+      description: "size",
+      default: "m",
+    },
+    icon: {
+      description: "icon component",
+    },
+    shape: {
+      type: "string",
+      enum: ["squared", "rounded", "circle"],
+      description: "shape",
+      default: "rounded",
+    },
+    iconPosition: {
+      type: "string",
+      enum: ["left", "right"],
+      description: "icon position relative to label",
+      default: "left",
+    },
+    disabled: {
+      type: "boolean",
+      description: "disable button",
+    },
+    children: {
+      type: "string",
+      description: "button label text",
+    },
+    style: {
+      description: "custom styles for root element",
+    },
+    iconStyle: {
+      description: "custom styles for icon",
+    },
+    textStyle: {
+      description: "custom styles for label text",
+    },
+    hoverStyle: {
+      description: "custom styles for hover state",
+    },
+    activeStyle: {
+      description: "custom styles for active state",
+    },
+    onPress: {
+      $comment: "(event: any) => void | Promise<void>",
+      type: "object",
+      properties: {
+        namedArgs: {
+          type: "object",
+          properties: {
+            event: {},
+          },
+          required: ["event"],
+          additionalProperties: false,
+        },
+      },
+      description: "onPress handler",
+    },
+  },
+  additionalProperties: undefined,
+  definitions: {},
+}; /* ButtonProps */ // used in docs generation
+export interface ButtonProps {
+  /** color name @default 'secondary' */
+  color?: string;
+  /** variant @default 'outlined' */
+  variant?: "flat" | "outlined" | "text";
+  /** size @default 'm' */
+  size?: "xs" | "s" | "m" | "l" | "xl" | "xxl";
+  /** icon component */
+  icon?: any;
+  /** shape @default 'rounded' */
+  shape?: "squared" | "rounded" | "circle";
+  /** icon position relative to label @default 'left' */
+  iconPosition?: "left" | "right";
+  /** disable button */
+  disabled?: boolean;
+  /** button label text */
+  children?: string;
+  /** custom styles for root element */
+  style?: any;
+  /** custom styles for icon */
+  iconStyle?: any;
+  /** custom styles for label text */
+  textStyle?: any;
+  /** custom styles for hover state */
+  hoverStyle?: any;
+  /** custom styles for active state */
+  activeStyle?: any;
+  /** onPress handler */
+  onPress?: (event: any) => void | Promise<void>;
+}
+export default function Button({
+  style,
+  iconStyle,
+  textStyle,
+  children,
+  color = "secondary",
+  variant = "outlined",
+  size = "m",
+  shape = "rounded",
+  icon,
+  iconPosition = "left",
+  disabled,
+  hoverStyle,
+  activeStyle,
+  onPress,
+  ...props
+}: ButtonProps) {
+  return null;
+}
+
+
+`;

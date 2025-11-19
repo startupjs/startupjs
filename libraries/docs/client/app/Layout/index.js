@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { pug, emit, observer, useModel, $ } from 'startupjs'
+import { pug, emit, observer, useModel } from 'startupjs'
 import { pathFor, useLocation } from 'startupjs/app'
 import { AutoSuggest, Button, Div, Layout, Menu, Span } from '@startupjs/ui'
-import { MDXProvider } from '@startupjs/mdx'
 import { ScrollableProvider } from '@startupjs/scrollable-anchors'
 import { faBars } from '@fortawesome/free-solid-svg-icons/faBars'
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
@@ -89,11 +88,10 @@ export default observer(function StyleguideLayout ({ children }) {
   // Note: Topbar height is compensated in PDoc
   //       to achieve a semi-transparent effect
   return pug`
-    MDXProvider(key=$.session.theme.get())
-      Layout.layout(testID="Layout")
-        Sidebar
-          Topbar
-          ScrollableProvider
-            = children
+    Layout.layout(testID="Layout")
+      Sidebar
+        Topbar
+        ScrollableProvider
+          = children
   `
 })
