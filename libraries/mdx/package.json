@@ -5,7 +5,7 @@
   },
   "type": "module",
   "description": "MDX provider with a set of custom components for react-native support and syntax highlighting",
-  "version": "0.60.0-canary.7",
+  "version": "0.60.0-canary.9",
   "exports": {
     ".": "./index.js",
     "./useMDXComponents": "./useMDXComponents.js"

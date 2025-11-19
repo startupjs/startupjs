@@ -1,3 +1,12 @@
+# [0.60.0-canary.9](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.8...v0.60.0-canary.9) (2025-11-19)
+
+
+### Bug Fixes
+
+* **mdx:** fix .mdx generation, implement support for getting prop info from TS interface instead of PropTypes ([#1303](https://github.com/startupjs/startupjs/issues/1303)) ([7a34d15](https://github.com/startupjs/startupjs/commit/7a34d1596cf001ec2b7112a1de08360209d6be54))
+
+
+
 # [0.60.0-canary.8](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.7...v0.60.0-canary.8) (2025-11-14)
 
 

@@ -5999,7 +5999,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-ts-to-json-schema@npm:^0.60.0-canary.0, @startupjs/babel-plugin-ts-to-json-schema@workspace:core/babel-plugin-ts-to-json-schema":
+"@startupjs/babel-plugin-ts-to-json-schema@npm:^0.60.0-canary.9, @startupjs/babel-plugin-ts-to-json-schema@workspace:core/babel-plugin-ts-to-json-schema":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-ts-to-json-schema@workspace:core/babel-plugin-ts-to-json-schema"
   dependencies:
@@ -6010,7 +6010,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/bundler@npm:^0.60.0-canary.7, @startupjs/bundler@workspace:core/bundler":
+"@startupjs/bundler@npm:^0.60.0-canary.9, @startupjs/bundler@workspace:core/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:core/bundler"
   dependencies:
@@ -6023,7 +6023,7 @@ __metadata:
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
     "@svgr/plugin-svgo": "npm:^8.1.0"
-    babel-preset-startupjs: "npm:^0.60.0-canary.7"
+    babel-preset-startupjs: "npm:^0.60.0-canary.9"
     connect: "npm:^3.7.0"
     lodash: "npm:^4.17.20"
     remark-gfm: "npm:4.0.1"
@@ -6068,7 +6068,7 @@ __metadata:
   resolution: "@startupjs/docs@workspace:libraries/docs"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
-    "@startupjs/mdx": "npm:^0.60.0-canary.7"
+    "@startupjs/mdx": "npm:^0.60.0-canary.9"
     "@startupjs/scrollable-anchors": "npm:^0.60.0-canary.7"
   peerDependencies:
     "@startupjs/ui": "*"
@@ -6168,7 +6168,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/mdx@npm:^0.60.0-canary.7, @startupjs/mdx@workspace:libraries/mdx":
+"@startupjs/mdx@npm:^0.60.0-canary.9, @startupjs/mdx@workspace:libraries/mdx":
   version: 0.0.0-use.local
   resolution: "@startupjs/mdx@workspace:libraries/mdx"
   dependencies:
@@ -6371,7 +6371,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs/ui@npm:^0.60.0-canary.7, @startupjs/ui@workspace:core/ui":
+"@startupjs/ui@npm:^0.60.0-canary.9, @startupjs/ui@workspace:core/ui":
   version: 0.0.0-use.local
   resolution: "@startupjs/ui@workspace:core/ui"
   dependencies:
@@ -8678,7 +8678,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-startupjs@npm:^0.60.0-canary.7, babel-preset-startupjs@workspace:core/babel-preset-startupjs":
+"babel-preset-startupjs@npm:^0.60.0-canary.9, babel-preset-startupjs@workspace:core/babel-preset-startupjs":
   version: 0.0.0-use.local
   resolution: "babel-preset-startupjs@workspace:core/babel-preset-startupjs"
   dependencies:
@@ -8690,7 +8690,7 @@ __metadata:
     "@startupjs/babel-plugin-startupjs": "npm:^0.60.0-canary.7"
     "@startupjs/babel-plugin-startupjs-debug": "npm:^0.60.0-canary.7"
     "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.60.0-canary.0"
-    "@startupjs/babel-plugin-ts-to-json-schema": "npm:^0.60.0-canary.0"
+    "@startupjs/babel-plugin-ts-to-json-schema": "npm:^0.60.0-canary.9"
   peerDependencies:
     cssxjs: "*"
   languageName: unknown
@@ -13487,7 +13487,7 @@ __metadata:
     "@react-native-picker/picker": "npm:2.11.1"
     "@react-navigation/native": "npm:^7.1.6"
     "@startupjs/router": "npm:^0.60.0-canary.7"
-    "@startupjs/ui": "npm:^0.60.0-canary.7"
+    "@startupjs/ui": "npm:^0.60.0-canary.9"
     "@startupjs/worker": "npm:^0.60.0-canary.7"
     "@types/react": "npm:~19.1.10"
     eslint: "npm:^8.56.0"
@@ -13516,7 +13516,7 @@ __metadata:
     react-native-svg: "npm:15.12.1"
     react-native-web: "npm:^0.21.0"
     react-test-renderer: "npm:~19.1.0"
-    startupjs: "npm:^0.60.0-canary.8"
+    startupjs: "npm:^0.60.0-canary.9"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -27650,19 +27650,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.60.0-canary.8, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.60.0-canary.9, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
     "@startupjs/auth": "npm:^0.60.0-canary.8"
-    "@startupjs/bundler": "npm:^0.60.0-canary.7"
+    "@startupjs/bundler": "npm:^0.60.0-canary.9"
     "@startupjs/cli": "npm:^0.60.0-canary.7"
     "@startupjs/hooks": "npm:^0.60.0-canary.7"
     "@startupjs/isomorphic-helpers": "npm:^0.60.0-canary.7"
     "@startupjs/registry": "npm:^0.60.0-canary.7"
     "@startupjs/server": "npm:^0.60.0-canary.7"
     "@startupjs/utils": "npm:^0.60.0-canary.7"
-    babel-preset-startupjs: "npm:^0.60.0-canary.7"
+    babel-preset-startupjs: "npm:^0.60.0-canary.9"
     cssxjs: "npm:^0.2.17"
     lodash: "npm:^4.17.20"
     teamplay: "npm:^0.3.26"
