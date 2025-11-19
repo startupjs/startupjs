@@ -31,21 +31,21 @@ export default observer(themed(function TypeCell ({ possibleValues, theme, type 
   }, [$collapsed, possibleValues, toggleList]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return pug`
-    if type === 'oneOfType'
-      Span.possibleType
-        each value, index in values
-          React.Fragment(key=index)
-            if index
-              Span.separator #{' | '}
-            Span.type(styleName=[theme])= value && value.name
-        = renderButton()
-    else if Array.isArray(possibleValues)
+    if type === 'oneOf'
       Span.possibleValue
         each value, index in values
           Span(key=index)
             if index
               Span.separator(styleName=[theme]) #{' | '}
             Span.value(styleName=[theme])= JSON.stringify(value)
+        = renderButton()
+    else if type === 'oneOfType'
+      Span.possibleType
+        each value, index in values
+          React.Fragment(key=index)
+            if index
+              Span.separator #{' | '}
+            Span.type(styleName=[theme])= value && value.name
         = renderButton()
     else
       Span.type(styleName=[theme])= type
