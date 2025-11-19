@@ -20,7 +20,7 @@ module.exports = function babelPluginEliminator (
           if (!code.includes('export const ' + magicExportName)) return
           const schema = getInterfaceJsonSchema($this, { code, filename, magicExportName, interfaceMatch })
 
-          // match 'export const {magicExportName} = ' and replace it's value with schema
+          // match 'export const {magicExportName} = ' and replace its value with schema
           $this.traverse({
             ExportNamedDeclaration ($this) {
               const $declaration = $this.get('declaration')
