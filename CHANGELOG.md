@@ -1,3 +1,17 @@
+# [0.60.0-canary.11](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.10...v0.60.0-canary.11) (2025-12-01)
+
+
+### Bug Fixes
+
+* **docs/Sandbox:** don't mark 'children' prop as extendedFrom ([e36fb68](https://github.com/startupjs/startupjs/commit/e36fb68326161a3f91356184a2527e8e4f229fbe))
+
+
+### Features
+
+* **babel-plugin-ts-to-json-schema:** Support extending interface from another one and show it in Sandbox ([991b59f](https://github.com/startupjs/startupjs/commit/991b59f4ce7b9d8d38493ac6feaca092c8d91840))
+
+
+
 # [0.60.0-canary.10](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.9...v0.60.0-canary.10) (2025-11-24)
 
 
