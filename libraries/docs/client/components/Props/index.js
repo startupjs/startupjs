@@ -48,7 +48,8 @@ function parseEntries (entries) {
       defaultValue: meta.default,
       possibleValues: meta.enum,
       isRequired: meta.required,
-      description: meta.description
+      description: meta.description,
+      extendedFrom: meta.extendedFrom
     }
   })
 }
@@ -119,6 +120,7 @@ export default observer(themed(function PComponent ({
       Div.top
         Constructor(
           Component=Component
+          extendedFrom=propsJsonSchema?.extendedFrom
           $props=$theProps
           entries=entries
         )

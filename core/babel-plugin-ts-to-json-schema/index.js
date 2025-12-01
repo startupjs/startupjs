@@ -55,10 +55,26 @@ function getInterfaceJsonSchema ($program, { code, filename, magicExportName, in
     }
     const tsconfigPath = join(process.cwd(), 'tsconfig.json')
     if (existsSync(tsconfigPath)) config.tsconfig = tsconfigPath
-    return tsj.createGenerator(config).createSchema(config.type)
+    const schema = tsj.createGenerator(config).createSchema(config.type)
+    schema.interfaceName = interfaceName
+    // mark the properties from the base Interface as { extendedFrom: extendsName } to hide them if needed
+    const extendsName = getExtendsInterfaceName(interfaceLine)
+    if (extendsName) {
+      schema.extendedFrom = extendsName
+      config.type = extendsName
+      const extendsSchema = tsj.createGenerator(config).createSchema(config.type)
+      for (const key in schema.properties) {
+        if (key in extendsSchema.properties) schema.properties[key].extendedFrom = extendsName
+      }
+    }
+    return schema
   } catch (err) {
-    console.error('> docgenLoader ts-json-schema-generator error:', filename, err)
-    throw err
+    console.error(
+      '> @startupjs/babel-plugin-ts-to-json-schema error (@startupjs/docs/Sandbox component won\'t work):',
+      filename,
+      err
+    )
+    return {}
   }
 }
 
@@ -69,6 +85,15 @@ function getInterfaceName (interfaceLine) {
   if (interfaceIndex === -1) return
   const interfaceNameIndex = interfaceIndex + 1
   return interfaceLineWords[interfaceNameIndex]
+}
+
+function getExtendsInterfaceName (interfaceLine) {
+  if (typeof interfaceLine !== 'string') return
+  const interfaceLineWords = interfaceLine.split(' ')
+  const extendsIndex = interfaceLineWords.findIndex(word => word === 'extends')
+  if (extendsIndex === -1) return
+  const extendsNameIndex = extendsIndex + 1
+  return interfaceLineWords[extendsNameIndex]
 }
 
 const ERRORS = {

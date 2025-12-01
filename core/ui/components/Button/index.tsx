@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, type ViewProps } from 'react-native'
 import { pug, observer, useIsMountedRef } from 'startupjs'
 import colorToRGBA from '../../helpers/colorToRGBA'
 import Div from '../Div'
@@ -18,7 +18,7 @@ const {
 } = STYLES
 
 export const _PropsJsonSchema = {/* ButtonProps */} // used in docs generation
-export interface ButtonProps {
+export interface ButtonProps extends ViewProps {
   /** color name @default 'secondary' */
   color?: string
   /** variant @default 'outlined' */
