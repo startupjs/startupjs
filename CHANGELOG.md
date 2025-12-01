@@ -1,3 +1,12 @@
+# [0.60.0-canary.12](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.11...v0.60.0-canary.12) (2025-12-01)
+
+
+### Bug Fixes
+
+* **docs:** fix unit bg in the grid visualizer ([1bc0822](https://github.com/startupjs/startupjs/commit/1bc0822ce299e2eee42c6573231daac8e267d5a6))
+
+
+
 # [0.60.0-canary.11](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.10...v0.60.0-canary.11) (2025-12-01)
 
 
