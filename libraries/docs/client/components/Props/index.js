@@ -37,19 +37,23 @@ function useEntries ({ Component, props, extraParams, propsJsonSchema }) {
 
 function parseEntries (entries) {
   return entries.map(entry => {
+    const name = entry[0]
     const meta = entry[1]
     let type = meta.type
     if (meta.enum) type = 'oneOf'
     if (meta.$comment && meta.$comment.startsWith('(')) type = 'function'
     if (!type) type = 'any'
+    let extendedFrom = meta.extendedFrom
+    // children prop is special, it should not be marked as extendedFrom
+    if (name === 'children') extendedFrom = undefined
     return {
-      name: entry[0],
+      name,
       type,
       defaultValue: meta.default,
       possibleValues: meta.enum,
       isRequired: meta.required,
       description: meta.description,
-      extendedFrom: meta.extendedFrom
+      extendedFrom
     }
   })
 }
