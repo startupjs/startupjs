@@ -58,20 +58,17 @@ function parseEntries (entries) {
   })
 }
 
-async function useInitDefaultProps ({ entries, $theProps }) {
+function useInitDefaultProps ({ entries, $theProps }) {
   if ($theProps.get()) return
   $theProps.set({})
 
-  const promises = []
-
   for (const { name, value, defaultValue } of entries) {
     if (value !== undefined) {
-      promises.push($theProps[name].set(value))
+      $theProps[name].set(value)
     } else if (defaultValue !== undefined) {
-      promises.push($theProps[name].set(defaultValue))
+      $theProps[name].set(defaultValue)
     }
   }
-  if (promises.length) throw await Promise.all(promises)
 }
 
 export default observer(themed(function PComponent ({
