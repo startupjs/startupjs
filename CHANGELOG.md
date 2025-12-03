@@ -1,3 +1,12 @@
+# [0.60.0-canary.13](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.12...v0.60.0-canary.13) (2025-12-03)
+
+
+### Bug Fixes
+
+* **docs:** don't await for default Props values init ([c862a6e](https://github.com/startupjs/startupjs/commit/c862a6eedcf5c2940da255491d84bcaaa3658a42))
+
+
+
 # [0.60.0-canary.12](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.11...v0.60.0-canary.12) (2025-12-01)
 
 
