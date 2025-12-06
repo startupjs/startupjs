@@ -36,7 +36,7 @@
     "@startupjs/server": "^0.60.0-canary.7",
     "@startupjs/utils": "^0.60.0-canary.7",
     "babel-preset-startupjs": "^0.60.0-canary.11",
-    "cssxjs": "^0.2.18",
+    "cssxjs": "^0.2.19",
     "lodash": "^4.17.20",
     "teamplay": "^0.3.29"
   },
