@@ -48,7 +48,12 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, {
 }
 
 function isBuild () {
-  return process.env.IS_BUILD || process.env.CI || process.env.EAS_BUILD
+  return (
+    process.env.IS_BUILD ||
+    process.env.CI ||
+    process.env.EAS_BUILD ||
+    (process.env.NODE_ENV === 'production' && !process.env.FORCE_SERVER)
+  )
 }
 
 function addServer (config) {
