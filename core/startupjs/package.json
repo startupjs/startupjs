@@ -9,6 +9,7 @@
   "main": "index.js",
   "exports": {
     ".": "./index.js",
+    "./auth": "./auth.js",
     "./server": "./server.js",
     "./schema": "./schema.js",
     "./startServer": "./startServer.js",
