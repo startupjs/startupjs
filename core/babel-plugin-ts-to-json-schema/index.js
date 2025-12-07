@@ -58,13 +58,17 @@ function getInterfaceJsonSchema ($program, { code, filename, magicExportName, in
     const schema = tsj.createGenerator(config).createSchema(config.type)
     schema.interfaceName = interfaceName
     // mark the properties from the base Interface as { extendedFrom: extendsName } to hide them if needed
-    const extendsName = getExtendsInterfaceName(interfaceLine)
+    const { name: extendsName, omittedKeys = [] } = getExtendsInterfaceMeta(interfaceLine)
     if (extendsName) {
       schema.extendedFrom = extendsName
+      if (omittedKeys.length) schema.extendedOmittedKeys = omittedKeys
       config.type = extendsName
       const extendsSchema = tsj.createGenerator(config).createSchema(config.type)
+      console.log({ omittedKeys })
       for (const key in schema.properties) {
-        if (key in extendsSchema.properties) schema.properties[key].extendedFrom = extendsName
+        if (key in extendsSchema.properties && !omittedKeys.includes(key)) {
+          schema.properties[key].extendedFrom = extendsName
+        }
       }
     }
     return schema
@@ -87,13 +91,22 @@ function getInterfaceName (interfaceLine) {
   return interfaceLineWords[interfaceNameIndex]
 }
 
-function getExtendsInterfaceName (interfaceLine) {
-  if (typeof interfaceLine !== 'string') return
+function getExtendsInterfaceMeta (interfaceLine) {
+  if (typeof interfaceLine !== 'string') return {}
   const interfaceLineWords = interfaceLine.split(' ')
   const extendsIndex = interfaceLineWords.findIndex(word => word === 'extends')
-  if (extendsIndex === -1) return
+  if (extendsIndex === -1) return {}
   const extendsNameIndex = extendsIndex + 1
-  return interfaceLineWords[extendsNameIndex]
+  // take all words after 'extends' until '{' or end of line
+  let name = interfaceLineWords.slice(extendsNameIndex).join(' ').split('{')[0].trim()
+  // disassemble Omit<SomeInterface, 'a' | 'b'> constructions and also get the list of omitted keys
+  let omittedKeys = []
+  if (name.startsWith('Omit<')) {
+    omittedKeys = name.slice(name.indexOf(',') + 1, name.lastIndexOf('>')).trim()
+    omittedKeys = omittedKeys.split('|').map(key => key.trim().slice(1, -1))
+    name = name.slice(5, name.indexOf(',')).trim()
+  }
+  return { name, omittedKeys }
 }
 
 const ERRORS = {
