@@ -64,7 +64,6 @@ function getInterfaceJsonSchema ($program, { code, filename, magicExportName, in
       if (omittedKeys.length) schema.extendedOmittedKeys = omittedKeys
       config.type = extendsName
       const extendsSchema = tsj.createGenerator(config).createSchema(config.type)
-      console.log({ omittedKeys })
       for (const key in schema.properties) {
         if (key in extendsSchema.properties && !omittedKeys.includes(key)) {
           schema.properties[key].extendedFrom = extendsName
