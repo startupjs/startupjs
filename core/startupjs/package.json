@@ -19,6 +19,7 @@
     "./nconf": "./nconf.js",
     "./isomorphicHelpers": "./isomorphicHelpers.js",
     "./loadConfig": "./loadConfig.js",
+    "./useRouter": "./useRouter.js",
     "./metro-config": "./metro-config.cjs",
     "./metro-babel-transformer": "./metro-babel-transformer.cjs",
     "./babel": "./babel.cjs",
