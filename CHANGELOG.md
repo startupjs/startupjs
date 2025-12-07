@@ -1,3 +1,12 @@
+# [0.60.0-canary.19](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.18...v0.60.0-canary.19) (2025-12-07)
+
+
+### Features
+
+* **startupjs:** add 'useRouter' export ([44d9a53](https://github.com/startupjs/startupjs/commit/44d9a53859d87cd6d3a288bf082b4f2d5b074cef))
+
+
+
 # [0.60.0-canary.18](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.17...v0.60.0-canary.18) (2025-12-07)
 
 
