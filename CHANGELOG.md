@@ -1,3 +1,18 @@
+# [0.60.0-canary.17](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.16...v0.60.0-canary.17) (2025-12-07)
+
+
+### Bug Fixes
+
+* **bundler:** detect when expo build command is used to not start the startupjs server middleware ([47c88a7](https://github.com/startupjs/startupjs/commit/47c88a7689267da158de3ebd38559197ec4b1d19))
+* **startupjs:** add missing export for auth.js ([dd64ed5](https://github.com/startupjs/startupjs/commit/dd64ed5dc9a31f3c7bc2ee7e2d73c76caefe2b7b))
+
+
+### Features
+
+* **babel-plugin-ts-to-json-schema:** Handle Omit<> constructions ([051d7fa](https://github.com/startupjs/startupjs/commit/051d7fadea0e9cd6e7c98ecc1e95934a34dcc111))
+
+
+
 # [0.60.0-canary.16](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.15...v0.60.0-canary.16) (2025-12-06)
 
 
