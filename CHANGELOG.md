@@ -1,3 +1,12 @@
+# [0.60.0-canary.18](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.17...v0.60.0-canary.18) (2025-12-07)
+
+
+### Bug Fixes
+
+* remove extra log ([3df2712](https://github.com/startupjs/startupjs/commit/3df2712a8c981fe9a4c3389e799142495ea19d45))
+
+
+
 # [0.60.0-canary.17](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.16...v0.60.0-canary.17) (2025-12-07)
 
 
