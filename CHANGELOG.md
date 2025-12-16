@@ -1,3 +1,12 @@
+# [0.60.0-canary.20](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.19...v0.60.0-canary.20) (2025-12-16)
+
+
+### Bug Fixes
+
+* **startupjs:** update cssxjs version to fix production build ([6d7bb44](https://github.com/startupjs/startupjs/commit/6d7bb44b569294dabdd8e972b2191f86da219138))
+
+
+
 # [0.60.0-canary.19](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.18...v0.60.0-canary.19) (2025-12-07)
 
 
