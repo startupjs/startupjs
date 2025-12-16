@@ -1666,40 +1666,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cssxjs/babel-plugin-rn-stylename-inline@npm:^0.2.27":
-  version: 0.2.27
-  resolution: "@cssxjs/babel-plugin-rn-stylename-inline@npm:0.2.27"
+"@cssxjs/babel-plugin-rn-stylename-inline@npm:^0.2.28":
+  version: 0.2.28
+  resolution: "@cssxjs/babel-plugin-rn-stylename-inline@npm:0.2.28"
   dependencies:
     "@babel/parser": "npm:^7.0.0"
     "@babel/template": "npm:^7.4.0"
     "@babel/types": "npm:^7.0.0"
     "@cssxjs/loaders": "npm:^0.2.27"
     "@cssxjs/runtime": "npm:^0.2.27"
-  checksum: 10c0/1506161d63cbef2462c91f59e9dd24986f9b7b2619b53d6242f6347b3673b85f822c1ffa5e03ebfd4d79e13f6a79e34872633388f6877e20cadd519062bc32c2
+  checksum: 10c0/dfa38f3f4f66765cf860682d87caa809279078159def56538243488f7fe801ce28d5d18c52148636b6a082ea08c66e119a9373d6979ed40ae1577459929d3e5b
   languageName: node
   linkType: hard
 
-"@cssxjs/babel-plugin-rn-stylename-to-style@npm:^0.2.27":
-  version: 0.2.27
-  resolution: "@cssxjs/babel-plugin-rn-stylename-to-style@npm:0.2.27"
+"@cssxjs/babel-plugin-rn-stylename-to-style@npm:^0.2.28":
+  version: 0.2.28
+  resolution: "@cssxjs/babel-plugin-rn-stylename-to-style@npm:0.2.28"
   dependencies:
     "@babel/helper-module-imports": "npm:^7.0.0"
     "@babel/parser": "npm:^7.0.0"
     "@babel/template": "npm:^7.4.0"
     "@babel/types": "npm:^7.0.0"
     "@cssxjs/runtime": "npm:^0.2.27"
-  checksum: 10c0/ee87679df1a6e00b3dc791864de4afe7a90c5da6c3bce8b5687ce4adc76b32cc31ce981e80555d6f015521dd7b09900bf58e0e093811e16bcdc830ab9d303125
+  checksum: 10c0/47d7134f0cd04e868f6c4d14f2f700f8cc973f635f04f72e0c6eea5c203392ff3cb383bcd9d682108789e5d74cfe79e623aaccc711eb62f56fa69808224ef2c4
   languageName: node
   linkType: hard
 
-"@cssxjs/bundler@npm:^0.2.27":
-  version: 0.2.27
-  resolution: "@cssxjs/bundler@npm:0.2.27"
+"@cssxjs/bundler@npm:^0.2.28":
+  version: 0.2.28
+  resolution: "@cssxjs/bundler@npm:0.2.28"
   dependencies:
     "@babel/core": "npm:^7.0.0"
     "@cssxjs/loaders": "npm:^0.2.27"
-    babel-preset-cssxjs: "npm:^0.2.27"
-  checksum: 10c0/dcbdc2b4933f7a914d49d952881575644a2740739ee01fc186abace1b36f3ca5add44e59e4a8949dad7eb9a8fffc3044c1ae45de8fa8e551cd1eef716b064fbf
+    babel-preset-cssxjs: "npm:^0.2.28"
+  checksum: 10c0/fcc3ef06eae8524f8505bfe787de4def837504f3010ad348052c8a4f4b8c0df812b640480cb35b2017b27a4ef7a4469bdf0eb8b1f8eb575358098ef0d4047e2c
   languageName: node
   linkType: hard
 
@@ -8621,16 +8621,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-cssxjs@npm:^0.2.27":
-  version: 0.2.27
-  resolution: "babel-preset-cssxjs@npm:0.2.27"
+"babel-preset-cssxjs@npm:^0.2.28":
+  version: 0.2.28
+  resolution: "babel-preset-cssxjs@npm:0.2.28"
   dependencies:
     "@babel/plugin-syntax-jsx": "npm:^7.0.0"
     "@babel/plugin-syntax-typescript": "npm:^7.23.3"
     "@cssxjs/babel-plugin-react-pug": "npm:^0.2.27"
-    "@cssxjs/babel-plugin-rn-stylename-inline": "npm:^0.2.27"
-    "@cssxjs/babel-plugin-rn-stylename-to-style": "npm:^0.2.27"
-  checksum: 10c0/d38b4d1479ab6a8e051b10992cb880e40a088b5456d718dcef4fb84ff0f16af3e3e4e5666eb532f1f89d3aacd2fbbd07bb8e67deb58d81661d83922ba4f02e47
+    "@cssxjs/babel-plugin-rn-stylename-inline": "npm:^0.2.28"
+    "@cssxjs/babel-plugin-rn-stylename-to-style": "npm:^0.2.28"
+  checksum: 10c0/b5a6a754b1f370c5e895594106e03c140fbb3234f9d73627d94e8d94ebc270148c3f5346082b98055f8ed990cec42bb7550602230085aab3d6914f7f9baee04c
   languageName: node
   linkType: hard
 
@@ -11347,20 +11347,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cssxjs@npm:^0.2.27":
-  version: 0.2.27
-  resolution: "cssxjs@npm:0.2.27"
+"cssxjs@npm:^0.2.28":
+  version: 0.2.28
+  resolution: "cssxjs@npm:0.2.28"
   dependencies:
     "@cssxjs/babel-plugin-react-pug": "npm:^0.2.27"
-    "@cssxjs/babel-plugin-rn-stylename-inline": "npm:^0.2.27"
-    "@cssxjs/babel-plugin-rn-stylename-to-style": "npm:^0.2.27"
-    "@cssxjs/bundler": "npm:^0.2.27"
+    "@cssxjs/babel-plugin-rn-stylename-inline": "npm:^0.2.28"
+    "@cssxjs/babel-plugin-rn-stylename-to-style": "npm:^0.2.28"
+    "@cssxjs/bundler": "npm:^0.2.28"
     "@cssxjs/loaders": "npm:^0.2.27"
     "@cssxjs/runtime": "npm:^0.2.27"
-    babel-preset-cssxjs: "npm:^0.2.27"
+    babel-preset-cssxjs: "npm:^0.2.28"
   peerDependencies:
     react: "*"
-  checksum: 10c0/ab9c6fcc267b338f4366250eea4ac207b6cd1f6d7d938036dbeec753629935511916c4ceaf0be2a565ac0d56c36766e5e0b5573443915d5c30971687c7edf538
+  checksum: 10c0/ce5f0bf68032371c8ebb0aa2b8fb9091498d87490188e858d72301e0800036dde776b86a9cc3fe14438eece1a06f1748737ef78a9cf369e038be05d874999cf1
   languageName: node
   linkType: hard
 
@@ -27719,7 +27719,7 @@ __metadata:
     "@startupjs/server": "npm:^0.60.0-canary.7"
     "@startupjs/utils": "npm:^0.60.0-canary.7"
     babel-preset-startupjs: "npm:^0.60.0-canary.18"
-    cssxjs: "npm:^0.2.27"
+    cssxjs: "npm:^0.2.28"
     lodash: "npm:^4.17.20"
     teamplay: "npm:^0.3.29"
   peerDependencies:
