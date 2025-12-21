@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "MDX documentation generator",
-  "version": "0.60.0-canary.13",
+  "version": "0.60.0-canary.22",
   "type": "module",
   "main": "index.js",
   "dependencies": {
