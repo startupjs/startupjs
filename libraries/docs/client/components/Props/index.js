@@ -63,10 +63,13 @@ function useInitDefaultProps ({ entries, $theProps }) {
   $theProps.set({})
 
   for (const { name, value, defaultValue } of entries) {
+    // When accessing property which starts with '$' it gets removed by Signal's Proxy
+    // that's why we need to add an extra '$' at the beginning to access the original name
+    const $prop = name.startsWith('$') ? $theProps['$' + name] : $theProps[name]
     if (value !== undefined) {
-      $theProps[name].set(value)
+      $prop.set(value)
     } else if (defaultValue !== undefined) {
-      $theProps[name].set(defaultValue)
+      $prop.set(defaultValue)
     }
   }
 }
