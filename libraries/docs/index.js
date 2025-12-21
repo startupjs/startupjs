@@ -2,7 +2,7 @@
 // import { routes, Layout } from './client/app'
 // import { wrapDocsContext } from './docsContext'
 
-// // Wrap Layout into context
+// // Wrap Layout into context.
 // export default function (docs) {
 //   return {
 //     routes,

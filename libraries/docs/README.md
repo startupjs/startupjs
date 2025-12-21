@@ -93,5 +93,3 @@ startupjs: >= 0.33.0
 ## License
 
 MIT
-
-.
