@@ -7,6 +7,15 @@
 
 
 
+# [0.60.0-canary.22](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.21...v0.60.0-canary.22) (2025-12-21)
+
+
+### Bug Fixes
+
+* **docs/Props:** fix setting props which start with $ ([1ad4f7c](https://github.com/startupjs/startupjs/commit/1ad4f7cc558ceaec7ef0de568514d6ed7ca834da))
+
+
+
 # [0.60.0-canary.21](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.20...v0.60.0-canary.21) (2025-12-16)
 
 
