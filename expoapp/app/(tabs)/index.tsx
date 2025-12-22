@@ -33,7 +33,7 @@ export default observer(function TabOneScreen () {
       <Div row>
         <Button onPress={fetchSomething}>Fetch stuff</Button>
         <Button pushed onPress={() => $count.increment(1)}>Count {$count.get()}</Button>
-        <Button pushed onPress={() => $banner.visible.set(!$banner.visible.get())}>
+        <Button pushed tooltip='Click me' onPress={() => $banner.visible.set(!$banner.visible.get())}>
           {$banner.visible.get() ? 'Hide' : 'Show'} Banner
         </Button>
       </Div>
