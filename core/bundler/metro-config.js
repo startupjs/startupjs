@@ -5,11 +5,15 @@ const { join, resolve } = require('path')
 
 // To pass existing config for modification, pass it as 'upstreamConfig' in options:
 //   config = getDefaultConfig(__dirname, { upstreamConfig })
-exports.getDefaultConfig = function getDefaultConfig (projectRoot, { upstreamConfig } = {}) {
+exports.getDefaultConfig = function getDefaultConfig (projectRoot, {
+  upstreamConfig,
+  checkStartupjsBabel = true
+} = {}) {
   let packageJson = {}
   try {
     packageJson = JSON.parse(readFileSync(join(projectRoot, 'package.json'), 'utf8'))
   } catch (err) {}
+  if (checkStartupjsBabel) _checkStartupjsBabel(projectRoot)
   const features = getFeatures(projectRoot)
   upstreamConfig ??= getUpstreamConfig(projectRoot)
   const isExpo = checkIfExpo(upstreamConfig)
@@ -44,7 +48,12 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, { upstreamCon
 }
 
 function isBuild () {
-  return process.env.IS_BUILD || process.env.CI || process.env.EAS_BUILD
+  return (
+    process.env.IS_BUILD ||
+    process.env.CI ||
+    process.env.EAS_BUILD ||
+    (process.env.NODE_ENV === 'production' && !process.env.FORCE_SERVER)
+  )
 }
 
 function addServer (config) {
@@ -142,4 +151,37 @@ function getMonorepoRootPackageJson (projectRoot) {
       if (packageJson.workspaces) return { packageJson, folderPath: parent }
     } catch (err) {}
   }
+}
+
+function _checkStartupjsBabel (projectRoot) {
+  const babelConfigPath = join(projectRoot, 'babel.config.cjs')
+  if (!existsSync(babelConfigPath)) {
+    console.error('ERROR:', ERRORS.missingBabelConfig)
+    throw Error(ERRORS.missingBabelConfig)
+  }
+  const babelConfig = readFileSync(join(projectRoot, 'babel.config.cjs'), 'utf8')
+  if (!babelConfig.includes('startupjs/babel')) {
+    console.error('ERROR:', ERRORS.noStartupjsBabelPreset)
+    throw Error(ERRORS.noStartupjsBabelPreset)
+  }
+}
+
+const ERRORS = {
+  missingBabelConfig: `
+    Missing babel.config.cjs with 'startupjs/babel' preset.
+    Please create babel.config.cjs following the instructions from Expo (or pure React Native) documentation,
+    and add 'startupjs/babel' as the LAST item in the 'presets' array.
+
+    To ignore this error (if you want to use a custom babel preset to transform startupjs code),
+    you can pass the option 'checkStartupjsBabel: false'
+    when calling 'getDefaultConfig(projectRoot, options)' from 'metro.config.cjs'.
+  `,
+  noStartupjsBabelPreset: `
+    Your babel.config.cjs is missing 'startupjs/babel' preset.
+    Please add 'startupjs/babel' as the LAST item in the 'presets' array of your babel.config.cjs.
+
+    To ignore this error (if you want to use a custom babel preset to transform startupjs code),
+    you can pass the option 'checkStartupjsBabel: false'
+    when calling 'getDefaultConfig(projectRoot, options)' from 'metro.config.cjs'.
+  `
 }

@@ -1,12 +1,11 @@
 {
   "name": "@startupjs/isomorphic-helpers",
   "type": "module",
-  "version": "0.59.0-canary.0",
+  "version": "0.60.0-canary.7",
   "description": "Helpers which can be used isomorphically on client and server",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
-  "license": "MIT",
-  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
+  "license": "MIT"
 }

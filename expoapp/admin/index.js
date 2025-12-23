@@ -1,5 +1,5 @@
 import React from 'react'
-import { observer } from 'startupjs'
+import { observer, pug } from 'startupjs'
 import { Div, Span, Link, Button, Br } from '@startupjs/ui'
 
 export default observer(function Layout () {
@@ -11,6 +11,9 @@ export default observer(function Layout () {
         Button Go to Hello
       Link(href='./world')
         Button Go to World
-
+      Link(href='./docTest')
+        Button Go to DocTest (simple MDX test)
+      Link(href='./Button')
+        Button Go to Button Docs (complex MDX test)
   `
 })

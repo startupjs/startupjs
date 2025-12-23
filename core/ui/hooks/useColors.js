@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import singletonVariables, { defaultVariables } from '@startupjs/babel-plugin-rn-stylename-to-style/variables'
+import { variables as singletonVariables, defaultVariables } from 'startupjs'
 
 export default function useColors () {
   return useCallback(getColor, [])

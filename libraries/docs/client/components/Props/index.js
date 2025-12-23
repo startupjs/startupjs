@@ -1,18 +1,14 @@
 import React, { useMemo, useState } from 'react'
-import { pug, observer, $root, useComponentId } from 'startupjs'
+import { pug, observer, $, useId } from 'startupjs'
 import { themed, Button, Div, ScrollView } from '@startupjs/ui'
-import parsePropTypesModule from 'parse-prop-types'
 import Constructor from './Constructor'
 import Renderer from './Renderer'
 import './index.styl'
 
-const parsePropTypes = parsePropTypesModule.default || parsePropTypesModule
-if (!parsePropTypes) throw Error('> Can\'t load parse-prop-types module. Issues with bundling')
-
-function useEntries ({ Component, props, extraParams }) {
+function useEntries ({ Component, props, extraParams, propsJsonSchema }) {
   return useMemo(() => {
-    const propTypes = parsePropTypes(Component)
-    const entries = Object.entries(propTypes)
+    if (!propsJsonSchema?.properties) return []
+    const entries = Object.entries(propsJsonSchema.properties)
 
     const res = parseEntries(entries)
       .filter(entry => entry.name[0] !== '_') // skip private properties
@@ -36,36 +32,46 @@ function useEntries ({ Component, props, extraParams }) {
     }
 
     return res
-  }, [])
+  }, [extraParams, props, propsJsonSchema])
 }
 
 function parseEntries (entries) {
   return entries.map(entry => {
+    const name = entry[0]
     const meta = entry[1]
+    let type = meta.type
+    if (meta.enum) type = 'oneOf'
+    if (meta.$comment && meta.$comment.startsWith('(')) type = 'function'
+    if (!type) type = 'any'
+    let extendedFrom = meta.extendedFrom
+    // children prop is special, it should not be marked as extendedFrom
+    if (name === 'children') extendedFrom = undefined
     return {
-      name: entry[0],
-      type: meta.type.name,
-      defaultValue: meta.defaultValue && meta.defaultValue.value,
-      possibleValues: meta.type.value,
-      isRequired: meta.required
+      name,
+      type,
+      defaultValue: meta.default,
+      possibleValues: meta.enum,
+      isRequired: meta.required,
+      description: meta.description,
+      extendedFrom
     }
   })
 }
 
-async function useInitDefaultProps ({ entries, $theProps }) {
+function useInitDefaultProps ({ entries, $theProps }) {
   if ($theProps.get()) return
-  $theProps.setDiff({})
-
-  const promises = []
+  $theProps.set({})
 
   for (const { name, value, defaultValue } of entries) {
+    // When accessing property which starts with '$' it gets removed by Signal's Proxy
+    // that's why we need to add an extra '$' at the beginning to access the original name
+    const $prop = name.startsWith('$') ? $theProps['$' + name] : $theProps[name]
     if (value !== undefined) {
-      promises.push($theProps.set(name, value, null))
+      $prop.set(value)
     } else if (defaultValue !== undefined) {
-      promises.push($theProps.set(name, defaultValue, null))
+      $prop.set(defaultValue)
     }
   }
-  if (promises.length) throw await Promise.all(promises)
 }
 
 export default observer(themed(function PComponent ({
@@ -74,6 +80,7 @@ export default observer(themed(function PComponent ({
   Component,
   $props,
   props,
+  propsJsonSchema,
   extraParams,
   componentName,
   showGrid,
@@ -83,17 +90,17 @@ export default observer(themed(function PComponent ({
   block: defaultBlock
 }) {
   const [block, setBlock] = useState(!!defaultBlock)
-  const componentId = useComponentId()
+  const componentId = useId()
 
   const $theProps = useMemo(() => {
     if (!$props) {
-      return $root.scope(`_session.Props.${componentId}`)
+      return $.session.Props[componentId]
     } else {
       return $props
     }
-  }, [$props])
+  }, [$props, componentId])
 
-  const entries = useEntries({ Component, props, extraParams })
+  const entries = useEntries({ Component, props, extraParams, propsJsonSchema })
   useInitDefaultProps({ entries, $theProps })
 
   function Wrapper ({ children }) {
@@ -117,6 +124,7 @@ export default observer(themed(function PComponent ({
       Div.top
         Constructor(
           Component=Component
+          extendedFrom=propsJsonSchema?.extendedFrom
           $props=$theProps
           entries=entries
         )

@@ -57,7 +57,7 @@ exports.getRelativeModelImports = (sourceFilePath, root = ROOT) => {
 }
 
 function getRelativeImports (folder, sourceFilePath, root) {
-  if (!existsSync(folder)) return {}
+  if (!existsSync(folder)) return []
   // recursively find all files in folder
   const modelImports = []
   for (const filename of readdirSync(folder)) {

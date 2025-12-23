@@ -14,10 +14,14 @@ module.exports = function startupjsLoader (source) {
     babelrc: false,
     configFile: false,
     presets: [
-      [require('babel-preset-startupjs/pure'), {
+      [require('babel-preset-startupjs'), {
+        // in Program: state.file.opts.caller.platform when used in metro
+        // when used in metro - state.file.opts.caller.bundler === 'metro'
         platform,
+        // in Program: state.file.opts.envName when used in metro
         env
-      }]
+      }],
+      [require('cssxjs/babel'), { platform }]
     ]
   }).code
 }

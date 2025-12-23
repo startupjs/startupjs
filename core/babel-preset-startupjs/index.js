@@ -1,264 +1,286 @@
-const stylusToCssLoader = require('@startupjs/bundler/lib/stylusToCssLoader.js')
-const { generateScopedNameFactory } = require('@startupjs/babel-plugin-react-css-modules/utils')
-const { LOCAL_IDENT_NAME } = require('./constants')
-const ASYNC = process.env.ASYNC
-const APP_ENV = process.env.APP_ENV
-const DEFAULT_MODE = 'react-native'
+/**
+ * Compilation pipeline:
+ * 1. Transform pug to jsx
+ * 2. Auto-load startupjs plugins
+ * 3. Run eliminator to remove code targeting other envs
+ * 4. Transform CSS modules
+ *
+ * Options:
+ *   platform - Force platform to compile to (e.g. 'ios', 'android', 'web').
+ *       Default: 'web' (or auto-detected on React Native)
+ *       On React Native (Metro) this gets automatically detected inside babel plugins.
+ *   reactType - Force the React type - RN or pure web React (e.g. 'react-native', 'web').
+ *       Default: undefined (auto-detected)
+ *       This shouldn't be needed in most cases since it will be automatically detected.
+ *   cache - Force the CSS caching library instance (e.g. 'teamplay').
+ *       Default: undefined (auto-detected)
+ *       This shouldn't be needed in most cases since it will be automatically detected.
+ *   transformPug - Whether to transform pug to jsx.
+ *       Default: true
+ *   transformCss - Whether to transform CSS modules (styl/css files and styl`` css`` in JSX).
+ *       Default: true
+ *   useRequireContext - Whether to use require.context for loading startupjs plugins.
+ *       The underlying environment must support require.context (e.g. Metro, Webpack).
+ *       Default: true
+ *   clientOnly - Whether to transform model/*.js files to keep only the client-relevant code.
+ *       Default: true
+ *       This option is required when building for the client (React Native or web) so that
+ *       server-only code is removed from model files and secret information is not leaked to the client.
+ *   envs - Array of envs to keep during code elimination of the startupjs config and plugins.
+ *       Default: ['features', 'isomorphic', 'client']
+ *       On the server, this should usually include 'server' instead of 'client':
+ *       ['features', 'isomorphic', 'server']
+ *   isStartupjsFile - A function (filename, code) => boolean that checks whether the given file
+ *       is part of the startupjs ecosystem (a plugin, startupjs.config.js, loadStartupjsConfig.js or a model file).
+ *       Default: a function that returns true for all startupjs plugin ecosystem files. And also
+ *       when clientOnly is true, it also returns true for model/*.js files to keep only client-relevant code there.
+ *   docgen - Whether to enable docgen features - magic exports of JSON schemas from TypeScript interfaces.
+ *       Default: false
+ */
+const { createStartupjsFileChecker, CONFIG_FILENAME_REGEX } = require('./utils.js')
+const PLUGIN_KEYS = ['name', 'for', 'order', 'enabled']
+const PROJECT_KEYS = ['plugins', 'modules']
+const ALL_ENVS = ['features', 'isomorphic', 'client', 'server', 'build']
+const MAGIC_IMPORTS = ['startupjs/registry', '@startupjs/registry']
 
-const DIRECTORY_ALIASES = {
-  components: './components',
-  helpers: './helpers',
-  clientHelpers: './clientHelpers',
-  model: './model',
-  main: './main',
-  styles: './styles',
-  appConstants: './appConstants'
-}
+module.exports = (api, {
+  platform,
+  reactType,
+  cache,
+  compileCssImports,
+  cssFileExtensions,
+  transformCss = true,
+  transformPug = true,
+  useRequireContext = true,
+  clientOnly = true,
+  envs = ['features', 'isomorphic', 'client'],
+  isStartupjsFile = createStartupjsFileChecker({ clientOnly }),
+  docgen = false
+} = {}) => {
+  const isMetro = api.caller(caller => caller?.name === 'metro')
 
-const basePlugins = ({ alias, observerCache, signals } = {}) => [
-  [require('@startupjs/babel-plugin-startupjs-utils'), {
-    observerCache,
-    signals
-  }],
-  [require('babel-plugin-module-resolver'), {
-    alias: {
-      ...DIRECTORY_ALIASES,
-      ...alias
-    }
-  }],
-  [require('@startupjs/babel-plugin-transform-react-pug'), {
-    classAttribute: 'styleName'
-  }],
-  [require('@startupjs/babel-plugin-react-pug-classnames'), {
-    classAttribute: 'styleName'
-  }],
-  [require('@babel/plugin-proposal-decorators'), { legacy: true }]
-]
+  // By default on Metro we don't need to compile CSS imports since we are relying on the custom
+  // StartupJS metro-babel-transformer which handles CSS imports as separate files.
+  if (compileCssImports == null && isMetro) compileCssImports = false
 
-const dotenvPlugin = ({ production, mockBaseUrl, envName = APP_ENV } = {}) => {
-  if (!envName) {
-    envName = production ? 'production' : 'local'
-  }
-  const options = {
-    moduleName: '@env',
-    path: ['.env', `.env.${envName}`]
-  }
-  if (mockBaseUrl) {
-    options.override = {
-      BASE_URL: "typeof window !== 'undefined' && window.location && window.location.origin"
-    }
-  }
-  return [require('@startupjs/babel-plugin-dotenv'), options]
-}
-
-const i18nPlugin = (options) => {
-  return [require('@startupjs/babel-plugin-i18n-extract'), options]
-}
-
-const webReactCssModulesPlugin = ({ production } = {}) =>
-  ['@startupjs/babel-plugin-react-css-modules', {
-    handleMissingStyleName: 'ignore',
-    webpackHotModuleReloading: !production,
-    filetypes: {
-      '.styl': {}
-    },
-    transform: (src, filepath) => {
-      if (!/\.styl$/.test(filepath)) return src
-      return stylusToCssLoader.call({ resourcePath: filepath }, src)
-    },
-    generateScopedName
-  }]
-
-const nativeReactCssModulesPlatformExtensionsPlugin = () =>
-  [require('babel-plugin-react-native-platform-specific-extensions'), {
-    extensions: ['styl', 'css']
-  }]
-
-const nativeReactCssModulesPlugins = ({ platform, useImport } = {}) => [
-  [require('@startupjs/babel-plugin-rn-stylename-to-style'), {
-    extensions: ['styl', 'css'],
-    useImport
-  }],
-  [require('@startupjs/babel-plugin-rn-stylename-inline'), {
-    platform
-  }]
-]
-
-// react-native config
-
-const CONFIG_NATIVE_DEVELOPMENT = {
-  presets: [
-    [
-      require('./metroPresetWithTypescript'),
-      { useTransformReactJSXExperimental: true }
-    ]
-  ],
-  plugins: [
-    [require('@startupjs/babel-plugin-startupjs-debug')],
-    dotenvPlugin(),
-    nativeReactCssModulesPlatformExtensionsPlugin(),
-    ...nativeReactCssModulesPlugins({ useImport: false }),
-    i18nPlugin()
-  ]
-}
-
-const CONFIG_NATIVE_PRODUCTION = {
-  presets: [
-    [
-      require('./metroPresetWithTypescript'),
-      { useTransformReactJSXExperimental: true }
-    ]
-  ],
-  plugins: [
-    dotenvPlugin({ production: true }),
-    nativeReactCssModulesPlatformExtensionsPlugin(),
-    ...nativeReactCssModulesPlugins({ useImport: false }),
-    i18nPlugin()
-  ]
-}
-
-// web config for universal web/native project. Uses inline CSS styles, same as in react-native config,
-// therefore only the react-native rules can be used.
-
-const CONFIG_WEB_UNIVERSAL_DEVELOPMENT = {
-  presets: [
-    [require('./esNextPreset'), { debugJsx: true }]
-    // NOTE: If we start to face unknown errors in development or
-    //       want to sync the whole presets/plugins stack with RN,
-    //       just replace the optimized esNext preset above with the
-    //       regular metro preset below:
-    // [require('./metroPresetWithTypescript')]
-  ],
-  plugins: [
-    [require('@startupjs/babel-plugin-startupjs-debug')],
-    [require('react-refresh/babel'), { skipEnvCheck: true }],
-    dotenvPlugin({ mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web' }),
-    i18nPlugin({ collectTranslations: true })
-  ]
-}
-
-const CONFIG_WEB_UNIVERSAL_PRODUCTION = {
-  presets: [
-    [require('./metroPresetWithTypescript'), {
-      disableImportExportTransform: !!ASYNC
-    }]
-  ],
-  plugins: [
-    ASYNC && require('@startupjs/babel-plugin-startupjs'),
-    ASYNC && require('@startupjs/babel-plugin-import-to-react-lazy'),
-    dotenvPlugin({ production: true, mockBaseUrl: true }),
-    ...nativeReactCssModulesPlugins({ platform: 'web' }),
-    i18nPlugin({ collectTranslations: true })
-  ].filter(Boolean)
-}
-
-if (ASYNC) {
-  CONFIG_WEB_UNIVERSAL_PRODUCTION.sourceType = 'unambiguous'
-}
-
-// web config for a pure web project. Uses babel-plugin-react-css-modules for CSS which allows
-// to use the full browser CSS engine.
-
-const CONFIG_WEB_PURE_DEVELOPMENT = {
-  presets: [
-    [require('./esNextPreset'), { debugJsx: true }]
-    // NOTE: If we start to face unknown errors in development or
-    //       want to sync the whole presets/plugins stack with RN,
-    //       just replace the optimized esNext preset above with the
-    //       regular metro preset below:
-    // [require('./metroPresetWithTypescript')]
-  ],
-  plugins: [
-    [require('@startupjs/babel-plugin-startupjs-debug')],
-    [require('react-refresh/babel'), { skipEnvCheck: true }],
-    dotenvPlugin({ mockBaseUrl: true }),
-    webReactCssModulesPlugin(),
-    i18nPlugin({ collectTranslations: true })
-  ]
-}
-
-const CONFIG_WEB_PURE_PRODUCTION = {
-  presets: [
-    [require('./metroPresetWithTypescript'), {
-      disableImportExportTransform: !!ASYNC
-    }]
-  ],
-  plugins: [
-    dotenvPlugin({ production: true, mockBaseUrl: true }),
-    webReactCssModulesPlugin({ production: true }),
-    i18nPlugin({ collectTranslations: true })
-  ]
-}
-
-if (ASYNC) {
-  CONFIG_WEB_PURE_PRODUCTION.sourceType = 'unambiguous'
-}
-
-// node.js server config
-
-const CONFIG_SERVER = {
-  presets: [
-    require('./esNextPreset')
-    // NOTE: If we start to face unknown errors or
-    //       want to sync the whole presets/plugins stack with RN,
-    //       just replace the optimized esNext preset above with the
-    //       regular metro preset below:
-    // [require('./metroPresetWithTypescript')]
-  ],
-  plugins: []
-}
-
-module.exports = (api, options) => {
-  api.cache(true)
-
-  const { BABEL_ENV, NODE_ENV, MODE = DEFAULT_MODE } = process.env
-
-  // There is a bug in metro when BABEL_ENV is a string "undefined".
-  // We have to workaround it and use NODE_ENV.
-  const env = (BABEL_ENV !== 'undefined' && BABEL_ENV) || NODE_ENV
-
-  const { presets = [], plugins = [], ...extra } = getConfig(env, MODE)
+  // on Metro we transform any CSS imports since StartupJS metro-babel-transformer
+  // turns off Expo's default CSS support and handles only our CSS imports.
+  // When used in a plain Web project though though,
+  // we want to only handle the default ['cssx.css', 'cssx.styl'] extensions.
+  if (cssFileExtensions == null && isMetro) cssFileExtensions = ['styl', 'css']
 
   return {
-    presets,
-    plugins: basePlugins(options).concat(plugins),
-    ...extra
+    overrides: [{
+      test: isJsxSource,
+      plugins: [
+        // support JSX syntax
+        require('@babel/plugin-syntax-jsx')
+      ]
+    }, {
+      test: isTypeScriptSource,
+      plugins: [
+        // support TypeScript syntax
+        require('@babel/plugin-syntax-typescript')
+      ]
+    }, {
+      test: isTsxSource,
+      plugins: [
+        // support TypeScript + JSX syntax
+        [require('@babel/plugin-syntax-typescript'), {
+          isTSX: true
+        }]
+      ]
+    }, {
+      plugins: [
+        docgen && [require('@startupjs/babel-plugin-ts-to-json-schema'), {
+          magicExportName: '_PropsJsonSchema',
+          interfaceMatch: 'export interface'
+        }],
+
+        // transform pug to jsx. This generates a bunch of new AST nodes
+        // (it's important to do this first before any dead code elimination runs)
+        transformPug && [require('cssxjs/babel/plugin-react-pug'), { classAttribute: 'styleName' }],
+
+        // inline CSS modules (styl`` in the same JSX file -- similar to how it is in Vue.js)
+        transformCss && [require('cssxjs/babel/plugin-rn-stylename-inline'), {
+          platform
+        }],
+        // CSS modules (separate .styl/.css file)
+        transformCss && [require('cssxjs/babel/plugin-rn-stylename-to-style'), {
+          extensions: cssFileExtensions,
+          useImport: true,
+          reactType,
+          cache,
+          compileCssImports
+        }],
+
+        // auto-load startupjs plugins
+        // traverse "exports" of package.json and all dependencies to find all startupjs plugins
+        // and automatically import them in the main startupjs.config.js file
+        [require('@startupjs/babel-plugin-startupjs-plugins'), { useRequireContext }],
+
+        // run eliminator to remove code targeting other envs.
+        // For example, only keep code related to 'client' and 'isomorphic' envs
+        // (in which case any code related to 'server' and 'build' envs will be removed)
+        [require('@startupjs/babel-plugin-eliminator'), {
+          shouldTransformFileChecker: isStartupjsFile,
+          trimObjects: [{
+            magicFilenameRegex: CONFIG_FILENAME_REGEX,
+            magicExport: 'default',
+            targetObjectJsonPath: '$.modules.*',
+            ensureOnlyKeys: ALL_ENVS,
+            keepKeys: envs
+          }, {
+            magicFilenameRegex: CONFIG_FILENAME_REGEX,
+            magicExport: 'default',
+            targetObjectJsonPath: '$.plugins.*',
+            ensureOnlyKeys: ALL_ENVS,
+            keepKeys: envs
+          }, {
+            magicFilenameRegex: CONFIG_FILENAME_REGEX,
+            magicExport: 'default',
+            targetObjectJsonPath: '$',
+            // envs on the top level are the alias for '$.modules.startupjs'
+            ensureOnlyKeys: [...PROJECT_KEYS, ...ALL_ENVS],
+            keepKeys: [...PROJECT_KEYS, ...envs]
+          }, {
+            functionName: 'createPlugin',
+            magicImports: MAGIC_IMPORTS,
+            ensureOnlyKeys: [...PLUGIN_KEYS, ...ALL_ENVS],
+            keepKeys: [...PLUGIN_KEYS, ...envs]
+          }],
+          ...(clientOnly
+            ? {
+                transformFunctionCalls: [{
+                  // direct named exports of aggregation() within model/*.js files
+                  // are replaced with aggregationHeader() calls.
+                  // 'collection' is the filename without extension
+                  // 'name' is the direct named export const name
+                  //
+                  // Example:
+                  //
+                  //   // in model/games.js
+                  //   export const $$byGameId = aggregation(({ gameId }) => ({ gameId }))
+                  //
+                  // will be replaced with:
+                  //
+                  //   __aggregationHeader({ collection: 'games', name: '$$byGameId' })
+                  //
+                  functionName: 'aggregation',
+                  magicImports: ['startupjs'],
+                  requirements: {
+                    argumentsAmount: 1,
+                    directNamedExportedAsConst: true
+                  },
+                  replaceWith: {
+                    newFunctionNameFromSameImport: '__aggregationHeader',
+                    newCallArgumentsTemplate: `[
+                      {
+                        collection: %%filenameWithoutExtension%%,
+                        name: %%directNamedExportConstName%%
+                      }
+                    ]`
+                  }
+                }, {
+                  // export default inside of aggregation() within a separate model/*.$$myAggregation.js files
+                  // are replaced with aggregationHeader() calls.
+                  // Filepath is stripped of the extensions and split into sections (by dots and slashes)
+                  // 'name' is the last section.
+                  // 'collection' is the section before it.
+                  //
+                  // Example:
+                  //
+                  //   // in model/games/$$active.js
+                  //   export default aggregation(({ gameId }) => ({ gameId }))
+                  //
+                  // will be replaced with:
+                  //
+                  //   __aggregationHeader({ collection: 'games', name: '$$active' })
+                  //
+                  functionName: 'aggregation',
+                  magicImports: ['startupjs'],
+                  requirements: {
+                    argumentsAmount: 1,
+                    directDefaultExported: true
+                  },
+                  replaceWith: {
+                    newFunctionNameFromSameImport: '__aggregationHeader',
+                    newCallArgumentsTemplate: `[
+                      {
+                        collection: %%folderAndFilenameWithoutExtension%%.split(/[\\\\/\\.]/).at(-2),
+                        name: %%folderAndFilenameWithoutExtension%%.split(/[\\\\/\\.]/).at(-1)
+                      }
+                    ]`
+                  }
+                }, {
+                  // TODO: this has to be implemented! It's not actually working yet.
+
+                  // any other calls to aggregation() must explicitly define the collection and name
+                  // as the second argument. If not, the build will fail.
+                  //
+                  // Example:
+                  //
+                  //   aggregation(
+                  //     ({ gameId }) => ({ gameId }),
+                  //     { collection: 'games', name: 'byGameId' }
+                  //   )
+                  //
+                  // will be replaced with:
+                  //
+                  //   __aggregationHeader({ collection: 'games', name: 'byGameId' })
+                  //
+                  functionName: 'aggregation',
+                  magicImports: ['startupjs'],
+                  requirements: {
+                    argumentsAmount: 2
+                  },
+                  throwIfRequirementsNotMet: true,
+                  replaceWith: {
+                    newFunctionNameFromSameImport: '__aggregationHeader',
+                    newCallArgumentsTemplate: '[%%argument1%%]' // 0-based index
+                  }
+                }, {
+                  // remove accessControl() calls (replace with undefined)
+                  functionName: 'accessControl',
+                  magicImports: ['startupjs'],
+                  replaceWith: {
+                    remove: true // replace the whole function call with undefined
+                  }
+                }, {
+                  // remove serverOnly() calls (replace with undefined)
+                  functionName: 'serverOnly',
+                  magicImports: ['startupjs'],
+                  replaceWith: {
+                    remove: true // replace the whole function call with undefined
+                  }
+                }]
+              }
+            : {}
+          )
+        }],
+
+        // debugging features
+        require('@startupjs/babel-plugin-startupjs-debug'),
+        require('@startupjs/babel-plugin-i18n-extract')
+      ].filter(Boolean)
+    }]
   }
 }
 
-function getConfig (env, mode) {
-  if (env === 'development') {
-    return CONFIG_NATIVE_DEVELOPMENT
-  } else if (env === 'production') {
-    return CONFIG_NATIVE_PRODUCTION
-  } else if (env === 'server') {
-    return CONFIG_SERVER
-  } else if (env === 'web_development') {
-    if (mode === 'web') {
-      return CONFIG_WEB_PURE_DEVELOPMENT
-    } else {
-      return CONFIG_WEB_UNIVERSAL_DEVELOPMENT
-    }
-  } else if (env === 'web_production') {
-    if (mode === 'web') {
-      return CONFIG_WEB_PURE_PRODUCTION
-    } else {
-      return CONFIG_WEB_UNIVERSAL_PRODUCTION
-    }
-  } else {
-    return {}
-  }
+// all files which are not .ts or .tsx are considered to be pure JS with JSX support
+function isJsxSource (fileName) {
+  if (!fileName) return false
+  return !isTypeScriptSource(fileName) && !isTsxSource(fileName)
 }
 
-function generateScopedName (name, filename/* , css */) {
-  let hashSize = LOCAL_IDENT_NAME.match(/base64:(\d+)]/)
-  if (!hashSize) {
-    throw new Error(
-      'wrong LOCAL_IDENT_NAME. Change generateScopeName() accordingly'
-    )
-  }
-  hashSize = Number(hashSize[1])
-  if (new RegExp(`_.{${hashSize}}_$`).test(name)) return name
-  return generateScopedNameFactory(LOCAL_IDENT_NAME)(name, filename)
+function isTypeScriptSource (fileName) {
+  if (!fileName) return false
+  return fileName.endsWith('.ts')
+}
+
+// NOTE: .tsx is the default when fileName is not provided.
+//       This is because we want to support the most overarching syntax by default.
+function isTsxSource (fileName) {
+  if (!fileName) return true
+  return fileName.endsWith('.tsx')
 }

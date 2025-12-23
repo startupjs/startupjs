@@ -1,15 +1,11 @@
 {
   "name": "babel-preset-startupjs",
-  "version": "0.59.0-canary.14",
+  "version": "0.60.0-canary.18",
   "description": "Babel preset for compiling StartupJS app on server, web, native",
   "main": "index.js",
   "exports": {
     ".": "./index.js",
-    "./index.js": "./index.js",
-    "./pure": "./pure.js",
-    "./pure.js": "./pure.js",
-    "./constants": "./constants.json",
-    "./constants.json": "./constants.json"
+    "./utils": "./utils.js"
   },
   "publishConfig": {
     "access": "public"
@@ -17,38 +13,16 @@
   "license": "MIT",
   "dependencies": {
     "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/plugin-proposal-decorators": "^7.8.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
-    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
-    "@babel/plugin-syntax-flow": "^7.2.0",
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "@babel/plugin-syntax-typescript": "^7.23.3",
-    "@babel/plugin-transform-flow-strip-types": "^7.0.0",
-    "@babel/plugin-transform-function-name": "^7.0.0",
-    "@babel/plugin-transform-react-jsx": "^7.0.0",
-    "@babel/plugin-transform-react-jsx-self": "^7.0.0",
-    "@babel/plugin-transform-react-jsx-source": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.0.0",
-    "@babel/plugin-transform-typescript": "^7.5.0",
-    "@babel/runtime": "^7.9.0",
-    "@startupjs/babel-plugin-dotenv": "^0.59.0-canary.0",
-    "@startupjs/babel-plugin-i18n-extract": "^0.59.0-canary.0",
-    "@startupjs/babel-plugin-import-to-react-lazy": "^0.59.0-canary.0",
-    "@startupjs/babel-plugin-react-css-modules": "^6.5.4-1",
-    "@startupjs/babel-plugin-react-pug-classnames": "^0.59.0-canary.0",
-    "@startupjs/babel-plugin-rn-stylename-inline": "^0.59.0-canary.14",
-    "@startupjs/babel-plugin-rn-stylename-to-style": "^0.59.0-canary.0",
-    "@startupjs/babel-plugin-startupjs": "^0.59.0-canary.0",
-    "@startupjs/babel-plugin-startupjs-debug": "^0.59.0-canary.0",
-    "@startupjs/babel-plugin-startupjs-utils": "^0.59.0-canary.0",
-    "@startupjs/babel-plugin-transform-react-pug": "^7.0.1-0",
-    "@startupjs/bundler": "^0.59.0-canary.14",
-    "babel-plugin-module-resolver": "^5.0.0",
-    "babel-plugin-react-native-platform-specific-extensions": "^1.1.1",
-    "babel-plugin-react-native-web-pass-classname": "^0.2.1",
-    "metro-react-native-babel-preset": "^0.76.8",
-    "react-refresh": "^0.10.0"
+    "@startupjs/babel-plugin-eliminator": "^0.60.0-canary.0",
+    "@startupjs/babel-plugin-i18n-extract": "^0.60.0-canary.7",
+    "@startupjs/babel-plugin-startupjs": "^0.60.0-canary.7",
+    "@startupjs/babel-plugin-startupjs-debug": "^0.60.0-canary.7",
+    "@startupjs/babel-plugin-startupjs-plugins": "^0.60.0-canary.0",
+    "@startupjs/babel-plugin-ts-to-json-schema": "^0.60.0-canary.18"
   },
-  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
+  "peerDependencies": {
+    "cssxjs": "*"
+  }
 }

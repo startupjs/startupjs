@@ -48,6 +48,8 @@ module.exports = function (babel, opts) {
     },
     visitor: {
       Program ($this, state) {
+        // run this plugin only in development
+        if (state.file?.opts?.envName !== 'development') return
         FILENAME = state.file?.opts?.filename
         $this.traverse(earlyVisitor)
       }

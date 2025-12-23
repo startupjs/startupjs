@@ -1,9 +1,9 @@
 import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
+import { isStartupjsPluginEcosystemFile } from 'babel-preset-startupjs/utils'
 import callLoader from './lib/callLoader.js'
 import yamlLoader from './lib/yamlLoader.js'
 import eliminatorLoader from './lib/eliminatorLoader.js'
-import { isStartupjsPluginEcosystemFile } from './lib/utils.js'
 
 export function resolve (specifier, context, nextResolve) {
   const { parentURL = null } = context

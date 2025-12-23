@@ -1,6 +1,6 @@
 // TODO: add support for source maps
 const babel = require('@babel/core')
-const { isStartupjsPluginEcosystemFile, CONFIG_FILENAME_REGEX } = require('./utils')
+const { isStartupjsPluginEcosystemFile, CONFIG_FILENAME_REGEX } = require('babel-preset-startupjs/utils')
 
 const PLUGIN_KEYS = ['name', 'for', 'order', 'enabled']
 const PROJECT_KEYS = ['plugins', 'modules']
@@ -20,7 +20,7 @@ module.exports = function eliminatorLoader (source) {
   if (!(
     isStartupjsPluginEcosystemFile(filename) ||
     (clientModel && isModelFile(filename, source))
-  )) return source
+  )) return source // source inside Program is state.file.code
 
   const envs = this.query.envs
   if (!envs) throw Error("eliminatorLoader: envs not provided (for example ['features', 'isomorphic', 'client'])")
@@ -29,7 +29,7 @@ module.exports = function eliminatorLoader (source) {
 
   let code = source
 
-  // STEP 1: convert pug to jsx and auto-load startupjs plugins
+  // Remove code related to other envs
   code = babel.transformSync(code, {
     filename,
     babelrc: false,
@@ -37,29 +37,16 @@ module.exports = function eliminatorLoader (source) {
     plugins: [
       // support JSX syntax
       require('@babel/plugin-syntax-jsx'),
+
       // transform pug to jsx. This generates a bunch of new AST nodes
       // (it's important to do this first before any dead code elimination runs)
-      [require('@startupjs/babel-plugin-transform-react-pug'), {
-        classAttribute: 'styleName'
-      }],
-      // support calling sub-components in pug (like <Modal.Header />)
-      [require('@startupjs/babel-plugin-react-pug-classnames'), {
-        classAttribute: 'styleName'
-      }],
+      [require('cssxjs/babel/plugin-react-pug'), { classAttribute: 'styleName' }],
+
+      // auto-load startupjs plugins
       // traverse "exports" of package.json and all dependencies to find all startupjs plugins
       // and automatically import them in the main startupjs.config.js file
-      [require('@startupjs/babel-plugin-startupjs-plugins'), { useRequireContext }]
-    ]
-  }).code
+      [require('@startupjs/babel-plugin-startupjs-plugins'), { useRequireContext }],
 
-  // STEP 2: remove code related to other envs
-  code = babel.transformSync(code, {
-    filename,
-    babelrc: false,
-    configFile: false,
-    plugins: [
-      // support JSX syntax
-      require('@babel/plugin-syntax-jsx'),
       // run eliminator to remove code targeting other envs.
       // For example, only keep code related to 'client' and 'isomorphic' envs
       // (in which case any code related to 'server' and 'build' envs will be removed)

@@ -1,17 +1,29 @@
 const { getVisitorToCollectInitialReferences, removeUnusedReferences } = require('./lib/deadCodeEliminator.js')
 const { getVisitorToRemoveOtherEnvs } = require('./lib/removeOtherEnvs.js')
 
+// run elimination on any file by default
+const DEFAULT_SHOULD_TRANSFORM_FILE_CHECKER = () => true
+
 module.exports = function babelPluginEliminator (
   { template, types: t },
-  { removeExports = [], keepExports = [], trimObjects = [], transformFunctionCalls = [] }
+  {
+    removeExports = [],
+    keepExports = [],
+    trimObjects = [],
+    transformFunctionCalls = [],
+    shouldTransformFileChecker = DEFAULT_SHOULD_TRANSFORM_FILE_CHECKER
+  }
 ) {
   return {
     visitor: {
       Program: {
         enter ($this, { file }) {
+          const filename = file.opts.filename
+          const code = file.code
+          if (!shouldTransformFileChecker(filename, code)) return
+
           const refs = new Set()
           const triggerRemoved = createTrigger()
-          const filename = file.opts.filename
 
           // Keep variables that're referenced
           $this.traverse({

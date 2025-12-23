@@ -1,3 +1,232 @@
+# [0.60.0-canary.23](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.22...v0.60.0-canary.23) (2025-12-21)
+
+
+
+# [0.60.0-canary.22](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.21...v0.60.0-canary.22) (2025-12-21)
+
+
+### Bug Fixes
+
+* **docs/Props:** fix setting props which start with $ ([1ad4f7c](https://github.com/startupjs/startupjs/commit/1ad4f7cc558ceaec7ef0de568514d6ed7ca834da))
+
+
+
+# [0.60.0-canary.22](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.21...v0.60.0-canary.22) (2025-12-21)
+
+
+### Bug Fixes
+
+* **docs/Props:** fix setting props which start with $ ([1ad4f7c](https://github.com/startupjs/startupjs/commit/1ad4f7cc558ceaec7ef0de568514d6ed7ca834da))
+
+
+
+# [0.60.0-canary.22](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.21...v0.60.0-canary.22) (2025-12-21)
+
+
+### Bug Fixes
+
+* **docs/Props:** fix setting props which start with $ ([1ad4f7c](https://github.com/startupjs/startupjs/commit/1ad4f7cc558ceaec7ef0de568514d6ed7ca834da))
+
+
+
+# [0.60.0-canary.21](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.20...v0.60.0-canary.21) (2025-12-16)
+
+
+### Bug Fixes
+
+* **startupjs:** update cssxjs to fix production build ([c457fbe](https://github.com/startupjs/startupjs/commit/c457fbe0eca45f647837293fdecc7571a92f0807))
+
+
+
+# [0.60.0-canary.20](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.19...v0.60.0-canary.20) (2025-12-16)
+
+
+### Bug Fixes
+
+* **startupjs:** update cssxjs version to fix production build ([6d7bb44](https://github.com/startupjs/startupjs/commit/6d7bb44b569294dabdd8e972b2191f86da219138))
+
+
+
+# [0.60.0-canary.19](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.18...v0.60.0-canary.19) (2025-12-07)
+
+
+### Features
+
+* **startupjs:** add 'useRouter' export ([44d9a53](https://github.com/startupjs/startupjs/commit/44d9a53859d87cd6d3a288bf082b4f2d5b074cef))
+
+
+
+# [0.60.0-canary.18](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.17...v0.60.0-canary.18) (2025-12-07)
+
+
+### Bug Fixes
+
+* remove extra log ([3df2712](https://github.com/startupjs/startupjs/commit/3df2712a8c981fe9a4c3389e799142495ea19d45))
+
+
+
+# [0.60.0-canary.17](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.16...v0.60.0-canary.17) (2025-12-07)
+
+
+### Bug Fixes
+
+* **bundler:** detect when expo build command is used to not start the startupjs server middleware ([47c88a7](https://github.com/startupjs/startupjs/commit/47c88a7689267da158de3ebd38559197ec4b1d19))
+* **startupjs:** add missing export for auth.js ([dd64ed5](https://github.com/startupjs/startupjs/commit/dd64ed5dc9a31f3c7bc2ee7e2d73c76caefe2b7b))
+
+
+### Features
+
+* **babel-plugin-ts-to-json-schema:** Handle Omit<> constructions ([051d7fa](https://github.com/startupjs/startupjs/commit/051d7fadea0e9cd6e7c98ecc1e95934a34dcc111))
+
+
+
+# [0.60.0-canary.16](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.15...v0.60.0-canary.16) (2025-12-06)
+
+
+### Bug Fixes
+
+* upgrade cssxjs to a version which correctly uses JSX fragments in pug ([1d1fb26](https://github.com/startupjs/startupjs/commit/1d1fb26c38cd99a47d71da215f7a012767c36af7))
+
+
+
+# [0.60.0-canary.15](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.14...v0.60.0-canary.15) (2025-12-03)
+
+
+
+# [0.60.0-canary.14](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.13...v0.60.0-canary.14) (2025-12-03)
+
+
+
+# [0.60.0-canary.13](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.12...v0.60.0-canary.13) (2025-12-03)
+
+
+### Bug Fixes
+
+* **docs:** don't await for default Props values init ([c862a6e](https://github.com/startupjs/startupjs/commit/c862a6eedcf5c2940da255491d84bcaaa3658a42))
+
+
+
+# [0.60.0-canary.12](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.11...v0.60.0-canary.12) (2025-12-01)
+
+
+### Bug Fixes
+
+* **docs:** fix unit bg in the grid visualizer ([1bc0822](https://github.com/startupjs/startupjs/commit/1bc0822ce299e2eee42c6573231daac8e267d5a6))
+
+
+
+# [0.60.0-canary.11](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.10...v0.60.0-canary.11) (2025-12-01)
+
+
+### Bug Fixes
+
+* **docs/Sandbox:** don't mark 'children' prop as extendedFrom ([e36fb68](https://github.com/startupjs/startupjs/commit/e36fb68326161a3f91356184a2527e8e4f229fbe))
+
+
+### Features
+
+* **babel-plugin-ts-to-json-schema:** Support extending interface from another one and show it in Sandbox ([991b59f](https://github.com/startupjs/startupjs/commit/991b59f4ce7b9d8d38493ac6feaca092c8d91840))
+
+
+
+# [0.60.0-canary.10](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.9...v0.60.0-canary.10) (2025-11-24)
+
+
+
+# [0.60.0-canary.9](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.8...v0.60.0-canary.9) (2025-11-19)
+
+
+### Bug Fixes
+
+* **mdx:** fix .mdx generation, implement support for getting prop info from TS interface instead of PropTypes ([#1303](https://github.com/startupjs/startupjs/issues/1303)) ([7a34d15](https://github.com/startupjs/startupjs/commit/7a34d1596cf001ec2b7112a1de08360209d6be54))
+
+
+
+# [0.60.0-canary.8](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.7...v0.60.0-canary.8) (2025-11-14)
+
+
+
+# [0.60.0-canary.7](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.6...v0.60.0-canary.7) (2025-11-12)
+
+
+### Features
+
+* **server/auth:** Generic plugin for auth without using default startupjs datasource ([#1299](https://github.com/startupjs/startupjs/issues/1299)) ([3ab07e6](https://github.com/startupjs/startupjs/commit/3ab07e616e5e1e13f1ead6fb901e82330d3db3ab))
+
+
+
+# [0.60.0-canary.6](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.5...v0.60.0-canary.6) (2025-11-10)
+
+
+### Bug Fixes
+
+* **babel-plugin-startupjs-plugins:** fix compilation error when model folder doesn't exist ([9a408fc](https://github.com/startupjs/startupjs/commit/9a408fc4c06fd5b71bd344bb3ecd712480cb7f7f))
+
+
+
+# [0.60.0-canary.5](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.4...v0.60.0-canary.5) (2025-11-10)
+
+
+### Bug Fixes
+
+* **babel-preset-startupjs:** prevent conflicts with compiling CSS imports on pure web projects ([6e40ee0](https://github.com/startupjs/startupjs/commit/6e40ee033ac401880287ecb3d1a8db403be1af55))
+
+
+
+# [0.60.0-canary.4](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.3...v0.60.0-canary.4) (2025-11-09)
+
+
+### Bug Fixes
+
+* **bundler:** log the error if no startujs/babel preset found ([e0db64e](https://github.com/startupjs/startupjs/commit/e0db64e072c5feeccc9445970718914ef0d75e12))
+
+
+
+# [0.60.0-canary.3](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.2...v0.60.0-canary.3) (2025-11-08)
+
+
+### Bug Fixes
+
+* **worker:** fix bullmq-board import ([9340946](https://github.com/startupjs/startupjs/commit/93409468eb3f092884e61b6c1da2e8f77da54844))
+
+
+
+# [0.60.0-canary.2](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.1...v0.60.0-canary.2) (2025-11-08)
+
+
+### Features
+
+* **bundler:** refactor client compilation to work through a single babel preset ([9468a2a](https://github.com/startupjs/startupjs/commit/9468a2a57b2443f88b3dd4cddb509075c91cf993))
+
+
+
+# [0.60.0-canary.1](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.0...v0.60.0-canary.1) (2025-11-07)
+
+
+### Bug Fixes
+
+* remove css media updater plugin (it's now built-in into cssx), fix bindings in babel for elimination loader to work ([4e55187](https://github.com/startupjs/startupjs/commit/4e55187f694ebf221035ac42909b8e2ffe0d648f))
+
+
+
+# [0.60.0-canary.0](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.18...v0.60.0-canary.0) (2025-11-06)
+
+
+### Features
+
+* move out some packages into CSSX monorepo, refactor to use CSSX under the hood ([#1301](https://github.com/startupjs/startupjs/issues/1301)) ([5a0b724](https://github.com/startupjs/startupjs/commit/5a0b724d137bb2321f40b7223d2f71469106014e))
+
+
+
+# [0.59.0-canary.18](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.17...v0.59.0-canary.18) (2025-10-27)
+
+
+### Features
+
+* **startupjs:** upgrade teamplay to support .assign() method for partial object update ([417d6ec](https://github.com/startupjs/startupjs/commit/417d6ecef36015217a9652676e4710488777290a))
+
+
+
 # [0.59.0-canary.17](https://github.com/startupjs/startupjs/compare/v0.59.0-canary.16...v0.59.0-canary.17) (2025-10-09)
 
 

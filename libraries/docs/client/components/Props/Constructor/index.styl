@@ -12,12 +12,23 @@ $type = var(--color-text-info)
   &.right
     text-align right
 
+.extends
+  border-bottom-width 2px
+  border-bottom-color var(--color-border-main)
+  background-color rgba(black, 0.03)
+
+.collapsibleHeader
+  padding 1u 1u 1u 2u
+
 .possibleValue
   flex-direction row
 
 .value
   color $value
   font-style italic
+
+.valueDefault
+  padding-left 4u
 
 .type
   color $type

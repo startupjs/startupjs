@@ -1,0 +1,41 @@
+{
+  "name": "@startupjs/babel-plugin-ts-interface-to-json-schema",
+  "version": "0.60.0-canary.8",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "It is convert typescript interface to JSON-Schema and add that JSON to ORM model as static field.",
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "interface",
+    "typescript",
+    "json-schema"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Dmitriy Borodin <dmitriy@borodin.site> (http://borodin.site)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/startupjs/startupjs"
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "dependencies": {
+    "@babel/generator": "^7.10.5",
+    "@babel/parser": "^7.10.5",
+    "@babel/plugin-syntax-typescript": "^7.10.4",
+    "@babel/types": "^7.10.5",
+    "typescript-json-schema": "^0.42.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "babel-plugin-tester": "^9.2.0",
+    "jest": "^26.1.0"
+  }
+}

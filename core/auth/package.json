@@ -1,0 +1,34 @@
+{
+  "name": "@startupjs/auth",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Auth module for StartupJS apps. Supports either cookie sessions or JWT tokens.",
+  "version": "0.60.0-canary.8",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    "./client": "./client/index.js",
+    "./server": "./server/index.js",
+    "./plugins/cookieSession.plugin": "./cookieSession/plugin.js",
+    "./plugins/jwtSession.plugin": "./jwtSession/plugin.js",
+    "./plugins/oauth2.plugin": "./oauth2/plugin.js"
+  },
+  "dependencies": {
+    "@startupjs/registry": "^0.60.0-canary.7",
+    "@startupjs/utils": "^0.60.0-canary.7",
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "jwks-rsa": "^3.1.0",
+    "speakeasy": "^2.0.0",
+    "uuid": "^9.0.1"
+  },
+  "peerDependencies": {
+    "@react-native-async-storage/async-storage": "*",
+    "teamplay": "*"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9",
+    "@types/speakeasy": "^2"
+  }
+}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { pug } from 'startupjs'
-import Button from '../Button'
+import Button, { _PropsJsonSchema as ButtonPropsJsonSchema } from '../Button'
 import Div from '../Div'
 import Br from '../Br'
 import { Sandbox } from '@startupjs/docs'
@@ -181,6 +181,7 @@ It's a much better UX decision to use regular buttons by default and decide whic
 
 <Sandbox
   Component={Button}
+  propsJsonSchema={ButtonPropsJsonSchema}
   extraParams={{
     icon: {
       showIconSelect: true

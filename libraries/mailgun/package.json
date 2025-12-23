@@ -1,7 +1,7 @@
 {
   "name": "@startupjs/mailgun",
   "description": "Library to send email messages in app via mailgun",
-  "version": "0.59.0-canary.0",
+  "version": "0.60.0-canary.7",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -16,6 +16,5 @@
     "express": "4.x",
     "lodash": "*",
     "nconf": "*"
-  },
-  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
+  }
 }

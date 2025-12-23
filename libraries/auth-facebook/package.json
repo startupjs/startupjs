@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-facebook",
-  "version": "0.59.0-canary.0",
+  "version": "0.60.0-canary.7",
   "type": "module",
   "description": "Auth plugin for StartupJS auth module",
   "main": "index.js",
@@ -16,6 +16,5 @@
   "peerDependencies": {
     "@startupjs/auth": "*",
     "react-native-fbsdk": ">= 1.0.0"
-  },
-  "gitHead": "c4369c2afe696ff06b8e16a19f7f01faf8dec658"
+  }
 }
