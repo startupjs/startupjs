@@ -1,7 +1,8 @@
 import { createBackend } from 'startupjs/server'
-import { readdirSync } from 'fs'
+import { readdirSync, existsSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { ROOT_MODULE as MODULE } from '@startupjs/registry'
 import createWorker from './utils/createWorker.js'
 import getParam from './utils/getParam.js'
 import handleThrottledJobFinish from './utils/handleThrottledJobFinish.js'
@@ -16,20 +17,29 @@ const __filename = fileURLToPath(import.meta.url)
 let worker = null
 
 export default async function startWorker () {
-  createBackend()
-
   const queueName = getParam('QUEUE_NAME')
   const concurrency = Number(getParam('CONCURRENCY'))
   const useSeparateProcess = getParam('USE_SEPARATE_PROCESS')
   // this only works if useSeparateProcess is true
   const useWorkerThreads = getParam('USE_WORKER_THREADS')
+  const autoStart = getParam('AUTO_START')
 
-  if (!isJobsFolderExists()) {
-    console.log('[@startupjs/worker] startWorker: workerJobs folder not found')
-    await maybeRemoveJobSchedulers(queue, [])
+  // Initialize backend only if the worker runs in a separate process
+  // In the main process the backend is already initialized by startupjs
+  if (useSeparateProcess === true || useSeparateProcess === 'true') {
+    createBackend()
+  }
+
+  if (autoStart === 'false' || autoStart === false) {
+    console.log('[@startupjs/worker] startWorker: autoStart disabled, worker not starting')
     return
   }
 
+  const hasJobsFolder = isJobsFolderExists()
+  if (!hasJobsFolder) {
+    console.log('[@startupjs/worker] startWorker: workerJobs folder not found')
+    await maybeRemoveJobSchedulers(queue, [])
+  }
   const options = {}
   let processJob
   if (concurrency != null) options.concurrency = concurrency
@@ -62,23 +72,74 @@ export default async function startWorker () {
   })
 
   const schedulerIds = []
+  const allJobs = {}
+  const existingJobsForHook = {}
 
-  for (const fileName of readdirSync(join(process.cwd(), 'workerJobs'))) {
-    const { default: action, cron } = await import(join(process.cwd(), 'workerJobs', fileName))
+  // 1. First, load jobs from workerJobs/ files (if the folder exists)
+  if (hasJobsFolder) {
+    for (const fileName of readdirSync(join(process.cwd(), 'workerJobs'))) {
+      const job = await import(join(process.cwd(), 'workerJobs', fileName))
 
-    if (!action) continue
-    const type = fileName.split('.')[0]
+      if (!job.default) continue
 
-    setAction(type, action)
+      const type = fileName.split('.')[0]
 
-    const { pattern, jobData = {} } = cron || {}
+      setAction(type, job.default)
+
+      if (!job.cron || (typeof job.cron === 'object' && !job.cron.pattern)) continue
+
+      allJobs[type] = job
+
+      existingJobsForHook[type] = {
+        default: job.default,
+        cron: job.cron
+      }
+    }
+  }
+
+  // 2. Collect jobs from plugins
+  try {
+    const pluginJobs = MODULE.reduceHook('workerJobs', existingJobsForHook)
+
+    for (const jobName in pluginJobs) {
+      const job = pluginJobs[jobName]
+      if (!job) continue
+
+      let jobModule
+      if (job.then) {
+        jobModule = await job
+      } else {
+        jobModule = job
+      }
+
+      if (!jobModule.default) continue
+
+      setAction(jobName, jobModule.default)
+
+      if (!jobModule.cron || (typeof jobModule.cron === 'object' && !jobModule.cron.pattern)) continue
+
+      allJobs[jobName] = jobModule
+    }
+
+  } catch (error) {
+    console.error('[@startupjs/worker] Error collecting jobs from plugins:', error)
+  }
+
+  // 3. Register all jobs in the queue
+  for (const jobName in allJobs) {
+    const { default: jobHandler, cron } = allJobs[jobName]
+
+    const { pattern, jobData = {} } = typeof cron === 'string'
+      ? { pattern: cron }
+      : cron
+
     if (!pattern) continue
 
-    schedulerIds.push(type)
+    schedulerIds.push(jobName)
     await queue.upsertJobScheduler(
-      type,
-      { pattern, key: type },
-      { data: { type, ...jobData } }
+      jobName,
+      { pattern, key: jobName },
+      { data: { type: jobName, ...jobData } }
     )
   }
 
