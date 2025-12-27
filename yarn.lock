@@ -6063,7 +6063,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/bundler@npm:^0.60.0-canary.18, @startupjs/bundler@workspace:core/bundler":
+"@startupjs/bundler@npm:^0.60.0-canary.25, @startupjs/bundler@workspace:core/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:core/bundler"
   dependencies:
@@ -13573,7 +13573,7 @@ __metadata:
     react-native-svg: "npm:15.12.1"
     react-native-web: "npm:^0.21.0"
     react-test-renderer: "npm:~19.1.0"
-    startupjs: "npm:^0.60.0-canary.24"
+    startupjs: "npm:^0.60.0-canary.25"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -27706,12 +27706,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.60.0-canary.24, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.60.0-canary.25, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
     "@startupjs/auth": "npm:^0.60.0-canary.8"
-    "@startupjs/bundler": "npm:^0.60.0-canary.18"
+    "@startupjs/bundler": "npm:^0.60.0-canary.25"
     "@startupjs/cli": "npm:^0.60.0-canary.7"
     "@startupjs/hooks": "npm:^0.60.0-canary.7"
     "@startupjs/isomorphic-helpers": "npm:^0.60.0-canary.7"

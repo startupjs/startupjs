@@ -1,3 +1,12 @@
+# [0.60.0-canary.25](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.24...v0.60.0-canary.25) (2025-12-27)
+
+
+### Features
+
+* **bundler:** change mdxLoader to use a new @startupjs-ui/mdx package ([6bc1576](https://github.com/startupjs/startupjs/commit/6bc1576008a0bb4b9f568ebd8c84ef8c0e73795d))
+
+
+
 # [0.60.0-canary.24](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.23...v0.60.0-canary.24) (2025-12-26)
 
 

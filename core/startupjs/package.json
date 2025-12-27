@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.60.0-canary.24",
+  "version": "0.60.0-canary.25",
   "engines": {
     "node": ">= 14"
   },
@@ -30,7 +30,7 @@
   "license": "MIT",
   "dependencies": {
     "@startupjs/auth": "^0.60.0-canary.8",
-    "@startupjs/bundler": "^0.60.0-canary.18",
+    "@startupjs/bundler": "^0.60.0-canary.25",
     "@startupjs/cli": "^0.60.0-canary.7",
     "@startupjs/hooks": "^0.60.0-canary.7",
     "@startupjs/isomorphic-helpers": "^0.60.0-canary.7",
