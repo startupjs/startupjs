@@ -10,8 +10,8 @@ export default createPlugin({
   name: 'offlineSession',
   order: 'system session',
   enabled () {
-    const { enableServer, enableConnection } = this.module.options
-    return (!enableServer && !enableConnection)
+    const { enableServer, enableConnection, enableOffline = true } = this.module.options
+    return (!enableServer && !enableConnection && enableOffline)
   },
   client: (options, {
     module: {
