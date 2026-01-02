@@ -2,7 +2,7 @@ import { useState, useMemo, useRef } from 'react'
 import {
   pug, styl, observer, $, useSub, axios
 } from 'startupjs'
-import { H1, Button, Div, Br, alert } from '@startupjs/ui'
+import { Span, Button, Div, Br, alert } from 'startupjs-ui'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabTwoScreen () {
@@ -28,7 +28,7 @@ export default observer(function TabTwoScreen () {
         Button(color='primary' variant='flat' pushed onPress=() => $count.increment())
           | Model count: #{$count.get()}
       Br
-      H1.count #{$count.get()}
+      Span.count(h1) #{$count.get()}
       Br
       Div(row)
         Button(color='text-description' onPress=() => $countDoc.reset()) Reset

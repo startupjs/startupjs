@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer, pug } from 'startupjs'
-import { Br, Div, Span, Link, Button, alert } from '@startupjs/ui'
+import { Br, Div, Span, Link, Button, alert } from 'startupjs-ui'
 import { useRouter, Slot } from '@startupjs/router'
 
 export default observer(function Layout () {

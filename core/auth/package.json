@@ -12,6 +12,7 @@
     "./server": "./server/index.js",
     "./plugins/cookieSession.plugin": "./cookieSession/plugin.js",
     "./plugins/jwtSession.plugin": "./jwtSession/plugin.js",
+    "./plugins/offlineSession.plugin": "./offlineSession/plugin.js",
     "./plugins/oauth2.plugin": "./oauth2/plugin.js"
   },
   "dependencies": {

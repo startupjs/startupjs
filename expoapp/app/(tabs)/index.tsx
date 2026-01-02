@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { axios, observer, $ } from 'startupjs'
-import { Br, Button, Div, Span, Link } from '@startupjs/ui'
+import { Br, Button, Div, Span, Link } from 'startupjs-ui'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabOneScreen () {
