@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer, pug } from 'startupjs'
+import { Content, Br, ScrollView, Div, Span, Button, alert } from 'startupjs-ui'
 import { Slot, SlotProvider } from '@startupjs/router'
-import { Content, Br, ScrollView, Div, Span, Button, alert } from '@startupjs/ui'
 
 export default observer(function Layout () {
   return pug`

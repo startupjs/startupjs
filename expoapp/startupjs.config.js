@@ -1,7 +1,7 @@
 import React from 'react'
 import { createPlugin } from 'startupjs/registry'
 import { pug, styl, $, sub, observer } from 'startupjs'
-import { Span, Div, Button, alert } from '@startupjs/ui'
+import { Span, Div, Button, alert } from 'startupjs-ui'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle'
 

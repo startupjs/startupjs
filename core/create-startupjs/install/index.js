@@ -57,7 +57,7 @@ export const options = [{
   `
 }, {
   name: '--ui',
-  description: 'Add @startupjs/ui and its required peer dependencies.'
+  description: 'Add startupjs-ui and its required peer dependencies.'
 }, {
   name: '--router',
   description: 'Add @startupjs/router and its required peer dependencies.'
@@ -110,7 +110,7 @@ async function runInstall ({
     }
   }
 
-  // we need to use the minor.0 version since @startupjs/ui might not have the exact version
+  // we need to use the minor.0 version since startupjs-ui might not have the exact version
   // as the startupjs package
   const STARTUPJS_MINOR_ZERO = startupjsVersion.replace(/\.\d+$/, '.0').replace(/^[^\d]*/, '')
   const EXPO_MAJOR = packageJson.dependencies.expo?.match(/\d+/)
@@ -127,7 +127,7 @@ async function runInstall ({
     templates.push(JSON.parse(fromTemplateFile(DEVELOPMENT_JSON_PATH)))
   }
 
-  if (setupUi || packageJson.dependencies['@startupjs/ui']) {
+  if (setupUi || packageJson.dependencies['startupjs-ui']) {
     templates.push(JSON.parse(fromTemplateFile(UI_JSON_PATH)))
     if (packageJson.dependencies.expo) {
       templates.push(JSON.parse(fromTemplateFile(UI_EXPO_JSON_PATH)))
@@ -231,7 +231,11 @@ async function processPackageJsonDependencies ({
   for (const dependencyName in template[key]) {
     if (!packageJson[key]) packageJson[key] = {}
     const version = await transformDependencyVersion({
-      name: dependencyName, version: template[key][dependencyName], STARTUPJS_MINOR_ZERO, EXPO_MAJOR
+      name: dependencyName,
+      currentVersion: packageJson[key][dependencyName],
+      version: template[key][dependencyName],
+      STARTUPJS_MINOR_ZERO,
+      EXPO_MAJOR
     })
     if (packageJson[key][dependencyName] !== version) {
       packageJson[key][dependencyName] = version
@@ -279,7 +283,12 @@ function fromTemplateFile (filename, vars = {}) {
 }
 
 // dynamically find the correct version for the dependency if it's templatized
-async function transformDependencyVersion ({ name, version, STARTUPJS_MINOR_ZERO, EXPO_MAJOR } = {}) {
+async function transformDependencyVersion ({ name, currentVersion, version, STARTUPJS_MINOR_ZERO, EXPO_MAJOR } = {}) {
+  if (name === 'startupjs-ui') {
+    // TODO: implement %%CURRENT_MATCHING_LATEST%% with a way to also specify default,
+    //       maybe switch to {{CURRENT_MATCHING_LATEST ?? '^0.1.0'}} with just a special handling of ??
+    return await getLatestMatchingVersion(name, currentVersion || version)
+  }
   const match = version.match(/%%([^%]+)%%/)
   if (match) {
     const theVar = match[1]

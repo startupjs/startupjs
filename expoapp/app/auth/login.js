@@ -2,7 +2,7 @@ import React from 'react'
 import { Image } from 'react-native'
 import { pug, styl, observer, useSub, $ } from 'startupjs'
 import { login, logout } from 'startupjs/auth'
-import { Content, Button, User, Card, Input, H6, Tag, Alert, Br, ScrollView, Item, Modal } from '@startupjs/ui'
+import { Content, Button, User, Card, Input, Span, Tag, Alert, Br, ScrollView, Item, Modal } from 'startupjs-ui'
 
 const PROVIDERS = ['github']
 
@@ -135,7 +135,7 @@ const Local = observer(() => {
   }
   return pug`
     Card
-      H6 Login
+      Span(h6) Login
       Br
       Input(
         type='object'
@@ -149,7 +149,7 @@ const Local = observer(() => {
       Button(onPress=handleLogin) Login
     Br
     Card
-      H6 Register
+      Span(h6) Register
       Br
       Input(
         type='object'

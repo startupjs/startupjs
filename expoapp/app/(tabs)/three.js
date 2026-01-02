@@ -1,5 +1,5 @@
 import { pug, styl, observer, useSub, $ } from 'startupjs'
-import { Link, Button, Br, User, Card } from '@startupjs/ui'
+import { Link, Button, Br, User, Card } from 'startupjs-ui'
 import { Text, View } from '@/components/Themed'
 
 export default observer(function TabThreeScreen () {

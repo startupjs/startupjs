@@ -3,7 +3,6 @@ import _layout from './_layout'
 import hello from './hello'
 import world from './world'
 import docTest from './docTest.mdx'
-import ButtonDocs from '../../core/ui/components/Button/Button.en.mdx'
 import index from './index'
 
 export default [{
@@ -21,8 +20,5 @@ export default [{
   }, {
     path: 'docTest',
     element: el(docTest)
-  }, {
-    path: 'Button',
-    element: el(ButtonDocs)
   }]
 }]
