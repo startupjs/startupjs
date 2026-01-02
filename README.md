@@ -79,7 +79,7 @@ StartupJS app requires:
 2. Install startupjs into your app:
 
     ```
-    npm init startupjs@canary
+    npm init startupjs@latest
     ```
 
 3. Wrap your root component into `<StartupjsProvider>` from `startupjs` (when using expo-router it's in `app/_layout.tsx`):
