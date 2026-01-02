@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Auth module for StartupJS apps. Supports either cookie sessions or JWT tokens.",
-  "version": "0.61.0",
+  "version": "0.61.1",
   "type": "module",
   "main": "index.js",
   "exports": {

@@ -1,3 +1,12 @@
+## [0.61.1](https://github.com/startupjs/startupjs/compare/v0.61.0...v0.61.1) (2026-01-02)
+
+
+### Features
+
+* **auth:** add an option to disable the offlineSession plugin by specifying features.enableOffline: false in startupjs config ([34a4219](https://github.com/startupjs/startupjs/commit/34a4219b746d12894f82efe051de69d58cc4a7bf))
+
+
+
 # [0.61.0](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.25...v0.61.0) (2026-01-02)
 
 
