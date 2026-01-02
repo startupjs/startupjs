@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/offline",
-  "version": "0.60.0-canary.7",
+  "version": "0.61.0",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"

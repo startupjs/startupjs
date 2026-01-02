@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Auth module for StartupJS apps. Supports either cookie sessions or JWT tokens.",
-  "version": "0.60.0-canary.8",
+  "version": "0.61.0",
   "type": "module",
   "main": "index.js",
   "exports": {
@@ -16,8 +16,8 @@
     "./plugins/oauth2.plugin": "./oauth2/plugin.js"
   },
   "dependencies": {
-    "@startupjs/registry": "^0.60.0-canary.7",
-    "@startupjs/utils": "^0.60.0-canary.7",
+    "@startupjs/registry": "^0.61.0",
+    "@startupjs/utils": "^0.61.0",
     "bcrypt": "^5.1.1",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^3.1.0",

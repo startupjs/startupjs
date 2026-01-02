@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/babel-plugin-ts-to-json-schema",
-  "version": "0.60.0-canary.18",
+  "version": "0.61.0",
   "publishConfig": {
     "access": "public"
   },

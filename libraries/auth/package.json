@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/legacy-auth",
-  "version": "0.60.0-canary.7",
+  "version": "0.61.0",
   "type": "module",
   "description": "Auth module for StartupJS apps",
   "main": "index.js",

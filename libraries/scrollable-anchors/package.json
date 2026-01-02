@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Immitation of scrollable anchors",
-  "version": "0.60.0-canary.7",
+  "version": "0.61.0",
   "main": "index.js",
   "peerDependencies": {
     "@startupjs/ui": "*",

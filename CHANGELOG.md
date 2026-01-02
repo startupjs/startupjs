@@ -1,3 +1,43 @@
+# [0.61.0](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.25...v0.61.0) (2026-01-02)
+
+
+### Features
+
+* add offline support (default wo server), remove @startupjs/ui (use startupjs-ui), remove mdx, docs ([#1306](https://github.com/startupjs/startupjs/issues/1306)) ([d40e02d](https://github.com/startupjs/startupjs/commit/d40e02d71c8f4a2604e9043ea82abaf600bbbd95))
+
+
+### BREAKING CHANGES
+
+* - Add offline support with persisting to local storage (web and
+react-native). It's on by default when there is no server
+(`features.enableServer: false` in `startupjs.config.js`).
+- Remove `@startupjs/ui` - use `startupjs-ui` instead.
+- Remove `mdx` and `docs`. Use `@startupjs-ui/mdx` and
+`@startupjs-ui/docs` instead.
+
+## Migration
+
+1. in `package.json` change `"@startupjs/ui"` to `"startupjs-ui":
+"^0.1.6"`
+
+2. in the project make a global search on `@startupjs/ui` and change all
+imports from `'@startupjs/ui'` to `'startupjs-ui'`
+
+3. Change components `<H1>`-`<H6>` to `<Span h1>` - `<Span h6>` (make a
+global search in the project on H1, H2, H3, H4, H5, H6)
+
+4. Change component `<Row>` to `<Div row>` (make a global search in the
+project on `Row`)
+
+5. Change component `<Multiselect>` to `<MultiSelect>` (the name was
+changed)
+
+6. Upgrade `startupjs` and `expo` to the latest versions by manually
+changing `"startupjs"` and `"expo"` to the latest ones, then do `yarn`
+and then do `npx startupjs install --fix` to upgrade all dependencies.
+
+
+
 # [0.60.0-canary.25](https://github.com/startupjs/startupjs/compare/v0.60.0-canary.24...v0.60.0-canary.25) (2025-12-27)
 
 

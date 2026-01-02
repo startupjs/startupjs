@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/auth-common",
-  "version": "0.60.0-canary.7",
+  "version": "0.61.0",
   "type": "module",
   "description": "Common auth plugin for oauth2",
   "main": "index.js",

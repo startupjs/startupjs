@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/worker",
-  "version": "0.60.0-canary.7",
+  "version": "0.61.0",
   "publishConfig": {
     "access": "public"
   },
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@bull-board/express": "^6.14.0",
-    "@startupjs/registry": "^0.60.0-canary.7",
+    "@startupjs/registry": "^0.61.0",
     "bullmq": "^5.25.6",
     "lodash": "^4.17.20"
   },

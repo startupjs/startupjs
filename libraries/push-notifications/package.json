@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/push-notifications",
-  "version": "0.60.0-canary.7",
+  "version": "0.61.0",
   "type": "module",
   "description": "Push notifications module",
   "main": "index.js",
