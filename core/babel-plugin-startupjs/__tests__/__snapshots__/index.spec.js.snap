@@ -2,11 +2,11 @@
 
 exports[`@startupjs/babel-plugin-startupjs Doesn't touch grep imports: Doesn't touch grep imports 1`] = `
 
-import * as UI from '@startupjs/ui'
+import * as UI from 'startupjs-ui'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import * as UI from "@startupjs/ui";
+import * as UI from "startupjs-ui";
 
 
 `;
@@ -26,64 +26,88 @@ import App from "startupjs/app";
 
 exports[`@startupjs/babel-plugin-startupjs Throws when unknown component found in export: Throws when unknown component found in export 1`] = `
 
-export { Button, UnknownComponent } from '@startupjs/ui'
+export { Button, UnknownComponent } from 'startupjs-ui'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-SyntaxError: unknown file: Named export "UnknownComponent" does not exist in "@startupjs/ui" "exports" field in package.json
-[0m[31m[1m>[22m[39m[90m 1 |[39m [36mexport[39m { [33mButton[39m[33m,[39m [33mUnknownComponent[39m } [36mfrom[39m [32m'@startupjs/ui'[39m[0m
-[0m [90m   |[39m                  [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+SyntaxError: unknown file: Named export "UnknownComponent" does not exist in "startupjs-ui" "exports" field in package.json
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mexport[39m { [33mButton[39m[33m,[39m [33mUnknownComponent[39m } [36mfrom[39m [32m'startupjs-ui'[39m
+ [90m   |[39m                  [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
 
 `;
 
 exports[`@startupjs/babel-plugin-startupjs Throws when unknown component found in import: Throws when unknown component found in import 1`] = `
 
-import { Button, UnknownComponent } from '@startupjs/ui'
+import { Button, UnknownComponent } from 'startupjs-ui'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-SyntaxError: unknown file: Named export "UnknownComponent" does not exist in "@startupjs/ui" "exports" field in package.json
-[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { [33mButton[39m[33m,[39m [33mUnknownComponent[39m } [36mfrom[39m [32m'@startupjs/ui'[39m[0m
-[0m [90m   |[39m                  [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+SyntaxError: unknown file: Named export "UnknownComponent" does not exist in "startupjs-ui" "exports" field in package.json
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { [33mButton[39m[33m,[39m [33mUnknownComponent[39m } [36mfrom[39m [32m'startupjs-ui'[39m
+ [90m   |[39m                  [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Transforms export with aliases: Transforms export with aliases 1`] = `
+
+export { Button as MyButton, Span as MySpan } from 'startupjs-ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+export { default as MyButton } from "startupjs-ui/Button";
+export { default as MySpan } from "startupjs-ui/Span";
+
 
 `;
 
 exports[`@startupjs/babel-plugin-startupjs Transforms export: Transforms export 1`] = `
 
 export { observer } from 'startupjs'
-export { Button, Span, TextInput } from '@startupjs/ui'
+export { Button, Span, TextInput } from 'startupjs-ui'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
 export { observer } from "startupjs";
-export { default as Button } from "@startupjs/ui/Button";
-export { default as Span } from "@startupjs/ui/Span";
-export { default as TextInput } from "@startupjs/ui/TextInput";
+export { default as Button } from "startupjs-ui/Button";
+export { default as Span } from "startupjs-ui/Span";
+export { default as TextInput } from "startupjs-ui/TextInput";
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Transforms imports with aliases: Transforms imports with aliases 1`] = `
+
+import { TextInput as Input, Div as View } from 'startupjs-ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import Input from "startupjs-ui/TextInput";
+import View from "startupjs-ui/Div";
 
 
 `;
 
 exports[`@startupjs/babel-plugin-startupjs Transforms known import from moduleMap.json: Transforms known import from moduleMap.json 1`] = `
 
-import { Button } from '@startupjs/ui'
+import { Button } from 'startupjs-ui'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import Button from "@startupjs/ui/Button";
+import Button from "startupjs-ui/Button";
 
 
 `;
 
 exports[`@startupjs/babel-plugin-startupjs Transforms multiple imports: Transforms multiple imports 1`] = `
 
-import { Button, Span, TextInput, Collapse } from '@startupjs/ui'
+import { Button, Span, TextInput, Collapse } from 'startupjs-ui'
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import Button from "@startupjs/ui/Button";
-import Span from "@startupjs/ui/Span";
-import TextInput from "@startupjs/ui/TextInput";
-import Collapse from "@startupjs/ui/Collapse";
+import Button from "startupjs-ui/Button";
+import Span from "startupjs-ui/Span";
+import TextInput from "startupjs-ui/TextInput";
+import Collapse from "startupjs-ui/Collapse";
 
 
 `;
