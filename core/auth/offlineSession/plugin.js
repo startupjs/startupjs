@@ -2,7 +2,6 @@ import { Suspense, createElement as el } from 'react'
 import { createPlugin } from '@startupjs/registry'
 import axios from '@startupjs/utils/axios'
 import { BASE_URL, setBaseUrl } from '@startupjs/utils/BASE_URL'
-import connectOffline from 'teamplay/connect-offline'
 import { v4 as uuid } from 'uuid'
 import { setSessionData, getSessionData } from '../client/sessionData'
 
@@ -47,6 +46,8 @@ function initSession () {
   if (sessionPromise) return sessionPromise
   sessionPromise = (async () => {
     try {
+      // dynamically import to reduce bundle size when offlineSession is not used
+      const { default: connectOffline } = await import('teamplay/connect-offline')
       await connectOffline()
       let session = await getSessionData({ requireToken: false })
       // set a dummy userId if none exists in the session
