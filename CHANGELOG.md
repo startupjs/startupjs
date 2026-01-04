@@ -1,3 +1,13 @@
+## [0.61.2](https://github.com/startupjs/startupjs/compare/v0.61.1...v0.61.2) (2026-01-04)
+
+
+### Bug Fixes
+
+* **auth/offlineSession:** dynamically import teamplay/connect-offline to reduce bundle size when offline is not used ([97ee6c4](https://github.com/startupjs/startupjs/commit/97ee6c4fc24c3d9edaeb288b544d49a6672a594b))
+* **babel-preset-startupjs:** enable babel-plugin-startupjs plugin which unwraps startupjs-ui imports for better tree-shaking ([d06092a](https://github.com/startupjs/startupjs/commit/d06092a9ed13aad4b1fbfe51c08ee3f23a9b715d))
+
+
+
 ## [0.61.1](https://github.com/startupjs/startupjs/compare/v0.61.0...v0.61.1) (2026-01-02)
 
 
