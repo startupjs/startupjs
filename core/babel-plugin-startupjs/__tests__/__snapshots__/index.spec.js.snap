@@ -24,6 +24,38 @@ import App from "startupjs/app";
 
 `;
 
+exports[`@startupjs/babel-plugin-startupjs Inserts at top when only startupjs-ui import: Inserts at top when only startupjs-ui import 1`] = `
+
+import { Button } from 'startupjs-ui'
+const x = 1
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+const [Button] = await Promise.all([
+  import("startupjs-ui/Button").then((m) => m.default),
+]);
+const x = 1;
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Keeps other imports and inserts after them: Keeps other imports and inserts after them 1`] = `
+
+import React from 'react'
+import { Button } from 'startupjs-ui'
+const x = 1
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import React from "react";
+const [Button] = await Promise.all([
+  import("startupjs-ui/Button").then((m) => m.default),
+]);
+const x = 1;
+
+
+`;
+
 exports[`@startupjs/babel-plugin-startupjs Throws when unknown component found in export: Throws when unknown component found in export 1`] = `
 
 export { Button, UnknownComponent } from 'startupjs-ui'
@@ -45,6 +77,35 @@ import { Button, UnknownComponent } from 'startupjs-ui'
 SyntaxError: unknown file: Named export "UnknownComponent" does not exist in "startupjs-ui" "exports" field in package.json
 [0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { [33mButton[39m[33m,[39m [33mUnknownComponent[39m } [36mfrom[39m [32m'startupjs-ui'[39m
  [90m   |[39m                  [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Transforms async exports with aliases: Transforms async exports with aliases 1`] = `
+
+export { Button as MyButton, Span as MySpan } from 'startupjs-ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+const [MyButton, MySpan] = await Promise.all([
+  import("startupjs-ui/Button").then((m) => m.default),
+  import("startupjs-ui/Span").then((m) => m.default),
+]);
+export { MyButton, MySpan };
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Transforms async imports with aliases: Transforms async imports with aliases 1`] = `
+
+import { Button as MyButton, Span as MySpan } from 'startupjs-ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+const [MyButton, MySpan] = await Promise.all([
+  import("startupjs-ui/Button").then((m) => m.default),
+  import("startupjs-ui/Span").then((m) => m.default),
+]);
+
 
 `;
 
@@ -71,6 +132,21 @@ export { observer } from "startupjs";
 export { default as Button } from "startupjs-ui/Button";
 export { default as Span } from "startupjs-ui/Span";
 export { default as TextInput } from "startupjs-ui/TextInput";
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Transforms exports to async imports: Transforms exports to async imports 1`] = `
+
+export { Button, Span } from 'startupjs-ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+const [Button, Span] = await Promise.all([
+  import("startupjs-ui/Button").then((m) => m.default),
+  import("startupjs-ui/Span").then((m) => m.default),
+]);
+export { Button, Span };
 
 
 `;
@@ -108,6 +184,20 @@ import Button from "startupjs-ui/Button";
 import Span from "startupjs-ui/Span";
 import TextInput from "startupjs-ui/TextInput";
 import Collapse from "startupjs-ui/Collapse";
+
+
+`;
+
+exports[`@startupjs/babel-plugin-startupjs Transforms to async imports: Transforms to async imports 1`] = `
+
+import { Button, Span } from 'startupjs-ui'
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+const [Button, Span] = await Promise.all([
+  import("startupjs-ui/Button").then((m) => m.default),
+  import("startupjs-ui/Span").then((m) => m.default),
+]);
 
 
 `;

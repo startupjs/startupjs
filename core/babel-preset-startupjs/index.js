@@ -114,9 +114,6 @@ module.exports = (api, {
           compileCssImports
         }],
 
-        // unwrap imports from 'startupjs-ui' for better tree shaking
-        [require('@startupjs/babel-plugin-startupjs')],
-
         // auto-load startupjs plugins
         // traverse "exports" of package.json and all dependencies to find all startupjs plugins
         // and automatically import them in the main startupjs.config.js file
@@ -262,7 +259,11 @@ module.exports = (api, {
           )
         }],
 
-        // debugging features
+        // -- optimizations
+        // unwrap imports from 'startupjs-ui' for better tree shaking
+        require('@startupjs/babel-plugin-startupjs'),
+
+        // -- debugging features
         require('@startupjs/babel-plugin-startupjs-debug'),
         require('@startupjs/babel-plugin-i18n-extract')
       ].filter(Boolean)

@@ -45,3 +45,33 @@ pluginTester({
     }
   }
 })
+
+pluginTester({
+  plugin,
+  pluginName,
+  snapshot: true,
+  pluginOptions: { asyncImports: true },
+  tests: {
+    'Transforms to async imports': /* js */`
+      import { Button, Span } from 'startupjs-ui'
+    `,
+    'Transforms async imports with aliases': /* js */`
+      import { Button as MyButton, Span as MySpan } from 'startupjs-ui'
+    `,
+    'Transforms exports to async imports': /* js */`
+      export { Button, Span } from 'startupjs-ui'
+    `,
+    'Transforms async exports with aliases': /* js */`
+      export { Button as MyButton, Span as MySpan } from 'startupjs-ui'
+    `,
+    'Keeps other imports and inserts after them': /* js */`
+      import React from 'react'
+      import { Button } from 'startupjs-ui'
+      const x = 1
+    `,
+    'Inserts at top when only startupjs-ui import': /* js */`
+      import { Button } from 'startupjs-ui'
+      const x = 1
+    `
+  }
+})
