@@ -144,7 +144,7 @@ The main things you'll need to know to get started with StartupJS are:
 
 1. [React Native](https://reactnative.dev/)
 1. [Teamplay ORM](https://teamplay.dev/) (all `teamplay` stuff should be imported directly from `startupjs`)
-1. [StartupJS UI Components](https://startupjs-ui.dev.dmapper.co)
+1. [StartupJS UI Components](https://ui.startupjs.org)
 
 To launch your app to production read the following sections:
 
