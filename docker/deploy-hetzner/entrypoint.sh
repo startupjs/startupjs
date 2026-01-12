@@ -6,8 +6,8 @@ set -e
 
 # MANUAL:
 #
-# This script runs in 4 stages and relies on a custom docker image
-# based on official aws-cli image (alpine) with 'kaniko' binary on top of it.
+# This script runs in 3 stages and relies on a custom docker image
+# based on official alpine image without build step.
 #
 # It supports a batch mode execution as well as a step-by-step execution.
 #
@@ -18,9 +18,9 @@ set -e
 #
 #   Requirements:
 #     a) You have to pass the following env vars:
-#        - AWS_CREDENTIALS
 #        - APP
 #        - COMMIT_SHA
+#        - KUBECONFIG
 #      b) Mount the source code of your app as `/project`
 #         You can configure project path in container by passing env var PROJECT_PATH
 #
@@ -31,10 +31,9 @@ set -e
 #   running each step.
 #
 #   Since 'init' step is baked into the docker image, you have to execute
-#   the following 3 steps in a sequence:
+#   the following 2 steps in a sequence:
 #   1. prepare
-#   2. build
-#   3. apply
+#   2. apply
 #
 # STEPS:
 #
@@ -48,25 +47,16 @@ set -e
 #
 #    Requirements:
 #      a) You have to pass the following env vars:
-#         - AWS_CREDENTIALS
 #         - APP
 #         - COMMIT_SHA
+#        - KUBECONFIG
 #      b) You have to provide the volume mount for the /tmp/vars folder in the container
 #
 #    Artifacts:
 #      Generates /tmp/vars/vars.sh file (path is customizable with $ENV_VARS_FILE)
 #      which will be reused in the later steps.
 #
-# 2. build
-#
-#    build the app image
-#
-#    Requirements:
-#      a) You have to mount the same folder for /tmp/vars as you did in 'prepare' step
-#      b) Mount the source code of your app as `/project`
-#         You can configure project path in container by passing env var PROJECT_PATH
-#
-# 3. apply
+# 2. apply
 #
 #    deploy to the opinionated kubernetes cluster
 #
