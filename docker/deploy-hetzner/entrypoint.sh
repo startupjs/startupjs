@@ -163,7 +163,7 @@ validate_step_prepare () {
 }
 
 init_secondary_variables () {
-  REGISTRY_SERVER="registry.dmapper.co/development"
+  REGISTRY_SERVER=${REGISTRY_SERVER:-"registry.dmapper.co/development"}
 }
 
 # -----------------------------------------------------------------------------
@@ -191,6 +191,7 @@ login_kubectl () {
   kubectl cluster-info
 }
 
+# TODO: Refactor for Vault
 #update_secret () {
 #  _secrets_yaml=$(_get_secrets_yaml)
 #  echo "$_secrets_yaml" | kubectl apply -f -
