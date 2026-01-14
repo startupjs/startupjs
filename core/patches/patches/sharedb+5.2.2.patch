@@ -1,0 +1,459 @@
+diff --git a/node_modules/sharedb/lib/backend.js b/node_modules/sharedb/lib/backend.js
+index dcc95aa..ce16109 100644
+--- a/node_modules/sharedb/lib/backend.js
++++ b/node_modules/sharedb/lib/backend.js
+@@ -18,6 +18,104 @@ var logger = require('./logger');
+ 
+ var ERROR_CODE = ShareDBError.CODES;
+ 
++// Helper function to extract collection names from aggregation pipeline
++function extractCollectionsFromPipeline(pipeline) {
++  var collections = {};
++
++  function traverse(node) {
++    if (!node || typeof node !== 'object') return;
++
++    // ====== $lookup ======
++    if (node.$lookup) {
++      var lk = node.$lookup;
++
++      // simple lookup: from: "collection"
++      if (lk.from) {
++        collections[lk.from] = true;
++      }
++
++      // pipeline lookup
++      if (Array.isArray(lk.pipeline)) {
++        traverse(lk.pipeline);
++      }
++    }
++
++    // ====== $graphLookup ======
++    if (node.$graphLookup && node.$graphLookup.from) {
++      collections[node.$graphLookup.from] = true;
++    }
++
++    // ====== $unionWith ======
++    if (node.$unionWith) {
++      var uw = node.$unionWith;
++
++      if (typeof uw === 'string') {
++        // { $unionWith: "collection" }
++        collections[uw] = true;
++      } else if (uw && typeof uw === 'object') {
++        // { $unionWith: { coll, pipeline } }
++        if (uw.coll) {
++          collections[uw.coll] = true;
++        }
++        if (Array.isArray(uw.pipeline)) {
++          traverse(uw.pipeline);
++        }
++      }
++    }
++
++    // ====== $merge ======
++    if (node.$merge) {
++      var into = node.$merge.into;
++
++      if (typeof into === 'string') {
++        collections[into] = true;
++      } else if (into && into.coll) {
++        collections[into.coll] = true;
++      }
++    }
++
++    // ====== $out ======
++    if (node.$out) {
++      if (typeof node.$out === 'string') {
++        collections[node.$out] = true;
++      } else if (node.$out.coll) {
++        collections[node.$out.coll] = true;
++      }
++    }
++
++    // ====== $facet ======
++    if (node.$facet && typeof node.$facet === 'object') {
++      for (var facetKey in node.$facet) {
++        var facetPipeline = node.$facet[facetKey];
++        if (Array.isArray(facetPipeline)) {
++          traverse(facetPipeline);
++        }
++      }
++    }
++
++    // ====== General recursion ======
++    if (Array.isArray(node)) {
++      for (var i = 0; i < node.length; i++) {
++        traverse(node[i]);
++      }
++      return;
++    }
++
++    for (var key in node) {
++      traverse(node[key]);
++    }
++  }
++
++  traverse(pipeline);
++  
++  // Convert object keys to array
++  var result = [];
++  for (var collectionName in collections) {
++    result.push(collectionName);
++  }
++  return result;
++}
++
+ function Backend(options) {
+   if (!(this instanceof Backend)) return new Backend(options);
+   emitter.EventEmitter.call(this);
+@@ -737,6 +835,18 @@ Backend.prototype._triggerQuery = function(agent, index, query, options, callbac
+     db: null,
+     snapshotProjection: null
+   };
++  
++  if (query && query.$aggregate) {
++    var auxCollections = extractCollectionsFromPipeline(query.$aggregate);
++    for (var i = 0; i < auxCollections.length; i++) {
++      var auxCollection = auxCollections[i];
++      var auxChannel = this.getCollectionChannel(auxCollection);
++      if (request.channels.indexOf(auxChannel) === -1) {
++        request.channels.push(auxChannel);
++      }
++    }
++  }
++  
+   var backend = this;
+   backend.trigger(backend.MIDDLEWARE_ACTIONS.query, agent, request, function(err) {
+     if (err) return callback(err);
+diff --git a/node_modules/sharedb/lib/pubsub/index.js b/node_modules/sharedb/lib/pubsub/index.js
+index 5f8fad1..c49f959 100644
+--- a/node_modules/sharedb/lib/pubsub/index.js
++++ b/node_modules/sharedb/lib/pubsub/index.js
+@@ -98,7 +98,7 @@ PubSub.prototype._emit = function(channel, data) {
+   var channelStreams = this.streams[channel];
+   if (channelStreams) {
+     for (var id in channelStreams) {
+-      channelStreams[id].pushData(data);
++      channelStreams[id].pushData({...data});
+     }
+   }
+ };
+diff --git a/node_modules/sharedb/lib/query-emitter.js b/node_modules/sharedb/lib/query-emitter.js
+index cfbd930..af7c335 100644
+--- a/node_modules/sharedb/lib/query-emitter.js
++++ b/node_modules/sharedb/lib/query-emitter.js
+@@ -1,10 +1,189 @@
+ var arraydiff = require('arraydiff');
+ var deepEqual = require('fast-deep-equal');
+ var ShareDBError = require('./error');
++var mingo = require("mingo");
+ var util = require('./util');
+ 
+ var ERROR_CODE = ShareDBError.CODES;
+ 
++class QueryMatcher {
++  constructor(query) {
++    this.query = query;
++    this.mingoQuery = new mingo.Query(this._normalizeQuery(query));
++  }
++  
++  _normalizeQuery(query) {
++    const normalized = {};
++    for (const key in query) {
++      if (key.startsWith('$') && !this._isMongoOperator(key)) {
++        continue;
++      }
++      normalized[key] = query[key];
++    }
++    return normalized;
++  }
++  
++  _isMongoOperator(key) {
++    const mongoOperators = [
++      '$eq', '$ne', '$gt', '$gte', '$lt', '$lte', '$in', '$nin',
++      '$and', '$or', '$not', '$nor',
++      '$exists', '$type',
++      '$all', '$elemMatch', '$size',
++      '$regex', '$options',
++      '$geoWithin', '$geoIntersects', '$near', '$nearSphere',
++      '$mod', '$text', '$where',
++      '$bitsAllSet', '$bitsAnySet', '$bitsAllClear', '$bitsAnyClear'
++    ];
++    
++    return mongoOperators.includes(key);
++  }
++  
++  matches(doc) {
++    if (!doc) return false;
++    if (doc._type === null) return false;
++    return this.mingoQuery.test(doc);
++  }
++  
++  shouldUpdateQuery(changeData) {
++    const { operationType, fullDocument, fullDocumentBeforeChange } = changeData;
++    
++    switch (operationType) {
++      case 'create':
++        return this.matches(fullDocument);
++        
++      case 'delete':
++        return this.matches(fullDocumentBeforeChange);
++        
++      case 'update':
++        const wasInResults = this.matches(fullDocumentBeforeChange);
++        const isInResults = this.matches(fullDocument);
++        
++        if (wasInResults !== isInResults) {
++          return true;
++        }
++        
++        if (wasInResults && isInResults) {
++          if (this._sortFieldsChanged(fullDocument, fullDocumentBeforeChange)) {
++            return true;
++          }
++          
++          return true;
++        }
++        
++        return false;
++        
++      default:
++        return true;
++    }
++  }
++  
++  _sortFieldsChanged(after, before) {
++    const sortFields = this._getSortFields();
++    if (!sortFields.length) return false;
++    
++    return sortFields.some(field => {
++      const afterVal = this._getNestedValue(after, field);
++      const beforeVal = this._getNestedValue(before, field);
++      return afterVal !== beforeVal;
++    });
++  }
++  
++  _getSortFields() {
++    const sort = this.query.$sort || this.query.$orderby;
++    if (!sort) return [];
++    return Object.keys(sort);
++  }
++  
++  _getNestedValue(obj, path) {
++    return path.split('.').reduce((o, k) => o?.[k], obj);
++  }
++}
++
++class AggregationMatcher {
++  constructor(aggregation, queryCollection) {
++    this.aggregation = aggregation;
++    this.queryCollection = queryCollection;
++    this.matchStage = null;
++    this.involvedCollections = new Set([queryCollection]);
++    
++    if (aggregation && aggregation.$aggregate && Array.isArray(aggregation.$aggregate)) {
++      const firstStage = aggregation.$aggregate[0];
++      if (firstStage && firstStage.$match) {
++        this.matchStage = firstStage.$match;
++        this.mingoQuery = new mingo.Query(firstStage.$match);
++      }
++      
++      this._extractInvolvedCollections(aggregation.$aggregate);
++    }
++  }
++  
++  _extractInvolvedCollections(pipeline) {
++    for (const stage of pipeline) {
++      if (stage.$lookup && stage.$lookup.from) {
++        this.involvedCollections.add(stage.$lookup.from);
++      }
++    }
++  }
++  
++  isRelevantCollection(collection) {
++    return this.involvedCollections.has(collection);
++  }
++  
++  matches(doc) {
++    if (!this.mingoQuery) {
++      return true;
++    }
++    if (!doc) return false;
++    if (doc._type === null) return false;
++    return this.mingoQuery.test(doc);
++  }
++  
++  shouldUpdateQuery(collection, changeData) {
++    if (!this.isRelevantCollection(collection)) {
++      return false;
++    }
++    
++    if (collection !== this.queryCollection) {
++      return true;
++    }
++    
++    if (!this.matchStage) {
++      return true;
++    }
++    
++    const { operationType, fullDocument, fullDocumentBeforeChange } = changeData;
++    
++    switch (operationType) {
++      case 'create':
++        return this.matches(fullDocument);
++        
++      case 'delete':
++        return this.matches(fullDocumentBeforeChange);
++        
++      case 'update':
++        const wasInResults = this.matches(fullDocumentBeforeChange);
++        const isInResults = this.matches(fullDocument);
++        
++        if (wasInResults !== isInResults) {
++          return true;
++        }
++        
++        if (wasInResults && isInResults) {
++          return true;
++        }
++        
++        return false;
++        
++      default:
++        return true;
++    }
++  }
++}
++
++function isAggregation(query) {
++  return query && query.$aggregate && Array.isArray(query.$aggregate);
++}
++
+ function QueryEmitter(request, streams, ids, extra) {
+   this.backend = request.backend;
+   this.agent = request.agent;
+@@ -19,7 +198,13 @@ function QueryEmitter(request, streams, ids, extra) {
+   this.ids = ids;
+   this.extra = extra;
+   
+-  this.skipPoll = this.options.skipPoll || util.doNothing;
++  // ✅ Store the request for accessing resolved query in _update()
++  // This is needed for server-side aggregations ($aggregationName)
++  // where the real pipeline is resolved in middleware AFTER QueryEmitter construction
++  this.request = request;
++
++  this.skipPoll = this.options.skipPoll;
++
+   this.canPollDoc = this.db.canPollDoc(this.collection, this.query);
+   this.pollDebounce =
+     (typeof this.options.pollDebounce === 'number') ? this.options.pollDebounce :
+@@ -76,6 +261,9 @@ QueryEmitter.prototype._emitTiming = function(action, start) {
+ };
+ 
+ QueryEmitter.prototype._update = function(op) {
++
++  var meta = op._cs;
++
+   // Note that `op` should not be projected or sanitized yet. It's possible for
+   // a query to filter on a field that's not in the projection. skipPoll checks
+   // to see if an op could possibly affect a query, so it should get passed the
+@@ -120,11 +308,26 @@ QueryEmitter.prototype._update = function(op) {
+ 
+   // Ignore if the database or user function says we don't need to poll
+   try {
+-    if (
+-      this.db.skipPoll(this.collection, id, op, this.query) ||
+-      this.skipPoll(this.collection, id, op, this.query)
+-    ) {
+-      return pollCallback();
++    if (this.skipPoll) {
++      if (this.skipPoll(this.collection, id, op, this.query, meta)) {
++        return pollCallback();
++      }
++    } else {
++      let shouldUpdate;
++      // ✅ Use the current query from request (which may have been resolved by middleware)
++      // For server-side aggregations, $aggregationName gets resolved to real pipeline
++      // by @teamplay/server-aggregate middleware (shareRequest.query = serverQuery)
++      const currentQuery = this.request.query;
++      if (isAggregation(currentQuery)) {
++        const matcher = new AggregationMatcher(currentQuery, this.collection);
++        shouldUpdate = matcher.shouldUpdateQuery(this.collection, meta);
++      } else {
++        const matcher = new QueryMatcher(currentQuery);
++        shouldUpdate = matcher.shouldUpdateQuery(meta);
++      }
++      console.log('[QUERY EMITTER] Processing query', currentQuery);
++      console.log('[QUERY EMITTER] shouldUpdate:', shouldUpdate);
++      if (!shouldUpdate) return pollCallback();
+     }
+   } catch (err) {
+     return pollCallback(err);
+diff --git a/node_modules/sharedb/lib/submit-request.js b/node_modules/sharedb/lib/submit-request.js
+index 8e67151..4cbdbca 100644
+--- a/node_modules/sharedb/lib/submit-request.js
++++ b/node_modules/sharedb/lib/submit-request.js
+@@ -6,6 +6,16 @@ var protocol = require('./protocol');
+ 
+ var ERROR_CODE = ShareDBError.CODES;
+ 
++function snapshotToDocument(snapshot) {
++  if (!snapshot) return null;
++
++  if (!snapshot.data) {
++    return { _id: snapshot.id };
++  }
++
++  return { _id: snapshot.id, ...snapshot.data };
++}
++
+ function SubmitRequest(backend, agent, index, id, op, options) {
+   this.backend = backend;
+   this.agent = agent;
+@@ -189,6 +199,8 @@ SubmitRequest.prototype.apply = function(callback) {
+   this._fixupOps = [];
+   delete this.op.m.fixup;
+ 
++  this._snapshotBefore = JSON.parse(JSON.stringify(this.snapshot));
++
+   var request = this;
+   this.backend.trigger(this.backend.MIDDLEWARE_ACTIONS.apply, this.agent, this, function(err) {
+     if (err) return callback(err);
+@@ -217,11 +229,35 @@ SubmitRequest.prototype.commit = function(callback) {
+       };
+     }
+ 
++    var op = { ...request.op };
++
++    var fullDocumentBeforeChange = snapshotToDocument(request._snapshotBefore);
++    var fullDocument = snapshotToDocument(JSON.parse(JSON.stringify(request.snapshot)));
++
++    var operationType;
++    if (request.op.del) {
++      operationType = 'delete';
++    } else if (request.op.create) {
++      operationType = 'create';
++    } else {
++      operationType = 'update';
++    }
++
++    // Attach change stream metadata to operation for PubSub transmission
++    request.op._cs = {
++      collection: request.collection,
++      operationType: operationType,
++      fullDocumentBeforeChange: fullDocumentBeforeChange,
++      fullDocument: fullDocument
++    };
++
++    delete request._snapshotBefore;
++
+     // Try committing the operation and snapshot to the database atomically
+     backend.db.commit(
+       request.collection,
+       request.id,
+-      request.op,
++      op,
+       request.snapshot,
+       request.options,
+       function(err, succeeded) {
