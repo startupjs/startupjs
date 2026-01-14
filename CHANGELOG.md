@@ -1,3 +1,12 @@
+## [0.61.3](https://github.com/startupjs/startupjs/compare/v0.61.2...v0.61.3) (2026-01-14)
+
+
+### Features
+
+* **babel-plugin-startupjs:** add an asyncImports option (disabled by default) to replace 'startupjs-ui' imports with async imports to split components into separate chunks during bundling (top-level await is not supported in RN yet, so it won't work in Expo yet) ([7534359](https://github.com/startupjs/startupjs/commit/7534359c2847cea4a90e67f34e5cf0aba67968a9))
+
+
+
 ## [0.61.2](https://github.com/startupjs/startupjs/compare/v0.61.1...v0.61.2) (2026-01-04)
 
 

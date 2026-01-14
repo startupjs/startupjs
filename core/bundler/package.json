@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/bundler",
-  "version": "0.61.2",
+  "version": "0.61.3",
   "description": "Opinionated scripts and configs to develop a react-native-web project",
   "main": "index.js",
   "publishConfig": {
@@ -24,7 +24,7 @@
     "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "@svgr/plugin-svgo": "^8.1.0",
-    "babel-preset-startupjs": "^0.61.2",
+    "babel-preset-startupjs": "^0.61.3",
     "connect": "^3.7.0",
     "lodash": "^4.17.20",
     "remark-gfm": "4.0.1"
