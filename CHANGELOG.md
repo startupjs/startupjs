@@ -1,3 +1,12 @@
+## [0.61.5](https://github.com/startupjs/startupjs/compare/v0.61.4...v0.61.5) (2026-01-18)
+
+
+### Features
+
+* **startupjs:** upgrade cssxjs to support animation and transition (the way that Reanimated v4 components expect it) ([6cdb195](https://github.com/startupjs/startupjs/commit/6cdb195f4b7c3824ac5aa2400d29351693915b77))
+
+
+
 ## [0.61.4](https://github.com/startupjs/startupjs/compare/v0.61.3...v0.61.4) (2026-01-14)
 
 
