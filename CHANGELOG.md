@@ -1,3 +1,12 @@
+## [0.61.6](https://github.com/startupjs/startupjs/compare/v0.61.5...v0.61.6) (2026-01-18)
+
+
+### Features
+
+* **create-startupjs:** install react-native-reanimated when 'ui' is used ([91e99e3](https://github.com/startupjs/startupjs/commit/91e99e375c9a66ee84d1a5d9257fd8841247610f))
+
+
+
 ## [0.61.5](https://github.com/startupjs/startupjs/compare/v0.61.4...v0.61.5) (2026-01-18)
 
 
