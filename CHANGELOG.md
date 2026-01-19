@@ -1,3 +1,12 @@
+## [0.61.7](https://github.com/startupjs/startupjs/compare/v0.61.6...v0.61.7) (2026-01-19)
+
+
+### Bug Fixes
+
+* **bundler/mdxLoader:** remove newlines inserted by the mdx compiler since they don't work in RN ([5fbf9b9](https://github.com/startupjs/startupjs/commit/5fbf9b949694ddc99164c6a43bf4cc546950b9e7))
+
+
+
 ## [0.61.6](https://github.com/startupjs/startupjs/compare/v0.61.5...v0.61.6) (2026-01-18)
 
 

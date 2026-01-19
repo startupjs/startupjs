@@ -7148,7 +7148,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/bundler@npm:^0.61.3, @startupjs/bundler@workspace:core/bundler":
+"@startupjs/bundler@npm:^0.61.7, @startupjs/bundler@workspace:core/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:core/bundler"
   dependencies:
@@ -14553,7 +14553,7 @@ __metadata:
     react-native-svg: "npm:15.12.1"
     react-native-web: "npm:^0.21.0"
     react-test-renderer: "npm:~19.1.0"
-    startupjs: "npm:^0.61.6"
+    startupjs: "npm:^0.61.7"
     startupjs-ui: "npm:^0.1.6"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -28734,12 +28734,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.61.6, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.61.7, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
     "@startupjs/auth": "npm:^0.61.2"
-    "@startupjs/bundler": "npm:^0.61.3"
+    "@startupjs/bundler": "npm:^0.61.7"
     "@startupjs/cli": "npm:^0.61.6"
     "@startupjs/hooks": "npm:^0.61.0"
     "@startupjs/isomorphic-helpers": "npm:^0.61.0"
