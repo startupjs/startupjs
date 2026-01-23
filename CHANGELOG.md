@@ -1,3 +1,12 @@
+## [0.61.8](https://github.com/startupjs/startupjs/compare/v0.61.7...v0.61.8) (2026-01-23)
+
+
+### Bug Fixes
+
+* **startupjs:** upgrade cssx to improve CSS performance ([7c834db](https://github.com/startupjs/startupjs/commit/7c834db0600a2aff38ffe2be69e4dca4c88fc4c2))
+
+
+
 ## [0.61.7](https://github.com/startupjs/startupjs/compare/v0.61.6...v0.61.7) (2026-01-19)
 
 
