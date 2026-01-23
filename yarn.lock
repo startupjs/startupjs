@@ -1666,40 +1666,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cssxjs/babel-plugin-rn-stylename-inline@npm:^0.2.30":
-  version: 0.2.30
-  resolution: "@cssxjs/babel-plugin-rn-stylename-inline@npm:0.2.30"
+"@cssxjs/babel-plugin-rn-stylename-inline@npm:^0.2.31":
+  version: 0.2.31
+  resolution: "@cssxjs/babel-plugin-rn-stylename-inline@npm:0.2.31"
   dependencies:
     "@babel/parser": "npm:^7.0.0"
     "@babel/template": "npm:^7.4.0"
     "@babel/types": "npm:^7.0.0"
-    "@cssxjs/loaders": "npm:^0.2.30"
-    "@cssxjs/runtime": "npm:^0.2.30"
-  checksum: 10c0/f371cd797cd8d9bd5d3a14228cb25832caf8ec63a15366d403b735df11552a5fed92ceff0bb574acff203203b0b737aa553a76e20ba0fc30601108101b69c076
+    "@cssxjs/loaders": "npm:^0.2.31"
+    "@cssxjs/runtime": "npm:^0.2.31"
+  checksum: 10c0/4310c405f191c338301471885426756c7e647ede5f6fdcdd4d746c77a9930a0462c95f44596e2d4259feb360e6529325cad1879da642c1697fb9aaa9a3d9235a
   languageName: node
   linkType: hard
 
-"@cssxjs/babel-plugin-rn-stylename-to-style@npm:^0.2.30":
-  version: 0.2.30
-  resolution: "@cssxjs/babel-plugin-rn-stylename-to-style@npm:0.2.30"
+"@cssxjs/babel-plugin-rn-stylename-to-style@npm:^0.2.31":
+  version: 0.2.31
+  resolution: "@cssxjs/babel-plugin-rn-stylename-to-style@npm:0.2.31"
   dependencies:
     "@babel/helper-module-imports": "npm:^7.0.0"
     "@babel/parser": "npm:^7.0.0"
     "@babel/template": "npm:^7.4.0"
     "@babel/types": "npm:^7.0.0"
-    "@cssxjs/runtime": "npm:^0.2.30"
-  checksum: 10c0/31b96b21255b9f88433e3c9415eae5983c518bafe06f495d21db7d742bebacadbb52eb62808407464c3215946325c44494895ea262ed20ec155b854a57a03bd0
+    "@cssxjs/runtime": "npm:^0.2.31"
+  checksum: 10c0/c3faee0b8f482d9aae93f165a0674e3fa21accbc08f044ad23bc2cf3af1b400cb7ece2624a8cba1e11a438028b0becaf9582ac12d7682c844d9d2564de1ea776
   languageName: node
   linkType: hard
 
-"@cssxjs/bundler@npm:^0.2.30":
-  version: 0.2.30
-  resolution: "@cssxjs/bundler@npm:0.2.30"
+"@cssxjs/bundler@npm:^0.2.31":
+  version: 0.2.31
+  resolution: "@cssxjs/bundler@npm:0.2.31"
   dependencies:
     "@babel/core": "npm:^7.0.0"
-    "@cssxjs/loaders": "npm:^0.2.30"
-    babel-preset-cssxjs: "npm:^0.2.30"
-  checksum: 10c0/5a1365592ec4edf8d7f6569be035fbe81172821180b198ddb82402129056c02d51f28a90d07d773e13a8aa8b79f23c59aebf27c3269d1f5be538dbc63eab0143
+    "@cssxjs/loaders": "npm:^0.2.31"
+    babel-preset-cssxjs: "npm:^0.2.31"
+  checksum: 10c0/74afdb5b698e4ff82ad9af4dc931886b98cf914481287940a7d1cff6d9c3a14c51690bb0f6da64239c590a3f1454dfd3a9274ab512bba37abbdfd63c2419b088
   languageName: node
   linkType: hard
 
@@ -1714,19 +1714,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cssxjs/loaders@npm:^0.2.30":
-  version: 0.2.30
-  resolution: "@cssxjs/loaders@npm:0.2.30"
+"@cssxjs/loaders@npm:^0.2.31":
+  version: 0.2.31
+  resolution: "@cssxjs/loaders@npm:0.2.31"
   dependencies:
     "@startupjs/css-to-react-native-transform": "npm:2.1.0-2"
     stylus: "npm:0.64.0"
-  checksum: 10c0/8d28b7b7349d6d4fe2f4aef52500e5fb606f9b86baa74acb946fdfe89c11b8a6ca6f3142f674f127947910b46c4155c292171c6d31c52dfe222ae13d2364ea21
+  checksum: 10c0/aaec77870179b235b5b7a1729c4b96a643432f15b5cc00d5668081bb2cc2df269fb061bd467eed0a32b94058689d56d288eb4d3a281dcc4954063546a1006dfb
   languageName: node
   linkType: hard
 
-"@cssxjs/runtime@npm:^0.2.30":
-  version: 0.2.30
-  resolution: "@cssxjs/runtime@npm:0.2.30"
+"@cssxjs/runtime@npm:^0.2.31":
+  version: 0.2.31
+  resolution: "@cssxjs/runtime@npm:0.2.31"
   dependencies:
     "@nx-js/observer-util": "npm:^4.1.3"
     css-viewport-units-transform: "npm:^0.10.2"
@@ -1740,7 +1740,7 @@ __metadata:
       optional: true
     teamplay:
       optional: true
-  checksum: 10c0/cde3146af745e8aa3a8bcc9d073100da9a7d4be82218aa0be900b8b43ff7acdd8c65784c5b79d05d7f7b1c3c541bde14feb610c7d23a9c3dd5133a646d32495a
+  checksum: 10c0/f44e17ebd824d6b0a00310f90d667646b9693f12f2928eb3c6c3d0b48d6bf73b35e9eaffeff1f6f485f22f035e5645c2111852d3adcdab9d5b49cb4b09fd6f5e
   languageName: node
   linkType: hard
 
@@ -9624,16 +9624,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-cssxjs@npm:^0.2.30":
-  version: 0.2.30
-  resolution: "babel-preset-cssxjs@npm:0.2.30"
+"babel-preset-cssxjs@npm:^0.2.31":
+  version: 0.2.31
+  resolution: "babel-preset-cssxjs@npm:0.2.31"
   dependencies:
     "@babel/plugin-syntax-jsx": "npm:^7.0.0"
     "@babel/plugin-syntax-typescript": "npm:^7.23.3"
     "@cssxjs/babel-plugin-react-pug": "npm:^0.2.27"
-    "@cssxjs/babel-plugin-rn-stylename-inline": "npm:^0.2.30"
-    "@cssxjs/babel-plugin-rn-stylename-to-style": "npm:^0.2.30"
-  checksum: 10c0/110e743b599bb071dbebcb6414a859edde956bd94966231a3b0b1dea905099c1d9b5e089079001236f3f04456386770a6d893afcb7c6274ce5a81d05d8d3302e
+    "@cssxjs/babel-plugin-rn-stylename-inline": "npm:^0.2.31"
+    "@cssxjs/babel-plugin-rn-stylename-to-style": "npm:^0.2.31"
+  checksum: 10c0/0c897081c6421f80d394775e3d61da3a92e7047269f4c33668d5f2201c4cb098e4c53f9451b5712ce254170b7092d8c1105015f20d692099a601f046ee3259b7
   languageName: node
   linkType: hard
 
@@ -12343,20 +12343,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cssxjs@npm:^0.2.30":
-  version: 0.2.30
-  resolution: "cssxjs@npm:0.2.30"
+"cssxjs@npm:^0.2.31":
+  version: 0.2.31
+  resolution: "cssxjs@npm:0.2.31"
   dependencies:
     "@cssxjs/babel-plugin-react-pug": "npm:^0.2.27"
-    "@cssxjs/babel-plugin-rn-stylename-inline": "npm:^0.2.30"
-    "@cssxjs/babel-plugin-rn-stylename-to-style": "npm:^0.2.30"
-    "@cssxjs/bundler": "npm:^0.2.30"
-    "@cssxjs/loaders": "npm:^0.2.30"
-    "@cssxjs/runtime": "npm:^0.2.30"
-    babel-preset-cssxjs: "npm:^0.2.30"
+    "@cssxjs/babel-plugin-rn-stylename-inline": "npm:^0.2.31"
+    "@cssxjs/babel-plugin-rn-stylename-to-style": "npm:^0.2.31"
+    "@cssxjs/bundler": "npm:^0.2.31"
+    "@cssxjs/loaders": "npm:^0.2.31"
+    "@cssxjs/runtime": "npm:^0.2.31"
+    babel-preset-cssxjs: "npm:^0.2.31"
   peerDependencies:
     react: "*"
-  checksum: 10c0/a013c198296eef780d58c77585dee1d537b5c42ac9e91f32a8892a4ec6bea434fd444097f6e23559574960624ffa4d5052c7419ee4d646aebdf8794f49cc373f
+  checksum: 10c0/9142b060045af40ab5a21eb8edfdd10168893c105bad5998f687268872513b443f543dfc57ae2db254a5182bfcea29d644864844b890a16d7a90c185f84f2391
   languageName: node
   linkType: hard
 
@@ -28747,7 +28747,7 @@ __metadata:
     "@startupjs/server": "npm:^0.61.0"
     "@startupjs/utils": "npm:^0.61.0"
     babel-preset-startupjs: "npm:^0.61.3"
-    cssxjs: "npm:^0.2.30"
+    cssxjs: "npm:^0.2.31"
     lodash: "npm:^4.17.20"
     teamplay: "npm:0.3.34"
   peerDependencies:
