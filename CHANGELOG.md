@@ -1,3 +1,12 @@
+## [0.61.9](https://github.com/startupjs/startupjs/compare/v0.61.8...v0.61.9) (2026-01-25)
+
+
+### Bug Fixes
+
+* **startupjs:** upgrade cssxjs to support var() in CSS shorthands and in complex cases ([e87c1ba](https://github.com/startupjs/startupjs/commit/e87c1ba2f10a6f24d1255fdf75d2a398019a0ea7))
+
+
+
 ## [0.61.8](https://github.com/startupjs/startupjs/compare/v0.61.7...v0.61.8) (2026-01-23)
 
 
