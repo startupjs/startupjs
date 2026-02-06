@@ -8,6 +8,7 @@ export default createPlugin({
     const {
       dashboard,
       autoStart = true,
+      autoStartProduction = true,
       ...initOptions
     } = options
 
@@ -24,7 +25,10 @@ export default createPlugin({
           })
         }
 
-        if (autoStart) {
+        const isProduction = process.env.NODE_ENV === 'production'
+        const shouldAutoStart = autoStart && (!isProduction || autoStartProduction)
+
+        if (shouldAutoStart) {
           const { default: initWorker } = await import('./init.js')
           await initWorker(initOptions)
         }
