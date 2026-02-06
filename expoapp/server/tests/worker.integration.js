@@ -3,6 +3,7 @@ import runJob from '@startupjs/worker'
 import initWorker, { closeWorkers } from '@startupjs/worker/init'
 import assert from 'assert'
 import { Queue } from 'bullmq'
+import { describe, it, beforeEach, afterEach, after } from 'mocha'
 
 const DEFAULT_QUEUE = 'default'
 const PRIORITY_QUEUE = 'priority'
@@ -38,66 +39,83 @@ const MANAGED_ENV_KEYS = [
   'WORKER_TEST_ENABLE_EXTRA_PLUGIN_CRON'
 ]
 
-try {
-  await run()
-  process.exit(0)
-} catch (error) {
-  console.error(error)
-  process.exit(1)
-}
+const BASE_ENV = snapshotEnv(MANAGED_ENV_KEYS)
+let hasFailures = false
 
-async function run () {
-  const initialEnv = snapshotEnv(MANAGED_ENV_KEYS)
+describe('worker integration', function () {
+  this.timeout(120000)
 
-  try {
+  beforeEach(async function () {
+    restoreEnv(BASE_ENV)
     await closeWorkers().catch(() => {})
-    await cleanupQueues()
+    await cleanupQueues().catch(() => {})
+  })
 
+  afterEach(async function () {
+    if (this.currentTest?.state === 'failed') hasFailures = true
+    restoreEnv(BASE_ENV)
+    await closeWorkers().catch(() => {})
+    await cleanupQueues().catch(() => {})
+  })
+
+  it('rejects unknown worker names', async function () {
     await assertRejects(
       () => initWorker(withRuntimeOptions({ workers: ['unknown-worker'] })),
       /Unknown worker "unknown-worker"/
     )
+  })
 
+  it('validates WORKERS env parsing (empty)', async function () {
     await withEnv({ WORKERS: ' , ' }, async () => {
       await assertRejects(
         () => initWorker(withRuntimeOptions()),
         /WORKERS env var is empty/
       )
     })
+  })
 
+  it('normalizes WORKERS env (dedupe and trim)', async function () {
     await withEnv({ WORKERS: 'default, default, priority ' }, async () => {
       const result = await initWorker(withRuntimeOptions({ concurrency: 1 }))
       assert.deepStrictEqual(result.workers, [DEFAULT_QUEUE, PRIORITY_QUEUE])
-      await closeWorkers()
     })
+  })
 
+  it('respects WORKERS=priority', async function () {
     await withEnv({ WORKERS: 'priority' }, async () => {
       const result = await initWorker(withRuntimeOptions({ concurrency: 1 }))
       assert.deepStrictEqual(result.workers, [PRIORITY_QUEUE])
-      await closeWorkers()
     })
+  })
 
+  it('rejects invalid worker export from plugin jobs', async function () {
     await withEnv({ WORKER_TEST_INVALID_JOB: 'worker' }, async () => {
       await assertRejects(
         () => initWorker(withRuntimeOptions({ workers: [DEFAULT_QUEUE] })),
         /Unknown worker "does-not-exist"/
       )
     })
+  })
 
+  it('rejects invalid cron export from plugin jobs', async function () {
     await withEnv({ WORKER_TEST_INVALID_JOB: 'cron' }, async () => {
       await assertRejects(
         () => initWorker(withRuntimeOptions({ workers: [DEFAULT_QUEUE] })),
         /has invalid cron export/
       )
     })
+  })
 
+  it('rejects invalid singleton export from plugin jobs', async function () {
     await withEnv({ WORKER_TEST_INVALID_JOB: 'singleton' }, async () => {
       await assertRejects(
         () => initWorker(withRuntimeOptions({ workers: [DEFAULT_QUEUE] })),
         /has invalid singleton export/
       )
     })
+  })
 
+  it('runs jobs, applies timeout semantics, singleton behavior, and scheduler sync/cleanup', async function () {
     await withEnv({ WORKER_TEST_ENABLE_EXTRA_PLUGIN_CRON: 'true' }, async () => {
       const result = await initWorker(withRuntimeOptions({
         workers: VALID_WORKERS,
@@ -138,22 +156,6 @@ async function run () {
 
       const sleepOverride = await runJob(JOBS.sleep, { ms: 140 }, { timeout: 250 })
       assert.deepStrictEqual(sleepOverride, { ok: true, ms: 140 })
-
-      if (USE_SEPARATE_PROCESS) {
-        const parallelResults = await Promise.allSettled([
-          runJob(JOBS.sleep, { ms: 300, i: 0 }, { timeout: 50 }),
-          ...Array.from({ length: 9 }, (_, index) =>
-            runJob(JOBS.sleep, { ms: 120, i: index + 1 }, { timeout: 1000 })
-          )
-        ])
-
-        const rejected = parallelResults.filter(result => result.status === 'rejected')
-        const fulfilled = parallelResults.filter(result => result.status === 'fulfilled')
-
-        assert.strictEqual(rejected.length, 1)
-        assert(/timed out after 50ms/.test(rejected[0].reason.message))
-        assert.strictEqual(fulfilled.length, 9)
-      }
 
       const [singletonGlobalA, singletonGlobalB] = await Promise.all([
         runJob(JOBS.singletonGlobal, { marker: 'same' }),
@@ -196,14 +198,41 @@ async function run () {
     const defaultSchedulersAfterCleanup = await getSchedulerNames(DEFAULT_QUEUE)
     assert(!defaultSchedulersAfterCleanup.includes(JOBS.pluginCronTransient))
     assert(defaultSchedulersAfterCleanup.includes(JOBS.cronDefault))
+  })
 
-    console.log('[worker.integration] All checks passed')
-  } finally {
-    restoreEnv(initialEnv)
-    await closeWorkers().catch(() => {})
-    await cleanupQueues().catch(() => {})
-  }
-}
+  const maybeIt = USE_SEPARATE_PROCESS ? it : it.skip
+
+  maybeIt('isolates timeout failure when 10 jobs run in parallel', async function () {
+    await initWorker(withRuntimeOptions({
+      workers: [DEFAULT_QUEUE],
+      concurrency: 10,
+      jobTimeout: 1000
+    }))
+
+    const parallelResults = await Promise.allSettled([
+      runJob(JOBS.sleep, { ms: 300, i: 0 }, { timeout: 50 }),
+      ...Array.from({ length: 9 }, (_, index) =>
+        runJob(JOBS.sleep, { ms: 120, i: index + 1 }, { timeout: 1000 })
+      )
+    ])
+
+    const rejected = parallelResults.filter(result => result.status === 'rejected')
+    const fulfilled = parallelResults.filter(result => result.status === 'fulfilled')
+
+    assert.strictEqual(rejected.length, 1)
+    assert(/timed out after 50ms/.test(rejected[0].reason.message))
+    assert.strictEqual(fulfilled.length, 9)
+
+    const stillWorks = await runJob(JOBS.sleep, { ms: 40 }, { timeout: 500 })
+    assert.deepStrictEqual(stillWorks, { ok: true, ms: 40 })
+  })
+})
+
+after(function () {
+  setTimeout(() => {
+    process.exit(hasFailures ? 1 : 0)
+  }, 50)
+})
 
 function withRuntimeOptions (options = {}) {
   return {

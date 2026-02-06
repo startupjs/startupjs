@@ -125,6 +125,19 @@ export function getQueueJobOptions () {
   }
 }
 
+export async function closeRuntimeResources () {
+  const queuesToClose = Array.from(queues.values())
+  const queueEventsToClose = Array.from(queueEvents.values())
+
+  queues.clear()
+  queueEvents.clear()
+
+  await Promise.allSettled([
+    ...queuesToClose.map(queue => queue.close()),
+    ...queueEventsToClose.map(events => events.close())
+  ])
+}
+
 export function getWorkerConnection () {
   return getRedis({
     ...getRedisOptions({ addPrefix: false }),

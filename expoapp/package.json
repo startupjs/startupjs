@@ -11,8 +11,8 @@
     "web": "npx expo start --web",
     "build": "npx startupjs build",
     "start-production": "npx startupjs start-production",
-    "test-worker": "SKIP_SERVER_INIT_SIDE_EFFECTS=true ENABLE_WORKER_INTEGRATION_PLUGIN=true node --experimental-detect-module --import=startupjs/nodeRegister ./server/tests/worker.integration.js",
-    "test-worker-separate": "SKIP_SERVER_INIT_SIDE_EFFECTS=true ENABLE_WORKER_INTEGRATION_PLUGIN=true WORKER_TEST_USE_SEPARATE_PROCESS=true node --experimental-detect-module --import=startupjs/nodeRegister ./server/tests/worker.integration.js",
+    "test-worker": "SKIP_SERVER_INIT_SIDE_EFFECTS=true ENABLE_WORKER_INTEGRATION_PLUGIN=true NODE_OPTIONS='--experimental-detect-module --import=startupjs/nodeRegister' mocha ./server/tests/worker.integration.js --timeout 120000",
+    "test-worker-separate": "SKIP_SERVER_INIT_SIDE_EFFECTS=true ENABLE_WORKER_INTEGRATION_PLUGIN=true WORKER_TEST_USE_SEPARATE_PROCESS=true NODE_OPTIONS='--experimental-detect-module --import=startupjs/nodeRegister' mocha ./server/tests/worker.integration.js --timeout 120000",
     "test": "jest --watchAll",
     "startupjs:help": "npx startupjs --help",
     "postinstall": "npx startupjs postinstall",
@@ -64,6 +64,7 @@
     "jest": "^29.2.1",
     "jest-expo": "~54.0.16",
     "lint-staged": "^15.2.2",
+    "mocha": "^11.0.1",
     "react-test-renderer": "~19.1.0",
     "typescript": "~5.9.2"
   },

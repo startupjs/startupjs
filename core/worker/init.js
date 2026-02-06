@@ -3,6 +3,7 @@ import { Worker } from 'bullmq'
 import { fileURLToPath } from 'url'
 import {
   AVAILABLE_WORKERS,
+  closeRuntimeResources,
   getJobsMap,
   getQueue,
   getQueueJobOptions,
@@ -114,7 +115,6 @@ async function gracefulShutdown (exitCode = 0, { exitProcess = true } = {}) {
 
   shutdownPromise = (async () => {
     const workers = Array.from(activeWorkers.values())
-    if (!workers.length) return
 
     if (exitProcess) console.log('Waiting for worker(s) to close and exiting...')
 
@@ -127,8 +127,9 @@ async function gracefulShutdown (exitCode = 0, { exitProcess = true } = {}) {
     }
 
     try {
-      await Promise.all(workers.map(worker => worker.close()))
+      await Promise.allSettled(workers.map(worker => worker.close()))
       activeWorkers.clear()
+      await closeRuntimeResources()
     } finally {
       if (forceExitTimeout) clearTimeout(forceExitTimeout)
       if (exitProcess) {
