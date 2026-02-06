@@ -1,5 +1,3 @@
-import { ROOT_MODULE as MODULE, getPlugin } from '@startupjs/registry'
-import { Queue, QueueEvents } from 'bullmq'
 import {
   createBackend,
   getRedis,
@@ -7,6 +5,8 @@ import {
   isBackendInitialized,
   redisPrefix
 } from 'startupjs/server'
+import { ROOT_MODULE as MODULE, getPlugin } from '@startupjs/registry'
+import { Queue, QueueEvents } from 'bullmq'
 import { existsSync, readdirSync } from 'fs'
 import { basename, extname, join } from 'path'
 import { pathToFileURL } from 'url'
@@ -104,10 +104,15 @@ export function getQueueEvents (queueName) {
   validateWorkerName(queueName)
 
   if (!queueEvents.has(queueName)) {
-    queueEvents.set(queueName, new QueueEvents(queueName, {
+    const queueEventsInstance = new QueueEvents(queueName, {
       prefix: redisPrefix,
       connection: createQueueConnection()
-    }))
+    })
+
+    // Multiple concurrent runJob().waitUntilFinished() calls attach listeners to
+    // the same QueueEvents instance, which can exceed Node's default of 10.
+    queueEventsInstance.setMaxListeners(0)
+    queueEvents.set(queueName, queueEventsInstance)
   }
 
   return queueEvents.get(queueName)

@@ -12,6 +12,7 @@
     "build": "npx startupjs build",
     "start-production": "npx startupjs start-production",
     "test-worker": "SKIP_SERVER_INIT_SIDE_EFFECTS=true ENABLE_WORKER_INTEGRATION_PLUGIN=true node --experimental-detect-module --import=startupjs/nodeRegister ./server/tests/worker.integration.js",
+    "test-worker-separate": "SKIP_SERVER_INIT_SIDE_EFFECTS=true ENABLE_WORKER_INTEGRATION_PLUGIN=true WORKER_TEST_USE_SEPARATE_PROCESS=true node --experimental-detect-module --import=startupjs/nodeRegister ./server/tests/worker.integration.js",
     "test": "jest --watchAll",
     "startupjs:help": "npx startupjs --help",
     "postinstall": "npx startupjs postinstall",

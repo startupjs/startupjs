@@ -36,6 +36,13 @@ export default async function processJob (job) {
     })
   } catch (error) {
     await writeJobLog(job, `[${type}] ${formatError(error)}`, 'error')
+
+    // In sandbox mode we can hard-stop a hanging job by terminating this
+    // worker runner (thread/process) after reporting the failure.
+    if (useSeparateProcess && error instanceof JobTimeoutError) {
+      setImmediate(() => process.exit(1))
+    }
+
     throw error
   }
 }
@@ -70,10 +77,19 @@ async function runWithTimeout ({ timeout, type, execute }) {
     execute(),
     new Promise((resolve, reject) => {
       setTimeout(() => {
-        reject(new Error(`[@startupjs/worker] Job "${type}" timed out after ${timeout}ms`))
+        reject(new JobTimeoutError(type, timeout))
       }, timeout)
     })
   ])
+}
+
+class JobTimeoutError extends Error {
+  constructor (type, timeout) {
+    super(`[@startupjs/worker] Job "${type}" timed out after ${timeout}ms`)
+    this.name = 'JobTimeoutError'
+    this.type = type
+    this.timeout = timeout
+  }
 }
 
 async function writeJobLog (job, message, consoleMethod = 'log') {

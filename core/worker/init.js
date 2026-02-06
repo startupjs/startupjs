@@ -1,6 +1,6 @@
+import { redisPrefix } from 'startupjs/server'
 import { Worker } from 'bullmq'
 import { fileURLToPath } from 'url'
-import { redisPrefix } from 'startupjs/server'
 import {
   AVAILABLE_WORKERS,
   getJobsMap,

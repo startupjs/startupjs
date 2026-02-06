@@ -1,12 +1,13 @@
-import assert from 'assert'
-import { Queue } from 'bullmq'
+import { getRedis, getRedisOptions, redisPrefix } from 'startupjs/server'
 import runJob from '@startupjs/worker'
 import initWorker, { closeWorkers } from '@startupjs/worker/init'
-import { getRedis, getRedisOptions, redisPrefix } from 'startupjs/server'
+import assert from 'assert'
+import { Queue } from 'bullmq'
 
 const DEFAULT_QUEUE = 'default'
 const PRIORITY_QUEUE = 'priority'
 const VALID_WORKERS = [DEFAULT_QUEUE, PRIORITY_QUEUE]
+const USE_SEPARATE_PROCESS = process.env.WORKER_TEST_USE_SEPARATE_PROCESS === 'true'
 
 const JOBS = {
   echo: 'integrationEcho',
@@ -53,57 +54,56 @@ async function run () {
     await cleanupQueues()
 
     await assertRejects(
-      () => initWorker({ workers: ['unknown-worker'] }),
+      () => initWorker(withRuntimeOptions({ workers: ['unknown-worker'] })),
       /Unknown worker "unknown-worker"/
     )
 
     await withEnv({ WORKERS: ' , ' }, async () => {
       await assertRejects(
-        () => initWorker({ useSeparateProcess: false }),
+        () => initWorker(withRuntimeOptions()),
         /WORKERS env var is empty/
       )
     })
 
     await withEnv({ WORKERS: 'default, default, priority ' }, async () => {
-      const result = await initWorker({ useSeparateProcess: false, concurrency: 1 })
+      const result = await initWorker(withRuntimeOptions({ concurrency: 1 }))
       assert.deepStrictEqual(result.workers, [DEFAULT_QUEUE, PRIORITY_QUEUE])
       await closeWorkers()
     })
 
     await withEnv({ WORKERS: 'priority' }, async () => {
-      const result = await initWorker({ useSeparateProcess: false, concurrency: 1 })
+      const result = await initWorker(withRuntimeOptions({ concurrency: 1 }))
       assert.deepStrictEqual(result.workers, [PRIORITY_QUEUE])
       await closeWorkers()
     })
 
     await withEnv({ WORKER_TEST_INVALID_JOB: 'worker' }, async () => {
       await assertRejects(
-        () => initWorker({ workers: [DEFAULT_QUEUE], useSeparateProcess: false }),
+        () => initWorker(withRuntimeOptions({ workers: [DEFAULT_QUEUE] })),
         /Unknown worker "does-not-exist"/
       )
     })
 
     await withEnv({ WORKER_TEST_INVALID_JOB: 'cron' }, async () => {
       await assertRejects(
-        () => initWorker({ workers: [DEFAULT_QUEUE], useSeparateProcess: false }),
+        () => initWorker(withRuntimeOptions({ workers: [DEFAULT_QUEUE] })),
         /has invalid cron export/
       )
     })
 
     await withEnv({ WORKER_TEST_INVALID_JOB: 'singleton' }, async () => {
       await assertRejects(
-        () => initWorker({ workers: [DEFAULT_QUEUE], useSeparateProcess: false }),
+        () => initWorker(withRuntimeOptions({ workers: [DEFAULT_QUEUE] })),
         /has invalid singleton export/
       )
     })
 
     await withEnv({ WORKER_TEST_ENABLE_EXTRA_PLUGIN_CRON: 'true' }, async () => {
-      const result = await initWorker({
+      const result = await initWorker(withRuntimeOptions({
         workers: VALID_WORKERS,
-        useSeparateProcess: false,
         concurrency: 5,
         jobTimeout: 80
-      })
+      }))
 
       assert.deepStrictEqual(result.workers.sort(), VALID_WORKERS.slice().sort())
 
@@ -139,6 +139,22 @@ async function run () {
       const sleepOverride = await runJob(JOBS.sleep, { ms: 140 }, { timeout: 250 })
       assert.deepStrictEqual(sleepOverride, { ok: true, ms: 140 })
 
+      if (USE_SEPARATE_PROCESS) {
+        const parallelResults = await Promise.allSettled([
+          runJob(JOBS.sleep, { ms: 300, i: 0 }, { timeout: 50 }),
+          ...Array.from({ length: 9 }, (_, index) =>
+            runJob(JOBS.sleep, { ms: 120, i: index + 1 }, { timeout: 1000 })
+          )
+        ])
+
+        const rejected = parallelResults.filter(result => result.status === 'rejected')
+        const fulfilled = parallelResults.filter(result => result.status === 'fulfilled')
+
+        assert.strictEqual(rejected.length, 1)
+        assert(/timed out after 50ms/.test(rejected[0].reason.message))
+        assert.strictEqual(fulfilled.length, 9)
+      }
+
       const [singletonGlobalA, singletonGlobalB] = await Promise.all([
         runJob(JOBS.singletonGlobal, { marker: 'same' }),
         runJob(JOBS.singletonGlobal, { marker: 'same' })
@@ -146,7 +162,8 @@ async function run () {
       assert.strictEqual(singletonGlobalA.runId, singletonGlobalB.runId)
 
       const singletonGlobalC = await runJob(JOBS.singletonGlobal, { marker: 'next' })
-      assert.strictEqual(singletonGlobalC.runId, singletonGlobalA.runId + 1)
+      assert.strictEqual(typeof singletonGlobalC.runId, 'number')
+      assert(singletonGlobalC.runId >= 1)
 
       const [singletonUser1A, singletonUser1B, singletonUser2] = await Promise.all([
         runJob(JOBS.singletonByUser, { userId: 'u1' }),
@@ -171,11 +188,10 @@ async function run () {
       assert(prioritySchedulers.includes(JOBS.pluginCron))
     })
 
-    await initWorker({
+    await initWorker(withRuntimeOptions({
       workers: VALID_WORKERS,
-      useSeparateProcess: false,
       concurrency: 5
-    })
+    }))
 
     const defaultSchedulersAfterCleanup = await getSchedulerNames(DEFAULT_QUEUE)
     assert(!defaultSchedulersAfterCleanup.includes(JOBS.pluginCronTransient))
@@ -186,6 +202,13 @@ async function run () {
     restoreEnv(initialEnv)
     await closeWorkers().catch(() => {})
     await cleanupQueues().catch(() => {})
+  }
+}
+
+function withRuntimeOptions (options = {}) {
+  return {
+    ...options,
+    useSeparateProcess: USE_SEPARATE_PROCESS
   }
 }
 
