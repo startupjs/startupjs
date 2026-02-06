@@ -28,6 +28,12 @@ const defaultOptions = {
   isExpo: IS_EXPO
 }
 
+const BACKEND_INITIALIZED_KEY = Symbol.for('startupjs.server.backendInitialized')
+
+if (globalThis[BACKEND_INITIALIZED_KEY] == null) {
+  globalThis[BACKEND_INITIALIZED_KEY] = false
+}
+
 export default async function startServer (options) {
   const props = await createServer(options)
   return await new Promise((resolve, reject) => {
@@ -47,6 +53,7 @@ export async function createServer (options = {}) {
   if (!options.enableOAuth2) sessionRef.session = _createSession(options)
   const authorize = MODULE.reduceHook('authorizeConnection')
   const channel = _initConnection(backend, { ...sessionRef, fetchOnly: FETCH_ONLY, authorize })
+  markBackendInitialized()
   const { server, expressApp } = await createServer({ backend, channel, options, ...sessionRef })
   return { server, backend, channel, expressApp, ...sessionRef }
 }
@@ -60,6 +67,7 @@ export async function createMiddleware (options = {}) {
   if (!options.enableOAuth2) sessionRef.session = _createSession(options)
   const authorize = MODULE.reduceHook('authorizeConnection')
   const channel = _initConnection(backend, { ...sessionRef, fetchOnly: FETCH_ONLY, authorize })
+  markBackendInitialized()
   const middleware = await createMiddleware({ backend, channel, options, ...sessionRef })
   return { middleware, backend, channel, ...sessionRef }
 }
@@ -69,7 +77,12 @@ export function createBackend (options = {}) {
   const backend = _createBackend({ ...options, models: MODULE.models })
   MODULE.hook('backend', backend)
   _initConnection(backend, { fetchOnly: FETCH_ONLY })
+  markBackendInitialized()
   return backend
+}
+
+export function isBackendInitialized () {
+  return Boolean(globalThis[BACKEND_INITIALIZED_KEY])
 }
 
 function transformOptions (options = {}) {
@@ -85,6 +98,10 @@ function isExpo (rootPath) {
   const packageJson = readFileSync(resolve(rootPath, './package.json'), 'utf8')
   const { dependencies = {} } = JSON.parse(packageJson)
   return Boolean(dependencies.expo)
+}
+
+function markBackendInitialized () {
+  globalThis[BACKEND_INITIALIZED_KEY] = true
 }
 
 export {

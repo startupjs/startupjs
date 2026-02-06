@@ -64,9 +64,10 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "! grep -q '\"resolutions\":' ./package.json || (echo '\\033[0;31mError: \"resolutions\" found in package.json. Remove \"resolutions\" to proceed with commit.\\033[0m' && exit 1) && lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
+  "//pre-commit-with-resolutions": "! grep -q '\"resolutions\":' ./package.json || (echo '\\033[0;31mError: \"resolutions\" found in package.json. Remove \"resolutions\" to proceed with commit.\\033[0m' && exit 1) && lint-staged",
   "eslintConfig": {
     "extends": [
       "cssxjs"
@@ -76,6 +77,10 @@
   "//resolutions": {
     "teamplay": "portal:../teamplay/packages/teamplay",
     "@teamplay/channel": "portal:../teamplay/packages/channel"
+  },
+  "resolutions": {
+    "sharedb-redis-pubsub": "2.0.1",
+    "sharedb-redis-pubsub/sharedb": "5.2.2"
   },
   "packageManager": "yarn@4.12.0+sha512.f45ab632439a67f8bc759bf32ead036a1f413287b9042726b7cc4818b7b49e14e9423ba49b18f9e06ea4941c1ad062385b1d8760a8d5091a1a31e5f6219afca8"
 }

@@ -1,31 +1,34 @@
-import { createPlugin, getPlugin } from 'startupjs/registry'
+import { createPlugin } from 'startupjs/registry'
 import initDashboardRoute from './initDashboardRoute.js'
-
-let workerStarted = false
 
 export default createPlugin({
   name: 'worker',
   enabled: true,
-  server: (pluginOptions) => ({
-    async serverRoutes (expressApp) {
-      const plugin = getPlugin('worker')
+  server: (options = {}) => {
+    const {
+      dashboard,
+      autoStart = true,
+      ...initOptions
+    } = options
 
-      const dashboardParams = plugin.optionsByEnv?.server?.dashboard
+    return {
+      async serverRoutes (expressApp) {
+        let dashboardOptions = dashboard
 
-      if (dashboardParams) {
-        initDashboardRoute({
-          expressApp,
-          ...dashboardParams
-        })
+        if (dashboardOptions === true) dashboardOptions = {}
+
+        if (dashboardOptions) {
+          initDashboardRoute({
+            expressApp,
+            ...dashboardOptions
+          })
+        }
+
+        if (autoStart) {
+          const { default: initWorker } = await import('./init.js')
+          await initWorker(initOptions)
+        }
       }
-
-      const autoStart = plugin.optionsByEnv?.server?.autoStart ?? pluginOptions?.autoStart ?? true
-
-      if (autoStart && !workerStarted) {
-        workerStarted = true
-        const { default: startWorker } = await import('./index.js')
-        await startWorker()
-      }
-    },
-  })
+    }
+  }
 })

@@ -1616,6 +1616,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bull-board/api@npm:^6.14.0":
+  version: 6.16.4
+  resolution: "@bull-board/api@npm:6.16.4"
+  dependencies:
+    redis-info: "npm:^3.1.0"
+  peerDependencies:
+    "@bull-board/ui": 6.16.4
+  checksum: 10c0/768c4d4573ce0281fdf1aeea69a929af37960436ee6e00df8bac6db913247eeba9e4a7a35e8cc745750760506d393172ac648fc92944e10b591cb8ab1fbc1ee5
+  languageName: node
+  linkType: hard
+
 "@bull-board/express@npm:^6.14.0":
   version: 6.14.0
   resolution: "@bull-board/express@npm:6.14.0"
@@ -5626,51 +5637,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redis/bloom@npm:5.10.0":
-  version: 5.10.0
-  resolution: "@redis/bloom@npm:5.10.0"
-  peerDependencies:
-    "@redis/client": ^5.10.0
-  checksum: 10c0/ef66eda591b1df2d6187fad95c07f3a36a2e0d61acdc983a1a4e87c72a45ba7aa5850316bf6f87980b6dbfc269fe8dcd8ba5ee37c91d03d69cec120acaa45cc0
-  languageName: node
-  linkType: hard
-
-"@redis/client@npm:5.10.0":
-  version: 5.10.0
-  resolution: "@redis/client@npm:5.10.0"
-  dependencies:
-    cluster-key-slot: "npm:1.1.2"
-  checksum: 10c0/f4409d64968d59a803eb40ccc6ab0e0a21aa5dd68837b079e7dadf31648efc62615298b9b71e85f1122596ae08c135f24f20bb0b35313c9066c1c63856be5cc7
-  languageName: node
-  linkType: hard
-
-"@redis/json@npm:5.10.0":
-  version: 5.10.0
-  resolution: "@redis/json@npm:5.10.0"
-  peerDependencies:
-    "@redis/client": ^5.10.0
-  checksum: 10c0/9afa26c365a72d0542db5916e570b00c845b4e860b0d21c14c9921220a450e28ac965eabfb1ad1fca1f4910850dc9fba630c8f0751d69a2c2eab426047b39a9e
-  languageName: node
-  linkType: hard
-
-"@redis/search@npm:5.10.0":
-  version: 5.10.0
-  resolution: "@redis/search@npm:5.10.0"
-  peerDependencies:
-    "@redis/client": ^5.10.0
-  checksum: 10c0/5123eba639e4d815e2da9c695de3fb9fdfa13211466d2672f602c3cf7b1dbe5493ded842233bfa154828abeb42434b0979b8a82e1f29dd577ed254671991577b
-  languageName: node
-  linkType: hard
-
-"@redis/time-series@npm:5.10.0":
-  version: 5.10.0
-  resolution: "@redis/time-series@npm:5.10.0"
-  peerDependencies:
-    "@redis/client": ^5.10.0
-  checksum: 10c0/2128a4e47418938ae515761475cda3e4ff67f85dfbdcd1f8dace72c5ea71d0f3f7359b1d74881e59ac4499e9d1956d38b0974d65dd677669c41731b41d9c737e
-  languageName: node
-  linkType: hard
-
 "@remix-run/router@npm:1.23.0":
   version: 1.23.0
   resolution: "@remix-run/router@npm:1.23.0"
@@ -7508,10 +7474,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@startupjs/worker@workspace:core/worker"
   dependencies:
+    "@bull-board/api": "npm:^6.14.0"
     "@bull-board/express": "npm:^6.14.0"
     "@startupjs/registry": "npm:^0.61.0"
     bullmq: "npm:^5.25.6"
-    lodash: "npm:^4.17.20"
   peerDependencies:
     startupjs: "*"
   languageName: unknown
@@ -11160,7 +11126,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cluster-key-slot@npm:1.1.2, cluster-key-slot@npm:^1.1.0":
+"cluster-key-slot@npm:^1.1.0":
   version: 1.1.2
   resolution: "cluster-key-slot@npm:1.1.2"
   checksum: 10c0/d7d39ca28a8786e9e801eeb8c770e3c3236a566625d7299a47bb71113fb2298ce1039596acb82590e598c52dbc9b1f088c8f587803e697cb58e1867a95ff94d3
@@ -12729,6 +12695,13 @@ __metadata:
   version: 1.0.0
   resolution: "delegates@npm:1.0.0"
   checksum: 10c0/ba05874b91148e1db4bf254750c042bf2215febd23a6d3cda2e64896aef79745fbd4b9996488bd3cafb39ce19dbce0fd6e3b6665275638befffe1c9b312b91b5
+  languageName: node
+  linkType: hard
+
+"denque@npm:^1.5.0":
+  version: 1.5.1
+  resolution: "denque@npm:1.5.1"
+  checksum: 10c0/9e6fc1a63e1c9ded38325290302fef40e5ad28471ad8c66d68eaea623ef847bd25fc75a7c3f47396206dc967922615999066470a364e1786f2758d61337872b7
   languageName: node
   linkType: hard
 
@@ -26613,6 +26586,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"redis-commands@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "redis-commands@npm:1.7.0"
+  checksum: 10c0/c78b46d8d6e811f422961878538c57048a451ab56760d3f1657a7c8f29aaae42cc23890f75655556a59ec67611022e18cb443d2976e6c55036934bfe783aa60e
+  languageName: node
+  linkType: hard
+
 "redis-errors@npm:^1.0.0, redis-errors@npm:^1.2.0":
   version: 1.2.0
   resolution: "redis-errors@npm:1.2.0"
@@ -26638,16 +26618,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redis@npm:^4.0.0 || ^5.0.0":
-  version: 5.10.0
-  resolution: "redis@npm:5.10.0"
+"redis@npm:^2.6.0 || ^3.0.0":
+  version: 3.1.2
+  resolution: "redis@npm:3.1.2"
   dependencies:
-    "@redis/bloom": "npm:5.10.0"
-    "@redis/client": "npm:5.10.0"
-    "@redis/json": "npm:5.10.0"
-    "@redis/search": "npm:5.10.0"
-    "@redis/time-series": "npm:5.10.0"
-  checksum: 10c0/7103db47deb7ee3915e3c6015fc5dbe4cb956e7fa94365f981416e015d1e6e64ec3513235ea0e4150d733481ea7c92439e5489f0cfff0781598912e5fd045f90
+    denque: "npm:^1.5.0"
+    redis-commands: "npm:^1.7.0"
+    redis-errors: "npm:^1.2.0"
+    redis-parser: "npm:^3.0.0"
+  checksum: 10c0/452d4ed65948b101e379c1abcce7682619382c90929a6611baae5f7f1d38134ce20ad65adfbaa569b735274b49db14a2ebb622800e0b45a4d1559e2133c7aabe
   languageName: node
   linkType: hard
 
@@ -27800,17 +27779,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sharedb-redis-pubsub@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "sharedb-redis-pubsub@npm:5.1.0"
+"sharedb-redis-pubsub@npm:2.0.1":
+  version: 2.0.1
+  resolution: "sharedb-redis-pubsub@npm:2.0.1"
   dependencies:
-    redis: "npm:^4.0.0 || ^5.0.0"
-    sharedb: "npm:^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0"
-  checksum: 10c0/88f37626bcc66f0f84b479c3854ef9e65ad7bbf8471533f1951e712085ebf865e3f3316fd4754a15c7017c6fb13e8020daf4e410097557fe51415b7bc7446689
+    redis: "npm:^2.6.0 || ^3.0.0"
+    sharedb: "npm:^1.0.0 || ^2.0.0"
+  checksum: 10c0/229cc2e00f3afd75bfb65af8fb17d8a53cc96046d47f78e4ab186077e22ba49948b7c0fdbdad16129751a85decc789807ea9b781a3ed9c93b4d2051928d051e5
   languageName: node
   linkType: hard
 
-"sharedb@npm:^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0, sharedb@npm:^1.9.1 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0, sharedb@npm:^5.0.0":
+"sharedb@npm:5.2.2, sharedb@npm:^1.9.1 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0, sharedb@npm:^5.0.0":
   version: 5.2.2
   resolution: "sharedb@npm:5.2.2"
   dependencies:
