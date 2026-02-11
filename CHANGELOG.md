@@ -1,3 +1,12 @@
+## [0.54.26](https://github.com/startupjs/startupjs/compare/v0.54.25...v0.54.26) (2026-02-12)
+
+
+### Features
+
+* **app:** add support 'mailto' in navigation ([66db813](https://github.com/startupjs/startupjs/commit/66db813fb05102317e83b652b88345d92d273795))
+
+
+
 ## [0.54.25](https://github.com/startupjs/startupjs/compare/v0.54.24...v0.54.25) (2025-11-13)
 
 

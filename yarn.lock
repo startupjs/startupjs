@@ -5449,7 +5449,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/app@npm:^0.54.16, @startupjs/app@workspace:packages/app":
+"@startupjs/app@npm:^0.54.26, @startupjs/app@workspace:packages/app":
   version: 0.0.0-use.local
   resolution: "@startupjs/app@workspace:packages/app"
   dependencies:
@@ -5886,8 +5886,8 @@ __metadata:
   resolution: "@startupjs/docs@workspace:packages/docs"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^5.12.0"
-    "@startupjs/mdx": "npm:^0.54.25"
-    "@startupjs/scrollable-anchors": "npm:^0.54.25"
+    "@startupjs/mdx": "npm:^0.54.26"
+    "@startupjs/scrollable-anchors": "npm:^0.54.26"
     "@startupjs/ui": "npm:^0.54.25"
     parse-prop-types: "npm:^0.3.0"
   peerDependencies:
@@ -5996,12 +5996,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/mdx@npm:^0.54.0, @startupjs/mdx@npm:^0.54.25, @startupjs/mdx@workspace:packages/mdx":
+"@startupjs/mdx@npm:^0.54.0, @startupjs/mdx@npm:^0.54.26, @startupjs/mdx@workspace:packages/mdx":
   version: 0.0.0-use.local
   resolution: "@startupjs/mdx@workspace:packages/mdx"
   dependencies:
     "@mdx-js/react": "npm:~2.3.0"
-    "@startupjs/scrollable-anchors": "npm:^0.54.25"
+    "@startupjs/scrollable-anchors": "npm:^0.54.26"
     "@startupjs/ui": "npm:^0.54.25"
     refractor: "npm:^3.0.0"
   peerDependencies:
@@ -6185,12 +6185,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/scrollable-anchors@npm:^0.54.0, @startupjs/scrollable-anchors@npm:^0.54.25, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
+"@startupjs/scrollable-anchors@npm:^0.54.0, @startupjs/scrollable-anchors@npm:^0.54.26, @startupjs/scrollable-anchors@workspace:packages/scrollable-anchors":
   version: 0.0.0-use.local
   resolution: "@startupjs/scrollable-anchors@workspace:packages/scrollable-anchors"
   dependencies:
     "@startupjs/ui": "npm:^0.54.25"
-    startupjs: "npm:^0.54.16"
+    startupjs: "npm:^0.54.26"
   languageName: unknown
   linkType: soft
 
@@ -29224,11 +29224,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.54.0, startupjs@npm:^0.54.16, startupjs@workspace:packages/startupjs":
+"startupjs@npm:^0.54.0, startupjs@npm:^0.54.26, startupjs@workspace:packages/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:packages/startupjs"
   dependencies:
-    "@startupjs/app": "npm:^0.54.16"
+    "@startupjs/app": "npm:^0.54.26"
     "@startupjs/backend": "npm:^0.54.2"
     "@startupjs/bundler": "npm:^0.54.2"
     "@startupjs/cli": "npm:^0.54.13"
