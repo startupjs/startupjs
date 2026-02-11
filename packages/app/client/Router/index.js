@@ -12,7 +12,7 @@ import RouterComponent from './RouterComponent'
 import Routes from './Routes'
 import Error from './Error'
 
-const EXTERNAL_LINK_REGEXP = /^(https?:\/\/|\/\/)/
+const EXTERNAL_LINK_REGEXP = /^(https?:\/\/|\/\/|mailto:)/
 const isWeb = Platform.OS === 'web'
 
 export default observer(function Router (props) {
