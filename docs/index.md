@@ -9,8 +9,8 @@ hero:
       text: Get Started
       link: /tutorial/foundation
     - theme: alt
-      text: GitHub
-      link: https://github.com/startupjs/startupjs
+      text: Docs
+      link: /foundations/borderRadius
 features:
   - title: Cross-Platform
     details: One codebase for web, iOS, and Android — built on Expo and React Native.
