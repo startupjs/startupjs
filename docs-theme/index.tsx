@@ -30,7 +30,7 @@ const PROJECTS: Project[] = [
     id: 'startupjs',
     name: 'StartupJS fullstack framework',
     label: 'SJS',
-    url: 'https://startupjs-ui.dev.dmapper.co'
+    url: 'https://startupjs.org'
   },
   {
     id: 'cssx',
