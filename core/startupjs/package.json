@@ -40,7 +40,7 @@
     "babel-preset-startupjs": "^0.61.3",
     "cssxjs": "^0.2.32",
     "lodash": "^4.17.20",
-    "teamplay": "0.3.34"
+    "teamplay": "0.3.35"
   },
   "peerDependencies": {
     "@startupjs/worker": "*",

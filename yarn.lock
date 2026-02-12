@@ -7420,9 +7420,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@teamplay/backend@npm:^0.3.34":
-  version: 0.3.34
-  resolution: "@teamplay/backend@npm:0.3.34"
+"@teamplay/backend@npm:^0.3.35":
+  version: 0.3.35
+  resolution: "@teamplay/backend@npm:0.3.35"
   dependencies:
     "@startupjs/sharedb-mingo-memory": "npm:^4.0.0-2"
     "@teamplay/schema": "npm:^0.3.34"
@@ -7440,7 +7440,7 @@ __metadata:
     sharedb-mongo: "npm:^4.1.2"
     sharedb-redis-pubsub: "npm:^5.1.0"
     sqlite3: "npm:^5.1.6"
-  checksum: 10c0/b1db3562e28bc6a45666dc8df477ba594bdab618f57337f1882560ee66eb778b2c2ba3097b3e2512c459d8a2d32d0e735f225a0415a8e8b6fc7051030d20e98e
+  checksum: 10c0/cb33892635210a5695524154c852a5ef6335d3bc3fcb5e746885c4b988e0eab18b254624bcb72f0804f9e78ce95028b26c6262e0fde5b98dd9f798e4bfad1cbf
   languageName: node
   linkType: hard
 
@@ -26856,7 +26856,7 @@ __metadata:
     babel-preset-startupjs: "npm:^0.61.3"
     cssxjs: "npm:^0.2.32"
     lodash: "npm:^4.17.20"
-    teamplay: "npm:0.3.34"
+    teamplay: "npm:0.3.35"
   peerDependencies:
     "@startupjs/worker": "*"
     react: "*"
@@ -27496,13 +27496,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"teamplay@npm:0.3.34":
-  version: 0.3.34
-  resolution: "teamplay@npm:0.3.34"
+"teamplay@npm:0.3.35":
+  version: 0.3.35
+  resolution: "teamplay@npm:0.3.35"
   dependencies:
     "@nx-js/observer-util": "npm:^4.1.3"
     "@startupjs/sharedb-mingo-memory": "npm:^4.0.0-2"
-    "@teamplay/backend": "npm:^0.3.34"
+    "@teamplay/backend": "npm:^0.3.35"
     "@teamplay/cache": "npm:^0.3.34"
     "@teamplay/channel": "npm:^0.3.34"
     "@teamplay/debug": "npm:^0.3.34"
@@ -27524,7 +27524,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 10c0/8baed6a13379b4810254ffdf5be91f971913a6f6d0a8f5d83cafdd5a2536b750ad9c21d2e0a7a08c4c919e042d011f3c4d3b752e8c3be5f745bbba29b79adbca
+  checksum: 10c0/baacd876fefeb0252566a61c8205c704b9815b61cdad4ace48666b1c68add83b62ac3f70fb5eee708822a8195ceb1b78ffafcd978701fe44c63763bc99228017
   languageName: node
   linkType: hard
 
