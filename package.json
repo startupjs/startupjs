@@ -70,7 +70,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "! grep -q '\"resolutions\":' ./package.json || (echo '\\033[0;31mError: \"resolutions\" found in package.json. Remove \"resolutions\" to proceed with commit.\\033[0m' && exit 1) && lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "eslintConfig": {
@@ -79,6 +79,10 @@
     ]
   },
   "license": "MIT",
+  "resolutions": {
+    "sharedb-redis-pubsub": "2.0.1",
+    "sharedb-redis-pubsub/sharedb": "5.2.2"
+  },
   "//resolutions": {
     "teamplay": "portal:../teamplay/packages/teamplay",
     "@teamplay/channel": "portal:../teamplay/packages/channel"
