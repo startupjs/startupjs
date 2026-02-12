@@ -1,0 +1,57 @@
+# Collection types
+
+StartupJS organizes data into collections. There are two kinds: **public** and **private**.
+
+## Public collections
+
+Public collections (for example `todos`, `users`) are stored in MongoDB and synced across all connected clients. Any change made by one client is broadcast to all others who are subscribed.
+
+You **must subscribe** to public collection data before reading it:
+
+```js
+// In a React component (with observer)
+const $todos = useSub($.todos, {})
+
+// Outside React
+const $todos = await sub($.todos, {})
+```
+
+Access control is enforced by server rules (see the Security section).
+
+## Private collections
+
+Private collections exist only on the current client. They are never sent to the server or other clients. Their names start with an underscore.
+
+- `$._session` -- persists for the entire browser session (until the tab or app is closed).
+- `$._page` -- persists only while the current route is active. It resets when the user navigates to a different page.
+
+You do **not** need to subscribe to private collections. Read and write them directly:
+
+```js
+$._page.sidebar.opened.set(true)
+const isOpen = $._page.sidebar.opened.get()
+
+const userId = $._session.userId.get()
+```
+
+Use private collections for UI state, temporary data, and any values that do not need to persist in the database.
+
+## Routing parameters
+
+StartupJS uses Expo Router for file-based routing. Routes are parameterized using bracket syntax in file names. For example: `app/pokemon/[pokemonId].tsx`.
+
+To navigate programmatically:
+
+```js
+import { router } from 'expo-router'
+
+router.push('/pokemon/' + pokemonId)
+```
+
+On the target page, read the parameter with `useLocalSearchParams`:
+
+```js
+import { useLocalSearchParams } from 'expo-router'
+
+const { pokemonId } = useLocalSearchParams()
+```

@@ -1,0 +1,112 @@
+# Project structure
+
+A StartupJS project is built on top of Expo, so the folder layout follows standard Expo Router conventions. This chapter explains the key folders and files.
+
+## Typical layout
+
+```
+myapp/
+  app/
+    _layout.tsx        ← root layout (wraps with StartupjsProvider)
+    index.tsx          ← home page (/)
+    about.tsx          ← /about page
+    [id].tsx           ← dynamic route (e.g. /abc123)
+    (tabs)/
+      _layout.tsx      ← tab navigator layout
+      index.tsx        ← first tab
+      settings.tsx     ← second tab
+  components/
+    TodoCard.tsx       ← reusable components
+    TodoCard.styl      ← styles for the component
+  server/
+    index.js           ← server configuration
+  package.json
+```
+
+## Routing with Expo Router
+
+StartupJS uses [Expo Router](https://docs.expo.dev/router/introduction/) for file-based routing. Every file inside `app/` becomes a route automatically:
+
+- `app/index.tsx` → `/`
+- `app/about.tsx` → `/about`
+- `app/users/[id].tsx` → `/users/:id` (dynamic segment)
+
+### Layouts
+
+`_layout.tsx` files wrap all sibling and child routes. The root layout in `app/_layout.tsx` is where you add `StartupjsProvider`:
+
+```jsx
+import { StartupjsProvider } from 'startupjs'
+
+export default function RootLayout () {
+  return (
+    <StartupjsProvider>
+      {/* Expo Router renders child routes here */}
+    </StartupjsProvider>
+  )
+}
+```
+
+### Navigation
+
+Use Expo Router's `Link` component or the `router` object for navigation:
+
+```jsx
+import { Link } from 'expo-router'
+
+<Link href='/about'>Go to About</Link>
+```
+
+```jsx
+import { router } from 'expo-router'
+
+router.push('/about')
+```
+
+## Platform-specific files
+
+StartupJS uses React Native, so your code runs on web, iOS, and Android by default. If you need platform-specific behavior, you can split files:
+
+- `*.web.js` -- used only for web builds
+- `*.js` -- used everywhere (shared or native)
+
+If both `Something.web.js` and `Something.js` exist, the web bundler uses the `.web.js` version while native uses the `.js` version.
+
+### When to use platform files
+
+1. A library only works on one platform (for example, a web-only date picker).
+2. A screen has major UX differences between web and mobile. Use this sparingly -- most code should be shared.
+
+## Server
+
+The `server/` folder contains your backend configuration. A basic `server/index.js` might look like:
+
+```js
+import startupjsServer from '@startupjs/server'
+
+startupjsServer({
+  // Enable security features for production:
+  // accessControl: true,
+  // serverAggregate: true,
+  // validateSchema: true,
+})
+```
+
+## Styles
+
+Each component can have an accompanying `.styl` file for styles written in Stylus. Use `styleName` to connect styles to components:
+
+```jsx
+// TodoCard.tsx
+<Card styleName='root'>
+  <Span styleName='title'>Learn StartupJS</Span>
+</Card>
+```
+
+```styl
+// TodoCard.styl
+.root
+  margin-bottom 1u
+.title
+  font-weight bold
+```

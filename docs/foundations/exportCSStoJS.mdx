@@ -1,0 +1,39 @@
+# Export CSS to JS
+
+StartupJS lets you export values from Stylus files directly into JavaScript using the `:export` block. This is handy for sharing theme values or layout constants.
+
+## Example
+
+```styl
+// index.styl
+$this = merge({
+  bgColor: $UI.colors.primary,
+  height: 10u
+}, $UI.ShoppingCart, true)
+
+.root
+  height: $this.height
+  background-color: $this.bgColor
+
+:export
+  config: $this
+  colors: $UI.colors
+  foobar: 42
+```
+
+```jsx
+import STYLES from './index.styl'
+
+const {
+  config: { bgColor },
+  colors,
+  foobar
+} = STYLES
+
+export default function ShoppingCart () {
+  console.log('Background color is:', bgColor)
+  console.log('Available colors:', colors)
+  console.log('Magic number FooBar:', foobar)
+  return <View styleName='root' />
+}
+```

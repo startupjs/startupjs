@@ -1,0 +1,127 @@
+# Pug
+
+StartupJS supports the Pug templating language as an alternative to JSX. Pug uses indentation instead of angle brackets, which can make templates more concise. If you prefer JSX, you can skip this chapter entirely.
+
+Pug works out of the box in StartupJS. You only need to configure your IDE for syntax highlighting:
+https://github.com/startupjs/startupjs#ide-configuration
+
+## Syntax basics
+
+- Nesting is defined by indentation (no closing tags)
+- Classes use `.className`
+- IDs use `#id`
+- Attributes go in parentheses
+
+## Tags and classes
+
+**Pug**
+
+```pug
+Content
+  Span(h1) TODO List
+  Card
+    Span Learn StartupJS
+```
+
+**JSX equivalent**
+
+```jsx
+<Content>
+  <Span h1>TODO List</Span>
+  <Card>
+    <Span>Learn StartupJS</Span>
+  </Card>
+</Content>
+```
+
+Add classes with dot notation:
+
+```pug
+Content.root
+  Span.title(h1) TODO List
+  Card.todo
+    Span.todoTitle Learn StartupJS
+```
+
+```jsx
+<Content styleName='root'>
+  <Span h1 styleName='title'>TODO List</Span>
+  <Card styleName='todo'>
+    <Span styleName='todoTitle'>Learn StartupJS</Span>
+  </Card>
+</Content>
+```
+
+## Attributes
+
+```pug
+Button(size='m') Add
+```
+
+```jsx
+<Button size='m'>Add</Button>
+```
+
+With classes:
+
+```pug
+Button.submit(size='m') Add
+```
+
+```jsx
+<Button styleName='submit' size='m'>Add</Button>
+```
+
+When a component has many props, use a multiline block:
+
+```pug
+Button(
+  icon=faTimes
+  iconColor='error'
+  size='s'
+  onPress=() => $todo.del()
+)
+```
+
+In Pug, you do not need `{}` around JavaScript expressions. The value after `=` is treated as JavaScript.
+
+## Loops
+
+Use `each` to render arrays:
+
+```pug
+Content(padding)
+  Span(h1) Todo List
+  each $todo in $todos
+    Card(key=$todo.getId())
+      Span= $todo.title.get()
+```
+
+## Conditions
+
+```pug
+if $todos.getIds().length
+  each $todo in $todos
+    Card(key=$todo.getId())
+      Span= $todo.title.get()
+else
+  Span No tasks yet
+```
+
+You can also use `unless`:
+
+```pug
+unless value
+  Span Empty
+```
+
+## Interpolation
+
+Use `=` to output a JavaScript expression as a child, or `#{}` for inline interpolation:
+
+```pug
+const title = 'Todo List'
+
+Span= title
+Span My app: #{title}
+```

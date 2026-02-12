@@ -46,16 +46,22 @@
     "before-publish": "./scripts/tasks.sh before-publish",
     "publish-update-changelog": "./scripts/tasks.sh update-changelog",
     "test-e2e": "cd styleguide && yarn test-e2e",
-    "codegen-test-e2e": "cd styleguide && yarn codegen-test-e2e"
+    "codegen-test-e2e": "cd styleguide && yarn codegen-test-e2e",
+    "docs": "rspress dev --port 3011",
+    "docs-build": "rspress build",
+    "docs-preview": "rspress preview --port 3011"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",
+    "@rspress/core": "^2.0.0",
     "conventional-changelog-cli": "^2.1.1",
     "eslint": "^8.56.0",
     "eslint-config-cssxjs": "^0.2.0",
     "husky": "^4.3.0",
     "lerna": "^9.0.0",
-    "lint-staged": "^9.5.0"
+    "lint-staged": "^9.5.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "lint-staged": {
     "*.{js,jsx}": [

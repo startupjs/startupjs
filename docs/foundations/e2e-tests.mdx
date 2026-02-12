@@ -1,0 +1,60 @@
+# E2E testing
+
+StartupJS uses **Playwright** for end-to-end tests. The CLI provides helpers to generate and run tests with the app already running.
+
+## Install Playwright
+
+```bash
+yarn create playwright
+```
+
+## Generate tests with the Playwright codegen
+
+```bash
+startupjs codegen-test-e2e
+```
+
+This command builds the app, starts it, and opens Playwright's code generator. See all codegen flags here: https://playwright.dev/docs/codegen#running-codegen
+
+## Run tests
+
+```bash
+startupjs test-e2e
+```
+
+This command also builds and starts the app before running tests. See all test CLI options here: https://playwright.dev/docs/test-cli
+
+## Working with DB snapshots
+
+If your app uses MongoDB, snapshots help you keep tests deterministic.
+
+1. Set a snapshot path:
+
+```bash
+DB_PATH=test.db
+```
+
+2. Start the app and create a snapshot for tests.
+3. Copy the snapshot into your test folder.
+
+Generate tests using the snapshot:
+
+```bash
+DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs codegen-test-e2e
+```
+
+Run tests using the snapshot:
+
+```bash
+DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs test-e2e path/to/e2e-tests
+```
+
+## CI integration
+
+For a GitHub Actions example, see:
+https://github.com/startupjs/startupjs/blob/master/.github/workflows/run-tests.yaml
+
+## Resources
+
+- Playwright docs: https://playwright.dev/docs/intro
+- StartupJS backend flags: https://github.com/startupjs/startupjs/tree/master/packages/backend
