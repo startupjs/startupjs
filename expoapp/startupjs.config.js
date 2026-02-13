@@ -22,6 +22,8 @@ export default {
   },
   server: {
     init: () => {
+      if (process.env.SKIP_SERVER_INIT_SIDE_EFFECTS === 'true') return
+
       // test the serverOnly on the 'secrets' collection (whole class) and documents (methods)
       setTimeout(async () => {
         const $secrets = await sub($.secrets, {})
@@ -43,9 +45,7 @@ export default {
       }
     },
     worker: {
-      server: {
-        queueName: 'startupjs'
-      }
+      server: {}
     }
   }
 }
@@ -75,6 +75,74 @@ function createPlugins () {
           }
         }
       }
+    }),
+    workerTestJobs: createPlugin({
+      name: 'worker-test-jobs',
+      enabled: true,
+      server: () => ({
+        workerJobs (existingJobs = {}) {
+          const jobs = { ...existingJobs }
+
+          if (process.env.ENABLE_WORKER_INTEGRATION_PLUGIN !== 'true') return jobs
+
+          jobs.integrationPluginJob = {
+            default: async function integrationPluginJob (data) {
+              return {
+                from: 'plugin',
+                data
+              }
+            }
+          }
+
+          jobs.integrationPluginAsync = import('./server/workerJobs/integrationPluginAsync.js')
+
+          jobs.integrationPluginCron = {
+            default: async function integrationPluginCron (data) {
+              return data
+            },
+            worker: 'priority',
+            cron: {
+              pattern: '*/10 * * * * *',
+              data: { source: 'integrationPluginCron' }
+            }
+          }
+
+          if (process.env.WORKER_TEST_ENABLE_EXTRA_PLUGIN_CRON === 'true') {
+            jobs.integrationPluginCronTransient = {
+              default: async function integrationPluginCronTransient (data) {
+                return data
+              },
+              cron: {
+                pattern: '*/10 * * * * *',
+                data: { source: 'integrationPluginCronTransient' }
+              }
+            }
+          }
+
+          switch (process.env.WORKER_TEST_INVALID_JOB) {
+            case 'worker':
+              jobs.integrationPluginInvalidWorker = {
+                default: async function integrationPluginInvalidWorker () {},
+                worker: 'does-not-exist'
+              }
+              break
+            case 'cron':
+              jobs.integrationPluginInvalidCron = {
+                default: async function integrationPluginInvalidCron () {},
+                cron: { pattern: 42 }
+              }
+              break
+            case 'singleton':
+              jobs.integrationPluginInvalidSingleton = {
+                default: async function integrationPluginInvalidSingleton () {},
+                singleton: 'not-valid'
+              }
+              break
+          }
+
+          return jobs
+        }
+      })
     })
   }
 }

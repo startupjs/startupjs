@@ -1,2 +1,3 @@
-import startWorker from '@startupjs/worker'
-await startWorker()
+import initWorker from '@startupjs/worker/init'
+
+await initWorker()

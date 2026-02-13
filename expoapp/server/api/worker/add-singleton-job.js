@@ -1,7 +1,6 @@
-import addSingletonJob from '@startupjs/worker/addSingletonJob'
+import runJob from '@startupjs/worker'
 
 export async function post (req, res) {
-  const { data } = await addSingletonJob('test', { greetings: 'Hello' }, { waitForResult: true })
-
+  const data = await runJob('test', { greetings: 'Hello' })
   res.json(data)
 }
