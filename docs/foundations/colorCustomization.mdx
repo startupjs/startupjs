@@ -1,0 +1,87 @@
+# Color customization
+
+StartupJS separates **palette colors** (raw swatches) from **semantic colors** (named roles like `bg-main` or `text-main`). You can customize either layer depending on how much control you need.
+
+## Option 1: Static overrides (quick and simple)
+
+Use CSS variable overrides when you just need to replace a few colors without changing the entire theme. This keeps derived colors intact and only swaps the variables you list.
+
+```jsx
+import { UiProvider } from 'startupjs-ui'
+import STYLE_OVERRIDES from './styleOverrides.styl'
+
+<UiProvider style={STYLE_OVERRIDES}>
+  ...
+</UiProvider>
+```
+
+```styl
+// styleOverrides.styl
+:root
+  --palette-blue-4: #000099
+  --color-primary: var(--palette-blue-4)
+  --color-secondary: var(--palette-red-4)
+  --color-bg-main: var(--color-primary)
+```
+
+## Option 2: Theme switching (light/dark)
+
+If you want to switch themes at runtime, generate full color sets from a palette.
+
+```jsx
+import { UiProvider, generateColors, Colors } from 'startupjs-ui'
+
+const CUSTOM_PALETTE = {
+  main: ['#f5f7ff', '#e6ecff', '#c2d2ff', '#9cb7ff', '#739aff', '#4d7dff', '#2c5eff', '#1d4ae0', '#1639b3', '#102a85'],
+  red: ['#ffe8e8', '#ffbdbd', '#ff8f8f', '#ff5f5f', '#ff2f2f', '#f00000', '#c20000', '#960000', '#6b0000', '#420000']
+}
+
+const THEMES = {
+  dark: generateColors(CUSTOM_PALETTE, {
+    [Colors['bg-main']]: CUSTOM_PALETTE.main[9],
+    [Colors['text-main']]: CUSTOM_PALETTE.main[0],
+    [Colors['border-main']]: CUSTOM_PALETTE.main[7],
+    [Colors.secondary]: CUSTOM_PALETTE.main[2]
+  })
+}
+
+const themeValue = 'dark'
+
+<UiProvider {...THEMES[themeValue]}>
+  ...
+</UiProvider>
+```
+
+## Option 3: Advanced API (full control)
+
+Use `Palette` when you need explicit control over how palette values map to semantic colors. This is useful when you want to avoid accidental collisions or build multiple themes from the same base palette.
+
+```jsx
+import { UiProvider, Palette, Colors } from 'startupjs-ui'
+
+const CUSTOM_PALETTE = {
+  main: ['#f5f7ff', '#e6ecff', '#c2d2ff', '#9cb7ff', '#739aff', '#4d7dff', '#2c5eff', '#1d4ae0', '#1639b3', '#102a85']
+}
+
+const palette = new Palette(CUSTOM_PALETTE)
+const { Color, generateColors } = palette
+
+const THEMES = {
+  dark: generateColors(CUSTOM_PALETTE, {
+    [Colors['bg-main']]: Color('main', 9),
+    [Colors['text-main']]: Color('main', 0),
+    [Colors['border-main']]: Color('main', 7),
+    [Colors.secondary]: Color('main', 2)
+  })
+}
+
+const themeValue = 'dark'
+
+<UiProvider {...THEMES[themeValue]}>
+  ...
+</UiProvider>
+```
+
+## Supported color formats
+
+Overrides and palettes can use hex, RGB/RGBA strings, or `Color` instances from the advanced API.

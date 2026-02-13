@@ -1,9 +1,10 @@
 // import '@startupjs/model/lib/getModel'
-throw Error('@startupjs/model does not exist anymore. This module has to be updated to work on the new teamplay library.')
 import { Thread } from 'react-native-threads'
 import racer from 'racer'
 import { Socket, Messenger } from 'sharedb-offline'
+throw Error('@startupjs/model does not exist anymore. This module has to be updated to work on the new teamplay library.')
 
+// eslint-disable-next-line cssxjs/no-unreachable
 const DEFAULT_CLIENT_OPTIONS = {
   base: '/channel',
   reconnect: true,
@@ -39,6 +40,7 @@ function getWebSocketURL (options) {
   return protocol + '//' + srvHost + (port || '') + options.base
 }
 
+// eslint-disable-next-line cssxjs/no-unreachable
 export default function offlineInitPlugin (options = {}) {
   racer.Model.prototype._createSocket = function () {
     const clientOptions =

@@ -1,0 +1,162 @@
+# Signals API
+
+Signals are the core data primitive in StartupJS. Every piece of data -- whether it lives in the database or only in the browser -- is accessed through signals. This chapter covers all the methods available on signals.
+
+## What is a signal?
+
+A signal is a reactive pointer to a location in your data tree. It does not hold data directly. Instead, it knows the *path* to the data and provides methods to read, write, and delete it.
+
+Signals are created by navigating from the root signal `$`:
+
+```js
+import { $ } from 'startupjs'
+
+const $user = $.users['abc123']       // points to a document
+const $name = $.users['abc123'].name  // points to a field
+const $todos = $.todos                // points to a collection
+```
+
+By convention, signal variables start with `$` to distinguish them from plain values.
+
+## Reading data: `.get()`
+
+Use `.get()` to read the current value of a signal:
+
+```js
+const name = $user.name.get()        // 'Alice'
+const todo = $todo.get()             // { title: 'Learn signals', completed: false }
+const isOpen = $._page.sidebar.opened.get()  // true
+```
+
+`.get()` is synchronous. It returns whatever value is currently available locally.
+
+## Writing data: `.set()`
+
+Use `.set()` to update a signal's value:
+
+```js
+$user.name.set('Bob')
+$todo.completed.set(true)
+$._page.sidebar.opened.set(false)
+```
+
+For database signals (public collections), `.set()` is asynchronous -- it returns a promise. The change is applied locally right away, then synced to the server in the background:
+
+```js
+await $user.name.set('Bob')  // resolves when the server confirms
+```
+
+In most cases you do not need to await it. The local UI updates instantly.
+
+## Deleting data: `.del()`
+
+Use `.del()` to remove a value:
+
+```js
+await $todo.del()           // deletes the entire document
+$user.profilePicture.del()  // deletes a single field
+```
+
+## Adding documents: `.add()`
+
+Use `.add()` on a collection signal to create a new document with an auto-generated ID:
+
+```js
+const newId = await $.todos.add({
+  title: 'Buy groceries',
+  completed: false
+})
+// newId is the generated document ID
+```
+
+## Updating multiple fields: `.assign()`
+
+Use `.assign()` to set several fields at once:
+
+```js
+await $todo.assign({
+  title: 'Updated title',
+  priority: 'high',
+  updatedAt: Date.now()
+})
+```
+
+This is equivalent to calling `.set()` on each field individually. Fields set to `null` or `undefined` are deleted.
+
+## Array operations
+
+Signals pointing to arrays support `push` and `pop`:
+
+```js
+await $user.tags.push('developer')   // adds to end
+const last = await $user.tags.pop()  // removes from end
+```
+
+## Incrementing numbers: `.increment()`
+
+For numeric values, use `.increment()` to add to the current value:
+
+```js
+await $user.loginCount.increment(1)  // adds 1
+await $user.score.increment(-5)      // subtracts 5
+```
+
+## Navigating signals
+
+You navigate deeper into the data tree using dot notation or bracket notation:
+
+```js
+// These are equivalent
+$.users.abc123.name
+$.users['abc123'].name
+$.users[userId].name  // using a variable
+```
+
+For private collections, the path starts with `_`:
+
+```js
+$._page.form.email       // page-scoped data
+$._session.userId         // session-scoped data
+```
+
+## Collection types
+
+StartupJS has two types of collections:
+
+### Public collections
+
+Public collections are stored in the database and synced across all clients. They use lowercase names:
+
+```js
+$.todos
+$.users
+$.messages
+```
+
+You **must subscribe** before reading from them (using `useSub` in React or `sub` outside React).
+
+### Private collections
+
+Private collections exist only on the current client. They start with `_`:
+
+```js
+$._page      // cleared on navigation
+$._session   // persists for the browser session
+```
+
+You do **not** need to subscribe to private collections. Read and write them directly.
+
+## All signal methods at a glance
+
+| Method | Description | Returns |
+| --- | --- | --- |
+| `.get()` | Read the current value | The value (sync) |
+| `.set(value)` | Set the value | Promise |
+| `.del()` | Delete the value | Promise |
+| `.add(object)` | Add a document to a collection | Promise (new ID) |
+| `.assign(object)` | Set multiple fields at once | Promise |
+| `.push(value)` | Append to an array | Promise |
+| `.pop()` | Remove last array item | Promise |
+| `.increment(n)` | Add to a number | Promise |
+| `.getId()` | Get the document's unique identifier | String (sync) |
+| `.getIds()` | Get all document IDs from a query result | Array (sync) |

@@ -1,7 +1,7 @@
 {
   "name": "expoapp",
   "main": "expo-router/entry",
-  "version": "0.61.9",
+  "version": "0.61.10",
   "type": "module",
   "scripts": {
     "start": "npm run check-redis && npx expo start",
@@ -15,7 +15,6 @@
     "test-worker-separate": "SKIP_SERVER_INIT_SIDE_EFFECTS=true ENABLE_WORKER_INTEGRATION_PLUGIN=true WORKER_TEST_USE_SEPARATE_PROCESS=true NODE_OPTIONS='--experimental-detect-module --import=startupjs/nodeRegister' mocha ./server/tests/worker.integration.js --timeout 120000",
     "test": "jest --watchAll",
     "startupjs:help": "npx startupjs --help",
-    "postinstall": "npx startupjs postinstall",
     "worker": "npx startupjs start-worker"
   },
   "jest": {
@@ -52,7 +51,7 @@
     "react-native-screens": "~4.16.0",
     "react-native-svg": "15.12.1",
     "react-native-web": "^0.21.0",
-    "startupjs": "^0.61.9",
+    "startupjs": "^0.61.10",
     "startupjs-ui": "^0.1.6"
   },
   "devDependencies": {

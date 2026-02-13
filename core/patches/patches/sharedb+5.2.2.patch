@@ -140,10 +140,10 @@ index 5f8fad1..c49f959 100644
    }
  };
 diff --git a/node_modules/sharedb/lib/query-emitter.js b/node_modules/sharedb/lib/query-emitter.js
-index cfbd930..af7c335 100644
+index cfbd930..75e0b4d 100644
 --- a/node_modules/sharedb/lib/query-emitter.js
 +++ b/node_modules/sharedb/lib/query-emitter.js
-@@ -1,10 +1,189 @@
+@@ -1,10 +1,192 @@
  var arraydiff = require('arraydiff');
  var deepEqual = require('fast-deep-equal');
  var ShareDBError = require('./error');
@@ -191,6 +191,8 @@ index cfbd930..af7c335 100644
 +  }
 +  
 +  shouldUpdateQuery(changeData) {
++    if (!changeData) return true;
++
 +    const { operationType, fullDocument, fullDocumentBeforeChange } = changeData;
 +    
 +    switch (operationType) {
@@ -280,7 +282,6 @@ index cfbd930..af7c335 100644
 +      return true;
 +    }
 +    if (!doc) return false;
-+    if (doc._type === null) return false;
 +    return this.mingoQuery.test(doc);
 +  }
 +  
@@ -296,6 +297,8 @@ index cfbd930..af7c335 100644
 +    if (!this.matchStage) {
 +      return true;
 +    }
++
++    if (!changeData) return true;
 +    
 +    const { operationType, fullDocument, fullDocumentBeforeChange } = changeData;
 +    
@@ -333,10 +336,10 @@ index cfbd930..af7c335 100644
  function QueryEmitter(request, streams, ids, extra) {
    this.backend = request.backend;
    this.agent = request.agent;
-@@ -19,7 +198,13 @@ function QueryEmitter(request, streams, ids, extra) {
+@@ -19,7 +201,13 @@ function QueryEmitter(request, streams, ids, extra) {
    this.ids = ids;
    this.extra = extra;
-   
+ 
 -  this.skipPoll = this.options.skipPoll || util.doNothing;
 +  // ✅ Store the request for accessing resolved query in _update()
 +  // This is needed for server-side aggregations ($aggregationName)
@@ -348,7 +351,7 @@ index cfbd930..af7c335 100644
    this.canPollDoc = this.db.canPollDoc(this.collection, this.query);
    this.pollDebounce =
      (typeof this.options.pollDebounce === 'number') ? this.options.pollDebounce :
-@@ -76,6 +261,9 @@ QueryEmitter.prototype._emitTiming = function(action, start) {
+@@ -76,6 +264,9 @@ QueryEmitter.prototype._emitTiming = function(action, start) {
  };
  
  QueryEmitter.prototype._update = function(op) {
@@ -358,7 +361,7 @@ index cfbd930..af7c335 100644
    // Note that `op` should not be projected or sanitized yet. It's possible for
    // a query to filter on a field that's not in the projection. skipPoll checks
    // to see if an op could possibly affect a query, so it should get passed the
-@@ -120,11 +308,26 @@ QueryEmitter.prototype._update = function(op) {
+@@ -120,11 +311,24 @@ QueryEmitter.prototype._update = function(op) {
  
    // Ignore if the database or user function says we don't need to poll
    try {
@@ -384,34 +387,34 @@ index cfbd930..af7c335 100644
 +        const matcher = new QueryMatcher(currentQuery);
 +        shouldUpdate = matcher.shouldUpdateQuery(meta);
 +      }
-+      console.log('[QUERY EMITTER] Processing query', currentQuery);
-+      console.log('[QUERY EMITTER] shouldUpdate:', shouldUpdate);
 +      if (!shouldUpdate) return pollCallback();
      }
    } catch (err) {
      return pollCallback(err);
 diff --git a/node_modules/sharedb/lib/submit-request.js b/node_modules/sharedb/lib/submit-request.js
-index 8e67151..4cbdbca 100644
+index 8e67151..1231da4 100644
 --- a/node_modules/sharedb/lib/submit-request.js
 +++ b/node_modules/sharedb/lib/submit-request.js
-@@ -6,6 +6,16 @@ var protocol = require('./protocol');
+@@ -6,6 +6,18 @@ var protocol = require('./protocol');
  
  var ERROR_CODE = ShareDBError.CODES;
  
 +function snapshotToDocument(snapshot) {
 +  if (!snapshot) return null;
 +
-+  if (!snapshot.data) {
-+    return { _id: snapshot.id };
-+  }
-+
-+  return { _id: snapshot.id, ...snapshot.data };
++  var doc = snapshot.data ? { ...snapshot.data } : {};
++  doc._id = snapshot.id;
++  doc._type = snapshot.type;
++  doc._v = snapshot.v;
++  if (snapshot.m !== undefined) doc._m = snapshot.m;
++  if (snapshot.o !== undefined) doc._o = snapshot.o;
++  return doc;
 +}
 +
  function SubmitRequest(backend, agent, index, id, op, options) {
    this.backend = backend;
    this.agent = agent;
-@@ -189,6 +199,8 @@ SubmitRequest.prototype.apply = function(callback) {
+@@ -189,6 +201,8 @@ SubmitRequest.prototype.apply = function(callback) {
    this._fixupOps = [];
    delete this.op.m.fixup;
  
@@ -420,7 +423,7 @@ index 8e67151..4cbdbca 100644
    var request = this;
    this.backend.trigger(this.backend.MIDDLEWARE_ACTIONS.apply, this.agent, this, function(err) {
      if (err) return callback(err);
-@@ -217,11 +229,35 @@ SubmitRequest.prototype.commit = function(callback) {
+@@ -217,11 +231,35 @@ SubmitRequest.prototype.commit = function(callback) {
        };
      }
  

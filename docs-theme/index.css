@@ -1,0 +1,192 @@
+/* --- Project gradients --- */
+
+:root {
+  --project-gradient-startupjs: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  --project-gradient-startupjs-faded: linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(139, 92, 246, 0.25) 100%);
+  --project-hover-startupjs: rgba(99, 102, 241, 0.1);
+
+  --project-gradient-cssx: linear-gradient(135deg, #58c4dc 0%, #2eb85c 50%, #a3e635 100%);
+  --project-gradient-cssx-faded: linear-gradient(135deg, rgba(88, 196, 220, 0.25) 0%, rgba(46, 184, 92, 0.25) 50%, rgba(163, 230, 53, 0.25) 100%);
+  --project-hover-cssx: rgba(46, 184, 92, 0.1);
+
+  --project-gradient-teamplay: linear-gradient(135deg, #fc9043 0%, #ef4444 100%);
+  --project-gradient-teamplay-faded: linear-gradient(135deg, rgba(255, 150, 74, 0.25) 0%, rgba(239, 68, 68, 0.25) 100%);
+  --project-hover-teamplay: rgba(249, 115, 22, 0.1);
+
+  --project-gradient-ui: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+  --project-gradient-ui-faded: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(236, 72, 153, 0.25) 100%);
+  --project-hover-ui: rgba(168, 85, 247, 0.1);
+
+  /* Active project -- change these when copying to another project */
+  --active-project-gradient: var(--project-gradient-startupjs);
+  --active-project-gradient-faded: var(--project-gradient-startupjs-faded);
+  --active-project-hover: var(--project-hover-startupjs);
+
+  --rp-home-hero-title-bg: var(--active-project-gradient);
+}
+
+/* --- Layout --- */
+
+.project-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.project-layout-content {
+  flex: 1;
+  margin-left: 48px;
+  width: calc(100% - 48px);
+}
+
+/* Mobile: hide project sidebar and reset layout */
+@media (max-width: 768px) {
+  .project-layout-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* Apply gradient to navbar title */
+.rp-nav__title__link span {
+  background: var(--active-project-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- ProjectSidebar --- */
+
+.project-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  background: rgba(128, 128, 128, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  gap: 0;
+  z-index: 100;
+}
+
+.project-sidebar-button {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+/* Tooltip */
+.project-sidebar-button__tooltip {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 8px;
+  padding: 6px 10px;
+  background: var(--rp-c-bg-soft);
+  border: 1px solid var(--rp-c-divider);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--rp-c-text-1);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.project-sidebar-button:hover .project-sidebar-button__tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.project-sidebar-button__text {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Gradient text for inactive state */
+.project-sidebar-button .project-sidebar-button__text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.project-sidebar-button:hover {
+  background: rgba(128, 128, 128, 0.1);
+}
+
+/* Active state: semi-transparent gradient background */
+.project-sidebar-button.active .project-sidebar-button__text {
+  background: none;
+  -webkit-text-fill-color: white;
+}
+
+/* Light theme: black text on active */
+:where(html:not(.rp-dark)) .project-sidebar-button.active .project-sidebar-button__text {
+  -webkit-text-fill-color: black;
+}
+
+/* === StartupJS === */
+.project-sidebar-button--startupjs .project-sidebar-button__text {
+  background-image: var(--project-gradient-startupjs);
+}
+.project-sidebar-button--startupjs.active {
+  background: var(--project-gradient-startupjs-faded);
+}
+.project-sidebar-button--startupjs:hover:not(.active) {
+  background: var(--project-hover-startupjs);
+}
+
+/* === CSSX === */
+.project-sidebar-button--cssx .project-sidebar-button__text {
+  background-image: var(--project-gradient-cssx);
+}
+.project-sidebar-button--cssx.active {
+  background: var(--project-gradient-cssx-faded);
+}
+.project-sidebar-button--cssx:hover:not(.active) {
+  background: var(--project-hover-cssx);
+}
+
+/* === TeamPlay === */
+.project-sidebar-button--teamplay .project-sidebar-button__text {
+  background-image: var(--project-gradient-teamplay);
+}
+.project-sidebar-button--teamplay.active {
+  background: var(--project-gradient-teamplay-faded);
+}
+.project-sidebar-button--teamplay:hover:not(.active) {
+  background: var(--project-hover-teamplay);
+}
+
+/* === UI === */
+.project-sidebar-button--ui .project-sidebar-button__text {
+  background-image: var(--project-gradient-ui);
+}
+.project-sidebar-button--ui.active {
+  background: var(--project-gradient-ui-faded);
+}
+.project-sidebar-button--ui:hover:not(.active) {
+  background: var(--project-hover-ui);
+}
+
+/* Mobile: hide project sidebar */
+@media (max-width: 768px) {
+  .project-sidebar {
+    display: none;
+  }
+}
