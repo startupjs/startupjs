@@ -28,11 +28,7 @@ const defaultOptions = {
   isExpo: IS_EXPO
 }
 
-const BACKEND_INITIALIZED_KEY = Symbol.for('startupjs.server.backendInitialized')
-
-if (globalThis[BACKEND_INITIALIZED_KEY] == null) {
-  globalThis[BACKEND_INITIALIZED_KEY] = false
-}
+let backendInitialized = false
 
 export default async function startServer (options) {
   const props = await createServer(options)
@@ -82,7 +78,7 @@ export function createBackend (options = {}) {
 }
 
 export function isBackendInitialized () {
-  return Boolean(globalThis[BACKEND_INITIALIZED_KEY])
+  return backendInitialized
 }
 
 function transformOptions (options = {}) {
@@ -101,7 +97,7 @@ function isExpo (rootPath) {
 }
 
 function markBackendInitialized () {
-  globalThis[BACKEND_INITIALIZED_KEY] = true
+  backendInitialized = true
 }
 
 export {
