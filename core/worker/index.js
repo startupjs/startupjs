@@ -5,10 +5,6 @@ export default async function runJob (name, data = {}, options = {}) {
     throw new Error('[@startupjs/worker] runJob: "name" must be a non-empty string')
   }
 
-  if (typeof data !== 'object' || data == null || Array.isArray(data)) {
-    throw new Error('[@startupjs/worker] runJob: "data" must be an object')
-  }
-
   const jobs = await getJobsMap()
   const jobDefinition = jobs.get(name)
 
@@ -26,14 +22,9 @@ export default async function runJob (name, data = {}, options = {}) {
   const queueEvents = getQueueEvents(jobDefinition.worker)
 
   const payload = {
-    ...data,
-    type: name
-  }
-
-  if (options.timeout != null) {
-    payload.timeout = options.timeout
-  } else if (payload.timeout == null) {
-    payload.timeout = getRuntimeOptions().jobTimeout
+    type: name,
+    timeout: options.timeout ?? getRuntimeOptions().jobTimeout,
+    data
   }
 
   const jobOptions = {

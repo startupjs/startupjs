@@ -43,9 +43,6 @@ export default {
       client: {
         redirectUrl: '/two'
       }
-    },
-    worker: {
-      server: {}
     }
   }
 }

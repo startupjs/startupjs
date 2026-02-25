@@ -58,9 +58,17 @@ export default defineConfig({
           ]
         },
         {
+          text: 'Libraries',
+          items: [
+            { text: '@startupjs/worker', link: '/libraries/startupjs-worker' },
+            { text: '@startupjs/router', link: '/libraries/startupjs-router' }
+          ]
+        },
+        {
           text: 'Migration Guides',
           collapsed: true,
           items: [
+            { text: '0.62', link: '/migration-guides/0.62' },
             { text: '0.61', link: '/migration-guides/0.61' },
             { text: '0.55', link: '/migration-guides/0.55' },
             { text: '0.54', link: '/migration-guides/0.54' },

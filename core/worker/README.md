@@ -19,6 +19,7 @@ The `worker` plugin is enabled by default, and worker auto-start is enabled by d
 
 `runJob()` always waits for completion and returns the job result.  
 If the job throws, `runJob()` throws too, so `try/catch` works as expected.
+`data` can be any JSON-serializable value (object, string, number, array, boolean, `null`).
 
 ## Quick Start
 
@@ -95,7 +96,7 @@ Important:
 
 API:
 - `export const cron = '<cron pattern>'`
-- or `export const cron = { pattern: '<cron pattern>', data: { ... } }`
+- or `export const cron = { pattern: '<cron pattern>', data: <any serializable value> }`
 
 Example without data:
 

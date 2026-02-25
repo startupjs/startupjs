@@ -2,8 +2,8 @@ import { isBackendInitialized } from 'startupjs/server'
 import { ensureBackendReady, getJobsMap, getRuntimeOptions } from './runtime.js'
 
 export default async function processJob (job) {
-  const data = job.data || {}
-  const type = data.type
+  const payload = job.data || {}
+  const type = payload.type
 
   if (!type) {
     const message = '[@startupjs/worker] processJob: missing "type" in job data'
@@ -25,7 +25,8 @@ export default async function processJob (job) {
     await ensureBackendReady()
   }
 
-  const timeout = toNumber(data.timeout, defaultTimeout)
+  const timeout = toNumber(payload.timeout, defaultTimeout)
+  const data = payload.data
   const log = createJobLog(job)
 
   try {

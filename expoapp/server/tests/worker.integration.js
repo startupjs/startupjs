@@ -12,6 +12,7 @@ const USE_SEPARATE_PROCESS = process.env.WORKER_TEST_USE_SEPARATE_PROCESS === 't
 
 const JOBS = {
   echo: 'integrationEcho',
+  highestNumber: 'integrationHighestNumber',
   throws: 'integrationThrows',
   priority: 'integrationPriority',
   sleep: 'integrationSleep',
@@ -127,13 +128,17 @@ describe('worker integration', function () {
 
       await assertRejects(() => runJob(''), /"name" must be a non-empty string/)
       await assertRejects(() => runJob('missingJob', {}), /job "missingJob" not found/)
-      await assertRejects(() => runJob(JOBS.echo, null), /"data" must be an object/)
 
       const echo = await runJob(JOBS.echo, { value: 42 })
       assert.strictEqual(echo.ok, true)
-      assert.strictEqual(echo.data.type, JOBS.echo)
-      assert.strictEqual(echo.data.value, 42)
-      assert.strictEqual(echo.data.timeout, 80)
+      assert.deepStrictEqual(echo.data, { value: 42 })
+
+      const echoPrimitive = await runJob(JOBS.echo, 'hello world')
+      assert.strictEqual(echoPrimitive.ok, true)
+      assert.strictEqual(echoPrimitive.data, 'hello world')
+
+      const highestNumber = await runJob(JOBS.highestNumber, [5, 3, 8, 1])
+      assert.strictEqual(highestNumber, 8)
 
       await assertRejects(() => runJob(JOBS.throws), /integration-failure/)
 
@@ -143,11 +148,11 @@ describe('worker integration', function () {
 
       const pluginResult = await runJob(JOBS.plugin, { marker: 'plugin' })
       assert.strictEqual(pluginResult.from, 'plugin')
-      assert.strictEqual(pluginResult.data.type, JOBS.plugin)
+      assert.strictEqual(pluginResult.data.marker, 'plugin')
 
       const pluginAsyncResult = await runJob(JOBS.pluginAsync, { marker: 'plugin-async' })
       assert.strictEqual(pluginAsyncResult.from, 'plugin-async')
-      assert.strictEqual(pluginAsyncResult.data.type, JOBS.pluginAsync)
+      assert.strictEqual(pluginAsyncResult.data.marker, 'plugin-async')
 
       await assertRejects(
         () => runJob(JOBS.sleep, { ms: 140 }),

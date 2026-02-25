@@ -72,7 +72,7 @@ async function syncSchedulers (workerName, jobs, runtimeOptions) {
     if (jobDefinition.worker !== workerName) continue
     if (!jobDefinition.cron) continue
 
-    const { pattern, data = {} } = jobDefinition.cron
+    const { pattern, data } = jobDefinition.cron
     relevantSchedulerIds.push(jobName)
 
     await queue.upsertJobScheduler(
@@ -80,9 +80,9 @@ async function syncSchedulers (workerName, jobs, runtimeOptions) {
       { pattern, key: jobName },
       {
         data: {
-          ...data,
           type: jobName,
-          timeout: data.timeout ?? runtimeOptions.jobTimeout
+          timeout: runtimeOptions.jobTimeout,
+          data
         }
       }
     )

@@ -293,10 +293,16 @@ function normalizeCron (jobName, cron) {
     )
   }
 
-  const data = cron.data ?? cron.jobData ?? {}
-  if (typeof data !== 'object' || data == null || Array.isArray(data)) {
-    throw new Error(`[@startupjs/worker] Job "${jobName}" has invalid cron.data export`)
+  if (Object.prototype.hasOwnProperty.call(cron, 'jobData')) {
+    throw new Error(
+      `[@startupjs/worker] Job "${jobName}" uses deprecated cron.jobData. ` +
+        'Use cron.data instead'
+    )
   }
+
+  const data = Object.prototype.hasOwnProperty.call(cron, 'data')
+    ? cron.data
+    : {}
 
   return {
     pattern: cron.pattern,

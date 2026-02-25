@@ -70,5 +70,8 @@
     "react-native-webview": "10.10.2",
     "startupjs": "^0.56.0-alpha.0",
     "text-encoding-polyfill": "^0.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
   }
 }
