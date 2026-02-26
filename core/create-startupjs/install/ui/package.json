@@ -5,6 +5,7 @@
     "react-native-gesture-handler": "~2.16.1",
     "react-native-pager-view": "6.3.0",
     "react-native-reanimated": "^4.0.0",
+    "react-native-worklets": "^0.5.1",
     "react-native-svg": "15.2.0",
     "@react-native-community/datetimepicker": "^8.2.0"
   }
