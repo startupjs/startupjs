@@ -17,6 +17,8 @@ function RangeInput (props) {
     showStepLabels,
     showStepMarkers,
     step,
+    stepsAs,
+    optionsArray,
     value,
     width,
     containerStyle,
@@ -63,6 +65,8 @@ function RangeInput (props) {
       sliderLength=width
       snapped
       step=step
+      stepsAs=stepsAs
+      optionsArray=optionsArray
       values=values
       selectedStyle=StyleSheet.flatten([styles.selected, selectedStyle])
       containerStyle=StyleSheet.flatten([styles.container, containerStyle]),
