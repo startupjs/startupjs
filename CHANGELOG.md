@@ -7,6 +7,15 @@
 
 
 
+## [0.54.27](https://github.com/startupjs/startupjs/compare/v0.54.26...v0.54.27) (2026-03-12)
+
+
+### Bug Fixes
+
+* **ui/RangeInput:** allow 'stepsAs' and 'optionsArray' properties ([af3fd97](https://github.com/startupjs/startupjs/commit/af3fd97be597f21a5fe6657ef5c4f1efc1878dc0))
+
+
+
 ## [0.54.26](https://github.com/startupjs/startupjs/compare/v0.54.25...v0.54.26) (2026-02-12)
 
 
