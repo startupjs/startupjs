@@ -1,3 +1,4 @@
+export * as check from './check.js'
 export * as initPm from './pm/init-pm.js'
 export * as pr from './pm/pr.js'
 export * as task from './pm/task.js'

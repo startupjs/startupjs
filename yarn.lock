@@ -3408,7 +3408,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jridgewell/gen-mapping@npm:^0.3.12, @jridgewell/gen-mapping@npm:^0.3.2, @jridgewell/gen-mapping@npm:^0.3.5":
+"@jridgewell/gen-mapping@npm:^0.3.12, @jridgewell/gen-mapping@npm:^0.3.13, @jridgewell/gen-mapping@npm:^0.3.2, @jridgewell/gen-mapping@npm:^0.3.5":
   version: 0.3.13
   resolution: "@jridgewell/gen-mapping@npm:0.3.13"
   dependencies:
@@ -5107,6 +5107,42 @@ __metadata:
   dependencies:
     nanoid: "npm:^3.3.11"
   checksum: 10c0/2efdbaf265e25bd1ea6d283a5a16d772eb24846e4a4554c8164091707b9289f02063a8999f8337d24ae3a33c3d2adaebabcb96bedb588aca8efb54fcab46286a
+  languageName: node
+  linkType: hard
+
+"@react-pug/check-types@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@react-pug/check-types@npm:0.1.4"
+  dependencies:
+    "@react-pug/typescript-plugin-react-pug": "npm:^0.1.3"
+  peerDependencies:
+    typescript: "*"
+  bin:
+    check-pug-types: src/cli.js
+  checksum: 10c0/a2b659ddf77fc9862a0172ee0bab9e5bebe90e6804c852b32093f2b6c67e8d882db2b0157654c07a555fc368d61cdc7eddb764103e171469a578beaf026a16be
+  languageName: node
+  linkType: hard
+
+"@react-pug/react-pug-core@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "@react-pug/react-pug-core@npm:0.1.3"
+  dependencies:
+    "@babel/parser": "npm:^7.0.0"
+    "@jridgewell/gen-mapping": "npm:^0.3.13"
+    "@startupjs/pug-lexer": "npm:^4.1.0-1"
+    "@volar/source-map": "npm:^2.4.28"
+    pug-parser: "npm:^6.0.0"
+    pug-strip-comments: "npm:^2.0.0"
+  checksum: 10c0/4d6ad3e6df641176d664293aa2f8ace0786fad12dd7882862c6830785f715932a8bd995e678600646d478f4d5db6990b85323c7f8c015f6fea6857c7706b94fd
+  languageName: node
+  linkType: hard
+
+"@react-pug/typescript-plugin-react-pug@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "@react-pug/typescript-plugin-react-pug@npm:0.1.3"
+  dependencies:
+    "@react-pug/react-pug-core": "npm:^0.1.3"
+  checksum: 10c0/435ed3f7d9e186228aef97eb8dcb0e694d7d4a58bdf13a0c12120aa41065551f57bbc551e5cbbff906cc03dcda651639c3b71da095f13f42602fdda042eb7e21
   languageName: node
   linkType: hard
 
@@ -6943,6 +6979,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@startupjs/cli@workspace:core/cli"
   dependencies:
+    "@react-pug/check-types": "npm:^0.1.4"
     "@startupjs/patches": "npm:^0.61.10"
     "@startupjs/pm": "npm:^0.61.0"
     chalk: "npm:^5.3.0"
@@ -8280,6 +8317,13 @@ __metadata:
   peerDependencies:
     "@urql/core": ^5.0.0
   checksum: 10c0/3d7e9879aef81714ca04c8b4dc1633d61b2090f5a6d5b8aac538633d41c26e8749e18bf66bed2936b209d038b3acdd21f20bc5ec4229a449b5a0b13d5694effe
+  languageName: node
+  linkType: hard
+
+"@volar/source-map@npm:^2.4.28":
+  version: 2.4.28
+  resolution: "@volar/source-map@npm:2.4.28"
+  checksum: 10c0/24b0b02c7f66febe47f0bfda4a5ed4beaf949041eddc6325c7478b900faeb071795b696d97a4f326dde47217d06e40b67129300bc544f054772c5cb84c2f254e
   languageName: node
   linkType: hard
 
@@ -23853,6 +23897,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pug-error@npm:^2.0.0":
+  version: 2.1.0
+  resolution: "pug-error@npm:2.1.0"
+  checksum: 10c0/bbce339b17fab9890de84975c0cd8723a847bf65f35653d3ebcf77018e8ad91529d56e978ab80f4c64c9f4f07ef9e56e7a9fda3be44249c344a93ba11fccff79
+  languageName: node
+  linkType: hard
+
 "pug-filters@npm:^3.0.1":
   version: 3.1.1
   resolution: "pug-filters@npm:3.1.1"
@@ -23878,6 +23929,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pug-parser@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "pug-parser@npm:6.0.0"
+  dependencies:
+    pug-error: "npm:^2.0.0"
+    token-stream: "npm:1.0.0"
+  checksum: 10c0/faa6cec43afdeb2705eb8c68dfdb2e65836238df8043ae55295ffb72450b8c7a990ea1be60adbde19f58988b9e1d18a84ea42453e2c4f104d0031f78fda737b2
+  languageName: node
+  linkType: hard
+
 "pug-runtime@npm:^2.0.5":
   version: 2.0.5
   resolution: "pug-runtime@npm:2.0.5"
@@ -23891,6 +23952,15 @@ __metadata:
   dependencies:
     pug-error: "npm:^1.3.3"
   checksum: 10c0/23289805ef8eecb9fc8b6d8bb3065eed381455451ab84e83e83f11a99a90ca5d8db92db67b3363bbcebdc159fa12b447f09dcfe225ae7840bac2ac044a24a210
+  languageName: node
+  linkType: hard
+
+"pug-strip-comments@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "pug-strip-comments@npm:2.0.0"
+  dependencies:
+    pug-error: "npm:^2.0.0"
+  checksum: 10c0/ca498adedaeba51dd836b20129bbd161e2d5a397a2baaa553b1e74e888caa2258dcd7326396fc6f8fed8c7b7f906cfebc4c386ccbee8888a27b2ca0d4d86d206
   languageName: node
   linkType: hard
 
@@ -27801,6 +27871,13 @@ __metadata:
   version: 0.0.1
   resolution: "token-stream@npm:0.0.1"
   checksum: 10c0/cf4020b5ca9c2acbf3a1382d84ca36830809d08fea4a295dee08c534a955c84cb9711802c7a7c916a904824bdc49300b60e9a26d29800680c2404f8c419845c8
+  languageName: node
+  linkType: hard
+
+"token-stream@npm:1.0.0":
+  version: 1.0.0
+  resolution: "token-stream@npm:1.0.0"
+  checksum: 10c0/c1924a89686fc035d579cbe856da12306571d5fe7408eeeebe80df7c25c5cc644b8ae102d5cbc0f085d0e105f391d1a48dc0e568520434c5b444ea6c7de2b822
   languageName: node
   linkType: hard
 
