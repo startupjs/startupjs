@@ -1,8 +1,8 @@
-import test from 'node:test'
-import assert from 'node:assert/strict'
 import React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import RouterContext from '@startupjs/utils/RouterContext'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 import {
   __setCompatPathFor,
   __setCompatUseRouter,
