@@ -10,6 +10,7 @@
   "exports": {
     ".": "./index.js",
     "./app": "./app.js",
+    "./orm": "./orm.js",
     "./auth": "./auth.js",
     "./server": "./server.js",
     "./schema": "./schema.js",
