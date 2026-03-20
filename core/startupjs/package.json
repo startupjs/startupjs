@@ -9,6 +9,7 @@
   "main": "index.js",
   "exports": {
     ".": "./index.js",
+    "./app": "./app.js",
     "./auth": "./auth.js",
     "./server": "./server.js",
     "./schema": "./schema.js",
@@ -54,5 +55,8 @@
     "react-native": {
       "optional": true
     }
+  },
+  "scripts": {
+    "test": "node --experimental-specifier-resolution=node --test"
   }
 }
