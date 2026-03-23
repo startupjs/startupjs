@@ -9,6 +9,33 @@ export * from '@startupjs/hooks'
 //        on the server and on the client
 export * from '@startupjs/isomorphic-helpers'
 
+let compatT
+
+// COMPAT-ONLY legacy i18n bridge for older LMS code which still imports `t`
+// from the root `startupjs` package. The host app must explicitly register the
+// real translation function via `__setCompatT()`. This mirrors the explicit
+// compat initialization pattern already used for `startupjs/app`.
+export function __setCompatT (fn) {
+  if (typeof fn !== 'function') {
+    throw new Error('[startupjs] __setCompatT expects a function')
+  }
+  compatT = fn
+}
+
+export function __resetCompatTForTests () {
+  compatT = undefined
+}
+
+export function t (...args) {
+  if (typeof compatT !== 'function') {
+    throw new Error(
+      '[startupjs] t is not initialized. ' +
+      'The host app must register a compat implementation via __setCompatT().'
+    )
+  }
+  return compatT(...args)
+}
+
 // wrap serverOnly around the value to remove it from the client bundle
 // (it will be replaced with `undefined` on the client by the babel-plugin-eliminator)
 export function serverOnly (value) { return value }
