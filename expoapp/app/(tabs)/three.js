@@ -1,4 +1,4 @@
-import { pug, styl, observer, useSub, $ } from 'startupjs'
+import { pug, styl, observer, useSub, $, axios } from 'startupjs'
 import { Link, Button, Br, User, Card } from 'startupjs-ui'
 import { Text, View } from '@/components/Themed'
 
@@ -9,6 +9,22 @@ export default observer(function TabThreeScreen () {
 
   const renderDummy = () => {
     return <Text>dummy jsx</Text>
+  }
+
+  async function handleTestWorkerJob () {
+    const numbers = [1, 5, 3, 9, 2]
+    const response = await axios.post('/api/worker/highestNumber', { numbers })
+    console.log(response.data)
+  }
+
+  async function handleTestWorkerJobWithError () {
+    const numbers = [1, '5', 3, 9, 2] // This will cause an error because '5' is a string
+    try {
+      const response = await axios.post('/api/worker/highestNumber', { numbers })
+      console.log('Success:', response.data)
+    } catch (error) {
+      console.error('Error:', error.response ? error.response.data : error.message)
+    }
   }
 
   return pug`
@@ -37,6 +53,9 @@ export default observer(function TabThreeScreen () {
       Br
       Link(to='/auth/login')
         Button Login
+      Br
+      Button(onPress=handleTestWorkerJob) Run Worker Job (check console)
+      Button(onPress=handleTestWorkerJobWithError) Run Worker Job with Error (check console)
   `
   styl`
     .card

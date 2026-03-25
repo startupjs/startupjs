@@ -1,8 +1,9 @@
 import { createBullBoard } from '@bull-board/api'
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter'
 import { ExpressAdapter } from '@bull-board/express'
+import { AVAILABLE_WORKERS, getQueue } from './runtime.js'
 
-export default async function initDashboardRoute ({
+export default function initDashboardRoute ({
   expressApp,
   route,
   readOnlyMode = true
@@ -15,11 +16,10 @@ export default async function initDashboardRoute ({
   const serverAdapter = new ExpressAdapter()
   serverAdapter.setBasePath(route)
 
-  const { queue } = (await import('./queue.js'))
-
   createBullBoard({
-    queues: [new BullMQAdapter(queue, { readOnlyMode })],
+    queues: AVAILABLE_WORKERS.map(workerName => new BullMQAdapter(getQueue(workerName), { readOnlyMode })),
     serverAdapter
   })
+
   expressApp.use(route, serverAdapter.getRouter())
 }
