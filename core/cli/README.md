@@ -16,6 +16,12 @@ Run `npx startupjs install --help` for a full manual
 
 Build web bundle for production usage
 
+### `check`
+
+Type-check the current project with React-Pug support.
+
+You can pass specific files, for example `npx startupjs check src/App.tsx`.
+
 ### `start-production`
 
 Start production node server with production web build

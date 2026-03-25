@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.61.10",
+  "version": "0.61.15",
   "engines": {
     "node": ">= 14"
   },
@@ -9,6 +9,8 @@
   "main": "index.js",
   "exports": {
     ".": "./index.js",
+    "./app": "./app.js",
+    "./orm": "./orm.js",
     "./auth": "./auth.js",
     "./server": "./server.js",
     "./schema": "./schema.js",
@@ -31,7 +33,7 @@
   "dependencies": {
     "@startupjs/auth": "^0.61.2",
     "@startupjs/bundler": "^0.61.7",
-    "@startupjs/cli": "^0.61.10",
+    "@startupjs/cli": "^0.61.11",
     "@startupjs/hooks": "^0.61.0",
     "@startupjs/isomorphic-helpers": "^0.61.0",
     "@startupjs/registry": "^0.61.0",
@@ -54,5 +56,8 @@
     "react-native": {
       "optional": true
     }
+  },
+  "scripts": {
+    "test": "node --experimental-specifier-resolution=node --test"
   }
 }

@@ -1,3 +1,28 @@
+## [0.61.15](https://github.com/startupjs/startupjs/compare/v0.61.14...v0.61.15) (2026-03-23)
+
+
+
+## [0.61.14](https://github.com/startupjs/startupjs/compare/v0.61.13...v0.61.14) (2026-03-20)
+
+
+
+## [0.61.13](https://github.com/startupjs/startupjs/compare/v0.61.12...v0.61.13) (2026-03-20)
+
+
+
+## [0.61.12](https://github.com/startupjs/startupjs/compare/v0.61.11...v0.61.12) (2026-03-20)
+
+
+
+## [0.61.11](https://github.com/startupjs/startupjs/compare/v0.61.10...v0.61.11) (2026-03-13)
+
+
+### Features
+
+* add 'npx startupjs check' command to do TS typechecking with Pug support ([1f1a48c](https://github.com/startupjs/startupjs/commit/1f1a48cdb6ad246444e4276b329cd464ad726259))
+
+
+
 ## [0.61.10](https://github.com/startupjs/startupjs/compare/v0.61.9...v0.61.10) (2026-02-12)
 
 

@@ -336,7 +336,7 @@ By passing `$user.name` (signal) instead of `$user.name.get()` (value), the chil
 
 ## Subscriptions
 
-You MUST subscribe to database data before reading it. Private collections (`$._page`, `$._session`) do NOT need subscriptions.
+You MUST subscribe to database data before reading it. Private collections (`$._session`) do NOT need subscriptions.
 
 ### In React components: `useSub`
 
@@ -406,10 +406,6 @@ export default observer(function MyComponent () {
 Private collections live only on the client. They start with `_` and do NOT need subscriptions:
 
 ```js
-// Page-scoped (cleared on navigation)
-$._page.sidebar.opened.set(true)
-const isOpen = $._page.sidebar.opened.get()
-
 // Session-scoped (persists until tab closes)
 const userId = $._session.userId.get()
 ```
