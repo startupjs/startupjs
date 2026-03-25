@@ -40,9 +40,9 @@
     "@startupjs/server": "^0.61.0",
     "@startupjs/utils": "^0.61.0",
     "babel-preset-startupjs": "^0.61.3",
-    "cssxjs": "^0.2.32",
+    "cssxjs": "^0.3.0-alpha.1",
     "lodash": "^4.17.20",
-    "teamplay": "0.3.35"
+    "teamplay": "^0.4.0-alpha.64"
   },
   "peerDependencies": {
     "@startupjs/worker": "*",

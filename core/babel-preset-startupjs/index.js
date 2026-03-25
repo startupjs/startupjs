@@ -99,7 +99,10 @@ module.exports = (api, {
 
         // transform pug to jsx. This generates a bunch of new AST nodes
         // (it's important to do this first before any dead code elimination runs)
-        transformPug && [require('cssxjs/babel/plugin-react-pug'), { classAttribute: 'styleName' }],
+        transformPug && [require('cssxjs/babel/plugin-react-pug'), {
+          classShorthandProperty: 'styleName',
+          classShorthandMerge: 'classnames'
+        }],
 
         // inline CSS modules (styl`` in the same JSX file -- similar to how it is in Vue.js)
         transformCss && [require('cssxjs/babel/plugin-rn-stylename-inline'), {

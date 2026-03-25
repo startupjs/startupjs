@@ -9,9 +9,6 @@
     "docker",
     "expoapp"
   ],
-  "//workspaces": [
-    "styleguide"
-  ],
   "scripts": {
     "init-local": "./scripts/tasks.sh local-init",
     "testapp": "cd testapp && yarn",
@@ -54,14 +51,15 @@
   "devDependencies": {
     "@rspress/core": "^2.0.0",
     "conventional-changelog-cli": "^2.1.1",
-    "eslint": "^8.56.0",
-    "eslint-config-cssxjs": "^0.2.0",
+    "eslint": "^9.39.4",
+    "eslint-plugin-cssxjs": "^0.3.0-alpha.1",
     "husky": "^4.3.0",
     "lerna": "^9.0.0",
-    "lint-staged": "^9.5.0"
+    "lint-staged": "^9.5.0",
+    "neostandard": "^0.13.0"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
       "eslint --fix"
     ]
   },
@@ -71,11 +69,6 @@
     }
   },
   "//pre-commit-with-resolutions": "! grep -q '\"resolutions\":' ./package.json || (echo '\\033[0;31mError: \"resolutions\" found in package.json. Remove \"resolutions\" to proceed with commit.\\033[0m' && exit 1) && lint-staged",
-  "eslintConfig": {
-    "extends": [
-      "cssxjs"
-    ]
-  },
   "license": "MIT",
   "resolutions": {
     "sharedb-redis-pubsub": "2.0.1",
