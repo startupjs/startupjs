@@ -1,3 +1,13 @@
+# [0.62.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.61.15...v0.62.0-alpha.0) (2026-03-25)
+
+
+### Features
+
+* use new cssxjs with improved pug support in TS and style(lang='styl') tag. Support Expo 55. ([3238ce7](https://github.com/startupjs/startupjs/commit/3238ce7b136b497e7a2f28413a5a4e8406e12c27))
+* **worker:** [BREAKING] Rewrite worker implementation and API ([#1308](https://github.com/startupjs/startupjs/issues/1308)) ([ad95c81](https://github.com/startupjs/startupjs/commit/ad95c81e3a1031133330a167cee2505678ed735a))
+
+
+
 ## [0.61.15](https://github.com/startupjs/startupjs/compare/v0.61.14...v0.61.15) (2026-03-23)
 
 
