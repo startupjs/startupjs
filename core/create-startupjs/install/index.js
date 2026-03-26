@@ -1,6 +1,6 @@
 import { $ } from 'execa'
 import { join, dirname } from 'path'
-import { existsSync, readFileSync, writeFileSync, renameSync } from 'fs'
+import { existsSync, readFileSync, writeFileSync, renameSync, rmSync } from 'fs'
 import url from 'url'
 import isEqual from 'lodash/isEqual.js'
 import merge from 'lodash/merge.js'
@@ -15,9 +15,13 @@ const INIT_JSON_PATH = join(__dirname, './init/package.json')
 const INIT_METRO_CONFIG_PATH = join(__dirname, './init/metro.config.cjs')
 const INIT_GITIGNORE_PATH = join(__dirname, './init/gitignore')
 const INIT_STARTUPJS_CONFIG_PATH = join(__dirname, './init/startupjs.config.js')
+const INIT_AGENTS_MD_PATH = join(__dirname, './init/AGENTS.md')
+const INIT_CLAUDE_MD_PATH = join(__dirname, './init/CLAUDE.md')
+const INIT_ESLINT_CONFIG_PATH = join(__dirname, './init/eslint.config.mjs')
 const INIT_BABEL_CONFIG_PATH = join(__dirname, './init/babel.config.cjs')
 const INIT_EXPO_JSON_PATH = join(__dirname, './init-expo/package.json')
 const INIT_EXPO_APP_JSON_PATH = join(__dirname, './init-expo/app.json')
+const INIT_EXPO_ESLINT_CONFIG_PATH = join(__dirname, './init-expo/eslint.config.mjs')
 const DEVELOPMENT_JSON_PATH = join(__dirname, './dev/package.json')
 const UI_JSON_PATH = join(__dirname, './ui/package.json')
 const UI_EXPO_JSON_PATH = join(__dirname, './ui-expo/package.json')
@@ -123,7 +127,7 @@ async function runInstall ({
     templates.push(JSON.parse(fromTemplateFile(INIT_EXPO_JSON_PATH)))
   }
 
-  if (setupDevelopment || packageJson.devDependencies?.['eslint-config-cssxjs']) {
+  if (setupDevelopment || packageJson.devDependencies?.['eslint-plugin-cssxjs']) {
     templates.push(JSON.parse(fromTemplateFile(DEVELOPMENT_JSON_PATH)))
   }
 
@@ -176,11 +180,19 @@ async function runInstall ({
     maybeRenameMetroConfig({ triggerModified })
     maybeCopyMetroConfig({ triggerModified, onLog: log => finalLog.push(log) })
     maybeCopyStartupjsConfig({ triggerModified })
+    maybeCopyAgentsMd({ triggerModified })
+    maybeCopyClaudeMd({ triggerModified })
     maybeRenameBabelConfig({ triggerModified })
     // our babel config will be copied only if babel config didn't exist before.
     // If it existed then when the user tries to run the project
     // we'll throw an error asking to add the startupjs preset manually.
     maybeCopyBabelConfig({ triggerModified })
+    // copy the appropriate eslint config based on whether expo is used or not
+    if (packageJson.dependencies.expo) {
+      maybeCopyExpoEslintConfig({ triggerModified })
+    } else {
+      maybeCopyEslintConfig({ triggerModified })
+    }
     if (triggerModified.wasTriggered() && packageJson.dependencies.expo) {
       // modify expo's config in app.json, but only if we did any actual init modifications before
       // (there is no way to understand if we already did modify app.json before so we rely on the triggerModified flag)
@@ -353,6 +365,42 @@ function maybeCopyStartupjsConfig ({ triggerModified }) {
   const startupjsConfigPath = join(process.cwd(), 'startupjs.config.js')
   if (existsSync(startupjsConfigPath)) return
   writeFileSync(startupjsConfigPath, readFileSync(INIT_STARTUPJS_CONFIG_PATH, 'utf8'))
+  triggerModified?.()
+}
+
+function maybeCopyAgentsMd ({ triggerModified }) {
+  const agentsMdPath = join(process.cwd(), 'AGENTS.md')
+  if (existsSync(agentsMdPath)) return
+  writeFileSync(agentsMdPath, readFileSync(INIT_AGENTS_MD_PATH, 'utf8'))
+  triggerModified?.()
+}
+
+function maybeCopyClaudeMd ({ triggerModified }) {
+  const claudeMdPath = join(process.cwd(), 'CLAUDE.md')
+  if (existsSync(claudeMdPath)) return
+  writeFileSync(claudeMdPath, readFileSync(INIT_CLAUDE_MD_PATH, 'utf8'))
+  triggerModified?.()
+}
+
+function maybeCopyEslintConfig ({ triggerModified }) {
+  const eslintConfigPath = join(process.cwd(), 'eslint.config.mjs')
+  if (existsSync(eslintConfigPath)) return
+  // remove the existing default eslint config if it exists, since it's not compatible with our eslint config
+  if (existsSync(join(process.cwd(), 'eslint.config.js'))) {
+    rmSync(join(process.cwd(), 'eslint.config.js'))
+  }
+  writeFileSync(eslintConfigPath, readFileSync(INIT_ESLINT_CONFIG_PATH, 'utf8'))
+  triggerModified?.()
+}
+
+function maybeCopyExpoEslintConfig ({ triggerModified }) {
+  const eslintConfigPath = join(process.cwd(), 'eslint.config.mjs')
+  if (existsSync(eslintConfigPath)) return
+  // remove the existing default eslint config if it exists, since it's not compatible with our eslint config
+  if (existsSync(join(process.cwd(), 'eslint.config.js'))) {
+    rmSync(join(process.cwd(), 'eslint.config.js'))
+  }
+  writeFileSync(eslintConfigPath, readFileSync(INIT_EXPO_ESLINT_CONFIG_PATH, 'utf8'))
   triggerModified?.()
 }
 
