@@ -1,3 +1,12 @@
+# [0.62.0-alpha.1](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.0...v0.62.0-alpha.1) (2026-03-26)
+
+
+### Features
+
+* **create-startupjs:** add proper eslint config for pure/expo project, add AGENTS.md and CLAUDE.md ([a8dbde7](https://github.com/startupjs/startupjs/commit/a8dbde7abfa4e518288fb8f0a993f23abda57b4f))
+
+
+
 # [0.62.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.61.15...v0.62.0-alpha.0) (2026-03-25)
 
 
