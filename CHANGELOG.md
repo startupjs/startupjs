@@ -1,3 +1,12 @@
+# [0.62.0-alpha.2](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.1...v0.62.0-alpha.2) (2026-03-27)
+
+
+### Features
+
+* **create-startupjs:** use startupjs-ui@alpha in new projects (while we are on startupjs@alpha) ([b5b1b50](https://github.com/startupjs/startupjs/commit/b5b1b50500870df27888baebde35886b9cfc3355))
+
+
+
 # [0.62.0-alpha.1](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.0...v0.62.0-alpha.1) (2026-03-26)
 
 
