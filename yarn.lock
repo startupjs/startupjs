@@ -5676,247 +5676,247 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs-ui/abstract-popover@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/abstract-popover@npm:0.1.22"
+"@startupjs-ui/abstract-popover@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/abstract-popover@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/portal": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/portal": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/9565b185d13d3d4104029411c633f51a0bcb930598d1dda4fb1dca4d44bc088e4a0b62dfe8203a73811b9882ffb6ec15dc602261d5c2bffdbba86ec765f5d5f0
+  checksum: 10c0/109d4caa8f703d3869859aac1085808d00928630c76fce631fc1b10087f76e0612c36bf9a2c926cc84ace4af933b1f5aab7301892eeac55251142e4f87641979
   languageName: node
   linkType: hard
 
-"@startupjs-ui/alert@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/alert@npm:0.1.22"
+"@startupjs-ui/alert@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/alert@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/1490d51ea3ae7971a58b1080f971731aee479272e9c69f092d8488ae230795f18c0218402278ead7bc8f8576c9f8282040311e7a63255bc5bd38383a06bebb17
+  checksum: 10c0/c99b8243060255f4604d9d16db463bf7f5f2c19193350b0d4e0650521abe5ab27ecb290149ba90cc054b815f7378bbfb74800943ab15567b487e95901523365e
   languageName: node
   linkType: hard
 
-"@startupjs-ui/array-input@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/array-input@npm:0.1.22"
+"@startupjs-ui/array-input@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/array-input@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/button": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/input": "npm:^0.1.22"
+    "@startupjs-ui/button": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/input": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/c37196f4f9108f860f559d2cf0ad03cf37a274ac53be9c421549d8d39aca49e6903c2053eff5cfa1c094f8b49773515d7003b04a64f1dbbf0628ed4112ca998f
+  checksum: 10c0/8fb01146b7ed2b91b2bff19184c45cfc35f2ddd3029f8eb19e2d6857d23e5a8072dc197a9c788047074c54d0583111d7888ac114f3fb2136e9c9cb12a5d6bc62
   languageName: node
   linkType: hard
 
-"@startupjs-ui/auto-suggest@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/auto-suggest@npm:0.1.22"
+"@startupjs-ui/auto-suggest@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/auto-suggest@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/abstract-popover": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/flat-list": "npm:^0.1.22"
-    "@startupjs-ui/loader": "npm:^0.1.22"
-    "@startupjs-ui/menu": "npm:^0.1.22"
-    "@startupjs-ui/text-input": "npm:^0.1.22"
+    "@startupjs-ui/abstract-popover": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/flat-list": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/loader": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/menu": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/text-input": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/4948d950727345a026af2ce656a5474dd27405a1c6c12d420222a5410b417963065cd8b2691d73c5f1ebc52e0d29c77a6b4cc2fb0094978b2dbd1dc0bc70488a
+  checksum: 10c0/1033ecd13a77f440c0e7b0dda4657747fcb36914a61b5c3bedbe14a69942eea900e72cc9953c9d6320127b9f109cc305d5dd2c7a31cb190a6c676b99f734874d
   languageName: node
   linkType: hard
 
-"@startupjs-ui/avatar@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/avatar@npm:0.1.22"
+"@startupjs-ui/avatar@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/avatar@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
     randomcolor: "npm:^0.5.4"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/3218a25e2934127249bb0a30774663911df86094b913f59f68ef7b93044e954baa7a3e19c7c2ecb8f475b82f8a848b8a17707173ddaa2fe3e7228ae3872ef002
+  checksum: 10c0/84cea15d9ba5e8e136b6cbc62a4347a0ecd54459b2c4ce74d3e7d52b6ec163e0be8e67df341ff227b98d86deaa9cf74246bd4db5895c2de9a49aacff9a8eff29
   languageName: node
   linkType: hard
 
-"@startupjs-ui/badge@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/badge@npm:0.1.22"
+"@startupjs-ui/badge@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/badge@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/1c985687ddbb5af964db3d21c2d67c3aa05dd32f30e8561fcaa33f48990c3cbd921134a848b4503580e18c84e9b04422ee9ac60db2389cbaf729d34cf15c90b3
+  checksum: 10c0/efdd874f6a4ede9cd33aeaa82244a80fa4b8d09bd06c7c5fd5e0b6b85a69bad0a45faa16da978025b9e5d912927cb9d85ce4355faf737f80e0dbfd85e0752c0c
   languageName: node
   linkType: hard
 
-"@startupjs-ui/br@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/br@npm:0.1.22"
+"@startupjs-ui/br@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/br@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/644683c91297c6cfe037e95ab2dff4fd14aeb73c3a316519b746fa6055ba7237077dab757367c270ba3d1c685db43187f1d4f8e85a56b58ee849a88a9a74b2ab
+  checksum: 10c0/5c675f165e3ecf49064262feecc0a7085e3f840d4e43dc16e939f1501099fd12b4771fcf05928709615782eabcca1c64383be7fabfeefc2f7f6ef3d6d482d04c
   languageName: node
   linkType: hard
 
-"@startupjs-ui/breadcrumbs@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/breadcrumbs@npm:0.1.22"
+"@startupjs-ui/breadcrumbs@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/breadcrumbs@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/link": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/link": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/d9bdb91b34ed1425f1a21b2f3b30561b350b93b9403005cd3a03da313a58a025b5c7c4791dbb620b8fd3754a8b8b6d2fac50f8c2efe4fb037779489c0e0724da
+  checksum: 10c0/cfaaf6490c2f323bad25e173818659c260386c64e8ff98e24e11a23734c19cdd5429670759714db7b77e6df1fa4bc60d28dc569248104dd2a44437a774eca5e9
   languageName: node
   linkType: hard
 
-"@startupjs-ui/button@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/button@npm:0.1.22"
+"@startupjs-ui/button@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/button@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/loader": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/loader": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/64c2dbb9495576de7ebaa49c51b5fb130c9a23ba24af475f8a9f68157790b133a6ad11c829321c21c9ce903d849db3ef560465e906837257d993e7fd073611b6
+  checksum: 10c0/bb3f61987364d654a9373e91a1e35eaa3a6625a7bcd30779dec89cbb83e47a15836b3c16818d4d223bdb56783f3ab552203751d457729206c25b4de23142e2b9
   languageName: node
   linkType: hard
 
-"@startupjs-ui/card@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/card@npm:0.1.22"
+"@startupjs-ui/card@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/card@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/de9ad6bf8f7c7ba56d1b628531223334c40d2c4c3a29d528e356c87605ff27404d25263ffdafcafb4f24e3427bf56452d324a0064177e950b468346d990938ff
+  checksum: 10c0/97e92fa0b772a6dbb5fa4b9b107317e9b8a610c7529eda03ff394537444d4ef74ce4145b08501a13600c8855b7e06c71785e65235d1f144f159f9fb90032b5b4
   languageName: node
   linkType: hard
 
-"@startupjs-ui/carousel@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/carousel@npm:0.1.22"
+"@startupjs-ui/carousel@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/carousel@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/24936c852286bcb15cd2d5c7903530a9f0859c8e88e6a327a97cd338055fa8de469ef55085585d4c77c40202c189d417598b13dd0e9e6e2b10c71715674dedfe
+  checksum: 10c0/884d6ff39a112d3b4621beaf9e6139739631f046969e4248df69c12627a792d056b0d8bc03f96a5b4e563ccfea7cac6b7eef00bcd768edb27680f422d1b73936
   languageName: node
   linkType: hard
 
-"@startupjs-ui/checkbox@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/checkbox@npm:0.1.22"
+"@startupjs-ui/checkbox@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/checkbox@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/c0f4a1b85c6fb6a97b58264f07459dfb08869bfefdd7f85001cf0d4e960177c3ba93daaa5957be597b094699ccdb334dab4b0bf59940c961c783eb14fe184f7e
+  checksum: 10c0/88c46a64d0f1b287c5415c33b378d362e9a66a17bbcefb30bced0a684bc725ab717625dfcbd876c35f4aaf4f71b25ae27cd6083bd54c03bdd30567206f2f0b3c
   languageName: node
   linkType: hard
 
-"@startupjs-ui/collapse@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/collapse@npm:0.1.22"
+"@startupjs-ui/collapse@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/collapse@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
     react-native-collapsible: "npm:^1.6.2"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/6d76db01f452c7e120eb36f3c9e365de50a523a385b5e89814aa58f632ebf6c8ddd5a7ffa167f9d1468cfb08230caa0d01d9ec0de69590c4e87550b29e7d8878
+  checksum: 10c0/7d9ed755bdcad1e38d39ae84871e67a34383a73ca85bc2c25b7cfee5bf7862a0c194b8f337996b9f6ab4a27eefbbfef88f7241545c1b9d7f8b7d021120e40371
   languageName: node
   linkType: hard
 
-"@startupjs-ui/color-picker@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/color-picker@npm:0.1.22"
+"@startupjs-ui/color-picker@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/color-picker@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/button": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/modal": "npm:^0.1.22"
-    "@startupjs-ui/scroll-view": "npm:^0.1.22"
+    "@startupjs-ui/button": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/modal": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/scroll-view": "npm:^0.2.0-alpha.0"
     color: "npm:^3.1.2"
     react-native-color-picker: "npm:^0.6.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/66417df68049b591a8fa529b8efbf7eaba4054ca08bad5ae78a500a652345f2b063b890f35e8625481a6e3d532ba78baa487fe1715e1764a5583a2b376b28ab9
+  checksum: 10c0/aa548d3d3bba7c5fe34cc55df8c0a77548cabc49e57ee4699d02751897acbe0b5a6c20f3808c60578f66755232fb973b0f326288bdf9458d80ec38714899da98
   languageName: node
   linkType: hard
 
-"@startupjs-ui/content@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/content@npm:0.1.22"
+"@startupjs-ui/content@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/content@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/4a42b2dd623203134c839ad82d90ecaad5f43fa89955942407741da4182711434b17b5b51227871c2660595df557a45c83ff135691fe30c577dc6366af278bbd
+  checksum: 10c0/87d288d43f57a1650bc15487a89921f466ee268fc1b91025faf3c7ba4777c41c6cc6db04bb42b0e6f3e63b682b2181b72664d20ef845d5f58a077b4f2ec47503
   languageName: node
   linkType: hard
 
-"@startupjs-ui/core@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/core@npm:0.1.22"
+"@startupjs-ui/core@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/core@npm:0.2.0-alpha.0"
   dependencies:
     "@nx-js/observer-util": "npm:^4.1.3"
     color: "npm:^3.1.2"
@@ -5926,156 +5926,156 @@ __metadata:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/c26f531adaa68009611c31362c58609c468c4ab8757c7b214bb6ae28df37fa7dfbfbdf1edfb668ed80661ab5781feb2c8a36ea2109f626895ada100b81e72364
+  checksum: 10c0/f8ab2248edc820cadb7e27d9d2ced1509ae81484794a9cee58498991aea89da444c3187c85b349a10da38bf44ea84c488285040dd813ae6d59ea4d0201b73a61
   languageName: node
   linkType: hard
 
-"@startupjs-ui/date-time-picker@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/date-time-picker@npm:0.1.22"
+"@startupjs-ui/date-time-picker@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/date-time-picker@npm:0.2.0-alpha.0"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^7.1.0"
     "@react-native-community/datetimepicker": "npm:^8.4.4"
-    "@startupjs-ui/abstract-popover": "npm:^0.1.22"
-    "@startupjs-ui/button": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/divider": "npm:^0.1.22"
-    "@startupjs-ui/drawer": "npm:^0.1.22"
-    "@startupjs-ui/flat-list": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/popover": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
-    "@startupjs-ui/text-input": "npm:^0.1.22"
+    "@startupjs-ui/abstract-popover": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/button": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/divider": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/drawer": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/flat-list": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/popover": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/text-input": "npm:^0.2.0-alpha.0"
     moment-timezone: "npm:^0.5.31"
     react-native-safe-area-context: "npm:^5.6.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/29da2d7481cfeb69cbd20f2fab0352e316863dd4249c1f0ffdcc17464c2794e53feedc13167c23d0f20ccd4ff8c42c12238cb97cef339df73e7106fc111216c5
+  checksum: 10c0/d170a4a6bb24b004800b3a5da1bc803de804e9c92c6950fae3f8382e184cfea96ca87c3ac6b2942c84414c32bf01f588f75902b902422b230bf02341ba3d6639
   languageName: node
   linkType: hard
 
-"@startupjs-ui/dialogs@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/dialogs@npm:0.1.22"
+"@startupjs-ui/dialogs@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/dialogs@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/br": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/modal": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
-    "@startupjs-ui/text-input": "npm:^0.1.22"
+    "@startupjs-ui/br": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/modal": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/text-input": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/1b68ed5f79f219f3cd9b07868b89e1dee07131363d4eb4d1832d5138afb2fd999273b2a22880beb378f2c1c53bf71a2e647d7b4c7a7de8d7431d070aa891996f
+  checksum: 10c0/522705773d1061d026c0efcc7180aaa33bd0b293cc815e884e8a4351bb0eec39f8595939b1e0f855f9045356f44c45902c2eb0e77825bfe0a3c5226e2d3e5124
   languageName: node
   linkType: hard
 
-"@startupjs-ui/div@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/div@npm:0.1.22"
+"@startupjs-ui/div@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/div@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/abstract-popover": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/abstract-popover": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-reanimated: ">=4.0.0"
     startupjs: "*"
-  checksum: 10c0/5c459016cc02c51dbb1daba1d4b585f27ab0006480f6a02ea44fb26737f95130813b112fd7b9238cbee5ce9c0ce3f5adec37efb471cf97e83ed1e57c16bfac06
+  checksum: 10c0/cfcfaa95635c965632d00d27384a43a009a29a469034152f79ddac591913036ce6d3b1502e2c40f1ebc8a6c9f6f4321409672b21b01aef2f9e49a321162c00be
   languageName: node
   linkType: hard
 
-"@startupjs-ui/divider@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/divider@npm:0.1.22"
+"@startupjs-ui/divider@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/divider@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/cc349c300ca554a53aed3c7cdb220950271dd9e33ea930843b46fa4f9d41c011a35b404f65f0b9d88ed118efe9a33a13b513551d61f986b5daf6fc1413f174db
+  checksum: 10c0/8431fd0356e4fbef566d1e0d2dd0d64aa12f282cabe97b8df9d2b5a7a0437e69f27cc669e88475ed51aee128cf4afd4beac928043b5a51b345ac4b837184691b
   languageName: node
   linkType: hard
 
-"@startupjs-ui/draggable@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/draggable@npm:0.1.22"
+"@startupjs-ui/draggable@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/draggable@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/portal": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/portal": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-gesture-handler: "*"
     startupjs: "*"
-  checksum: 10c0/0cc55d2d68ec54ad49fab557ae873261089166fb1349e1b57520bc83045f861f3e2a07ca45e60ac6ab6601f4820d9b84367e8c647bdaef543dc83f512fd16761
+  checksum: 10c0/532188571c6d4df1c09493024bbe0a902034ceedb3e9409c4e641264e77851e93a86ac4f90ff663d5bd9e4492c3c30d9c54bab481c6bfa95d7509b71fb1463e8
   languageName: node
   linkType: hard
 
-"@startupjs-ui/drawer-sidebar@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/drawer-sidebar@npm:0.1.22"
+"@startupjs-ui/drawer-sidebar@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/drawer-sidebar@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
     react-native-drawer-layout-polyfill: "npm:^2.0.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/2cbe6b4f76c4e482d56e4144dd84d5bed58d797b33b799e98a2ebea99e0a075d79c2feb6c24bcddd55f5cd15f5f50b3bdafb84a08a2498f50709470c16d50863
+  checksum: 10c0/982e2574d71e5d403906fe5026aebe27f2c456ebde993eee32aea7167566f6271df90bf7af3500970389e08509dbe2e547c13e0f14a28092841cb55b551a5cf2
   languageName: node
   linkType: hard
 
-"@startupjs-ui/drawer@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/drawer@npm:0.1.22"
+"@startupjs-ui/drawer@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/drawer@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/portal": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/portal": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/d9d98c89a06ca30ca198d507b7b4ae002b24044c26e5f61f81fd119e1b23629bc7bf3e0d47b8c9df945f8fbdc0d6d136c9a249e6d2bd07ee43e647980bcb3d51
+  checksum: 10c0/33402116dc1a928f310643d970a8a9e58fd416727e21091aa625212abb58043ab4e5b37c3a62679e52c915cb2fb061541178c8f74afa7b17d7e764ed263ee1b8
   languageName: node
   linkType: hard
 
-"@startupjs-ui/dropdown@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/dropdown@npm:0.1.22"
+"@startupjs-ui/dropdown@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/dropdown@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/button": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/drawer": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/link": "npm:^0.1.22"
-    "@startupjs-ui/menu": "npm:^0.1.22"
-    "@startupjs-ui/popover": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/button": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/drawer": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/link": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/menu": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/popover": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/713d56d808e8799f988f4a6f1c8f8599f97e66c1a8ac375f5a0f79e3cfec32958da61abb75541880351972126b73a2b1a3aceece0fa2cb50e716127daa356738
+  checksum: 10c0/6ba3c0f47dda4707e8ba10059b1cdd8c58efd4bbcce49d83a9ab17b1023455e16edf469a0a1959b6e7287c7fdedd39866d6db79ef1b270252185acff615c6c9d
   languageName: node
   linkType: hard
 
-"@startupjs-ui/file-input@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/file-input@npm:0.1.22"
+"@startupjs-ui/file-input@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/file-input@npm:0.2.0-alpha.0"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^7.1.0"
-    "@startupjs-ui/button": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/dialogs": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
+    "@startupjs-ui/button": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/dialogs": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
     busboy: "npm:^1.6.0"
     expo-document-picker: "npm:>=14.0.0"
     expo-image-picker: "npm:>=17.0.0"
@@ -6094,565 +6094,565 @@ __metadata:
       optional: true
     mongodb:
       optional: true
-  checksum: 10c0/1fa1518fe4ed489963a42631086857c38c5702358230f7de82925a84033e44dee10ed7a2ce89cd31b908f1b61be44c6c9a56a0ac812db770e921b673b8fb06a5
+  checksum: 10c0/b7a1675bbe9af8bc45e694b3c1ea9b6ad457f1aa9725a05706805e1c05f9db588dc9dfe45aa74ebe49d64b103107c0bfda13105e2e73c60bbb14fd45d8ad83af
   languageName: node
   linkType: hard
 
-"@startupjs-ui/flat-list@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/flat-list@npm:0.1.22"
+"@startupjs-ui/flat-list@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/flat-list@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/1bb6879bf004f06196ddf21d5efed8edd7bc1be46966149641026d32d37bc3de2e805ad0f4fae41b7e42c95e3bef8c1e93b669483b9d7da6c9be68a66c7569bd
+  checksum: 10c0/7f40021b17dc68a9149f1071beae9743e1d23dabd447dbd49f7abc81f963947cbb6117dde57604c81d973ae956e11019efc0a3d3b6adff9731ef61518121c10d
   languageName: node
   linkType: hard
 
-"@startupjs-ui/form@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/form@npm:0.1.22"
+"@startupjs-ui/form@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/form@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/input": "npm:^0.1.22"
-    "@startupjs-ui/object-input": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/object-input": "npm:^0.2.0-alpha.0"
     lodash: "npm:^4.17.20"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/ba77ee5f443b3e92fdac06fea64e874621b5319ab83d1a5783bf4096a839d0172cf3fcf571cee7f8813e9daf2687b12d6c17476e4b37f1d74ed2a33ee38de451
+  checksum: 10c0/0e2929e5c2e9ca931a3e760548e494cffbc35e3ef19390593ae47dca96afdd92caa7c4dc9d8ffe73ce71295f25a04298c3835db15a41bd2d15c39892c7b03d63
   languageName: node
   linkType: hard
 
-"@startupjs-ui/icon@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/icon@npm:0.1.22"
+"@startupjs-ui/icon@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/icon@npm:0.2.0-alpha.0"
   dependencies:
     "@fortawesome/fontawesome-svg-core": "npm:^1.2.26"
     "@fortawesome/free-solid-svg-icons": "npm:^7.1.0"
     "@fortawesome/react-native-fontawesome": "npm:^0.3.0"
-    "@startupjs-ui/core": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/c19853eb71f5d62fccebd7bf62b0750bd32485c63d9b90f974130c569eeebf4393a1c9c5dbfd7e863fe713208597d58924b651cc3ec8696d5c84160259190bbc
+  checksum: 10c0/b84a295afce8189dd8e1216a7ebfc089ec6164a8327a856cde7b365b8ed4a228252263299e72cc59c0ae1b023588cec48dcc351c96cbb40a1b014f5bbb1f00da
   languageName: node
   linkType: hard
 
-"@startupjs-ui/input@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/input@npm:0.1.22"
+"@startupjs-ui/input@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/input@npm:0.2.0-alpha.0"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^7.1.0"
-    "@startupjs-ui/array-input": "npm:^0.1.22"
-    "@startupjs-ui/card": "npm:^0.1.22"
-    "@startupjs-ui/checkbox": "npm:^0.1.22"
-    "@startupjs-ui/color-picker": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/date-time-picker": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/file-input": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/multi-select": "npm:^0.1.22"
-    "@startupjs-ui/number-input": "npm:^0.1.22"
-    "@startupjs-ui/object-input": "npm:^0.1.22"
-    "@startupjs-ui/password-input": "npm:^0.1.22"
-    "@startupjs-ui/radio": "npm:^0.1.22"
-    "@startupjs-ui/range-input": "npm:^0.1.22"
-    "@startupjs-ui/rank": "npm:^0.1.22"
-    "@startupjs-ui/select": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
-    "@startupjs-ui/text-input": "npm:^0.1.22"
+    "@startupjs-ui/array-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/card": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/checkbox": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/color-picker": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/date-time-picker": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/file-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/multi-select": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/number-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/object-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/password-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/radio": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/range-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/rank": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/select": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/text-input": "npm:^0.2.0-alpha.0"
     lodash: "npm:^4.17.20"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/55fd0110f2d18cf17dd6d5556c772d9f72f5a47cc85c05541cb97ef3ec1de99d0580f77facb28506b80e477caf4dd37f9941b11d8c38aef15a33b526250f2789
+  checksum: 10c0/6ae08daa2afcfe1b6150675de48d39a6bf944170634c2244635b4a98f189cfe90405ef948624ac109f672c5c00a57ae783eff0393595358b184299d6cac87a1c
   languageName: node
   linkType: hard
 
-"@startupjs-ui/item@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/item@npm:0.1.22"
+"@startupjs-ui/item@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/item@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/link": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/link": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/113a72d4ad134cee889ab3ffbf12d83f2d9607a2570781fa6dfca967c5ff093a2d03831c47ab84e005685d225855859328cbe198e6503076df695038864bee7d
+  checksum: 10c0/97b8805e74aa78e93901a78bc7b7c3c081b1cfa3018b1eee864a8b0849e17771b8f9da6f66562759ec4c6c5f161ef5750c8732663b02e0ed0ddd34b23c9139fe
   languageName: node
   linkType: hard
 
-"@startupjs-ui/layout@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/layout@npm:0.1.22"
+"@startupjs-ui/layout@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/layout@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/67f6eee6ebadc5d8a7371d3b9ffba1ecfb9c84297f4a8cf6f329f2e4fc0125c22c9625f2a78a99e7898566b03c6bc7d53e955f2d47f3f4fde3dae30c72eb314f
+  checksum: 10c0/a8901df87c0b51126185ee0dedf92cfb7e2756c932a3db391259620308cffd33721732387348f1a13d919c2f3ff971f908280fdb38173d4f1256fe743cb024c6
   languageName: node
   linkType: hard
 
-"@startupjs-ui/link@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/link@npm:0.1.22"
+"@startupjs-ui/link@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/link@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/button": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/button": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/2a8f5e0a4854bc203294a726895e510355bc139e53a8cfdcef93ac4271d8dbfd8e4273ec927dc6f07233dcf66b5a0bb020956d5743e31699bd30e309d2f6d06c
+  checksum: 10c0/f02b4319ce195c0be06d3c939161cf32bc232c06c36101c1a28fb3253e363015d2e3d99f4752ec5a9b691e3e283bd2d3741b8d0ed479494894b9a6f8bd210a13
   languageName: node
   linkType: hard
 
-"@startupjs-ui/loader@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/loader@npm:0.1.22"
+"@startupjs-ui/loader@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/loader@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/cf3a602d949aa9393203d099c92139b8b7cdda38d041fc72320e9f59370f24b421e0c8ae663f48b9bd5604901c2e369fa1dc134522642b426ae35925d7fd6fd4
+  checksum: 10c0/c09f11d01758e2197acf586cd3020d1c66d0b809f5bdd0ba2b9ea8bf8d7091260b2d80c00b7236f942f194f7fe0b095b8d2b87ca78fa3cd0583b8f37764b8507
   languageName: node
   linkType: hard
 
-"@startupjs-ui/mdx@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/mdx@npm:0.1.22"
+"@startupjs-ui/mdx@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/mdx@npm:0.2.0-alpha.0"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^7.1.0"
     "@mdx-js/react": "npm:^3.0.0"
-    "@startupjs-ui/alert": "npm:^0.1.22"
-    "@startupjs-ui/br": "npm:^0.1.22"
-    "@startupjs-ui/collapse": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/divider": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/link": "npm:^0.1.22"
-    "@startupjs-ui/scroll-view": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
-    "@startupjs-ui/table": "npm:^0.1.22"
+    "@startupjs-ui/alert": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/br": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/collapse": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/divider": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/link": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/scroll-view": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/table": "npm:^0.2.0-alpha.0"
     refractor: "npm:^3.0.0"
   peerDependencies:
     expo-clipboard: "*"
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/9899fcee98c280214dff5e00c46e5624d376003d50fac86051685391374a3769d1aa1860c5365267405d83761c5d7bb9358f9a299a0e6e10403dd2326bfeba69
+  checksum: 10c0/5ee5316f739d5ca88dc48ab4a91c63fcf7067ccb4358a1fb1e127d59ec9a892113dd065c307b71b2697e74ebbd2d1e94a78c18a9be6b1b14ab3ed3ac9e4aeedc
   languageName: node
   linkType: hard
 
-"@startupjs-ui/menu@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/menu@npm:0.1.22"
+"@startupjs-ui/menu@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/menu@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/item": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/item": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/3a747465d5815c47cf4dd31371251afe72f4c8aaf3ac17123f0c0500b140fbb28e9787211e9f9747d86a0b71f67c34bc797297f6e782c5d01c140edba1e96442
+  checksum: 10c0/ceb8de391239f28628cfe1508cd0340093235da38a438325e6e6b921694a2697c1834fc9da976012ab4493e7efb61f4098f75d1d39ef4c1221cdb6bb3ba43765
   languageName: node
   linkType: hard
 
-"@startupjs-ui/modal@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/modal@npm:0.1.22"
+"@startupjs-ui/modal@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/modal@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/button": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/portal": "npm:^0.1.22"
-    "@startupjs-ui/scroll-view": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/button": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/portal": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/scroll-view": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/fb6ea01dbcbd0caa4afc606e3defc1736cc20c9807caf67a0a550a479a0a2b74bb5f92b350f2d49ba170363d0560b42e6138d162caa46fe00da8abff0150d4ad
+  checksum: 10c0/9105608c425b837a637e895586b19d68f85ee818ac7b0e343ba9f418fc865aaa6b9addd6eb12735407622610a8b44c96d1b86bbed79824622ff2d3fd8c1cf2a8
   languageName: node
   linkType: hard
 
-"@startupjs-ui/multi-select@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/multi-select@npm:0.1.22"
+"@startupjs-ui/multi-select@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/multi-select@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/drawer": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/popover": "npm:^0.1.22"
-    "@startupjs-ui/scroll-view": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
-    "@startupjs-ui/tag": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/drawer": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/popover": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/scroll-view": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/tag": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/e31d9b9bb29bbda34ae53fd3bd5948d5f0c8efb31c0804ba0aa7b467c9203a33e8fecf698dc37ee780dfc49d039007b3a5b8f110799c92efd6e621dba7f9b9d3
+  checksum: 10c0/16ed36092654a0e556ff3a8b07a9e0b500db726baaf8a38d0ee5b047d598c79405f4b351bb90f27a4955c55783af550b6264fd3072ceb1a735befc64715b7d92
   languageName: node
   linkType: hard
 
-"@startupjs-ui/number-input@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/number-input@npm:0.1.22"
+"@startupjs-ui/number-input@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/number-input@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/button": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
-    "@startupjs-ui/text-input": "npm:^0.1.22"
+    "@startupjs-ui/button": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/text-input": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/1f8b37bda3d532606d9111e8205f8669f7908b90ba96d78ae9044877250d73e36e4632620c0253fb6e090e7e76110ea11d13a1f7502d029c024e63a5cd2b3d3c
+  checksum: 10c0/e3bbbac997187c92022e3958b904ac82ed2a75284872d4fc7eaf7d94b47fccbcf524829bbecd2ede490b217380ec7cdf02020095719330781f0e6b92b839717d
   languageName: node
   linkType: hard
 
-"@startupjs-ui/object-input@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/object-input@npm:0.1.22"
+"@startupjs-ui/object-input@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/object-input@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/input": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/input": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/70316f1bd4c06a220d283e051fed3c104e14e12e261e97977bac2717ea5caeb440d20dbb9ce2d03039e0a459ea2a2ba3a930d31817b32f2be753e407c8a080f5
+  checksum: 10c0/26e8bdb65b9e6a705fbb2f671b864aadc04d33bacccf1ec2cbb133873d40d441d9f39115d61d6fa374114c7103a1fc408e4d670ab84f80962889ff9a6c00e39a
   languageName: node
   linkType: hard
 
-"@startupjs-ui/pagination@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/pagination@npm:0.1.22"
+"@startupjs-ui/pagination@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/pagination@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/72a7d8c5ceaab881a19be8beed0327ebec2185069daf585cd0e335b618be1ed35af359de68a806723c7c2106d5b6dcf529064829e4766cdaf98a6e2cacf70382
+  checksum: 10c0/e7a89f23227ddc6f9b2c2cfb3c1718467c44fd642bcddd5779b81a5005f7cedd7cb22e6ded978174fbf42446f67c6e8cf875d07672cf23ffddeedf8ba9981c72
   languageName: node
   linkType: hard
 
-"@startupjs-ui/password-input@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/password-input@npm:0.1.22"
+"@startupjs-ui/password-input@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/password-input@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/text-input": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/text-input": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/0ee6411a81c9c15f83b755ac53faa602f989850a585f4b9eac5f3a210369ea50598782f66f21788a26b952ed567502ec9fa06a5794b8f41e18601dbb21fb43d1
+  checksum: 10c0/4cb2e90a30ecc822fa69ae6deac8f312b440a2b9d472fff5427ff46b15ab822b7a8676831e56487911ef6263260de898fa257afe2fa9afef4afffdbc356f828a
   languageName: node
   linkType: hard
 
-"@startupjs-ui/popover@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/popover@npm:0.1.22"
+"@startupjs-ui/popover@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/popover@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/abstract-popover": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
+    "@startupjs-ui/abstract-popover": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/7303761ddbca5e842384738c3c82902153959d6dc13c18bf7d7b60af9af279444a75eceb26b6d1e17b21e053d5a55cf7f8fe4d2b9408b65b7ce3e7e32e73c555
+  checksum: 10c0/719843e8dd085966a0447119e365116ca819e75be451399c9071255e98f1a63034ceb9e56e813a35fd010f8e355066b99c364a2a8fb42fe1036690ef817a1ddc
   languageName: node
   linkType: hard
 
-"@startupjs-ui/portal@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/portal@npm:0.1.22"
+"@startupjs-ui/portal@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/portal@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/70592f4d023d388ce06574264b20248b02609d9cf31818a2a902beaa0db663dbc3ce17875a0617e875a1b3084914c86472538dea9d66f126d9293dcf9dc56f04
+  checksum: 10c0/da9e915d6f7cbec15ec69bc6ac96cb55652ed0049bb8b7c92ba59232a85fee5438f102fe6a8c6288b2c52a0f5748eb9e478b63318408ac0277342502a51651bb
   languageName: node
   linkType: hard
 
-"@startupjs-ui/progress@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/progress@npm:0.1.22"
+"@startupjs-ui/progress@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/progress@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/ec95a359eb549124810817cc0da51da20ff1b92db273fd2603cb576ab710d97e8e7e529d5bf3883101563b52c194c516054bda3ab39cb25e1c4c20603e117f89
+  checksum: 10c0/41860018d468d3411727209c2a0f2f8ef76667b23de973d90f03bd2bb47bac0f0db45f7ce286e74c73590c2e370e9b35ae0b3b38903597a89153999735941339
   languageName: node
   linkType: hard
 
-"@startupjs-ui/radio@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/radio@npm:0.1.22"
+"@startupjs-ui/radio@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/radio@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/c4f6117f26c5e8e5b3d1d033ae5da6ea5b7145f390d9f8d10ee3c8cf72ac20387efcbbaccc3ad295bb26309c24f8b59dd84282265a2a83738b30e56bd0d7307e
+  checksum: 10c0/b06fe7371a384b929eeb1349d8d1ff9af5bf1c1076b0771fbf941076f098d0c6392d6757cec20f18ff393e64ffc9fa38e86da77b675ef6fcff11aa9f3ca55be8
   languageName: node
   linkType: hard
 
-"@startupjs-ui/range-input@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/range-input@npm:0.1.22"
+"@startupjs-ui/range-input@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/range-input@npm:0.2.0-alpha.0"
   dependencies:
     "@ptomasroos/react-native-multi-slider": "github:ptomasroos/react-native-multi-slider#368a0e8a67a595a84f411ea394b471a43ad8e7a4"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/f0f3339487caf9fee010e9b9df28e090a1c762911646afb7cd259f83583d1e10a9893adfacaaa51d2288a99b3263dfd1e881a371b18dd0e97826e1dd47cdf235
+  checksum: 10c0/9ed875b2aec5cc34f4fcb57b2b34cde96868de28619cf8dcbbbe849c8fc16b387d250de9b597ab500163844c23e1522eb2a3261bace4a36fcef2f8dee22888f9
   languageName: node
   linkType: hard
 
-"@startupjs-ui/rank@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/rank@npm:0.1.22"
+"@startupjs-ui/rank@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/rank@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/draggable": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/select": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/draggable": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/select": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/a45a2782de3314a7bb54b8bebb451e07f5d81221b4fed859905d5df04f8648c4689b5ec1c0186e9b00cb509d73233e94c6273ef8d5a26232c9718c7798a39d1f
+  checksum: 10c0/cee348786854e9e15b75d1e6830112e7b54b0d847e174d5b07ecb0312f29dd5d14474a3b7e37c9db67d63a3cd39fdbeac5d1a630eced30a79637337cc37cf264
   languageName: node
   linkType: hard
 
-"@startupjs-ui/rating@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/rating@npm:0.1.22"
+"@startupjs-ui/rating@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/rating@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/8ee44604b278d0eb8f1ee9bf68e015a50f23e81736d7e9a6ac546750ef4bc522f8488530c41e6ad08c616aa3ecfa131fd847193ab59e782f683c4fac68848a39
+  checksum: 10c0/59204a27913ad31c98eb3c3fb4aa8d8b04b1a5737a1e0a8e9b47c29f598b8f6a6812763371c18b8a895a8b906cd522a69e4156228575773b0a6af309a47399c7
   languageName: node
   linkType: hard
 
-"@startupjs-ui/scroll-view@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/scroll-view@npm:0.1.22"
+"@startupjs-ui/scroll-view@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/scroll-view@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/1c6f2b6ebd3d6cc86b30392c0099445599c12362e88e62787704b165657e6c6dac9a18feaf0ba2fa35f787dc184acdd49f7f6fb50fc8584bdc61472d6dfdf341
+  checksum: 10c0/517f84acf46f502e1e4c30f937eac51abe7e6f8c02db2d99e648041948ce44effda6fb0f121275c728741360dcac026c7fc4cab033da1cf9374f868b5c9feccc
   languageName: node
   linkType: hard
 
-"@startupjs-ui/select@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/select@npm:0.1.22"
+"@startupjs-ui/select@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/select@npm:0.2.0-alpha.0"
   dependencies:
     "@react-native-picker/picker": "npm:^2.11.1"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
-    "@startupjs-ui/text-input": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/text-input": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/70050933c4e316c4429b22c41a3879f3d07d72ce6c99c4cd13e768ffd11a9d2bafe2cb266557259bf711a9b91a59619af3ddf23c98057afd5651801d36836af9
+  checksum: 10c0/53c25d84ee6e9921620d3edc5ea43ff1cb90ff58fb48c4a1b7facfde128addcd3f62312822118b5863cd77931ea920d7027f83197184f926cfb622be8375a5db
   languageName: node
   linkType: hard
 
-"@startupjs-ui/sidebar@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/sidebar@npm:0.1.22"
+"@startupjs-ui/sidebar@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/sidebar@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/6b933cee00f61d7b6faffc6779b4fd6b8f38fcea4259efbaad6b474cffaa02badfa73148c20123c2508b4e44a0e3d8a04a03762a63660badf463ae3e35db3133
+  checksum: 10c0/7b27909480afe68c190f6fdc2f25434f091278a8b4362e5bb79ec51d84464d1c5d85c87a174a216ae1503ba8d1de7cba4a97612aa0a65b3a4765b1c503beb8ad
   languageName: node
   linkType: hard
 
-"@startupjs-ui/smart-sidebar@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/smart-sidebar@npm:0.1.22"
+"@startupjs-ui/smart-sidebar@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/smart-sidebar@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/drawer-sidebar": "npm:^0.1.22"
-    "@startupjs-ui/sidebar": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/drawer-sidebar": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/sidebar": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/4415406f34c880088a7df6f560c6c54dc1ea8dee0598fbbba7946ce840b58b93cab10879311e2f4529232b7ebac22ec468cf922890ea4093bb0c52f171b0088b
+  checksum: 10c0/2ad2e7a67792f6f9043b3bb4bb42ee08c18ade4b19f6aebd1981bc301fd04758207ddb9b8e1f45a22db988d6e7d21640aab2ad9201c77f0b8bdc76e09b478233
   languageName: node
   linkType: hard
 
-"@startupjs-ui/span@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/span@npm:0.1.22"
+"@startupjs-ui/span@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/span@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-reanimated: ">=4.0.0"
     startupjs: "*"
-  checksum: 10c0/9399268e376673b831357d76d7097ee9eceada7fe4bfcc16a9ad9df097de29aa512eecc8c9281d094132a08dc7f597132ce5bcff22a4d6ee49e72d4892bfa0a7
+  checksum: 10c0/f4794055ce7fe238e6799775c5e6ba47655f3450341ae2dee80aeed5eacc90386918ff689d29721d502a6796bdeee2f8c35d5c52c39fc62358d81af8a410f30c
   languageName: node
   linkType: hard
 
-"@startupjs-ui/table@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/table@npm:0.1.22"
+"@startupjs-ui/table@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/table@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/d52f9302374b1fd114b1a2871828b5a14b4c4621abe65f4b4cac94a1cc3b4e9af402873c0c21851b9e1c0bbb34952f3f38585a804da9f405f5218b6efbde9e31
+  checksum: 10c0/d7903b3619b0de6aa88226d95eb49c06827b9887075fd690eddc2d6982260b97b268e1bb41ebfe63b0858cd47c65865e62cadfc9ed7569af4870b1125b1b5986
   languageName: node
   linkType: hard
 
-"@startupjs-ui/tabs@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/tabs@npm:0.1.22"
+"@startupjs-ui/tabs@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/tabs@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
     react-native-tab-view: "npm:^4.1.2"
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-pager-view: "*"
     startupjs: "*"
-  checksum: 10c0/f63b6ab35aea684edff8808814d10be12b854527c76d64751cd7009e4b0a867b6a2bc2f4cad809a180be5a05b26bacc7697e5ea8cfe735954b99bfb8c1f2c600
+  checksum: 10c0/261cd520c6f5c625704c3a00b44cef90a66aefad4c1449867aebbb623188f7b5393a2a8151cbde4c0781ba5baacab73b79a4318bb33fa0eefb02bb98b1cc058c
   languageName: node
   linkType: hard
 
-"@startupjs-ui/tag@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/tag@npm:0.1.22"
+"@startupjs-ui/tag@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/tag@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/74758ce6e52680c29c7ce0677a051360a35d0dc8d2af9978a1a6d0d27b26397b2ddbfd734c74feeac61bba8956d4ce7bb61828c86dd1c009607ff8e002194b2a
+  checksum: 10c0/003159183dc9848ed4b86d6cc779cfee9fa0946100b03d2459dd8f519681ebccf5935d2054eb0c3585feb13dfe9e4e61db9bdc293f36b3eb8812db232c5c814c
   languageName: node
   linkType: hard
 
-"@startupjs-ui/text-input@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/text-input@npm:0.1.22"
+"@startupjs-ui/text-input@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/text-input@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/1ec2aeba4b9f8e574b3683ef57a64b4ff78ed3046acedae6714b152d56ea1fcf1b5492dc56c8f889b92d371866f83fd24d2de9554bdd1e3ac0eb27bd441e5fce
+  checksum: 10c0/e6ba1d9d03e8d8d6b2d777fefdddc9b584fefdcc0278852e6393932eac54807ad63382a83b34f26e8b715a4539f24fcd1777e8ab2d00f8963e76fbd9b644a344
   languageName: node
   linkType: hard
 
-"@startupjs-ui/toast@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/toast@npm:0.1.22"
+"@startupjs-ui/toast@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/toast@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/button": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/portal": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/button": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/portal": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/8894ac8bc898ac1458a56da552a213a25d575d22eef55e5034b17b7296619e5954bd6f98ce165a691502cf3193a9a4efad5981c838f536d2710716fdf5b651b5
+  checksum: 10c0/9bcfcd88dcb96d446e209c59918c82382ce0d7db292ca5468a928fa107537e57b61025867caee2df47f31049496110007a5b521987a09a70ff669c62a8c017fb
   languageName: node
   linkType: hard
 
-"@startupjs-ui/user@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "@startupjs-ui/user@npm:0.1.22"
+"@startupjs-ui/user@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "@startupjs-ui/user@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/avatar": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
+    "@startupjs-ui/avatar": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/e327d85343b6bfe4a9d7e5df2a7138811f02d8e805052a2a9db4df938656656e8f7803ce10b33c5509d8f16597135490352a483899b337420658c25405e856de
+  checksum: 10c0/3189d4093453bdf6b72c0403a1906dea529260ba0e42742c532cff99e6c5d4667847633a6650f0066cf3e06eae39ad4e9b21e3b6925251375846bd07020e426a
   languageName: node
   linkType: hard
 
@@ -13713,7 +13713,7 @@ __metadata:
     "@react-native-community/datetimepicker": "npm:8.6.0"
     "@react-native-picker/picker": "npm:2.11.4"
     "@react-navigation/native": "npm:^7.1.6"
-    "@startupjs-ui/mdx": "npm:^0.1.22"
+    "@startupjs-ui/mdx": "npm:^0.2.0-alpha.0"
     "@startupjs/router": "npm:^0.62.0-alpha.0"
     "@startupjs/worker": "npm:^0.62.0-alpha.0"
     "@types/react": "npm:~19.2.10"
@@ -13745,7 +13745,7 @@ __metadata:
     react-native-worklets: "npm:0.7.2"
     react-test-renderer: "npm:~19.1.0"
     startupjs: "npm:^0.62.0-alpha.1"
-    startupjs-ui: "npm:^0.1.22"
+    startupjs-ui: "npm:^0.2.0-alpha.0"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -26634,73 +26634,73 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs-ui@npm:^0.1.22":
-  version: 0.1.22
-  resolution: "startupjs-ui@npm:0.1.22"
+"startupjs-ui@npm:^0.2.0-alpha.0":
+  version: 0.2.0-alpha.0
+  resolution: "startupjs-ui@npm:0.2.0-alpha.0"
   dependencies:
-    "@startupjs-ui/abstract-popover": "npm:^0.1.22"
-    "@startupjs-ui/alert": "npm:^0.1.22"
-    "@startupjs-ui/array-input": "npm:^0.1.22"
-    "@startupjs-ui/auto-suggest": "npm:^0.1.22"
-    "@startupjs-ui/avatar": "npm:^0.1.22"
-    "@startupjs-ui/badge": "npm:^0.1.22"
-    "@startupjs-ui/br": "npm:^0.1.22"
-    "@startupjs-ui/breadcrumbs": "npm:^0.1.22"
-    "@startupjs-ui/button": "npm:^0.1.22"
-    "@startupjs-ui/card": "npm:^0.1.22"
-    "@startupjs-ui/carousel": "npm:^0.1.22"
-    "@startupjs-ui/checkbox": "npm:^0.1.22"
-    "@startupjs-ui/collapse": "npm:^0.1.22"
-    "@startupjs-ui/color-picker": "npm:^0.1.22"
-    "@startupjs-ui/content": "npm:^0.1.22"
-    "@startupjs-ui/core": "npm:^0.1.22"
-    "@startupjs-ui/date-time-picker": "npm:^0.1.22"
-    "@startupjs-ui/dialogs": "npm:^0.1.22"
-    "@startupjs-ui/div": "npm:^0.1.22"
-    "@startupjs-ui/divider": "npm:^0.1.22"
-    "@startupjs-ui/draggable": "npm:^0.1.22"
-    "@startupjs-ui/drawer": "npm:^0.1.22"
-    "@startupjs-ui/drawer-sidebar": "npm:^0.1.22"
-    "@startupjs-ui/dropdown": "npm:^0.1.22"
-    "@startupjs-ui/file-input": "npm:^0.1.22"
-    "@startupjs-ui/flat-list": "npm:^0.1.22"
-    "@startupjs-ui/form": "npm:^0.1.22"
-    "@startupjs-ui/icon": "npm:^0.1.22"
-    "@startupjs-ui/input": "npm:^0.1.22"
-    "@startupjs-ui/item": "npm:^0.1.22"
-    "@startupjs-ui/layout": "npm:^0.1.22"
-    "@startupjs-ui/link": "npm:^0.1.22"
-    "@startupjs-ui/loader": "npm:^0.1.22"
-    "@startupjs-ui/menu": "npm:^0.1.22"
-    "@startupjs-ui/modal": "npm:^0.1.22"
-    "@startupjs-ui/multi-select": "npm:^0.1.22"
-    "@startupjs-ui/number-input": "npm:^0.1.22"
-    "@startupjs-ui/object-input": "npm:^0.1.22"
-    "@startupjs-ui/pagination": "npm:^0.1.22"
-    "@startupjs-ui/password-input": "npm:^0.1.22"
-    "@startupjs-ui/popover": "npm:^0.1.22"
-    "@startupjs-ui/portal": "npm:^0.1.22"
-    "@startupjs-ui/progress": "npm:^0.1.22"
-    "@startupjs-ui/radio": "npm:^0.1.22"
-    "@startupjs-ui/range-input": "npm:^0.1.22"
-    "@startupjs-ui/rank": "npm:^0.1.22"
-    "@startupjs-ui/rating": "npm:^0.1.22"
-    "@startupjs-ui/scroll-view": "npm:^0.1.22"
-    "@startupjs-ui/select": "npm:^0.1.22"
-    "@startupjs-ui/sidebar": "npm:^0.1.22"
-    "@startupjs-ui/smart-sidebar": "npm:^0.1.22"
-    "@startupjs-ui/span": "npm:^0.1.22"
-    "@startupjs-ui/table": "npm:^0.1.22"
-    "@startupjs-ui/tabs": "npm:^0.1.22"
-    "@startupjs-ui/tag": "npm:^0.1.22"
-    "@startupjs-ui/text-input": "npm:^0.1.22"
-    "@startupjs-ui/toast": "npm:^0.1.22"
-    "@startupjs-ui/user": "npm:^0.1.22"
+    "@startupjs-ui/abstract-popover": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/alert": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/array-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/auto-suggest": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/avatar": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/badge": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/br": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/breadcrumbs": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/button": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/card": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/carousel": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/checkbox": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/collapse": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/color-picker": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/content": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/core": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/date-time-picker": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/dialogs": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/div": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/divider": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/draggable": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/drawer": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/drawer-sidebar": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/dropdown": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/file-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/flat-list": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/form": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/icon": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/item": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/layout": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/link": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/loader": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/menu": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/modal": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/multi-select": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/number-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/object-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/pagination": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/password-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/popover": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/portal": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/progress": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/radio": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/range-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/rank": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/rating": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/scroll-view": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/select": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/sidebar": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/smart-sidebar": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/span": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/table": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/tabs": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/tag": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/text-input": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/toast": "npm:^0.2.0-alpha.0"
+    "@startupjs-ui/user": "npm:^0.2.0-alpha.0"
   peerDependencies:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/0ef0248d367267e545782025c9cd2f20a591fab56c9d5617648dfc1658090e1c9d95218cd9e027c0f58b0cf760eff13ef3fc1e1154b5dde4e89dc92dbda1293b
+  checksum: 10c0/1b147ccfee85860aa219de47806f5618f060eef84770f5a89e872249994b807dc97e0c285183d7e40f2a87330bd668ee683afbd5dbe601c15114823d8651f077
   languageName: node
   linkType: hard
 
