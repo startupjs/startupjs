@@ -30,6 +30,8 @@ export default function RootLayout () {
 
 Requirements: Node 22+. Yarn is optional. MongoDB and Redis are NOT needed for development (mocked automatically).
 
+All application code should be written in TypeScript (`.ts` / `.tsx`). The only exception is `startupjs.config.js`, which must stay plain ESM JavaScript.
+
 The default Expo template uses a `(tabs)` layout. The home page is at `app/(tabs)/index.tsx`, NOT `app/index.tsx`. The root layout is always `app/_layout.tsx`.
 
 **Known issue (temporary):** After running `npm init startupjs@latest`, add version overrides to `package.json` and re-run `npm install`:
@@ -68,12 +70,16 @@ Or equivalently: `npm start -- --web`, `npm start -- --ios`, `npm start -- --and
 
 The web app will be available at `http://localhost:8081` by default. The server starts Metro Bundler, compiles the JS bundle, and opens a WebSocket for real-time data sync. The first load takes 15–30 seconds to compile.
 
+## E2E Testing Guide
+
+If the project has Playwright E2E tests already, or if you are asked to add or update them, read `./E2E_GUIDE.md` first and follow it. This includes both extending an existing E2E suite and setting up a new one from scratch.
+
 ## Imports
 
 **Core framework** — import from `'startupjs'`:
 
 ```js
-import { $, observer, useSub, sub, pug, styl } from 'startupjs'
+import { $, observer, useSub, sub, pug } from 'startupjs'
 ```
 
 **UI components** — import from `'startupjs-ui'`:
@@ -588,35 +594,33 @@ pug`
 - `align` — justify-content: `'between'`, `'center'`, `'around'`
 - `vAlign` — align-items: `'center'`, `'start'`, `'end'`
 
-### Styles with `styl` Template Strings
+### Styles in `pug`
 
-All styles are written in `styl` tagged template strings inside the component file, placed after the `return` statement:
+Write component styles directly inside the returned `pug` template using a top-level `style(lang='styl')` tag. This tag must be the last tag at the top level of the template:
 
 ```js
-import { observer, pug, styl } from 'startupjs'
+import { observer, pug } from 'startupjs'
 import { Div, Span } from 'startupjs-ui'
 
 export default observer(function MyComponent () {
   return pug`
     Div.root
       Span.title Hello
-  `
-
-  styl`
-    .root
-      padding 2u
-    .title
-      font-weight bold
-      color #333
+    style(lang='styl')
+      .root
+        padding 2u
+      .title
+        font-weight bold
+        color #333
   `
 })
 ```
 
-The `styl` block goes **after the `return`** but **inside the function body**. This is valid JavaScript — the code after `return` is unreachable at runtime but processed at build time by the CSSxJS babel plugin.
+This is the default and preferred way to write styles. In the normal case, there is no need to import `styl` at all.
 
 The `u` unit equals 8px (design spacing unit). Always use `u` instead of `px` to follow the 8px grid. Use half-units (`0.5u`) when you need finer granularity (4px).
 
-**Inline `style` props are an antipattern.** Only use `style` when you need a truly dynamic value from a JS variable (e.g. a computed width). For all other styling — spacing, colors, conditional variations — use `styl` classes with `styleName`.
+**Inline `style` props are an antipattern.** Only use `style` when you need a truly dynamic value from a JS variable (e.g. a computed width). For all other styling — spacing, colors, conditional variations — use classes with `styleName` and define the styles in the `style(lang='styl')` block.
 
 ### Conditional Styles with `styleName`
 
@@ -636,21 +640,24 @@ The array pattern has three parts:
 
 Use `&` parent selector for modifier styles:
 
-```
-styl`
+```pug
+style(lang='styl')
   .title
     font-size 2u
     &.completed
       text-decoration line-through
       color #999
-`
 ```
 
 ### Module-Level Styles
 
-For styles shared across multiple components in the same file, place `styl` at module level (outside any function):
+It is possible to use the `styl` template string directly at module level to share styles across multiple components in the same file, or inside a component to scope styles to that component's pug templates. However, this is an antipattern and should be avoided unless you specifically need shared styles across components in one file. Prefer putting styles directly into each component's `style(lang='styl')` block.
+
+If you do need shared styles across multiple components in one file, module-level `styl` is the escape hatch:
 
 ```js
+import { pug, styl } from 'startupjs'
+
 styl`
   .shared
     padding 2u
@@ -692,6 +699,25 @@ import { router } from 'expo-router'
 router.push('/about')
 ```
 
+## Required Validation
+
+After making code changes, always verify that the project still passes linting and type checks:
+
+```bash
+npx eslint .
+npx startupjs check
+```
+
+If Playwright E2E tests are already present in the project, run them after linting and type checks:
+
+```bash
+npx playwright test
+```
+
+Do not skip these checks after writing code.
+
+If E2E tests exist and you change application behavior, UI, flows, or accessibility semantics, you must keep the E2E suite accurate. Update existing tests and add new ones when needed so the suite continues to cover the full functionality affected by your changes.
+
 ## Server-Side Code
 
 Server-side code uses `$` and `sub` from `'startupjs'` for data access. However, private collections like `$._session` are NOT available on the server. Instead, the user ID is on the request session object as `req.session.userId`:
@@ -716,16 +742,17 @@ async function isLoggedIn (req, res, next) {
 4. **Do NOT forget `observer()`** — wrap every component by default, not just those reading signals
 5. **Do NOT use `useState`/`useEffect` for reactive data** — use signals (`$()`) and `observer` instead
 6. **Do NOT place raw text inside `Div`** — always wrap text in `Span`
-7. **Do NOT use inline `style` for layout/styling** — use `styl` template strings and `styleName`. Only use `style` for truly dynamic JS values
+7. **Do NOT use inline `style` for normal layout/styling** — use `styleName` and define styles in a top-level `style(lang='styl')` block inside the returned `pug` template. Only use `style` for truly dynamic JS values
 8. **Do NOT use `px` for spacing** — use `u` units (1u = 8px, 0.5u = 4px) to follow the 8px grid
 9. **Do NOT use JSX** — use `pug` tagged template strings for all templates
 10. **Do NOT pass raw values to child components** — pass signals instead. Call `.get()` only when you need the raw value for display or logic, not when passing data to children
+11. **Do NOT write new app code in plain JavaScript** — use TypeScript for all app code. Keep `startupjs.config.js` as plain ESM JavaScript
 
 ## Quick Reference
 
 ```js
 // Complete example: a todo list component
-import { observer, $, useSub, pug, styl } from 'startupjs'
+import { observer, $, useSub, pug } from 'startupjs'
 import { Button, Card, Checkbox, Content, Div, ScrollView, Span, TextInput } from 'startupjs-ui'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
@@ -768,18 +795,16 @@ export default observer(function TodoList () {
                 size='s'
                 onPress=() => $todo.del()
               )
-  `
-
-  styl`
-    .inputRow
-      margin-bottom 1u
-    .input
-      flex 1
-      margin-right 1u
-    .todoTitle
-      &.completed
-        text-decoration line-through
-        color #999
+    style(lang='styl')
+      .inputRow
+        margin-bottom 1u
+      .input
+        flex 1
+        margin-right 1u
+      .todoTitle
+        &.completed
+          text-decoration line-through
+          color #999
   `
 })
 ```

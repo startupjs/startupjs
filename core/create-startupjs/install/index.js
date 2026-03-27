@@ -16,6 +16,7 @@ const INIT_METRO_CONFIG_PATH = join(__dirname, './init/metro.config.cjs')
 const INIT_GITIGNORE_PATH = join(__dirname, './init/gitignore')
 const INIT_STARTUPJS_CONFIG_PATH = join(__dirname, './init/startupjs.config.js')
 const INIT_AGENTS_MD_PATH = join(__dirname, './init/AGENTS.md')
+const INIT_E2E_GUIDE_MD_PATH = join(__dirname, './init/E2E_GUIDE.md')
 const INIT_CLAUDE_MD_PATH = join(__dirname, './init/CLAUDE.md')
 const INIT_ESLINT_CONFIG_PATH = join(__dirname, './init/eslint.config.mjs')
 const INIT_BABEL_CONFIG_PATH = join(__dirname, './init/babel.config.cjs')
@@ -181,6 +182,7 @@ async function runInstall ({
     maybeCopyMetroConfig({ triggerModified, onLog: log => finalLog.push(log) })
     maybeCopyStartupjsConfig({ triggerModified })
     maybeCopyAgentsMd({ triggerModified })
+    maybeCopyE2eGuideMd({ triggerModified })
     maybeCopyClaudeMd({ triggerModified })
     maybeRenameBabelConfig({ triggerModified })
     // our babel config will be copied only if babel config didn't exist before.
@@ -372,6 +374,13 @@ function maybeCopyAgentsMd ({ triggerModified }) {
   const agentsMdPath = join(process.cwd(), 'AGENTS.md')
   if (existsSync(agentsMdPath)) return
   writeFileSync(agentsMdPath, readFileSync(INIT_AGENTS_MD_PATH, 'utf8'))
+  triggerModified?.()
+}
+
+function maybeCopyE2eGuideMd ({ triggerModified }) {
+  const e2eGuideMdPath = join(process.cwd(), 'E2E_GUIDE.md')
+  if (existsSync(e2eGuideMdPath)) return
+  writeFileSync(e2eGuideMdPath, readFileSync(INIT_E2E_GUIDE_MD_PATH, 'utf8'))
   triggerModified?.()
 }
 
