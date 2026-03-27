@@ -12,6 +12,8 @@ export default async function handleThrottledJobFinish (queue, job) {
   if (!jobs.length) return
 
   const sortedJobs = sortBy(jobs.filter(job => job.data.uniqId === uniqId), 'timestamp')
+  if (!sortedJobs.length) return
+
   const lastAddedJob = sortedJobs[sortedJobs.length - 1]
   const { data, opts } = lastAddedJob
 
