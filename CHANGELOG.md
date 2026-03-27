@@ -1,3 +1,12 @@
+# [0.62.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.2...v0.62.0-alpha.3) (2026-03-27)
+
+
+### Features
+
+* **create-startupjs:** update AGENTS.md to follow new 'style'. Add E2E_GUIDE.md to new projects for playwright testing. ([d77634b](https://github.com/startupjs/startupjs/commit/d77634b2afb35c2d6f7b3ae9b2e74e42661cf1ac))
+
+
+
 # [0.62.0-alpha.2](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.1...v0.62.0-alpha.2) (2026-03-27)
 
 
