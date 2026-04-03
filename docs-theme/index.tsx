@@ -7,9 +7,9 @@ export * from '@rspress/core/theme-original'
 
 export function Layout () {
   return (
-    <div className="project-layout">
-      <ProjectSidebar activeProject="startupjs" />
-      <div className="project-layout-content">
+    <div className='project-layout'>
+      <ProjectSidebar activeProject='startupjs' />
+      <div className='project-layout-content'>
         <DefaultLayout />
       </div>
     </div>
@@ -58,7 +58,7 @@ interface ProjectSidebarProps {
 
 function ProjectSidebar ({ activeProject }: ProjectSidebarProps) {
   return (
-    <nav className="project-sidebar">
+    <nav className='project-sidebar'>
       {PROJECTS.map((project) => (
         <a
           key={project.id}
@@ -66,8 +66,8 @@ function ProjectSidebar ({ activeProject }: ProjectSidebarProps) {
           className={`project-sidebar-button project-sidebar-button--${project.id} ${project.id === activeProject ? 'active' : ''}`}
           aria-label={project.name}
         >
-          <span className="project-sidebar-button__text">{project.label}</span>
-          <span className="project-sidebar-button__tooltip">{project.name}</span>
+          <span className='project-sidebar-button__text'>{project.label}</span>
+          <span className='project-sidebar-button__tooltip'>{project.name}</span>
         </a>
       ))}
     </nav>

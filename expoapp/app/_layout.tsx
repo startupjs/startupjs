@@ -13,7 +13,6 @@ export {
   ErrorBoundary
 } from 'expo-router'
 
-/* eslint-disable-next-line @typescript-eslint/naming-convention */
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '(tabs)'
@@ -53,8 +52,8 @@ function RootLayoutNav () {
     <StartupjsProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+          <Stack.Screen name='modal' options={{ presentation: 'modal' }} />
         </Stack>
       </ThemeProvider>
     </StartupjsProvider>
