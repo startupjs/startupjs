@@ -6,7 +6,6 @@ import cssxjs from 'eslint-plugin-cssxjs'
 export default defineConfig([
   ...neostandard({
     ignores: resolveIgnoresFromGitignore(),
-    ts: true
   }),
   expoConfig,
   {
