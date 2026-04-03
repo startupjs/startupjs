@@ -1,3 +1,12 @@
+# [0.62.0-alpha.5](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.4...v0.62.0-alpha.5) (2026-04-03)
+
+
+### Bug Fixes
+
+* **create-startupjs:** remove 'ts: true' from neostandard since it conflicts with expo's config which already enables TS ([1faae8c](https://github.com/startupjs/startupjs/commit/1faae8c71808509041ba8f93fe73ec3db29b8666))
+
+
+
 # [0.62.0-alpha.4](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.3...v0.62.0-alpha.4) (2026-03-30)
 
 
