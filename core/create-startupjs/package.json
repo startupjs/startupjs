@@ -1,6 +1,6 @@
 {
   "name": "create-startupjs",
-  "version": "0.62.0-alpha.5",
+  "version": "0.62.0-alpha.6",
   "description": "Bootstrap a new StartupJS application.",
   "type": "module",
   "main": "index.js",
