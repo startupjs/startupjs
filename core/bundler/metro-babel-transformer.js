@@ -41,11 +41,11 @@ function getUpstreamTransformer () {
   try {
     // Expo
     return require('@expo/metro-config/babel-transformer')
-  } catch (err) {
+  } catch {
     try {
       // React Native 0.73+
       return require('@react-native/metro-babel-transformer')
-    } catch (err) {
+    } catch {
       // React Native <0.73
       return require('metro-react-native-babel-transformer')
     }

@@ -65,10 +65,12 @@ function createPlugins () {
         // return actual hooks for the root module
         return {
           renderRoot ({ children }) {
-            return <>
-              {children}
-              <Banner {...{ message, defaultVisible }} />
-            </>
+            return (
+              <>
+                {children}
+                <Banner {...{ message, defaultVisible }} />
+              </>
+            )
           }
         }
       }

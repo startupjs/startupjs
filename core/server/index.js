@@ -1,4 +1,3 @@
-/* eslint-disable import-helpers/order-imports */
 // IMPORTANT! dotenv import must go first
 import dummyDotenv from './dotenv.cjs'
 

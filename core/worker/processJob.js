@@ -105,7 +105,7 @@ function stringify (value) {
 
   try {
     return JSON.stringify(value)
-  } catch (error) {
+  } catch {
     return String(value)
   }
 }

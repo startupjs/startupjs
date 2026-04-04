@@ -173,8 +173,7 @@ function resolveNodeModuleDir (root, packageName) {
         basedir: root
       })
     )
-  } catch (err) {
-  }
+  } catch { /* suppress */ }
 }
 
 function getPackagePathsFromPackageJson (root, packageJson) {

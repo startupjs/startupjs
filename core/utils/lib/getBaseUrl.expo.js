@@ -9,7 +9,7 @@ export default function getBaseUrl () {
   if (typeof window !== 'undefined') url ??= window.location?.origin
   try {
     url ??= Constants.linkingUri
-  } catch (err) {}
+  } catch { /* suppress */ }
   url ??= DEFAULT_BASE_URL
   if (/^exps?:/.test(url)) {
     url = url.replace(/^exp/, 'http')

@@ -326,7 +326,7 @@ async function getLatestMatchingVersion (name, semver) {
   let versions
   try {
     versions = JSON.parse(stdout)
-  } catch (error) {
+  } catch {
     throw Error(`Error parsing versions for ${name} of ${semver}. No versions returned. Got: \`${stdout}\``)
   }
   // when there is only a single version, npm show returns a string instead of an array

@@ -7,7 +7,7 @@ export default memo(function SlotProvider ({ name, children }) {
   const slot = useSlot(name)
   useEffect(() => {
     return () => slot?.clearRerender()
-  }, [])
+  }, [slot])
   if (!slot) return children // if used outside of SlotsHost, just render children
   slot.setRerender(forceUpdate)
   return slot.render(children)

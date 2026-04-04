@@ -18,7 +18,6 @@
     "./startWorker": "./startWorker.js",
     "./registry": "./registry.js",
     "./nodeRegister": "./nodeRegister.js",
-    "./nconf": "./nconf.js",
     "./isomorphicHelpers": "./isomorphicHelpers.js",
     "./loadConfig": "./loadConfig.js",
     "./useRouter": "./useRouter.js",
@@ -42,7 +41,7 @@
     "babel-preset-startupjs": "^0.62.0-alpha.0",
     "cssxjs": "^0.3.0-alpha.1",
     "lodash": "^4.17.20",
-    "teamplay": "^0.4.0-alpha.64"
+    "teamplay": "^0.4.0-alpha.76"
   },
   "peerDependencies": {
     "@startupjs/worker": "*",

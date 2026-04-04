@@ -13,6 +13,7 @@ export {
   ErrorBoundary
 } from 'expo-router'
 
+// eslint-disable-next-line camelcase
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '(tabs)'

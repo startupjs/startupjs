@@ -1,4 +1,4 @@
-import type { BackendOptions } from '@startupjs/backend'
+import type { BackendOptions } from 'teamplay/server'
 import type { Server as HttpServer } from 'http'
 import type { Express } from 'express' // Assuming Express types are available
 
@@ -12,9 +12,9 @@ export interface ServerOptions extends BackendOptions {
   // There's no need to repeat properties from BackendOptions unless you want to change the type or documentation.
 }
 
-export interface CreateServerOptions extends ServerOptions {}
+export type CreateServerOptions = ServerOptions
 
-export interface CreateMiddlewareOptions extends ServerOptions {}
+export type CreateMiddlewareOptions = ServerOptions
 
 export interface ServerProps {
   server: HttpServer
@@ -37,5 +37,5 @@ export function createMiddleware (options?: CreateMiddlewareOptions): Promise<Mi
 export function createBackend (options?: ServerOptions): any // Replace 'any' with the actual backend type
 export function NO_DEAD_CODE_ELIMINATION (): [any, any] // Replace 'any' with actual types if known
 
-// Assuming the types for the below exports are defined in '@startupjs/backend' module
-export { mongo, mongoClient, createMongoIndex, redis, redlock, sqlite } from '@startupjs/backend'
+// Assuming the types for the below exports are defined in 'teamplay/server' module
+export { mongo, mongoClient, createMongoIndex, redis, redlock, sqlite } from 'teamplay/server'

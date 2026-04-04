@@ -81,7 +81,7 @@ module.exports = function (babel, opts) {
         fileContent = JSON.parse(
           fs.readFileSync(TRANSLATIONS_FILE_PATH, { encoding: 'utf8' })
         )
-      } catch (err) {
+      } catch {
         fileContent = {}
       }
 

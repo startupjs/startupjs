@@ -1,11 +1,11 @@
 import { Layout as DefaultLayout } from '@rspress/core/theme-original'
 import './index.css'
 
-export * from '@rspress/core/theme-original'
+export * from '@rspress/core/theme-original' // eslint-disable-line import/export
 
 // --- Layout ---
 
-export function Layout () {
+export function Layout () { // eslint-disable-line import/export
   return (
     <div className='project-layout'>
       <ProjectSidebar activeProject='startupjs' />
