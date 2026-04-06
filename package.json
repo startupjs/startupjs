@@ -52,7 +52,7 @@
     "@rspress/core": "^2.0.0",
     "conventional-changelog-cli": "^2.1.1",
     "eslint": "^9.39.4",
-    "eslint-plugin-cssxjs": "^0.3.0-alpha.3",
+    "eslint-plugin-cssxjs": "^0.3.0-alpha.4",
     "husky": "^4.3.0",
     "lerna": "^9.0.0",
     "lint-staged": "^9.5.0",
