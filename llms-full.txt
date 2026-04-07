@@ -1,0 +1,6452 @@
+# StartupJS
+
+> Full-stack framework for real-time cross-platform apps built on Expo, React Native, reactive signals, Teamplay ORM, and StartupJS UI primitives.
+
+## Included Documents
+
+- [StartupJS README](./README.md): Framework overview, quickstart, installation, upgrading, and development entry points.
+- [StartupJS Documentation Home](./docs/index.md): Documentation landing page that introduces the framework and links into core learning paths.
+- [Quickstart](./docs/tutorial/foundation.mdx): Foundation tutorial for getting started with StartupJS concepts and project setup.
+- [Build a TODO app](./docs/tutorial/basics.mdx): Core tutorial covering everyday StartupJS development patterns.
+- [Pug](./docs/tutorial/pug.mdx): Guide to Pug templating in StartupJS.
+- [Observer pattern](./docs/tutorial/observer.mdx): Guide to observer-based reactivity and component updates.
+- [Signals API](./docs/tutorial/racerModel.mdx): Guide to working with reactive data models and signals.
+- [Project structure](./docs/tutorial/fileStructure.mdx): A StartupJS project is built on top of Expo, so the folder layout follows standard Expo Router conventions. This chapter explains the key folders and files.
+- [Signals and subscriptions](./docs/tutorial/sharedbHooks.mdx): This chapter covers the core tools for working with data in StartupJS: the root signal $, subscriptions with useSub, and local signals with $().
+- [Stylus](./docs/tutorial/stylus.mdx): Stylus is a CSS preprocessor that StartupJS uses by default. It drops the braces, colons, and semicolons of regular CSS and uses indentation instead.
+- [Tricks with styles](./docs/tutorial/tricksWithStyles.mdx): This chapter covers useful style conventions, built-in mixins, and global design tokens available in StartupJS.
+- [Security](./docs/foundations/security.mdx): Access control, document security, and production safety requirements.
+- [WebSocket](./docs/foundations/websocket.mdx): Custom WebSocket integration on top of the StartupJS server.
+- [Border radius](./docs/foundations/borderRadius.mdx): Consistent border radius values help the UI feel cohesive. Use the three tokens below unless you have a strong reason to introduce a custom value.
+- [Collection types](./docs/foundations/collectionTypes.mdx): StartupJS organizes data into collections. There are two kinds: **public** and **private**.
+- [Color customization](./docs/foundations/colorCustomization.mdx): StartupJS separates **palette colors** (raw swatches) from **semantic colors** (named roles like bg-main or text-main). You can customize either layer depending on how much control you need.
+- [Colors](./docs/foundations/colors.mdx): StartupJS uses **semantic color names** to keep UI consistent. Instead of hardcoding hex values, use named tokens like bg-main or text-error. This makes it easy to change a theme later without editing every component.
+- [E2E testing](./docs/foundations/e2e-tests.mdx): StartupJS uses **Playwright** for end-to-end tests. The CLI provides helpers to generate and run tests with the app already running.
+- [Editing patterns](./docs/foundations/editing.mdx): StartupJS is reactive by default: when you update a document, every subscribed client sees the change immediately. That is great for collaboration, but sometimes you want a local draft that only saves on demand.
+- [Export CSS to JS](./docs/foundations/exportCSStoJS.mdx): StartupJS lets you export values from Stylus files directly into JavaScript using the :export block. This is handy for sharing theme values or layout constants.
+- [Caching node_modules](./docs/foundations/nodeModulesCache.mdx): If your CI or offline workflow benefits from caching dependencies, you can keep the Yarn cache inside your project and commit it.
+- ['Models' hook](./docs/general/models.md): Overview of model organization and framework data patterns.
+- [Hooks](./docs/general/hooks.md): Guide to StartupJS hooks and extension points.
+- [Plugins in Startupjs](./docs/general/plugins.md): Plugin system overview and extension model.
+- [How to create your own plugin](./docs/general/create-plugin.md): How to create a plugin for StartupJS.
+- [Modules in Startupjs](./docs/general/about-modules.md): Explanation of modules, plugins, and how extensibility is structured.
+- [Experimental Hooks](./docs/general/experimental-hooks.md): The 'logs' hook handles requests for getting and saving logs.
+- [Startupjs Router](./docs/libraries/startupjs-router.mdx): Documentation for StartupJS router usage and routing patterns.
+- [Startupjs Worker](./docs/libraries/startupjs-worker.mdx): Documentation for background jobs and worker integration.
+- [2fa-manager](./libraries/2fa-manager/docs/2fa-manager.en.mdx): Component for using various two-factor authentication methods.
+- [@startupjs/2fa-push-notification-provider](./libraries/2fa-push-notification-provider/docs/push-notifications.en.mdx): Provider for verification via @startupjs/push-notification.
+- [@startupjs/2fa-totp-authentication-provider](./libraries/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.en.mdx): Provider for verification via google authenticator app.
+- [2fa-totp-authentication](./libraries/2fa-totp-authentication/docs/2fa-totp-authentication.en.mdx): @startupjs/auth
+- [2fa](./libraries/2fa/docs/2fa.en.mdx): @startupjs/auth
+- [Apple Authorization](./libraries/auth-apple/docs/readme.en.mdx): Configuring main module
+- [Azure AD](./libraries/auth-azuread/docs/readme.en.mdx): Configuring main module
+- [Common](./libraries/auth-common/docs/readme.en.mdx): Configuring main module
+- [Authorization via Facebook](./libraries/auth-facebook/docs/readme.en.mdx): Configuring main module
+- [Authorization via Google](./libraries/auth-google/docs/readme.en.mdx): Configuring main module
+- [Авторизация через iDecisionGames](./libraries/auth-idg/readme.md): Настройка главного модуля
+- [Authorization via Linkedin](./libraries/auth-linkedin/docs/readme.en.mdx): Configuring main module
+- [Local auth](./libraries/auth-local/docs/readme.en.mdx): LoginForm, RecoverForm, RegisterForm, ChangePasswordForm } from '@startupjs/auth-local'
+- [Авторизация через LTI](./libraries/auth-lti/readme.md): Настройка главного модуля
+- [Authorization via Telegram](./libraries/auth-telegram/docs/readme.en.md): Configuring main module
+- [Authorization](./libraries/auth/docs/readme.en.mdx): In the body of the **startup js Server** function, the module is initialized, and strategies are added to **strategies**, each with its own set of characteristics:
+- [@startupjs/babel-plugin-import-to-react-lazy](./libraries/babel-plugin-import-to-react-lazy/README.md): Transforms exported default import to React.lazy dynamic import.
+- [@startupjs/babel-plugin-ts-interface-to-json-schema](./libraries/babel-plugin-ts-interface-to-json-schema/README.md): Transforms typescript interface to JSON-schema and add schema as static field to ORM model.
+- [startupjs cron](./libraries/cron/README.md): Create cron.js file in the root of your project. Perform all initialization here (plug in hooks, ORM, etc.) and then run your cron tasks.
+- [i18n](./libraries/i18n/readme/readme.en.mdx): i18n module provides with tools to localize your product.
+- [Mail service](./libraries/mailgun/readme/readme.en.mdx): Library to send email messages in app via mailgun
+- [Push Notifications](./libraries/push-notifications/docs/push-notifications.en.mdx): !IMPORTANT! The package only works on ios and android platforms!
+- [@startupjs/recaptcha](./libraries/recaptcha/readme/readme.en.mdx): library for displaying and interacting with Google ReCaptcha
+- [Scrollable anchors](./libraries/scrollable-anchors/readme/readme.en.mdx): Component for native anchors imitation and animating vertical scrolling.
+- [@startupjs/serve-static-promo](./libraries/serve-static-promo/readme/readme.en.mdx): This package is used to serve static promo page from the .zip file inside /promo folder in the root of your project.
+
+---
+
+## StartupJS README
+
+Source: `./README.md`
+
+![Cover](https://user-images.githubusercontent.com/62799316/150987762-a6c2ef75-1396-4817-aab7-d4ee7a87b27b.png)
+
+<div align="center">
+  <h1>
+    StartupJS &middot;
+    <a href="https://www.npmjs.com/package/startupjs"><img src="https://img.shields.io/npm/v/startupjs.svg?style=flat" /></a>
+    <a href="#contributing--troubleshooting"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" /></a>
+    <img src="https://img.shields.io/badge/license-MIT-blue" />
+  </h1>
+  <a href="#quickstart">Quickstart</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#native-development-ios-and-android">Native&nbsp;development</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#ide-configuration">IDE&nbsp;support</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#documentation">Docs</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="#production">Production</a>
+</div>
+
+## What is StartupJS?
+
+StartupJS is a **full-stack framework** that consists of:
+
+- **Frontend**
+  - Isomorphic React [native](https://facebook.github.io/react-native/) and [web](https://react.dev/) based on [Expo](https://expo.dev/)
+- **Backend**
+  - [ExpressJS](https://expressjs.com/)
+- **Collaborative Database**
+  - [MongoDB](https://www.mongodb.com/) which runs behind [ShareDB](https://github.com/share/sharedb) and a client-server observable [Teamplay ORM](https://teamplay.dev/)
+
+## Quickstart
+
+### Requirements
+
+StartupJS app requires:
+
+- [Node 22+](https://nodejs.org/)
+- [Yarn](https://yarnpkg.com/) (optional, but strongly recommended)
+
+### Installation
+
+1. Create a new Expo app and go into it:
+
+    **Note:** You can use any Expo template you want
+
+    - if you are using **yarn** (recommended):
+
+        ```
+        yarn create expo-app myapp
+        ```
+
+        ```
+        cd myapp
+        ```
+
+        ```
+        corepack enable && echo 'nodeLinker: node-modules' > .yarnrc.yml && corepack use yarn@4
+        ```
+
+        > **Warning:** If `corepack` is not installed in your system, install it with:
+        >
+        >    ```
+        >    npm install -g corepack
+        >    ```
+        >
+        > and re-run the last command.
+
+    - if you are using **npm**:
+
+        ```
+        npx create-expo-app@latest myapp
+        ```
+
+        ```
+        cd myapp
+        ```
+
+2. Install startupjs into your app:
+
+    ```
+    npm init startupjs@latest
+    ```
+
+3. Wrap your root component into `<StartupjsProvider>` from `startupjs` (when using expo-router it's in `app/_layout.tsx`):
+
+    ```jsx
+    import { StartupjsProvider } from 'startupjs'
+    // ...
+    return (
+      <StartupjsProvider>
+        ...
+      </StartupjsProvider>
+    )
+    ```
+
+4. Start expo app with `yarn start` (or `npm start`).
+
+> [!WARNING]
+> If Fast Refresh (hot reloading) is not working (this might be the case if you created a bare expo project),
+> add `import '@expo/metro-runtime'` to the top of your entry file.
+
+### Upgrading to newer StartupJS versions
+
+```
+npx startupjs install --fix
+```
+
+This will upgrade to the latest minor version of `startupjs` and all the `@startupjs/*` packages and also upgrade Expo and all its packages to the latest minor version.
+
+If you want to upgrade to a newer BREAKING version -- manually change the `startupjs` and `expo` to a higher major version and then run the same command `npx startupjs install --fix`. When upgrading to a new breaking version you might have to run this command twice.
+
+## Native Development (iOS and Android)
+
+StartupJS uses Expo by default which should guide you through installation steps itself, just run `yarn start -c`
+(`-c` flag is to clear the JS compilation cache) and press `i` to launch iOS simulator or `a` to launch Android simulator.
+
+## IDE configuration
+
+### [![Visual Studio Code](https://img.shields.io/badge/Visual_Studio_Code-grey?style=for-the-badge&logo=visual-studio-code)](https://code.visualstudio.com/)
+
+#### Step 1: Add support for ESLint errors highlighting
+
+1. Install extension [`vscode-eslint`](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+2. Restart VS Code
+
+#### Step 2 (optional): Pug syntax highlighting
+
+If you are gonna be using `pug` instead of pure JSX, add support for Pug syntax highlighting:
+
+1. Install extension [`vscode-react-pug`](https://marketplace.visualstudio.com/items?itemName=kaminaly.vscode-react-pug)
+2. Restart VS Code
+
+#### Step 3 (optional): Stylus syntax highlighting
+
+If you are gonna be using `styl` to define styles, add support for Stylus syntax highlighting:
+
+1. Install extension [`vscode-startupjs`](https://marketplace.visualstudio.com/items?itemName=startupjs.vscode-startupjs)
+2. Restart VS Code
+
+## Documentation
+
+The main things you'll need to know to get started with StartupJS are:
+
+1. [React Native](https://reactnative.dev/)
+1. [Teamplay ORM](https://teamplay.dev/) (all `teamplay` stuff should be imported directly from `startupjs`)
+1. [StartupJS UI Components](https://ui.startupjs.org)
+
+To launch your app to production read the following sections:
+
+1. [Production](#production)
+1. [Security](#security)
+
+## Production
+
+To deploy your app to production, run `yarn build` to build the server and web code and `yarn start-production` to run it.
+
+By default for local development instead of a full MongoDB and Redis the startupjs app uses their mocks ([`mingo`](https://github.com/kofrasa/mingo) and [`ioredis-mock`](https://github.com/stipsan/ioredis-mock)).
+
+It is strongly recommended to use the actual MongoDB and Redis in production (and it is **required** if you want to run multiple instances of the application).
+
+To use MongoDB and Redis, specify `MONGO_URL` and `REDIS_URL` environment variables when running the `yarn start-production` command.
+
+You can also provide these environment variables when doing local development through the `yarn start -c` command.
+
+To deploy the native apps use the [Expo EAS](https://expo.dev/eas) service -- `eas build` and `eas submit`.
+
+## Advanced
+
+To gain further deep knowledge of StartupJS stack you'll need to get familiar with the following technologies it's built on:
+
+1. [React](https://reactjs.org/)
+1. [React Native](https://facebook.github.io/react-native/) for the Native-frontend (iOS, Android, etc.).
+1. [Teamplay ORM](https://teamplay.dev/).
+1. [Expo Router](https://docs.expo.dev/router/introduction/) for routing and navigation.
+1. [Node.js](https://nodejs.org/) and [Express](https://expressjs.com/) for the backend.
+1. [MongoDB](https://docs.mongodb.com/manual/installation/) for the database.
+1. [ShareDB](https://share.github.io/sharedb/):
+    - A real-time collaborative database integration into React.
+    - Allows to sync data between your local state (similar to Redux) and the DB.
+    - Brings in collaboration functionality similar to Google Docs, where multiple users can edit the same data simultaneously.
+    - Uses WebSockets to send micro-patches to and from the server whenever there are any changes to the data you are subscribed to.
+    - Uses observables to automatically rerender the data in React, similar to [MobX](https://mobx.js.org/).
+1. [Redis](https://redis.io/) for the pub/sub (required by ShareDB) and locking functionality.
+1. [Pug](https://pugjs.org/) (optional) which is used besides JSX for templating.
+1. [Stylus](https://stylus-lang.com/) (optional) which is used besides CSS and inline styling for stylesheets.
+1. Code Quality control tools:
+    - [ESLint](https://eslint.org/)
+    - *optional* [TypeScript](https://www.typescriptlang.org/)
+
+## Version migration guides
+
+The following guides are available to assist with the migration to new major versions of StartupJS:
+
+- [Migration Guides](/docs/migration-guides)
+
+## Security
+
+StartupJS server is designed to be secure by default.
+
+For the sake of simplifying quick prototyping, a new project you create with `startupjs init` will have security mechanisms turned off.
+
+You are strongly encouraged to implement security for your project as early as possible by removing `secure: false` flag from the server initialization in your `server/index.js` file.
+
+There are 3 types of security mechanisms you must implement:
+
+- [Access Control to MongoDB documents](https://github.com/startupjs/startupjs/tree/master/packages/sharedb-access)
+- [Server-only MongoDB Aggregations](https://github.com/startupjs/startupjs/tree/master/packages/server-aggregate)
+- [Validation of MongoDB documents using JSON Schema](https://github.com/startupjs/startupjs/tree/master/packages/sharedb-schema)
+
+If you want to work on their implementation one by one, you can keep the `secure: false` flag and only add the ones you want to implement by specifying the following flags:
+
+```js
+accessControl: true,
+serverAggregate: true,
+validateSchema: true
+```
+
+**NOTE**: All 3 mechanisms are integrated for their simpler use into the ORM system. We are working on a guide on how to use them with the ORM. If you want help properly integrating it into your production project, please file an issue or contact [cray0000](https://github.com/cray0000) directly via email.
+
+## Contributing & Troubleshooting
+
+See [CONTRIBUTING.md](/CONTRIBUTING.md)
+
+## License
+
+MIT
+
+© Pavel Zhukov
+
+---
+
+## StartupJS Documentation Home
+
+Source: `./docs/index.md`
+
+_No content extracted._
+
+---
+
+## Quickstart
+
+Source: `./docs/tutorial/foundation.mdx`
+
+# Quickstart
+
+StartupJS is a full-stack framework for building real-time, cross-platform apps. It runs on web, iOS, and Android from a single codebase. Data syncs automatically between all connected clients using signals -- reactive pointers to your database.
+
+## Prerequisites
+
+**Node.js** -- version 22 or higher
+
+```
+brew install node
+```
+
+**Yarn** (optional but recommended)
+
+If you prefer Yarn over npm, enable Corepack and activate Yarn 4:
+
+```
+corepack enable
+```
+
+> If `corepack` is not available, install it globally first: `npm install -g corepack`
+
+> These commands use Homebrew on macOS. On other operating systems, follow each tool's official installation guide.
+
+You do **not** need to install MongoDB or Redis for local development. StartupJS uses in-memory mocks by default. For production, see the [production setup](#production-setup) section below.
+
+## Create a project
+
+### 1. Create an Expo app
+
+If using **Yarn** (recommended):
+
+```bash
+yarn create expo-app myapp
+cd myapp
+echo 'nodeLinker: node-modules' > .yarnrc.yml && corepack use yarn@4
+```
+
+If using **npm**:
+
+```bash
+npx create-expo-app@latest myapp
+cd myapp
+```
+
+### 2. Install StartupJS
+
+```bash
+npm init startupjs@latest
+```
+
+### 3. Fix dependency versions (temporary)
+
+Add the following to your `package.json` to fix a known compatibility issue, then run `npm install` again:
+
+If using **npm**:
+
+```json
+"overrides": {
+  "sharedb-redis-pubsub": {
+    ".": "2.0.1",
+    "sharedb": "5.2.2"
+  }
+}
+```
+
+If using **Yarn**:
+
+```json
+"resolutions": {
+  "sharedb-redis-pubsub": "2.0.1",
+  "sharedb-redis-pubsub/sharedb": "5.2.2"
+}
+```
+
+### 4. Wrap your root component
+
+Open `app/_layout.tsx` and wrap your root component with `StartupjsProvider`:
+
+```jsx
+import { StartupjsProvider } from 'startupjs'
+
+export default function RootLayout () {
+  return (
+    <StartupjsProvider>
+      {/* your existing layout content */}
+    </StartupjsProvider>
+  )
+}
+```
+
+### 5. Start the app
+
+```bash
+yarn start
+```
+
+Or with npm:
+
+```bash
+npm start
+```
+
+The app opens in your browser. Edit files and save -- the browser updates automatically.
+
+## Production setup
+
+For production, use a real MongoDB and Redis instead of the default mocks:
+
+```bash
+MONGO_URL=mongodb://... REDIS_URL=redis://... yarn start-production
+```
+
+Build first with `yarn build`, then run with `yarn start-production`.
+
+## Why StartupJS?
+
+- **Cross-platform** -- one codebase for web, iOS, and Android (built on Expo and React Native).
+- **Real-time sync** -- data changes on one client appear instantly on all others.
+- **Signals** -- reactive data pointers that automatically update your UI when data changes.
+- **Built-in UI library** -- a full set of ready-to-use components designed for all platforms.
+- **Zero setup database** -- MongoDB and Redis are mocked locally so you can start building immediately.
+
+## How to use this tutorial
+
+Each chapter builds on the previous one. Type the code yourself rather than copy-pasting -- you will learn faster and notice things you would otherwise miss. Experiment with changes to see what happens.
+
+## Your first component
+
+StartupJS apps are built from components. A component is a reusable piece of UI that bundles markup, styles, and behavior into one unit.
+
+Here is the simplest possible component:
+
+```jsx
+import { observer } from 'startupjs'
+import { Span } from 'startupjs-ui'
+
+export default observer(function HelloWorld () {
+  return (
+    <Span>Hello, world!</Span>
+  )
+})
+```
+
+Every component that reads reactive data must be wrapped with `observer`. This tells StartupJS to re-render the component whenever the data it uses changes. You will see this pattern throughout the tutorial.
+
+Continue to the next chapter to build a complete TODO app step by step.
+
+---
+
+## Build a TODO app
+
+Source: `./docs/tutorial/basics.mdx`
+
+# Build a TODO app
+
+In this chapter you will build a working TODO list from scratch. Along the way you will learn how to use signals, subscribe to data, and update the database -- all in real time.
+
+## Start with a clean page
+
+Open the home page file and replace its content. In a default Expo template with tabs, this is `app/(tabs)/index.tsx`. If your project does not use tabs, it is `app/index.tsx`.
+
+```jsx
+return (
+  <>
+    {/* Your content will go here */}
+  </>
+)
+```
+
+## Add layout
+
+StartupJS uses its own components instead of HTML elements. `Content` is a layout wrapper that constrains width and adds optional padding.
+
+```jsx
+import { observer } from 'startupjs'
+import { Content, Span } from 'startupjs-ui'
+
+export default observer(function PHome () {
+  return (
+    <Content padding>
+      <Span h1>TODO List</Span>
+    </Content>
+  )
+})
+```
+
+`Content` with the `padding` prop adds comfortable spacing around your content. `Span` with the `h1` prop renders a top-level heading. You can explore these components in the docs sidebar under Components.
+
+## Add a card
+
+`Card` is a container that displays content with a border. In React Native, you cannot place raw text directly inside a view -- always wrap text with `Span`.
+
+```jsx
+import { observer } from 'startupjs'
+import { Content, Card, Span } from 'startupjs-ui'
+
+export default observer(function PHome () {
+  return (
+    <Content padding>
+      <Span h1>TODO List</Span>
+      <Card>
+        <Span>Learn StartupJS</Span>
+      </Card>
+    </Content>
+  )
+})
+```
+
+## Add styles
+
+Use `styleName` to connect a component to a style class defined in the accompanying `index.styl` file:
+
+```jsx
+<Span h1 styleName='title'>TODO List</Span>
+```
+
+```styl
+// index.styl
+.title
+  color purple
+```
+
+`styleName` works like `className` in HTML, but it maps to Stylus classes. You can pass a string, an array, or an object for conditional styles:
+
+```jsx
+<Button styleName={['primary', { disabled: isDisabled }]} />
+```
+
+## Fetch and display data
+
+Now for the interesting part. To display data from the database, you need to **subscribe** to it. StartupJS uses signals -- reactive pointers that track a piece of data and update your UI when it changes.
+
+Use the `useSub` hook to subscribe to a collection:
+
+```jsx
+import { observer, $, useSub } from 'startupjs'
+import { Content, Card, Span } from 'startupjs-ui'
+
+export default observer(function PHome () {
+  const $todos = useSub($.todos, {})
+
+  return (
+    <Content padding>
+      <Span h1>TODO List</Span>
+      {$todos.map($todo => (
+        <Card key={$todo.getId()}>
+          <Span>{$todo.title.get()}</Span>
+        </Card>
+      ))}
+    </Content>
+  )
+})
+```
+
+Here is what is happening:
+
+- `$` is the **root signal** -- the entry point to all your data.
+- `$.todos` points to the `todos` collection in the database.
+- `useSub($.todos, {})` subscribes to all documents in that collection. The `{}` is the query (an empty query means "everything").
+- `$todos` is a **query signal**. You can iterate over it with `.map()`. Each `$todo` in the callback is a signal pointing to a single document.
+- `$todo.title.get()` reads the value of the `title` field. Use `.get()` whenever you need the plain value.
+- `$todo.getId()` returns the document's unique identifier (used as the React `key`). Every document gets an auto-generated ID when you call `.add()`. Use `.getId()` (not `.id`) to retrieve it.
+
+The list is empty right now because there are no documents in the database yet. We will add them soon.
+
+## Add a checkbox and delete button
+
+Let's make each todo item interactive. We will show a checkbox to mark it as done and a button to delete it.
+
+```jsx
+import { observer, $, useSub } from 'startupjs'
+import { Button, Card, Checkbox, Content, Div, Span } from 'startupjs-ui'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+
+export default observer(function PHome () {
+  const $todos = useSub($.todos, {})
+
+  return (
+    <Content padding>
+      <Span h1>TODO List</Span>
+      {$todos.map($todo => (
+        <Card key={$todo.getId()}>
+          <Div row align='between' vAlign='center'>
+            <Checkbox
+              value={$todo.completed.get()}
+              onChange={value => $todo.completed.set(value)}
+            />
+            <Span>{$todo.title.get()}</Span>
+            <Button
+              icon={faTimes}
+              iconColor='error'
+              size='s'
+              onPress={() => $todo.del()}
+            />
+          </Div>
+        </Card>
+      ))}
+    </Content>
+  )
+})
+```
+
+Key points:
+
+- **Reading data**: `$todo.completed.get()` returns the current value of `completed` (true or false).
+- **Writing data**: `$todo.completed.set(value)` updates the `completed` field in the database. The change syncs to all connected clients automatically.
+- **Deleting a document**: `$todo.del()` removes the entire todo from the database.
+- `Div` with `row` lays out children horizontally. `align='between'` spaces them out like CSS `justify-content: space-between`. `vAlign='center'` vertically centers them.
+
+## Add new tasks
+
+To create new todos, add a text input and a submit button. We will use a **local signal** to store the input value.
+
+```jsx
+import { observer, $, useSub } from 'startupjs'
+import { Button, Card, Checkbox, Content, Div, Span, TextInput } from 'startupjs-ui'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+
+export default observer(function PHome () {
+  const $todos = useSub($.todos, {})
+  const $newTitle = $('')
+
+  async function addTodo () {
+    const title = $newTitle.get().trim()
+    if (!title) return
+    await $.todos.add({ title, completed: false })
+    $newTitle.set('')
+  }
+
+  return (
+    <Content padding>
+      <Span h1>TODO List</Span>
+
+      <Div row vAlign='center'>
+        <TextInput
+          style={{ flex: 1 }}
+          value={$newTitle.get()}
+          onChangeText={value => $newTitle.set(value)}
+          placeholder='What needs to be done?'
+        />
+        <Button onPress={addTodo}>Add</Button>
+      </Div>
+
+      {$todos.map($todo => (
+        <Card key={$todo.getId()}>
+          <Div row align='between' vAlign='center'>
+            <Checkbox
+              value={$todo.completed.get()}
+              onChange={value => $todo.completed.set(value)}
+            />
+            <Span>{$todo.title.get()}</Span>
+            <Button
+              icon={faTimes}
+              iconColor='error'
+              size='s'
+              onPress={() => $todo.del()}
+            />
+          </Div>
+        </Card>
+      ))}
+    </Content>
+  )
+})
+```
+
+Here is what is new:
+
+- `$('')` creates a **local signal** with an initial value of an empty string. Note: `$` by itself is the root signal (your database). `$()` called as a function creates a local signal -- a reactive variable that lives only in this component, similar to React's `useState`.
+- `$newTitle.get()` reads the current input value.
+- `$newTitle.set(value)` updates it when the user types.
+- `$.todos.add({ title, completed: false })` creates a new document in the `todos` collection. The `add` method generates a unique ID automatically and returns it. We `await` it to make sure the document is created before clearing the input.
+
+## Complete code
+
+Here is the full component:
+
+```jsx
+import { observer, $, useSub } from 'startupjs'
+import { Button, Card, Checkbox, Content, Div, Span, TextInput } from 'startupjs-ui'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+
+export default observer(function PHome () {
+  const $todos = useSub($.todos, {})
+  const $newTitle = $('')
+
+  async function addTodo () {
+    const title = $newTitle.get().trim()
+    if (!title) return
+    await $.todos.add({ title, completed: false })
+    $newTitle.set('')
+  }
+
+  return (
+    <Content padding>
+      <Span h1>TODO List</Span>
+
+      <Div row vAlign='center'>
+        <TextInput
+          style={{ flex: 1 }}
+          value={$newTitle.get()}
+          onChangeText={value => $newTitle.set(value)}
+          placeholder='What needs to be done?'
+        />
+        <Button onPress={addTodo}>Add</Button>
+      </Div>
+
+      {$todos.map($todo => (
+        <Card key={$todo.getId()}>
+          <Div row align='between' vAlign='center'>
+            <Checkbox
+              value={$todo.completed.get()}
+              onChange={value => $todo.completed.set(value)}
+            />
+            <Span>{$todo.title.get()}</Span>
+            <Button
+              icon={faTimes}
+              iconColor='error'
+              size='s'
+              onPress={() => $todo.del()}
+            />
+          </Div>
+        </Card>
+      ))}
+    </Content>
+  )
+})
+```
+
+## What you learned
+
+- `$` is the root signal that gives you access to all collections.
+- `useSub($.collection, query)` subscribes to database documents and returns a query signal.
+- Query signals are iterable -- use `.map()` to render lists.
+- Each item in a query signal is a document signal. Use `.get()` to read fields, `.set()` to update them, and `.del()` to delete.
+- `$('initial value')` creates a local signal for component-level state.
+- `$.collection.add({...})` creates a new document.
+- All data changes sync to every connected client automatically.
+
+Open the app in two browser tabs and try adding, checking, and deleting todos. You will see both tabs update at the same time -- that is real-time sync in action.
+
+---
+
+## Pug
+
+Source: `./docs/tutorial/pug.mdx`
+
+# Pug
+
+StartupJS supports the Pug templating language as an alternative to JSX. Pug uses indentation instead of angle brackets, which can make templates more concise. If you prefer JSX, you can skip this chapter entirely.
+
+Pug works out of the box in StartupJS. You only need to configure your IDE for syntax highlighting:
+https://github.com/startupjs/startupjs#ide-configuration
+
+## Syntax basics
+
+- Nesting is defined by indentation (no closing tags)
+- Classes use `.className`
+- IDs use `#id`
+- Attributes go in parentheses
+
+## Tags and classes
+
+**Pug**
+
+```pug
+Content
+  Span(h1) TODO List
+  Card
+    Span Learn StartupJS
+```
+
+**JSX equivalent**
+
+```jsx
+<Content>
+  <Span h1>TODO List</Span>
+  <Card>
+    <Span>Learn StartupJS</Span>
+  </Card>
+</Content>
+```
+
+Add classes with dot notation:
+
+```pug
+Content.root
+  Span.title(h1) TODO List
+  Card.todo
+    Span.todoTitle Learn StartupJS
+```
+
+```jsx
+<Content styleName='root'>
+  <Span h1 styleName='title'>TODO List</Span>
+  <Card styleName='todo'>
+    <Span styleName='todoTitle'>Learn StartupJS</Span>
+  </Card>
+</Content>
+```
+
+## Attributes
+
+```pug
+Button(size='m') Add
+```
+
+```jsx
+<Button size='m'>Add</Button>
+```
+
+With classes:
+
+```pug
+Button.submit(size='m') Add
+```
+
+```jsx
+<Button styleName='submit' size='m'>Add</Button>
+```
+
+When a component has many props, use a multiline block:
+
+```pug
+Button(
+  icon=faTimes
+  iconColor='error'
+  size='s'
+  onPress=() => $todo.del()
+)
+```
+
+In Pug, you do not need `{}` around JavaScript expressions. The value after `=` is treated as JavaScript.
+
+## Loops
+
+Use `each` to render arrays:
+
+```pug
+Content(padding)
+  Span(h1) Todo List
+  each $todo in $todos
+    Card(key=$todo.getId())
+      Span= $todo.title.get()
+```
+
+## Conditions
+
+```pug
+if $todos.getIds().length
+  each $todo in $todos
+    Card(key=$todo.getId())
+      Span= $todo.title.get()
+else
+  Span No tasks yet
+```
+
+You can also use `unless`:
+
+```pug
+unless value
+  Span Empty
+```
+
+## Interpolation
+
+Use `=` to output a JavaScript expression as a child, or `#{}` for inline interpolation:
+
+```pug
+const title = 'Todo List'
+
+Span= title
+Span My app: #{title}
+```
+
+---
+
+## Observer pattern
+
+Source: `./docs/tutorial/observer.mdx`
+
+# Observer pattern
+
+For a component to respond to signal changes, it must be wrapped with `observer`. This is the most important pattern in StartupJS.
+
+## What `observer` does
+
+`observer` is a function that wraps your component and makes it **reactive**. When any signal read during render changes, the component re-renders automatically. You do not need to manage subscriptions or call `setState` -- it all happens behind the scenes.
+
+```jsx
+import { observer } from 'startupjs'
+
+export default observer(function MyComponent () {
+  // component code
+})
+```
+
+`observer` also wraps your component in a **Suspense boundary**. This means that while data is being fetched (via `useSub`), a loading state is shown automatically. You do not need to handle loading states yourself.
+
+## Example
+
+```jsx
+import { observer, $, useSub } from 'startupjs'
+import { Span, TextInput } from 'startupjs-ui'
+
+export default observer(function UserName ({ userId }) {
+  const $user = useSub($.users[userId])
+
+  return (
+    <>
+      <Span>Name: {$user.name.get()}</Span>
+      <TextInput
+        value={$user.name.get()}
+        onChangeText={value => $user.name.set(value)}
+      />
+    </>
+  )
+})
+```
+
+This component:
+
+1. Subscribes to a user document with `useSub($.users[userId])`.
+2. Reads the user's name with `$user.name.get()`.
+3. Updates the name with `$user.name.set(value)` when the input changes.
+4. Re-renders automatically whenever `name` changes -- whether from this client or from another.
+
+## When to use `observer`
+
+Wrap a component with `observer` whenever it:
+
+- Reads signal values with `.get()`
+- Uses `useSub` to subscribe to data
+- Uses local signals created with `$()`
+
+If a component only receives plain props (strings, numbers, etc.) and does not read any signals, you do not need `observer`. But in practice, most components in a StartupJS app use it.
+
+## How it works
+
+Behind the scenes, `observer` tracks which signals your component reads during render. It creates a dependency list automatically. When any of those signals change, only the components that depend on them re-render -- not the entire tree.
+
+This is more efficient than React's default behavior, where a parent re-render causes all children to re-render too.
+
+For a general explanation of the Observer design pattern, see [Refactoring Guru](https://refactoring.guru/design-patterns/observer).
+
+---
+
+## Signals API
+
+Source: `./docs/tutorial/racerModel.mdx`
+
+# Signals API
+
+Signals are the core data primitive in StartupJS. Every piece of data -- whether it lives in the database or only in the browser -- is accessed through signals. This chapter covers all the methods available on signals.
+
+## What is a signal?
+
+A signal is a reactive pointer to a location in your data tree. It does not hold data directly. Instead, it knows the *path* to the data and provides methods to read, write, and delete it.
+
+Signals are created by navigating from the root signal `$`:
+
+```js
+import { $ } from 'startupjs'
+
+const $user = $.users['abc123']       // points to a document
+const $name = $.users['abc123'].name  // points to a field
+const $todos = $.todos                // points to a collection
+```
+
+By convention, signal variables start with `$` to distinguish them from plain values.
+
+## Reading data: `.get()`
+
+Use `.get()` to read the current value of a signal:
+
+```js
+const name = $user.name.get()        // 'Alice'
+const todo = $todo.get()             // { title: 'Learn signals', completed: false }
+const isOpen = $._page.sidebar.opened.get()  // true
+```
+
+`.get()` is synchronous. It returns whatever value is currently available locally.
+
+## Writing data: `.set()`
+
+Use `.set()` to update a signal's value:
+
+```js
+$user.name.set('Bob')
+$todo.completed.set(true)
+$._page.sidebar.opened.set(false)
+```
+
+For database signals (public collections), `.set()` is asynchronous -- it returns a promise. The change is applied locally right away, then synced to the server in the background:
+
+```js
+await $user.name.set('Bob')  // resolves when the server confirms
+```
+
+In most cases you do not need to await it. The local UI updates instantly.
+
+## Deleting data: `.del()`
+
+Use `.del()` to remove a value:
+
+```js
+await $todo.del()           // deletes the entire document
+$user.profilePicture.del()  // deletes a single field
+```
+
+## Adding documents: `.add()`
+
+Use `.add()` on a collection signal to create a new document with an auto-generated ID:
+
+```js
+const newId = await $.todos.add({
+  title: 'Buy groceries',
+  completed: false
+})
+// newId is the generated document ID
+```
+
+## Updating multiple fields: `.assign()`
+
+Use `.assign()` to set several fields at once:
+
+```js
+await $todo.assign({
+  title: 'Updated title',
+  priority: 'high',
+  updatedAt: Date.now()
+})
+```
+
+This is equivalent to calling `.set()` on each field individually. Fields set to `null` or `undefined` are deleted.
+
+## Array operations
+
+Signals pointing to arrays support `push` and `pop`:
+
+```js
+await $user.tags.push('developer')   // adds to end
+const last = await $user.tags.pop()  // removes from end
+```
+
+## Incrementing numbers: `.increment()`
+
+For numeric values, use `.increment()` to add to the current value:
+
+```js
+await $user.loginCount.increment(1)  // adds 1
+await $user.score.increment(-5)      // subtracts 5
+```
+
+## Navigating signals
+
+You navigate deeper into the data tree using dot notation or bracket notation:
+
+```js
+// These are equivalent
+$.users.abc123.name
+$.users['abc123'].name
+$.users[userId].name  // using a variable
+```
+
+For private collections, the path starts with `_`:
+
+```js
+$._page.form.email       // page-scoped data
+$._session.userId         // session-scoped data
+```
+
+## Collection types
+
+StartupJS has two types of collections:
+
+### Public collections
+
+Public collections are stored in the database and synced across all clients. They use lowercase names:
+
+```js
+$.todos
+$.users
+$.messages
+```
+
+You **must subscribe** before reading from them (using `useSub` in React or `sub` outside React).
+
+### Private collections
+
+Private collections exist only on the current client. They start with `_`:
+
+```js
+$._page      // cleared on navigation
+$._session   // persists for the browser session
+```
+
+You do **not** need to subscribe to private collections. Read and write them directly.
+
+## All signal methods at a glance
+
+| Method | Description | Returns |
+| --- | --- | --- |
+| `.get()` | Read the current value | The value (sync) |
+| `.set(value)` | Set the value | Promise |
+| `.del()` | Delete the value | Promise |
+| `.add(object)` | Add a document to a collection | Promise (new ID) |
+| `.assign(object)` | Set multiple fields at once | Promise |
+| `.push(value)` | Append to an array | Promise |
+| `.pop()` | Remove last array item | Promise |
+| `.increment(n)` | Add to a number | Promise |
+| `.getId()` | Get the document's unique identifier | String (sync) |
+| `.getIds()` | Get all document IDs from a query result | Array (sync) |
+
+---
+
+## Project structure
+
+Source: `./docs/tutorial/fileStructure.mdx`
+
+# Project structure
+
+A StartupJS project is built on top of Expo, so the folder layout follows standard Expo Router conventions. This chapter explains the key folders and files.
+
+## Typical layout
+
+```
+myapp/
+  app/
+    _layout.tsx        ← root layout (wraps with StartupjsProvider)
+    index.tsx          ← home page (/)
+    about.tsx          ← /about page
+    [id].tsx           ← dynamic route (e.g. /abc123)
+    (tabs)/
+      _layout.tsx      ← tab navigator layout
+      index.tsx        ← first tab
+      settings.tsx     ← second tab
+  components/
+    TodoCard.tsx       ← reusable components
+    TodoCard.styl      ← styles for the component
+  server/
+    index.js           ← server configuration
+  package.json
+```
+
+## Routing with Expo Router
+
+StartupJS uses [Expo Router](https://docs.expo.dev/router/introduction/) for file-based routing. Every file inside `app/` becomes a route automatically:
+
+- `app/index.tsx` → `/`
+- `app/about.tsx` → `/about`
+- `app/users/[id].tsx` → `/users/:id` (dynamic segment)
+
+### Layouts
+
+`_layout.tsx` files wrap all sibling and child routes. The root layout in `app/_layout.tsx` is where you add `StartupjsProvider`:
+
+```jsx
+import { StartupjsProvider } from 'startupjs'
+
+export default function RootLayout () {
+  return (
+    <StartupjsProvider>
+      {/* Expo Router renders child routes here */}
+    </StartupjsProvider>
+  )
+}
+```
+
+### Navigation
+
+Use Expo Router's `Link` component or the `router` object for navigation:
+
+```jsx
+import { Link } from 'expo-router'
+
+<Link href='/about'>Go to About</Link>
+```
+
+```jsx
+import { router } from 'expo-router'
+
+router.push('/about')
+```
+
+## Platform-specific files
+
+StartupJS uses React Native, so your code runs on web, iOS, and Android by default. If you need platform-specific behavior, you can split files:
+
+- `*.web.js` -- used only for web builds
+- `*.js` -- used everywhere (shared or native)
+
+If both `Something.web.js` and `Something.js` exist, the web bundler uses the `.web.js` version while native uses the `.js` version.
+
+### When to use platform files
+
+1. A library only works on one platform (for example, a web-only date picker).
+2. A screen has major UX differences between web and mobile. Use this sparingly -- most code should be shared.
+
+## Server
+
+The `server/` folder contains your backend configuration. A basic `server/index.js` might look like:
+
+```js
+import startupjsServer from '@startupjs/server'
+
+startupjsServer({
+  // Enable security features for production:
+  // accessControl: true,
+  // serverAggregate: true,
+  // validateSchema: true,
+})
+```
+
+## Styles
+
+Each component can have an accompanying `.styl` file for styles written in Stylus. Use `styleName` to connect styles to components:
+
+```jsx
+// TodoCard.tsx
+<Card styleName='root'>
+  <Span styleName='title'>Learn StartupJS</Span>
+</Card>
+```
+
+```styl
+// TodoCard.styl
+.root
+  margin-bottom 1u
+.title
+  font-weight bold
+```
+
+---
+
+## Signals and subscriptions
+
+Source: `./docs/tutorial/sharedbHooks.mdx`
+
+# Signals and subscriptions
+
+This chapter covers the core tools for working with data in StartupJS: the root signal `$`, subscriptions with `useSub`, and local signals with `$()`.
+
+## The root signal: `$`
+
+`$` is the entry point to all your data. Think of it as the root of a tree. You navigate the tree using dot notation, just like a JavaScript object:
+
+```js
+import { $ } from 'startupjs'
+
+$.todos              // points to the 'todos' collection
+$.todos['abc123']    // points to a specific document
+$.todos['abc123'].title  // points to the 'title' field of that document
+```
+
+Each of these expressions creates a **signal** -- a reactive pointer to that piece of data. A signal does not hold data itself. It knows *where* the data is and provides methods to read and write it.
+
+## Subscribing to a document: `useSub`
+
+Before you can read data from the database, you must **subscribe** to it. Use the `useSub` hook inside a component wrapped with `observer`:
+
+```jsx
+import { observer, $, useSub } from 'startupjs'
+import { Card, Span, Button } from 'startupjs-ui'
+
+export default observer(function TodoCard ({ todoId }) {
+  const $todo = useSub($.todos[todoId])
+
+  return (
+    <Card>
+      <Span>{$todo.title.get()}</Span>
+      <Button size='s' onPress={() => $todo.del()}>
+        Delete
+      </Button>
+    </Card>
+  )
+})
+```
+
+`useSub($.todos[todoId])` subscribes to a single document. The returned `$todo` is a signal. Use `.get()` to read a field's value and `.set()` to update it.
+
+When the component unmounts, the subscription is automatically cleaned up.
+
+## Subscribing to a query: `useSub` with a query object
+
+Pass a query object as the second argument to subscribe to multiple documents:
+
+```jsx
+const $todos = useSub($.todos, { completed: false })
+```
+
+This subscribes to all documents in the `todos` collection where `completed` is `false`. The result, `$todos`, is a **query signal** -- an iterable collection of document signals.
+
+You can loop over it:
+
+```jsx
+{$todos.map($todo => (
+  <Card key={$todo.getId()}>
+    <Span>{$todo.title.get()}</Span>
+  </Card>
+))}
+```
+
+Or use a `for...of` loop:
+
+```jsx
+for (const $todo of $todos) {
+  console.log($todo.title.get())
+}
+```
+
+An empty query `{}` returns all documents in the collection:
+
+```jsx
+const $allTodos = useSub($.todos, {})
+```
+
+### Subscribing by IDs
+
+To subscribe to specific documents by their IDs, use the `$in` operator:
+
+```jsx
+const $selectedTodos = useSub($.todos, { _id: { $in: todoIds } })
+```
+
+This uses MongoDB's `$in` operator to match documents whose `_id` is in the given array.
+
+### Subscribing to one document by query
+
+To get a single document matching a query, use `$limit: 1`:
+
+```jsx
+const $latestTodos = useSub($.todos, { userId, $limit: 1 })
+```
+
+`$limit` is a query modifier that caps the number of returned documents.
+
+The result is still a query signal. Access the first (and only) item by iterating or using `.find()`.
+
+## Query signal methods
+
+Query signals support several useful methods:
+
+- `.map(callback)` -- transform each document signal
+- `.reduce(callback, initial)` -- reduce to a single value
+- `.find(predicate)` -- find the first matching document signal
+- `.getIds()` -- returns the array of document IDs
+
+```jsx
+// Get all titles as an array of strings
+const titles = $todos.map($todo => $todo.title.get())
+
+// Count completed todos
+const doneCount = $todos.reduce(
+  (count, $todo) => count + ($todo.completed.get() ? 1 : 0),
+  0
+)
+
+// Find the first incomplete todo
+const $firstIncomplete = $todos.find($todo => !$todo.completed.get())
+```
+
+## Local signals: `$()`
+
+For component-level state that does not need to be stored in the database, create a **local signal** with the `$()` function:
+
+```jsx
+import { observer, $ } from 'startupjs'
+import { Button, Span } from 'startupjs-ui'
+
+export default observer(function Counter () {
+  const $count = $(0)
+
+  return (
+    <>
+      <Span>Count: {$count.get()}</Span>
+      <Button onPress={() => $count.set($count.get() + 1)}>
+        Increment
+      </Button>
+    </>
+  )
+})
+```
+
+Local signals work like `useState` but integrate with the signal system. They are reactive -- components that read them re-render when they change.
+
+You can also destructure object signals:
+
+```jsx
+const { $name, $age } = $({ name: 'Alice', age: 30 })
+// $name.get() returns 'Alice'
+// $age.get() returns 30
+```
+
+## Private collections
+
+Collections that start with `_` are **private** -- they live only on the client and are never sent to the server. They are useful for storing temporary UI state that multiple components need to share.
+
+The two most common private collections are:
+
+- `$._page` -- data scoped to the current page. It gets cleared when the user navigates away.
+- `$._session` -- data scoped to the current browser session. It persists across page navigations but is lost when the tab is closed.
+
+You can read and write them directly, without subscribing:
+
+```jsx
+// Store whether the sidebar is open
+$._page.sidebar.opened.set(true)
+
+// Read it in another component
+const isOpen = $._page.sidebar.opened.get()
+
+// Read the current user's ID from the session
+const userId = $._session.userId.get()
+```
+
+Since private collections are local-only, you do not need `useSub` for them. Just use `$._page` or `$._session` directly.
+
+## Using `sub` outside React
+
+In non-React code (server-side scripts, background jobs, etc.), use the `sub` function instead of `useSub`. It returns a promise:
+
+```js
+import { $, sub } from 'startupjs'
+
+const $user = await sub($.users[userId])
+console.log($user.name.get())
+```
+
+For queries:
+
+```js
+const $activeUsers = await sub($.users, { status: 'active' })
+for (const $user of $activeUsers) {
+  console.log($user.name.get())
+}
+```
+
+## Summary
+
+| What you want to do | How to do it |
+| --- | --- |
+| Subscribe to one document | `const $doc = useSub($.collection[id])` |
+| Subscribe to a query | `const $docs = useSub($.collection, query)` |
+| Read a value | `$signal.field.get()` |
+| Set a value | `$signal.field.set(newValue)` |
+| Create a local signal | `const $val = $(initialValue)` |
+| Access page-level state | `$._page.something.get()` / `.set()` |
+| Access session data | `$._session.something.get()` |
+| Subscribe outside React | `const $doc = await sub($.collection[id])` |
+
+---
+
+## Stylus
+
+Source: `./docs/tutorial/stylus.mdx`
+
+# Stylus
+
+Stylus is a CSS preprocessor that StartupJS uses by default. It drops the braces, colons, and semicolons of regular CSS and uses indentation instead.
+
+## Selector syntax
+
+**Stylus**
+
+```styl
+.root
+  background-color blue
+```
+
+**CSS equivalent**
+
+```css
+.root {
+  background-color: blue;
+}
+```
+
+### Parent selector
+
+Use `&` to reference the parent selector, just like in SCSS:
+
+```styl
+.button
+  background-color white
+  &.active
+    background-color blue
+```
+
+This compiles to `.button.active { background-color: blue; }`.
+
+## Variables
+
+Define variables and reuse them in your styles:
+
+```styl
+_titleColor = #2f4f4f
+_titleSize = 24px
+
+.title
+  color _titleColor
+  font-size _titleSize
+```
+
+You can also reference a property that was already set in the same block using `@`:
+
+```styl
+.card
+  margin 8px
+  padding @margin * 2
+```
+
+Here, `@margin` refers to the `margin` value defined above it, so `padding` becomes `16px`.
+
+## Mixins
+
+StartupJS includes built-in mixins. For example, `font()` sets both `font-size` and `line-height` in one call:
+
+```styl
+.text
+  font(h1)
+```
+
+See the Tricks with styles chapter for a full list of available mixins.
+
+---
+
+## Tricks with styles
+
+Source: `./docs/tutorial/tricksWithStyles.mdx`
+
+# Tricks with styles
+
+This chapter covers useful style conventions, built-in mixins, and global design tokens available in StartupJS.
+
+## Units
+
+StartupJS uses an 8px grid. One unit (`1u`) equals `8px`:
+
+```styl
+.card
+  padding 2u 3u  // 16px 24px
+  margin 3u      // 24px
+```
+
+Use pixel values only for exact adjustments like 1px borders or hairline separators.
+
+## Mixins
+
+### `font()`
+
+Sets both `font-size` and `line-height` in one call:
+
+| Value   | font-size | line-height |
+| ------- | --------- | ----------- |
+| h1      | 72px      | 96px        |
+| h2      | 48px      | 64px        |
+| h3      | 36px      | 48px        |
+| h4      | 24px      | 32px        |
+| h5      | 20px      | 28px        |
+| h6      | 16px      | 24px        |
+| body1   | 16px      | 24px        |
+| body2   | 14px      | 20px        |
+| caption | 12px      | 16px        |
+
+### `shadow()`
+
+`shadow(level)` generates consistent shadows across web and native. Levels range from 0 to 4:
+
+| Level | Effect |
+| ----- | ------ |
+| 0     | No shadow |
+| 1     | Subtle shadow (elevation 3) |
+| 2     | Medium shadow (elevation 6) |
+| 3     | Pronounced shadow (elevation 12) |
+| 4     | Heavy shadow (elevation 18) |
+
+### `radius()`
+
+`radius()` keeps border radii consistent:
+
+| Value  | border-radius |
+| ------ | ------------- |
+| m      | 4px           |
+| l      | 8px           |
+| circle | 9999px        |
+
+## Responsive and platform mixins
+
+These mixins let you write styles that apply only at certain screen sizes or on certain platforms:
+
+| Mixin        | Applies when              |
+| ------------ | ------------------------- |
+| `+tablet()`  | screen width >= 768px     |
+| `+desktop()` | screen width >= 1024px    |
+| `+wide()`    | screen width >= 1280px    |
+| `+portrait()`| portrait orientation      |
+| `+landscape()`| landscape orientation    |
+| `+web()`     | web only                  |
+| `+android()` | Android only              |
+| `+ios()`     | iOS only                  |
+| `+native()`  | native (not web)          |
+
+Example:
+
+```styl
+.card
+  padding 2u
+  margin 0 2u
+  +tablet()
+    padding 3u
+    margin 0 3u
+  +desktop()
+    padding 4u
+    margin 0 4u
+```
+
+This makes the card more spacious on larger screens.
+
+## The `$UI` object
+
+`$UI` is a global Stylus object that holds design tokens for your entire app. You can use its values in any `.styl` file.
+
+Common fields:
+
+- `$UI.palette` -- base color swatches
+- `$UI.colors` -- semantic colors (primary, warning, error, etc.)
+- `$UI.shadows` -- shadow presets
+- `$UI.media` -- breakpoints used by the responsive mixins
+- `$UI.fontFamilies` -- font families for body and headings
+- `$UI.fontSizes` -- typography sizes
+- `$UI.lineHeights` -- typography line heights
+
+### Customizing `$UI`
+
+Use `merge` in your `styles/index.styl` to override or extend values:
+
+```styl
+$UI = merge($UI, {
+  colors: {
+    primary: #4a76a8,
+    warning: #880000,
+    pink: #fc69ff
+  },
+  Button: {
+    heights: {
+      xxl: 10u
+    }
+  }
+}, true)
+```
+
+The third argument `true` enables deep merging, so your values are combined with the defaults rather than replacing them.
+
+## Export styles to JavaScript
+
+Use `:export` in a `.styl` file to make values available in JavaScript:
+
+```styl
+.root
+  height: $this.height
+  background-color: $this.bgColor
+
+:export
+  colors: $UI.colors
+  foobar: 42
+```
+
+```js
+import STYLES from './index.styl'
+
+const { colors, foobar } = STYLES
+```
+
+This is useful when you need design tokens in your component logic (for example, to set a dynamic color based on a prop).
+
+---
+
+## Security
+
+Source: `./docs/foundations/security.mdx`
+
+# Security
+
+By default, StartupJS allows full read/write/delete access to every document. You must define access rules to protect your data in production.
+
+## Document access control (`@startupjs/sharedb-access`)
+
+This package adds per-document permission checks for create, read, update, and delete operations.
+
+Enable it in `server/index.js`:
+
+```js
+startupjsServer({
+  accessControl: true
+})
+```
+
+Define access rules on your model:
+
+```js
+export default class NewsModel {
+  static access = {
+    create: async (model, collection, docId, doc, session) => {
+      return hasPermission('global.admin', model, collection, docId, session)
+    },
+    read: async () => true,
+    update: async (model, collection, docId, oldDoc, session, ops, newDoc) => {
+      return hasPermission('global.admin', model, collection, docId, session)
+    },
+    delete: async (model, collection, docId, doc, session) => {
+      return hasPermission('global.admin', model, collection, docId, session)
+    }
+  }
+}
+```
+
+`hasPermission` is your application-specific permission check. Each callback receives the server-side model and session, so you can look up roles or ownership.
+
+## Schema validation (`@startupjs/sharedb-schema`)
+
+This package enforces JSON Schema rules on documents. Any write that violates the schema is rejected.
+
+Enable it in `server/index.js`:
+
+```js
+startupjsServer({
+  validateSchema: true
+})
+```
+
+Define a schema on your model:
+
+```js
+export default class UserModel {
+  static schema = {
+    type: 'object',
+    properties: {
+      username: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 10
+      },
+      email: {
+        type: 'string',
+        format: 'email'
+      },
+      age: {
+        description: 'Age in years',
+        type: 'integer',
+        minimum: 1
+      },
+      roleId: { type: 'string' },
+      hobbies: {
+        type: 'array',
+        maxItems: 3,
+        items: { type: 'string' },
+        uniqueItems: true
+      }
+    }
+  }
+}
+```
+
+More details: https://github.com/startupjs/startupjs/tree/master/packages/sharedb-schema
+
+## Secure aggregations (`@startupjs/server-aggregate`)
+
+Aggregations are unrestricted by default. Use server-defined aggregation templates to control what queries clients can run.
+
+Enable it in `server/index.js`:
+
+```js
+startupjsServer({
+  serverAggregate: true
+})
+```
+
+Define aggregation templates:
+
+```js
+static aggregations = {
+  example: async (model, params, session) => {
+    const { status } = params
+    const availableStatuses = getAvailableStatuses(model, session.userId)
+
+    if (!availableStatuses.includes(status)) {
+      throw Error("403: Can't query docs with status " + status)
+    }
+
+    return [
+      { $match: { status } }
+    ]
+  }
+}
+```
+
+Use the aggregation in a query:
+
+```js
+const $events = useSub($.events, {
+  $aggregationName: 'example',
+  $params: { status: 'published' }
+})
+```
+
+## REST API checks (server)
+
+Always validate access for REST endpoints. Express makes this simple with middleware.
+
+On the server, there are no private collections like `$._session`. Instead, the user ID is available on the request session object as `req.session.userId`. Use `sub` from `'startupjs'` to subscribe to documents:
+
+```js
+import express from 'express'
+import { $, sub } from 'startupjs'
+
+async function isLoggedIn (req, res, next) {
+  const userId = req.session.userId
+  if (!userId) return res.sendStatus(403)
+  next()
+}
+
+async function isAdmin (req, res, next) {
+  const userId = req.session.userId
+  const $user = await sub($.users[userId])
+  const role = $user.role.get()
+
+  if (role !== 'admin') return res.sendStatus(403)
+  next()
+}
+
+const adminRouter = express.Router()
+
+adminRouter.post('/api/add-admin-task', [isLoggedIn, isAdmin, addAdminTask])
+adminRouter.get('/api/get-admin-tasks', [isLoggedIn, isAdmin, getAdminTasks])
+
+export default adminRouter
+```
+
+---
+
+## WebSocket
+
+Source: `./docs/foundations/websocket.mdx`
+
+# WebSocket
+
+StartupJS lets you hook into the underlying HTTP server and upgrade specific paths to WebSocket connections.
+
+## Upgrade a custom endpoint
+
+```js
+import WebSocket from 'ws'
+
+const PATH = '/my-channel'
+const wss = new WebSocket.Server({ noServer: true, path: PATH })
+
+startupjsServer({
+  // server options
+}, (ee, options) => {
+  ee.on('beforeStart', ({ server, session }) => {
+    server.on('upgrade', (req, socket, head) => {
+      if (req.url !== PATH) return
+      session(req, {}, () => {
+        wss.handleUpgrade(req, socket, head, ws => {
+          wss.emit('connection', ws, req)
+        })
+      })
+    })
+  })
+})
+
+wss.on('connection', (ws, req) => {
+  console.log(`User ${req.session.userId} connected`)
+})
+```
+
+The important part is calling `session(req, {}, ...)` so the upgraded socket shares the same session data as the rest of the app.
+
+---
+
+## Border radius
+
+Source: `./docs/foundations/borderRadius.mdx`
+
+# Border radius
+
+Consistent border radius values help the UI feel cohesive. Use the three tokens below unless you have a strong reason to introduce a custom value.
+
+## Medium (4px)
+
+Use for inputs, buttons, toasts, and small cards.
+
+```styl
+.element
+  radius(m)
+```
+
+## Large (8px)
+
+Use for large cards, tables, and modal dialogs.
+
+```styl
+.element
+  radius(l)
+```
+
+## Circle
+
+Use for avatars, badges, and notification dots.
+
+```styl
+.element
+  radius(circle)
+```
+
+---
+
+## Collection types
+
+Source: `./docs/foundations/collectionTypes.mdx`
+
+# Collection types
+
+StartupJS organizes data into collections. There are two kinds: **public** and **private**.
+
+## Public collections
+
+Public collections (for example `todos`, `users`) are stored in MongoDB and synced across all connected clients. Any change made by one client is broadcast to all others who are subscribed.
+
+You **must subscribe** to public collection data before reading it:
+
+```js
+// In a React component (with observer)
+const $todos = useSub($.todos, {})
+
+// Outside React
+const $todos = await sub($.todos, {})
+```
+
+Access control is enforced by server rules (see the Security section).
+
+## Private collections
+
+Private collections exist only on the current client. They are never sent to the server or other clients. Their names start with an underscore.
+
+- `$._session` -- persists for the entire browser session (until the tab or app is closed).
+- `$._page` -- persists only while the current route is active. It resets when the user navigates to a different page.
+
+You do **not** need to subscribe to private collections. Read and write them directly:
+
+```js
+$._page.sidebar.opened.set(true)
+const isOpen = $._page.sidebar.opened.get()
+
+const userId = $._session.userId.get()
+```
+
+Use private collections for UI state, temporary data, and any values that do not need to persist in the database.
+
+## Routing parameters
+
+StartupJS uses Expo Router for file-based routing. Routes are parameterized using bracket syntax in file names. For example: `app/pokemon/[pokemonId].tsx`.
+
+To navigate programmatically:
+
+```js
+import { router } from 'expo-router'
+
+router.push('/pokemon/' + pokemonId)
+```
+
+On the target page, read the parameter with `useLocalSearchParams`:
+
+```js
+import { useLocalSearchParams } from 'expo-router'
+
+const { pokemonId } = useLocalSearchParams()
+```
+
+---
+
+## Color customization
+
+Source: `./docs/foundations/colorCustomization.mdx`
+
+# Color customization
+
+StartupJS separates **palette colors** (raw swatches) from **semantic colors** (named roles like `bg-main` or `text-main`). You can customize either layer depending on how much control you need.
+
+## Option 1: Static overrides (quick and simple)
+
+Use CSS variable overrides when you just need to replace a few colors without changing the entire theme. This keeps derived colors intact and only swaps the variables you list.
+
+```jsx
+import { UiProvider } from 'startupjs-ui'
+import STYLE_OVERRIDES from './styleOverrides.styl'
+
+<UiProvider style={STYLE_OVERRIDES}>
+  ...
+</UiProvider>
+```
+
+```styl
+// styleOverrides.styl
+:root
+  --palette-blue-4: #000099
+  --color-primary: var(--palette-blue-4)
+  --color-secondary: var(--palette-red-4)
+  --color-bg-main: var(--color-primary)
+```
+
+## Option 2: Theme switching (light/dark)
+
+If you want to switch themes at runtime, generate full color sets from a palette.
+
+```jsx
+import { UiProvider, generateColors, Colors } from 'startupjs-ui'
+
+const CUSTOM_PALETTE = {
+  main: ['#f5f7ff', '#e6ecff', '#c2d2ff', '#9cb7ff', '#739aff', '#4d7dff', '#2c5eff', '#1d4ae0', '#1639b3', '#102a85'],
+  red: ['#ffe8e8', '#ffbdbd', '#ff8f8f', '#ff5f5f', '#ff2f2f', '#f00000', '#c20000', '#960000', '#6b0000', '#420000']
+}
+
+const THEMES = {
+  dark: generateColors(CUSTOM_PALETTE, {
+    [Colors['bg-main']]: CUSTOM_PALETTE.main[9],
+    [Colors['text-main']]: CUSTOM_PALETTE.main[0],
+    [Colors['border-main']]: CUSTOM_PALETTE.main[7],
+    [Colors.secondary]: CUSTOM_PALETTE.main[2]
+  })
+}
+
+const themeValue = 'dark'
+
+<UiProvider {...THEMES[themeValue]}>
+  ...
+</UiProvider>
+```
+
+## Option 3: Advanced API (full control)
+
+Use `Palette` when you need explicit control over how palette values map to semantic colors. This is useful when you want to avoid accidental collisions or build multiple themes from the same base palette.
+
+```jsx
+import { UiProvider, Palette, Colors } from 'startupjs-ui'
+
+const CUSTOM_PALETTE = {
+  main: ['#f5f7ff', '#e6ecff', '#c2d2ff', '#9cb7ff', '#739aff', '#4d7dff', '#2c5eff', '#1d4ae0', '#1639b3', '#102a85']
+}
+
+const palette = new Palette(CUSTOM_PALETTE)
+const { Color, generateColors } = palette
+
+const THEMES = {
+  dark: generateColors(CUSTOM_PALETTE, {
+    [Colors['bg-main']]: Color('main', 9),
+    [Colors['text-main']]: Color('main', 0),
+    [Colors['border-main']]: Color('main', 7),
+    [Colors.secondary]: Color('main', 2)
+  })
+}
+
+const themeValue = 'dark'
+
+<UiProvider {...THEMES[themeValue]}>
+  ...
+</UiProvider>
+```
+
+## Supported color formats
+
+Overrides and palettes can use hex, RGB/RGBA strings, or `Color` instances from the advanced API.
+
+---
+
+## Colors
+
+Source: `./docs/foundations/colors.mdx`
+
+# Colors
+
+## Overview
+
+StartupJS uses **semantic color names** to keep UI consistent. Instead of hardcoding hex values, use named tokens like `bg-main` or `text-error`. This makes it easy to change a theme later without editing every component.
+
+For custom palettes or overrides, see [Color customization](./colorCustomization).
+
+## Usage guidelines
+
+- Use semantic color names everywhere.
+- Avoid hardcoded hex values in component styles.
+- Prefer background and text roles instead of palette-specific names.
+
+## Using color variables in styles
+
+You can reference CSS variables with `var(--color-...)`:
+
+```styl
+.card
+  background-color var(--color-bg-main-strong)
+  border-color var(--color-border-main)
+
+.text
+  color var(--color-text-main)
+```
+
+## Using color variables in JavaScript
+
+```js
+import { useColors } from 'startupjs-ui'
+
+const getColor = useColors()
+const bgColor = getColor('bg-main')
+```
+
+## Base colors
+
+`main`, `bg-main`, `text-main`, `border-main`, `primary`, `secondary`, `error`, `success`, `warning`, `info`, `attention`
+
+## Text colors
+
+`text-main`, `text-description`, `text-placeholder`, `text-subtle`, `text-primary`, `text-secondary`, `text-error`, `text-success`, `text-warning`, `text-info`, `text-attention`, `text-success-strong`, `text-info-strong`
+
+## Text-on-background colors
+
+`text-on-color`, `text-on-primary`, `text-on-secondary`, `text-on-error`, `text-on-success`, `text-on-warning`, `text-on-info`, `text-on-attention`
+
+## Background colors
+
+`bg-main`, `bg-main-subtle`, `bg-main-subtle-alt`, `bg-main-strong`, `bg-primary`, `bg-secondary`, `bg-error`, `bg-success`, `bg-warning`, `bg-info`, `bg-attention`, `bg-primary-strong`, `bg-primary-subtle`, `bg-primary-transparent`, `bg-secondary-subtle`, `bg-error-transparent`, `bg-success-transparent`, `bg-warning-transparent`
+
+## Border colors
+
+`border-main`, `border-main-strong`, `border-main-strong-alt`, `border-main-subtle`, `border-primary`, `border-secondary`, `border-error`, `border-success`, `border-warning`, `border-info`, `border-attention`
+
+## Shadow colors
+
+`shadow-main`, `shadow-main-strong`, `shadow-main-subtle`
+
+---
+
+## E2E testing
+
+Source: `./docs/foundations/e2e-tests.mdx`
+
+# E2E testing
+
+StartupJS uses **Playwright** for end-to-end tests. The CLI provides helpers to generate and run tests with the app already running.
+
+## Install Playwright
+
+```bash
+yarn create playwright
+```
+
+## Generate tests with the Playwright codegen
+
+```bash
+startupjs codegen-test-e2e
+```
+
+This command builds the app, starts it, and opens Playwright's code generator. See all codegen flags here: https://playwright.dev/docs/codegen#running-codegen
+
+## Run tests
+
+```bash
+startupjs test-e2e
+```
+
+This command also builds and starts the app before running tests. See all test CLI options here: https://playwright.dev/docs/test-cli
+
+## Working with DB snapshots
+
+If your app uses MongoDB, snapshots help you keep tests deterministic.
+
+1. Set a snapshot path:
+
+```bash
+DB_PATH=test.db
+```
+
+2. Start the app and create a snapshot for tests.
+3. Copy the snapshot into your test folder.
+
+Generate tests using the snapshot:
+
+```bash
+DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs codegen-test-e2e
+```
+
+Run tests using the snapshot:
+
+```bash
+DB_READONLY=true DB_LOAD_SNAPSHOT=test/snapshots/test.db startupjs test-e2e path/to/e2e-tests
+```
+
+## CI integration
+
+For a GitHub Actions example, see:
+https://github.com/startupjs/startupjs/blob/master/.github/workflows/run-tests.yaml
+
+## Resources
+
+- Playwright docs: https://playwright.dev/docs/intro
+- StartupJS backend flags: https://github.com/startupjs/startupjs/tree/master/packages/backend
+
+---
+
+## Editing patterns
+
+Source: `./docs/foundations/editing.mdx`
+
+# Editing patterns
+
+StartupJS is reactive by default: when you update a document, every subscribed client sees the change immediately. That is great for collaboration, but sometimes you want a local draft that only saves on demand.
+
+## Setup: create a demo document
+
+```jsx
+const docId = 'a2205406-7de4-43a4-8b73-48ea23a8aaab'
+const $doc = useSub($.temp[docId])
+
+useEffect(() => {
+  if ($doc.get()) return
+  $.temp.add({ id: docId, title: 'Title', message: 'Message' })
+}, [$doc.get()])
+
+return pug`
+  Span This example creates a demo document once, if it does not exist.
+`
+```
+
+## Live editing (default behavior)
+
+Changes are written to the document immediately, so the UI stays in sync with the database.
+
+```jsx
+const docId = 'a2205406-7de4-43a4-8b73-48ea23a8aaab'
+const $doc = useSub($.temp[docId])
+
+return pug`
+  Span= $doc.title.get()
+  TextInput.input(
+    placeholder='Title'
+    value=$doc.title.get()
+    onChangeText=t => $doc.title.set(t)
+  )
+`
+
+styl`
+  .input
+    margin-top 1u
+`
+```
+
+## Local draft (save on button click)
+
+If you want a "Save" button, keep a local copy and only write changes to the document when the user confirms.
+
+```jsx
+const docId = 'a2205406-7de4-43a4-8b73-48ea23a8aaab'
+const $doc = useSub($.temp[docId])
+const $draft = $({ ...$doc.get() })
+
+function onSubmit () {
+  $doc.assign($draft.get())
+}
+
+return pug`
+  Div
+    Span= $doc.title.get()
+    Span.line= $doc.message.get()
+
+  Div
+    TextInput.line(
+      placeholder='Title'
+      value=$draft.title.get()
+      onChangeText=t => $draft.title.set(t)
+    )
+
+    TextInput.line(
+      placeholder='Message'
+      value=$draft.message.get()
+      onChangeText=t => $draft.message.set(t)
+    )
+
+    Button(
+      variant='flat'
+      onPress=onSubmit
+    ) Save
+`
+
+styl`
+  .line
+    margin-bottom 1u
+`
+```
+
+## Persistent draft (survives reloads)
+
+If the draft must survive page reloads, store it in a separate document. A common convention is:
+
+```
+draft__<userId>__<docId>
+```
+
+```jsx
+const userId = $._session.userId.get()
+const docId = 'a2205406-7de4-43a4-8b73-48ea23a8aaab'
+const draftId = `draft__${userId}__${docId}`
+
+const $doc = useSub($.temp[docId])
+const $draft = useSub($.temp[draftId])
+
+useEffect(() => {
+  if ($draft.get() || !$doc.get()) return
+  $.temp.add({ ...$doc.get(), id: draftId })
+}, [$draft.get(), $doc.get(), draftId])
+
+function onSubmit () {
+  $doc.assign($draft.get())
+}
+
+if (!$draft.get()) return null
+return pug`
+  Div
+    Span= $doc.title.get()
+    Span.line= $doc.message.get()
+
+  Div
+    TextInput.line(
+      placeholder='Title'
+      value=$draft.title.get()
+      onChangeText=t => $draft.title.set(t)
+    )
+
+    TextInput.line(
+      placeholder='Message'
+      value=$draft.message.get()
+      onChangeText=t => $draft.message.set(t)
+    )
+
+    Button(
+      variant='flat'
+      onPress=onSubmit
+    ) Save
+`
+
+styl`
+  .line
+    margin-bottom 1u
+`
+```
+
+## Why `assign`
+
+Use `$doc.assign(draft)` instead of replacing the entire document. It sets only the fields that changed, generating minimal operations and avoiding unnecessary re-renders in components that depend on unchanged fields.
+
+---
+
+## Export CSS to JS
+
+Source: `./docs/foundations/exportCSStoJS.mdx`
+
+# Export CSS to JS
+
+StartupJS lets you export values from Stylus files directly into JavaScript using the `:export` block. This is handy for sharing theme values or layout constants.
+
+## Example
+
+```styl
+// index.styl
+$this = merge({
+  bgColor: $UI.colors.primary,
+  height: 10u
+}, $UI.ShoppingCart, true)
+
+.root
+  height: $this.height
+  background-color: $this.bgColor
+
+:export
+  config: $this
+  colors: $UI.colors
+  foobar: 42
+```
+
+```jsx
+import STYLES from './index.styl'
+
+const {
+  config: { bgColor },
+  colors,
+  foobar
+} = STYLES
+
+export default function ShoppingCart () {
+  console.log('Background color is:', bgColor)
+  console.log('Available colors:', colors)
+  console.log('Magic number FooBar:', foobar)
+  return <View styleName='root' />
+}
+```
+
+---
+
+## Caching node_modules
+
+Source: `./docs/foundations/nodeModulesCache.mdx`
+
+# Caching node_modules
+
+If your CI or offline workflow benefits from caching dependencies, you can keep the Yarn cache inside your project and commit it.
+
+## Steps
+
+1. Disable the global Yarn cache so it writes to `.yarn/cache` in your repo:
+
+```bash
+yarn config set enableGlobalCache false
+```
+
+2. Make sure Git does not ignore the cache folder:
+
+```bash
+echo '!.yarn/cache' >> .gitignore
+```
+
+That is it. Your project now contains its own dependency cache.
+
+---
+
+## 'Models' hook
+
+Source: `./docs/general/models.md`
+
+# 'Models' hook
+
+Using the 'models' hook, you can modify models or add new ones. The hook receives models (projectModels) that have been added to the project.
+
+## Adding a new model
+
+Let's look at an example of how we can add a model for the persons collection.
+
+When working with the Startupjs platform, you've probably already become familiar with the model folder, where those very models are stored. Each model is associated with a specific set of data (methods, constants, etc.). This data can be stored both in the model file itself and in any other location.
+
+To add a new model, we need to create an object with the same fields (methods, constants, etc.) that we usually use for the model. Naturally, you will specify only the data you need.
+
+We'll look at a couple of simple examples. In the first variant, we'll describe all the data in one file with the plugin:
+
+```js
+  import { BaseModel } from 'startupjs/orm'
+
+  const schema = {
+    name: { type: 'string', required: true },
+    age: { type: 'number' },
+    gender: { type: 'string', enum: ['man', 'woman'] },
+    phone: { type: 'string' },
+    createdAt: { type: 'number' },
+    updatedAt: { type: 'number' }
+  }
+
+  export default createPlugins({
+    name: 'addPersonModel',
+    isomorphic: () => ({
+      // Hook receives project models (projectModels)
+      models: (projectModels) => {
+        if (projectModels.persons) throw Error('The model already exists')
+
+        return {
+          // existing models
+          ...projectModels,
+          // add persons model
+          // for persons collection describe necessary fields
+          persons: {
+            // in default, specify the ORM class with custom method implementations for this collection model
+            // the class itself we described right after the plugin
+            default: PersonsModel,
+            // and then in the same style describe other fields if needed
+            // for example, add schema (if we're talking about a collection).
+            // here we used shorthand notation schema: schema
+            schema
+          },
+          // then other collections are described in exactly the same way
+        }
+      }
+    })
+  })
+
+  class PersonsModel extends BaseModel {
+    async addNew (data) {
+      const now = Date.now()
+      return await this.add({
+        ...data,
+        createdAt: now,
+        updatedAt: now
+      })
+    }
+  }
+```
+
+Another option for connecting a model through a plugin would be importing data from files that describe all the necessary data.
+
+We can import:
+- model class,
+- data schema,
+- class methods,
+- static methods,
+- constants,
+- database indexes
+
+For simplicity, we'll create a separate persons.js file where we'll define the model, schema, and other data. However, we repeat that only you decide how and where information will be stored, that is, the persons.js file itself can be assembled piece by piece by importing schema separately, indexes separately, etc.
+
+```js
+  import { BaseModel } from 'startupjs/orm'
+
+  class PersonsModel extends BaseModel {
+    // class methods (custom)
+    async addNew (data) {
+      const now = Date.now()
+      return await this.add({
+        ...data,
+        createdAt: now,
+        updatedAt: now
+      })
+    }
+  }
+
+  // schema
+  export const schema = {
+    name: { type: 'string', required: true },
+    age: { type: 'number' },
+    gender: { type: 'string', enum: ['man', 'woman'] },
+    phone: { type: 'string' },
+    createdAt: { type: 'number' },
+    updatedAt: { type: 'number' }
+  }
+
+  // indexes
+  export const indexes = [
+    { keys: { phone: 1 }, options: { unique: true } }
+  ]
+
+  // You can import all the above data in the plugin file and assemble the object there.
+  // But you can immediately assemble it here, for example
+  const persons = {
+    default: PersonsModel,
+    schema,
+    indexes
+  }
+
+  // export ready object
+  export default persons
+```
+
+The plugin file in this case will look like this:
+
+```js
+  // import the object described above in the persons.js file
+  import persons from './persons.js'
+
+  export default createPlugins({
+    name: 'addPersonModel',
+    isomorphic: () => ({
+      // Get project models (projectModels)
+      models: (projectModels) => {
+        if (projectModels.persons) throw Error('The model already exists')
+        return {
+          ...projectModels,
+          // here you can write in shorthand
+          // persons: persons (collection name : imported object,
+          // which already has all necessary fields assembled)
+          persons
+        }
+      }
+    })
+  })
+```
+
+## Modifying a model
+
+A collection model or collection document model can be extended with additional functionality. To do this, you need to define your own class, extending the base one and implementing the necessary methods.
+
+Let's create a persons.js file with a Persons collection model class. We'll add the addNew method using a plugin, modifying the class.
+
+```js
+  import { BaseModel } from 'startupjs/orm'
+
+  class PersonsModel extends BaseModel {
+  }
+
+  export const schema = {
+    name: { type: 'string', required: true },
+    age: { type: 'number' },
+    gender: { type: 'string', enum: ['man', 'woman'] },
+    phone: { type: 'string' },
+    createdAt: { type: 'number' },
+    updatedAt: { type: 'number' }
+  }
+
+  const persons = {
+    default: PersonsModel,
+    schema
+  }
+
+  export default persons
+```
+
+The plugin file in this case will look like this:
+
+```js
+  // Import the object described above in the persons.js file
+  // Accordingly, if you're working with an already existing model, you don't need to export anything here
+  import persons from './persons.js'
+
+  export default createPlugins({
+    name: 'updatePersonModel',
+    isomorphic: () => ({
+      // Get project models (projectModels)
+      models: (projectModels) => {
+        // Inherit class from PersonModel, which was imported from person.js as persons
+        // This can be any other already existing model that is stored in our projectModels
+        // We need inheritance just in case we want to modify an already existing model
+        // for example, class ModifiedFilesModel extends projectModels.files.default - we created an heir from the Files model
+
+        // Back to our example:
+        class ModifiedPersonsModel extends persons.default {
+          // Add new method to the heir
+          async addNew (data) {
+            const now = Date.now()
+            return await this.add({
+              ...data,
+              createdAt: now,
+              updatedAt: now
+            })
+          }
+        }
+        // return new model
+        const newModels = {
+          ...projectModels,
+          persons: {
+            default: ModifiedPersonsModel,
+            schema: persons.schema
+          }
+        }
+
+        return newModels
+      }
+    })
+  })
+
+---
+
+## Hooks
+
+Source: `./docs/general/hooks.md`
+
+# Hooks
+
+## Client-side hooks
+
+### `renderRoot`
+
+This hook is used to define the root component in which all child components of the application will be rendered. The renderRoot hook allows you to change the standard rendering behavior and its structure.
+
+If you have multiple plugins, each of which calls renderRoot, then each subsequent plugin will receive in children what
+is returned after the previous plugin's work. This ensures "nesting".
+
+Let's examine this hook in more detail with an example. Suppose we have two plugins. The first plugin will add a red bar with the text "Red block" to our application. It looks like this:
+
+```js
+export default createPlugin({
+  name: 'redPlugin',
+  client: () => ({
+    renderRoot ({ children }) {
+      return <>
+        <RedBlock />
+        {children}
+      </>
+    }
+  })
+})
+
+const RedBlock = observer(({ children }) => {
+  return pug`
+    Div.root(row)
+      Span Red block
+  `
+  styl`
+    .root
+      background-color var(--color-bg-error)
+      width: '100%'
+  `
+})
+```
+
+Next, we'll connect the second plugin:
+
+```js
+export default createPlugin({
+  name: 'greenPlugin',
+  client: () => ({
+    renderRoot ({ children }) {
+      return <>
+        <GreenBlock />
+        {children}
+      </>
+    }
+  })
+})
+
+const GreenBlock = observer(({ children }) => {
+  return pug`
+    Div.root(row)
+      Span Green block
+  `
+  styl`
+    .root
+      background-color var(--color-bg-success)
+      width: '100%'
+  `
+})
+```
+
+It will add a green bar with the text "Green block". At the same time, we will still see the red bar on the screen too.
+
+
+### `customFormInputs`
+
+Using the 'customFormInputs' hook, you can add new types of Input component, which, in turn, is part of the Form component logic.
+
+You can read more about Form here:
+https://github.com/startupjs/startupjs/blob/master/packages/ui/components/forms/Form/Form.en.mdx
+
+
+```js
+  export default createPlugin({
+    name: 'userCustomForm',
+    client: ({ minAge }) => ({
+      customFormInputs: () => ({
+        age: observer(({ $value }) => {
+          function setAge (age) {
+            if (age < minAge) age = minAge
+            $value.set(age)
+          }
+          return <NumberInput value={$value.get()} onChangeNumber={setAge} />
+        })
+      })
+    })
+  })
+```
+
+## Server-side hooks
+
+### `api`
+
+The 'api' hook defines API routes for handling server requests.
+
+```js
+  api: (expressApp) => {
+    // Creating a route for handling GET requests
+    expressApp.get('/api/data', async (req, res) => {
+      // Handling GET request
+      res.json({ message: 'Data received from server' })
+    })
+  }
+```
+
+### `beforeSession`
+
+The 'beforeSession' hook is called before session initialization on the server. It provides the ability to perform any operations or set configurations before the server starts processing requests. Sessions on the server are implemented using the express-session package, more details about its capabilities can be read on the [official page](https://github.com/expressjs/session#readme).
+
+```jsx
+  beforeSession: (expressApp) => {
+    // Example of adding middleware before session initialization
+    expressApp.use('/api', (req, res, next) => {
+      // Example of session check before initialization
+      if (!req.headers['authorization']) {
+        return res.status(401).json({ error: 'Unauthorized' })
+      }
+      // If everything is ok, continue request execution
+      next()
+    })
+  }
+```
+
+### `afterSession`
+
+The 'afterSession' hook is called after session initialization on the server.
+
+```js
+  afterSession: (expressApp) => {
+    // Example of adding middleware after session initialization
+    expressApp.use('/api', (req, res, next) => {
+      // Output request information
+      console.log(`Request path: ${req.url}`);
+      next()
+    })
+  }
+```
+
+### `middleware`
+
+The 'middleware' hook defines a middleware handler. This hook can be used to add common operations or checks.
+
+```js
+  middleware: (expressApp) => {
+    // Example of adding middleware
+    expressApp.use('/api', (req, res, next) => {
+      const lang = req.session.lang
+      if (lang) req.model.set('_session.lang', lang)
+      next()
+    })
+  }
+```
+
+### `serverRoutes`
+
+The 'serverRoutes' hook is used to add server endpoints that can be used both for HTML rendering and for implementing webhooks and similar functionality.
+
+```js
+  serverRoutes: (expressApp) => {
+    // Creating a route for handling GET requests
+    expressApp.get('/promo-page', (req, res) => {
+      // Sending HTML as response to request
+      res.send(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Promo Page</title>
+          </head>
+          <body>
+            <!-- some code -->
+          </body>
+        </html>
+      `)
+    })
+  }
+```
+
+
+## Isomorphic hooks
+
+In isomorphic hooks, you can place code that will execute both on the server and on the client.
+
+### `models`
+
+The 'models' hook receives models (projectModels) that have been added to the project. Using this hook, you can modify models or add new ones.
+
+Here we'll show how to add a hook in general, and more detailed usage examples can be found [here](https://github.com/startupjs/startupjs/blob/master/docs/general/en/models.en.md)
+
+```js
+  export default createPlugins({
+    name: 'addPersonModel',
+    // Don't forget that models is an isomorphic hook
+    isomorphic: () => ({
+      // Hook receives project models (projectModels)
+      models: (projectModels) => {
+        return {
+          ...projectModels,
+          // below for each collection or document, you need to specify an object with the same fields
+          // that are usually exported from the model file.
+          // Let's add a persons collection model
+          persons: {
+            // in default, specify the ORM class with custom method implementations for this collection model
+            default: PersonsModel,
+            // for schema, pass schema
+            schema
+            // ... other data, for example, indexes or constants,
+            // that were exported from the model file
+          }
+        }
+      }
+    })
+  })
+```
+
+### `orm`
+
+The 'orm' hook is an advanced hook for overriding Racer, which is used under the hood for ORM implementation. In particular, it can be used if you need to connect plugins for racer (via racer.use()) or extend racer's standard functionality. A Racer instance is passed as an argument to this hook.
+
+You can learn more about Racer in the documentation at https://github.com/derbyjs/racer
+
+```js
+// import plugin
+import racerPlugin from './myRacerPlugin.js';
+```
+
+```js
+  orm: (racer) => {
+    // Connect racer plugin
+    racer.use(racerPlugin);
+  }
+```
+
+
+## Plugin creation example
+
+Suppose we have a button in client code that, when clicked, should get data from the server.
+All the client file code will be like this:
+
+```js
+import { useState } from 'react'
+import { observer } from 'startupjs'
+import { Div, Button, Span } from '@startupjs/ui'
+import axios from 'axios'
+
+export default observer(function SomeScreen () {
+  const [data, setData] = useState()
+
+  async function fetchData () {
+    try {
+      const response = await axios.get('/api/get-data')
+      setData(response.data)
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  return (
+    <Div>
+      <Button onPress={fetchData}>Fetch by plugin</Button>
+      {data && data.message && <Span>Text: {data.message}</Span>}
+    </Div>
+  )
+})
+```
+
+Let's create a plugin file named test.plugin.js.
+In this example, we'll use the "api" hook, which will return some data from the server.
+
+```js
+import { createPlugin } from '@startupjs/registry'
+
+export default createPlugin({
+  name: 'test',
+  enabled: true,
+  // runtime environment - server
+  // we receive pluginOptions, to which we passed appName (described below)
+  server: (pluginOptions) => ({
+    // use api hook
+    api: (expressApp) => {
+      // on GET request to '/api/get-data'
+      // return our text, to which we add custom appName from pluginOptions
+      expressApp.get('/api/get-data', async (req, res) => {
+        res.json({ message: `Text returned by plugin ${pluginOptions.appName}` })
+      })
+    }
+  })
+})
+```
+
+Let's add plugin information to startupjs.config.js and pass the necessary parameters to it (they will be in pluginOptions)
+
+```js
+  import testPlugin from './test.plugin.js'
+
+  export default {
+    plugins: {
+      [testPlugin]: {
+        // pass custom pluginOptions for hooks
+        server: {
+          // let this be some application name that will be in appName
+          // we'll get this data in the plugin itself and can use it at our discretion
+          appName: 'TEST APP'
+        }
+      }
+    }
+  }
+```
+
+Add this file to "exports" in package.json so it automatically loads into your application:
+
+```json
+  "exports": {
+    "./test.plugin": "./test.plugin.js"
+  }
+```
+
+## Read more:
+- [What are modules and how to work with them](https://github.com/startupjs/startupjs/blob/master/docs/general/en/about-modules.en.md)
+
+---
+
+## Plugins in Startupjs
+
+Source: `./docs/general/plugins.md`
+
+# Plugins in Startupjs
+
+## What are plugins and why are they needed
+
+The Startupjs platform supports a plugin system that allows you to easily integrate additional code blocks into your application, thereby extending the application's functionality. These blocks are what we call plugins. With plugins, you can add new components, routes, server functionality, and much more, allowing us to adapt the application to specific needs. All of this becomes available without needing to modify the main application code.
+
+Overall, the plugin system in Startupjs provides flexibility and extensibility when developing websites or mobile applications, making it an attractive choice for many developers.
+
+
+## How the plugin system works
+
+1) **Plugin creation**: Developers create plugins in separate files with the pattern *.plugin.js. Plugins are created using the createPlugin function.
+
+2) **Plugin registration**: Developers register plugins in the application by specifying information about them in special places: these are the package.json and startupjs.config.js files.
+
+3) **Hooks and events**: Plugins subscribe to specific events that are generated within the application and respond to them by executing certain actions. When a required event occurs (for example, session initialization on the server), the system launches the corresponding plugins, allowing them to execute their logic. Event tracking is performed using [hooks](https://github.com/startupjs/startupjs/blob/master/docs/general/en/hooks.en.md).
+
+4) **Plugin initialization**: When the application starts, the system launches the registered plugins. All functionality is implemented through hooks.
+
+
+
+## Types of hooks
+
+**Hooks** are special functions used in the Startupjs plugin system to define plugin functionality in different runtime environments. In other words, developers can explicitly specify which runtime environment specific code is intended for. In Startupjs, there are three runtime environments: client-side, server-side, and isomorphic. Accordingly, our hooks are divided into three types, each of which will work in its own runtime environment - client-side, server-side, and isomorphic hooks.
+
+- **Client-side hooks**: Execute on the client-side of the application, in the user's browser. They can contain code related to the user interface or client-side logic.
+
+- **Server-side hooks**: Execute on the server-side of the application, in the Node.js environment. They can contain code related to HTTP request processing, API configuration, etc.
+
+- **Isomorphic hooks**: Execute on both client-side and server-side of the application. This allows sharing code between client and server, which simplifies application development and maintenance.
+
+Here's an example of how this might look:
+
+```js
+import { createPlugin } from 'startupjs';
+
+export default createPlugin({
+  name: 'myPlugin',
+  // client, server, isomorphic - these are the runtime environments for which we will define hooks
+  client: (pluginOptions) => ({
+    // Client-side hooks
+    // Code for execution on the client-side of the application
+  }),
+  server: (pluginOptions) => ({
+    // Server-side hooks
+    // Code for execution on the server-side of the application
+  }),
+  isomorphic: (pluginOptions) => ({
+    // Isomorphic hooks
+    // Code that should execute on both client and server
+  })
+})
+```
+
+Technically, client, server, and isomorphic are functions that accept user options (pluginOptions) and return an object with various hooks containing their configurations and functionality, which are related to the client-side, server-side, or both simultaneously.
+
+Code written for client will go into the client bundle, for server - into the server bundle, code from isomorphic will go into both bundles.
+
+## Read more:
+- [How to create a plugin](https://github.com/startupjs/startupjs/blob/master/docs/general/en/create-plugin.en.md)
+
+---
+
+## How to create your own plugin
+
+Source: `./docs/general/create-plugin.md`
+
+# How to create your own plugin
+
+To create a plugin file for Startupjs, you must follow certain naming and file placement conventions. Here are the steps that will help you do this:
+
+1) Choose a name for the plugin file. The name should be unique and reflect its functionality. For example, customInputType.plugin.js. It's important that the filename contains the .plugin.js suffix so that the Startupjs system can correctly identify it as a plugin.
+
+2) Create the plugin file in a convenient location inside your module's folder. There are no strict rules regarding folder structure for plugins, but it's recommended to maintain cleanliness and order in your project structure. You can also create plugins for your entire project/application.
+
+3) For Startupjs to be able to discover your plugin, you need to add it to the package.json of your module. This is done by adding the path to the plugin file in the exports section. If the plugin is written for the entire project/application, use the package.json from the project root.
+
+4) Make sure the path to the plugin file is specified relative to the root of your project. After this, when starting Startupjs, the system will automatically process your plugin according to the provided exports.
+
+Let's look at an example.
+
+Let's create a customInputType.plugin.js file.
+The plugin will look like this:
+
+```js
+import { createPlugin } from 'startupjs/registry'
+
+// plugin is created using the createPlugin function
+export default createPlugin({
+  // name - unique plugin name
+  name: 'custom-input-type',
+  // enabled indicates whether the plugin is enabled or not.
+  // If its value is false, the plugin is considered disabled and its
+  // functionality will not be activated in the application.
+  enabled: true,
+  // client, isomorphic, server - runtime environment
+  client: (pluginOptions) => ({
+    // Here you can add implementation of client-side hooks. For example,
+    // for demonstration, let's add the customFormInputs hook
+    customFormInputs: () => ({
+      // Code. We'll look at how this and other hooks work in more detail later
+    })
+  }),
+  server: (pluginOptions) => ({
+    // Here you can add implementation of server-side hooks. For example,
+    // for demonstration, let's add the api hook
+    api: (expressApp) => {
+      expressApp.get('/api/your-unique-path', async (req, res) => {})
+      expressApp.post('/api/your-unique-path', async (req, res) => {})
+    }
+  }),
+  isomorphic: (pluginOptions) => ({
+    // Here you can add implementation of isomorphic hooks
+  }),
+})
+```
+
+Add information about this file to the `exports` section of the `package.json` file according to its name, for example, `customInputType.plugin.js`, so it automatically loads into your application. If plugins are in a separate folder, you need to account for the path.
+
+You can connect any number of plugins. To do this, simply list them separated by commas.
+
+```json
+"exports": {
+  "./plugins/customInputType.plugin": "./plugins/customInputType.plugin.js",
+  "./plugins/firstPlugin.plugin": "./plugins/firstPlugin.plugin.js",
+  "./plugins/secondPlugin.plugin": "./plugins/secondPlugin.plugin.js"
+}
+```
+
+To pass parameters to the plugin (pluginOptions in our example), you need to specify them in the startupjs.config.js file, which is located in the root folder of your project. To do this, first import the plugins into this file, then specify parameters for each plugin in the plugins section, where keys are plugin names and values are objects with parameters for server-side, client-side, and isomorphic hooks:
+
+```js
+  // import plugins from corresponding files
+  import customInputType from './plugins/customInputType.plugin.js'
+  import firstPlugin from './plugins/firstPlugin.plugin.js'
+
+  export default {
+    plugins: {
+      // Here customInputType, firstPlugin - are the plugin names under which we imported them
+      // firstPlugin is specified as an example to show how we add multiple plugins to this file
+      [customInputType]: {
+        // Here we specify everything related to server-side hooks
+        server: {
+          // List of parameters for server-side hooks. They will be stored in pluginOptions and available in hooks.
+          someServerOption: 'some value'
+        },
+        // Here we specify everything related to client-side hooks
+        client: {
+          // List of parameters for client-side hooks. They will be stored in pluginOptions and available in hooks.
+          someClientOption: 'some value'
+        },
+        // Here we specify everything related to isomorphic hooks
+        isomorphic: {
+          // List of parameters for isomorphic hooks. They will be stored in pluginOptions and available in hooks.
+          someIsomorphicOption: 'some value'
+        }
+      },
+      // separated by comma, we list other plugins. In our case firstPlugin
+      [firstPlugin]: {
+        // If parameters for client are not needed, you can simply not specify this block. Similarly with server and isomorphic
+        // For this plugin, for example, we need to pass options only for server-side hooks.
+        server: {
+          someOption: 'Hello from server!'
+        }
+      }
+      // Here you can add your plugin with a list of necessary parameters.
+    }
+  }
+```
+
+### Order (optional)
+
+Optionally in createPlugin you can add order - the execution order of plugins, by specifying an execution "group".
+In addition to the "groups" listed below, you can also use variants 'before group' and 'after group'.
+
+Possible group variants in their execution order:
+
+```js
+  'first',
+  'root',
+  'session',
+  'auth',
+  'api',
+  'pure', // for pure startupjs plugins that don't depend on 'ui' or 'router'
+  'ui', //  for plugins that depend on 'ui'
+  'router', // for plugins that depend on 'router'
+  'default', // default group that executes after all others
+  'last'
+```
+
+For example,
+
+```js
+export default createPlugin({
+  name: 'my-plugin',
+  order: 'ui',
+  client: (pluginOptions) => ({
+    // ...
+  })
+})
+```
+
+### For (optional)
+
+The for property specifies which module this plugin is created for. For example, if you're creating a plugin for the admin module, you can specify for: 'admin'. [Read more about modules here](https://github.com/startupjs/startupjs/blob/master/docs/general/en/about-modules.en.md)
+
+For example,
+
+```js
+export default createPlugin({
+  name: 'my-plugin',
+  for: 'admin',
+  client: () => ({
+    // ...
+  })
+})
+```
+
+When you create a plugin with for: 'admin' specified, StartupJS automatically connects this plugin to the module named "admin".
+If for is not specified, the default module will be the Startupjs platform itself.
+
+
+## Read more:
+- [Hooks for plugins](https://github.com/startupjs/startupjs/blob/master/docs/general/en/hooks.en.md)
+
+---
+
+## Modules in Startupjs
+
+Source: `./docs/general/about-modules.md`
+
+# Modules in Startupjs
+
+We already know that Startupjs provides the ability to customize an application using plugins. And in most cases this will be sufficient. But what if our plugin contains functionality that we'd also like to customize? For example, we wrote a plugin for the Auth package. The Auth itself provides the ability to connect different authentication strategies (for example, Google, LinkedIn and others). In such a situation, we can create an auth module, which will already have its own plugins connected, each of which will implement its own strategy. For each module, we can create multiple plugins. The user will only need to install a package from Startupjs, for example, startupjs/auth-google (name given as an example), and this package will be automatically connected. There will be no need to configure anything additionally.
+
+The entire concept of modules (like plugins) is essentially the concept of event emitters, where a module is our eventEmitter that emits events, where instead of the familiar emit, we have hook, and plugins are the on function for subscribing to events.
+The only difference from a regular eventEmitter is that our eventEmitter returns data.
+
+## Let's understand how to write your own module using the admin module as an example
+
+The structure of our module looks like this:
+
+The admin panel consists of a sidebar and content part. This is a common structure for projects. But the pages that will be available in the admin panel are individual for each project and their addition and customization in our example will be implemented through a separate 'schema' plugin, which will add several pages to our admin module and an 'admin-api' plugin, which will extend the API of the main Startupjs module by adding new endpoints that the new pages use.
+
+```
+    admin/
+    │
+    ├── client/
+    │ ├── _layout.js
+    │ ├── index.js
+    │ └── routes.js
+    │
+    ├── index.js
+    ├── module.js
+    └── package.json
+```
+
+Initially, we should create a module. To do this, in the `module.js` file, which is located in the project root, we'll write the following code:
+
+```js
+  import { createModule } from 'startupjs/registry'
+
+  export default createModule({
+    // name - unique module name
+    name: 'admin'
+  })
+```
+
+Add information about this file to the `exports` section of the `package.json` file under the name `module.js` so it automatically loads into your application. If the module is in a separate folder, you need to account for the path:
+
+```json
+  "exports": {
+    "./module": "./module.js"
+  }
+```
+
+Modules and plugins interact closely with each other. Modules provide capabilities for adaptation and extending functionality using plugins, modules include hooks for interacting with plugins. These hooks allow custom plugins to implement additional functions by responding to specific events or actions within the module.
+
+Let's look at one of such "hooks" using the `routes.js` file as an example
+
+```js
+    import { createElement as el } from 'react'
+    import MODULE from '../module'
+    import _layout from './_layout'
+    import index from './index'
+
+    export default [{
+    path: '',
+    element: el(_layout),
+    children: [
+        { path: '', element: el(index) },
+        ...MODULE.hook('routes').flat()
+    ]
+    }]
+```
+To interact with plugins, we import MODULE from the file where we created it, and we get access to using the hook method on MODULE.
+
+`import MODULE from '../module'`,
+
+For simplicity of understanding, we perceive MODULE.hook('routes') as emit('routes').
+As mentioned earlier, using MODULE.hook('routes') we get an array of routes that is described in the plugin. If we don't create a plugin, then we won't have the routes event and MODULE.hook('routes') will return nothing to us.
+
+Let's create a 'schema' plugin:
+
+```js
+  export default createPlugin({
+    name: 'schema',
+    for: 'admin',
+    enabled: true,
+    client: () => ({
+      routes: () => [
+        { path: 'schema', element: <Page /> },
+        { path: 'test-page', element: <TestPage /> }
+      ],
+      menuItems: () => [
+        { to: 'schema', name: 'Schema', icon: faTable },
+        { to: 'test-page', name: 'TestPage', icon: faTable }
+      ]
+    })
+  })
+```
+
+In this example, we define a routes hook that is intended for integrating additional pages into the admin panel. When we connect the plugin, the module will be able to emit events described in the plugin. In our example, when we emit the routes event, the plugin provides an array of new pages that will be built into the administrative interface. The logic and content of these pages are developed and described directly inside the plugin, ensuring modularity and flexibility in extending the admin panel.
+
+To "bind" a plugin to the required module, the for property of the plugin is used. This is described in more detail in the plugin documentation. But in short, you simply specify the module name for for. If for is not specified, then Startupjs itself will act as the module, as the root module.
+
+After we've defined routes for the necessary pages, the next step is displaying them in the sidebar of the administrative interface. For this purpose, we use the menuItems event. When the admin module requests menu items, plugins can respond to this event and provide menu data, including links to new pages that were added through routes. This ensures dynamic integration of pages into the admin panel user interface.
+
+In the `_layout.js` file, where we output menuItems, we'll add this code:
+
+```js
+  const menuItems = useMemo(() => [
+    { name: 'Home', to: adminPath, icon: faTachometerAlt },
+    ...MODULE.hook('menuItems').flat().map(item => ({
+      ...item,
+      to: item.to ? (adminPath + '/' + item.to) : undefined
+    }))
+  ], [adminPath])
+```
+
+From this example, we can see that we will always have a Home page, but if we connect the schema plugin, when we emit the menuItems event, MODULE.hook('menuItems') will return us an array of pages with paths described in the plugin.
+
+If we need to add new API routes that were not initially registered in Startupjs, we can do this by creating another plugin. This plugin will be intended directly for extending the functionality of the base Startupjs module, and its description doesn't need to specify the for field, since it should be processed by Startupjs itself.
+
+Thus, a plugin without the for field will be perceived as an extension of the base Startupjs module. Inside this plugin, we can use the server api hook to add new API routes that will be integrated with the main application. This will allow us to provide the necessary connection between new admin panel pages and corresponding API calls.
+
+```js
+    export const startupjsPlugin = createPlugin({
+    name: 'admin-api',
+    enabled: true,
+    server: () => ({
+        api: expressApp => {
+          expressApp.get(`${BASE_URL}/files`, files)
+          expressApp.get(`${BASE_URL}/file/:filename`, getFile)
+        }
+      })
+    })
+```
+
+We can also write a plugin that outputs some JSX:
+
+```js
+  export default createPlugin({
+    name: 'schema',
+    for: 'admin',
+    enabled: true,
+    client: () => ({
+      renderTopbarRight: () => (
+        <Avatar size='s'>Admin User</Avatar>
+        )
+    })
+  })
+```
+
+In cases where the admin module provides the ability to extend through client-side hooks, we can create a plugin that implements specific hooks with predefined names declared in the admin module. This will allow integrating custom JSX code into specific parts of the administrative interface.
+
+For example, if the admin module declares a client-side renderTopbarRight hook, the plugin can implement this hook to add a custom component to the right part of the topbar. Inside the admin module JSX, this hook can be activated as follows:
+
+The plugin must contain an implementation for the hook named renderTopbarRight so that its content can be correctly displayed in the admin panel. This allows developers to flexibly extend the functionality of the administrative panel by adding new interface elements or functionality without changing the source code of the admin module.
+
+```js
+return pug`
+    SmartSidebar.sidebar($open=$sidebarOpened defaultOpen renderContent=renderSidebar)
+    Div.topbar(row vAlign='center')
+        Div.left(row gap vAlign='center')
+        Button(
+            variant='text'
+            color='text-description'
+            icon=faBars
+            onPress=() => $sidebarOpened.set(!$sidebarOpened.get())
+        )
+        H1.title Admin
+        Div.right(row gap vAlign='center')
+        MODULE.RenderHook(name='renderTopbarRight')
+    Slot
+    `
+```
+
+## Summary
+    - Module creation is done using the createModule function.
+    - A module is written with future modifications in mind using plugins.
+    - Interaction with plugins occurs through MODULE.hook(<event_name>)
+    - Ready JSX is output using the client-side hook `MODULE.RenderHook(name=<event_name>)
+    - Most importantly, what a developer needs to know is that plugins don't exist separately from modules, they are always written either for the base Startupjs module without explicit for specification, or for new modules, as in our example.
+
+Based on this guide, you've learned to create your own modules and plugins for them.
+
+---
+
+## Experimental Hooks
+
+Source: `./docs/general/experimental-hooks.md`
+
+# Experimental Hooks
+
+## Hooks: server
+
+### `logs`
+
+The 'logs' hook handles requests for getting and saving logs.
+
+```js
+  logs: (expressApp) => {
+    expressApp.use('/api', (req, res, next) => {
+      // Example of logging request information
+      console.log(`Request to ${req.originalUrl} from ${req.ip}`)
+      next()
+    })
+  }
+```
+
+### `static`
+
+This hook is designed to declare additional static files (such as images, CSS, JavaScript) on the client side of your application, making them available through a specific URL. You can still access the public folder, which will be available at url '/'.
+
+```js
+  static: (expressApp) => {
+    expressApp.use('/assets', expressApp.static('assets'))
+  }
+```
+
+### `createServer`
+
+Use the 'createServer' hook if you need to configure and start the server. The hook receives a 'server' argument, which is an instance of Node HTTP Server. You can read more in the official documentation at the link
+https://nodejs.org/api/http.html#httpcreateserveroptions-requestlistener
+
+```js
+  createServer: (server) => {
+    // Configure port for listening
+    const PORT = process.env.PORT || 3000
+
+    // Start server on specified port
+    server.listen(PORT, () => {
+      console.log(`Server started. Port: ${PORT}`)
+    })
+  }
+```
+
+### `serverUpgrade`
+
+This hook is designed to handle upgrading HTTP connection to WebSocket connection. This hook receives
+req, socket, head as arguments (args). You can learn more about the upgrade event from the official documentation at the link https://nodejs.org/api/http.html#event-upgrade
+
+```js
+  serverUpgrade: (...args) => {
+    socket.write('HTTP/1.1 101 Web Socket Protocol Handshake\r\n' +
+               'Upgrade: WebSocket\r\n' +
+               'Connection: Upgrade\r\n' +
+               '\r\n');
+
+    socket.pipe(socket);
+  }
+```
+
+### `beforeStart`
+
+Use the 'beforeStart' hook to execute code before starting the Express server. This hook receives props as arguments, which include backend, server, expressApp, session.
+
+```js
+  beforeStart: (props) => {
+    // For example, setting up database connection before starting server
+    const db = require('./db')
+    db.connect()
+    console.log('Server ready to start...')
+  }
+```
+
+### `transformSchema`
+
+Use the 'transformSchema' hook to modify the schema. This hook receives schema as an argument.
+
+```js
+  transformSchema: (schema) => {
+    // Modify schema, for example, adding new fields or removing existing ones
+    // In this example we add a new field
+    schema.properties.newField = { type: 'string' };
+    // In this example we remove a field
+    delete schema.properties.unwantedField;
+    return schema;
+  }
+
+---
+
+## Startupjs Router
+
+Source: `./docs/libraries/startupjs-router.mdx`
+
+<RouterReadme />
+
+---
+
+## Startupjs Worker
+
+Source: `./docs/libraries/startupjs-worker.mdx`
+
+<WorkerReadme />
+
+---
+
+## 2fa-manager
+
+Source: `./libraries/2fa-manager/docs/2fa-manager.en.mdx`
+
+# 2fa-manager
+
+Component for using various two-factor authentication methods.
+
+## Installation
+
+```js
+  yarn add @startupjs/2fa-manager
+```
+
+## Connecting to startupjs
+
+### server
+
+Add the following lines to `server/index.js`:
+
+```js
+import { initTwoFAManager } from '@startupjs/2fa-manager/server'
+```
+
+Add function to `startupjsServer`:
+
+```js
+initTwoFAManager(ee, {
+  providers: [
+    [YOUR_PROVIDER1, YOUR_PROVIDER1_OPTIONS]
+    [YOUR_PROVIDER2, YOUR_PROVIDER2_OPTIONS]
+  ]
+})
+```
+
+### Creating custom providers
+
+You can create your own providers using the `Provider` class from `@startupjs/2fa-manager/Provider`.
+
+Class `Provider(name, send, check)` where:
+
+- `name` - string, provider name.
+- `send()` - function of sending a message with a code.
+- `check(code)` - function for checking the validity of the code.
+  - `code` - the code to check.
+
+**Example**
+
+```js
+import { Provider } from '@startupjs/2fa-manager/Provider'
+
+export default class CustomProvider extends Provider {
+  constructor (ee, options) {
+    super('testProvider')
+    this.init(ee, options)
+  }
+
+  init (ee, options) {
+    // your init, for example
+    init2fa(ee, options)
+  }
+
+  send () {
+    console.log('test code')
+  }
+
+  check (model, session, token) {
+    if (token === 'test code') {
+      console.log('Right code')
+      return true
+    } else {
+      console.log('Wrong code')
+      return false
+    }
+  }
+}
+```
+
+Now this `Provider` can be registered with `initTwoFaManager` and used by the name `testProvider`.
+
+## API
+
+### server
+
+- `initTwoFaManager(ee, options)`
+  - `ee` - eventEmitter of server.
+  - `options [Object]` - options object. Contains a list of providers:
+    - `providers [Array]` - array of arrays with providers.
+
+- `checkToken (model, session, { data = {}, providerName = '', token = '' })` - Function for checking the code on the server. Parameters:
+  - `model` - model
+  - `session` - session
+  - `options [Object]` - options
+    - `data [Object] default {}` - the request body, used if you added the `twoFA` field to the request body, as recommended in `ProvidersBlock`, takes precedence over the `providerName` and `token` parameters.
+    - `providerName [String] default ''` - provider name, if you set this field, then do not pass the `data` value in the options
+    - `token [String] default ''` - the key that needs to be checked, if you set this field, then do not pass the `data` value in the options
+
+- `TwoFAManager` - Singleton class that contains the following methods:
+  - `send(model, session, providerName)` - calls the `send` method of the provider `providerName`.
+  - `check(model, session, token, providerName)` - calls the `check` method of the provider `providerName`.
+  - `getProviders()` - returns an array of the names of the registered providers.
+
+### client
+
+- `ProvidersBlock(providerNames, onSubmit)` - The component implements the entire sequence for two-factor verification. Accepts the following props:
+  - `providerNames [Array]` - the names of the providers to be displayed (providers must be connected on the server side). If not passed, then all connected providers are displayed.
+
+  - `onSubmit [Function(twoFA)]` - callback, returns a `twoFA` object that contains the following fields:
+    - `selectedProvider [String]` - name of the selected provider
+    - `code [String]` - entered code
+
+**IMPORTANT** The callback is needed in order to provide the data that you need to transfer to the server. The validity check of the entered code should be checked only on the server, since the client code can be modified by an attacker. It is recommended to add a field with the name `twoFA` and the content as in the `twoFA` promise from the `onSubmit` function to the transmitted request.
+
+**IMPORTANT** `onSubmit` must return `true` in case of valid code and `false` in case of invalid code.
+
+- `ProvidersList2fa(providers, chooseProvider)` - Component for displaying a list of registered providers. Accepts the following props:
+  - `providers` - array of provider names
+  - `chooseProvider` - function, returns the name of the selected provider
+
+```js
+import { useProviders } from '@startupjs/2fa-manager'
+```
+
+```jsx example
+const providers = useProviders()
+const [currentProvider, setCurrentProvider] = useState('')
+return pug`
+  ProvidersList2fa(
+    providers=providers
+    chooseProvider=setCurrentProvider
+  )
+  Br
+  if currentProvider
+    Span= 'You chose the ' + currentProvider
+`
+```
+
+## Example
+
+```js
+import { CheckToken } from '@startupjs/2fa'
+```
+
+```jsx example
+const providers = useProviders()
+const [currentProvider, setCurrentProvider] = useState('')
+
+async function onSubmit(twoFA) {
+  console.log(twoFA.selectedProvider, twoFA.code)
+  return twoFA.code
+}
+
+return pug`
+  Div
+    ProvidersBlock(onSubmit=onSubmit)
+`
+```
+
+---
+
+## @startupjs/2fa-push-notification-provider
+
+Source: `./libraries/2fa-push-notification-provider/docs/push-notifications.en.mdx`
+
+# @startupjs/2fa-push-notification-provider
+
+Provider for verification via `@startupjs/push-notification`.
+
+## Dependencies
+
+```js
+@startupjs/2fa-manager >= 0.35.10,
+@startupjs/push-notification >= 0.35.10
+```
+
+## Installation
+
+```js
+  yarn add @startupjs/2fa-push-notification-provider
+```
+
+**IMPORTANT**: To use this package, you need to include the `@startupjs/push-notification` package as specified in the [documentation](/docs/libraries/push-notofications).
+
+## Using
+
+You need to import the `PushProvider` component from `@startupjs/2fa-push-notification-provider`.
+
+```js
+import { PushProvider } from '@startupjs/2fa-push-notification-provider'
+```
+
+Then you need to add `PushProvider` to the` providers` array of `initTwoFAManager`. The second argument of the array is the options for the provider. Here you can set the optional `codeMaxAge` parameter, this time during which the code is considered valid. By default, `codeMaxAge = 30000`
+
+```js
+initTwoFAManager(ee, {
+  providers: [
+    [PushProvider, { codeMaxAge: 'YOUR_TIME_IN_MS' }]
+  ]
+})
+```
+
+---
+
+## @startupjs/2fa-totp-authentication-provider
+
+Source: `./libraries/2fa-totp-authentication-provider/docs/2fa-totp-authentication-provider.en.mdx`
+
+# @startupjs/2fa-totp-authentication-provider
+
+Provider for verification via google authenticator app.
+
+## Dependencies
+
+```js
+@startupjs/2fa-manager >= 0.34.0,
+@startupjs/2fa-totp-authentication >= 0.34.0
+```
+
+## Installation
+
+```js
+  yarn add @startupjs/2fa-totp-authentication-provider
+```
+
+**IMPORTANT**: To use this method, in advance, the user must provide a secret in the form of a QR code, which he will add to the google-authenticator. More on this in the [google-authenticator documentation](/docs/libraries/2fa/2fa-totp-authentication)
+
+## Using
+
+You need to import the `GAProvider` component from `@startupjs/2fa-totp-authentication-provider`.
+
+```js
+import { GAProvider } from '@startupjs/2fa-totp-authentication-provider'
+```
+
+Then you need to add `GAProvider` to the` providers` array of `initTwoFAManager`. The second argument of the array is the options for the provider. `TotpProvider` expects an application name, this name will be displayed in the `google authenticator` interface.
+
+You can get the name of the application from `app.json`, usually this file is located in the root of the project:
+
+```js
+import app from 'path/to/your/app.json'
+
+...
+
+initTwoFAManager(ee, {
+  providers: [
+    [TotpProvider, { appName: app.name }]
+  ]
+})
+```
+
+---
+
+## 2fa-totp-authentication
+
+Source: `./libraries/2fa-totp-authentication/docs/2fa-totp-authentication.en.mdx`
+
+# 2fa-totp-authentication
+> Сomponent of two-factor authentication for Google Authenticator
+
+## Necessary dependences
+  `@startupjs/auth`
+
+## Installation
+
+```js
+yarn add @startupjs/2fa-totp-authentication
+```
+
+## Connecting to the startupjs
+
+### Server
+
+In `server/index.js` add next strings:
+```js
+import { init2fa } from '@startupjs/2fa-totp-authentication/server'
+import app from '../app.json'
+```
+
+In `startupjsServer` function add:
+```js
+init2fa(ee, { appName: app.name })
+```
+
+## !!! IMPORTANT !!!
+You need to log in on this [page](/auth/sign-in) for use example.
+
+The QR code is a secret and should only be displayed to authorized users. The user reads this code using the Google Authenticator application, after which codes are generated in the application.
+
+### Example
+```js
+import { createSecret, getSecret, QRSecret, CheckToken } from '@startupjs/2fa-totp-authentication'
+```
+
+```jsx example
+  const styles = StyleSheet.create({
+    root: {
+      flex: 1,
+      alignItems: 'center'
+    },
+    row: {
+      minWidth: 320,
+      flexDirection: 'row',
+      justifyContent: 'space-around'
+    },
+    qr: {
+      width: 100,
+      height: 100,
+      marginVertical: 24
+    }
+  })
+
+  const [secret, setSecret] = useState({})
+
+  async function onCreateSecret () {
+    const secret = await createSecret()
+    setSecret(secret)
+  }
+
+  async function onGetSecret () {
+    try {
+      const secret = await getSecret()
+      secret && setSecret(secret)
+    } catch (err) {
+      console.log('err: ', err)
+    }
+  }
+
+  return (
+    <View style={styles.root}>
+      <View style={styles.row}>
+        <Button
+          style={styles.button}
+          title="Create secret"
+          onPress={onCreateSecret}
+        />
+        <Button
+          style={styles.button}
+          title="Get created secret"
+          onPress={onGetSecret}
+        />
+      </View>
+      {secret.QRDataURL && <QRSecret style={styles.qr} />}
+      {secret.QRDataURL && <CheckToken onSuccess={() => alert('Right code')} onDismiss={() => alert('Wrong code')} />}
+    </View>
+  )
+```
+
+## Functions
+
+- `createSecret` - returns a `Promise` which creates a request to create a `Secret` (if secret exists it will be replaced by new secret) and returns the result `{ base32, QRDataURL }` where:
+    - `base32` - your Secret code
+    - `QRDataURL` - QR code that you can use like image
+
+- `checkToken(token)` - return `true` if token is valid and `false` otherwise
+
+- `getSecret` - return already created secret (if secret does not exist there will throw error) in format like in `createSecret`
+
+## Components
+
+### QRSecret
+  You can use this component for show QR code of existing secret. If secret does not exist there will show nothing.
+
+### CheckToken
+  Simple token validation. There are props:
+- `style` - styles of root component
+- `label` - input label
+- `onSuccess` - valid token callback
+- `onDismiss` - invalid token callback
+
+---
+
+## 2fa
+
+Source: `./libraries/2fa/docs/2fa.en.mdx`
+
+# 2fa
+> Сomponent of two-factor authentication
+
+## Necessary dependences
+  `@startupjs/auth`
+
+## Installation
+
+```js
+yarn add @startupjs/2fa
+```
+
+## Connecting to the startupjs
+
+### Server
+
+In `server/index.js` add next strings:
+```js
+import { init2fa } from '@startupjs/2fa/server'
+import app from '../app.json'
+```
+
+In `startupjsServer` function add:
+```js
+init2fa(ee, { appName: app.name })
+```
+
+## !!! IMPORTANT !!!
+You need to log in on this [page](/auth/sign-in) for use example.
+
+### Example
+```js
+import { createSecret, getSecret, QRSecret, CheckToken } from '@startupjs/2fa'
+```
+
+```jsx example
+  const styles = StyleSheet.create({
+    root: {
+      flex: 1,
+      alignItems: 'center'
+    },
+    row: {
+      minWidth: 320,
+      flexDirection: 'row',
+      justifyContent: 'space-around'
+    },
+    qr: {
+      width: 100,
+      height: 100,
+      marginVertical: 24
+    }
+  })
+
+  const [secret, setSecret] = useState({})
+
+  async function onCreateSecret () {
+    const secret = await createSecret()
+    setSecret(secret)
+  }
+
+  async function onGetSecret () {
+    try {
+      const secret = await getSecret()
+      secret && setSecret(secret)
+    } catch (err) {
+      console.log('err: ', err)
+    }
+  }
+
+  return (
+    <View style={styles.root}>
+      <View style={styles.row}>
+        <Button
+          style={styles.button}
+          title="Create secret"
+          onPress={onCreateSecret}
+        />
+        <Button
+          style={styles.button}
+          title="Get created secret"
+          onPress={onGetSecret}
+        />
+      </View>
+      {secret.QRDataURL && <QRSecret style={styles.qr} />}
+      {secret.QRDataURL && <CheckToken onSuccess={() => alert('Right code')} onDismiss={() => alert('Wrong code')} />}
+    </View>
+  )
+```
+
+## Functions
+
+- `createSecret` - returns a `Promise` which creates a request to create a `Secret` (if secret exists it will be replaced by new secret) and returns the result `{ base32, QRDataURL }` where:
+    - `base32` - your Secret code
+    - `QRDataURL` - QR code that you can use like image
+
+- `checkToken(token)` - return `true` if token is valid and `false` otherwise
+
+- `getSecret` - return already created secret (if secret does not exist there will throw error) in format like in `createSecret`.
+
+## Components
+
+### QRSecret
+  You can use this component for show QR code of existing secret. If secret does not exist there will show nothing.
+
+### CheckToken
+  Simple token validation. There are props:
+- `style` - styles of root component
+- `label` - input label
+- `onSuccess` - valid token callback
+- `onDismiss` - invalid token callback
+
+---
+
+## Apple Authorization
+
+Source: `./libraries/auth-apple/docs/readme.en.mdx`
+
+# Apple Authorization
+
+## Init main module
+[Configuring main module](/docs/auth/main)
+
+## Requirements
+```
+@invertase/react-native-apple-authentication: >= 2.1.0
+@startupjs/auth: >= 0.33.0
+```
+
+## Setting up app
+1 - Open project in xCode
+2 - Targets -> Signing & Capabilities
+3 - Add team
+4 - Add Capability - Sign in with Apple
+5 - Go to [Identifiers](https://developer.apple.com/account/resources/identifiers/list/). The ID should appear there
+6 - Go to [Keys](https://developer.apple.com/account/resources/authkeys/list)
+7 - Create a new key. Choose **Sign in with Apple**. In the tab **Edit** - select the desired one **Primary App ID**
+8 - After registration, save **Key ID** and download the p8 certificate
+9 - **Key ID** to throw in config as `APPLE_KEY_ID`
+10 - Go to [Services IDs](https://developer.apple.com/account/resources/identifiers/list/serviceId)
+11 - Register a Service ID, with any ID
+12 - Throw this ID in **config.json** as `APPLE_CLIENT_ID`
+13 - We go into it, put a check mark **Sign In with Apple**
+14 - Opening **Configure**
+15 - We put the desired one **Primary App ID**
+16 - Filling domain and callback urls. Apple does not accept localhost, you can use ngrok for tests, for example:
+https://c48c1b8bb802.ngrok.io/auth/apple/callback,
+https://c48c1b8bb802.ngrok.io/auth/apple/callback-native
+
+## Init on server
+Importing a strategy:
+```js
+import { Strategy as AppleStrategy } from '@startupjs/auth-apple/server'
+```
+
+Importing a lib for the config:
+```js
+import conf from 'nconf'
+```
+
+In **startupjsServer**, in the strategy of the initAuth function, you need to add **AppleStrategy**, with variables from the config:
+```js
+initAuth(ee, {
+  strategies: [
+    new AppleStrategy({
+      clientId: conf.get('APPLE_CLIENT_ID'),
+      teamId: conf.get('APPLE_TEAM_ID'),
+      keyId: conf.get('APPLE_KEY_ID'),
+      privateKeyLocation: path.join(process.cwd(), 'путь к файлу p8')
+    })
+  ]
+})
+```
+
+For tests, you can use **testBaseUrl**
+
+## Init in layout
+```js
+import { AuthButton as AppleAuthButton } from '@startupjs/auth-apple/client'
+```
+
+---
+
+## Azure AD
+
+Source: `./libraries/auth-azuread/docs/readme.en.mdx`
+
+# Azure AD
+
+## Init main module
+[Configuring main module](/docs/auth/main)
+
+## Requirements
+```
+@startupjs/auth: >= 0.33.0
+react-native-webview: 10.10.2
+```
+
+## Setting up app
+1 - Go to [Microsoft Azure portal](https://portal.azure.com/)
+2 - Create an account if you don't have one
+3 - Go to **Active Directory**
+4 - Go to the tab [App registration](https://portal.azure.com/?l=en.en-us#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps)
+5 - Then **New registration**, fill in the fields
+6 - Copy **Client ID** as `AZUREAD_CLIENT_ID` in config.json
+7 - Copy **Tenant ID** as `AZUREAD_TENANT_ID` in config.json
+8 - Go to the tab **Endpoints**, copy **Identity metadata** as `AZUREAD_IDENTITY_METADATA` in config.json. Instead of **common/organizations** must stand **Tenant ID**.
+9 - In the tab **Certificates and secrets**, create client secret, copy as `AZUREAD_CLIENT_SECRET` in config.json.
+10 - Next, you need to configure URI redirects, to do this, go to the tab with the redirect URI settings. Create platforms with links:
+SPA platform - `http://localhost:3000/auth/azuread/callback`
+Web platform - `http://localhost:3000/auth/azuread/callback-native`
+11 - In the manifest, specify the data:
+  "oauth2AllowIdTokenImplicitFlow": true,
+  "oauth2AllowImplicitFlow": true
+
+## Init on server
+Importing a strategy:
+```js
+import { Strategy as AzureadStrategy } from '@startupjs/auth-azuread/server'
+```
+
+Importing lib for the config:
+```js
+import conf from 'nconf'
+```
+
+In startupjsServer, in the strategy of the initAuth function need to add AzureadStrategy, with variables from the config:
+```js
+initAuth(ee, {
+  strategies: [
+    new AzureADStrategy({
+      clientId: conf.get('AZUREAD_CLIENT_ID'),
+      clientSecret: conf.get('AZUREAD_CLIENT_SECRET'),
+      tenantId: conf.get('AZUREAD_TENANT_ID'),
+      identityMetadata: conf.get('AZUREAD_IDENTITY_METADATA'),
+      allowHttpForRedirectUrl: process.env.NODE_ENV !== 'production'
+    })
+  ]
+})
+```
+Parameter `allowHttpForRedirectUrl` - determines whether it can be used `http` for `redirect url`
+For production, you need to use https in BASE_URL, and the condition `process.env.NODE_ENV !== 'production'`
+
+## Init in layout
+```js
+import { AuthButton as AzureadAuthButton } from '@startupjs/auth-azuread/client'
+```
+
+---
+
+## Common
+
+Source: `./libraries/auth-common/docs/readme.en.mdx`
+
+# Common
+
+## Init main module
+[Configuring main module](/docs/auth/main)
+
+## Requirements
+```
+@startupjs/auth: >= 0.33.0
+react-native-webview: 10.10.2
+```
+
+## Init on server
+Importing a strategy:
+```js
+import { Strategy as CommonStrategy } from '@startupjs/auth-common/server'
+```
+
+In startupjsServer, in the strategy of the initAuth function need to add CommonStrategy:
+```js
+initAuth(ee, {
+  strategies: [
+    new CommonStrategy({
+      providerName: 'virgin',
+      authorizationURL: 'http://virgin.example.com/oauth/authorize',
+      tokenURL: 'http://virgin.example.com/oauth/token',
+      profileURL: 'http://virgin.example.com/oauth/get-me',
+      clientId: 'e710f1a6-e43f-4775-ab85-5ab496167bb4',
+      clientSecret: '7e2031ac-f634-467b-8105-707ffb46e879'
+    })
+  ]
+})
+```
+**providerName** - the name for which the strategy will be assigned, for example, in AzureAD Strategy - this is azuread, based on this name, a callback route is created
+
+**authorizationURL** - a link to confirm your login. Usually, when you click on it, a dialog box is displayed, which notifies you what user data will be used on the site
+
+**tokenURL** - link to get access token
+
+**profileURL** - link to get user data, with access token
+
+## Init in layout
+```js
+import { AuthButton as VirginAuthButton } from '@startupjs/auth-common'
+```
+
+```jsx
+return pug`
+  VirginAuthButton(
+    label='Virgin'
+    providerName='virgin'
+    style={ backgroundColor: '#e1090d' }
+    imageUrl=BASE_URL + '/img/virgin.png'
+  )
+`
+```
+**label** - text displayed in the button
+
+**providerName** - the same as the server strategy
+
+**style** - styles for the button
+
+**imageUrl** - link to the image, next to the label
+
+You can also use this button for the microfrontend in initAuthApp:
+```js
+const auth = initAuthApp({
+  socialButtons: [
+    <GoogleAuthButton />,
+    <LinkedinAuthButton />,
+    <VirginAuthButton
+      label='Virgin',
+      providerName='virgin',
+      style={{ backgroundColor: '#e1090d' }},
+      imageUrl={BASE_URL + '/img/virgin.png'}
+    />
+  ]
+})
+```
+
+---
+
+## Authorization via Facebook
+
+Source: `./libraries/auth-facebook/docs/readme.en.mdx`
+
+# Authorization via Facebook
+
+## Init main module
+[Configuring main module](/docs/auth/main)
+
+## Requirements
+```
+@startupjs/auth: >= 0.33.0
+react-native-fbsdk: >= 1.0.0
+```
+
+## Creating an app
+Create [here](https://developers.facebook.com/apps/) facebook app.
+Copy **client ID** in config.json, as `FACEBOOK_CLIENT_ID`.
+Next, in the settings, copy the **App Secret** to config.json, as `FACEBOOK_CLIENT_SECRET`.
+
+## Init on server
+Importing a strategy:
+```js
+import { Strategy as FacebookStrategy } from '@startupjs/auth-facebook/server'
+```
+
+Importing lib for config:
+```js
+import conf from 'nconf'
+````
+
+In startupjsServer, in the strategy of the initAuth function need to add FacebookStrategy:
+```js
+initAuth(ee, {
+  strategies: [
+    new FacebookStrategy({
+      clientId: conf.get('FACEBOOK_CLIENT_ID'),
+      clientSecret: conf.get('FACEBOOK_CLIENT_SECRET'),
+    })
+  ]
+})
+```
+
+## Use on mobile apps
+### Firebase
+1 - Create an account [Firebase](https://console.firebase.google.com/), if not already created.
+2 - Next, in the **Authentication** tab, enable authorization via **Facebook** by entering the required data.
+3 - Copy the redirect URL, and paste in [app settings](https://developers.facebook.com/apps) (**Log in via Facebook** -> **Settings** -> **Valid redirect URIs for OAuth**).
+
+### Android
+In `android/app/src/main/res/values`, need to add (Where `FACEBOOK_CLIENT_ID` is the id of the current app):
+```xml
+<string name="facebook_app_id">FACEBOOK_CLIENT_ID</string>
+```
+In `android/app/src/main/AndroidManifest.xml`, in the application tag, you need to add:
+```xml
+<meta-data
+    android:name="com.facebook.sdk.ApplicationId"
+    android:value="@string/facebook_app_id" />
+```
+
+In [Facebook developers](https://developers.facebook.com/apps), in the settings, at the very bottom ** **Add platform**, choose **Android**, next click on the button **Get started quickly**.
+Enter the data in the lower tab **Tell us about the project for Android**
+
+Next, we generate and enter the necessary keys.
+
+### iOS
+Update the `pod install ' dependencies.
+
+In **Info.plist**, at the very end, up to the last `</dict></plist>`, you need to add:
+```
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+        <string>fbFACEBOOK_CLIENT_ID</string>
+    </array>
+    </dict>
+</array>
+<key>FacebookAppID</key>
+<string>FACEBOOK_CLIENT_ID</string>
+<key>FacebookDisplayName</key>
+<string>startupjs-auth</string>
+```
+FACEBOOK_CLIENT_ID - replace with the desired id.
+FacebookDisplayName - on the right one.
+
+## Init in layout
+You can use the component
+```js
+import { AuthButton as FacebookAuthButton } from '@startupjs/auth-facebook/client'
+```
+
+Or a helper
+```js
+import { onLogin } from '@startupjs/auth-facebook/client'
+```
+
+```pug
+Div.custom(onPress=onLogin)
+```
+
+---
+
+## Authorization via Google
+
+Source: `./libraries/auth-google/docs/readme.en.mdx`
+
+# Authorization via Google
+
+## Init main module
+[Configuring main module](/docs/auth/main)
+
+## Requirements
+```
+@react-native-google-signin/google-signin: >= 6.0.0
+@startupjs/auth: >= 0.33.0
+```
+
+## Creating an app
+1 - Create an account [Firebase](https://console.firebase.google.com/), if not already created.
+2 - Next, in the **Authentication** tab, enable authorization via **Google**.
+3 - Copy from **Configuring the SDK for the web client** to config.json:
+**Client ID** - as `GOOGLE_CLIENT_ID`
+**Client secret** - as `GOOGLE_CLIENT_SECRET`
+4 - Then hover over **?** after the text **Configuring the SDK for the web client**, click on **Google API Console**
+5 - Go to **Web client (auto created by Google Service)**, in **URI** change `localhost:5000` to `localhost:3000`
+6 - Add to **Разрешенные URI перенаправления** -
+`http://localhost:3000/auth/google/callback`
+
+## Init on server
+Importing strategy:
+```js
+import { Strategy as GoogleStrategy } from '@startupjs/auth-google/server'
+```
+
+Importing lib for config:
+```js
+import conf from 'nconf'
+```
+
+In startupjsServer, in the strategy of the initAuth function need to add GoogleStrategy:
+```js
+initAuth(ee, {
+    strategies: [
+        new GoogleStrategy({
+            clientId: conf.get('GOOGLE_CLIENT_ID'),
+            clientSecret: conf.get('GOOGLE_CLIENT_SECRET'),
+        })
+    ]
+})
+```
+
+## Use on mobile apps
+**BASE_URL** should EVERYWHERE (.env, config.json) be - `http://localhost:3000`
+
+## Android
+1 - In **Firebase** on the project home page, add an Android app
+2 - Valid package name in - `android/app/src/main/java/com/auth/MainActivity.java`, the first line
+3 - Download **google-services.json**, drop it in a folder - `android/app`
+4 - You need to generate the keys (call from the main folder):
+
+keytool -list -v -keystore ./android/app/debug.keystore -alias androiddebugkey -storepass android -keypass android
+
+5 - Next, go to the Firebase project settings, click on the gear - **"Project Settings"**
+6 - There is an add button for the android app **"Add checksum"**, click on it, the field for entering the generated keys will open, enter SHA1 and SHA256
+
+## iOS
+1 - In **Firebase** on the project home page, add an iOS app
+2 - Valid package ID - can be viewed via xCode (example: `org.reactjs.native.example.auth`)
+3 - Download **GoogleService-Info.plist**
+4 - Upload it to the project **via xCode** in the folder where AppDelegate is located
+5 - In xCode, go to **Info**, find **URL Types**
+In **URL Types** add `REVERSED_CLIENT_ID` from **Google Service-Info.plist**
+6 - Update dependencies `cd ios && pod install`
+
+## Init in layout
+You can use component
+```js
+import { AuthButton as GoogleAuthButton } from '@startupjs/auth-google/client'
+```
+
+Or helper
+```js
+import { onLogin } from '@startupjs/auth-google/client'
+```
+```pug
+Div.custom(onPress=onLogin)
+```
+
+---
+
+## Авторизация через iDecisionGames
+
+Source: `./libraries/auth-idg/readme.md`
+
+# Авторизация через iDecisionGames
+
+## Инициализация главного модуля
+[Настройка главного модуля](/docs/auth/main)
+
+## Требования
+
+```
+@startupjs/auth: >= 0.33.0
+react-native-webview: 10.10.2
+```
+
+## Инициализация на сервере
+Импорт стратегии:
+```js
+import { Strategy as IDGStrategy } from '@startupjs/auth-idg/server'
+```
+
+Импорт либы для конфига:
+```js
+import conf from 'nconf'
+````
+
+В startupjsServer, в стратегии функции initAuth нужно добавить IDGStrategy, с переменными из конфига:
+```js
+initAuth(ee, {
+  strategies: [
+    new IDGStrategy({
+      clientId: conf.get('IDG_CLIENT_ID'),
+      clientSecret: conf.get('IDG_CLIENT_SECRET')
+    })
+  ]
+})
+```
+
+## Инициализация в верстке
+```js
+import { AuthButton as IDGAuthButton } from '@startupjs/auth-idg/client'
+```
+
+---
+
+## Authorization via Linkedin
+
+Source: `./libraries/auth-linkedin/docs/readme.en.mdx`
+
+# Authorization via Linkedin
+
+## Init main module
+[Configuring main module](/docs/auth/main)
+
+## Requirements
+```
+@startupjs/auth: >= 0.33.0
+react-native-webview: 10.10.2
+```
+
+## Setting up app
+1 - Create a software application [link](https://www.linkedin.com/developers)
+2 - In the **Auth** tab, copy **Client ID** as `LINKEDIN_CLIENT_ID`, **Client Secret** as `LINKEDIN_CLIENT_SECRET`
+3 - Add links for redirects, on tab **Authorized redirect URLs for your app**:
+`http://localhost:3000/auth/linkedin/callback`
+`http://localhost:3000/auth/linkedin/callback-native`
+4 - In **Products** tab, select **Sign In with LinkedIn**
+
+## Init on server
+Importing strategy:
+```js
+import { Strategy as AzureadStrategy } from '@startupjs/auth-azuread/server'
+```
+
+Importing lib for config:
+```js
+import conf from 'nconf'
+````
+
+In startupjsServer, in the strategy of the initAuth function need to add LinkedinStrategy:
+```js
+initAuth(ee, {
+  strategies: [
+    new LinkedinStrategy({
+      clientId: conf.get('LINKEDIN_CLIENT_ID'),
+      clientSecret: conf.get('LINKEDIN_CLIENT_SECRET')
+    })
+  ]
+})
+```
+
+Dynamic initialization of the strategy is also available, which occurs every time directly at the moment of user authorization.
+
+```js
+initAuth(ee, {
+  strategies: [
+    new LinkedinStrategy({
+      getClient: async function(req) {
+        // ...
+        return {
+          id: '######',
+          secret: '######'
+        }
+      },
+    })
+  ]
+})
+```
+
+## Init in layout
+```js
+import { AuthButton as LinkedinAuthButton } from '@startupjs/auth-linkedin/client'
+```
+
+---
+
+## Local auth
+
+Source: `./libraries/auth-local/docs/readme.en.mdx`
+
+LoginForm,
+  RecoverForm,
+  RegisterForm,
+  ChangePasswordForm
+} from '@startupjs/auth-local'
+import Joi from '@hapi/joi'
+import { Button } from '@startupjs/ui'
+
+# Local auth
+
+## Init main module
+
+[Configuring main module](/docs/auth/main)
+
+## Requirements
+```
+@startupjs/auth: >= 0.33.0
+text-encoding-polyfill: >= 0.6.7
+```
+
+## Init of additional modules
+In root index.js add:
+```js
+import 'text-encoding-polyfill'
+```
+
+## Enabling captcha
+If you want to add **reCaptcha** for registration and password change forms, follow the instructions from [documentation @startupjs/recaptcha](/docs/libraries/recaptcha#connecting-to-startup-js) and add the `recaptchaEnabled` parameter in file `server/index.js`:
+
+```js
+initAuth(ee, {
+  // ...
+  recaptchaEnabled: true,
+  // ...
+})
+```
+
+## Enabling confirmation a registration
+If you want to force users to confirm their email when they register, then specify next option `confirmRegistration` with `true` value
+
+```js
+initAuth(ee, {
+  // ...
+  confirmRegistration: true, // Default: false
+  // ...
+})
+```
+
+### There are additional registration confirmation settings:
+| Prop name | Default value | Type | Purpouse |
+|:---------:|:-------------:|:----:|:--------:|
+| confirmEmailTimeLimit | `86400000` | number | A time limit im ms for email confirmation |
+| registrationConfirmedUrl | `/auth/confirmed-email` | string | Page url to inform a user about successful email confirmation |
+
+
+## Init on server
+Importing strategy:
+```js
+import { Strategy as LocalStrategy } from '@startupjs/auth-local/server'
+```
+
+```js
+initAuth(ee, {
+  strategies: [
+    new LocalStrategy()
+  ]
+})
+```
+
+## LoginForm
+Form for login
+```js
+import { LoginForm } from '@startupjs/auth-local'
+```
+
+Accepts props:
+- **baseUrl**: set base url for the form
+- **redirectUrl**: set redirect url after authorization
+- **onSuccess**: called after successful authorization
+- **onError**: called when an authorization error occurs
+- **onChangeSlide**: gets name of the slide after clicking on actions
+
+```jsx example
+return <LoginForm />
+```
+
+**Customization**
+Props for customization:
+- **properties**: it works on the principle of `properties` from ObjectInput, you can add new fields or override the standard ones
+- **validateSchema**: prop to describe [joy](https://join.dev/api/) schemas, you need to pass the object as in the example. Also, if a new form is added, a schema must always be described for it
+- **renderActions**: a function that returns a new layout for actions
+
+```jsx example
+function renderActions ({ onSubmit }) {
+  return pug`
+    Button(
+      style={ marginTop: 16 }
+      onPress=onSubmit
+    ) Login
+  `
+}
+
+return pug`
+  LoginForm(
+    properties={
+      age: {
+        input: 'number',
+        label: 'Age',
+        placeholder: 'Enter your age'
+      }
+    }
+    validateSchema={
+      age: Joi.number()
+        .required()
+        .messages({
+          'any.required': 'Fill in the field',
+          'string.empty': 'Fill in the field'
+        })
+    }
+    renderActions=renderActions
+  )
+`
+```
+
+## RegisterForm
+Form for registration
+```js
+import { RegisterForm } from '@startupjs/auth-local'
+```
+
+Accepts props:
+- **baseUrl**: set base url for the form
+- **recaptchaBadgePosition**: reposition the reCAPTCHA badge
+- **redirectUrl**: set redirect url after authorization
+- **onSuccess**: called after successful authorization
+- **onError**: called when an authorization error occurs
+- **onChangeSlide**: gets name of the slide after clicking on actions
+
+```jsx example
+return <RegisterForm />
+```
+
+**Customization**
+Props for customization:
+- **properties**: it works on the principle of `properties` from ObjectInput, you can add new fields or override the standard ones
+- **validateSchema**: prop to describe [joy](https://join.dev/api/) schemas, you need to pass the object as in the example. Also, if a new form is added, a schema must always be described for it
+- **renderActions**: a function that returns a new layout for actions
+
+```jsx example
+function renderActions ({ onSubmit }) {
+  return pug`
+    Button(
+      style={ marginTop: 16 }
+      onPress=onSubmit
+    ) Sign In
+  `
+}
+
+return pug`
+  RegisterForm(
+    properties={
+      age: {
+        input: 'number',
+        label: 'Age',
+        placeholder: 'Enter your age'
+      }
+    }
+    validateSchema={
+      age: Joi.number()
+        .required()
+        .messages({
+          'any.required': 'Fill in the field',
+          'string.empty': 'Fill in the field'
+        })
+    }
+    renderActions=renderActions
+  )
+`
+```
+
+## RecoverForm
+Password change form
+```js
+import { RecoverForm } from '@startupjs/auth-local'
+```
+
+```jsx example
+return <RecoverForm />
+```
+
+## Server cookies
+
+### onBeforeRegister
+Helper-middleware, called before registration
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforeRegister: (req, res, next, opts) => {
+        console.log('onBeforeRegister')
+        next()
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onAfterRegister
+Helper-middleware, called after registration
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onAfterRegister: ({ userId }, req) => {
+        console.log('onAfterRegister')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onBeforeCreatePasswordResetSecret
+Helper-middleware, called before creating the password reset code
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforeCreatePasswordResetSecret: (req, res, done) => {
+        console.log('onBeforeCreatePasswordResetSecret')
+
+        const { email } = req.body
+        if (!email) return done('Missing email')
+        done(null, email)
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onCreatePasswordResetSecret
+Helper-middleware, called when creating a password reset code
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onCreatePasswordResetSecret: ({ userId, secret }, req) => {
+        console.log('onCreatePasswordResetSecret')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onBeforePasswordReset
+Helper-middleware, called before password recovery
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforePasswordReset: (req, res, next) => {
+        console.log('onBeforePasswordReset')
+        next()
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onAfterPasswordReset
+Helper-middleware, called after password recovery
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onAfterPasswordReset: ({ userId }, req) => {
+        console.log('onAfterPasswordReset')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onBeforePasswordChange
+Helper-middleware, called before changing the password
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforePasswordChange: (req, res, next) => {
+        console.log('onBeforePasswordChange')
+        next()
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onAfterPasswordChange
+Helper-middleware, called after changing the password
+
+```jsx
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onAfterPasswordChange: ({ userId }, req) => {
+        console.log('onAfterPasswordChange')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onBeforeConfirmRegistration
+Helper-middleware, called before confirmation registration process
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforeConfirmRegistration: (req, res, next) => {
+        console.log('onBeforeConfirmRegistration')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### onBeforeResendConfirmation
+Helper-middleware, called before resend email confirmation
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      onBeforeResendConfirmation: (req, res, config, next) => {
+        console.log('onBeforeResendConfirmation')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### sendRegistrationConfirmationComplete
+Helper-middleware, called after confirmation a registration
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      sendRegistrationConfirmationComplete: (userId, next) => {
+        console.log('sendRegistrationConfirmationComplete')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### confirmEmail
+Helper-middleware, implements confirmation a registration
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      confirmEmail: (model, userId, config, next) => {
+        console.log('confirmEmail')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+### sendRegistrationConfirmation
+Helper-middleware, called after registration and on resend confirmation email. You need override this middleware if confirmRegistration option is `true` to send an email with confirmation link
+
+```js
+initAuth(ee, {
+  // ...
+  strategies: [
+    new LocalStrategy({
+      sendRegistrationConfirmation: (req, userId, next) => {
+        console.log('sendRegistrationConfirmation')
+      }
+    })
+  ]
+  // ...
+}
+```
+
+---
+
+## Авторизация через LTI
+
+Source: `./libraries/auth-lti/readme.md`
+
+# Авторизация через LTI
+
+## Инициализация главного модуля
+[Настройка главного модуля](/docs/auth/main)
+
+## Требования
+
+```
+startupjs: >= 0.44.0
+@startupjs/auth: >= 0.33.0
+@startupjs/ui: >= 0.44.0
+prop-types *
+```
+
+## Инициализация на сервере
+Импорт стратегии:
+```js
+import { Strategy as LTIStrategy } from '@startupjs/auth-idg/server'
+```
+
+Импорт либы для конфига:
+```js
+import conf from 'nconf'
+````
+
+В startupjsServer, в стратегии функции initAuth нужно добавить LTIStrategy с указанием обьекта опций:
+
+```
+initAuth(ee, {
+  strategies: [
+    new LTIStrategy(<options>)
+  ]
+})
+```
+
+Доступные опции
+
+```
+  callbackUrl: <string> - опционально, дефолтное значение: '/auth/lti/callback'
+  dbSchools: <boolean> - опционально, дефолтное значение: false
+  collectionName: <string> - опционально если dbSchools со значение false, дефолтное значение: 'authLTISchools'
+  schools: <object> - опционально если dbSchools со значением true
+```
+
+Пример значения опции schools
+
+```
+{
+    <school-name>: {
+      consumerKey: <key>,
+      consumerSecret: <secret>
+    },
+    ucdavis: {
+      consumerKey: '12312k321l'
+      consumerSecret: '312kjh3k12jh''
+    },
+    ....
+}
+```
+
+Вы можете проинициализировать стратегию с предопределенными школами
+
+```
+{
+  schools: <object>
+}
+```
+
+или использовать школы из базы данных
+```
+{
+  dbSchools: true
+}
+```
+
+## Инициализация в верстке
+Отсутствует
+
+## Использование школ из базы данных 
+
+### Компонент для редактирования списка школ
+
+Этот компонент предоставляет возможность добавлять новые школы и удалять ранее добавленные
+
+```
+import { List } from '@dmapper/auth-lti'
+...
+<List />
+
+```
+
+Компонент принимает следующие опции
+
+```
+collection: <string> - опционально, дефолтное значение: 'authLTISchools'
+```
+
+Если вы нуждаетесь в другом названии коллекции для хранения школ, то вы должны указать это соответсвующей опцией в стратегии и в компоненте:
+```
+initAuth(ee, {
+  strategies: [
+    new LTIStrategy({
+      dbScools: true,
+      collectionName: 'anotherName' <---
+    })
+  ]
+})
+```
+
+```
+import { List } from '@dmapper/auth-lti'
+...
+<List 
+  collection="anotherName" <---
+/>
+
+```
+
+### Configuring third party LMSs
+
+- [Canvas](https://docs.google.com/document/d/1ZbxnYOnnsIybzr2RXwenYi5f2QeXc35wrnclWAsBE3Y/edit?usp=sharing)
+
+---
+
+## Authorization via Telegram
+
+Source: `./libraries/auth-telegram/docs/readme.en.md`
+
+# Authorization via Telegram
+
+## Init main module
+[Configuring main module](/docs/auth/main)
+
+## Requirements
+```
+passport-telegram-official: >= 1.0.0
+@startupjs/auth: >= 0.33.0
+```
+
+## Creating an app
+1 - Create and configure a chat bot [Telegram](https://core.telegram.org/). 
+You must get an API token
+
+## Init on server
+Importing strategy:
+```js
+import { Strategy as TelegramStrategy } from '@startupjs/auth-telegram/server'
+```
+
+Importing lib for config:
+```js
+import conf from 'nconf'
+```
+
+In startupjsServer, in the strategy of the initAuth function need to add TelegramStrategy:
+```js
+initAuth(ee, {
+    strategies: [
+        new TelegramStrategy({
+            botToken: conf.get('TELEGRAM_AUTH_BOT_TOKEN')
+        })
+    ]
+})
+```
+
+## Mobile authentication
+Hasn't been implemented yet
+
+## Init in layout
+You can use component
+```js
+import { AuthButton as TelegramAuthButton } from '@startupjs/auth-telegram/client'
+```
+
+Define a clint environment variable (.env) TELEGRAM_LOGIN with a name of the bot
+
+---
+
+## Authorization
+
+Source: `./libraries/auth/docs/readme.en.mdx`
+
+# Authorization
+
+## Requirements
+
+```
+@react-native-cookies/cookies: >= 6.0.6
+@startupjs/ui: >= 0.33.0
+startupjs: >= 0.33.0
+```
+
+## Init on server
+```js
+import { initAuth } from '@startupjs/auth/server'
+```
+
+In the body of the **startup js Server** function, the module is initialized, and strategies are added to **strategies**, each with its own set of characteristics:
+```js
+initAuth(ee, {
+  strategies: [
+    new LocalStrategy({}),
+    new FacebookStrategy({
+      clientId: conf.get('FACEBOOK_CLIENT_ID'),
+      clientSecret: conf.get('FACEBOOK_CLIENT_SECRET')
+    })
+  ]
+})
+```
+
+## Micro frontend
+[Test example](/auth/sign-in)
+(apple and azure keys are hidden from public access and need to be added manually)
+
+These are ready-made pages with forms that can be connected to the site
+
+To use them, you need in the file Root/index.js (or where startupjs/app is used), init the micro frontend and put it in the App component
+
+First, you need the initializer function, which accepts the necessary options:
+```js
+import { initAuthApp } from '@startupjs/auth'
+```
+
+Its main options are **socialButtons** and **localForms**, which collect the necessary components for a common form. Since it is not known in advance which strategies should be connected, you have to connect them yourself. There are buttons for almost every strategy, except for the local one, to see what components exist for **auth-local**, there is a separate description for this strategy (in fact, as for all others).
+
+Import the necessary components:
+```js
+import { AuthButton as AzureadAuthButton } from '@startupjs/auth-azuread'
+import { AuthButton as LinkedinAuthButton } from '@startupjs/auth-linkedin'
+import { LoginForm, RegisterForm, RecoverForm } from '@startupjs/auth-local'
+```
+
+Everything is based on a local strategy. It has 3 standard forms: Authorization, Registration, Password Recovery. Inside the module, there is logic for switching between these forms.
+Microfrontend has 3 mandatory routes for the local strategy: 'sign-in', 'sign-up' и 'recover', actually, when using a local form, you always need to install components with forms using these keys.
+
+```jsx
+const auth = initAuthApp({
+  localForms: {
+    'sign-in': <LoginForm />,
+    'sign-up': <RegisterForm />,
+    'recover': <RecoverForm />
+  },
+  socialButtons: [
+    <AzureadAuthButton />,
+    <LinkedinAuthButton />
+  ]
+})
+```
+
+When the microfrontend is generated, you just need to pass it to the App
+```pug
+App(apps={ auth, main })
+```
+
+### Microfrontend customization
+You can change the `Layout`. For example, the site has its own header, logo, background, etc.
+To do this, you can throw a custom Layout in the microfrontend options:
+
+```jsx
+const auth = initAuthApp({
+  Layout,
+  localForms: {
+    'sign-in': <LoginForm />,
+    'sign-up': <RegisterForm />,
+    'recover': <RecoverForm />
+  }
+})
+```
+
+Since jsx is thrown in **localForms** and **socialButtons**, all components can be modified as usual:
+```jsx
+const auth = initAuthApp({
+  Layout,
+  localForms: {
+    'sign-in': <LoginForm
+      properties={{
+        age: {
+          input: 'number',
+          label: 'Age',
+          placeholder: 'Enter your age'
+        }
+      }}
+      validateSchema={{
+        age: Joi.string().required().messages({
+          'any.required': 'Fill in the field',
+          'string.empty': 'Fill in the field'
+        })
+      }}
+    />,
+    'sign-up': <RegisterForm />,
+    'recover': <RecoverForm />
+  },
+  socialButtons: [
+    <GoogleAuthButton
+      label='Sign in with Google'
+    />,
+    <FacebookAuthButton
+      label='Sign in with Facebook'
+    />
+  ]
+})
+```
+
+More information about customizing these components is described on the pages with the necessary strategies
+
+If you need to change the standard headers and make your own markup, you can use the **renderForm** function:
+```jsx
+const auth = initAuthApp({
+  Layout,
+  localForms: {
+    'sign-in': <LoginForm />,
+    'sign-up': <RegisterForm />,
+    'recover': <RecoverForm />
+  },
+  socialButtons: [
+    <GoogleAuthButton />,
+    <FacebookAuthButton />
+  ],
+  renderForm: function ({
+    slide,
+    socialButtons,
+    localActiveForm,
+    onChangeSlide
+  }) {
+    return pug`
+      Div
+        H5= getCaptionForm(slide)
+        = socialButtons
+        Div(style={ marginTop: 16 })
+          = localActiveForm
+    `
+  }
+})
+```
+
+It gets the forms that are declared, and the current slide
+
+## Common component
+General form with the necessary types of authorization
+Everything is the same as for the microfrontend, but there are no routes, and you need to configure the slide switching yourself
+
+```js
+import { AuthForm } from '@startupjs/auth'
+```
+
+```jsx example
+const [slide, setSlide] = useState('sign-in')
+
+return (
+  <AuthForm
+    slide={slide}
+    localForms={{
+      'sign-in': <LoginForm />,
+      'sign-up': <RegisterForm />,
+      'recover': <RecoverForm />
+    }}
+    socialButtons={[
+      <GoogleAuthButton label='Sign in with Google' />,
+      <LinkedinAuthButton />
+    ]}
+    onChangeSlide={slide=> setSlide(slide)}
+  />
+)
+```
+
+## Helpers and server hooks
+
+### Exit button
+```jsx
+import { LogoutButton } from '@startupjs/auth'
+...
+return <LogoutButton />
+```
+
+### Exit helper
+```jsx
+import { onLogout } from '@startupjs/auth'
+...
+return <Button onPress={onLogout}>Выйти</Button>
+```
+
+### onBeforeLoginHook
+Helper-middleware, called before authorization
+
+```jsx
+initAuth(ee, {
+  // ...
+  onBeforeLoginHook: ({ userId }, req, res, next) => {
+    console.log('onBeforeLoginHook')
+    next()
+  },
+  // ...
+}
+```
+
+### onAfterUserCreationHook
+Helper-middleware, called after the user is created
+
+```jsx
+initAuth(ee, {
+  // ...
+  onAfterUserCreationHook: ({ userId }, req) => {
+    console.log('onAfterUserCreationHook')
+  },
+  // ...
+}
+```
+
+### onAfterLoginHook
+Helper-middleware, called after authorization
+
+```jsx
+initAuth(ee, {
+  // ...
+  onAfterLoginHook: ({ userId }, req) => {
+    console.log('onAfterLoginHook')
+  },
+  // ...
+}
+```
+
+### onBeforeLogoutHook
+Helper-middleware, called before exiting
+
+```jsx
+initAuth(ee, {
+  // ...
+  onBeforeLogoutHook: (req, res, next) => {
+    console.log('onBeforeLogoutHook')
+    next()
+  },
+  // ...
+}
+```
+
+## Redirect after authorization
+To set up a redirect, you need to throw the redirectUrl prop in initAuthApp, either for AuthForm, or for a separate button or form, for example:
+`<GoogleAuthButton redirectUrl='/profile/google' />`
+`<LoginForm redirectUrl='/profile/local' />`
+
+The redirect works through cookies, and if you put something in a cookie named redirectUrl before authorization, then a redirect to value from the cookie will occur after it:
+
+```js
+  import { CookieManager } from '@startupjs/auth'
+
+  CookieManager.set({
+    baseUrl,
+    name: 'authRedirectUrl',
+    value: redirectUrl,
+    expires: moment().add(5, 'minutes')
+  })
+```
+
+You can also override the redirect on the server (for example, in the onBeforeLoginHook hook):
+
+```js
+  onBeforeLoginHook: ({ userId }, req, res, next) => {
+    // req.cookies.authRedirectUrl = '/custom-redirect-path'
+    next()
+  }
+```
+
+---
+
+## @startupjs/babel-plugin-import-to-react-lazy
+
+Source: `./libraries/babel-plugin-import-to-react-lazy/README.md`
+
+# @startupjs/babel-plugin-import-to-react-lazy
+
+Transforms exported default import to React.lazy dynamic import.
+
+## Example
+
+```jsx
+/* @asyncImports */
+export { default as PHome } from './PHome'
+```
+
+↓ ↓ ↓ ↓ ↓ ↓
+
+```jsx
+import { lazy } from 'react'
+export const PHome = lazy(() => import('./PHome'))
+```
+
+## License
+
+MIT
+
+---
+
+## @startupjs/babel-plugin-ts-interface-to-json-schema
+
+Source: `./libraries/babel-plugin-ts-interface-to-json-schema/README.md`
+
+# @startupjs/babel-plugin-ts-interface-to-json-schema
+
+Transforms typescript interface to JSON-schema and add schema as static field to ORM model.
+
+## TS interface to json-schema
+
+For compilation interface to schema I used [typescript-json-schema](https://github.com/YousefED/typescript-json-schema)
+For add specific things of json-schema you should use [API](https://github.com/YousefED/typescript-json-schema/blob/master/api.md)
+
+## Example
+
+```ts
+import { BaseModel } from 'startupjs/orm'
+
+interface IEventModel {
+  name: string
+  /**
+   * @default [1.23, 65.21, -123.40, 0, 1000000.0001]
+   */
+  amount: number[]
+}
+
+export default class EventModel extends BaseModel {
+  methodOne() {
+    return 1
+  }
+  methodTwo() {
+    return 2
+  }
+}
+```
+
+↓ ↓ ↓ ↓ ↓ ↓
+
+```ts
+import { BaseModel } from 'startupjs/orm'
+
+interface IEventModel {
+  name: string
+  /**
+   * @default [1.23, 65.21, -123.40, 0, 1000000.0001]
+   */
+
+  amount: number[]
+}
+
+export default class EventModel extends BaseModel {
+  static schema = {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string'
+      },
+      amount: {
+        default: [1.23, 65.21, -123.4, 0, 1000000.0001],
+        type: 'array',
+        items: {
+          type: 'number'
+        }
+      }
+    },
+    $schema: 'http://json-schema.org/draft-07/schema#'
+  }
+
+  methodOne() {
+    return 1
+  }
+
+  methodTwo() {
+    return 2
+  }
+}
+```
+
+## License
+
+MIT
+
+---
+
+## startupjs cron
+
+Source: `./libraries/cron/README.md`
+
+# startupjs cron
+
+## Installation
+
+```sh
+yarn add node-cron
+```
+
+## Usage
+
+Create `cron.js` file in the root of your project. Perform all initialization
+here (plug in hooks, ORM, etc.) and then run your cron tasks.
+
+```js
+// Initialize env vars
+import 'startupjs/nconf'
+import init from 'startupjs/init'
+import orm from './../model/'
+import hooks from './../server/hooks'
+import getBackend from 'startupjs/backend'
+import cron from 'node-cron'
+const backend = getBackend({ hooks })
+init({ orm })
+
+cron.schedule('* * * * * *', async () => {
+  const model = backend.createModel()
+  // do some logic
+  model.close()
+})
+```
+
+## License
+
+MIT
+
+(c) Decision Mapper - http://decisionmapper.com
+
+---
+
+## i18n
+
+Source: `./libraries/i18n/readme/readme.en.mdx`
+
+# i18n
+
+i18n module provides with tools to localize your product.
+
+## Requirements
+
+@startupjs/ui: >= 0.34.0
+axios: *
+express: 4.x
+react: 16.9 - 17
+react-native: >= 0.61.4 < 0.64.0
+startupjs: >= 0.34.0
+
+## Installation & basic setup
+
+1. Install the module
+
+  The module does not need to be installed, it comes with the `startupjs` module.
+
+1. Init module on server side
+
+  ```js
+  import { initI18n } from '@startupjs/i18n/server'
+
+  startupjsServer({
+    // ...
+  }, (ee, options) => {
+    initI18n(ee)
+  })
+  ```
+
+1. Init the isomorphic model
+
+  ```js
+  import initI18nModel from 'startupjs/i18n/model'
+
+  export default function initOrm (racer) {
+    initI18nModel(racer, i18nPageAccess)
+  }
+  ```
+
+  where `i18nPageAccess(model, next, redirect)` is the `/i18n` page access filter.
+
+1. Create `i18n/index.js` file and initialize the client-size app on it
+
+  ```js
+  import { initI18n, useI18nGlobalInit } from '@startupjs/i18n'
+
+  export default initI18n({
+    // default language, used as the default language for translations and
+    // as fallback language for `languageDetector`. Default: 'en'.
+    lang: 'ru',
+    // a list of supported languages
+    langs: ['en', 'ru'],
+    // you can use `getLangs` function instead of `langs` if you need
+    // dynamically define a list of supported languages
+    // `getLangs` function takes precedence over `langs` if you set both properties
+    getLangs: () => {
+      const langs = ... // logic that gets languages
+      return langs
+    },
+    // detect user language to use
+    // by default the function tries to find language in the paths:
+    //   - $render.query.lang
+    //   - _session.lang
+    //   - _session.user.lang
+    // by overriding this function, you can define your behavior
+    // to search for a language to use
+    // NOTE: the default language is used when the function finds nothing
+    languageDetector: () => {
+      return $user.get('language')
+    }
+  })
+  export { useI18nGlobalInit }
+  ```
+
+1. Add client-side app to `Root/App.js`
+
+  ```js
+  import React from 'react'
+  import i18n, { useI18nGlobalInit } from 'PATH_TO_I18N_FILE_CREATED_IN_SECTION_ABOVE'
+
+  return pug`
+    App(
+      apps={ i18n }
+      useGlobalInit=useI18nGlobalInit
+    )
+  `
+  ```
+
+## How to change the language ?
+
+```jsx
+import { observer } from 'statupjs'
+import { useLang, useLangs } from 'startupjs/i18n'
+import { Select } from '@startupjs/ui'
+
+export default observer(function LanguageSelect () {
+  const [lang, setLang] = useLang()
+  const langs = useLangs()
+
+  return pug`
+    Select(
+      value=lang
+      onChange={setLang}
+      options=langs
+    )
+  `
+})
+```
+
+## Working with translations
+
+To work correctly with translations, you need to use the function - `t`
+
+```jsx
+import React from 'react'
+import { t } from 'startupjs'
+import { Span } from '@startupjs/ui'
+
+export default function MyPage () {
+  return pug`
+    Div
+      Span= t('backToHome', 'Back to Home')
+  `
+}
+```
+
+The first argument is the name of the tag for translations, the second is the default
+
+Initially, words are used only for the default language, the rest of the words of other languages ​​can be changed on the page - ${BASE_URL}/i18n
+
+Depending on the selected language, the `t` function will match the value in the layout
+
+---
+
+## Mail service
+
+Source: `./libraries/mailgun/readme/readme.en.mdx`
+
+# Mail service
+
+Library to send email messages in app via mailgun
+
+## Requirements
+
+nconf: *
+express: 4.x
+
+## Installation
+
+```sh
+yarn add @startupjs/mailgun
+```
+
+or
+
+```sh
+npm i @startupjs/mailgun
+```
+
+## Usage
+
+### As a function (on the backend side)
+
+```js
+import { sendEmail } from '@startupjs/mailgun'
+
+...
+sendEmail(options)
+...
+```
+
+### Only as an API
+
+Backend side
+
+```js
+import { mailAPI } from '@startupjs/mailgun'
+
+...
+ee.on('routes', () => {
+  expressApp.use('/api', mailAPI);
+});
+...
+```
+
+Frontend side
+
+```js
+...
+axios.post('/api/send-email', options)
+...
+```
+
+### Options
+
+- apiKey - registered key for mailgun-js (you can also place it in config.json using the key 'MAILGUN_KEY'),
+- domain: registered domain for mailgun-js (you can also place it in config.json using the key 'MAILGUN_DOMAIN'),
+- from - the sender's e-mail (you can also place it in config.json using the key 'MAILGUN_FROM_ID'),
+- email - the e-mail address of the recipient,
+- subject - email subject,
+- text - email content,
+  or
+- html - email content as an HTML temlate
+- inline - inline image for html content (path to image)
+
+```js
+const filepath = path.join(__dirname, 'test.jpg')
+const options = {
+  html: '<html>Inline image here:<img src="cid:test.jpg"></html>',
+  inline: filepath
+  //...other options
+}
+```
+
+- attachment - array of email attachments. File, Buffer or Stream. The maximum message size is 25 MB!
+
+#### Templates
+
+You can use the file tamplate, for this need to create folder in root directory with the name 'emails' and creating in it your templates with the extension 'html'. In options need set key 'templateName'. For example
+
+file: /yourRootDirectory/emails/example.html
+
+content:
+
+```html
+<span>Simple example</span>
+```
+
+options:
+
+```js
+options = {
+  templateName: 'example',
+  // ...other options
+}
+```
+
+If variables are used in template, need to place them as an object in the options using the 'templateOptions' key and write them in a template with double brackets. For example
+
+template content:
+
+```html
+<table style='border-spacing: 0; width: 100%'>
+  <tbody>
+    <tr>
+      <td style='font-weight: "bold"'>Hello, {{name}}!</td>
+    </tr>
+    <tr><td style='height: 16px'/></tr>
+    <tr>
+      <td>This is the base example of email template</td>
+    </tr>
+    <tr><td style="height: 16px" /></tr>
+    <tr>
+      <td>With best regards, {{sender}}!</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+options:
+
+```js
+options = {
+  templateName: 'example',
+  templateOptions: { name: 'Bob', sender: 'Rob' }
+  // ...other options
+}
+```
+
+---
+
+## Push Notifications
+
+Source: `./libraries/push-notifications/docs/push-notifications.en.mdx`
+
+# Push Notifications
+
+!IMPORTANT! The package only works on ios and android platforms!
+
+## Dependencies
+
+```js
+@react-native-community/push-notification-ios >= 1.8.0
+react-native-push-notification >= 7.2.3
+```
+
+## Installation
+
+```js
+yarn add @startupjs/push-notifications @react-native-community/push-notification-ios react-native-push-notification
+```
+
+
+## Connecting certificates
+
+### Create p8 certificate
+
+In order to send push notifications to ios devices, you need to create certificates.
+
+Login to your [Apple Developer account](https://developer.apple.com/account).
+
+Select `Certificates, Identifiers & Profiles` and go to `Keys`. Click the + circle button to create a new key.
+
+![Certificates, Identifiers & Profiles](/img/docs/push-notifications/pushs2.png)
+
+Give it a name and enable the `Apple Push Notifications service (APNs)`. Choose `Continue` and on the next screen choose `Register`.
+
+![Apple Push Notifications service (APNs)](/img/docs/push-notifications/pushs3.png)
+
+It is important to record the following three elements from this page:
+
+- Select `Download` to save the `p8` file locally. You will need to upload this to `Firebase`. You will not be able to download this certificate by leaving this page.
+- Copy and save the `Key ID`.
+- Copy and save your membership ID. It is located next to your name in the upper right corner of the Membership Center or in the `Membership Details` section.
+
+![Command id and key id](/img/docs/push-notifications/pushs4.png)
+
+### Setting up a Firebase project
+
+You need to connect the `p8` certificate to your application in `Firebase`. In your `Firebase` project, select the gear next to `Project Overview` and select `Project settings`:
+
+![Firebase settings](/img/docs/push-notifications/pushs5.png)
+
+Then set up your iOS app in the `General` section of your project settings. Do all the operations indicated:
+
+![Add ios app](/img/docs/push-notifications/pushs6.png)
+
+Then upload your `p8` certificate by going to `Cloud Messaging` in the `Firebase` project settings. In the `APNs Authentication Key` section, select `Upload`.
+
+![Add APNs Authentication Key](/img/docs/push-notifications/pushs7.png)
+
+Enter the details that you saved in the step of creating the `p8` certificate.
+
+## iOS
+
+Add Capabilities : `Background Mode` - `Remote Notifications`
+Go into your `MyReactProject/ios` dir and open `MyProject.xcworkspace` workspace with xcode. Select the top project `MyProject` and select the `Signing & Capabilities` tab. Add a 2 new Capabilities using `+` button:
+
+![Apple XCode Capabilities](/img/docs/push-notifications/pushs8.png)
+
+`Background Mode` capability and tick `Remote Notifications`.
+`Push Notifications` capability
+
+![Background mode](/img/docs/push-notifications/pushs9.png)
+
+![Push Notifications](/img/docs/push-notifications/pushs10.png)
+
+![Remote Notifications](/img/docs/push-notifications/pushs11.png)
+
+## Connecting the package to your project
+
+### server
+
+```js
+import { initFirebaseApp, initPushNotifications } from '@startupjs/push-notifications/server'
+const serviceAccountPath = path.join(process.cwd(), 'path/to/serviceAccountKey.json')
+
+...
+
+init({ orm })
+initFirebaseApp(serviceAccountPath)
+
+...
+
+startupjsServer({
+  ...
+}, (ee, options) => {
+  ...
+  initPushNotifications(ee)
+  ...
+}
+
+```
+You can generate a `serviceAccount` in the `Firebase` [console](https://console.firebase.google.com/project/) of your application. Open the `Service accounts` tab and click `Generate new private key`.
+
+![Generate private key](/img/docs/push-notifications/pushs1.png)
+
+### client
+
+Call `initPushNotifications` in the place where you need to initialize the device token of the current user (devices are written based on the userId from the current session). It makes sense to perform initialization only for an authorized user. But, if necessary, initialization is allowed for each visitor, for this functions can be called directly in the `useGlobalInit` callback of `App`.
+
+```js
+import { initPushNotifications, notifications } from '@startupjs/push-notifications'
+...
+
+App(
+  ...
+  apps={ ..., notifications }
+  useGlobalInit=() => {
+    initPushNotifications()
+    return true
+  }
+)
+```
+
+## Usage server API
+
+### `initPushNotifications (ee)`
+Initialization of push notifications on the server.
+
+**Arguments**
+  `ee (Object)` - eventEmitter of server.
+
+**Example**
+
+```js
+startupjsServer({ ... }, (ee, options) => {
+  ...
+  initPushNotifications(ee)
+  ...
+}
+```
+
+### `initFirebaseApp(serviceAccount)`
+Initialization of the `Firebase` application. How to create a `serviceAccount` see [above](/docs/libraries/push-notofications#server).
+
+**Arguments**
+  `serviceAccountPath (String)` - the absolute path to `serviceAccount`.
+
+**Example**
+
+```js
+import { initFirebaseApp, initPushNotifications } from '@startupjs/push-notifications/server'
+
+init({ orm })
+initFirebaseApp(serviceAccountPath)
+```
+
+### `sendNotification (userIds, options)`
+The function of sending push notifications. Same as [client function](/docs/libraries/push-notofications#send-notification-user-ids-options).
+
+## Usage client API
+
+### `initPushNotifications (options)`
+function of initializing push notifications.
+
+**Arguments**
+  `options [Object]` - an options object for initializing push notifications. A complete list of options can be found in the [documentation](https://github.com/zo0r/react-native-push-notification#usage). !!IMPORTANT!! It is highly discouraged to override the `onRegister` and` onNotification [Function]` fields as this may break the package's behavior.
+
+**Example**
+
+```js
+App(
+  ...
+  useGlobalInit=() => {
+    initPushNotifications()
+    return true
+  }
+)
+```
+
+### `sendNotification (userIds, options)`
+function for sending notifications.
+
+**Arguments**
+`userIds [Array]` - array of user id to which push notification will be sent.
+
+`options [Object]`:
+  - `title [String]` - header string.
+  - `body [String] (required)` - content string.
+  - `platforms [Array]` - an array of platforms to send notification to. If not specified, the message will be sent to all registered devices.
+
+**Example**
+
+```jsx example
+const [userId] = useSession('userId')
+
+function getPlan (id) {
+  // WARNING: This is abstract example
+  // This can be any function of yours
+  return { name: 'silver' }
+}
+
+async function subscribe (planId) {
+  const plan = getPlan(planId)
+  // plan subscription logic
+  await sendNotification([userId], { title: 'Subscription ', body: `You have subscribed to plan ${plan.name}`, platforms: ['ios', 'android']})
+}
+
+return (
+  <Div>
+    <Button onPress={() => subscribe(123)}>
+      Subscribe
+    </Button>
+  </Div>
+)
+```
+
+## Dashboard
+
+[Dashboard](/push-notifications-dashboard)
+
+---
+
+## @startupjs/recaptcha
+
+Source: `./libraries/recaptcha/readme/readme.en.mdx`
+
+# @startupjs/recaptcha
+
+library for displaying and interacting with [Google ReCaptcha](https://www.google.com/recaptcha/about/)
+
+## Install the module
+
+`yarn add @startupjs/recaptcha`
+
+## Init module on server
+
+Add the following lines to `server/index.js`:
+```js
+  import { initRecaptcha } from '@startupjs/recaptcha/server'
+```
+Add to the `startupjsServer` function:
+```js
+  initRecaptcha(ee, options)
+```
+The `options` argument accepts an object with a `type` field, that specify which [reCAPTCHA type](https://www.google.com/recaptcha/about) you want to use (possible types: `enterprise` or `v3`)
+
+In the `getHead` function, add a call to the `getRecaptchaHead` function:
+
+```js
+  import { getRecaptchaHead } from '@startupjs/recaptcha/server'
+
+  function getHead (req) {
+    return `
+      // ...
+      ${getRecaptchaHead(req)}
+      // ...
+    `
+}
+```
+
+## Configuring config.json
+
+In `config.json` file of your project, you need to add for **reCAPTCHA Enterprise**:
+
+```js
+  {
+    "RECAPTCHA_SECRET_KEY": "YOUR_SECRET_KEY",
+    "RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY": "YOUR_SITE_KEY",
+    "RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY": "YOUR_SITE_KEY",
+    "GOOGLE_CLOUD_PROJECT_ID": "ID_YOUR_CLOUD_PROJECT"
+  }
+```
+`RECAPTCHA_SECRET_KEY` created here https://console.cloud.google.com/apis/credentials
+`RECAPTCHA_ENTERPRISE_NORMAL_SITE_KEY` и `RECAPTCHA_ENTERPRISE_INVISIBLE_SITE_KEY` - https://cloud.google.com/recaptcha-enterprise/docs/create-key
+
+For **reCAPTCHA v3**, it will be enough:
+```js
+  {
+    "RECAPTCHA_SECRET_KEY": "YOUR_SECRET_KEY",
+    "RECAPTCHA_SITE_KEY": "YOUR_SITE_KEY"
+  }
+```
+These keys are created in the [Google Admin Console](https://www.google.com/recaptcha/admin/).
+
+## Usage
+
+### Client
+
+```jsx
+  import { Recaptcha } from '@startupjs/recaptcha'
+```
+
+```jsx example
+  const [recaptchaVerified, setRecaptchaVerified] = useState(false)
+  const [email, setEmail] = useState('')
+
+  const ref = useRef()
+
+  const openRecaptcha = () => {
+    if (!email) return
+
+    ref.current.open()
+  }
+
+  const onVerify = async recaptcha => {
+    try {
+      const res = await axios.post('/api/subscribe-to-mailing', {
+        recaptcha,
+        email
+      })
+      console.log('Response: ', res.data)
+      setRecaptchaVerified(res.data)
+    } catch (err) {
+      console.error(err.response.data)
+    }
+  }
+
+  return pug`
+    Div.root
+      TextInput.emailInput(
+        label='Your email'
+        value=email
+        onChangeText=setEmail
+      )
+      Recaptcha(
+        ref=ref
+        onVerify=onVerify
+        onLoad=() => console.log('onLoad')
+        onExpire=() => console.log('onExpire')
+        onError=error => console.log('onError', error)
+        onClose=() => console.log('onClose')
+      )
+      if recaptchaVerified
+        Span.label Thank you for subscribing
+      Button(
+        onPress=openRecaptcha
+        disabled=recaptchaVerified
+      ) Subscribe
+  `
+```
+
+### Server
+```js
+import { checkRecaptcha } from '@startupjs/recaptcha/server'
+
+export default function initRoutes (router) {
+  router.post('/api/subscribe-to-mailing', async function (req, res) {
+    const { recaptcha, email } = req.body
+
+    const isVerified = await checkRecaptcha(recaptcha)
+
+    if (!isVerified) {
+      return res.status(403).send(isVerified)
+    }
+
+    // Do something with email subscription...
+  })
+}
+```
+
+## Recaptcha component props
+
+The `Recaptcha` component takes parameters from [official Google reCAPTCHA documentation](https://developers.google.com/recaptcha/docs/invisible#config)
+
+ - `variant` [String] - The variant of the widget (`invisible`, `normal` or `compact`). Default: `invisible`
+ - `theme` [String] - The color theme of the widget (`dark` or `light`). Default: `light`
+ - `baseUrl` [String] - The URL (domain) configured in the reCAPTCHA setup. (ex. `http://my.domain.com`). Default: your `BASE_URL` from `@env`
+ - `lang` [String] - [Language code](https://developers.google.com/recaptcha/docs/language). Default: `en`
+ - `onLoad` [Function] - A callback function, executed when the reCAPTCHA is ready to use
+ - `onVerify` [Function(token)] - A callback function, executed when the user submits a successful response. The recaptcha response token is passed to your callback
+ - `onExpire` [Function] - A callback function, executed when the reCAPTCHA response expires and the user needs to re-verify
+ - `onError` [Function(error)] - A callback function, executed when reCAPTCHA encounters an error (usually network connectivity) and cannot continue until connectivity is restored. If you specify a function here, you are responsible for informing the user that they should retry
+ - `onClose` [Function] - (Experimental) A callback function, executed when the Modal is closed
+
+## Advanced use
+
+```js
+  import { checkDataRecaptcha } from '@startupjs/recaptcha/server'
+```
+
+`checkDataRecaptcha(recaptcha)` is an advanced variant of `checkRecaptcha(recaptcha)` function that returns an object with the original Google API response. Different reCAPTCHA types return different data structures in the response.
+
+---
+
+## Scrollable anchors
+
+Source: `./libraries/scrollable-anchors/readme/readme.en.mdx`
+
+# Scrollable anchors
+
+<br />
+
+Component for native anchors imitation and animating vertical scrolling.
+
+<br />
+<br />
+
+<center>
+  <a href='/scrollable-anchors-example#3'>View Demo</a>
+</center>
+
+## Installation
+
+```yarn add @startupjs/scrollable-anchors```
+
+## Requirements
+
+```
+@startupjs/ui: ^0.33.0
+startupjs: ^0.33.0
+```
+
+## Usage
+
+1. Wrap your top component (Layout is the best place) into ***ScrollableProvider*** HOC;
+
+  ```jsx
+  import { ScrollableProvider } from '@startupjs/scrollable-anchors'
+  // ...
+  function Layout ({ children }) {
+    return (
+      <ScrollableProvider>
+        {children}
+      </ScrollableProvider>
+    )
+  }
+  ```
+
+2. Mark your anchors with ***Anchor*** HOC;
+
+  There you have two option to mark your component as anchor:
+    - Wrap your component with Anchor HOC. It will create one extra Div over your component;
+      It is helpful when you wrap components that haven't native onLayout prop (like React.Fragment, input, custom component etc.).
+      In this case module can not determine actual position of wrapped component. Thats why module create one extra Div over your component
+
+      ```jsx
+      import { Link, Span, TextInput } from '@startupjs/ui'
+      import { Anchor } from '@startupjs/scrollable-anchors'
+      // ...
+      <Anchor id='dash-anchor'>
+        <React.Fragment>
+          <Link to='/dashboard'>Go to Dashboard</Link>
+        </React.Fragment>
+      </Anchor>
+      <Anchor id='input-anchor'>
+        <TextInput value='Hello! />
+      </Anchor>
+      <Anchor id='comp-anchor'>
+        <CustomComponentWithoutonLayout />
+      </Anchor>
+      // ...
+      ```
+    - Render Anchor with passed Component to it. It will render Component without any extra wrappers.
+
+      It is helpful when you wrap components that have native onLayout prop
+
+      ```jsx
+      import { Div, Span } from '@startupjs/ui'
+      import { Anchor } from '@startupjs/scrollable-anchors'
+      // ...
+      // ...
+      Anchor(id='div-anchor' Component=Div ...componentProps) Div anchor
+      Anchor(id='span-anchor' Component=Span ...componentProps) Span anchor
+      ```
+3. (Optional) Add another scrollable areas with ***ScrollableArea*** HOC;
+
+  *Android version works only with top level anchors. Anchors in ScrollableAreas will work incorrectly
+
+  ```jsx
+  import { ScrollableArea, Anchor } from '@startupjs/scrollable-anchors'
+  // ...
+  <ScrollableArea id='my-scrollable-area'>
+    {/* A lot of content */}
+    <Anchor id='nested-area-ancor'>
+      <Span>Anchor in the bottom of another Scrollable Area</Span>
+      <Span>Scroll to this anchor will be controlled within wrapped ScrollableArea</Span>
+    </Anchor>
+  <ScrollableArea/>
+  // ...
+  ```
+
+4. Controll your scroll with ***scrollTo*** helper.
+
+  ```js
+    // ...
+    // Scroll to anchor in the top scroll container generated by ScrollableProvider HOC
+    scrollTo({
+      anchorId: 'dash-anchor',
+      offset: -50
+    })
+    // ...
+    // Scroll to anchor in nested ScrollableArea HOC
+    scrollTo({
+      anchorId: 'nested-area-ancor',
+      areaId: 'my-scrollable-area'
+    })
+    // ...
+  ```
+
+## Props/Options
+
+### ScrollableProvider HOC
+
+* ***reactOnHash*** (Boolean, Default = true) - ScrollableProvider will analyze incoming url hash and try to find and scroll to anchor with same hash value.
+
+### ScrollableArea HOC
+
+* ***id*** (String, Required) - unique id of your ScrollArea (must be unique within the entire app).
+
+### Anchor HOC
+
+* ***id*** (String, Required) - unique id of your Anchor (must be unique within the entire app).
+
+* ***style*** (Object/Array, Optional) - you can pass styles with props or set a styleName to Anchor; IE (PUG): Anchor.customClass
+
+* ***Component*** (Object/Array, Default = Div) - root component that you want to mark as anchor (see step 2 in Usage section)
+
+### scrollTo
+
+* ***anchorId*** (String, Required) - id of anchor;
+
+* ***areaId*** (String, Default = 'global') - id of ScrollArea where to perform scroll;
+
+* ***offset*** (Number, Optional) - offset for scroll.
+
+---
+
+## @startupjs/serve-static-promo
+
+Source: `./libraries/serve-static-promo/readme/readme.en.mdx`
+
+# @startupjs/serve-static-promo
+
+This package is used to serve static promo page from the `.zip` file inside `/promo` folder in the root of your project.
+
+## Requirements
+
+<Dependencies deps={deps} />
+
+## Installation
+
+```
+yarn add @startupjs/serve-static-promo
+```
+
+## Usage
+
+1. Plug it in as a middleware on your server:
+
+  ```js
+  // server/index.js
+
+  import { serveStaticPromo } from '@startupjs/serve-static-promo/server'
+
+  // ...
+
+    ee.on('routes', expressApp => {
+      // ...
+      expressApp.use(serveStaticPromo())
+    })
+
+  ```
+
+2. Promo is going to be hosted at url `/promo`. So you need to add redirect to that URL when user is not logged in. In your file with routes `main/routes.js` add a filter for the path `/` which is going to do such redirect. Redirect is only going to happen on server and on web. On iOS and Android it won't take any effect since promo is being hosted as a regular static website.
+
+  ```js
+  // main/routes.js
+
+  import { redirectToPromoIfNotLoggedIn } from '@startupjs/serve-static-promo/client'
+
+  // ...
+  {
+    path: '/',
+    exact: true,
+    component: components.PHome,
+    filters: [redirectToPromoIfNotLoggedIn()]
+  },
+  // ...
+  ```
+
+`redirectToPromoIfNotLoggedIn` accepts an object with the following settings:
+
+- `redirectUrl` - which URL to redirect to. Default: `/promo`
+
+## License
+
+Private
