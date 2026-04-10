@@ -622,6 +622,23 @@ The `u` unit equals 8px (design spacing unit). Always use `u` instead of `px` to
 
 **Inline `style` props are an antipattern.** Only use `style` when you need a truly dynamic value from a JS variable (e.g. a computed width). For all other styling — spacing, colors, conditional variations — use classes with `styleName` and define the styles in the `style(lang='styl')` block.
 
+### CSSXJS Selector Limits
+
+`style(lang='styl')` is handled by `cssxjs`, which targets React Native styling semantics rather than a full browser CSS engine. Keep selectors scoped to one element or one exposed component part.
+
+Supported patterns:
+
+- same-element class selectors such as `.root`, `.title`, or `.myButton.primary`
+- same-element modifiers via `&`, such as `&.completed`
+- exposed part styling via `&:part(name)` when a component supports `part`
+
+Not supported:
+
+- selectors involving multiple different elements, such as `.section + .section`, `.section .title`, `.section > .title`, `.section ~ .title`
+- web-only pseudo-classes and pseudo-elements such as `:hover`, `:active`, `:before`, `:after`
+
+If you need to style a nested element, give that element its own `styleName` or expose a `part` and target it with `&:part(...)`. Do not rely on descendant/sibling selectors.
+
 ### Conditional Styles with `styleName`
 
 Use the array pattern for conditional classes:
