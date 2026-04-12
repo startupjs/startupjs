@@ -389,6 +389,184 @@ const ids = $todos.getIds()
 
 In pug templates, use `each` to iterate query signals (see Pug Templates section above).
 
+## ORM Models
+
+StartupJS uses Teamplay ORM under the hood. In app code, import ORM helpers from `'startupjs'`, not directly from `'teamplay'`.
+
+### Standard Model Layout
+
+Use separate files inside `model/`:
+
+- `model/users/index.js` → collection model for `users`
+- `model/users/[id].js` → document model for `users.*`
+- `model/users/schema.js` → schema for `users`
+- `model/users/access.js` → access rules for `users`
+- `model/users/$$active.js` → server aggregation for `users`
+- files or folders starting with `-` are ignored by the model loader and can be used for helpers inside `model/`
+
+Preferred convention:
+
+- collection file: default export class extending `Signal` with collection-level methods
+- document file: default export class extending `Signal` with document-level methods
+- schema file: default export schema object
+- access file: default export `accessControl({ ... })`
+- aggregation file: default export `aggregation(...)`
+
+Only collection-level files get `schema`, `access`, and `$$...` aggregations. Access control, schema validation, and server aggregations are registered only for top-level collections.
+
+Basic model class shape:
+
+```js
+import { Signal } from 'startupjs'
+
+export default class Users extends Signal {
+  async addNew (user) {
+    return await this.add(user)
+  }
+}
+```
+
+### Feature Flags
+
+Model security and aggregation behavior live in `startupjs.config.js`:
+
+```js
+export default {
+  features: {
+    enableServer: true,
+    validateSchema: true,
+    serverAggregate: true,
+    // accessControl: true
+  }
+}
+```
+
+Guidelines:
+
+- always enable `validateSchema: true`
+- always define a schema for every real collection
+- enable `serverAggregate: true` from the start, even if you do not need aggregations yet
+- `accessControl: true` may be skipped only during the earliest POC stage; once data matters, enable it and add rules
+
+### Schema
+
+Schema belongs in `model/<collection>/schema.js` and should always exist.
+
+StartupJS uses a simplified JSON Schema format:
+
+- export the properties object directly, without the top-level `type: 'object'`
+- mark required fields inline with non-standard `required: true` on the field itself
+- at runtime this is converted into normal JSON Schema before validation
+
+With `validateSchema: true`, writes are checked on the backend at runtime. Invalid writes are rejected and rolled back on the client.
+
+Example:
+
+```js
+export default {
+  userId: { type: 'string', required: true },
+  title: { type: 'string', required: true },
+  done: { type: 'boolean' },
+  createdAt: { type: 'number', required: true }
+}
+```
+
+Schema should describe the real stored shape, including generated fields like `createdAt`, tokens, relation ids, and structured objects. The same schema can also be reused in forms.
+
+### Queries
+
+Use normal queries inline in `useSub()` / `sub()` for ordinary filtering and sorting:
+
+```js
+const $users = useSub($.users, { orgId, active: true })
+```
+
+The query language is MongoDB query syntax. In production StartupJS uses real MongoDB. In local development it uses a mocked Mongo-compatible backend based on `mingo`, so the same query operators work there too.
+
+Normal queries are the default choice because:
+
+- they are fully and immediately reactive
+- they are automatically filtered by access control through the `read` rule on each returned document
+
+### Access Control
+
+Access rules live in `model/<collection>/access.js` and must be wrapped in `accessControl(...)`. When the rules are in a separate file, use a default export.
+
+Example:
+
+```js
+import { accessControl } from 'startupjs'
+
+export default accessControl({
+  create: ({ session, newDoc }) => session.userId === newDoc.userId,
+  read: ({ session, doc }) => session.userId === doc.userId,
+  update: ({ session, doc }) => session.userId === doc.userId,
+  delete: ({ session }) => {
+    // `session.isAdmin` is project-specific. Replace with your own admin check.
+    return session.isAdmin
+  }
+})
+```
+
+Guidelines:
+
+- define access only on top-level collection models
+- keep normal queries inline; access control already applies to them automatically
+- if access control is not enabled yet, still keep the future access shape in mind when designing model methods and aggregations
+
+### Aggregations
+
+Use `model/<collection>/$$name.js` with a default export `aggregation(...)` only when you need a real aggregation pipeline, for example `$group`, `$project`, `$lookup`, `$unwind`, or similar stages.
+
+Do not use an aggregation for a single `$match`. That is just a normal query and should stay a normal query.
+
+This distinction matters because:
+
+- simple queries are immediately reactive
+- aggregations update through polling and are therefore heavier and less immediate
+
+Example:
+
+```js
+import { aggregation } from 'startupjs'
+
+export default aggregation(({ orgId }, { session }) => {
+  if (!orgId) return
+  if (!session.userId) return
+
+  return [
+    { $match: { orgId } },
+    { $group: { _id: '$role', count: { $sum: 1 } } }
+  ]
+})
+```
+
+Guidelines:
+
+- prefer normal queries first
+- add a `$$...` aggregation only when query syntax is not enough
+- validate params before returning a pipeline
+- when access control is enabled, also validate session/access inside the aggregation itself, because aggregations are not automatically protected by `read`
+
+### When To Add ORM Methods
+
+Do not create custom ORM methods for every write. For simple operations on a single field, use the standard signal methods directly:
+
+- `.set()`, `.del()`, `.assign()`, `.increment()`
+- array operations like `.push()`, `.pop()`, `.insert()`, `.remove()`
+
+Add a custom collection or document method when the operation has real business meaning, for example:
+
+- creating a document with generated fields or defaults
+- updating multiple fields together as one domain action
+- encapsulating reusable computed/business logic on a document
+- hiding server-only or DB-specific details behind a stable API
+
+Rule of thumb:
+
+- simple field mutation or normal query → use signals directly
+- meaningful domain operation → add an ORM method
+
 ## observer()
 
 **Always wrap every component with `observer()`** — this is the default for all StartupJS components:
