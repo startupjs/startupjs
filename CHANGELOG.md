@@ -1,3 +1,12 @@
+# [0.62.0-alpha.10](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.9...v0.62.0-alpha.10) (2026-04-12)
+
+
+### Features
+
+* **create-startupjs:** improve agents.md - explain limitations of selectors in css ([46a7026](https://github.com/startupjs/startupjs/commit/46a7026a02f5f6578efc4aed95b4128cfa2862c3))
+
+
+
 # [0.62.0-alpha.9](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.8...v0.62.0-alpha.9) (2026-04-10)
 
 
