@@ -1,3 +1,12 @@
+# [0.62.0-alpha.11](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.10...v0.62.0-alpha.11) (2026-04-15)
+
+
+### Bug Fixes
+
+* **babel-plugin-startupjs-plugins:** fix Windows support ([1064b0b](https://github.com/startupjs/startupjs/commit/1064b0b5a7dcacc33d3c45a2647255ef50b8dec1))
+
+
+
 # [0.62.0-alpha.10](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.9...v0.62.0-alpha.10) (2026-04-12)
 
 
