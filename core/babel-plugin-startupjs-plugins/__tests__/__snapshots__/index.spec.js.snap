@@ -37,10 +37,11 @@ import config from "../../startupjs.config.js";
 import dummy from "@dummy/dummy";
 import _default from "module-1/plugin";
 import _default2 from "module-1-plugin/thePlugin.plugin";
-import _default3 from "@startupjs/server/plugins/clientSession.plugin";
-import _default4 from "@startupjs/server/plugins/oauth2.plugin";
-import _default5 from "@startupjs/server/plugins/auth.plugin";
-import _default6 from "../../dummyPlugin.plugin.js";
+import _default3 from "@startupjs/auth/plugins/cookieSession.plugin";
+import _default4 from "@startupjs/auth/plugins/jwtSession.plugin";
+import _default5 from "@startupjs/auth/plugins/offlineSession.plugin";
+import _default6 from "@startupjs/auth/plugins/oauth2.plugin";
+import _default7 from "../../dummyPlugin.plugin.js";
 const plugins = [
   _default,
   _default2,
@@ -48,6 +49,7 @@ const plugins = [
   _default4,
   _default5,
   _default6,
+  _default7,
 ];
 const features = {
   enableServer: true,
@@ -182,10 +184,11 @@ import _default6 from "../../model/users.schema.js";
 import * as _modelUsersIdJs from "../../model/users.[id].js";
 import _default7 from "module-1/plugin";
 import _default8 from "module-1-plugin/thePlugin.plugin";
-import _default9 from "@startupjs/server/plugins/clientSession.plugin";
-import _default0 from "@startupjs/server/plugins/oauth2.plugin";
-import _default1 from "@startupjs/server/plugins/auth.plugin";
-import _default10 from "../../dummyPlugin.plugin.js";
+import _default9 from "@startupjs/auth/plugins/cookieSession.plugin";
+import _default0 from "@startupjs/auth/plugins/jwtSession.plugin";
+import _default1 from "@startupjs/auth/plugins/offlineSession.plugin";
+import _default10 from "@startupjs/auth/plugins/oauth2.plugin";
+import _default11 from "../../dummyPlugin.plugin.js";
 const plugins = [
   _default7,
   _default8,
@@ -193,6 +196,7 @@ const plugins = [
   _default0,
   _default1,
   _default10,
+  _default11,
 ];
 const features = {
   enableServer: true,
@@ -272,10 +276,11 @@ import _default6 from "../../model/users.schema.js";
 import * as _modelUsersIdJs from "../../model/users.[id].js";
 import _default7 from "module-1/plugin";
 import _default8 from "module-1-plugin/thePlugin.plugin";
-import _default9 from "@startupjs/server/plugins/clientSession.plugin";
-import _default0 from "@startupjs/server/plugins/oauth2.plugin";
-import _default1 from "@startupjs/server/plugins/auth.plugin";
-import _default10 from "../../dummyPlugin.plugin.js";
+import _default9 from "@startupjs/auth/plugins/cookieSession.plugin";
+import _default0 from "@startupjs/auth/plugins/jwtSession.plugin";
+import _default1 from "@startupjs/auth/plugins/offlineSession.plugin";
+import _default10 from "@startupjs/auth/plugins/oauth2.plugin";
+import _default11 from "../../dummyPlugin.plugin.js";
 const plugins = [
   _default7,
   _default8,
@@ -283,6 +288,7 @@ const plugins = [
   _default0,
   _default1,
   _default10,
+  _default11,
 ];
 const features = {
   enableServer: true,
