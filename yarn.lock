@@ -5145,19 +5145,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-pug/eslint-plugin-react-pug@npm:^0.1.18":
-  version: 0.1.18
-  resolution: "@react-pug/eslint-plugin-react-pug@npm:0.1.18"
+"@react-pug/eslint-plugin-react-pug@npm:^0.1.19":
+  version: 0.1.19
+  resolution: "@react-pug/eslint-plugin-react-pug@npm:0.1.19"
   dependencies:
     "@babel/parser": "npm:^7.0.0"
     "@prettier/sync": "npm:^0.6.1"
+    "@react-pug/pug-lexer": "npm:^0.1.17"
     "@react-pug/react-pug-core": "npm:^0.1.18"
     "@stylistic/eslint-plugin": "npm:^5.10.0"
     "@typescript-eslint/parser": "npm:^8.57.2"
     prettier: "npm:^3.8.1"
   peerDependencies:
     eslint: ">=9.0.0"
-  checksum: 10c0/f5e9a06bfeaeab91d40b94052c0e90a169dd4a0e645acbc1847a6c54173f69b2331c166f7d77eec8022fef4eccee8988fca7157ea783d371c2a7a7fccd69685a
+  checksum: 10c0/ecde93495035df5303c274ad38aa45d827d58c053c147bc9918dc624c18493ea58fc2f2b77d741a54d8099ad9f6b282e83175e33eaa53a9f7511104813a6ccd7
   languageName: node
   linkType: hard
 
@@ -12827,14 +12828,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-cssxjs@npm:^0.3.0-alpha.7":
-  version: 0.3.0-alpha.7
-  resolution: "eslint-plugin-cssxjs@npm:0.3.0-alpha.7"
+"eslint-plugin-cssxjs@npm:^0.3.0-alpha.8":
+  version: 0.3.0-alpha.8
+  resolution: "eslint-plugin-cssxjs@npm:0.3.0-alpha.8"
   dependencies:
-    "@react-pug/eslint-plugin-react-pug": "npm:^0.1.18"
+    "@react-pug/eslint-plugin-react-pug": "npm:^0.1.19"
   peerDependencies:
     eslint: "*"
-  checksum: 10c0/817f3c2eebc79c3149caac17728a8c956bf99b88a5738b699bf4e3d14bdd7e9ab625f62a8c000868bd9cf426af757af9eff7d082b7c21a02e23f5e19239a902e
+  checksum: 10c0/a4479eb21549a479fcb513a3d113c3d22f08dc233456d52df772f5a06a79d49374acc773b9e4a8e699c86d18a694f88042d60da31c91eb4643f10995b2481b43
   languageName: node
   linkType: hard
 
@@ -25115,7 +25116,7 @@ __metadata:
     "@rspress/core": "npm:^2.0.0"
     conventional-changelog-cli: "npm:^2.1.1"
     eslint: "npm:^9.39.4"
-    eslint-plugin-cssxjs: "npm:^0.3.0-alpha.7"
+    eslint-plugin-cssxjs: "npm:^0.3.0-alpha.8"
     husky: "npm:^4.3.0"
     lerna: "npm:^9.0.0"
     lint-staged: "npm:^9.5.0"
