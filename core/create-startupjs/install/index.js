@@ -9,6 +9,7 @@ import { diffString } from 'json-diff'
 
 const __dirname = dirname(url.fileURLToPath(import.meta.url))
 const PROJECT_JSON_PATH = join(process.cwd(), 'package.json')
+const TSCONFIG_JSON_PATH = join(process.cwd(), 'tsconfig.json')
 const MODULE_PATH = join(__dirname, '..')
 const CLI_JSON_PATH = join(__dirname, '../package.json')
 const INIT_JSON_PATH = join(__dirname, './init/package.json')
@@ -177,6 +178,7 @@ async function runInstall ({
   }
 
   if (setupInit) {
+    maybeModifyTsconfigJson({ triggerModified })
     maybeAppendGitignore({ triggerModified })
     maybeRenameMetroConfig({ triggerModified })
     maybeCopyMetroConfig({ triggerModified, onLog: log => finalLog.push(log) })
@@ -448,6 +450,16 @@ function maybeModifyExpoAppJson ({ triggerModified }) {
   // deep extend the app.json with the template app.json
   merge(appJson, templateAppJson)
   writeFileSync(appJsonPath, JSON.stringify(appJson, null, 2))
+  triggerModified?.()
+}
+
+function maybeModifyTsconfigJson ({ triggerModified }) {
+  if (!existsSync(TSCONFIG_JSON_PATH)) return
+  const tsconfigJson = JSON.parse(readFileSync(TSCONFIG_JSON_PATH, 'utf8'))
+  if (!tsconfigJson.compilerOptions) tsconfigJson.compilerOptions = {}
+  if (tsconfigJson.compilerOptions.allowImportingTsExtensions != null) return
+  tsconfigJson.compilerOptions.allowImportingTsExtensions = true
+  writeFileSync(TSCONFIG_JSON_PATH, JSON.stringify(tsconfigJson, null, 2))
   triggerModified?.()
 }
 
