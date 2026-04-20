@@ -1,3 +1,12 @@
+# [0.62.0-alpha.16](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.15...v0.62.0-alpha.16) (2026-04-20)
+
+
+### Bug Fixes
+
+* **create-startupjs:** during 'init' in 'tsconfig.json' set 'compilerOptions.allowImportingTsExtensions' to 'true' so that we can import stuff in 'model' folder which also runs on pure Node.js which requires extensions ([d2082f8](https://github.com/startupjs/startupjs/commit/d2082f8860e9d4dfd0bfcd76c203e4d01249dff4))
+
+
+
 # [0.62.0-alpha.15](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.14...v0.62.0-alpha.15) (2026-04-20)
 
 
