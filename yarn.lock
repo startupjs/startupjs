@@ -11639,9 +11639,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cssxjs@npm:^0.3.0-alpha.7":
-  version: 0.3.0-alpha.7
-  resolution: "cssxjs@npm:0.3.0-alpha.7"
+"cssxjs@npm:^0.3.0-alpha.9":
+  version: 0.3.0-alpha.9
+  resolution: "cssxjs@npm:0.3.0-alpha.9"
   dependencies:
     "@cssxjs/babel-plugin-rn-stylename-inline": "npm:^0.3.0-alpha.0"
     "@cssxjs/babel-plugin-rn-stylename-to-style": "npm:^0.3.0-alpha.7"
@@ -11652,7 +11652,7 @@ __metadata:
     babel-preset-cssxjs: "npm:^0.3.0-alpha.7"
   peerDependencies:
     react: "*"
-  checksum: 10c0/80273a6405fbbf1bf4b39c6a3ad03c5cd2c94cc71ad0f0e022b78728d69146c1fbef5fbfd89af8e916da2b5f7a7638df11b2e50f9b82bb5c3b625f0a42883a64
+  checksum: 10c0/1ca6c0482ddf119e23aac01f00e21d507f78bd54c1a667d15b1f6fcda20b6efc01b90ebabe4a9e9ac533a0f003d62da4883fb978508013c68f4acac847e9e650
   languageName: node
   linkType: hard
 
@@ -26516,7 +26516,7 @@ __metadata:
     "@startupjs/server": "npm:^0.62.0-alpha.6"
     "@startupjs/utils": "npm:^0.62.0-alpha.6"
     babel-preset-startupjs: "npm:^0.62.0-alpha.11"
-    cssxjs: "npm:^0.3.0-alpha.7"
+    cssxjs: "npm:^0.3.0-alpha.9"
     lodash: "npm:^4.17.20"
     teamplay: "npm:^0.4.0-alpha.76"
   peerDependencies:
