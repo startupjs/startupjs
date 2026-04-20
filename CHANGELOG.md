@@ -1,3 +1,12 @@
+# [0.62.0-alpha.15](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.14...v0.62.0-alpha.15) (2026-04-20)
+
+
+### Bug Fixes
+
+* **router:** add types ([14a2e5f](https://github.com/startupjs/startupjs/commit/14a2e5f29808a9fd15be3863de71526f1b8cd166))
+
+
+
 # [0.62.0-alpha.14](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.13...v0.62.0-alpha.14) (2026-04-20)
 
 

@@ -7119,7 +7119,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/router@npm:^0.62.0-alpha.6, @startupjs/router@workspace:core/router":
+"@startupjs/router@npm:^0.62.0-alpha.15, @startupjs/router@workspace:core/router":
   version: 0.0.0-use.local
   resolution: "@startupjs/router@workspace:core/router"
   dependencies:
@@ -13747,7 +13747,7 @@ __metadata:
     "@react-native-picker/picker": "npm:2.11.4"
     "@react-navigation/native": "npm:^7.1.6"
     "@startupjs-ui/mdx": "npm:^0.2.0-alpha.1"
-    "@startupjs/router": "npm:^0.62.0-alpha.6"
+    "@startupjs/router": "npm:^0.62.0-alpha.15"
     "@startupjs/worker": "npm:^0.62.0-alpha.6"
     "@types/react": "npm:~19.2.10"
     eslint-config-expo: "npm:^55.0.0"

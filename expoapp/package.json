@@ -1,7 +1,7 @@
 {
   "name": "expoapp",
   "main": "expo-router/entry",
-  "version": "0.62.0-alpha.14",
+  "version": "0.62.0-alpha.15",
   "type": "module",
   "scripts": {
     "start": "npm run check-redis && npx expo start",
@@ -30,7 +30,7 @@
     "@react-native-picker/picker": "2.11.4",
     "@react-navigation/native": "^7.1.6",
     "@startupjs-ui/mdx": "^0.2.0-alpha.1",
-    "@startupjs/router": "^0.62.0-alpha.6",
+    "@startupjs/router": "^0.62.0-alpha.15",
     "@startupjs/worker": "^0.62.0-alpha.6",
     "expo": "~55.0.11",
     "expo-clipboard": "~55.0.11",
