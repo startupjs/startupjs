@@ -1,0 +1,19 @@
+# Caching node_modules
+
+If your CI or offline workflow benefits from caching dependencies, you can keep the Yarn cache inside your project and commit it.
+
+## Steps
+
+1. Disable the global Yarn cache so it writes to `.yarn/cache` in your repo:
+
+```bash
+yarn config set enableGlobalCache false
+```
+
+2. Make sure Git does not ignore the cache folder:
+
+```bash
+echo '!.yarn/cache' >> .gitignore
+```
+
+That is it. Your project now contains its own dependency cache.

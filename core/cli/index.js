@@ -13,7 +13,7 @@ const program = new Command()
 
 async function run () {
   for (const command of Object.values(commands)) {
-    const { name, description, options = [], action } = command
+    const { name, description, options = [], helpText, action } = command
 
     if (program.commands.find(cmd => cmd.name() === name)) {
       throw new Error(`Attempted to override an already registered command: ${name}`)
@@ -26,6 +26,8 @@ async function run () {
       const { name, description } = option
       cmd.option(name, description)
     }
+
+    if (helpText) cmd.addHelpText('after', `\n${helpText}`)
 
     cmd.action(action)
   }

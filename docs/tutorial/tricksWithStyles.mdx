@@ -1,0 +1,144 @@
+# Tricks with styles
+
+This chapter covers useful style conventions, built-in mixins, and global design tokens available in StartupJS.
+
+## Units
+
+StartupJS uses an 8px grid. One unit (`1u`) equals `8px`:
+
+```styl
+.card
+  padding 2u 3u  // 16px 24px
+  margin 3u      // 24px
+```
+
+Use pixel values only for exact adjustments like 1px borders or hairline separators.
+
+## Mixins
+
+### `font()`
+
+Sets both `font-size` and `line-height` in one call:
+
+| Value   | font-size | line-height |
+| ------- | --------- | ----------- |
+| h1      | 72px      | 96px        |
+| h2      | 48px      | 64px        |
+| h3      | 36px      | 48px        |
+| h4      | 24px      | 32px        |
+| h5      | 20px      | 28px        |
+| h6      | 16px      | 24px        |
+| body1   | 16px      | 24px        |
+| body2   | 14px      | 20px        |
+| caption | 12px      | 16px        |
+
+### `shadow()`
+
+`shadow(level)` generates consistent shadows across web and native. Levels range from 0 to 4:
+
+| Level | Effect |
+| ----- | ------ |
+| 0     | No shadow |
+| 1     | Subtle shadow (elevation 3) |
+| 2     | Medium shadow (elevation 6) |
+| 3     | Pronounced shadow (elevation 12) |
+| 4     | Heavy shadow (elevation 18) |
+
+### `radius()`
+
+`radius()` keeps border radii consistent:
+
+| Value  | border-radius |
+| ------ | ------------- |
+| m      | 4px           |
+| l      | 8px           |
+| circle | 9999px        |
+
+## Responsive and platform mixins
+
+These mixins let you write styles that apply only at certain screen sizes or on certain platforms:
+
+| Mixin        | Applies when              |
+| ------------ | ------------------------- |
+| `+tablet()`  | screen width >= 768px     |
+| `+desktop()` | screen width >= 1024px    |
+| `+wide()`    | screen width >= 1280px    |
+| `+portrait()`| portrait orientation      |
+| `+landscape()`| landscape orientation    |
+| `+web()`     | web only                  |
+| `+android()` | Android only              |
+| `+ios()`     | iOS only                  |
+| `+native()`  | native (not web)          |
+
+Example:
+
+```styl
+.card
+  padding 2u
+  margin 0 2u
+  +tablet()
+    padding 3u
+    margin 0 3u
+  +desktop()
+    padding 4u
+    margin 0 4u
+```
+
+This makes the card more spacious on larger screens.
+
+## The `$UI` object
+
+`$UI` is a global Stylus object that holds design tokens for your entire app. You can use its values in any `.styl` file.
+
+Common fields:
+
+- `$UI.palette` -- base color swatches
+- `$UI.colors` -- semantic colors (primary, warning, error, etc.)
+- `$UI.shadows` -- shadow presets
+- `$UI.media` -- breakpoints used by the responsive mixins
+- `$UI.fontFamilies` -- font families for body and headings
+- `$UI.fontSizes` -- typography sizes
+- `$UI.lineHeights` -- typography line heights
+
+### Customizing `$UI`
+
+Use `merge` in your `styles/index.styl` to override or extend values:
+
+```styl
+$UI = merge($UI, {
+  colors: {
+    primary: #4a76a8,
+    warning: #880000,
+    pink: #fc69ff
+  },
+  Button: {
+    heights: {
+      xxl: 10u
+    }
+  }
+}, true)
+```
+
+The third argument `true` enables deep merging, so your values are combined with the defaults rather than replacing them.
+
+## Export styles to JavaScript
+
+Use `:export` in a `.styl` file to make values available in JavaScript:
+
+```styl
+.root
+  height: $this.height
+  background-color: $this.bgColor
+
+:export
+  colors: $UI.colors
+  foobar: 42
+```
+
+```js
+import STYLES from './index.styl'
+
+const { colors, foobar } = STYLES
+```
+
+This is useful when you need design tokens in your component logic (for example, to set a dynamic color based on a prop).

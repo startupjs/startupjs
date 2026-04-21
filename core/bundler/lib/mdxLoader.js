@@ -19,6 +19,10 @@ module.exports = function getMDXLoader (source) {
       throw err
     }
   }
+  // remove {"\n"} inserted by mdx compiler since they break react native rendering
+  // and don't actually represent new lines in RN (either on Web or Mobile)
+  // NOTE: this is a very simplistic fix and may need to be improved in the future
+  source = source.replace(/\{"\\n"\}/g, '')
   return source
 }
 

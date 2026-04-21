@@ -1,0 +1,63 @@
+# Observer pattern
+
+For a component to respond to signal changes, it must be wrapped with `observer`. This is the most important pattern in StartupJS.
+
+## What `observer` does
+
+`observer` is a function that wraps your component and makes it **reactive**. When any signal read during render changes, the component re-renders automatically. You do not need to manage subscriptions or call `setState` -- it all happens behind the scenes.
+
+```jsx
+import { observer } from 'startupjs'
+
+export default observer(function MyComponent () {
+  // component code
+})
+```
+
+`observer` also wraps your component in a **Suspense boundary**. This means that while data is being fetched (via `useSub`), a loading state is shown automatically. You do not need to handle loading states yourself.
+
+## Example
+
+```jsx
+import { observer, $, useSub } from 'startupjs'
+import { Span, TextInput } from 'startupjs-ui'
+
+export default observer(function UserName ({ userId }) {
+  const $user = useSub($.users[userId])
+
+  return (
+    <>
+      <Span>Name: {$user.name.get()}</Span>
+      <TextInput
+        value={$user.name.get()}
+        onChangeText={value => $user.name.set(value)}
+      />
+    </>
+  )
+})
+```
+
+This component:
+
+1. Subscribes to a user document with `useSub($.users[userId])`.
+2. Reads the user's name with `$user.name.get()`.
+3. Updates the name with `$user.name.set(value)` when the input changes.
+4. Re-renders automatically whenever `name` changes -- whether from this client or from another.
+
+## When to use `observer`
+
+Wrap a component with `observer` whenever it:
+
+- Reads signal values with `.get()`
+- Uses `useSub` to subscribe to data
+- Uses local signals created with `$()`
+
+If a component only receives plain props (strings, numbers, etc.) and does not read any signals, you do not need `observer`. But in practice, most components in a StartupJS app use it.
+
+## How it works
+
+Behind the scenes, `observer` tracks which signals your component reads during render. It creates a dependency list automatically. When any of those signals change, only the components that depend on them re-render -- not the entire tree.
+
+This is more efficient than React's default behavior, where a parent re-render causes all children to re-render too.
+
+For a general explanation of the Observer design pattern, see [Refactoring Guru](https://refactoring.guru/design-patterns/observer).

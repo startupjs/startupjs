@@ -1,0 +1,211 @@
+# Signals and subscriptions
+
+This chapter covers the core tools for working with data in StartupJS: the root signal `$`, subscriptions with `useSub`, and local signals with `$()`.
+
+## The root signal: `$`
+
+`$` is the entry point to all your data. Think of it as the root of a tree. You navigate the tree using dot notation, just like a JavaScript object:
+
+```js
+import { $ } from 'startupjs'
+
+$.todos              // points to the 'todos' collection
+$.todos['abc123']    // points to a specific document
+$.todos['abc123'].title  // points to the 'title' field of that document
+```
+
+Each of these expressions creates a **signal** -- a reactive pointer to that piece of data. A signal does not hold data itself. It knows *where* the data is and provides methods to read and write it.
+
+## Subscribing to a document: `useSub`
+
+Before you can read data from the database, you must **subscribe** to it. Use the `useSub` hook inside a component wrapped with `observer`:
+
+```jsx
+import { observer, $, useSub } from 'startupjs'
+import { Card, Span, Button } from 'startupjs-ui'
+
+export default observer(function TodoCard ({ todoId }) {
+  const $todo = useSub($.todos[todoId])
+
+  return (
+    <Card>
+      <Span>{$todo.title.get()}</Span>
+      <Button size='s' onPress={() => $todo.del()}>
+        Delete
+      </Button>
+    </Card>
+  )
+})
+```
+
+`useSub($.todos[todoId])` subscribes to a single document. The returned `$todo` is a signal. Use `.get()` to read a field's value and `.set()` to update it.
+
+When the component unmounts, the subscription is automatically cleaned up.
+
+## Subscribing to a query: `useSub` with a query object
+
+Pass a query object as the second argument to subscribe to multiple documents:
+
+```jsx
+const $todos = useSub($.todos, { completed: false })
+```
+
+This subscribes to all documents in the `todos` collection where `completed` is `false`. The result, `$todos`, is a **query signal** -- an iterable collection of document signals.
+
+You can loop over it:
+
+```jsx
+{$todos.map($todo => (
+  <Card key={$todo.getId()}>
+    <Span>{$todo.title.get()}</Span>
+  </Card>
+))}
+```
+
+Or use a `for...of` loop:
+
+```jsx
+for (const $todo of $todos) {
+  console.log($todo.title.get())
+}
+```
+
+An empty query `{}` returns all documents in the collection:
+
+```jsx
+const $allTodos = useSub($.todos, {})
+```
+
+### Subscribing by IDs
+
+To subscribe to specific documents by their IDs, use the `$in` operator:
+
+```jsx
+const $selectedTodos = useSub($.todos, { _id: { $in: todoIds } })
+```
+
+This uses MongoDB's `$in` operator to match documents whose `_id` is in the given array.
+
+### Subscribing to one document by query
+
+To get a single document matching a query, use `$limit: 1`:
+
+```jsx
+const $latestTodos = useSub($.todos, { userId, $limit: 1 })
+```
+
+`$limit` is a query modifier that caps the number of returned documents.
+
+The result is still a query signal. Access the first (and only) item by iterating or using `.find()`.
+
+## Query signal methods
+
+Query signals support several useful methods:
+
+- `.map(callback)` -- transform each document signal
+- `.reduce(callback, initial)` -- reduce to a single value
+- `.find(predicate)` -- find the first matching document signal
+- `.getIds()` -- returns the array of document IDs
+
+```jsx
+// Get all titles as an array of strings
+const titles = $todos.map($todo => $todo.title.get())
+
+// Count completed todos
+const doneCount = $todos.reduce(
+  (count, $todo) => count + ($todo.completed.get() ? 1 : 0),
+  0
+)
+
+// Find the first incomplete todo
+const $firstIncomplete = $todos.find($todo => !$todo.completed.get())
+```
+
+## Local signals: `$()`
+
+For component-level state that does not need to be stored in the database, create a **local signal** with the `$()` function:
+
+```jsx
+import { observer, $ } from 'startupjs'
+import { Button, Span } from 'startupjs-ui'
+
+export default observer(function Counter () {
+  const $count = $(0)
+
+  return (
+    <>
+      <Span>Count: {$count.get()}</Span>
+      <Button onPress={() => $count.set($count.get() + 1)}>
+        Increment
+      </Button>
+    </>
+  )
+})
+```
+
+Local signals work like `useState` but integrate with the signal system. They are reactive -- components that read them re-render when they change.
+
+You can also destructure object signals:
+
+```jsx
+const { $name, $age } = $({ name: 'Alice', age: 30 })
+// $name.get() returns 'Alice'
+// $age.get() returns 30
+```
+
+## Private collections
+
+Collections that start with `_` are **private** -- they live only on the client and are never sent to the server. They are useful for storing temporary UI state that multiple components need to share.
+
+The two most common private collections are:
+
+- `$._page` -- data scoped to the current page. It gets cleared when the user navigates away.
+- `$._session` -- data scoped to the current browser session. It persists across page navigations but is lost when the tab is closed.
+
+You can read and write them directly, without subscribing:
+
+```jsx
+// Store whether the sidebar is open
+$._page.sidebar.opened.set(true)
+
+// Read it in another component
+const isOpen = $._page.sidebar.opened.get()
+
+// Read the current user's ID from the session
+const userId = $._session.userId.get()
+```
+
+Since private collections are local-only, you do not need `useSub` for them. Just use `$._page` or `$._session` directly.
+
+## Using `sub` outside React
+
+In non-React code (server-side scripts, background jobs, etc.), use the `sub` function instead of `useSub`. It returns a promise:
+
+```js
+import { $, sub } from 'startupjs'
+
+const $user = await sub($.users[userId])
+console.log($user.name.get())
+```
+
+For queries:
+
+```js
+const $activeUsers = await sub($.users, { status: 'active' })
+for (const $user of $activeUsers) {
+  console.log($user.name.get())
+}
+```
+
+## Summary
+
+| What you want to do | How to do it |
+| --- | --- |
+| Subscribe to one document | `const $doc = useSub($.collection[id])` |
+| Subscribe to a query | `const $docs = useSub($.collection, query)` |
+| Read a value | `$signal.field.get()` |
+| Set a value | `$signal.field.set(newValue)` |
+| Create a local signal | `const $val = $(initialValue)` |
+| Access page-level state | `$._page.something.get()` / `.set()` |
+| Access session data | `$._session.something.get()` |
+| Subscribe outside React | `const $doc = await sub($.collection[id])` |

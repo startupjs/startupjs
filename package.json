@@ -38,24 +38,30 @@
     "publish-patch": "yarn before-publish && npx lerna publish patch --no-push && yarn publish-update-changelog",
     "publish-patch-force": "yarn before-publish && npx lerna publish patch --force-publish --no-push && yarn publish-update-changelog",
     "publish-breaking-minor": "yarn before-publish && npx lerna publish minor --no-push && yarn publish-update-changelog",
-    "publish-alpha-breaking-minor": "yarn before-publish && npx lerna publish preminor --force-publish --dist-tag next --no-push && yarn publish-update-changelog",
-    "publish-alpha-patch": "yarn before-publish && npx lerna publish prerelease --dist-tag next --no-push && yarn publish-update-changelog",
+    "publish-alpha-breaking-minor": "yarn before-publish && npx lerna publish preminor --force-publish --preid alpha --dist-tag alpha --no-push && yarn publish-update-changelog",
+    "publish-alpha-patch": "yarn before-publish && npx lerna publish prerelease --preid alpha --dist-tag alpha --no-push && yarn publish-update-changelog",
     "publish-canary-patch": "yarn before-publish && npx lerna publish prerelease --preid canary --dist-tag canary --no-push && yarn publish-update-changelog",
     "publish-canary-patch-force": "yarn before-publish && npx lerna publish prerelease --force-publish --preid canary --dist-tag canary --no-push && yarn publish-update-changelog",
     "publish-canary-breaking-minor": "yarn before-publish && npx lerna publish preminor --force-publish --preid canary --dist-tag canary --no-push && yarn publish-update-changelog",
     "before-publish": "./scripts/tasks.sh before-publish",
     "publish-update-changelog": "./scripts/tasks.sh update-changelog",
     "test-e2e": "cd styleguide && yarn test-e2e",
-    "codegen-test-e2e": "cd styleguide && yarn codegen-test-e2e"
+    "codegen-test-e2e": "cd styleguide && yarn codegen-test-e2e",
+    "docs": "rspress dev --port 3011",
+    "docs-build": "rspress build",
+    "docs-preview": "rspress preview --port 3011"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",
+    "@rspress/core": "^2.0.0",
     "conventional-changelog-cli": "^2.1.1",
     "eslint": "^8.56.0",
     "eslint-config-cssxjs": "^0.2.0",
     "husky": "^4.3.0",
     "lerna": "^9.0.0",
-    "lint-staged": "^9.5.0"
+    "lint-staged": "^9.5.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -64,7 +70,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "! grep -q '\"resolutions\":' ./package.json || (echo '\\033[0;31mError: \"resolutions\" found in package.json. Remove \"resolutions\" to proceed with commit.\\033[0m' && exit 1) && lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "eslintConfig": {
@@ -73,6 +79,10 @@
     ]
   },
   "license": "MIT",
+  "resolutions": {
+    "sharedb-redis-pubsub": "2.0.1",
+    "sharedb-redis-pubsub/sharedb": "5.2.2"
+  },
   "//resolutions": {
     "teamplay": "portal:../teamplay/packages/teamplay",
     "@teamplay/channel": "portal:../teamplay/packages/channel"

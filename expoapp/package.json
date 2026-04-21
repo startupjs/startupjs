@@ -1,7 +1,7 @@
 {
   "name": "expoapp",
   "main": "expo-router/entry",
-  "version": "0.61.2",
+  "version": "0.61.15",
   "type": "module",
   "scripts": {
     "start": "npm run check-redis && npx expo start",
@@ -13,7 +13,6 @@
     "start-production": "npx startupjs start-production",
     "test": "jest --watchAll",
     "startupjs:help": "npx startupjs --help",
-    "postinstall": "npx startupjs postinstall",
     "worker": "npx startupjs start-worker"
   },
   "jest": {
@@ -50,7 +49,7 @@
     "react-native-screens": "~4.16.0",
     "react-native-svg": "15.12.1",
     "react-native-web": "^0.21.0",
-    "startupjs": "^0.61.2",
+    "startupjs": "^0.61.15",
     "startupjs-ui": "^0.1.6"
   },
   "devDependencies": {

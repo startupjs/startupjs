@@ -1,0 +1,59 @@
+# Colors
+
+## Overview
+
+StartupJS uses **semantic color names** to keep UI consistent. Instead of hardcoding hex values, use named tokens like `bg-main` or `text-error`. This makes it easy to change a theme later without editing every component.
+
+For custom palettes or overrides, see [Color customization](./colorCustomization).
+
+## Usage guidelines
+
+- Use semantic color names everywhere.
+- Avoid hardcoded hex values in component styles.
+- Prefer background and text roles instead of palette-specific names.
+
+## Using color variables in styles
+
+You can reference CSS variables with `var(--color-...)`:
+
+```styl
+.card
+  background-color var(--color-bg-main-strong)
+  border-color var(--color-border-main)
+
+.text
+  color var(--color-text-main)
+```
+
+## Using color variables in JavaScript
+
+```js
+import { useColors } from 'startupjs-ui'
+
+const getColor = useColors()
+const bgColor = getColor('bg-main')
+```
+
+## Base colors
+
+`main`, `bg-main`, `text-main`, `border-main`, `primary`, `secondary`, `error`, `success`, `warning`, `info`, `attention`
+
+## Text colors
+
+`text-main`, `text-description`, `text-placeholder`, `text-subtle`, `text-primary`, `text-secondary`, `text-error`, `text-success`, `text-warning`, `text-info`, `text-attention`, `text-success-strong`, `text-info-strong`
+
+## Text-on-background colors
+
+`text-on-color`, `text-on-primary`, `text-on-secondary`, `text-on-error`, `text-on-success`, `text-on-warning`, `text-on-info`, `text-on-attention`
+
+## Background colors
+
+`bg-main`, `bg-main-subtle`, `bg-main-subtle-alt`, `bg-main-strong`, `bg-primary`, `bg-secondary`, `bg-error`, `bg-success`, `bg-warning`, `bg-info`, `bg-attention`, `bg-primary-strong`, `bg-primary-subtle`, `bg-primary-transparent`, `bg-secondary-subtle`, `bg-error-transparent`, `bg-success-transparent`, `bg-warning-transparent`
+
+## Border colors
+
+`border-main`, `border-main-strong`, `border-main-strong-alt`, `border-main-subtle`, `border-primary`, `border-secondary`, `border-error`, `border-success`, `border-warning`, `border-info`, `border-attention`
+
+## Shadow colors
+
+`shadow-main`, `shadow-main-strong`, `shadow-main-subtle`

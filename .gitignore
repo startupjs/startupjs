@@ -35,3 +35,6 @@ lerna-debug.log
 
 # Mongo for docker
 /.mongo
+
+# Rspress docs build output
+/doc_build

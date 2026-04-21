@@ -1,0 +1,156 @@
+# Security
+
+By default, StartupJS allows full read/write/delete access to every document. You must define access rules to protect your data in production.
+
+## Document access control (`@startupjs/sharedb-access`)
+
+This package adds per-document permission checks for create, read, update, and delete operations.
+
+Enable it in `server/index.js`:
+
+```js
+startupjsServer({
+  accessControl: true
+})
+```
+
+Define access rules on your model:
+
+```js
+export default class NewsModel {
+  static access = {
+    create: async (model, collection, docId, doc, session) => {
+      return hasPermission('global.admin', model, collection, docId, session)
+    },
+    read: async () => true,
+    update: async (model, collection, docId, oldDoc, session, ops, newDoc) => {
+      return hasPermission('global.admin', model, collection, docId, session)
+    },
+    delete: async (model, collection, docId, doc, session) => {
+      return hasPermission('global.admin', model, collection, docId, session)
+    }
+  }
+}
+```
+
+`hasPermission` is your application-specific permission check. Each callback receives the server-side model and session, so you can look up roles or ownership.
+
+## Schema validation (`@startupjs/sharedb-schema`)
+
+This package enforces JSON Schema rules on documents. Any write that violates the schema is rejected.
+
+Enable it in `server/index.js`:
+
+```js
+startupjsServer({
+  validateSchema: true
+})
+```
+
+Define a schema on your model:
+
+```js
+export default class UserModel {
+  static schema = {
+    type: 'object',
+    properties: {
+      username: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 10
+      },
+      email: {
+        type: 'string',
+        format: 'email'
+      },
+      age: {
+        description: 'Age in years',
+        type: 'integer',
+        minimum: 1
+      },
+      roleId: { type: 'string' },
+      hobbies: {
+        type: 'array',
+        maxItems: 3,
+        items: { type: 'string' },
+        uniqueItems: true
+      }
+    }
+  }
+}
+```
+
+More details: https://github.com/startupjs/startupjs/tree/master/packages/sharedb-schema
+
+## Secure aggregations (`@startupjs/server-aggregate`)
+
+Aggregations are unrestricted by default. Use server-defined aggregation templates to control what queries clients can run.
+
+Enable it in `server/index.js`:
+
+```js
+startupjsServer({
+  serverAggregate: true
+})
+```
+
+Define aggregation templates:
+
+```js
+static aggregations = {
+  example: async (model, params, session) => {
+    const { status } = params
+    const availableStatuses = getAvailableStatuses(model, session.userId)
+
+    if (!availableStatuses.includes(status)) {
+      throw Error("403: Can't query docs with status " + status)
+    }
+
+    return [
+      { $match: { status } }
+    ]
+  }
+}
+```
+
+Use the aggregation in a query:
+
+```js
+const $events = useSub($.events, {
+  $aggregationName: 'example',
+  $params: { status: 'published' }
+})
+```
+
+## REST API checks (server)
+
+Always validate access for REST endpoints. Express makes this simple with middleware.
+
+On the server, there are no private collections like `$._session`. Instead, the user ID is available on the request session object as `req.session.userId`. Use `sub` from `'startupjs'` to subscribe to documents:
+
+```js
+import express from 'express'
+import { $, sub } from 'startupjs'
+
+async function isLoggedIn (req, res, next) {
+  const userId = req.session.userId
+  if (!userId) return res.sendStatus(403)
+  next()
+}
+
+async function isAdmin (req, res, next) {
+  const userId = req.session.userId
+  const $user = await sub($.users[userId])
+  const role = $user.role.get()
+
+  if (role !== 'admin') return res.sendStatus(403)
+  next()
+}
+
+const adminRouter = express.Router()
+
+adminRouter.post('/api/add-admin-task', [isLoggedIn, isAdmin, addAdminTask])
+adminRouter.get('/api/get-admin-tasks', [isLoggedIn, isAdmin, getAdminTasks])
+
+export default adminRouter
+```

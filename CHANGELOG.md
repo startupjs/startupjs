@@ -1,3 +1,90 @@
+## [0.61.15](https://github.com/startupjs/startupjs/compare/v0.61.14...v0.61.15) (2026-03-23)
+
+
+
+## [0.61.14](https://github.com/startupjs/startupjs/compare/v0.61.13...v0.61.14) (2026-03-20)
+
+
+
+## [0.61.13](https://github.com/startupjs/startupjs/compare/v0.61.12...v0.61.13) (2026-03-20)
+
+
+
+## [0.61.12](https://github.com/startupjs/startupjs/compare/v0.61.11...v0.61.12) (2026-03-20)
+
+
+
+## [0.61.11](https://github.com/startupjs/startupjs/compare/v0.61.10...v0.61.11) (2026-03-13)
+
+
+### Features
+
+* add 'npx startupjs check' command to do TS typechecking with Pug support ([1f1a48c](https://github.com/startupjs/startupjs/commit/1f1a48cdb6ad246444e4276b329cd464ad726259))
+
+
+
+## [0.61.10](https://github.com/startupjs/startupjs/compare/v0.61.9...v0.61.10) (2026-02-12)
+
+
+
+## [0.61.9](https://github.com/startupjs/startupjs/compare/v0.61.8...v0.61.9) (2026-01-25)
+
+
+### Bug Fixes
+
+* **startupjs:** upgrade cssxjs to support var() in CSS shorthands and in complex cases ([e87c1ba](https://github.com/startupjs/startupjs/commit/e87c1ba2f10a6f24d1255fdf75d2a398019a0ea7))
+
+
+
+## [0.61.8](https://github.com/startupjs/startupjs/compare/v0.61.7...v0.61.8) (2026-01-23)
+
+
+### Bug Fixes
+
+* **startupjs:** upgrade cssx to improve CSS performance ([7c834db](https://github.com/startupjs/startupjs/commit/7c834db0600a2aff38ffe2be69e4dca4c88fc4c2))
+
+
+
+## [0.61.7](https://github.com/startupjs/startupjs/compare/v0.61.6...v0.61.7) (2026-01-19)
+
+
+### Bug Fixes
+
+* **bundler/mdxLoader:** remove newlines inserted by the mdx compiler since they don't work in RN ([5fbf9b9](https://github.com/startupjs/startupjs/commit/5fbf9b949694ddc99164c6a43bf4cc546950b9e7))
+
+
+
+## [0.61.6](https://github.com/startupjs/startupjs/compare/v0.61.5...v0.61.6) (2026-01-18)
+
+
+### Features
+
+* **create-startupjs:** install react-native-reanimated when 'ui' is used ([91e99e3](https://github.com/startupjs/startupjs/commit/91e99e375c9a66ee84d1a5d9257fd8841247610f))
+
+
+
+## [0.61.5](https://github.com/startupjs/startupjs/compare/v0.61.4...v0.61.5) (2026-01-18)
+
+
+### Features
+
+* **startupjs:** upgrade cssxjs to support animation and transition (the way that Reanimated v4 components expect it) ([6cdb195](https://github.com/startupjs/startupjs/commit/6cdb195f4b7c3824ac5aa2400d29351693915b77))
+
+
+
+## [0.61.4](https://github.com/startupjs/startupjs/compare/v0.61.3...v0.61.4) (2026-01-14)
+
+
+
+## [0.61.3](https://github.com/startupjs/startupjs/compare/v0.61.2...v0.61.3) (2026-01-14)
+
+
+### Features
+
+* **babel-plugin-startupjs:** add an asyncImports option (disabled by default) to replace 'startupjs-ui' imports with async imports to split components into separate chunks during bundling (top-level await is not supported in RN yet, so it won't work in Expo yet) ([7534359](https://github.com/startupjs/startupjs/commit/7534359c2847cea4a90e67f34e5cf0aba67968a9))
+
+
+
 ## [0.61.2](https://github.com/startupjs/startupjs/compare/v0.61.1...v0.61.2) (2026-01-04)
 
 

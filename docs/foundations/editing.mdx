@@ -1,0 +1,145 @@
+# Editing patterns
+
+StartupJS is reactive by default: when you update a document, every subscribed client sees the change immediately. That is great for collaboration, but sometimes you want a local draft that only saves on demand.
+
+## Setup: create a demo document
+
+```jsx
+const docId = 'a2205406-7de4-43a4-8b73-48ea23a8aaab'
+const $doc = useSub($.temp[docId])
+
+useEffect(() => {
+  if ($doc.get()) return
+  $.temp.add({ id: docId, title: 'Title', message: 'Message' })
+}, [$doc.get()])
+
+return pug`
+  Span This example creates a demo document once, if it does not exist.
+`
+```
+
+## Live editing (default behavior)
+
+Changes are written to the document immediately, so the UI stays in sync with the database.
+
+```jsx
+const docId = 'a2205406-7de4-43a4-8b73-48ea23a8aaab'
+const $doc = useSub($.temp[docId])
+
+return pug`
+  Span= $doc.title.get()
+  TextInput.input(
+    placeholder='Title'
+    value=$doc.title.get()
+    onChangeText=t => $doc.title.set(t)
+  )
+`
+
+styl`
+  .input
+    margin-top 1u
+`
+```
+
+## Local draft (save on button click)
+
+If you want a "Save" button, keep a local copy and only write changes to the document when the user confirms.
+
+```jsx
+const docId = 'a2205406-7de4-43a4-8b73-48ea23a8aaab'
+const $doc = useSub($.temp[docId])
+const $draft = $({ ...$doc.get() })
+
+function onSubmit () {
+  $doc.assign($draft.get())
+}
+
+return pug`
+  Div
+    Span= $doc.title.get()
+    Span.line= $doc.message.get()
+
+  Div
+    TextInput.line(
+      placeholder='Title'
+      value=$draft.title.get()
+      onChangeText=t => $draft.title.set(t)
+    )
+
+    TextInput.line(
+      placeholder='Message'
+      value=$draft.message.get()
+      onChangeText=t => $draft.message.set(t)
+    )
+
+    Button(
+      variant='flat'
+      onPress=onSubmit
+    ) Save
+`
+
+styl`
+  .line
+    margin-bottom 1u
+`
+```
+
+## Persistent draft (survives reloads)
+
+If the draft must survive page reloads, store it in a separate document. A common convention is:
+
+```
+draft__<userId>__<docId>
+```
+
+```jsx
+const userId = $._session.userId.get()
+const docId = 'a2205406-7de4-43a4-8b73-48ea23a8aaab'
+const draftId = `draft__${userId}__${docId}`
+
+const $doc = useSub($.temp[docId])
+const $draft = useSub($.temp[draftId])
+
+useEffect(() => {
+  if ($draft.get() || !$doc.get()) return
+  $.temp.add({ ...$doc.get(), id: draftId })
+}, [$draft.get(), $doc.get(), draftId])
+
+function onSubmit () {
+  $doc.assign($draft.get())
+}
+
+if (!$draft.get()) return null
+return pug`
+  Div
+    Span= $doc.title.get()
+    Span.line= $doc.message.get()
+
+  Div
+    TextInput.line(
+      placeholder='Title'
+      value=$draft.title.get()
+      onChangeText=t => $draft.title.set(t)
+    )
+
+    TextInput.line(
+      placeholder='Message'
+      value=$draft.message.get()
+      onChangeText=t => $draft.message.set(t)
+    )
+
+    Button(
+      variant='flat'
+      onPress=onSubmit
+    ) Save
+`
+
+styl`
+  .line
+    margin-bottom 1u
+`
+```
+
+## Why `assign`
+
+Use `$doc.assign(draft)` instead of replacing the entire document. It sets only the fields that changed, generating minimal operations and avoiding unnecessary re-renders in components that depend on unchanged fields.

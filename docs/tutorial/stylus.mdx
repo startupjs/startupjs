@@ -1,0 +1,67 @@
+# Stylus
+
+Stylus is a CSS preprocessor that StartupJS uses by default. It drops the braces, colons, and semicolons of regular CSS and uses indentation instead.
+
+## Selector syntax
+
+**Stylus**
+
+```styl
+.root
+  background-color blue
+```
+
+**CSS equivalent**
+
+```css
+.root {
+  background-color: blue;
+}
+```
+
+### Parent selector
+
+Use `&` to reference the parent selector, just like in SCSS:
+
+```styl
+.button
+  background-color white
+  &.active
+    background-color blue
+```
+
+This compiles to `.button.active { background-color: blue; }`.
+
+## Variables
+
+Define variables and reuse them in your styles:
+
+```styl
+_titleColor = #2f4f4f
+_titleSize = 24px
+
+.title
+  color _titleColor
+  font-size _titleSize
+```
+
+You can also reference a property that was already set in the same block using `@`:
+
+```styl
+.card
+  margin 8px
+  padding @margin * 2
+```
+
+Here, `@margin` refers to the `margin` value defined above it, so `padding` becomes `16px`.
+
+## Mixins
+
+StartupJS includes built-in mixins. For example, `font()` sets both `font-size` and `line-height` in one call:
+
+```styl
+.text
+  font(h1)
+```
+
+See the Tricks with styles chapter for a full list of available mixins.

@@ -1,0 +1,33 @@
+# WebSocket
+
+StartupJS lets you hook into the underlying HTTP server and upgrade specific paths to WebSocket connections.
+
+## Upgrade a custom endpoint
+
+```js
+import WebSocket from 'ws'
+
+const PATH = '/my-channel'
+const wss = new WebSocket.Server({ noServer: true, path: PATH })
+
+startupjsServer({
+  // server options
+}, (ee, options) => {
+  ee.on('beforeStart', ({ server, session }) => {
+    server.on('upgrade', (req, socket, head) => {
+      if (req.url !== PATH) return
+      session(req, {}, () => {
+        wss.handleUpgrade(req, socket, head, ws => {
+          wss.emit('connection', ws, req)
+        })
+      })
+    })
+  })
+})
+
+wss.on('connection', (ws, req) => {
+  console.log(`User ${req.session.userId} connected`)
+})
+```
+
+The important part is calling `session(req, {}, ...)` so the upgraded socket shares the same session data as the rest of the app.
