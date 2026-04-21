@@ -202,7 +202,7 @@ update_deployments () {
   then
     if [ -n "$DEPLOYMENTS" ]
     then
-      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json \
+      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json | jq '{items: [.items[] | select(.metadata.labels.microservice != "cron" and .metadata.labels.microservice != "worker")]}' \
         | kubectl-neat \
         | jq '.items[]' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
@@ -219,7 +219,7 @@ update_deployments () {
         | jq ".spec.template.spec.containers[0].image = \"${REGISTRY_SERVER}/${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}:${COMMIT_SHA}\"" \
         | kubectl apply -f -
     else
-      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json \
+      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json | jq '{items: [.items[] | select(.metadata.labels.microservice != "cron" and .metadata.labels.microservice != "worker")]}' \
         | kubectl-neat \
         | jq '.items[]' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
