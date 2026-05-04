@@ -1,3 +1,12 @@
+# [0.62.0](https://github.com/startupjs/startupjs/compare/v0.61.15...v0.62.0) (2026-05-04)
+
+
+### Features
+
+* [BREAKING] [v0.62] rewrite worker; use newer CSSX v0.3 ([#1312](https://github.com/startupjs/startupjs/issues/1312)) ([177e79d](https://github.com/startupjs/startupjs/commit/177e79d4d818e0fd4a8861c3f5775867a9cde319))
+
+
+
 # [0.62.0-alpha.16](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.15...v0.62.0-alpha.16) (2026-04-20)
 
 
