@@ -1,3 +1,16 @@
+## [0.62.1](https://github.com/startupjs/startupjs/compare/v0.62.0...v0.62.1) (2026-05-04)
+
+
+
+# [0.62.0](https://github.com/startupjs/startupjs/compare/v0.61.15...v0.62.0) (2026-05-04)
+
+
+### Features
+
+* [BREAKING] [v0.62] rewrite worker; use newer CSSX v0.3 ([#1312](https://github.com/startupjs/startupjs/issues/1312)) ([177e79d](https://github.com/startupjs/startupjs/commit/177e79d4d818e0fd4a8861c3f5775867a9cde319))
+
+
+
 # [0.62.0-alpha.16](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.15...v0.62.0-alpha.16) (2026-04-20)
 
 
@@ -2121,7 +2134,7 @@ and then do `npx startupjs install --fix` to upgrade all dependencies.
 Update the eslint plugin and related eslint configuration the following way:
 
 1. change the react-pug eslint plugin to another one in your `package.json`:
-    
+
     ```diff
     - "eslint-plugin-react-pug": "*",
     + "@startupjs/eslint-plugin-react-pug": "^0.8.3-3",
