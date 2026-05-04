@@ -18,6 +18,7 @@ export default defineConfig([
     ignores: [
       'outdated/*', 'node_modules/*', 'dist/*', 'styleguide/*',
       'expoapp/.expo', 'expoapp/dist/*', 'expoapp/expo-env.d.ts',
+      'teamplay-env.d.ts',
       // outdated libraries which are not yet supported by new startupjs but kept for now for backward compatibility
       'libraries/2fa/*',
       'libraries/2fa-manager/*',

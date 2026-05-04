@@ -1,7 +1,6 @@
 // will import: { ... }
 import projectConfig from './virtual/startupjs.config.virtual.js'
-// will import: { 'users': $1, 'users.*': $2, '_session.games': $3, '_session.games.*': $4 }
-import models from './virtual/startupjs.models.virtual.js'
+import models from 'teamplay/file-based-models'
 // will import: [$1, $2, $3, ...]
 import plugins from './virtual/startupjs.plugins.virtual.js'
 // { enableServer: true }
