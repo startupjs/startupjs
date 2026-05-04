@@ -36,13 +36,10 @@ export function t (...args) {
   return compatT(...args)
 }
 
-// wrap serverOnly around the value to remove it from the client bundle
-// (it will be replaced with `undefined` on the client by the babel-plugin-eliminator)
-export function serverOnly (value) { return value }
-
 export { default as StartupjsProvider } from './StartupjsProvider.js'
 
-// loading config should be performed first
+// loading config should be performed after TeamPlay is re-exported so model
+// files can safely import model base classes from `startupjs` during config load.
 export { default as __dummyLoadConfig } from '@startupjs/registry/loadStartupjsConfig.auto'
 
 // COMPAT-ONLY legacy hook expected by older LMS code and packages built against

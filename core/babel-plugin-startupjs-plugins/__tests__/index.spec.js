@@ -24,7 +24,7 @@ pluginTester({
     'Processes files with a magic import': /* js */`
       import { registry } from 'startupjs/registry'
       import config from './startupjs.config.virtual.js'
-      import models from './startupjs.models.virtual.js'
+      import models from 'teamplay/file-based-models'
       import features from './startupjs.features.virtual.js'
       import plugins from './startupjs.plugins.virtual.js'
       import dummy from '@dummy/dummy'
@@ -54,10 +54,10 @@ pluginTester({
     filename: join(FIXTURES_PATH, './node_modules/config/index.js')
   },
   tests: {
-    'On Metro uses require.context for models': /* js */`
+    'Leaves file-based models to TeamPlay on Metro': /* js */`
       import { registry } from 'startupjs/registry'
       import config from './startupjs.config.virtual.js'
-      import models from './startupjs.models.virtual.js'
+      import models from 'teamplay/file-based-models'
       import features from './startupjs.features.virtual.js'
       import plugins from './startupjs.plugins.virtual.js'
       import dummy from '@dummy/dummy'

@@ -7,6 +7,4 @@ export * from '@startupjs/hooks'
 //        on the server and on the client
 export * from '@startupjs/isomorphic-helpers'
 
-export function serverOnly (value: any): any
-
 export { default as StartupjsProvider } from './StartupjsProvider.js'

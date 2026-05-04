@@ -1,4 +1,6 @@
-import { runCli } from '@react-pug/check-types'
+import { runCli } from 'cssxjs/check'
+import { createRequire } from 'node:module'
+import { join } from 'node:path'
 
 export const name = 'check [files...]'
 export const description = 'Type-check the current project with React-Pug support'
@@ -30,6 +32,10 @@ export const options = [
 ]
 
 export async function action (files = [], options) {
+  const requireFromProject = createRequire(join(process.cwd(), 'package.json'))
+  const { generateTeamplayEnv } = requireFromProject('teamplay/babel/loader')
+  generateTeamplayEnv({ fallbackModelsFolders: ['model'] })
+
   const args = [...files]
   if (options.project) args.push('--project', options.project)
   if (options.tagFunction) args.push('--tagFunction', options.tagFunction)

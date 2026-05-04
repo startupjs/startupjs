@@ -121,6 +121,12 @@ module.exports = (api, {
         // traverse "exports" of package.json and all dependencies to find all startupjs plugins
         // and automatically import them in the main startupjs.config.js file
         [require('@startupjs/babel-plugin-startupjs-plugins'), { useRequireContext }],
+        [require('teamplay/babel'), {
+          useRequireContext,
+          fallbackModelsFolders: ['model'],
+          autoInit: false,
+          clientOnly
+        }],
 
         // run eliminator to remove code targeting other envs.
         // For example, only keep code related to 'client' and 'isomorphic' envs
@@ -151,115 +157,7 @@ module.exports = (api, {
             magicImports: MAGIC_IMPORTS,
             ensureOnlyKeys: [...PLUGIN_KEYS, ...ALL_ENVS],
             keepKeys: [...PLUGIN_KEYS, ...envs]
-          }],
-          ...(clientOnly
-            ? {
-                transformFunctionCalls: [{
-                  // direct named exports of aggregation() within model/*.js files
-                  // are replaced with aggregationHeader() calls.
-                  // 'collection' is the filename without extension
-                  // 'name' is the direct named export const name
-                  //
-                  // Example:
-                  //
-                  //   // in model/games.js
-                  //   export const $$byGameId = aggregation(({ gameId }) => ({ gameId }))
-                  //
-                  // will be replaced with:
-                  //
-                  //   __aggregationHeader({ collection: 'games', name: '$$byGameId' })
-                  //
-                  functionName: 'aggregation',
-                  magicImports: ['startupjs'],
-                  requirements: {
-                    argumentsAmount: 1,
-                    directNamedExportedAsConst: true
-                  },
-                  replaceWith: {
-                    newFunctionNameFromSameImport: '__aggregationHeader',
-                    newCallArgumentsTemplate: `[
-                      {
-                        collection: %%filenameWithoutExtension%%,
-                        name: %%directNamedExportConstName%%
-                      }
-                    ]`
-                  }
-                }, {
-                  // export default inside of aggregation() within a separate model/*.$$myAggregation.js files
-                  // are replaced with aggregationHeader() calls.
-                  // Filepath is stripped of the extensions and split into sections (by dots and slashes)
-                  // 'name' is the last section.
-                  // 'collection' is the section before it.
-                  //
-                  // Example:
-                  //
-                  //   // in model/games/$$active.js
-                  //   export default aggregation(({ gameId }) => ({ gameId }))
-                  //
-                  // will be replaced with:
-                  //
-                  //   __aggregationHeader({ collection: 'games', name: '$$active' })
-                  //
-                  functionName: 'aggregation',
-                  magicImports: ['startupjs'],
-                  requirements: {
-                    argumentsAmount: 1,
-                    directDefaultExported: true
-                  },
-                  replaceWith: {
-                    newFunctionNameFromSameImport: '__aggregationHeader',
-                    newCallArgumentsTemplate: `[
-                      {
-                        collection: %%folderAndFilenameWithoutExtension%%.split(/[\\\\/\\.]/).at(-2),
-                        name: %%folderAndFilenameWithoutExtension%%.split(/[\\\\/\\.]/).at(-1)
-                      }
-                    ]`
-                  }
-                }, {
-                  // TODO: this has to be implemented! It's not actually working yet.
-
-                  // any other calls to aggregation() must explicitly define the collection and name
-                  // as the second argument. If not, the build will fail.
-                  //
-                  // Example:
-                  //
-                  //   aggregation(
-                  //     ({ gameId }) => ({ gameId }),
-                  //     { collection: 'games', name: 'byGameId' }
-                  //   )
-                  //
-                  // will be replaced with:
-                  //
-                  //   __aggregationHeader({ collection: 'games', name: 'byGameId' })
-                  //
-                  functionName: 'aggregation',
-                  magicImports: ['startupjs'],
-                  requirements: {
-                    argumentsAmount: 2
-                  },
-                  throwIfRequirementsNotMet: true,
-                  replaceWith: {
-                    newFunctionNameFromSameImport: '__aggregationHeader',
-                    newCallArgumentsTemplate: '[%%argument1%%]' // 0-based index
-                  }
-                }, {
-                  // remove accessControl() calls (replace with undefined)
-                  functionName: 'accessControl',
-                  magicImports: ['startupjs'],
-                  replaceWith: {
-                    remove: true // replace the whole function call with undefined
-                  }
-                }, {
-                  // remove serverOnly() calls (replace with undefined)
-                  functionName: 'serverOnly',
-                  magicImports: ['startupjs'],
-                  replaceWith: {
-                    remove: true // replace the whole function call with undefined
-                  }
-                }]
-              }
-            : {}
-          )
+          }]
         }],
 
         // -- optimizations

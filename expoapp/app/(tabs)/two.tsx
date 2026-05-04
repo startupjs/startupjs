@@ -26,8 +26,8 @@ export default observer(function TabTwoScreen () {
       Text.title Tab Two or yes? no? what's 84
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")
       Div(row)
-        Button(color='error' onPress=() => $count.increment(-1)) -
-        Button(color='primary' variant='flat' pushed onPress=() => $count.increment())
+        Button(color='error' onPress=() => { $count.increment(-1) }) -
+        Button(color='primary' variant='flat' pushed onPress=() => { $count.increment() })
           | Model count: #{$count.get()}
       Br
       Span.count(h1) #{$count.get()}
@@ -39,7 +39,7 @@ export default observer(function TabTwoScreen () {
       Div(row)
         Button(onPress=() => setStateCount(stateCount + 1))
           | State count: #{stateCount}
-        Button(pushed onPress=() => $localCount.increment())
+        Button(pushed onPress=() => { $localCount.increment() })
           | Local count: #{$localCount.get()}
         Button(pushed onPress=() => alert('Test alert!')) Alert
       View.separator(lightColor="#eee" darkColor="rgba(255,255,255,0.1)")

@@ -32,7 +32,7 @@ export default observer(function TabOneScreen () {
       <Br />
       <Div row>
         <Button onPress={fetchSomething}>Fetch stuff</Button>
-        <Button pushed onPress={() => $count.increment(1)}>Count {$count.get()}</Button>
+        <Button pushed onPress={() => { $count.increment(1) }}>Count {$count.get()}</Button>
         <Button pushed onPress={() => $banner.visible.set(!$banner.visible.get())}>
           {$banner.visible.get() ? 'Hide' : 'Show'} Banner
         </Button>
