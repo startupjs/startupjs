@@ -1,3 +1,127 @@
+# [0.63.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.62.1...v0.63.0-alpha.0) (2026-05-04)
+
+
+### Features
+
+* move model-related file discovery out into teamplay itself ([#1318](https://github.com/startupjs/startupjs/issues/1318)) ([0d8a8d9](https://github.com/startupjs/startupjs/commit/0d8a8d956f813dd764e2b58106b4b264eeae5eb8))
+* use new stable versions of teamplay 0.4 and cssx 0.3 ([ad01ec3](https://github.com/startupjs/startupjs/commit/ad01ec34229f186a55c24aba263be54018162b4e))
+
+
+
+# [0.62.0-alpha.16](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.15...v0.62.0-alpha.16) (2026-04-20)
+
+
+### Bug Fixes
+
+* **create-startupjs:** during 'init' in 'tsconfig.json' set 'compilerOptions.allowImportingTsExtensions' to 'true' so that we can import stuff in 'model' folder which also runs on pure Node.js which requires extensions ([d2082f8](https://github.com/startupjs/startupjs/commit/d2082f8860e9d4dfd0bfcd76c203e4d01249dff4))
+
+
+
+# [0.62.0-alpha.15](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.14...v0.62.0-alpha.15) (2026-04-20)
+
+
+### Bug Fixes
+
+* **router:** add types ([14a2e5f](https://github.com/startupjs/startupjs/commit/14a2e5f29808a9fd15be3863de71526f1b8cd166))
+
+
+
+# [0.62.0-alpha.14](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.13...v0.62.0-alpha.14) (2026-04-20)
+
+
+
+# [0.62.0-alpha.13](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.12...v0.62.0-alpha.13) (2026-04-19)
+
+
+
+# [0.62.0-alpha.12](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.11...v0.62.0-alpha.12) (2026-04-16)
+
+
+
+# [0.62.0-alpha.11](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.10...v0.62.0-alpha.11) (2026-04-15)
+
+
+### Bug Fixes
+
+* **babel-plugin-startupjs-plugins:** fix Windows support ([1064b0b](https://github.com/startupjs/startupjs/commit/1064b0b5a7dcacc33d3c45a2647255ef50b8dec1))
+
+
+
+# [0.62.0-alpha.10](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.9...v0.62.0-alpha.10) (2026-04-12)
+
+
+### Features
+
+* **create-startupjs:** improve agents.md - explain limitations of selectors in css ([46a7026](https://github.com/startupjs/startupjs/commit/46a7026a02f5f6578efc4aed95b4128cfa2862c3))
+
+
+
+# [0.62.0-alpha.9](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.8...v0.62.0-alpha.9) (2026-04-10)
+
+
+
+# [0.62.0-alpha.8](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.7...v0.62.0-alpha.8) (2026-04-09)
+
+
+
+# [0.62.0-alpha.7](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.6...v0.62.0-alpha.7) (2026-04-06)
+
+
+
+# [0.62.0-alpha.6](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.5...v0.62.0-alpha.6) (2026-04-04)
+
+
+
+# [0.62.0-alpha.5](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.4...v0.62.0-alpha.5) (2026-04-03)
+
+
+### Bug Fixes
+
+* **create-startupjs:** remove 'ts: true' from neostandard since it conflicts with expo's config which already enables TS ([1faae8c](https://github.com/startupjs/startupjs/commit/1faae8c71808509041ba8f93fe73ec3db29b8666))
+
+
+
+# [0.62.0-alpha.4](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.3...v0.62.0-alpha.4) (2026-03-30)
+
+
+
+# [0.62.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.2...v0.62.0-alpha.3) (2026-03-27)
+
+
+### Features
+
+* **create-startupjs:** update AGENTS.md to follow new 'style'. Add E2E_GUIDE.md to new projects for playwright testing. ([d77634b](https://github.com/startupjs/startupjs/commit/d77634b2afb35c2d6f7b3ae9b2e74e42661cf1ac))
+
+
+
+# [0.62.0-alpha.2](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.1...v0.62.0-alpha.2) (2026-03-27)
+
+
+### Features
+
+* **create-startupjs:** use startupjs-ui@alpha in new projects (while we are on startupjs@alpha) ([b5b1b50](https://github.com/startupjs/startupjs/commit/b5b1b50500870df27888baebde35886b9cfc3355))
+
+
+
+# [0.62.0-alpha.1](https://github.com/startupjs/startupjs/compare/v0.62.0-alpha.0...v0.62.0-alpha.1) (2026-03-26)
+
+
+### Features
+
+* **create-startupjs:** add proper eslint config for pure/expo project, add AGENTS.md and CLAUDE.md ([a8dbde7](https://github.com/startupjs/startupjs/commit/a8dbde7abfa4e518288fb8f0a993f23abda57b4f))
+
+
+
+# [0.62.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.61.15...v0.62.0-alpha.0) (2026-03-25)
+
+
+### Features
+
+* use new cssxjs with improved pug support in TS and style(lang='styl') tag. Support Expo 55. ([3238ce7](https://github.com/startupjs/startupjs/commit/3238ce7b136b497e7a2f28413a5a4e8406e12c27))
+* **worker:** [BREAKING] Rewrite worker implementation and API ([#1308](https://github.com/startupjs/startupjs/issues/1308)) ([ad95c81](https://github.com/startupjs/startupjs/commit/ad95c81e3a1031133330a167cee2505678ed735a))
+
+
+
 ## [0.62.1](https://github.com/startupjs/startupjs/compare/v0.62.0...v0.62.1) (2026-05-04)
 
 

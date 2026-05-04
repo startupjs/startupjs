@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/worker",
-  "version": "0.62.0",
+  "version": "0.63.0-alpha.0",
   "publishConfig": {
     "access": "public"
   },
@@ -15,7 +15,7 @@
   "dependencies": {
     "@bull-board/api": "^6.14.0",
     "@bull-board/express": "^6.14.0",
-    "@startupjs/registry": "^0.62.0",
+    "@startupjs/registry": "^0.63.0-alpha.0",
     "bullmq": "^5.25.6"
   },
   "peerDependencies": {
