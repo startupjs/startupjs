@@ -48,7 +48,7 @@ export const getHash = memoize((appName, type, options = {}) => {
   const assetsMetaPath = path.join(PROJECT_PATH, BUILD_CLIENT_PATH, 'assets.json')
   try {
     assetsMeta = require(assetsMetaPath)
-  } catch (e) {
+  } catch {
     throw new Error('Error loading assets meta file at: ' + assetsMetaPath)
   }
   switch (type) {

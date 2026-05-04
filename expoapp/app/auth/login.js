@@ -72,7 +72,7 @@ export default observer(function Success () {
 const Photo = observer(({ fileId, name }) => {
   const $file = useSub($.files[fileId])
   let url
-  try { url = $file.getUrl() } catch (err) {}
+  try { url = $file.getUrl() } catch {}
   return pug`
     User(key=url part='root' avatarUrl=url name=name)
   `
@@ -89,7 +89,7 @@ const ChangePhoto = observer(({ $fileId }) => {
 const PhotoPreview = observer(({ $fileId }) => {
   const $file = useSub($.files[$fileId.get()])
   let url
-  try { url = $file.getUrl() } catch (err) {}
+  try { url = $file.getUrl() } catch {}
   return pug`
     if url
       Image.preview(key=url source={ uri: url })

@@ -7,7 +7,7 @@ export default memo(function Slot ({ name, children }) {
   const slot = useSlot(name) // eslint-disable-line react-hooks/rules-of-hooks
   useEffect(() => { // eslint-disable-line react-hooks/rules-of-hooks
     return () => slot?.clearOverride()
-  }, [])
+  }, [slot])
   if (!slot) return null // if used outside of SlotsHost, just render nothing
   slot.renderOverride(children)
   return null

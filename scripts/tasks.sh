@@ -80,13 +80,13 @@ fn_local_init () {
 
 fn_before_publish () {
   set -e
-  echo "Checking that you are on master branch or next branch..."
+  echo "Checking that you are on master branch or alpha branch..."
   if git status | grep "On branch master"; then
     echo "."
-  elif git status | grep "On branch next"; then
+  elif git status | grep "On branch alpha"; then
     echo "."
   else
-    echo "!!! ERROR !!! You can only publish on master branch or next branch!"
+    echo "!!! ERROR !!! You can only publish on master branch or alpha branch!"
     exit 1
   fi
   echo "Checking that startupjs/startupjs github repo is set as origin in git..."

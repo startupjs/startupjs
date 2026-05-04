@@ -9,9 +9,6 @@
     "docker",
     "expoapp"
   ],
-  "//workspaces": [
-    "styleguide"
-  ],
   "scripts": {
     "init-local": "./scripts/tasks.sh local-init",
     "testapp": "cd testapp && yarn",
@@ -52,19 +49,17 @@
     "docs-preview": "rspress preview --port 3011"
   },
   "devDependencies": {
-    "@playwright/test": "^1.40.0",
     "@rspress/core": "^2.0.0",
     "conventional-changelog-cli": "^2.1.1",
-    "eslint": "^8.56.0",
-    "eslint-config-cssxjs": "^0.2.0",
+    "eslint": "^9.39.4",
+    "eslint-plugin-cssxjs": "^0.3.0",
     "husky": "^4.3.0",
     "lerna": "^9.0.0",
     "lint-staged": "^9.5.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "neostandard": "^0.13.0"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
       "eslint --fix"
     ]
   },
@@ -73,11 +68,7 @@
       "pre-commit": "lint-staged"
     }
   },
-  "eslintConfig": {
-    "extends": [
-      "cssxjs"
-    ]
-  },
+  "//pre-commit-with-resolutions": "! grep -q '\"resolutions\":' ./package.json || (echo '\\033[0;31mError: \"resolutions\" found in package.json. Remove \"resolutions\" to proceed with commit.\\033[0m' && exit 1) && lint-staged",
   "license": "MIT",
   "resolutions": {
     "sharedb-redis-pubsub": "2.0.1",
@@ -87,5 +78,5 @@
     "teamplay": "portal:../teamplay/packages/teamplay",
     "@teamplay/channel": "portal:../teamplay/packages/channel"
   },
-  "packageManager": "yarn@4.12.0+sha512.f45ab632439a67f8bc759bf32ead036a1f413287b9042726b7cc4818b7b49e14e9423ba49b18f9e06ea4941c1ad062385b1d8760a8d5091a1a31e5f6219afca8"
+  "packageManager": "yarn@4.13.0+sha512.5c20ba010c99815433e5c8453112165e673f1c7948d8d2b267f4b5e52097538658388ebc9f9580656d9b75c5cc996f990f611f99304a2197d4c56d21eea370e7"
 }

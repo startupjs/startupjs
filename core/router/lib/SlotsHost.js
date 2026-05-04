@@ -1,12 +1,13 @@
-import { createContext, createElement as el, useMemo, useContext, useEffect, memo } from 'react'
+import { createContext, createElement as el, useContext, useEffect, useRef, memo } from 'react'
 
 export default memo(function SlotsHost ({ children }) {
-  const slotsManager = useMemo(() => new SlotsManager(), [])
+  const slotsManagerRef = useRef(null)
+  if (!slotsManagerRef.current) slotsManagerRef.current = new SlotsManager()
   useEffect(() => {
-    return () => slotsManager.destroy()
+    return () => slotsManagerRef.current?.destroy()
   }, [])
   return (
-    el(SlotsManagerContext.Provider, { value: slotsManager },
+    el(SlotsManagerContext.Provider, { value: slotsManagerRef.current },
       children
     )
   )

@@ -13,7 +13,8 @@ export default memo(function Routes ({ basename, routes }) {
   const parentBasename = useParentBasename()
   const parentPathname = useParentPathname()
   basename = basename || parentBasename
-  const initialEntries = useMemo(() => [parentPathname || basename], [parentPathname || basename])
+  const initialEntry = parentPathname || basename
+  const initialEntries = useMemo(() => [initialEntry], [initialEntry])
   return (
     el(MemoryRouter, { basename, initialEntries },
       el(UseRouterProvider, { basename },

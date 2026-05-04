@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.61.15",
+  "version": "0.62.0-alpha.16",
   "engines": {
     "node": ">= 14"
   },
@@ -18,7 +18,6 @@
     "./startWorker": "./startWorker.js",
     "./registry": "./registry.js",
     "./nodeRegister": "./nodeRegister.js",
-    "./nconf": "./nconf.js",
     "./isomorphicHelpers": "./isomorphicHelpers.js",
     "./loadConfig": "./loadConfig.js",
     "./useRouter": "./useRouter.js",
@@ -31,18 +30,18 @@
   "bin": "./cli.js",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/auth": "^0.61.2",
-    "@startupjs/bundler": "^0.61.7",
-    "@startupjs/cli": "^0.61.11",
-    "@startupjs/hooks": "^0.61.0",
-    "@startupjs/isomorphic-helpers": "^0.61.0",
-    "@startupjs/registry": "^0.61.0",
-    "@startupjs/server": "^0.61.0",
-    "@startupjs/utils": "^0.61.0",
-    "babel-preset-startupjs": "^0.61.3",
-    "cssxjs": "^0.2.32",
+    "@startupjs/auth": "^0.62.0-alpha.6",
+    "@startupjs/bundler": "^0.62.0-alpha.11",
+    "@startupjs/cli": "^0.62.0-alpha.16",
+    "@startupjs/hooks": "^0.62.0-alpha.6",
+    "@startupjs/isomorphic-helpers": "^0.62.0-alpha.0",
+    "@startupjs/registry": "^0.62.0-alpha.0",
+    "@startupjs/server": "^0.62.0-alpha.6",
+    "@startupjs/utils": "^0.62.0-alpha.6",
+    "babel-preset-startupjs": "^0.62.0-alpha.11",
+    "cssxjs": "^0.3.0",
     "lodash": "^4.17.20",
-    "teamplay": "0.3.35"
+    "teamplay": "^0.4.0"
   },
   "peerDependencies": {
     "@startupjs/worker": "*",

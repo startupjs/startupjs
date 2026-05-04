@@ -28,6 +28,12 @@ const resolve = require('resolve')
 const ROOT = process.cwd()
 const CONFIG_FILENAMES = ['.js', '.mjs', '.jsx', '.ts', '.tsx'].map(ext => `startupjs.config${ext}`)
 
+function toImportPath (filePath) {
+  // These values are used as JS import specifiers, which must use forward
+  // slashes even when path.relative() returns Windows separators.
+  return filePath.replace(/\\/g, '/')
+}
+
 // all packages having this dependency will be considered part of the framework.
 const MAGIC_DEPENDENCY = 'startupjs'
 
@@ -40,14 +46,14 @@ exports.getRelativeConfigImport = (sourceFilename, root = ROOT) => {
   const configFileName = CONFIG_FILENAMES.find(filename => existsSync(join(root, filename)))
   if (!configFileName) return
   const configFilePath = join(root, configFileName)
-  const relativePath = relative(dirname(pathResolve(root, sourceFilename)), configFilePath)
+  const relativePath = toImportPath(relative(dirname(pathResolve(root, sourceFilename)), configFilePath))
   if (!relativePath.startsWith('.')) return './' + relativePath
   return relativePath
 }
 
 exports.getRelativeModelPath = (sourceFilePath, root = ROOT) => {
   const modelFolder = join(root, 'model')
-  return relative(dirname(pathResolve(root, sourceFilePath)), modelFolder)
+  return toImportPath(relative(dirname(pathResolve(root, sourceFilePath)), modelFolder))
 }
 
 exports.getRelativeModelImports = (sourceFilePath, root = ROOT) => {
@@ -68,7 +74,7 @@ function getRelativeImports (folder, sourceFilePath, root) {
       continue
     }
     if (!/\.[mc]?[jt]sx?$/.test(filename)) continue
-    const relativePath = relative(dirname(pathResolve(root, sourceFilePath)), filePath)
+    const relativePath = toImportPath(relative(dirname(pathResolve(root, sourceFilePath)), filePath))
     modelImports.push(relativePath)
   }
   return modelImports
@@ -111,7 +117,7 @@ exports.getRelativePluginImports = (sourceFilename, root = ROOT) => {
   const pluginImports = parsePackage(root, root)
   return Array.from(pluginImports).map(pluginImport => {
     if (!pluginImport.startsWith('.')) return pluginImport
-    return relative(dirname(pathResolve(root, sourceFilename)), pathResolve(root, pluginImport))
+    return toImportPath(relative(dirname(pathResolve(root, sourceFilename)), pathResolve(root, pluginImport)))
   })
 }
 
@@ -173,8 +179,7 @@ function resolveNodeModuleDir (root, packageName) {
         basedir: root
       })
     )
-  } catch (err) {
-  }
+  } catch { /* suppress */ }
 }
 
 function getPackagePathsFromPackageJson (root, packageJson) {

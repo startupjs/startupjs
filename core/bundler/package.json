@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/bundler",
-  "version": "0.61.7",
+  "version": "0.62.0-alpha.11",
   "description": "Opinionated scripts and configs to develop a react-native-web project",
   "main": "index.js",
   "publishConfig": {
@@ -18,13 +18,13 @@
     "@babel/core": "^7.9.0",
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "@mdx-js/mdx": "^3.0.0",
-    "@startupjs/babel-plugin-eliminator": "^0.61.0",
-    "@startupjs/babel-plugin-startupjs-plugins": "^0.61.0",
-    "@startupjs/server": "^0.61.0",
+    "@startupjs/babel-plugin-eliminator": "^0.62.0-alpha.0",
+    "@startupjs/babel-plugin-startupjs-plugins": "^0.62.0-alpha.11",
+    "@startupjs/server": "^0.62.0-alpha.6",
     "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "@svgr/plugin-svgo": "^8.1.0",
-    "babel-preset-startupjs": "^0.61.3",
+    "babel-preset-startupjs": "^0.62.0-alpha.11",
     "connect": "^3.7.0",
     "lodash": "^4.17.20",
     "remark-gfm": "4.0.1"
