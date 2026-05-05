@@ -401,7 +401,7 @@ Use separate files inside `model/`:
 - `model/users/[id].js` → document model for `users.*`
 - `model/users/schema.js` → schema for `users`
 - `model/users/access.js` → access rules for `users`
-- `model/users/$$active.js` → server aggregation for `users`
+- `model/users/_active.js` → server aggregation for `users`
 - files or folders starting with `-` are ignored by the model loader and can be used for helpers inside `model/`
 
 Preferred convention:
@@ -412,7 +412,7 @@ Preferred convention:
 - access file: default export `accessControl({ ... })`
 - aggregation file: default export `aggregation(...)`
 
-Only collection-level files get `schema`, `access`, and `$$...` aggregations. Access control, schema validation, and server aggregations are registered only for top-level collections.
+Only collection-level files get `schema`, `access`, and `_...` aggregations. Access control, schema validation, and server aggregations are registered only for top-level collections.
 
 Basic model class shape:
 
@@ -516,7 +516,7 @@ Guidelines:
 
 ### Aggregations
 
-Use `model/<collection>/$$name.js` with a default export `aggregation(...)` only when you need a real aggregation pipeline, for example `$group`, `$project`, `$lookup`, `$unwind`, or similar stages.
+Use `model/<collection>/_name.js` with a default export `aggregation(...)` only when you need a real aggregation pipeline, for example `$group`, `$project`, `$lookup`, `$unwind`, or similar stages.
 
 Do not use an aggregation for a single `$match`. That is just a normal query and should stay a normal query.
 
@@ -544,7 +544,7 @@ export default aggregation(({ orgId }, { session }) => {
 Guidelines:
 
 - prefer normal queries first
-- add a `$$...` aggregation only when query syntax is not enough
+- add a `_...` aggregation only when query syntax is not enough
 - validate params before returning a pipeline
 - when access control is enabled, also validate session/access inside the aggregation itself, because aggregations are not automatically protected by `read`
 
