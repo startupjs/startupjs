@@ -26543,7 +26543,7 @@ __metadata:
     babel-preset-startupjs: "npm:^0.63.0-alpha.0"
     cssxjs: "npm:^0.3.0"
     lodash: "npm:^4.17.20"
-    teamplay: "npm:^0.5.0-alpha.2"
+    teamplay: "npm:^0.5.0-alpha.3"
   peerDependencies:
     "@startupjs/worker": "*"
     react: "*"
@@ -27174,9 +27174,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"teamplay@npm:^0.5.0-alpha.2":
-  version: 0.5.0-alpha.2
-  resolution: "teamplay@npm:0.5.0-alpha.2"
+"teamplay@npm:^0.5.0-alpha.3":
+  version: 0.5.0-alpha.3
+  resolution: "teamplay@npm:0.5.0-alpha.3"
   dependencies:
     "@nx-js/observer-util": "npm:^4.1.3"
     "@startupjs/sharedb-mingo-memory": "npm:^4.0.0-2"
@@ -27204,7 +27204,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 10c0/9e742747959e4749a638cca6197be6b8e76722544a0f14718dc1bace8bcc8711980c81b5ba38123be9cbd45145945e609a26584fe3753216fafda706dbbe62b4
+  checksum: 10c0/0c6bcc059fec43265a9e2ded47ae6ea57a4ba0152a8b303146c220a1f847088b6382d3123b4d985ff2a144d34ae79847eb95315a363e1e99119eda2650efc701
   languageName: node
   linkType: hard
 
