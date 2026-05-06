@@ -1,3 +1,7 @@
+# [0.63.0-alpha.2](https://github.com/startupjs/startupjs/compare/v0.63.0-alpha.1...v0.63.0-alpha.2) (2026-05-06)
+
+
+
 # [0.63.0-alpha.1](https://github.com/startupjs/startupjs/compare/v0.63.0-alpha.0...v0.63.0-alpha.1) (2026-05-05)
 
 
