@@ -1,5 +1,5 @@
 import { Signal } from 'startupjs'
-import TestCount from './testCounts.schema.js'
+import type TestCount from './testCounts.schema.ts'
 
 export default class TestCountModel extends Signal<TestCount> {
   async create () {

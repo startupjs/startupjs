@@ -82,6 +82,10 @@ export function isBackendInitialized () {
 
 function transformOptions (options = {}) {
   options = { ...defaultOptions, ...MODULE.options, ...options }
+  options.serverOnlyCollections = Array.from(new Set([
+    'service',
+    ...(options.serverOnlyCollections || [])
+  ]))
 
   // Transform public path to be absolute
   options.publicPath = resolve(options.dirname, options.publicPath)

@@ -34,7 +34,18 @@ export const options = [
 export async function action (files = [], options) {
   const requireFromProject = createRequire(join(process.cwd(), 'package.json'))
   const { generateTeamplayEnv } = requireFromProject('teamplay/babel/loader')
-  generateTeamplayEnv({ fallbackModelsFolders: ['model'] })
+  let pluginTypes = []
+  let featuresType
+  try {
+    const {
+      getPluginTypeEntries,
+      getStaticFeaturesType
+    } = requireFromProject('@startupjs/babel-plugin-startupjs-plugins/loader')
+    pluginTypes = getPluginTypeEntries(process.cwd())
+    featuresType = getStaticFeaturesType(process.cwd())
+  } catch {}
+
+  generateTeamplayEnv({ fallbackModelsFolders: ['model'], pluginTypes, featuresType })
 
   const args = [...files]
   if (options.project) args.push('--project', options.project)

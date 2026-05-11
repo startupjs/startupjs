@@ -10,10 +10,22 @@
   "exports": {
     "./client": "./client/index.js",
     "./server": "./server/index.js",
-    "./plugins/cookieSession.plugin": "./cookieSession/plugin.js",
-    "./plugins/jwtSession.plugin": "./jwtSession/plugin.js",
-    "./plugins/offlineSession.plugin": "./offlineSession/plugin.js",
-    "./plugins/oauth2.plugin": "./oauth2/plugin.js"
+    "./plugins/cookieSession.plugin": {
+      "types": "./cookieSession/plugin.d.ts",
+      "default": "./cookieSession/plugin.js"
+    },
+    "./plugins/jwtSession.plugin": {
+      "types": "./jwtSession/plugin.d.ts",
+      "default": "./jwtSession/plugin.js"
+    },
+    "./plugins/offlineSession.plugin": {
+      "types": "./offlineSession/plugin.d.ts",
+      "default": "./offlineSession/plugin.js"
+    },
+    "./plugins/oauth2.plugin": {
+      "types": "./oauth2/plugin.d.ts",
+      "default": "./oauth2/plugin.js"
+    }
   },
   "dependencies": {
     "@startupjs/registry": "^0.63.0-alpha.0",

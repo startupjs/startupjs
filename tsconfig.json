@@ -13,6 +13,7 @@
     "**/*.ts",
     "**/*.tsx",
     "expoapp/.expo/types/**/*.ts",
-    "expoapp/expo-env.d.ts"
+    "expoapp/expo-env.d.ts",
+    "expoapp/teamplay-env.d.ts"
   ]
 }

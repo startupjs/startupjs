@@ -89,7 +89,10 @@ describe('loader path normalization', () => {
               pkg1: '^1.0.0'
             },
             exports: {
-              './plugin': './local.plugin.js'
+              './plugin': {
+                types: './local.plugin.d.ts',
+                default: './local.plugin.js'
+              }
             }
           })
         }
@@ -114,5 +117,123 @@ describe('loader path normalization', () => {
       '@startupjs/pkg1/plugin',
       '../local.plugin.js'
     ])
+  })
+
+  test('discovers typed plugin exports and static named plugin options', () => {
+    const loader = loadLoader({
+      existsSync: filePath => (
+        filePath === '/app/package.json' ||
+        filePath === '/app/startupjs.config.js' ||
+        filePath === '/deps/permissions/package.json' ||
+        filePath === '/deps/file-input/package.json'
+      ),
+      readFileSync: filePath => {
+        if (filePath === '/app/startupjs.config.js') {
+          return `
+            export default {
+              plugins: {
+                permissions: {
+                  isomorphic: {
+                    entities: ['teams']
+                  }
+                }
+              }
+            }
+          `
+        }
+        if (filePath === '/app/package.json') {
+          return JSON.stringify({
+            name: 'my-app',
+            dependencies: {
+              startupjs: '^1.0.0',
+              '@startupjs/permissions': '^1.0.0',
+              '@startupjs-ui/file-input': '^1.0.0'
+            }
+          })
+        }
+        if (filePath === '/deps/permissions/package.json') {
+          return JSON.stringify({
+            name: '@startupjs/permissions',
+            peerDependencies: {
+              startupjs: '*'
+            },
+            exports: {
+              './plugin': {
+                types: './plugin.d.ts',
+                default: './plugin.js'
+              }
+            }
+          })
+        }
+        if (filePath === '/deps/file-input/package.json') {
+          return JSON.stringify({
+            name: '@startupjs-ui/file-input',
+            peerDependencies: {
+              startupjs: '*'
+            },
+            exports: {
+              './files.plugin': {
+                types: './files.plugin.d.ts',
+                default: './files.plugin.js'
+              }
+            }
+          })
+        }
+        throw Error(`Unexpected path: ${filePath}`)
+      },
+      resolveSync: request => {
+        if (request === actualPath.join('@startupjs/permissions', 'package.json')) {
+          return '/deps/permissions/package.json'
+        }
+        if (request === actualPath.join('@startupjs-ui/file-input', 'package.json')) {
+          return '/deps/file-input/package.json'
+        }
+        throw Error(`Module not found: ${request}`)
+      }
+    })
+
+    expect(loader.getPluginTypeEntries('/app')).toEqual([{
+      name: 'permissions',
+      importPath: '@startupjs/permissions/plugin',
+      optionsType: '{ isomorphic: { entities: readonly ["teams"] } }'
+    }, {
+      name: 'files',
+      importPath: '@startupjs-ui/file-input/files.plugin',
+      optionsType: undefined
+    }])
+    expect(loader.getStaticFeaturesType('/app')).toEqual('{}')
+  })
+
+  test('reads static startupjs features as a type literal', () => {
+    const loader = loadLoader({
+      existsSync: filePath => (
+        filePath === '/app/package.json' ||
+        filePath === '/app/startupjs.config.js'
+      ),
+      readFileSync: filePath => {
+        if (filePath === '/app/package.json') {
+          return JSON.stringify({
+            name: 'my-app',
+            dependencies: {
+              startupjs: '^1.0.0'
+            }
+          })
+        }
+        if (filePath === '/app/startupjs.config.js') {
+          return `
+            export default {
+              features: {
+                enableServer: true,
+                enableOAuth2: true
+              }
+            }
+          `
+        }
+        throw Error(`Unexpected path: ${filePath}`)
+      }
+    })
+
+    expect(loader.getStaticFeaturesType('/app'))
+      .toEqual('{ enableServer: true; enableOAuth2: true }')
   })
 })

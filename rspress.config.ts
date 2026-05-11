@@ -50,6 +50,7 @@ export default defineConfig({
           text: 'General',
           items: [
             { text: 'Plugins', link: '/general/plugins' },
+            { text: 'Plugin Model Types', link: '/general/plugin-model-types' },
             { text: 'Hooks', link: '/general/hooks' },
             { text: 'Models', link: '/general/models' },
             { text: 'About Modules', link: '/general/about-modules' },

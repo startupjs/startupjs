@@ -1,4 +1,8 @@
 const { CONFIG_FILENAME_REGEX } = require('./utils.js')
+const {
+  getPluginTypeEntries,
+  getStaticFeaturesType
+} = require('@startupjs/babel-plugin-startupjs-plugins/loader')
 
 const PLUGIN_KEYS = ['name', 'for', 'order', 'enabled']
 const PROJECT_KEYS = ['plugins', 'modules']
@@ -10,6 +14,9 @@ module.exports = (api, {
   useRequireContext,
   envs = ['features', 'isomorphic', 'server']
 } = {}) => {
+  const pluginTypes = getPluginTypeEntries()
+  const featuresType = getStaticFeaturesType()
+
   return {
     overrides: [{
       test: isJsxSource,
@@ -41,6 +48,8 @@ module.exports = (api, {
         [require('teamplay/babel'), {
           useRequireContext: false,
           fallbackModelsFolders: ['model'],
+          pluginTypes,
+          featuresType,
           autoInit: false,
           clientOnly: false
         }],

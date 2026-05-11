@@ -23,6 +23,7 @@
  */
 const { existsSync, readFileSync, readdirSync, lstatSync } = require('fs')
 const { join, dirname, relative, resolve: pathResolve } = require('path')
+const parser = require('@babel/parser')
 const resolve = require('resolve')
 
 const ROOT = process.cwd()
@@ -121,6 +122,21 @@ exports.getRelativePluginImports = (sourceFilename, root = ROOT) => {
   })
 }
 
+exports.getPluginTypeEntries = (root = ROOT) => {
+  if (!existsSync(join(root, 'package.json'))) return []
+  const pluginOptions = getStaticPluginOptions(root)
+  const pluginTypes = parsePackageTypes(root, root)
+  return Array.from(pluginTypes.values()).map(pluginType => ({
+    ...pluginType,
+    optionsType: pluginOptions.get(pluginType.name)
+  }))
+}
+
+exports.getStaticFeaturesType = (root = ROOT) => {
+  const featuresType = getStaticFeatures(root)
+  return featuresType || '{}'
+}
+
 function parsePackage (root, packagePath, _pluginImports = new Set(), _handledPackages = new Set()) {
   if (_handledPackages.has(packagePath)) return
   _handledPackages.add(packagePath)
@@ -144,15 +160,77 @@ function parsePackage (root, packagePath, _pluginImports = new Set(), _handledPa
   //       We should deal with them somehow if their versions are different
   for (const exportPath in (packageJson.exports || {})) {
     if (!/[./]plugin$/.test(exportPath)) continue
+    const pluginImport = getDefaultExportTarget(packageJson.exports[exportPath])
+    if (typeof pluginImport !== 'string') continue
     if (packagePath === root) {
       // if we are on the project level itself, then we just import the file itself
-      _pluginImports.add(packageJson.exports[exportPath])
+      _pluginImports.add(pluginImport)
     } else {
       _pluginImports.add(join(packageName, exportPath))
     }
   }
 
   return _pluginImports
+}
+
+function parsePackageTypes (root, packagePath, _pluginTypes = new Map(), _handledPackages = new Set()) {
+  if (_handledPackages.has(packagePath)) return _pluginTypes
+  _handledPackages.add(packagePath)
+
+  const packageJsonPath = join(packagePath, 'package.json')
+  if (!existsSync(packageJsonPath)) return _pluginTypes
+
+  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
+  if (!isPartOfFramework(packageJson)) return _pluginTypes
+
+  const packagePaths = getPackagePathsFromPackageJson(root, packageJson)
+  for (const packagePath of packagePaths) {
+    parsePackageTypes(root, packagePath, _pluginTypes, _handledPackages)
+  }
+
+  const packageName = packageJson.name
+  const exports = packageJson.exports || {}
+
+  for (const exportPath in exports) {
+    if (!/[./]plugin$/.test(exportPath)) continue
+    if (!hasTypesExport(exports[exportPath])) continue
+
+    const importPath = packagePath === root
+      ? getDefaultExportTarget(exports[exportPath])
+      : join(packageName, exportPath)
+
+    if (typeof importPath !== 'string') continue
+
+    const normalizedImportPath = toImportPath(importPath)
+    if (_pluginTypes.has(normalizedImportPath)) continue
+
+    _pluginTypes.set(normalizedImportPath, {
+      name: getPluginName(packageName, exportPath),
+      importPath: normalizedImportPath
+    })
+  }
+
+  return _pluginTypes
+}
+
+function getDefaultExportTarget (exportValue) {
+  if (typeof exportValue === 'string') return exportValue
+  if (exportValue && typeof exportValue === 'object') {
+    return exportValue.default || exportValue.import || exportValue.require
+  }
+}
+
+function hasTypesExport (exportValue) {
+  return exportValue && typeof exportValue === 'object' && typeof exportValue.types === 'string'
+}
+
+function getPluginName (packageName, exportPath) {
+  const normalizedExportPath = exportPath.replace(/^\.\//, '')
+  if (normalizedExportPath === 'plugin') {
+    const parts = packageName.split('/')
+    return parts[parts.length - 1]
+  }
+  return normalizedExportPath.split('/').pop().replace(/\.plugin$/, '')
 }
 
 function isPartOfFramework (packageJson) {
@@ -189,4 +267,142 @@ function getPackagePathsFromPackageJson (root, packageJson) {
   })
     .map(packageName => resolveNodeModuleDir(root, packageName))
     .filter(Boolean)
+}
+
+function getStaticPluginOptions (root) {
+  const configObject = getStaticConfigObject(root)
+  const pluginsObject = getObjectProperty(configObject, 'plugins')
+  if (!pluginsObject) return new Map()
+
+  const res = new Map()
+  for (const property of pluginsObject.properties || []) {
+    if (!isObjectProperty(property) || property.computed) continue
+    const name = getPropertyName(property.key)
+    if (!name) continue
+    res.set(name, astToType(property.value))
+  }
+  return res
+}
+
+function getStaticFeatures (root) {
+  const configObject = getStaticConfigObject(root)
+  const featuresObject = getObjectProperty(configObject, 'features')
+  if (!featuresObject) return
+  return astToType(featuresObject)
+}
+
+function getStaticConfigObject (root) {
+  const configFilePath = exports.getConfigFilePaths(root).find(existsSync)
+  if (!configFilePath) return
+
+  try {
+    const ast = parser.parse(readFileSync(configFilePath, 'utf8'), {
+      sourceType: 'module',
+      plugins: ['typescript', 'jsx']
+    })
+    return findConfigObject(ast)
+  } catch {
+
+  }
+}
+
+function findConfigObject (ast) {
+  const variables = new Map()
+  for (const node of ast.program.body) {
+    if (node.type === 'VariableDeclaration') {
+      for (const declaration of node.declarations) {
+        if (declaration.id.type === 'Identifier') {
+          const value = unwrapExpression(declaration.init)
+          if (value?.type === 'ObjectExpression') variables.set(declaration.id.name, value)
+        }
+      }
+      continue
+    }
+    if (node.type !== 'ExportDefaultDeclaration') continue
+    const declaration = unwrapExpression(node.declaration)
+    if (declaration?.type === 'ObjectExpression') return declaration
+    if (declaration?.type === 'Identifier') return variables.get(declaration.name)
+    if (declaration?.type === 'CallExpression') {
+      const firstArg = unwrapExpression(declaration.arguments?.[0])
+      if (firstArg?.type === 'ObjectExpression') return firstArg
+    }
+  }
+}
+
+function getObjectProperty (objectExpression, name) {
+  if (objectExpression?.type !== 'ObjectExpression') return
+  const property = (objectExpression.properties || []).find(property => {
+    return isObjectProperty(property) && !property.computed && getPropertyName(property.key) === name
+  })
+  const value = unwrapExpression(property?.value)
+  return value?.type === 'ObjectExpression' ? value : undefined
+}
+
+function astToType (node) {
+  node = unwrapExpression(node)
+  if (!node) return 'unknown'
+
+  switch (node.type) {
+    case 'ObjectExpression':
+      return objectExpressionToType(node)
+    case 'ArrayExpression':
+      return arrayExpressionToType(node)
+    case 'StringLiteral':
+      return JSON.stringify(node.value)
+    case 'NumericLiteral':
+      return Number.isFinite(node.value) ? String(node.value) : 'number'
+    case 'BooleanLiteral':
+      return String(node.value)
+    case 'NullLiteral':
+      return 'null'
+    case 'Identifier':
+      return node.name === 'undefined' ? 'undefined' : 'unknown'
+    case 'UnaryExpression':
+      if (node.operator === '-' && node.argument.type === 'NumericLiteral') return String(-node.argument.value)
+      return 'unknown'
+    default:
+      return 'unknown'
+  }
+}
+
+function objectExpressionToType (node) {
+  const lines = []
+  for (const property of node.properties || []) {
+    if (!isObjectProperty(property) || property.computed) continue
+    const key = getPropertyName(property.key)
+    if (!key) continue
+    lines.push(`${formatTypePropertyKey(key)}: ${astToType(property.value)}`)
+  }
+  return lines.length ? `{ ${lines.join('; ')} }` : '{}'
+}
+
+function arrayExpressionToType (node) {
+  const elements = (node.elements || []).map(element => astToType(element))
+  return `readonly [${elements.join(', ')}]`
+}
+
+function isObjectProperty (node) {
+  return node?.type === 'ObjectProperty' || node?.type === 'Property'
+}
+
+function getPropertyName (key) {
+  if (key.type === 'Identifier') return key.name
+  if (key.type === 'StringLiteral') return key.value
+  if (key.type === 'NumericLiteral') return String(key.value)
+}
+
+function formatTypePropertyKey (name) {
+  return /^[$A-Z_a-z][$\w]*$/.test(name) ? name : JSON.stringify(name)
+}
+
+function unwrapExpression (node) {
+  while (
+    node?.type === 'TSAsExpression' ||
+    node?.type === 'TSSatisfiesExpression' ||
+    node?.type === 'TSNonNullExpression' ||
+    node?.type === 'ParenthesizedExpression'
+  ) {
+    node = node.expression
+  }
+  return node
 }

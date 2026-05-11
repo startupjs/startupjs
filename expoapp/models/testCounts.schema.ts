@@ -1,5 +1,7 @@
 import { defineSchema } from 'startupjs'
 
-export default defineSchema({
+const schema = defineSchema({
   value: { type: 'number' }
 })
+
+export default schema

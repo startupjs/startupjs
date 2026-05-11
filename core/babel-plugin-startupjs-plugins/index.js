@@ -1,4 +1,5 @@
 const { statSync } = require('fs')
+const { join } = require('path')
 const { addDefault } = require('@babel/helper-module-imports')
 const {
   getRelativePluginImports, getRelativeConfigImport, getConfigFilePaths,
@@ -8,14 +9,28 @@ const {
 const VIRTUAL_CONFIG_IMPORT_REGEX = /(?:^|\/)startupjs\.config\.virtual\.js$/
 const VIRTUAL_PLUGINS_IMPORT_REGEX = /(?:^|\/)startupjs\.plugins\.virtual\.js$/
 const VIRTUAL_FEATURES_IMPORT_REGEX = /(?:^|\/)startupjs\.features\.virtual\.js$/
+const PACKAGE_DEPENDENCY_FILENAMES = [
+  'package.json',
+  'yarn.lock',
+  'package-lock.json',
+  'pnpm-lock.yaml',
+  'bun.lockb'
+]
 
 module.exports = function (api, options) {
   const { types: t, template } = api
+  const root = options.root || process.cwd()
 
   // watch startupjs.config.js files for changes
-  for (const configFilePath of getConfigFilePaths(options.root)) {
+  for (const configFilePath of getConfigFilePaths(root)) {
     api.cache.using(() => mtime(configFilePath))
     api.addExternalDependency(configFilePath)
+  }
+
+  for (const filename of PACKAGE_DEPENDENCY_FILENAMES) {
+    const filePath = join(root, filename)
+    api.cache.using(() => mtime(filePath))
+    api.addExternalDependency(filePath)
   }
 
   return {
@@ -26,15 +41,15 @@ module.exports = function (api, options) {
         for (const $import of $program.get('body')) {
           if (!$import.isImportDeclaration()) continue
           if (isVirtualImport($import, VIRTUAL_CONFIG_IMPORT_REGEX)) {
-            loadVirtualConfig($import, { $program, filename, t, root: options.root })
+            loadVirtualConfig($import, { $program, filename, t, root })
             triggered = true
             continue
           } else if (isVirtualImport($import, VIRTUAL_PLUGINS_IMPORT_REGEX)) {
-            loadVirtualPlugins($import, { $program, filename, t, template, root: options.root })
+            loadVirtualPlugins($import, { $program, filename, t, template, root })
             triggered = true
             continue
           } else if (isVirtualImport($import, VIRTUAL_FEATURES_IMPORT_REGEX)) {
-            loadVirtualFeatures($import, { $program, t, template, root: options.root })
+            loadVirtualFeatures($import, { $program, t, template, root })
             triggered = true
             continue
           }

@@ -38,6 +38,10 @@
  *       Default: false
  */
 const { createStartupjsFileChecker, CONFIG_FILENAME_REGEX } = require('./utils.js')
+const {
+  getPluginTypeEntries,
+  getStaticFeaturesType
+} = require('@startupjs/babel-plugin-startupjs-plugins/loader')
 const PLUGIN_KEYS = ['name', 'for', 'order', 'enabled']
 const PROJECT_KEYS = ['plugins', 'modules']
 const ALL_ENVS = ['features', 'isomorphic', 'client', 'server', 'build']
@@ -58,6 +62,8 @@ module.exports = (api, {
   docgen = false
 } = {}) => {
   const isMetro = api.caller(caller => caller?.name === 'metro')
+  const pluginTypes = getPluginTypeEntries()
+  const featuresType = getStaticFeaturesType()
 
   // By default on Metro we don't need to compile CSS imports since we are relying on the custom
   // StartupJS metro-babel-transformer which handles CSS imports as separate files.
@@ -124,6 +130,8 @@ module.exports = (api, {
         [require('teamplay/babel'), {
           useRequireContext,
           fallbackModelsFolders: ['model'],
+          pluginTypes,
+          featuresType,
           autoInit: false,
           clientOnly
         }],
