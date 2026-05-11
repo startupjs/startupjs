@@ -1,3 +1,12 @@
+# [0.63.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.63.0-alpha.2...v0.63.0-alpha.3) (2026-05-11)
+
+
+### Features
+
+* **types:** Support types for models defined in plugins. Type auth plugins. Add '@startupjs/skills' with 3 skills for generic startupjs app development, plugin development and security audit ([f4c2bd8](https://github.com/startupjs/startupjs/commit/f4c2bd86c0c9f463cf3a4266ffe4a6dc8ce0de2e))
+
+
+
 # [0.63.0-alpha.2](https://github.com/startupjs/startupjs/compare/v0.63.0-alpha.1...v0.63.0-alpha.2) (2026-05-06)
 
 

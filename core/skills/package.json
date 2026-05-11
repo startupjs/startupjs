@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/skills",
-  "version": "0.63.0-alpha.0",
+  "version": "0.63.0-alpha.3",
   "description": "Agent skills for StartupJS app and plugin development.",
   "license": "MIT",
   "publishConfig": {
