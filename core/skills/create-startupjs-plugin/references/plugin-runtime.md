@@ -79,6 +79,7 @@ Common patterns:
 
 - New collection: add `collectionName` and `collectionName.*` entries.
 - Schema mixin: merge additional fields into the collection `schema`.
+- Access rules: define `access` for plugin-owned public collections. Use `accessControl(rules, { force: true })` for sensitive or server-managed collections.
 - Method mixin: mutate or replace a model class prototype for matching model paths.
 - Default model fallback: install plugin models only if the app has not provided its own model.
 

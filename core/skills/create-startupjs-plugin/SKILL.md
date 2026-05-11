@@ -20,6 +20,7 @@ Use this skill when writing or reviewing a StartupJS plugin. For plugins that us
    - new top-level collections
    - new document model classes
    - schema fields mixed into existing collections
+   - access rules for plugin-owned public collections
    - fields written to private root collections like `_session`
    - methods mixed into existing model paths
    - behavior that depends on `startupjs.config.js` feature flags
@@ -47,6 +48,7 @@ Use this skill when writing or reviewing a StartupJS plugin. For plugins that us
 - Use `TeamplayPluginCollections` for plugin-provided collections.
 - Use `TeamplayPluginPrivateCollections` for plugin-provided private root fields such as `_session.userId`.
 - Use `TeamplayPluginSignalFields` for methods or fields mixed into existing model paths.
+- For plugin-owned model classes in `.d.ts` files, prefer `export declare class Model extends Signal<T>` and use `typeof Model` in `CollectionSpec`.
 - Use `TeamplayFeature<'featureName'>` only when the type surface depends on static feature flags from `startupjs.config.js`.
 - Use `TeamplayPluginOption<'pluginName'>` only when the type surface depends on static named options from `startupjs.config.js`.
 - Keep declaration files generic and package-owned. Do not import app-local model files from a plugin declaration.

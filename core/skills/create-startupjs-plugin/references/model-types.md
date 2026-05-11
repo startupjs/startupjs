@@ -61,11 +61,11 @@ export interface FileDoc {
   updatedAt: number
 }
 
-declare class FilesModel extends Signal<FileDoc[]> {
+export declare class FilesModel extends Signal<FileDoc[]> {
   getUploadUrl(fileId?: string): string
 }
 
-declare class FileModel extends Signal<FileDoc> {
+export declare class FileModel extends Signal<FileDoc> {
   getUrl(): string
 }
 
@@ -81,6 +81,8 @@ export {}
 ```
 
 Use a unique key inside `TeamplayPluginCollections`, usually the package name plus the feature name. The value is a normal collection map. After generation, app code can use `$.files`, `useSub($.files[id])`, and model methods without extra imports.
+
+For plugin-owned models, prefer `export declare class ... extends Signal<T>`. It does not emit runtime code from a `.d.ts` file, but it gives TypeScript both the instance surface and the constructor type used by `typeof Model` in `CollectionSpec`.
 
 If the collection only exists for a feature flag, use `TeamplayFeature<'featureName'>`:
 
@@ -179,9 +181,12 @@ export default createPlugin({
 
 Keep the runtime hook and the declaration file in sync. The declaration file does not run runtime code; it only describes the model surface that the plugin actually installs.
 
+If the plugin owns a public collection, provide its schema and access rules in the runtime model manifest. Use `accessControl(rules, { force: true })` for sensitive or server-managed collections that must stay protected even when the app has not enabled app-wide access control. App rules may override plugin defaults for the same collection, but plugin-owned defaults should be safe.
+
 ## Guidelines
 
 - Keep plugin declarations declarative. Prefer module augmentation over project-specific imports.
+- Prefer `export declare class ... extends Signal<T>` for plugin-owned model classes.
 - Put plugin-provided collections in `TeamplayPluginCollections`.
 - Put plugin-provided private root fields in `TeamplayPluginPrivateCollections`.
 - Put plugin-provided path methods or fields in `TeamplayPluginSignalFields`.
