@@ -4,9 +4,10 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import methodOverride from 'method-override'
 import hsts from 'hsts'
-import { readFileSync } from 'fs'
+import { existsSync, readFileSync } from 'fs'
 import { join } from 'path'
 import { _createMiddleware } from './createMiddleware.js'
+import createExpoRouterMiddleware from './createExpoRouterMiddleware.js'
 import renderApp from '../renderApp/index.js'
 import renderError from '../renderError/index.js'
 
@@ -14,6 +15,8 @@ const WWW_REGEXP = /www\./
 
 export default async function createExpress ({ backend, session, channel, options = {} }) {
   const expressApp = express()
+  const expoClientPath = getExpoClientPath(options)
+  const expoServerPath = getExpoServerPath(options)
 
   // Required to be able to determine whether the protocol is 'http' or 'https'
   expressApp.enable('trust proxy')
@@ -58,7 +61,7 @@ export default async function createExpress ({ backend, session, channel, option
 
   // host static files
   MODULE.hook('static', expressApp)
-  expressApp.use(express.static(options.publicPath, { maxAge: '1h', index: false }))
+  expressApp.use(express.static(expoClientPath || options.publicPath, { maxAge: '1h', index: false }))
   if (!options.isExpo) {
     expressApp.use('/build/client', express.static(options.dirname + '/build/client', { maxAge: '1h' }))
   }
@@ -69,10 +72,19 @@ export default async function createExpress ({ backend, session, channel, option
   const startupjsMiddleware = await _createMiddleware({ backend, session, channel, options })
   expressApp.use(startupjsMiddleware)
 
+  if (expoServerPath) {
+    expressApp.use(createExpoRouterMiddleware({
+      build: expoServerPath,
+      environment: options.environment
+    }))
+  }
+
   // render the single page client app for any route which wasn't handled by the server routes
   if (options.isExpo) {
-    const indexFile = readFileSync(join(options.publicPath, 'index.html'), 'utf8')
-    expressApp.use((req, res, next) => { res.status(200).send(indexFile) })
+    if (!expoServerPath) {
+      const indexFile = readFileSync(join(expoClientPath || options.publicPath, 'index.html'), 'utf8')
+      expressApp.use((req, res, next) => { res.status(200).send(indexFile) })
+    }
   } else {
     expressApp.use(renderApp(options))
   }
@@ -87,4 +99,18 @@ export default async function createExpress ({ backend, session, channel, option
   expressApp.use((options.error || renderError)(options))
 
   return expressApp
+}
+
+function getExpoClientPath (options) {
+  if (!options.isExpo) return
+  if (options.expoClientBuildPath) return options.expoClientBuildPath
+  const clientPath = join(options.publicPath, 'client')
+  if (existsSync(clientPath)) return clientPath
+}
+
+function getExpoServerPath (options) {
+  if (!options.isExpo) return
+  if (options.expoServerBuildPath) return options.expoServerBuildPath
+  const serverPath = join(options.publicPath, 'server')
+  if (existsSync(join(serverPath, '_expo', 'routes.json'))) return serverPath
 }

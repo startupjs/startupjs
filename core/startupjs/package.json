@@ -13,6 +13,7 @@
     "./orm": "./orm.js",
     "./auth": "./auth.js",
     "./server": "./server.js",
+    "./serverContext": "./serverContext.js",
     "./schema": "./schema.js",
     "./startServer": "./startServer.js",
     "./startWorker": "./startWorker.js",

@@ -1,6 +1,6 @@
 import type { BackendOptions } from 'teamplay/server'
 import type { Server as HttpServer } from 'http'
-import type { Express } from 'express' // Assuming Express types are available
+import type { Express, Request, Response } from 'express' // Assuming Express types are available
 
 export interface ServerOptions extends BackendOptions {
   publicPath?: string
@@ -8,6 +8,8 @@ export interface ServerOptions extends BackendOptions {
   bodyParserLimit?: string
   dirname?: string
   isExpo?: boolean
+  expoClientBuildPath?: string
+  expoServerBuildPath?: string
   // Note: Additional properties specific to ServerOptions go here.
   // There's no need to repeat properties from BackendOptions unless you want to change the type or documentation.
 }
@@ -36,6 +38,10 @@ export function createServer (options?: CreateServerOptions): Promise<ServerProp
 export function createMiddleware (options?: CreateMiddlewareOptions): Promise<MiddlewareProps>
 export function createBackend (options?: ServerOptions): any // Replace 'any' with the actual backend type
 export function NO_DEAD_CODE_ELIMINATION (): [any, any] // Replace 'any' with actual types if known
+export function getRequestContext (): { req: Request, res: Response } | undefined
+export function getServerRequest (): Request | undefined
+export function getServerResponse (): Response | undefined
+export function getServerSession (): any | undefined
 
 // Assuming the types for the below exports are defined in 'teamplay/server' module
 export { mongo, mongoClient, createMongoIndex, redis, redlock, sqlite } from 'teamplay/server'
