@@ -34,28 +34,6 @@ All application code should be written in TypeScript (`.ts` / `.tsx`). The only 
 
 The default Expo template uses a `(tabs)` layout. The home page is at `app/(tabs)/index.tsx`, NOT `app/index.tsx`. The root layout is always `app/_layout.tsx`.
 
-**Known issue (temporary):** After running `npm init startupjs@latest`, add version overrides to `package.json` and re-run `npm install`:
-
-For npm:
-```json
-"overrides": {
-  "sharedb-redis-pubsub": {
-    ".": "2.0.1",
-    "sharedb": "5.2.2"
-  }
-}
-```
-
-For Yarn:
-```json
-"resolutions": {
-  "sharedb-redis-pubsub": "2.0.1",
-  "sharedb-redis-pubsub/sharedb": "5.2.2"
-}
-```
-
-Without this, the app crashes on startup with `"Error: Redis is already connecting/connected"`.
-
 ## Running the App
 
 Start the development server:

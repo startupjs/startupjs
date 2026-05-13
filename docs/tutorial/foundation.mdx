@@ -49,31 +49,7 @@ cd myapp
 npm init startupjs@latest
 ```
 
-### 3. Fix dependency versions (temporary)
-
-Add the following to your `package.json` to fix a known compatibility issue, then run `npm install` again:
-
-If using **npm**:
-
-```json
-"overrides": {
-  "sharedb-redis-pubsub": {
-    ".": "2.0.1",
-    "sharedb": "5.2.2"
-  }
-}
-```
-
-If using **Yarn**:
-
-```json
-"resolutions": {
-  "sharedb-redis-pubsub": "2.0.1",
-  "sharedb-redis-pubsub/sharedb": "5.2.2"
-}
-```
-
-### 4. Wrap your root component
+### 3. Wrap your root component
 
 Open `app/_layout.tsx` and wrap your root component with `StartupjsProvider`:
 
@@ -89,7 +65,7 @@ export default function RootLayout () {
 }
 ```
 
-### 5. Start the app
+### 4. Start the app
 
 ```bash
 yarn start
