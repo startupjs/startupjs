@@ -1,3 +1,12 @@
+# [0.63.0-alpha.4](https://github.com/startupjs/startupjs/compare/v0.63.0-alpha.3...v0.63.0-alpha.4) (2026-05-13)
+
+
+### Bug Fixes
+
+* use latest teamplay which fixes the issue with resolutions of sharedb-pubsub-redis ([0ae8827](https://github.com/startupjs/startupjs/commit/0ae8827a38ea30f5226377b561876b66627f0c93))
+
+
+
 # [0.63.0-alpha.3](https://github.com/startupjs/startupjs/compare/v0.63.0-alpha.2...v0.63.0-alpha.3) (2026-05-11)
 
 

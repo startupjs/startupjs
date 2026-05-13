@@ -7037,7 +7037,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/cli@npm:^0.63.0-alpha.3, @startupjs/cli@workspace:core/cli":
+"@startupjs/cli@npm:^0.63.0-alpha.4, @startupjs/cli@workspace:core/cli":
   version: 0.0.0-use.local
   resolution: "@startupjs/cli@workspace:core/cli"
   dependencies:
@@ -7046,7 +7046,7 @@ __metadata:
     "@startupjs/skills": "npm:^0.63.0-alpha.3"
     chalk: "npm:^5.3.0"
     commander: "npm:^12.0.0"
-    create-startupjs: "npm:^0.63.0-alpha.3"
+    create-startupjs: "npm:^0.63.0-alpha.4"
     execa: "npm:^8.0.1"
   peerDependencies:
     cssxjs: "*"
@@ -11505,7 +11505,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-startupjs@npm:^0.63.0-alpha.3, create-startupjs@workspace:core/create-startupjs":
+"create-startupjs@npm:^0.63.0-alpha.4, create-startupjs@workspace:core/create-startupjs":
   version: 0.0.0-use.local
   resolution: "create-startupjs@workspace:core/create-startupjs"
   dependencies:
@@ -13858,7 +13858,7 @@ __metadata:
     react-native-web: "npm:^0.21.0"
     react-native-worklets: "npm:0.7.2"
     react-test-renderer: "npm:~19.1.0"
-    startupjs: "npm:^0.63.0-alpha.3"
+    startupjs: "npm:^0.63.0-alpha.4"
     startupjs-ui: "npm:^0.2.2"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -26578,13 +26578,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.63.0-alpha.3, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.63.0-alpha.4, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
     "@startupjs/auth": "npm:^0.63.0-alpha.3"
     "@startupjs/bundler": "npm:^0.63.0-alpha.3"
-    "@startupjs/cli": "npm:^0.63.0-alpha.3"
+    "@startupjs/cli": "npm:^0.63.0-alpha.4"
     "@startupjs/hooks": "npm:^0.63.0-alpha.0"
     "@startupjs/isomorphic-helpers": "npm:^0.63.0-alpha.0"
     "@startupjs/registry": "npm:^0.63.0-alpha.0"
