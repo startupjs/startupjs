@@ -7228,7 +7228,6 @@ __metadata:
     connect-mongo: "npm:^4.4.1"
     cookie-parser: "npm:~1.3.2"
     dotenv: "npm:^16.4.5"
-    expo-server: "npm:^55.0.7"
     express: "npm:^4.0"
     express-file-routing: "npm:3.0.3"
     express-session: "npm:^1.17.2"
@@ -7236,7 +7235,11 @@ __metadata:
     lodash: "npm:^4.17.20"
     method-override: "npm:~2.3.10"
   peerDependencies:
+    expo-server: ^55.0.7
     teamplay: "*"
+  peerDependenciesMeta:
+    expo-server:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -13840,6 +13843,7 @@ __metadata:
     expo-image-picker: "npm:~55.0.16"
     expo-linking: "npm:~55.0.11"
     expo-router: "npm:~55.0.10"
+    expo-server: "npm:^55.0.7"
     expo-splash-screen: "npm:~55.0.15"
     expo-status-bar: "npm:~55.0.5"
     expo-system-ui: "npm:~55.0.13"

@@ -1,11 +1,11 @@
 import { createRequire } from 'node:module'
+import { join } from 'node:path'
 import replayRequestBody from './replayRequestBody.js'
 import { runWithRequestContext } from './requestContext.js'
 
-const require = createRequire(import.meta.url)
-
-export default function createExpoRouterMiddleware ({ build, environment }) {
-  const { createRequestHandler } = requireExpoServer('expo-server/adapter/express')
+export default function createExpoRouterMiddleware ({ build, projectRoot, environment }) {
+  const projectRequire = createRequire(join(projectRoot, 'package.json'))
+  const { createRequestHandler } = requireExpoServer(projectRequire, 'expo-server/adapter/express')
   const expoRouterMiddleware = createRequestHandler({ build, environment })
 
   return function startupjsExpoRouterMiddleware (req, res, next) {
@@ -15,9 +15,9 @@ export default function createExpoRouterMiddleware ({ build, environment }) {
   }
 }
 
-function requireExpoServer (id) {
+function requireExpoServer (projectRequire, id) {
   try {
-    return require(id)
+    return projectRequire(id)
   } catch (err) {
     throw Error(ERRORS.missingExpoServer(id, err))
   }

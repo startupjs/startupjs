@@ -6,8 +6,8 @@ import methodOverride from 'method-override'
 import hsts from 'hsts'
 import { existsSync, readFileSync } from 'fs'
 import { join } from 'path'
+import { createRequire } from 'module'
 import { _createMiddleware } from './createMiddleware.js'
-import createExpoRouterMiddleware from './createExpoRouterMiddleware.js'
 import renderApp from '../renderApp/index.js'
 import renderError from '../renderError/index.js'
 
@@ -17,6 +17,7 @@ export default async function createExpress ({ backend, session, channel, option
   const expressApp = express()
   const expoClientPath = getExpoClientPath(options)
   const expoServerPath = getExpoServerPath(options)
+  const expoRouterServer = getExpoRouterServer(options, expoServerPath)
 
   // Required to be able to determine whether the protocol is 'http' or 'https'
   expressApp.enable('trust proxy')
@@ -72,18 +73,23 @@ export default async function createExpress ({ backend, session, channel, option
   const startupjsMiddleware = await _createMiddleware({ backend, session, channel, options })
   expressApp.use(startupjsMiddleware)
 
-  if (expoServerPath) {
+  if (expoRouterServer.enabled) {
+    const { default: createExpoRouterMiddleware } = await import('./createExpoRouterMiddleware.js')
     expressApp.use(createExpoRouterMiddleware({
-      build: expoServerPath,
+      build: expoRouterServer.path,
+      projectRoot: options.dirname,
       environment: options.environment
     }))
   }
 
   // render the single page client app for any route which wasn't handled by the server routes
   if (options.isExpo) {
-    if (!expoServerPath) {
-      const indexFile = readFileSync(join(expoClientPath || options.publicPath, 'index.html'), 'utf8')
-      expressApp.use((req, res, next) => { res.status(200).send(indexFile) })
+    if (!expoRouterServer.enabled) {
+      const indexFilePath = getExpoIndexFilePath(options, { clientPath: expoClientPath, serverPath: expoServerPath })
+      if (indexFilePath) {
+        const indexFile = readFileSync(indexFilePath, 'utf8')
+        expressApp.use((req, res, next) => { res.status(200).send(indexFile) })
+      }
     }
   } else {
     expressApp.use(renderApp(options))
@@ -113,4 +119,95 @@ function getExpoServerPath (options) {
   if (options.expoServerBuildPath) return options.expoServerBuildPath
   const serverPath = join(options.publicPath, 'server')
   if (existsSync(join(serverPath, '_expo', 'routes.json'))) return serverPath
+}
+
+function getExpoIndexFilePath (options, { clientPath, serverPath }) {
+  const indexFilePath = join(clientPath || options.publicPath, 'index.html')
+  if (existsSync(indexFilePath)) return indexFilePath
+  if (serverPath) return getExpoServerRootHtmlPath(serverPath)
+}
+
+function getExpoServerRootHtmlPath (serverPath) {
+  const routes = readExpoServerRoutes(serverPath)
+  const rootRoute = routes.htmlRoutes?.find(route => routeMatchesPath(route, '/'))
+  const rootHtmlPath = getExpoHtmlRoutePath(serverPath, rootRoute)
+  if (rootHtmlPath) return rootHtmlPath
+
+  const notFoundHtmlPath = getExpoHtmlRoutePath(serverPath, routes.notFoundRoutes?.[0])
+  if (notFoundHtmlPath) return notFoundHtmlPath
+}
+
+function readExpoServerRoutes (serverPath) {
+  try {
+    return JSON.parse(readFileSync(join(serverPath, '_expo', 'routes.json'), 'utf8'))
+  } catch {
+    return {}
+  }
+}
+
+function routeMatchesPath (route, pathname) {
+  try {
+    return new RegExp(route.namedRegex).test(pathname)
+  } catch {
+    return false
+  }
+}
+
+function getExpoHtmlRoutePath (serverPath, route) {
+  if (!route?.page) return
+  const filePath = join(serverPath, route.page.replace(/^\//, '') + '.html')
+  if (existsSync(filePath)) return filePath
+}
+
+function getExpoRouterServer (options, serverPath) {
+  if (!serverPath) return { enabled: false }
+
+  const packageJsonPath = join(options.dirname, 'package.json')
+  const packageJson = readProjectPackageJson(packageJsonPath)
+
+  if (!hasPackageDependency(packageJson, 'expo-server')) {
+    warnMissingExpoServer(serverPath, 'the project package.json does not list `expo-server`')
+    return { enabled: false }
+  }
+
+  try {
+    createRequire(packageJsonPath).resolve('expo-server/adapter/express')
+  } catch {
+    warnMissingExpoServer(serverPath, '`expo-server/adapter/express` could not be resolved')
+    return { enabled: false }
+  }
+
+  return {
+    enabled: true,
+    path: serverPath
+  }
+}
+
+function readProjectPackageJson (packageJsonPath) {
+  try {
+    return JSON.parse(readFileSync(packageJsonPath, 'utf8'))
+  } catch {
+    return {}
+  }
+}
+
+function hasPackageDependency (packageJson, dependency) {
+  return Boolean(
+    packageJson.dependencies?.[dependency] ||
+    packageJson.devDependencies?.[dependency] ||
+    packageJson.optionalDependencies?.[dependency] ||
+    packageJson.peerDependencies?.[dependency]
+  )
+}
+
+function warnMissingExpoServer (serverPath, reason) {
+  console.warn(ERRORS.missingExpoServer(serverPath, reason))
+}
+
+const ERRORS = {
+  missingExpoServer: (serverPath, reason) => `
+    [@startupjs/server] Expo Router server output was detected at \`${serverPath}\`, but ${reason}.
+    StartupJS will skip Expo Router API routes and middleware for this build.
+    Install \`expo-server\` in the app to enable Expo Router server output.
+  `
 }
