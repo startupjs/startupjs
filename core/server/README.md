@@ -63,7 +63,7 @@ const { middleware, backend, session, channel } = await createMiddleware()
 
 ### Expo Router API routes and middleware
 
-StartupJS also supports Expo Router server output. Existing `server/middleware.js` and `server/api/*` routes keep working and are mounted first. If the Expo export contains `dist/server/_expo/routes.json`, StartupJS mounts the Expo Router server bundle after StartupJS session setup and after existing StartupJS routes.
+StartupJS also supports Expo Router server output. Existing `server/middleware.js` and `server/api/*` routes keep working and are mounted first. If the app config has `web.output: "server"` and the Expo export contains `dist/server/_expo/routes.json`, StartupJS mounts the Expo Router server bundle after StartupJS session setup and after existing StartupJS routes.
 
 Install `expo-server` in the app package to opt in. `@startupjs/server` treats it as an optional peer dependency; if server output is detected without `expo-server`, StartupJS logs a warning and keeps serving the existing StartupJS server routes and client fallback.
 

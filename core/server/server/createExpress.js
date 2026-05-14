@@ -163,6 +163,14 @@ function getExpoRouterServer (options, serverPath) {
   if (!serverPath) return { enabled: false }
 
   const packageJsonPath = join(options.dirname, 'package.json')
+  const projectRequire = createRequire(packageJsonPath)
+  const webOutput = getExpoWebOutput(options, projectRequire)
+
+  if (webOutput !== 'server') {
+    warnIgnoredExpoServer(serverPath, webOutput)
+    return { enabled: false }
+  }
+
   const packageJson = readProjectPackageJson(packageJsonPath)
 
   if (!hasPackageDependency(packageJson, 'expo-server')) {
@@ -171,7 +179,7 @@ function getExpoRouterServer (options, serverPath) {
   }
 
   try {
-    createRequire(packageJsonPath).resolve('expo-server/adapter/express')
+    projectRequire.resolve('expo-server/adapter/express')
   } catch {
     warnMissingExpoServer(serverPath, '`expo-server/adapter/express` could not be resolved')
     return { enabled: false }
@@ -180,6 +188,23 @@ function getExpoRouterServer (options, serverPath) {
   return {
     enabled: true,
     path: serverPath
+  }
+}
+
+function getExpoWebOutput (options, projectRequire) {
+  try {
+    const { getConfig } = projectRequire('expo/config')
+    return getConfig(options.dirname, { skipSDKVersionRequirement: true })?.exp?.web?.output
+  } catch {
+    return readExpoWebOutputFromAppJson(join(options.dirname, 'app.json'))
+  }
+}
+
+function readExpoWebOutputFromAppJson (appJsonPath) {
+  try {
+    const appJson = JSON.parse(readFileSync(appJsonPath, 'utf8'))
+    return appJson.expo?.web?.output || appJson.web?.output
+  } catch {
   }
 }
 
@@ -204,7 +229,21 @@ function warnMissingExpoServer (serverPath, reason) {
   console.warn(ERRORS.missingExpoServer(serverPath, reason))
 }
 
+function warnIgnoredExpoServer (serverPath, webOutput) {
+  console.warn(ERRORS.ignoredExpoServer(serverPath, formatExpoWebOutput(webOutput)))
+}
+
+function formatExpoWebOutput (webOutput) {
+  if (webOutput == null) return 'not configured'
+  return `\`${webOutput}\``
+}
+
 const ERRORS = {
+  ignoredExpoServer: (serverPath, webOutput) => `
+    [@startupjs/server] Expo Router server output was detected at \`${serverPath}\`, but Expo web output is ${webOutput} instead of \`server\`.
+    StartupJS will skip Expo Router API routes and middleware for this build.
+    Remove stale \`dist/server\` output or set \`expo.web.output\` to \`server\` to enable Expo Router server output.
+  `,
   missingExpoServer: (serverPath, reason) => `
     [@startupjs/server] Expo Router server output was detected at \`${serverPath}\`, but ${reason}.
     StartupJS will skip Expo Router API routes and middleware for this build.
