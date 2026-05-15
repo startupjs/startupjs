@@ -119,7 +119,7 @@ install_generic () {
 }
 
 install_kubectl () {
-  curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.9/2023-01-11/bin/linux/amd64/kubectl
+  curl -4 -LO https://dl.k8s.io/release/v1.30.5/bin/linux/amd64/kubectl
   chmod +x ./kubectl
   mv ./kubectl /usr/local/bin/
 }
@@ -129,7 +129,7 @@ install_neat () {
   OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
   ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
   KREW="krew-${OS}_${ARCH}" &&
-  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+  curl -4 -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
   tar zxvf "${KREW}.tar.gz" &&
   ./"${KREW}" install krew
 
@@ -184,7 +184,7 @@ login_kubectl () {
 # TODO: Refactor for Vault
 #update_secret () {
 #  _secrets_yaml=$(_get_secrets_yaml)
-#  echo "$_secrets_yaml" | kubectl apply -f -
+#  echo "$_secrets_yaml" | kubectl apply --server-side --force-conflicts -f -
 #}
 #
 #_get_secrets_yaml () {
@@ -202,9 +202,10 @@ update_deployments () {
   then
     if [ -n "$DEPLOYMENTS" ]
     then
-      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json | jq '{items: [.items[] | select(.metadata.labels.microservice != "cron" and .metadata.labels.microservice != "worker")]}' \
+      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json | jq '{items: [.items[] | select(.metadata.labels.microservice != "cron" and .metadata.labels.microservice != "worker" and .metadata.labels.microservice != "worker-high")]}' \
         | kubectl-neat \
         | jq '.items[]' \
+        | jq 'del(.metadata.resourceVersion, .metadata.uid, .metadata.generation, .metadata.creationTimestamp, .metadata.managedFields, .metadata.selfLink, .status)' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
         | jq 'del(.metadata.annotations["deployment.kubernetes.io/revision"])' \
@@ -217,11 +218,12 @@ update_deployments () {
         | jq ".spec.template.metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq '.spec.template.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
         | jq ".spec.template.spec.containers[0].image = \"${REGISTRY_SERVER}/${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}:${COMMIT_SHA}\"" \
-        | kubectl apply -f -
+        | kubectl apply --server-side --force-conflicts -f -
     else
-      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json | jq '{items: [.items[] | select(.metadata.labels.microservice != "cron" and .metadata.labels.microservice != "worker")]}' \
+      kubectl get deploy -l "managed-by=terraform,part-of=${APP}" -o json | jq '{items: [.items[] | select(.metadata.labels.microservice != "cron" and .metadata.labels.microservice != "worker" and .metadata.labels.microservice != "worker-high")]}' \
         | kubectl-neat \
         | jq '.items[]' \
+        | jq 'del(.metadata.resourceVersion, .metadata.uid, .metadata.generation, .metadata.creationTimestamp, .metadata.managedFields, .metadata.selfLink, .status)' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
         | jq 'del(.metadata.annotations["deployment.kubernetes.io/revision"])' \
@@ -234,12 +236,13 @@ update_deployments () {
         | jq ".spec.template.metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq '.spec.template.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
         | jq ".spec.template.spec.containers[0].image = \"${REGISTRY_SERVER}/${APP}-${FEATURE}:${COMMIT_SHA}\"" \
-        | kubectl apply -f -
+        | kubectl apply --server-side --force-conflicts -f -
     fi
 
     kubectl get service -l "managed-by=terraform,part-of=${APP}" -o json \
       | kubectl-neat \
       | jq '.items[]' \
+      | jq 'del(.metadata.resourceVersion, .metadata.uid, .metadata.generation, .metadata.creationTimestamp, .metadata.managedFields, .metadata.selfLink, .status)' \
       | jq "del(.spec.clusterIP)" \
       | jq "del(.spec.clusterIPs)" \
       | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
@@ -249,13 +252,14 @@ update_deployments () {
       | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
       | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
       | jq ".spec.selector.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
-      | kubectl apply -f -
+      | kubectl apply --server-side --force-conflicts -f -
 
     if [ -n "$FEATURE_WILDCARD" ]
     then
       kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
         | kubectl-neat \
         | jq '.items[]' \
+        | jq 'del(.metadata.resourceVersion, .metadata.uid, .metadata.generation, .metadata.creationTimestamp, .metadata.managedFields, .metadata.selfLink, .status)' \
         | jq 'del(.metadata.annotations["cert-manager.io/cluster-issuer"])' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
@@ -269,11 +273,12 @@ update_deployments () {
         | jq "del(.spec.tls[1,2,3,4,5])" \
         | jq ".spec.tls[0].hosts = [\"${FEATURE}.${FEATURE_DOMAIN}\"]" \
         | jq ".spec.tls[0].secretName = \"${APP}-features-cert\"" \
-        | kubectl apply -f -
+        | kubectl apply --server-side --force-conflicts -f -
     else
       kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
         | kubectl-neat \
         | jq '.items[]' \
+        | jq 'del(.metadata.resourceVersion, .metadata.uid, .metadata.generation, .metadata.creationTimestamp, .metadata.managedFields, .metadata.selfLink, .status)' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-name"])' \
         | jq 'del(.metadata.annotations["meta.helm.sh/release-namespace"])' \
         | jq 'del(.metadata.labels["app.kubernetes.io/managed-by"])' \
@@ -286,7 +291,7 @@ update_deployments () {
         | jq "del(.spec.tls[1,2,3,4,5])" \
         | jq ".spec.tls[0].hosts = [\"${FEATURE}.${FEATURE_DOMAIN}\"]" \
         | jq ".spec.tls[0].secretName = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}-cert\"" \
-        | kubectl apply -f -
+        | kubectl apply --server-side --force-conflicts -f -
     fi
   else
     for _name in $(kubectl get deployments -l "managed-by=terraform,part-of=${APP}" --no-headers -o custom-columns=":metadata.name"); do
