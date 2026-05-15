@@ -138,21 +138,12 @@ const ERRORS = {
 // }
 
 function getBodyParserOptionsByType (type, options = {}) {
-  const parserOptions = _defaults(
+  return _defaults(
     _cloneDeep(options[type]),
     options.general,
     DEFAULT_BODY_PARSER_OPTIONS[type],
     DEFAULT_BODY_PARSER_OPTIONS.general
   )
-  parserOptions.verify = createRawBodyVerifier(parserOptions.verify)
-  return parserOptions
-}
-
-function createRawBodyVerifier (verify) {
-  return function rawBodyVerifier (req, res, buf, encoding) {
-    if (buf != null) req.rawBody = Buffer.from(buf)
-    return verify?.(req, res, buf, encoding)
-  }
 }
 
 function createShouldSkipBodyParser (options) {

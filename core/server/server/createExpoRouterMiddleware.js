@@ -1,6 +1,5 @@
 import { createRequire } from 'node:module'
 import { join } from 'node:path'
-import replayRequestBody from './replayRequestBody.js'
 import { runWithRequestContext } from './requestContext.js'
 
 export default function createExpoRouterMiddleware ({ build, projectRoot, environment }) {
@@ -10,7 +9,7 @@ export default function createExpoRouterMiddleware ({ build, projectRoot, enviro
 
   return function startupjsExpoRouterMiddleware (req, res, next) {
     runWithRequestContext(req, res, () => {
-      expoRouterMiddleware(replayRequestBody(req), res, next)
+      expoRouterMiddleware(req, res, next)
     })
   }
 }
