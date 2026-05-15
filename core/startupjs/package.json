@@ -24,6 +24,7 @@
     "./metro-config": "./metro-config.cjs",
     "./metro-babel-transformer": "./metro-babel-transformer.cjs",
     "./babel": "./babel.cjs",
+    "./babel/plugin-react-pug": "./babel/plugin-react-pug.cjs",
     "./startupjs.config": "./startupjs.config.cjs",
     "./package.json": "./package.json"
   },
