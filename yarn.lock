@@ -7519,14 +7519,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@teamplay/channel@npm:^0.5.0-alpha.7":
-  version: 0.5.0-alpha.7
-  resolution: "@teamplay/channel@npm:0.5.0-alpha.7"
+"@teamplay/channel@npm:^0.5.0-alpha.10":
+  version: 0.5.0-alpha.10
+  resolution: "@teamplay/channel@npm:0.5.0-alpha.10"
   dependencies:
-    sockjs: "github:sockjs/sockjs-node#46d2f846653a91822a02794b852886c7f137378c"
+    "@teamplay/sockjs": "npm:^0.4.0-rc.1"
     sockjs-client: "npm:^1.6.1"
     ws: "npm:^1.1"
-  checksum: 10c0/2f15b5ef0fe239d11ea480d78ccc67089df0913e0641226d80cf98eb4d6f4fc68edcdcb40a301ac680b3c7197e59966164612006ece8d177300501ee54b13959
+  checksum: 10c0/e0d4c4b3867ae33494301e8dd6527425a600e1fab1b5b26f9b13a6af4e4b5913edfece7a1078704fb196a0439b96f61fa2497274897bd77b306fe0c65ee0746f
   languageName: node
   linkType: hard
 
@@ -7571,6 +7571,16 @@ __metadata:
   dependencies:
     z-schema: "npm:^4.2.3"
   checksum: 10c0/291f498fe9aec678d605f78eb7fbe7cf50ffd2722964771e3b268adccb5856f3c8e962ab9b92eb38406317621a7e8af2226f89fceb5b8857ab691b5e470c4b8d
+  languageName: node
+  linkType: hard
+
+"@teamplay/sockjs@npm:^0.4.0-rc.1":
+  version: 0.4.0-rc.1
+  resolution: "@teamplay/sockjs@npm:0.4.0-rc.1"
+  dependencies:
+    debug: "npm:^4.3.1"
+    faye-websocket: "npm:^0.11.3"
+  checksum: 10c0/eb99023fc1f5226e3430540b8415fb649e4330cdd0821309d2ce696ca6f7ad628e7f22b7eea3b26256010dc86c68bc0c7be78acd1c5a674414c87a25dfa6ed74
   languageName: node
   linkType: hard
 
@@ -26109,17 +26119,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sockjs@github:sockjs/sockjs-node#46d2f846653a91822a02794b852886c7f137378c":
-  version: 0.4.0-rc.1
-  resolution: "sockjs@https://github.com/sockjs/sockjs-node.git#commit=46d2f846653a91822a02794b852886c7f137378c"
-  dependencies:
-    debug: "npm:^4.3.1"
-    faye-websocket: "npm:^0.11.3"
-    uuid: "npm:^8.1.0"
-  checksum: 10c0/f7a1121cf587d8eebfbeda02265282efec36449452651f0fe47ce9f9474f7e892f11c96f8369ac9e9e6f5015a8075cd42847c81a8fb0caa342466635e08b585f
-  languageName: node
-  linkType: hard
-
 "socks-proxy-agent@npm:^6.0.0":
   version: 6.2.1
   resolution: "socks-proxy-agent@npm:6.2.1"
@@ -26594,7 +26593,7 @@ __metadata:
     babel-preset-startupjs: "npm:^0.63.0-alpha.3"
     cssxjs: "npm:^0.3.0"
     lodash: "npm:^4.17.20"
-    teamplay: "npm:^0.5.0-alpha.9"
+    teamplay: "npm:^0.5.0-alpha.10"
   peerDependencies:
     "@startupjs/worker": "*"
     react: "*"
@@ -27225,15 +27224,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"teamplay@npm:^0.5.0-alpha.9":
-  version: 0.5.0-alpha.9
-  resolution: "teamplay@npm:0.5.0-alpha.9"
+"teamplay@npm:^0.5.0-alpha.10":
+  version: 0.5.0-alpha.10
+  resolution: "teamplay@npm:0.5.0-alpha.10"
   dependencies:
     "@nx-js/observer-util": "npm:^4.1.3"
     "@startupjs/sharedb-mingo-memory": "npm:^4.0.0-2"
     "@teamplay/backend": "npm:^0.5.0-alpha.9"
     "@teamplay/cache": "npm:^0.5.0-alpha.7"
-    "@teamplay/channel": "npm:^0.5.0-alpha.7"
+    "@teamplay/channel": "npm:^0.5.0-alpha.10"
     "@teamplay/debug": "npm:^0.5.0-alpha.7"
     "@teamplay/schema": "npm:^0.5.0-alpha.7"
     "@teamplay/utils": "npm:^0.5.0-alpha.7"
@@ -27255,7 +27254,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 10c0/3b8cca348040a6863d0d7be0320c1cb18a731d1a7db7e8c2406b93f1914efbe51e1b18a4ac1e0391d859fb87deb3e5b0447c22dc44ca36ce924c584ca548283e
+  checksum: 10c0/c686c65b480ce1517798c1eabe84483fdf22a65aea677835141f13843725b825d42353e0d14b823d48bc332d0b4f17fe6d6bbfa8c08c1a586b5e22e3e17536ac
   languageName: node
   linkType: hard
 
@@ -28450,7 +28449,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^8.0.0, uuid@npm:^8.1.0, uuid@npm:^8.3.0":
+"uuid@npm:^8.0.0, uuid@npm:^8.3.0":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:
