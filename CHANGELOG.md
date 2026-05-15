@@ -1,3 +1,12 @@
+# [0.63.0-alpha.5](https://github.com/startupjs/startupjs/compare/v0.63.0-alpha.4...v0.63.0-alpha.5) (2026-05-15)
+
+
+### Features
+
+* **startupjs:** add an extra export for pug plugin - startupjs/babel/plugin-react-pug ([9865a1d](https://github.com/startupjs/startupjs/commit/9865a1d90d1d6356f29d7c298d91868396dbdc1c))
+
+
+
 # [0.63.0-alpha.4](https://github.com/startupjs/startupjs/compare/v0.63.0-alpha.3...v0.63.0-alpha.4) (2026-05-13)
 
 
