@@ -1,0 +1,212 @@
+{
+  "title": "StartupJS",
+  "summary": "Full-stack framework for real-time cross-platform apps built on Expo, React Native, reactive signals, Teamplay ORM, and StartupJS UI primitives.",
+  "include": [
+    "README.md",
+    "docs/index.md",
+    "docs/tutorial/**/*.md",
+    "docs/tutorial/**/*.mdx",
+    "docs/foundations/**/*.md",
+    "docs/foundations/**/*.mdx",
+    "docs/general/**/*.md",
+    "docs/general/**/*.mdx",
+    "docs/libraries/**/*.md",
+    "docs/libraries/**/*.mdx",
+    "libraries/*/docs/**/*.md",
+    "libraries/*/docs/**/*.mdx",
+    "libraries/*/readme/**/*.md",
+    "libraries/*/readme/**/*.mdx",
+    "libraries/auth-idg/readme.md",
+    "libraries/auth-lti/readme.md",
+    "libraries/babel-plugin-import-to-react-lazy/README.md",
+    "libraries/babel-plugin-ts-interface-to-json-schema/README.md",
+    "libraries/cron/README.md",
+    "libraries/pm/README.md",
+    "libraries/pm/guidelines.md",
+    "libraries/pm/guidelines_en/**/*.md",
+    "libraries/pm/guidelines_en/**/*.mdx",
+    "docs/migration-guides/**/*.md",
+    "docs/migration-guides/**/*.mdx"
+  ],
+  "exclude": [
+    ".git/**",
+    ".github/**",
+    ".next/**",
+    ".yarn/**",
+    "build/**",
+    "dist/**",
+    "node_modules/**",
+    "coverage/**",
+    "vendor/**",
+    "temp/**",
+    "docs/public/**",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "expoapp/README.md"
+  ],
+  "sectionOrder": [
+    "Core Docs",
+    "Tutorial",
+    "Foundations",
+    "General",
+    "Libraries",
+    "Library Packages",
+    "PM Guidelines",
+    "Migration Guides"
+  ],
+  "patternOverrides": {
+    "libraries/**": {
+      "section": "Library Packages"
+    },
+    "libraries/pm/**": {
+      "section": "PM Guidelines",
+      "includeInFull": false
+    },
+    "libraries/**/docs/**/*.ru.md": {
+      "includeInIndex": false,
+      "includeInFull": false
+    },
+    "libraries/**/docs/**/*.ru.mdx": {
+      "includeInIndex": false,
+      "includeInFull": false
+    },
+    "libraries/**/readme/**/*.ru.md": {
+      "includeInIndex": false,
+      "includeInFull": false
+    },
+    "libraries/**/readme/**/*.ru.mdx": {
+      "includeInIndex": false,
+      "includeInFull": false
+    },
+    "docs/migration-guides/**/*.md": {
+      "section": "Migration Guides",
+      "includeInFull": false
+    },
+    "docs/migration-guides/**/*.mdx": {
+      "section": "Migration Guides",
+      "includeInFull": false
+    }
+  },
+  "overrides": {
+    "README.md": {
+      "section": "Core Docs",
+      "order": 10,
+      "title": "StartupJS README",
+      "summary": "Framework overview, quickstart, installation, upgrading, and development entry points."
+    },
+    "docs/index.md": {
+      "section": "Core Docs",
+      "order": 20,
+      "title": "StartupJS Documentation Home",
+      "summary": "Documentation landing page that introduces the framework and links into core learning paths."
+    },
+    "docs/tutorial/foundation.mdx": {
+      "section": "Tutorial",
+      "order": 10,
+      "summary": "Foundation tutorial for getting started with StartupJS concepts and project setup."
+    },
+    "docs/tutorial/basics.mdx": {
+      "section": "Tutorial",
+      "order": 20,
+      "summary": "Core tutorial covering everyday StartupJS development patterns."
+    },
+    "docs/tutorial/pug.mdx": {
+      "section": "Tutorial",
+      "order": 30,
+      "summary": "Guide to Pug templating in StartupJS."
+    },
+    "docs/tutorial/observer.mdx": {
+      "section": "Tutorial",
+      "order": 40,
+      "summary": "Guide to observer-based reactivity and component updates."
+    },
+    "docs/tutorial/racerModel.mdx": {
+      "section": "Tutorial",
+      "order": 50,
+      "summary": "Guide to working with reactive data models and signals."
+    },
+    "docs/foundations/security.mdx": {
+      "section": "Foundations",
+      "order": 10,
+      "summary": "Access control, document security, and production safety requirements."
+    },
+    "docs/foundations/websocket.mdx": {
+      "section": "Foundations",
+      "order": 20,
+      "summary": "Custom WebSocket integration on top of the StartupJS server."
+    },
+    "docs/general/models.md": {
+      "section": "General",
+      "order": 10,
+      "summary": "Overview of model organization and framework data patterns."
+    },
+    "docs/general/hooks.md": {
+      "section": "General",
+      "order": 20,
+      "summary": "Guide to StartupJS hooks and extension points."
+    },
+    "docs/general/plugins.md": {
+      "section": "General",
+      "order": 30,
+      "summary": "Plugin system overview and extension model."
+    },
+    "docs/general/create-plugin.md": {
+      "section": "General",
+      "order": 40,
+      "summary": "How to create a plugin for StartupJS."
+    },
+    "docs/general/about-modules.md": {
+      "section": "General",
+      "order": 50,
+      "summary": "Explanation of modules, plugins, and how extensibility is structured."
+    },
+    "docs/libraries/startupjs-router.mdx": {
+      "section": "Libraries",
+      "order": 10,
+      "summary": "Documentation for StartupJS router usage and routing patterns."
+    },
+    "docs/libraries/startupjs-worker.mdx": {
+      "section": "Libraries",
+      "order": 20,
+      "summary": "Documentation for background jobs and worker integration."
+    },
+    "libraries/pm/README.md": {
+      "section": "PM Guidelines",
+      "includeInFull": false,
+      "order": 10,
+      "title": "@startupjs/pm README",
+      "summary": "Project management automation package overview and entry point to its supporting guidelines."
+    },
+    "libraries/pm/guidelines.md": {
+      "section": "PM Guidelines",
+      "includeInFull": false,
+      "order": 11,
+      "title": "@startupjs/pm Guidelines",
+      "summary": "Core project management guidelines for the pm package."
+    },
+    "libraries/pm/guidelines_en/developers.md": {
+      "section": "PM Guidelines",
+      "includeInFull": false,
+      "order": 12,
+      "title": "@startupjs/pm Developers Guide"
+    },
+    "libraries/pm/guidelines_en/designers.md": {
+      "section": "PM Guidelines",
+      "includeInFull": false,
+      "order": 13,
+      "title": "@startupjs/pm Designers Guide"
+    },
+    "libraries/pm/guidelines_en/qa.md": {
+      "section": "PM Guidelines",
+      "includeInFull": false,
+      "order": 14,
+      "title": "@startupjs/pm QA Guide"
+    },
+    "libraries/pm/guidelines_en/teamLeads.md": {
+      "section": "PM Guidelines",
+      "includeInFull": false,
+      "order": 15,
+      "title": "@startupjs/pm Team Leads Guide"
+    }
+  }
+}
