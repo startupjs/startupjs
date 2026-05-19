@@ -36,7 +36,7 @@ function getMDXComponentsImport () {
     const projectPkgPath = path.join(process.cwd(), 'package.json')
     const packageJson = readFileSync(projectPkgPath, 'utf8')
     if (/"@startupjs\/ui"/.test(packageJson)) hasOldStartupUi = true
-  } catch (err) {}
+  } catch { /* suppress */ }
   if (hasOldStartupUi) {
     mdxComponentsImport = OLD_MDX_IMPORT
   } else {

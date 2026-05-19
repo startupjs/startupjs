@@ -12,7 +12,7 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, {
   let packageJson = {}
   try {
     packageJson = JSON.parse(readFileSync(join(projectRoot, 'package.json'), 'utf8'))
-  } catch (err) {}
+  } catch { /* suppress */ }
   if (checkStartupjsBabel) _checkStartupjsBabel(projectRoot)
   const features = getFeatures(projectRoot)
   upstreamConfig ??= getUpstreamConfig(projectRoot)
@@ -92,11 +92,11 @@ function getUpstreamConfig (projectRoot) {
       // startupjs has a custom CSS implementation so we don't need to use Expo's
       isCSSEnabled: false
     })
-  } catch (err) {
+  } catch {
     try {
       // React Native 0.73+
       return require('@react-native/metro-config').getDefaultConfig(projectRoot)
-    } catch (err) {
+    } catch {
       // React Native <0.73
       return require('metro-config').getDefaultConfig()
     }
@@ -110,7 +110,7 @@ function checkIfExpo (upstreamConfig) {
   try {
     const path = require.resolve('expo/metro-config')
     return Boolean(path)
-  } catch (err) {
+  } catch {
     return false
   }
 }
@@ -149,7 +149,7 @@ function getMonorepoRootPackageJson (projectRoot) {
       if (!existsSync(packageJsonPath)) continue
       const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
       if (packageJson.workspaces) return { packageJson, folderPath: parent }
-    } catch (err) {}
+    } catch { /* suppress */ }
   }
 }
 

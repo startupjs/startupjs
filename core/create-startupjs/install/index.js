@@ -1,6 +1,6 @@
 import { $ } from 'execa'
 import { join, dirname } from 'path'
-import { existsSync, readFileSync, writeFileSync, renameSync } from 'fs'
+import { existsSync, readFileSync, writeFileSync, renameSync, rmSync } from 'fs'
 import url from 'url'
 import isEqual from 'lodash/isEqual.js'
 import merge from 'lodash/merge.js'
@@ -9,15 +9,21 @@ import { diffString } from 'json-diff'
 
 const __dirname = dirname(url.fileURLToPath(import.meta.url))
 const PROJECT_JSON_PATH = join(process.cwd(), 'package.json')
+const TSCONFIG_JSON_PATH = join(process.cwd(), 'tsconfig.json')
 const MODULE_PATH = join(__dirname, '..')
 const CLI_JSON_PATH = join(__dirname, '../package.json')
 const INIT_JSON_PATH = join(__dirname, './init/package.json')
 const INIT_METRO_CONFIG_PATH = join(__dirname, './init/metro.config.cjs')
 const INIT_GITIGNORE_PATH = join(__dirname, './init/gitignore')
 const INIT_STARTUPJS_CONFIG_PATH = join(__dirname, './init/startupjs.config.js')
+const INIT_AGENTS_MD_PATH = join(__dirname, './init/AGENTS.md')
+const INIT_E2E_GUIDE_MD_PATH = join(__dirname, './init/E2E_GUIDE.md')
+const INIT_CLAUDE_MD_PATH = join(__dirname, './init/CLAUDE.md')
+const INIT_ESLINT_CONFIG_PATH = join(__dirname, './init/eslint.config.mjs')
 const INIT_BABEL_CONFIG_PATH = join(__dirname, './init/babel.config.cjs')
 const INIT_EXPO_JSON_PATH = join(__dirname, './init-expo/package.json')
 const INIT_EXPO_APP_JSON_PATH = join(__dirname, './init-expo/app.json')
+const INIT_EXPO_ESLINT_CONFIG_PATH = join(__dirname, './init-expo/eslint.config.mjs')
 const DEVELOPMENT_JSON_PATH = join(__dirname, './dev/package.json')
 const UI_JSON_PATH = join(__dirname, './ui/package.json')
 const UI_EXPO_JSON_PATH = join(__dirname, './ui-expo/package.json')
@@ -123,7 +129,7 @@ async function runInstall ({
     templates.push(JSON.parse(fromTemplateFile(INIT_EXPO_JSON_PATH)))
   }
 
-  if (setupDevelopment || packageJson.devDependencies?.['eslint-config-cssxjs']) {
+  if (setupDevelopment || packageJson.devDependencies?.['eslint-plugin-cssxjs']) {
     templates.push(JSON.parse(fromTemplateFile(DEVELOPMENT_JSON_PATH)))
   }
 
@@ -172,15 +178,25 @@ async function runInstall ({
   }
 
   if (setupInit) {
+    maybeModifyTsconfigJson({ triggerModified })
     maybeAppendGitignore({ triggerModified })
     maybeRenameMetroConfig({ triggerModified })
     maybeCopyMetroConfig({ triggerModified, onLog: log => finalLog.push(log) })
     maybeCopyStartupjsConfig({ triggerModified })
+    maybeCopyAgentsMd({ triggerModified })
+    maybeCopyE2eGuideMd({ triggerModified })
+    maybeCopyClaudeMd({ triggerModified })
     maybeRenameBabelConfig({ triggerModified })
     // our babel config will be copied only if babel config didn't exist before.
     // If it existed then when the user tries to run the project
     // we'll throw an error asking to add the startupjs preset manually.
     maybeCopyBabelConfig({ triggerModified })
+    // copy the appropriate eslint config based on whether expo is used or not
+    if (packageJson.dependencies.expo) {
+      maybeCopyExpoEslintConfig({ triggerModified })
+    } else {
+      maybeCopyEslintConfig({ triggerModified })
+    }
     if (triggerModified.wasTriggered() && packageJson.dependencies.expo) {
       // modify expo's config in app.json, but only if we did any actual init modifications before
       // (there is no way to understand if we already did modify app.json before so we rely on the triggerModified flag)
@@ -312,7 +328,7 @@ async function getLatestMatchingVersion (name, semver) {
   let versions
   try {
     versions = JSON.parse(stdout)
-  } catch (error) {
+  } catch {
     throw Error(`Error parsing versions for ${name} of ${semver}. No versions returned. Got: \`${stdout}\``)
   }
   // when there is only a single version, npm show returns a string instead of an array
@@ -356,6 +372,49 @@ function maybeCopyStartupjsConfig ({ triggerModified }) {
   triggerModified?.()
 }
 
+function maybeCopyAgentsMd ({ triggerModified }) {
+  const agentsMdPath = join(process.cwd(), 'AGENTS.md')
+  if (existsSync(agentsMdPath)) return
+  writeFileSync(agentsMdPath, readFileSync(INIT_AGENTS_MD_PATH, 'utf8'))
+  triggerModified?.()
+}
+
+function maybeCopyE2eGuideMd ({ triggerModified }) {
+  const e2eGuideMdPath = join(process.cwd(), 'E2E_GUIDE.md')
+  if (existsSync(e2eGuideMdPath)) return
+  writeFileSync(e2eGuideMdPath, readFileSync(INIT_E2E_GUIDE_MD_PATH, 'utf8'))
+  triggerModified?.()
+}
+
+function maybeCopyClaudeMd ({ triggerModified }) {
+  const claudeMdPath = join(process.cwd(), 'CLAUDE.md')
+  if (existsSync(claudeMdPath)) return
+  writeFileSync(claudeMdPath, readFileSync(INIT_CLAUDE_MD_PATH, 'utf8'))
+  triggerModified?.()
+}
+
+function maybeCopyEslintConfig ({ triggerModified }) {
+  const eslintConfigPath = join(process.cwd(), 'eslint.config.mjs')
+  if (existsSync(eslintConfigPath)) return
+  // remove the existing default eslint config if it exists, since it's not compatible with our eslint config
+  if (existsSync(join(process.cwd(), 'eslint.config.js'))) {
+    rmSync(join(process.cwd(), 'eslint.config.js'))
+  }
+  writeFileSync(eslintConfigPath, readFileSync(INIT_ESLINT_CONFIG_PATH, 'utf8'))
+  triggerModified?.()
+}
+
+function maybeCopyExpoEslintConfig ({ triggerModified }) {
+  const eslintConfigPath = join(process.cwd(), 'eslint.config.mjs')
+  if (existsSync(eslintConfigPath)) return
+  // remove the existing default eslint config if it exists, since it's not compatible with our eslint config
+  if (existsSync(join(process.cwd(), 'eslint.config.js'))) {
+    rmSync(join(process.cwd(), 'eslint.config.js'))
+  }
+  writeFileSync(eslintConfigPath, readFileSync(INIT_EXPO_ESLINT_CONFIG_PATH, 'utf8'))
+  triggerModified?.()
+}
+
 // we are using ESM, so if babel config is using module.exports, we need to rename it to .cjs
 function maybeRenameBabelConfig ({ triggerModified }) {
   const babelConfigPath = join(process.cwd(), 'babel.config.js')
@@ -391,6 +450,16 @@ function maybeModifyExpoAppJson ({ triggerModified }) {
   // deep extend the app.json with the template app.json
   merge(appJson, templateAppJson)
   writeFileSync(appJsonPath, JSON.stringify(appJson, null, 2))
+  triggerModified?.()
+}
+
+function maybeModifyTsconfigJson ({ triggerModified }) {
+  if (!existsSync(TSCONFIG_JSON_PATH)) return
+  const tsconfigJson = JSON.parse(readFileSync(TSCONFIG_JSON_PATH, 'utf8'))
+  if (!tsconfigJson.compilerOptions) tsconfigJson.compilerOptions = {}
+  if (tsconfigJson.compilerOptions.allowImportingTsExtensions != null) return
+  tsconfigJson.compilerOptions.allowImportingTsExtensions = true
+  writeFileSync(TSCONFIG_JSON_PATH, JSON.stringify(tsconfigJson, null, 2))
   triggerModified?.()
 }
 

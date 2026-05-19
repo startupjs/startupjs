@@ -16,7 +16,7 @@ export default ({ providers, storage }) => async (req, res) => {
   let provider
   // get the passed state
   let { state } = req.query
-  try { state = JSON.parse(state) } catch (err) {}
+  try { state = JSON.parse(state) } catch { /* suppress */ }
   if (typeof state !== 'object') return res.status(400).send('State is invalid')
 
   try {
@@ -28,7 +28,7 @@ export default ({ providers, storage }) => async (req, res) => {
 
     // get the passed state
     let { state } = req.query
-    try { state = JSON.parse(state) } catch (err) {}
+    try { state = JSON.parse(state) } catch { /* suppress */ }
     if (typeof state !== 'object') return res.status(400).send('State is invalid')
 
     // get userinfo

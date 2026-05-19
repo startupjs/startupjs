@@ -11,11 +11,13 @@ export default observer(function TabTwoScreen () {
   const $count = $countDoc.value
   const $localCount = $(0)
   const [stateCount, setStateCount] = useState(0)
-  const idRef = useRef()
+  const idRef = useRef<string | undefined>(undefined)
 
-  const generateRandomId = (): string | undefined => {
-    if (idRef.current == null) idRef.current = $.id()
-    return idRef.current
+  const generateRandomId = (): string => {
+    const id = idRef.current ?? $.id()
+    if (id == null) throw new Error('Failed to generate random id')
+    idRef.current = id
+    return id
   }
 
   const randomId = useMemo(generateRandomId, [])

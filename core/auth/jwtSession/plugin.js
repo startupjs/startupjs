@@ -43,7 +43,10 @@ export default createPlugin({
                 const { iat, exp, ...session } = jwt.verify(token, appSecret, { ignoreExpiration: true })
                 token = await createToken(session)
                 return res.json({ ...session, token })
-              } catch (err) {}
+              } catch {
+                // suppressing errors and going to create a new token with new session data
+                // if reissuing failed for some reason (e.g. invalid token)
+              }
             }
           }
         }

@@ -1,9 +1,10 @@
 {
   "devDependencies": {
-    "eslint": "^8.56.0",
-    "eslint-config-cssxjs": "^0.2.0",
+    "eslint": "^9.39.4",
+    "eslint-plugin-cssxjs": "^0.3.0",
     "husky": "^4.3.0",
-    "lint-staged": "^15.2.2"
+    "lint-staged": "^15.2.2",
+    "neostandard": "^0.13.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs}": [
@@ -14,8 +15,5 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  },
-  "eslintConfig": {
-    "extends": ["cssxjs"]
   }
 }

@@ -8,7 +8,7 @@ export const SESSION_KEY = 'startupjs.session'
 export async function getSessionData ({ requireToken = true } = {}) {
   let session = await AsyncStorage.getItem(SESSION_KEY)
   session = session != null ? JSON.parse(session) : undefined
-  try { validateSession(session, { requireToken }) } catch (err) { session = undefined }
+  try { validateSession(session, { requireToken }) } catch { session = undefined }
   return session
 }
 

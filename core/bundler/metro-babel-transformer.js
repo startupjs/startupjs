@@ -12,11 +12,21 @@ module.exports.transform = async function startupjsMetroBabelTransform ({
   const { platform } = options
 
   // from exotic extensions to js
-  if (/\.styl$/.test(filename)) {
-    src = callLoader(stylusToCssLoader, src, filename, { platform })
-    src = callLoader(cssToReactNativeLoader, src, filename)
-  } else if (/\.css$/.test(filename)) {
-    src = callLoader(cssToReactNativeLoader, src, filename)
+  if (/\.styl$/.test(filename) && !/\.module\.styl/.test(filename)) {
+    try {
+      src = callLoader(stylusToCssLoader, src, filename, { platform })
+      src = callLoader(cssToReactNativeLoader, src, filename)
+    } catch (err) {
+      console.error(`Error processing ${filename} with stylusToCssLoader:`, err)
+      throw err
+    }
+  } else if (/\.css$/.test(filename) && !/\.module\.css$/.test(filename)) {
+    try {
+      src = callLoader(cssToReactNativeLoader, src, filename)
+    } catch (err) {
+      console.error(`Error processing ${filename} with cssToReactNativeLoader:`, err)
+      throw err
+    }
   } else if (/\.svg$/.test(filename)) {
     src = await callLoader(asyncSvgLoader, src, filename)
   } else if (/\.mdx?$/.test(filename)) {
@@ -31,11 +41,11 @@ function getUpstreamTransformer () {
   try {
     // Expo
     return require('@expo/metro-config/babel-transformer')
-  } catch (err) {
+  } catch {
     try {
       // React Native 0.73+
       return require('@react-native/metro-babel-transformer')
-    } catch (err) {
+    } catch {
       // React Native <0.73
       return require('metro-react-native-babel-transformer')
     }

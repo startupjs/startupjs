@@ -1,4 +1,4 @@
-import { useMemo, useContext } from 'react'
+import { useMemo, useContext, useRef } from 'react'
 import { router, usePathname as _usePathname } from 'expo-router'
 import RouterContext from '../RouterContext.js'
 
@@ -14,17 +14,19 @@ const DEFAULT_USE_PARENT = true
 export default function useRouter () {
   const startupjsRouter = useContext(RouterContext)
   const basename = (!DEFAULT_USE_PARENT && startupjsRouter?.basename) || '/'
+  const pathnameRef = useRef(null)
   const pathname = _usePathname()
+  if (pathnameRef.current !== pathname) pathnameRef.current = pathname
   const contextAwareRouter = useMemo(() => {
     return {
       basename,
       replace (url, ...args) {
         if (!escapeToParent(basename, url) && startupjsRouter) startupjsRouter.replace(url, ...args)
-        else router.replace(normalizeUrl(url, pathname), ...args)
+        else router.replace(normalizeUrl(url, pathnameRef.current), ...args)
       },
       push (url, ...args) {
         if (!escapeToParent(basename, url) && startupjsRouter) startupjsRouter.push(url, ...args)
-        else router.push(normalizeUrl(url, pathname), ...args)
+        else router.push(normalizeUrl(url, pathnameRef.current), ...args)
       },
       back () {
         if (!DEFAULT_USE_PARENT && startupjsRouter) startupjsRouter.back()
@@ -33,7 +35,7 @@ export default function useRouter () {
       // on expo-router `navigate` automatically decides to use push or replace
       navigate (url, ...args) {
         if (!escapeToParent(basename, url) && startupjsRouter) startupjsRouter.navigate(url, ...args)
-        else router.navigate(normalizeUrl(url, pathname), ...args)
+        else router.navigate(normalizeUrl(url, pathnameRef.current), ...args)
       },
       canGoBack () {
         if (!DEFAULT_USE_PARENT && startupjsRouter) return startupjsRouter.canGoBack()

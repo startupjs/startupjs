@@ -92,7 +92,7 @@ export default async function login (
     await setSessionData(session, { silent: true })
     console.log('Auth success:', session)
     await new Promise(resolve => setTimeout(resolve, 500))
-    try { await reload(redirectUrl) } catch (err) {}
+    try { await reload(redirectUrl) } catch {}
   } else {
     console.error('Auth failed:', result)
   }
@@ -176,6 +176,6 @@ async function hardRedirect (redirectUrl) {
     await new Promise(resolve => setTimeout(resolve, 30000))
   } else {
     await new Promise(resolve => setTimeout(resolve, 500))
-    try { await reload(redirectUrl) } catch (err) {}
+    try { await reload(redirectUrl) } catch {}
   }
 }
