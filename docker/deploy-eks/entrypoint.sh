@@ -337,14 +337,14 @@ update_deployments () {
     if [ -n "$FEATURE_WILDCARD" ]
     then
       # FEATURE_SHARED=1 switches to the cluster-wide wildcard cert
-      # (`features-tls` Secret in `default`, provisioned by terraform via
+      # (`features-cert` Secret in `default`, provisioned by terraform via
       # var.features_cert_crt/key) and the `<app>--<branch>.${FEATURE_DOMAIN}`
       # host shape. Without it, behavior is unchanged: per-app
       # `${APP}-features-cert` Secret and `${FEATURE}.${FEATURE_DOMAIN}` host.
       if [ -n "$FEATURE_SHARED" ]
       then
         _HOST="${APP}--${FEATURE}.${FEATURE_DOMAIN}"
-        _SECRET="features-tls"
+        _SECRET="features-cert"
       else
         _HOST="${FEATURE}.${FEATURE_DOMAIN}"
         _SECRET="${APP}-features-cert"
