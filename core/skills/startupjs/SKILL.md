@@ -13,6 +13,8 @@ Use this skill when working inside a StartupJS app or when creating app code tha
 
 Read [references/AGENTS.md](references/AGENTS.md) before making non-trivial StartupJS app changes. This file is the canonical agent guide copied into newly generated StartupJS projects as root `AGENTS.md`.
 
+Read [references/E2E_GUIDE.md](references/E2E_GUIDE.md) before adding or changing Playwright end-to-end tests. This file is copied into newly generated StartupJS projects as root `E2E_GUIDE.md`.
+
 ## Core Rules
 
 - Write app code in TypeScript unless the framework specifically requires JavaScript, such as `startupjs.config.js`.

@@ -18,8 +18,8 @@ const INIT_JSON_PATH = join(__dirname, './init/package.json')
 const INIT_METRO_CONFIG_PATH = join(__dirname, './init/metro.config.cjs')
 const INIT_GITIGNORE_PATH = join(__dirname, './init/gitignore')
 const INIT_STARTUPJS_CONFIG_PATH = join(__dirname, './init/startupjs.config.js')
-const INIT_AGENTS_MD_PATH = getStartupjsAgentsMdPath()
-const INIT_E2E_GUIDE_MD_PATH = join(__dirname, './init/E2E_GUIDE.md')
+const INIT_AGENTS_MD_PATH = getStartupjsReferencePath('AGENTS.md')
+const INIT_E2E_GUIDE_MD_PATH = getStartupjsReferencePath('E2E_GUIDE.md')
 const INIT_CLAUDE_MD_PATH = join(__dirname, './init/CLAUDE.md')
 const INIT_ESLINT_CONFIG_PATH = join(__dirname, './init/eslint.config.mjs')
 const INIT_BABEL_CONFIG_PATH = join(__dirname, './init/babel.config.cjs')
@@ -33,11 +33,11 @@ const ROUTER_JSON_PATH = join(__dirname, './router/package.json')
 
 const GITIGNORE_MARKER = '@generated startupjs'
 
-function getStartupjsAgentsMdPath () {
+function getStartupjsReferencePath (filename) {
   try {
-    return join(dirname(require.resolve('@startupjs/skills/package.json')), 'startupjs/references/AGENTS.md')
+    return join(dirname(require.resolve('@startupjs/skills/package.json')), 'startupjs/references', filename)
   } catch {
-    return join(__dirname, '../../skills/startupjs/references/AGENTS.md')
+    return join(__dirname, '../../skills/startupjs/references', filename)
   }
 }
 
