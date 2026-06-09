@@ -3,8 +3,6 @@
   "command": {
     "publish": {
       "ignoreChanges": [
-        "*.md",
-        "!core/skills/**/*.md",
         "*.txt",
         "test/**"
       ]
