@@ -1,3 +1,12 @@
+# [0.63.0-alpha.7](https://github.com/startupjs/startupjs/compare/v0.63.0-alpha.6...v0.63.0-alpha.7) (2026-06-09)
+
+
+### Bug Fixes
+
+* **skills:** track .md files ([5e2c417](https://github.com/startupjs/startupjs/commit/5e2c417ccacf668e42ed6c43b8a33d0f412c7446))
+
+
+
 # [0.63.0-alpha.6](https://github.com/startupjs/startupjs/compare/v0.63.0-alpha.5...v0.63.0-alpha.6) (2026-05-27)
 
 
