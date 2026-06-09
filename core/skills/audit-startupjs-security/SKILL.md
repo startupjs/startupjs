@@ -57,7 +57,7 @@ Read [references/report-template.md](references/report-template.md) before writi
 - Recommended Fix Plan
 - Validation
 
-Do not collapse the StartupJS-specific or generic review into findings only. If a section has no issues, say what was checked and what residual risk remains. Only omit empty severity groups inside Findings.
+Do not collapse the StartupJS-specific or generic review into findings only. If a section has no issues, say what was checked and what residual risk remains. Only omit empty severity groups inside Findings
 
 ## Read-Only Discovery Commands
 
