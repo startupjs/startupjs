@@ -7214,7 +7214,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/worker@npm:^0.62.0, @startupjs/worker@workspace:core/worker":
+"@startupjs/worker@npm:^0.62.2, @startupjs/worker@workspace:core/worker":
   version: 0.0.0-use.local
   resolution: "@startupjs/worker@workspace:core/worker"
   dependencies:
@@ -13751,7 +13751,7 @@ __metadata:
     "@react-navigation/native": "npm:^7.1.6"
     "@startupjs-ui/mdx": "npm:^0.2.0"
     "@startupjs/router": "npm:^0.62.0"
-    "@startupjs/worker": "npm:^0.62.0"
+    "@startupjs/worker": "npm:^0.62.2"
     "@types/react": "npm:~19.2.10"
     eslint-config-expo: "npm:^55.0.0"
     expo: "npm:~55.0.11"
