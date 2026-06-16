@@ -48,6 +48,132 @@ import runJob from '@startupjs/worker'
 const result = await runJob('sendWelcomeEmail', { userId: 'u1' })
 ```
 
+## Fire-and-forget jobs
+
+Use `enqueueJob()` when the request should return immediately and another part
+of your app will track the job status.
+
+```js
+import { enqueueJob } from '@startupjs/worker'
+
+const jobRef = await enqueueJob('sendWelcomeEmail', { userId: 'u1' })
+```
+
+`jobRef` is serializable:
+
+```js
+{
+  id: '123',
+  worker: 'default',
+  name: 'sendWelcomeEmail'
+}
+```
+
+You can wait for it later:
+
+```js
+import { waitJob } from '@startupjs/worker'
+
+const result = await waitJob(jobRef)
+```
+
+`runJob(name, data, options)` is still available and still waits for completion.
+Internally it is equivalent to `enqueueJob()` followed by `waitJob()`.
+
+## Job status, logs and counts
+
+```js
+import {
+  getJobLogs,
+  getJobStatus,
+  getJobsCount,
+  queryJobs
+} from '@startupjs/worker'
+
+const status = await getJobStatus(jobRef)
+const logs = await getJobLogs(jobRef)
+
+const activeCount = await getJobsCount({
+  trackingKey: `course:${courseId}:voiceovers`,
+  states: ['waiting', 'delayed', 'active']
+})
+
+const jobs = await queryJobs({
+  trackingKey: `course:${courseId}:voiceovers`,
+  states: ['failed'],
+  limit: 20
+})
+```
+
+Use `trackingKey` when you need to query jobs by domain entity. Without a
+`trackingKey`, BullMQ can count jobs by queue state, but it can not efficiently
+answer domain queries like "active voiceover jobs for this course".
+`getJobsCount({ name })` also requires `trackingKey`; otherwise the result would
+be a capped scan instead of an exact count.
+
+```js
+await enqueueJob('generateCourseVoiceovers', { courseId }, {
+  trackingKey: `course:${courseId}:voiceovers`
+})
+```
+
+## Delayed jobs
+
+```js
+await enqueueJob('sendReminder', { userId }, {
+  delay: 60_000
+})
+
+await enqueueJob('sendReminder', { userId }, {
+  startAt: Date.now() + 60_000
+})
+```
+
+Use either `delay` or `startAt`, not both.
+
+## Per-call singleton and queue selection
+
+Job files can still export `singleton`, but you can also set it per enqueue call:
+
+```js
+await enqueueJob('rebuildUserFeed', { userId }, {
+  singleton: { key: userId }
+})
+```
+
+You can override the queue at runtime:
+
+```js
+await enqueueJob('sendOtp', { userId }, {
+  worker: 'priority'
+})
+```
+
+## Debounce and throttle
+
+Basic debounce and leading throttle are exposed through a package-level API and
+implemented with BullMQ deduplication.
+
+```js
+await enqueueJob('rebuildSearchIndex', { entityId }, {
+  debounce: {
+    key: entityId,
+    delay: 3000
+  }
+})
+
+await enqueueJob('recalculateStats', { lessonId }, {
+  throttle: {
+    key: lessonId,
+    ttl: 3000
+  }
+})
+```
+
+`throttle.trailing` is not supported yet.
+For debounce, `debounce.delay` is also used as the BullMQ job delay, so do not
+pass a separate `delay` or `startAt` option.
+
 ## Production Deployment (Important)
 
 Default behavior:
@@ -213,6 +339,11 @@ Your handler receives:
 - `log.warn(message, { data, err })`
 - `log.error(message, { data, err })`
 - `job` (raw queue job object)
+- `jobRef` (serializable job reference)
+- `progress(value)` (updates BullMQ job progress)
+- `enqueueJob(name, data, options)`
+- `waitJob(jobRef, options)`
+- `getJobStatus(jobRef)`
 
 Use `log(...)` instead of `console.log(...)` when you want logs visible in the queue dashboard.
 
@@ -353,7 +484,9 @@ export default {
         autoStart: true,
         autoStartProduction: true,
         concurrency: 300,
+        ensureBackend: true,
         jobTimeout: 30000,
+        queuePrefix: undefined,
         useSeparateProcess: false,
         useWorkerThreads: true,
         dashboard: {
@@ -370,7 +503,9 @@ Option meanings:
 - `autoStart` (`true` by default): auto-initialize workers on server startup.
 - `autoStartProduction` (`true` by default): if `false`, workers do not auto-start when `NODE_ENV=production`.
 - `concurrency` (`300`): per-worker concurrency.
+- `ensureBackend` (`true`): initialize StartupJS backend before running a job. Set to `false` only for pure BullMQ jobs/tests that do not use model/backend APIs.
 - `jobTimeout` (`30000` ms): default timeout for jobs.
+- `queuePrefix` (`redisPrefix`): BullMQ Redis key prefix. Mostly useful for isolated tests or dedicated deployments.
 - `useSeparateProcess` (`false`): execute job handlers in sandboxed child runner.
 - `useWorkerThreads` (`true`): when sandbox is on, use worker threads.
 - `dashboard`: queue UI settings. Provide `route` to enable the dashboard route.
@@ -414,12 +549,21 @@ If you split only in production, set `autoStartProduction: false` so dev/stage b
 ## Public Exports
 
 ```js
-import runJob from '@startupjs/worker'
+import runJob, {
+  cancelJob,
+  enqueueJob,
+  getJobLogs,
+  getJobStatus,
+  getJobsCount,
+  queryJobs,
+  waitJob
+} from '@startupjs/worker'
 import initWorker from '@startupjs/worker/init'
 import '@startupjs/worker/plugin'
 ```
 
 - `@startupjs/worker`: `runJob(name, data?, options?)`
+- `@startupjs/worker`: named job helpers listed above
 - `@startupjs/worker/init`: `initWorker(options?)`
 - `@startupjs/worker/plugin`: StartupJS plugin export used by plugin registry
 

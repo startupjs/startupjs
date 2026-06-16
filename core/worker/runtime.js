@@ -17,9 +17,11 @@ export const AVAILABLE_WORKERS = Object.freeze(['default', 'priority'])
 
 const DEFAULT_OPTIONS = {
   concurrency: 300,
+  ensureBackend: true,
   useSeparateProcess: false,
   useWorkerThreads: true,
-  jobTimeout: 30000
+  jobTimeout: 30000,
+  queuePrefix: redisPrefix
 }
 
 const DEFAULT_JOB_OPTIONS = {
@@ -29,6 +31,7 @@ const DEFAULT_JOB_OPTIONS = {
 
 const queues = new Map()
 const queueEvents = new Map()
+const redisConnections = new Set()
 
 let backendInitPromise
 let jobsPromise
@@ -47,6 +50,7 @@ export function getRuntimeOptions (override = {}) {
 
   return {
     concurrency: toNumber(mergedOptions.concurrency, DEFAULT_OPTIONS.concurrency),
+    ensureBackend: toBoolean(mergedOptions.ensureBackend, DEFAULT_OPTIONS.ensureBackend),
     useSeparateProcess: toBoolean(
       mergedOptions.useSeparateProcess,
       DEFAULT_OPTIONS.useSeparateProcess
@@ -55,7 +59,8 @@ export function getRuntimeOptions (override = {}) {
       mergedOptions.useWorkerThreads,
       DEFAULT_OPTIONS.useWorkerThreads
     ),
-    jobTimeout: toNumber(mergedOptions.jobTimeout, DEFAULT_OPTIONS.jobTimeout)
+    jobTimeout: toNumber(mergedOptions.jobTimeout, DEFAULT_OPTIONS.jobTimeout),
+    queuePrefix: normalizeQueuePrefix(mergedOptions.queuePrefix, DEFAULT_OPTIONS.queuePrefix)
   }
 }
 
@@ -89,33 +94,37 @@ export function getWorkersToStart (workers) {
 
 export function getQueue (queueName) {
   validateWorkerName(queueName)
+  const queuePrefix = getRuntimeOptions().queuePrefix
+  const queueKey = `${queuePrefix}:${queueName}`
 
-  if (!queues.has(queueName)) {
-    queues.set(queueName, new Queue(queueName, {
-      prefix: redisPrefix,
+  if (!queues.has(queueKey)) {
+    queues.set(queueKey, new Queue(queueName, {
+      prefix: queuePrefix,
       connection: createQueueConnection()
     }))
   }
 
-  return queues.get(queueName)
+  return queues.get(queueKey)
 }
 
 export function getQueueEvents (queueName) {
   validateWorkerName(queueName)
+  const queuePrefix = getRuntimeOptions().queuePrefix
+  const queueKey = `${queuePrefix}:${queueName}`
 
-  if (!queueEvents.has(queueName)) {
+  if (!queueEvents.has(queueKey)) {
     const queueEventsInstance = new QueueEvents(queueName, {
-      prefix: redisPrefix,
+      prefix: queuePrefix,
       connection: createQueueConnection()
     })
 
     // Multiple concurrent runJob().waitUntilFinished() calls attach listeners to
     // the same QueueEvents instance, which can exceed Node's default of 10.
     queueEventsInstance.setMaxListeners(0)
-    queueEvents.set(queueName, queueEventsInstance)
+    queueEvents.set(queueKey, queueEventsInstance)
   }
 
-  return queueEvents.get(queueName)
+  return queueEvents.get(queueKey)
 }
 
 export function getQueueJobOptions () {
@@ -136,10 +145,15 @@ export async function closeRuntimeResources () {
     ...queuesToClose.map(queue => queue.close()),
     ...queueEventsToClose.map(events => events.close())
   ])
+
+  const connectionsToClose = Array.from(redisConnections.values())
+  redisConnections.clear()
+
+  await Promise.allSettled(connectionsToClose.map(closeRedisConnection))
 }
 
 export function getWorkerConnection () {
-  return getRedis({
+  return createRedisConnection({
     ...getRedisOptions({ addPrefix: false }),
     maxRetriesPerRequest: null
   })
@@ -170,10 +184,22 @@ export async function getJobsMap ({ refresh = false } = {}) {
 }
 
 function createQueueConnection () {
-  return getRedis({
+  return createRedisConnection({
     ...getRedisOptions({ addPrefix: false }),
     maxRetriesPerRequest: null,
     enableOfflineQueue: false
+  })
+}
+
+function createRedisConnection (options) {
+  const connection = getRedis(options)
+  redisConnections.add(connection)
+  return connection
+}
+
+async function closeRedisConnection (connection) {
+  await connection.quit().catch(() => {
+    connection.disconnect()
   })
 }
 
@@ -335,4 +361,11 @@ function toNumber (value, defaultValue) {
   if (value == null) return defaultValue
   const normalizedValue = Number(value)
   return Number.isFinite(normalizedValue) ? normalizedValue : defaultValue
+}
+
+function normalizeQueuePrefix (value, defaultValue) {
+  if (value == null || value === '') return defaultValue
+
+  const normalizedValue = String(value).trim()
+  return normalizedValue || defaultValue
 }
