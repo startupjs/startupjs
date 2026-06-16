@@ -28,6 +28,7 @@ const defaultOptions = {
 }
 
 let backendInitialized = false
+let currentBackend
 
 export default async function startServer (options) {
   const props = await createServer(options)
@@ -43,6 +44,7 @@ export async function createServer (options = {}) {
   const { default: createServer } = await import('./server/createServer.js')
   options = transformOptions(options)
   const backend = _createBackend({ ...options, models: MODULE.models })
+  currentBackend = backend
   MODULE.hook('backend', backend)
   const sessionRef = {}
   if (!options.enableOAuth2) sessionRef.session = _createSession(options)
@@ -57,6 +59,7 @@ export async function createMiddleware (options = {}) {
   const { default: createMiddleware } = await import('./server/createMiddleware.js')
   options = transformOptions(options)
   const backend = _createBackend({ ...options, models: MODULE.models })
+  currentBackend = backend
   MODULE.hook('backend', backend)
   const sessionRef = {}
   if (!options.enableOAuth2) sessionRef.session = _createSession(options)
@@ -70,6 +73,7 @@ export async function createMiddleware (options = {}) {
 export function createBackend (options = {}) {
   options = transformOptions(options)
   const backend = _createBackend({ ...options, models: MODULE.models })
+  currentBackend = backend
   MODULE.hook('backend', backend)
   _initConnection(backend, { fetchOnly: FETCH_ONLY })
   markBackendInitialized()
@@ -78,6 +82,14 @@ export function createBackend (options = {}) {
 
 export function isBackendInitialized () {
   return backendInitialized
+}
+
+export function getBackend () {
+  if (currentBackend) return currentBackend
+
+  throw new Error(
+    '[startupjs/server] Backend is not initialized. Call createServer(), createMiddleware() or createBackend() first.'
+  )
 }
 
 function transformOptions (options = {}) {

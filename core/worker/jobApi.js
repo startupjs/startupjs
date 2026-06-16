@@ -1,9 +1,11 @@
+import { randomUUID } from 'node:crypto'
 import {
   AVAILABLE_WORKERS,
   getJobsMap,
   getQueue,
   getQueueEvents,
-  getRuntimeOptions
+  getRuntimeOptions,
+  emitWorkerEvent
 } from './runtime.js'
 import {
   buildEnqueueConfig,
@@ -15,6 +17,7 @@ import {
 import { createJobRef, normalizeJobRef } from './jobRef.js'
 import { createJobFailedError, serializeJobStatus } from './jobStatus.js'
 import { getTrackedJobRefs, trackJob, untrackJobRef } from './tracking.js'
+import { attachThrottleLeadingJob, resolveThrottleTrailing } from './throttle.js'
 
 export async function enqueueJob (name, data = {}, options = {}) {
   return await enqueueJobInternal(name, data, options, 'enqueueJob')
@@ -32,7 +35,8 @@ export async function enqueueJobInternal (name, data = {}, options = {}, caller 
     worker,
     payload,
     jobOptions,
-    trackingKey
+    trackingKey,
+    deduplication
   } = await buildEnqueueConfig({
     name,
     data,
@@ -43,13 +47,93 @@ export async function enqueueJobInternal (name, data = {}, options = {}, caller 
   })
 
   const queue = getQueue(worker)
+  const returnMeta = Boolean(options.returnMeta)
+  let effectiveDeduplication = deduplication
+  let throttleDecision
+  let throttleClient
+
+  if (deduplication?.trailing) {
+    throttleClient = await queue.client
+    throttleDecision = await resolveThrottleTrailing({
+      client: throttleClient,
+      deduplication
+    })
+
+    if (throttleDecision.action === 'trailing') {
+      const delay = Math.max(0, throttleDecision.delay)
+
+      jobOptions.delay = delay
+      jobOptions.deduplication = {
+        ...(jobOptions.deduplication || {}),
+        id: deduplication.trailingId,
+        ttl: Math.max(delay, 1),
+        extend: true,
+        replace: true
+      }
+      effectiveDeduplication = {
+        ...deduplication,
+        id: deduplication.trailingId,
+        deduped: true,
+        createsJobOnDuplicate: true
+      }
+    } else {
+      effectiveDeduplication = undefined
+    }
+  }
+
+  const needsDuplicateDetection = Boolean(
+    effectiveDeduplication?.id &&
+    (
+      returnMeta ||
+      effectiveDeduplication.deduped ||
+      effectiveDeduplication.policy === 'skip' ||
+      effectiveDeduplication.policy === 'throw'
+    )
+  )
+  const previousDeduplicatedJobId = needsDuplicateDetection
+    ? await getDeduplicationJobId(queue, effectiveDeduplication.id)
+    : undefined
+  let candidateJobId
+
+  if (needsDuplicateDetection && jobOptions.jobId == null) {
+    candidateJobId = createCandidateJobId()
+    jobOptions.jobId = candidateJobId
+  } else if (jobOptions.jobId != null) {
+    candidateJobId = String(jobOptions.jobId)
+  }
+
   const job = await queue.add(name, payload, jobOptions)
   const ref = {
     ...createJobRef(job, worker),
     name
   }
+  const enqueueResult = createEnqueueResult({
+    ref,
+    deduplication: effectiveDeduplication,
+    candidateJobId,
+    previousDeduplicatedJobId
+  })
 
-  if (trackingKey) {
+  if (throttleDecision?.action === 'leading') {
+    await attachThrottleLeadingJob({
+      client: throttleClient,
+      lockKey: throttleDecision.lockKey,
+      ref
+    })
+  }
+
+  if (enqueueResult.deduped && enqueueResult.policy === 'throw') {
+    await emitWorkerEvent('deduped', createEnqueueEvent({
+      enqueueResult,
+      name,
+      worker,
+      payload,
+      job
+    }))
+    throw createDuplicateJobError(enqueueResult)
+  }
+
+  if (trackingKey && shouldTrackEnqueueResult(enqueueResult)) {
     try {
       await trackJob({ ref, name, trackingKey })
     } catch (error) {
@@ -57,6 +141,27 @@ export async function enqueueJobInternal (name, data = {}, options = {}, caller 
     }
   }
 
+  if (enqueueResult.deduped) {
+    await emitWorkerEvent('deduped', createEnqueueEvent({
+      enqueueResult,
+      name,
+      worker,
+      payload,
+      job
+    }))
+  }
+
+  if (enqueueResult.created && !enqueueResult.skipped) {
+    await emitWorkerEvent('queued', createEnqueueEvent({
+      enqueueResult,
+      name,
+      worker,
+      payload,
+      job
+    }))
+  }
+
+  if (returnMeta) return enqueueResult
   return ref
 }
 
@@ -246,6 +351,105 @@ async function createJobTrackingError ({ error, ref, job, jobOptions }) {
 
 function canRollbackTrackingFailure (jobOptions) {
   return !jobOptions.deduplication && jobOptions.jobId == null
+}
+
+async function getDeduplicationJobId (queue, deduplicationId) {
+  const client = await queue.client
+  return await client.get(`${queue.keys.de}:${deduplicationId}`)
+}
+
+function createCandidateJobId () {
+  return `meta-${randomUUID()}`
+}
+
+function createEnqueueResult ({
+  ref,
+  deduplication,
+  candidateJobId,
+  previousDeduplicatedJobId
+}) {
+  const matchedCandidate = candidateJobId && ref.id === candidateJobId
+  const returnedExistingJob = Boolean(candidateJobId && !matchedCandidate)
+  const replaced = Boolean(
+    deduplication &&
+    matchedCandidate &&
+    previousDeduplicatedJobId &&
+    (
+      deduplication.policy === 'replace' ||
+      deduplication.policy === 'trailing'
+    )
+  )
+  const hasDetectedDuplicate = Boolean(
+    deduplication &&
+    (
+      deduplication.deduped ||
+      replaced ||
+      returnedExistingJob
+    )
+  )
+  const created = !hasDetectedDuplicate || replaced || Boolean(
+    deduplication?.createsJobOnDuplicate && matchedCandidate
+  )
+  const skipped = hasDetectedDuplicate && deduplication.policy === 'skip'
+  const duplicateOfId = previousDeduplicatedJobId || (returnedExistingJob ? ref.id : undefined)
+  const duplicateOf = duplicateOfId
+    ? {
+        ...ref,
+        id: duplicateOfId
+      }
+    : null
+
+  return {
+    ref,
+    created,
+    deduped: hasDetectedDuplicate,
+    skipped,
+    replaced,
+    reason: hasDetectedDuplicate ? deduplication.reason : null,
+    policy: deduplication?.policy || 'created',
+    duplicateOf
+  }
+}
+
+function shouldTrackEnqueueResult (enqueueResult) {
+  return !enqueueResult.skipped
+}
+
+function createDuplicateJobError (enqueueResult) {
+  const error = new Error(
+    `[@startupjs/worker] enqueueJob: duplicate ${enqueueResult.reason || 'job'} job`
+  )
+  error.name = 'DuplicateJobError'
+  error.jobRef = enqueueResult.ref
+  error.reason = enqueueResult.reason
+  error.policy = enqueueResult.policy
+  error.duplicateOf = enqueueResult.duplicateOf
+  return error
+}
+
+function createEnqueueEvent ({
+  enqueueResult,
+  name,
+  worker,
+  payload,
+  job
+}) {
+  return {
+    ref: enqueueResult.ref,
+    name,
+    worker,
+    data: payload.data,
+    meta: payload.meta,
+    state: enqueueResult.created ? 'queued' : 'deduped',
+    reason: enqueueResult.reason,
+    policy: enqueueResult.policy,
+    created: enqueueResult.created,
+    deduped: enqueueResult.deduped,
+    skipped: enqueueResult.skipped,
+    replaced: enqueueResult.replaced,
+    duplicateOf: enqueueResult.duplicateOf,
+    job
+  }
 }
 
 async function queryTrackedJobs ({ trackingKey, name, worker, states, limit }) {

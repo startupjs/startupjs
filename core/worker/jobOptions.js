@@ -6,6 +6,17 @@ const DEFAULT_ACTIVE_STATES = Object.freeze([
   'waiting-children'
 ])
 
+const DEFAULT_DUPLICATE_POLICY = 'return-existing'
+const DUPLICATE_POLICIES = Object.freeze([
+  DEFAULT_DUPLICATE_POLICY,
+  'skip',
+  'throw'
+])
+const DEBOUNCE_DUPLICATE_POLICIES = Object.freeze([
+  ...DUPLICATE_POLICIES,
+  'replace'
+])
+
 export function validateJobName (name, caller) {
   if (typeof name !== 'string' || !name.trim()) {
     throw new Error(`[@startupjs/worker] ${caller}: "name" must be a non-empty string`)
@@ -68,9 +79,11 @@ export async function buildEnqueueConfig ({
       jobOptions.delay = deduplicationConfig.delay
     }
 
-    jobOptions.deduplication = {
-      ...(jobOptions.deduplication || {}),
-      ...deduplicationConfig.options
+    if (deduplicationConfig.options) {
+      jobOptions.deduplication = {
+        ...(jobOptions.deduplication || {}),
+        ...deduplicationConfig.options
+      }
     }
   }
 
@@ -78,7 +91,8 @@ export async function buildEnqueueConfig ({
     worker,
     payload,
     jobOptions,
-    trackingKey
+    trackingKey,
+    deduplication: deduplicationConfig?.meta
   }
 }
 
@@ -178,17 +192,21 @@ async function resolveDeduplication ({
   }
 
   if (options.throttle) {
-    return {
-      options: resolveThrottleDeduplication({ name, worker, throttle: options.throttle, caller })
-    }
+    return resolveThrottleDeduplication({ name, worker, throttle: options.throttle, caller })
   }
 
   const singleton = options.singleton ?? jobDefinition.singleton
   const singletonId = await getSingletonDeduplicationId({ singleton, name, worker }, data, caller)
   if (!singletonId) return
+  const policy = getSingletonDuplicatePolicy(singleton, caller)
 
   return {
-    options: { id: singletonId }
+    options: { id: singletonId },
+    meta: {
+      id: singletonId,
+      reason: 'singleton',
+      policy
+    }
   }
 }
 
@@ -223,6 +241,13 @@ export async function getSingletonDeduplicationId (jobDefinition, data, caller =
   return `singleton:${worker}:${name}:${hash}`
 }
 
+function getSingletonDuplicatePolicy (singleton, caller) {
+  if (singleton && typeof singleton === 'object') {
+    return normalizeDuplicatePolicy(singleton.onDuplicate, caller)
+  }
+  return DEFAULT_DUPLICATE_POLICY
+}
+
 function resolveDebounceDeduplication ({ name, worker, debounce, caller }) {
   if (!debounce || typeof debounce !== 'object') {
     throw new Error(`[@startupjs/worker] ${caller}: debounce must be an object`)
@@ -230,6 +255,12 @@ function resolveDebounceDeduplication ({ name, worker, debounce, caller }) {
 
   const key = normalizeRequiredKey(debounce.key, 'debounce.key', caller)
   const delay = normalizeDelay(debounce.delay ?? debounce.ttl, caller)
+  const policy = normalizeDuplicatePolicy(
+    debounce.onDuplicate ?? (debounce.replace === false ? DEFAULT_DUPLICATE_POLICY : 'replace'),
+    caller,
+    DEBOUNCE_DUPLICATE_POLICIES
+  )
+  const replace = policy === 'replace'
 
   return {
     delay,
@@ -237,7 +268,12 @@ function resolveDebounceDeduplication ({ name, worker, debounce, caller }) {
       id: `debounce:${worker}:${name}:${key}`,
       ttl: delay,
       extend: debounce.extend ?? true,
-      replace: debounce.replace ?? true
+      replace
+    },
+    meta: {
+      id: `debounce:${worker}:${name}:${key}`,
+      reason: 'debounce',
+      policy
     }
   }
 }
@@ -247,18 +283,35 @@ function resolveThrottleDeduplication ({ name, worker, throttle, caller }) {
     throw new Error(`[@startupjs/worker] ${caller}: throttle must be an object`)
   }
 
+  const key = normalizeRequiredKey(throttle.key, 'throttle.key', caller)
+  const ttl = normalizePositiveDelay(throttle.ttl, 'throttle.ttl', caller)
+  const policy = normalizeDuplicatePolicy(throttle.onDuplicate, caller)
+  const id = `throttle:${worker}:${name}:${key}`
+
   if (throttle.trailing) {
-    throw new Error(
-      `[@startupjs/worker] ${caller}: throttle.trailing is not supported yet`
-    )
+    return {
+      meta: {
+        id,
+        trailingId: `throttle-trailing:${worker}:${name}:${key}`,
+        reason: 'throttle',
+        policy: 'trailing',
+        trailing: true,
+        key,
+        ttl
+      }
+    }
   }
 
-  const key = normalizeRequiredKey(throttle.key, 'throttle.key', caller)
-  const ttl = normalizeDelay(throttle.ttl, caller)
-
   return {
-    id: `throttle:${worker}:${name}:${key}`,
-    ttl
+    options: {
+      id,
+      ttl
+    },
+    meta: {
+      id,
+      reason: 'throttle',
+      policy
+    }
   }
 }
 
@@ -268,6 +321,26 @@ function normalizeRequiredKey (value, label, caller) {
     throw new Error(`[@startupjs/worker] ${caller}: ${label} is required`)
   }
   return key
+}
+
+function normalizePositiveDelay (value, label, caller) {
+  const normalizedDelay = normalizeDelay(value, caller)
+  if (normalizedDelay > 0) return normalizedDelay
+
+  throw new Error(`[@startupjs/worker] ${caller}: ${label} must be a positive number`)
+}
+
+function normalizeDuplicatePolicy (
+  policy = DEFAULT_DUPLICATE_POLICY,
+  caller,
+  allowedPolicies = DUPLICATE_POLICIES
+) {
+  if (policy == null) return DEFAULT_DUPLICATE_POLICY
+  if (allowedPolicies.includes(policy)) return policy
+
+  throw new Error(
+    `[@startupjs/worker] ${caller}: onDuplicate must be one of: ${allowedPolicies.join(', ')}`
+  )
 }
 
 function stableStringify (value) {

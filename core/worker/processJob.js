@@ -1,5 +1,11 @@
 import { isBackendInitialized } from 'startupjs/server'
-import { ensureBackendReady, getJobsMap, getRuntimeOptions } from './runtime.js'
+import {
+  createWorkerModel,
+  ensureBackendReady,
+  getJobsMap,
+  getRuntimeOptions,
+  getWorkerBackend
+} from './runtime.js'
 import { createJobRef } from './jobRef.js'
 import { enqueueJob, getJobStatus, waitJob } from './jobApi.js'
 
@@ -44,10 +50,14 @@ export default async function processJob (job) {
   }
 
   try {
-    return await runWithTimeout({
+    const result = await runWithTimeout({
       timeout,
       type,
       execute: () => Promise.resolve(jobDefinition.handler(data, {
+        get backend () {
+          return getWorkerBackend()
+        },
+        createModel: () => createWorkerModel(),
         log,
         job,
         jobRef,
@@ -57,6 +67,7 @@ export default async function processJob (job) {
         getJobStatus
       }))
     })
+    return result
   } catch (error) {
     await writeJobLog(job, `[${type}] ${formatError(error)}`, 'error')
 
