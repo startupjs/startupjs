@@ -1,4 +1,3 @@
-import { redisPrefix } from 'startupjs/server'
 import { Worker } from 'bullmq'
 import { fileURLToPath } from 'url'
 import {
@@ -37,8 +36,11 @@ export default async function init (options = {}) {
   }
 }
 
-export async function closeWorkers () {
-  await gracefulShutdown(0, { exitProcess: false })
+export async function closeWorkers (options = {}) {
+  await gracefulShutdown(0, {
+    exitProcess: false,
+    force: Boolean(options.force)
+  })
 }
 
 function startWorker (workerName, runtimeOptions) {
@@ -48,7 +50,7 @@ function startWorker (workerName, runtimeOptions) {
     workerName,
     runtimeOptions.useSeparateProcess ? PROCESS_JOB_PATH : processJob,
     {
-      prefix: redisPrefix,
+      prefix: runtimeOptions.queuePrefix,
       connection: getWorkerConnection(),
       concurrency: runtimeOptions.concurrency,
       useWorkerThreads: runtimeOptions.useSeparateProcess && runtimeOptions.useWorkerThreads,
@@ -110,7 +112,7 @@ function attachShutdownHandlers () {
   })
 }
 
-async function gracefulShutdown (exitCode = 0, { exitProcess = true } = {}) {
+async function gracefulShutdown (exitCode = 0, { exitProcess = true, force = false } = {}) {
   if (shutdownPromise) return shutdownPromise
 
   shutdownPromise = (async () => {
@@ -127,7 +129,7 @@ async function gracefulShutdown (exitCode = 0, { exitProcess = true } = {}) {
     }
 
     try {
-      await Promise.allSettled(workers.map(worker => worker.close()))
+      await Promise.allSettled(workers.map(worker => worker.close(force)))
       activeWorkers.clear()
       await closeRuntimeResources()
     } finally {

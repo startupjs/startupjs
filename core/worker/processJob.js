@@ -1,5 +1,7 @@
 import { isBackendInitialized } from 'startupjs/server'
 import { ensureBackendReady, getJobsMap, getRuntimeOptions } from './runtime.js'
+import { createJobRef } from './jobRef.js'
+import { enqueueJob, getJobStatus, waitJob } from './jobApi.js'
 
 export default async function processJob (job) {
   const payload = job.data || {}
@@ -20,20 +22,40 @@ export default async function processJob (job) {
     throw new Error(message)
   }
 
-  const { useSeparateProcess, jobTimeout: defaultTimeout } = getRuntimeOptions()
-  if (useSeparateProcess || !isBackendInitialized()) {
+  const {
+    ensureBackend,
+    useSeparateProcess,
+    jobTimeout: defaultTimeout
+  } = getRuntimeOptions()
+  if (ensureBackend && (useSeparateProcess || !isBackendInitialized())) {
     await ensureBackendReady()
   }
 
   const timeout = toNumber(payload.timeout, defaultTimeout)
   const data = payload.data
+  const worker = payload.meta?.worker || job.queueName || jobDefinition.worker
+  const jobRef = {
+    ...createJobRef(job, worker),
+    name: type
+  }
   const log = createJobLog(job)
+  const progress = async value => {
+    await job.updateProgress(value)
+  }
 
   try {
     return await runWithTimeout({
       timeout,
       type,
-      execute: () => Promise.resolve(jobDefinition.handler(data, { log, job }))
+      execute: () => Promise.resolve(jobDefinition.handler(data, {
+        log,
+        job,
+        jobRef,
+        progress,
+        enqueueJob,
+        waitJob,
+        getJobStatus
+      }))
     })
   } catch (error) {
     await writeJobLog(job, `[${type}] ${formatError(error)}`, 'error')
@@ -74,14 +96,21 @@ async function runWithTimeout ({ timeout, type, execute }) {
     return await execute()
   }
 
-  return await Promise.race([
-    execute(),
-    new Promise((resolve, reject) => {
-      setTimeout(() => {
-        reject(new JobTimeoutError(type, timeout))
-      }, timeout)
-    })
-  ])
+  let timeoutId
+
+  try {
+    return await Promise.race([
+      execute(),
+      new Promise((resolve, reject) => {
+        timeoutId = setTimeout(() => {
+          timeoutId = undefined
+          reject(new JobTimeoutError(type, timeout))
+        }, timeout)
+      })
+    ])
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId)
+  }
 }
 
 class JobTimeoutError extends Error {
