@@ -35,6 +35,7 @@ export default function startServer (options?: ServerOptions): Promise<ServerPro
 export function createServer (options?: CreateServerOptions): Promise<ServerProps>
 export function createMiddleware (options?: CreateMiddlewareOptions): Promise<MiddlewareProps>
 export function createBackend (options?: ServerOptions): any // Replace 'any' with the actual backend type
+export function getBackend (): any // Replace 'any' with the actual backend type
 export function NO_DEAD_CODE_ELIMINATION (): [any, any] // Replace 'any' with actual types if known
 
 // Assuming the types for the below exports are defined in 'teamplay/server' module

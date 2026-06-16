@@ -77,6 +77,30 @@ import { waitJob } from '@startupjs/worker'
 const result = await waitJob(jobRef)
 ```
 
+If you need to know whether enqueue created a new job or reused/deduped an
+existing one, pass `returnMeta: true`:
+
+```js
+const result = await enqueueJob('sendWelcomeEmail', { userId: 'u1' }, {
+  returnMeta: true
+})
+
+// result:
+// {
+//   ref: { id, worker, name },
+//   created: true,
+//   deduped: false,
+//   skipped: false,
+//   replaced: false,
+//   reason: null,
+//   policy: 'created',
+//   duplicateOf: null
+// }
+```
+
+Without `returnMeta`, `enqueueJob()` keeps the old behavior and returns only
+`jobRef`.
+
 `runJob(name, data, options)` is still available and still waits for completion.
 Internally it is equivalent to `enqueueJob()` followed by `waitJob()`.
 
@@ -141,6 +165,18 @@ await enqueueJob('rebuildUserFeed', { userId }, {
 })
 ```
 
+By default duplicates return the existing in-flight job ref. For per-call
+singleton you can choose a different duplicate policy:
+
+```js
+await enqueueJob('rebuildUserFeed', { userId }, {
+  singleton: {
+    key: userId,
+    onDuplicate: 'skip' // 'return-existing' | 'skip' | 'throw'
+  }
+})
+```
+
 You can override the queue at runtime:
 
 ```js
@@ -151,8 +187,10 @@ await enqueueJob('sendOtp', { userId }, {
 
 ## Debounce and throttle
 
-Basic debounce and leading throttle are exposed through a package-level API and
-implemented with BullMQ deduplication.
+Debounce and throttle are exposed through a package-level API.
+Basic debounce and leading throttle are implemented with BullMQ deduplication.
+Trailing throttle keeps the first job immediate and schedules one latest-value
+job at the end of the throttle window.
 
 ```js
 await enqueueJob('rebuildSearchIndex', { entityId }, {
@@ -168,11 +206,32 @@ await enqueueJob('recalculateStats', { lessonId }, {
     ttl: 3000
   }
 })
+
+await enqueueJob('recalculateStats', { lessonId, value }, {
+  throttle: {
+    key: lessonId,
+    ttl: 3000,
+    trailing: true
+  }
+})
 ```
 
-`throttle.trailing` is not supported yet.
 For debounce, `debounce.delay` is also used as the BullMQ job delay, so do not
 pass a separate `delay` or `startAt` option.
+
+For debounce duplicates, the default policy is `replace`, so the latest delayed
+payload wins. You can opt out with `replace: false` or choose an explicit
+`onDuplicate` policy:
+
+```js
+await enqueueJob('rebuildSearchIndex', { entityId }, {
+  debounce: {
+    key: entityId,
+    delay: 3000,
+    onDuplicate: 'replace' // 'replace' | 'return-existing' | 'skip' | 'throw'
+  }
+})
+```
 
 ## Production Deployment (Important)
 
@@ -344,8 +403,70 @@ Your handler receives:
 - `enqueueJob(name, data, options)`
 - `waitJob(jobRef, options)`
 - `getJobStatus(jobRef)`
+- `backend`
+- `createModel()`
 
 Use `log(...)` instead of `console.log(...)` when you want logs visible in the queue dashboard.
+
+When the worker backend is initialized, handlers can use model helpers:
+
+```js
+export default async function updateSomething (data, { createModel }) {
+  const $ = createModel()
+  // ...
+  $.close()
+}
+```
+
+`createModel()` throws if worker backend initialization is disabled with
+`ensureBackend: false`.
+
+## Worker Lifecycle Events
+
+Use `events` in worker server config when you need a generic integration point
+for metrics, domain status rows, notifications or custom tracking.
+
+```js
+// startupjs.config.js
+export default {
+  plugins: {
+    worker: {
+      server: {
+        events: {
+          onQueued: event => {},
+          onDeduped: event => {},
+          onStarted: event => {},
+          onProgress: event => {},
+          onCompleted: event => {},
+          onFailed: event => {}
+        }
+      }
+    }
+  }
+}
+```
+
+Each event contains:
+- `ref`: serializable job ref
+- `name`: job name
+- `worker`: queue name
+- `data`: job payload data
+- `meta`: worker metadata
+- `state`
+- `job`: raw BullMQ job object
+
+`onCompleted` also receives `result`, `onFailed` receives `error`, and
+`onProgress` receives `progress`.
+
+Lifecycle hooks are managed best-effort:
+- hook errors are logged and do not change BullMQ job outcome
+- `onStarted` / `onProgress` / `onCompleted` / `onFailed` run from parent
+  BullMQ `Worker` events
+- worker shutdown waits for currently pending hook promises before closing
+  runtime resources
+
+Use BullMQ job state as the source of truth and lifecycle hooks for metrics,
+notifications or eventually consistent read models.
 
 ## Examples By Use Case
 

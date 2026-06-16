@@ -1,5 +1,4 @@
 import { createPlugin } from 'startupjs/registry'
-import initDashboardRoute from './initDashboardRoute.js'
 
 export default createPlugin({
   name: 'worker',
@@ -19,6 +18,7 @@ export default createPlugin({
         if (dashboardOptions === true) dashboardOptions = {}
 
         if (dashboardOptions) {
+          const { default: initDashboardRoute } = await import('./initDashboardRoute.js')
           initDashboardRoute({
             expressApp,
             ...dashboardOptions

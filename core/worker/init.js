@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url'
 import {
   AVAILABLE_WORKERS,
   closeRuntimeResources,
+  emitWorkerEvent,
   getJobsMap,
   getQueue,
   getQueueJobOptions,
@@ -11,6 +12,7 @@ import {
   getWorkerConnection,
   getWorkersToStart
 } from './runtime.js'
+import { createJobRef } from './jobRef.js'
 import processJob from './processJob.js'
 
 const PROCESS_JOB_PATH = fileURLToPath(new URL('./processJob.js', import.meta.url))
@@ -61,9 +63,76 @@ function startWorker (workerName, runtimeOptions) {
   worker.on('error', error => {
     console.error(`[@startupjs/worker] Worker "${workerName}" error:`, error)
   })
+  attachWorkerLifecycleEvents(worker, workerName)
 
   activeWorkers.set(workerName, worker)
   return worker
+}
+
+function attachWorkerLifecycleEvents (worker, workerName) {
+  worker.on('active', job => {
+    emitWorkerLifecycleEvent('started', createWorkerEvent(job, workerName, {
+      state: 'active'
+    }))
+  })
+
+  worker.on('progress', (job, progress) => {
+    emitWorkerLifecycleEvent('progress', createWorkerEvent(job, workerName, {
+      state: 'active',
+      progress
+    }))
+  })
+
+  worker.on('completed', (job, result) => {
+    emitWorkerLifecycleEvent('completed', createWorkerEvent(job, workerName, {
+      state: 'completed',
+      result
+    }))
+  })
+
+  worker.on('failed', (job, error) => {
+    emitWorkerLifecycleEvent('failed', createWorkerEvent(job, workerName, {
+      state: 'failed',
+      error
+    }))
+  })
+}
+
+function emitWorkerLifecycleEvent (eventName, event) {
+  emitWorkerEvent(eventName, event).catch(error => {
+    console.error(`[@startupjs/worker] Failed to emit "${eventName}" lifecycle event:`, error)
+  })
+}
+
+function createWorkerEvent (job, workerName, event = {}) {
+  if (!job) {
+    return {
+      ref: null,
+      name: null,
+      worker: workerName,
+      data: undefined,
+      meta: undefined,
+      job: undefined,
+      ...event
+    }
+  }
+
+  const payload = job.data || {}
+  const name = payload.type || job.name
+  const worker = payload.meta?.worker || workerName
+
+  return {
+    ref: {
+      ...createJobRef(job, worker),
+      name
+    },
+    name,
+    worker,
+    data: payload.data,
+    meta: payload.meta,
+    job,
+    ...event
+  }
 }
 
 async function syncSchedulers (workerName, jobs, runtimeOptions) {

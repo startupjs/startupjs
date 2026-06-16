@@ -94,6 +94,60 @@ test('supports module singleton and per-call singleton', async () => {
   })
 
   assert.equal(config.jobOptions.deduplication.id, 'singleton:default:sync:manual-key')
+  assert.deepEqual(config.deduplication, {
+    id: 'singleton:default:sync:manual-key',
+    reason: 'singleton',
+    policy: 'return-existing'
+  })
+})
+
+test('supports duplicate policies for singleton and debounce', async () => {
+  const singletonConfig = await buildEnqueueConfig({
+    name: 'sync',
+    data: {},
+    options: {
+      singleton: {
+        key: 'manual-key',
+        onDuplicate: 'skip'
+      }
+    },
+    jobDefinition: {
+      name: 'sync',
+      worker: 'default'
+    },
+    defaultTimeout: 30000,
+    caller: 'test'
+  })
+
+  assert.deepEqual(singletonConfig.deduplication, {
+    id: 'singleton:default:sync:manual-key',
+    reason: 'singleton',
+    policy: 'skip'
+  })
+
+  const debounceConfig = await buildEnqueueConfig({
+    name: 'sync',
+    data: {},
+    options: {
+      debounce: {
+        key: 'manual-key',
+        delay: 100,
+        replace: false
+      }
+    },
+    jobDefinition: {
+      name: 'sync',
+      worker: 'default'
+    },
+    defaultTimeout: 30000,
+    caller: 'test'
+  })
+
+  assert.deepEqual(debounceConfig.deduplication, {
+    id: 'debounce:default:sync:manual-key',
+    reason: 'debounce',
+    policy: 'return-existing'
+  })
 })
 
 test('maps debounce and leading throttle to BullMQ deduplication', async () => {
@@ -143,6 +197,42 @@ test('maps debounce and leading throttle to BullMQ deduplication', async () => {
     id: 'throttle:default:search:user:u1',
     ttl: 300
   })
+  assert.deepEqual(throttleConfig.deduplication, {
+    id: 'throttle:default:search:user:u1',
+    reason: 'throttle',
+    policy: 'return-existing'
+  })
+})
+
+test('maps trailing throttle to worker-level deduplication metadata', async () => {
+  const config = await buildEnqueueConfig({
+    name: 'search',
+    data: {},
+    options: {
+      throttle: {
+        key: 'user:u1',
+        ttl: 300,
+        trailing: true
+      }
+    },
+    jobDefinition: {
+      name: 'search',
+      worker: 'default'
+    },
+    defaultTimeout: 30000,
+    caller: 'test'
+  })
+
+  assert.equal(config.jobOptions.deduplication, undefined)
+  assert.deepEqual(config.deduplication, {
+    id: 'throttle:default:search:user:u1',
+    trailingId: 'throttle-trailing:default:search:user:u1',
+    reason: 'throttle',
+    policy: 'trailing',
+    trailing: true,
+    key: 'user:u1',
+    ttl: 300
+  })
 })
 
 test('rejects unsupported or ambiguous options', async () => {
@@ -183,10 +273,9 @@ test('rejects unsupported or ambiguous options', async () => {
     name: 'job',
     data: {},
     options: {
-      throttle: {
+      singleton: {
         key: 'k',
-        ttl: 1,
-        trailing: true
+        onDuplicate: 'replace'
       }
     },
     jobDefinition: {
@@ -195,7 +284,24 @@ test('rejects unsupported or ambiguous options', async () => {
     },
     defaultTimeout: 30000,
     caller: 'test'
-  }), /throttle.trailing is not supported yet/)
+  }), /onDuplicate must be one of: return-existing, skip, throw/)
+
+  await assert.rejects(() => buildEnqueueConfig({
+    name: 'job',
+    data: {},
+    options: {
+      throttle: {
+        key: 'k',
+        ttl: 0
+      }
+    },
+    jobDefinition: {
+      name: 'job',
+      worker: 'default'
+    },
+    defaultTimeout: 30000,
+    caller: 'test'
+  }), /throttle\.ttl must be a positive number/)
 })
 
 test('normalizes states and tracking keys', () => {

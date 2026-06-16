@@ -32,6 +32,21 @@ const JOBS = {
       }
     }
   `,
+  contextInfo: `
+    export default async function contextInfo (data, { createModel }) {
+      try {
+        createModel()
+      } catch (error) {
+        return {
+          createModelError: error.message
+        }
+      }
+
+      return {
+        createModelError: null
+      }
+    }
+  `,
   parent: `
     export default async function parent (data, { enqueueJob, waitJob }) {
       const childRef = await enqueueJob('echo', { from: 'parent' }, {
@@ -220,6 +235,84 @@ test('worker public API with Redis and BullMQ', async t => {
     await api.cancelJob(firstRef)
   })
 
+  await t.test('enqueueJob returnMeta reports created and singleton duplicates', async () => {
+    const singleton = { key: api.trackingKey('singleton-meta') }
+    const first = await api.enqueueJob('echo', { value: 1 }, {
+      delay: 5000,
+      returnMeta: true,
+      singleton
+    })
+    const second = await api.enqueueJob('echo', { value: 2 }, {
+      delay: 5000,
+      returnMeta: true,
+      singleton
+    })
+
+    assert.equal(first.created, true)
+    assert.equal(first.deduped, false)
+    assert.equal(first.policy, 'return-existing')
+    assert.equal(second.created, false)
+    assert.equal(second.deduped, true)
+    assert.equal(second.skipped, false)
+    assert.equal(second.reason, 'singleton')
+    assert.equal(second.policy, 'return-existing')
+    assert.equal(second.ref.id, first.ref.id)
+    assert.equal(second.duplicateOf.id, first.ref.id)
+
+    await api.cancelJob(first.ref)
+  })
+
+  await t.test('duplicate policies can skip or throw on duplicate jobs', async () => {
+    const skipSingleton = {
+      key: api.trackingKey('singleton-skip'),
+      onDuplicate: 'skip'
+    }
+    const skippedSource = await api.enqueueJob('echo', { value: 1 }, {
+      delay: 5000,
+      returnMeta: true,
+      singleton: skipSingleton
+    })
+    const skippedDuplicate = await api.enqueueJob('echo', { value: 2 }, {
+      delay: 5000,
+      returnMeta: true,
+      singleton: skipSingleton
+    })
+
+    assert.equal(skippedDuplicate.created, false)
+    assert.equal(skippedDuplicate.deduped, true)
+    assert.equal(skippedDuplicate.skipped, true)
+    assert.equal(skippedDuplicate.reason, 'singleton')
+    assert.equal(skippedDuplicate.policy, 'skip')
+    assert.equal(skippedDuplicate.ref.id, skippedSource.ref.id)
+
+    await api.cancelJob(skippedSource.ref)
+
+    const throwSingleton = {
+      key: api.trackingKey('singleton-throw'),
+      onDuplicate: 'throw'
+    }
+    const throwSource = await api.enqueueJob('echo', { value: 1 }, {
+      delay: 5000,
+      singleton: throwSingleton
+    })
+
+    await assert.rejects(
+      () => api.enqueueJob('echo', { value: 2 }, {
+        delay: 5000,
+        singleton: throwSingleton
+      }),
+      error => {
+        assert.equal(error.name, 'DuplicateJobError')
+        assert.equal(error.reason, 'singleton')
+        assert.equal(error.policy, 'throw')
+        assert.equal(error.duplicateOf.id, throwSource.id)
+        return true
+      }
+    )
+
+    await api.cancelJob(throwSource)
+  })
+
   await t.test('debounce replaces delayed payload', async () => {
     const key = api.trackingKey('debounce')
 
@@ -246,14 +339,132 @@ test('worker public API with Redis and BullMQ', async t => {
       assert.equal((await api.getJobStatus(firstRef)).state, 'unknown')
     }
   })
+
+  await t.test('debounce returnMeta reports replaced delayed payload', async () => {
+    const key = api.trackingKey('debounce-meta')
+
+    const first = await api.enqueueJob('echo', { value: 1 }, {
+      debounce: {
+        key,
+        delay: 1000
+      },
+      returnMeta: true
+    })
+    const second = await api.enqueueJob('echo', { value: 2 }, {
+      debounce: {
+        key,
+        delay: 1000
+      },
+      returnMeta: true
+    })
+
+    assert.equal(second.created, true)
+    assert.equal(second.deduped, true)
+    assert.equal(second.replaced, true)
+    assert.equal(second.reason, 'debounce')
+    assert.equal(second.policy, 'replace')
+    assert.equal(second.duplicateOf.id, first.ref.id)
+
+    const result = await api.waitJob(second.ref, { timeout: 5000 })
+    assert.deepEqual(result, {
+      ok: true,
+      data: { value: 2 }
+    })
+  })
+
+  await t.test('trailing throttle schedules the latest duplicate after the throttle window', async () => {
+    const key = api.trackingKey('throttle-trailing')
+    const throttle = { key, ttl: 200, trailing: true }
+
+    const leading = await api.enqueueJob('echo', { value: 1 }, {
+      returnMeta: true,
+      throttle
+    })
+    const trailing = await api.enqueueJob('echo', { value: 2 }, {
+      returnMeta: true,
+      throttle
+    })
+    const latest = await api.enqueueJob('echo', { value: 3 }, {
+      returnMeta: true,
+      throttle
+    })
+
+    assert.equal(leading.created, true)
+    assert.equal(leading.deduped, false)
+    assert.equal(trailing.created, true)
+    assert.equal(trailing.deduped, true)
+    assert.equal(trailing.reason, 'throttle')
+    assert.equal(trailing.policy, 'trailing')
+    assert.equal(latest.created, true)
+    assert.equal(latest.deduped, true)
+    assert.equal(latest.replaced, true)
+    assert.equal(latest.reason, 'throttle')
+    assert.equal(latest.policy, 'trailing')
+
+    const result = await api.waitJob(latest.ref, { timeout: 5000 })
+    assert.deepEqual(result, {
+      ok: true,
+      data: { value: 3 }
+    })
+
+    if (trailing.ref.id !== latest.ref.id) {
+      assert.equal((await api.getJobStatus(trailing.ref)).state, 'unknown')
+    }
+  })
+
+  await t.test('worker events report lifecycle changes', async () => {
+    const events = []
+
+    api.setWorkerEvents({
+      onQueued: event => events.push(['queued', event.name]),
+      onStarted: event => events.push(['started', event.name]),
+      onProgress: event => events.push(['progress', event.progress]),
+      onCompleted: event => events.push(['completed', event.result.progress]),
+      onFailed: event => events.push(['failed', event.error.message])
+    })
+
+    await api.runJob('logAndProgress', { value: 4 })
+
+    await assert.rejects(
+      () => api.runJob('fail'),
+      /expected failure/
+    )
+
+    api.setWorkerEvents()
+
+    assert.ok(events.some(event => event[0] === 'queued' && event[1] === 'logAndProgress'))
+    assert.ok(events.some(event => event[0] === 'started' && event[1] === 'logAndProgress'))
+    assert.ok(events.some(event => event[0] === 'progress' && event[1].percent === 50))
+    assert.ok(events.some(event => {
+      return event[0] === 'completed' && event[1].percent === 50
+    }))
+    assert.ok(events.some(event => event[0] === 'failed' && /expected failure/.test(event[1])))
+  })
+
+  await t.test('handler context exposes createModel with backend availability errors', async () => {
+    const result = await api.runJob('contextInfo')
+
+    assert.match(
+      result.createModelError,
+      /Worker backend is not available/
+    )
+  })
 })
 
-async function setupWorkerRuntime (t) {
+async function setupWorkerRuntime (t, options = {}) {
   const previousCwd = process.cwd()
   const previousRedisUrl = process.env.REDIS_URL
   const tmpDir = await mkdtemp(join(tmpdir(), 'startupjs-worker-'))
   const jobsDir = join(tmpDir, 'workerJobs')
   const queuePrefix = `startupjs-worker-test:${process.pid}:${Date.now()}`
+  const workerOptions = {
+    concurrency: 10,
+    ensureBackend: false,
+    jobTimeout: 5000,
+    queuePrefix,
+    useSeparateProcess: false,
+    ...options
+  }
 
   await mkdir(jobsDir)
   await writeFile(join(tmpDir, 'package.json'), JSON.stringify({
@@ -273,20 +484,10 @@ async function setupWorkerRuntime (t) {
   const runtimeModule = await import('../runtime.js')
   const trackingModule = await import('../tracking.js')
 
-  runtimeModule.setRuntimeOptionsOverrides({
-    concurrency: 10,
-    ensureBackend: false,
-    jobTimeout: 5000,
-    queuePrefix,
-    useSeparateProcess: false
-  })
+  runtimeModule.setRuntimeOptionsOverrides(workerOptions)
 
   await initWorkerModule.default({
-    concurrency: 10,
-    ensureBackend: false,
-    jobTimeout: 5000,
-    queuePrefix,
-    useSeparateProcess: false,
+    ...workerOptions,
     workers: ['default', 'priority']
   })
 
@@ -308,6 +509,7 @@ async function setupWorkerRuntime (t) {
   return {
     ...workerApi,
     queuePrefix,
+    setWorkerEvents: events => runtimeModule.setRuntimeOptionsOverrides({ events }),
     trackingKey: suffix => `${queuePrefix}:${suffix}:${Date.now()}`
   }
 }

@@ -1,5 +1,6 @@
 import {
   createBackend,
+  getBackend,
   getRedis,
   getRedisOptions,
   isBackendInitialized,
@@ -21,7 +22,8 @@ const DEFAULT_OPTIONS = {
   useSeparateProcess: false,
   useWorkerThreads: true,
   jobTimeout: 30000,
-  queuePrefix: redisPrefix
+  queuePrefix: redisPrefix,
+  events: undefined
 }
 
 const DEFAULT_JOB_OPTIONS = {
@@ -32,8 +34,10 @@ const DEFAULT_JOB_OPTIONS = {
 const queues = new Map()
 const queueEvents = new Map()
 const redisConnections = new Set()
+const pendingWorkerEvents = new Set()
 
 let backendInitPromise
+let workerBackend
 let jobsPromise
 let runtimeOptionsOverrides = {}
 
@@ -60,7 +64,8 @@ export function getRuntimeOptions (override = {}) {
       DEFAULT_OPTIONS.useWorkerThreads
     ),
     jobTimeout: toNumber(mergedOptions.jobTimeout, DEFAULT_OPTIONS.jobTimeout),
-    queuePrefix: normalizeQueuePrefix(mergedOptions.queuePrefix, DEFAULT_OPTIONS.queuePrefix)
+    queuePrefix: normalizeQueuePrefix(mergedOptions.queuePrefix, DEFAULT_OPTIONS.queuePrefix),
+    events: normalizeEvents(mergedOptions.events)
   }
 }
 
@@ -135,6 +140,8 @@ export function getQueueJobOptions () {
 }
 
 export async function closeRuntimeResources () {
+  await flushWorkerEvents()
+
   const queuesToClose = Array.from(queues.values())
   const queueEventsToClose = Array.from(queueEvents.values())
 
@@ -160,7 +167,11 @@ export function getWorkerConnection () {
 }
 
 export async function ensureBackendReady () {
-  if (isBackendInitialized()) return
+  if (workerBackend) return
+  if (isBackendInitialized()) {
+    workerBackend = getBackend()
+    return
+  }
   if (backendInitPromise) {
     await backendInitPromise
     return
@@ -168,7 +179,7 @@ export async function ensureBackendReady () {
 
   backendInitPromise = Promise.resolve()
     .then(() => {
-      createBackend()
+      workerBackend = createBackend()
     })
     .catch(error => {
       backendInitPromise = undefined
@@ -176,6 +187,50 @@ export async function ensureBackendReady () {
     })
 
   await backendInitPromise
+}
+
+export function getWorkerBackend () {
+  if (workerBackend) return workerBackend
+
+  throw new Error(
+    '[@startupjs/worker] Worker backend is not available. ' +
+      'Enable backend initialization for the worker process before using job context backend/createModel.'
+  )
+}
+
+export function createWorkerModel () {
+  return getWorkerBackend().createModel()
+}
+
+export async function emitWorkerEvent (eventName, event = {}) {
+  const promise = runWorkerEvent(eventName, event)
+
+  pendingWorkerEvents.add(promise)
+  promise.finally(() => {
+    pendingWorkerEvents.delete(promise)
+  })
+
+  return await promise
+}
+
+async function runWorkerEvent (eventName, event = {}) {
+  const events = getRuntimeOptions().events
+  const handlerName = getWorkerEventHandlerName(eventName)
+  const handler = events?.[handlerName]
+
+  if (typeof handler !== 'function') return
+
+  try {
+    await handler(event)
+  } catch (error) {
+    console.error(`[@startupjs/worker] ${handlerName} hook failed:`, error)
+  }
+}
+
+async function flushWorkerEvents () {
+  if (!pendingWorkerEvents.size) return
+
+  await Promise.allSettled(Array.from(pendingWorkerEvents))
 }
 
 export async function getJobsMap ({ refresh = false } = {}) {
@@ -368,4 +423,13 @@ function normalizeQueuePrefix (value, defaultValue) {
 
   const normalizedValue = String(value).trim()
   return normalizedValue || defaultValue
+}
+
+function normalizeEvents (events) {
+  if (!events || typeof events !== 'object') return undefined
+  return events
+}
+
+function getWorkerEventHandlerName (eventName) {
+  return `on${eventName.charAt(0).toUpperCase()}${eventName.slice(1)}`
 }
