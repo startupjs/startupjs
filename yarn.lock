@@ -6953,7 +6953,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/bundler@npm:^0.62.3, @startupjs/bundler@workspace:core/bundler":
+"@startupjs/bundler@npm:^0.62.4, @startupjs/bundler@workspace:core/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:core/bundler"
   dependencies:
@@ -6962,7 +6962,7 @@ __metadata:
     "@mdx-js/mdx": "npm:^3.0.0"
     "@startupjs/babel-plugin-eliminator": "npm:^0.62.0"
     "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.62.0"
-    "@startupjs/server": "npm:^0.62.3"
+    "@startupjs/server": "npm:^0.62.4"
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
     "@svgr/plugin-svgo": "npm:^8.1.0"
@@ -7155,7 +7155,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/server@npm:^0.62.3, @startupjs/server@workspace:core/server":
+"@startupjs/server@npm:^0.62.4, @startupjs/server@workspace:core/server":
   version: 0.0.0-use.local
   resolution: "@startupjs/server@workspace:core/server"
   dependencies:
@@ -7214,7 +7214,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/worker@npm:^0.62.3, @startupjs/worker@workspace:core/worker":
+"@startupjs/worker@npm:^0.62.4, @startupjs/worker@workspace:core/worker":
   version: 0.0.0-use.local
   resolution: "@startupjs/worker@workspace:core/worker"
   dependencies:
@@ -13751,7 +13751,7 @@ __metadata:
     "@react-navigation/native": "npm:^7.1.6"
     "@startupjs-ui/mdx": "npm:^0.2.0"
     "@startupjs/router": "npm:^0.62.0"
-    "@startupjs/worker": "npm:^0.62.3"
+    "@startupjs/worker": "npm:^0.62.4"
     "@types/react": "npm:~19.2.10"
     eslint-config-expo: "npm:^55.0.0"
     expo: "npm:~55.0.11"
@@ -13780,7 +13780,7 @@ __metadata:
     react-native-web: "npm:^0.21.0"
     react-native-worklets: "npm:0.7.2"
     react-test-renderer: "npm:~19.1.0"
-    startupjs: "npm:^0.62.3"
+    startupjs: "npm:^0.62.4"
     startupjs-ui: "npm:^0.2.0"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -26506,17 +26506,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.62.3, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.62.4, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
     "@startupjs/auth": "npm:^0.62.0"
-    "@startupjs/bundler": "npm:^0.62.3"
+    "@startupjs/bundler": "npm:^0.62.4"
     "@startupjs/cli": "npm:^0.62.1"
     "@startupjs/hooks": "npm:^0.62.0"
     "@startupjs/isomorphic-helpers": "npm:^0.62.0"
     "@startupjs/registry": "npm:^0.62.0"
-    "@startupjs/server": "npm:^0.62.3"
+    "@startupjs/server": "npm:^0.62.4"
     "@startupjs/utils": "npm:^0.62.0"
     babel-preset-startupjs: "npm:^0.62.0"
     cssxjs: "npm:^0.3.0"

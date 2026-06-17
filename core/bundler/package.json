@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/bundler",
-  "version": "0.62.3",
+  "version": "0.62.4",
   "description": "Opinionated scripts and configs to develop a react-native-web project",
   "main": "index.js",
   "publishConfig": {
@@ -20,7 +20,7 @@
     "@mdx-js/mdx": "^3.0.0",
     "@startupjs/babel-plugin-eliminator": "^0.62.0",
     "@startupjs/babel-plugin-startupjs-plugins": "^0.62.0",
-    "@startupjs/server": "^0.62.3",
+    "@startupjs/server": "^0.62.4",
     "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "@svgr/plugin-svgo": "^8.1.0",
