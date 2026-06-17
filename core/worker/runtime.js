@@ -35,6 +35,7 @@ const queues = new Map()
 const queueEvents = new Map()
 const redisConnections = new Set()
 const pendingWorkerEvents = new Set()
+const importLocalModule = createLocalModuleImporter()
 
 let backendInitPromise
 let workerBackend
@@ -335,10 +336,16 @@ async function loadJobsFromFiles () {
 
     const jobName = basename(entry.name, extension)
     const filePath = join(jobsDir, entry.name)
-    jobs[jobName] = await import(pathToFileURL(filePath).href)
+    jobs[jobName] = await importLocalModule(pathToFileURL(filePath).href)
   }
 
   return jobs
+}
+
+function createLocalModuleImporter () {
+  // Keep workerJobs ESM loading server-side without exposing import(expression)
+  // to Metro/Expo web static analysis through @startupjs/worker/plugin.
+  return new Function('specifier', 'return import(specifier)') // eslint-disable-line no-new-func
 }
 
 function normalizeJob (jobName, jobModule) {
