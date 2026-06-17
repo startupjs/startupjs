@@ -10,7 +10,8 @@ test('plugin loads dashboard route lazily', async () => {
   const source = await readFile(join(__dirname, '../plugin.js'), 'utf8')
 
   assert.doesNotMatch(source, /import\s+initDashboardRoute\s+from/)
-  assert.match(source, /await import\('\.\/initDashboardRoute\.js'\)/)
+  assert.doesNotMatch(source, /import\s*\(\s*['"]\.\/init/)
+  assert.match(source, /return import\(specifier\)/)
 })
 
 test('runtime keeps local file job imports hidden from web static analysis', async () => {

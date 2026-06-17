@@ -17,6 +17,7 @@ const IS_EXPO = isExpo(process.env.ROOT_PATH || process.cwd())
 //       might actually be good for performance since the data is cached
 //       between concurrent requests and we don't have to re-fetch it each time.
 const FETCH_ONLY = false
+const importLocalModule = createLocalModuleImporter()
 
 const defaultOptions = {
   publicPath: IS_EXPO ? './dist' : './public',
@@ -41,7 +42,9 @@ export default async function startServer (options) {
 }
 
 export async function createServer (options = {}) {
-  const { default: createServer } = await import('./server/createServer.js')
+  const { default: createServer } = await importLocalModule(
+    new URL('./server/createServer.js', import.meta.url).href
+  )
   options = transformOptions(options)
   const backend = _createBackend({ ...options, models: MODULE.models })
   currentBackend = backend
@@ -56,7 +59,9 @@ export async function createServer (options = {}) {
 }
 
 export async function createMiddleware (options = {}) {
-  const { default: createMiddleware } = await import('./server/createMiddleware.js')
+  const { default: createMiddleware } = await importLocalModule(
+    new URL('./server/createMiddleware.js', import.meta.url).href
+  )
   options = transformOptions(options)
   const backend = _createBackend({ ...options, models: MODULE.models })
   currentBackend = backend
@@ -109,6 +114,12 @@ function isExpo (rootPath) {
 
 function markBackendInitialized () {
   backendInitialized = true
+}
+
+function createLocalModuleImporter () {
+  // Keep server-only modules lazy without exposing literal dynamic imports
+  // to Metro/Expo web static analysis through startupjs/server consumers.
+  return new Function('specifier', 'return import(specifier)') // eslint-disable-line no-new-func
 }
 
 export {
