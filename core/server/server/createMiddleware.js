@@ -6,6 +6,11 @@ import _cloneDeep from 'lodash/cloneDeep.js'
 import express from 'express'
 import bodyParser from 'body-parser'
 import { router } from 'express-file-routing'
+import { runWithRequestContext } from './requestContext.js'
+import createFilesystemRouteMatcher, {
+  getExpoApiRouteName,
+  getStandardRouteName
+} from './createFilesystemRouteMatcher.js'
 
 const SERVER_FOLDER = 'server'
 const MIDDLEWARE_FILENAME_REGEX = /^middleware\.[mc]?[jt]sx?$/
@@ -30,9 +35,22 @@ export default async function createMiddleware (...args) {
 
 export async function _createMiddleware ({ backend, session, channel, options }) {
   const publicApp = express.Router()
+  const shouldSkipBodyParser = createShouldSkipBodyParser(options)
+  const jsonParser = bodyParser.json(getBodyParserOptionsByType('json', options.bodyParser))
+  const urlencodedParser = bodyParser.urlencoded(getBodyParserOptionsByType('urlencoded', options.bodyParser))
 
-  publicApp.use(bodyParser.json(getBodyParserOptionsByType('json', options.bodyParser)))
-  publicApp.use(bodyParser.urlencoded(getBodyParserOptionsByType('urlencoded', options.bodyParser)))
+  publicApp.use((req, res, next) => {
+    runWithRequestContext(req, res, next)
+  })
+
+  publicApp.use((req, res, next) => {
+    if (shouldSkipBodyParser(req)) return next()
+    jsonParser(req, res, next)
+  })
+  publicApp.use((req, res, next) => {
+    if (shouldSkipBodyParser(req)) return next()
+    urlencodedParser(req, res, next)
+  })
 
   publicApp.use(channel.middleware)
 
@@ -126,4 +144,21 @@ function getBodyParserOptionsByType (type, options = {}) {
     DEFAULT_BODY_PARSER_OPTIONS[type],
     DEFAULT_BODY_PARSER_OPTIONS.general
   )
+}
+
+function createShouldSkipBodyParser (options) {
+  const matchesExpoApiRoute = createFilesystemRouteMatcher({
+    directory: join(options.dirname, 'app'),
+    getRouteName: getExpoApiRouteName
+  })
+  const matchesServerApiRoute = createFilesystemRouteMatcher({
+    directory: join(options.dirname, API_ROUTES_FOLDER),
+    basePath: '/api',
+    getRouteName: getStandardRouteName
+  })
+
+  return function shouldSkipBodyParser (req) {
+    if (req.method === 'GET' || req.method === 'HEAD') return false
+    return matchesExpoApiRoute(req) && !matchesServerApiRoute(req)
+  }
 }
