@@ -69,6 +69,10 @@
       "pre-commit": "lint-staged && npx startupjs check"
     }
   },
+  "resolutions": {
+    "cssxjs": "portal:../cssx/packages/cssxjs",
+    "@cssxjs/css-to-rn": "portal:../cssx/packages/css-to-rn"
+  },
   "//pre-commit-with-resolutions": "! grep -q '\"resolutions\":' ./package.json || (echo '\\033[0;31mError: \"resolutions\" found in package.json. Remove \"resolutions\" to proceed with commit.\\033[0m' && exit 1) && lint-staged",
   "license": "MIT",
   "//resolutions": {
