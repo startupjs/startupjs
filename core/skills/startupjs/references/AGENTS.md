@@ -34,28 +34,6 @@ All application code should be written in TypeScript (`.ts` / `.tsx`). The only 
 
 The default Expo template uses a `(tabs)` layout. The home page is at `app/(tabs)/index.tsx`, NOT `app/index.tsx`. The root layout is always `app/_layout.tsx`.
 
-**Known issue (temporary):** After running `npm init startupjs@latest`, add version overrides to `package.json` and re-run `npm install`:
-
-For npm:
-```json
-"overrides": {
-  "sharedb-redis-pubsub": {
-    ".": "2.0.1",
-    "sharedb": "5.2.2"
-  }
-}
-```
-
-For Yarn:
-```json
-"resolutions": {
-  "sharedb-redis-pubsub": "2.0.1",
-  "sharedb-redis-pubsub/sharedb": "5.2.2"
-}
-```
-
-Without this, the app crashes on startup with `"Error: Redis is already connecting/connected"`.
-
 ## Running the App
 
 Start the development server:
@@ -395,14 +373,14 @@ StartupJS uses Teamplay ORM under the hood. In app code, import ORM helpers from
 
 ### Standard Model Layout
 
-Use separate files inside `model/`:
+Use separate files inside `models/`:
 
-- `model/users/index.js` → collection model for `users`
-- `model/users/[id].js` → document model for `users.*`
-- `model/users/schema.js` → schema for `users`
-- `model/users/access.js` → access rules for `users`
-- `model/users/$$active.js` → server aggregation for `users`
-- files or folders starting with `-` are ignored by the model loader and can be used for helpers inside `model/`
+- `models/users/index.ts` → collection model for `users`
+- `models/users/[id].ts` → document model for `users.*`
+- `models/users/schema.ts` → schema for `users`
+- `models/users/access.ts` → access rules for `users`
+- `models/users/_active.ts` → server aggregation for `users`
+- files or folders starting with `-` are ignored by the model loader and can be used for helpers inside `models/`
 
 Preferred convention:
 
@@ -412,7 +390,7 @@ Preferred convention:
 - access file: default export `accessControl({ ... })`
 - aggregation file: default export `aggregation(...)`
 
-Only collection-level files get `schema`, `access`, and `$$...` aggregations. Access control, schema validation, and server aggregations are registered only for top-level collections.
+Only collection-level files get `schema`, `access`, and `_...` aggregations. Access control, schema validation, and server aggregations are registered only for top-level collections.
 
 Basic model class shape:
 
@@ -450,7 +428,7 @@ Guidelines:
 
 ### Schema
 
-Schema belongs in `model/<collection>/schema.js` and should always exist.
+Schema belongs in `models/<collection>/schema.ts` and should always exist for public collections. For private root collections such as `_session`, `models/_session/schema.ts` describes the whole private value directly, not a document inside a collection, and is used for TypeScript typing only.
 
 StartupJS uses a simplified JSON Schema format:
 
@@ -490,7 +468,7 @@ Normal queries are the default choice because:
 
 ### Access Control
 
-Access rules live in `model/<collection>/access.js` and must be wrapped in `accessControl(...)`. When the rules are in a separate file, use a default export.
+Access rules live in `models/<collection>/access.ts` and must be wrapped in `accessControl(...)`. When the rules are in a separate file, use a default export.
 
 Example:
 
@@ -516,7 +494,7 @@ Guidelines:
 
 ### Aggregations
 
-Use `model/<collection>/$$name.js` with a default export `aggregation(...)` only when you need a real aggregation pipeline, for example `$group`, `$project`, `$lookup`, `$unwind`, or similar stages.
+Use `models/<collection>/_name.ts` with a default export `aggregation(...)` only when you need a real aggregation pipeline, for example `$group`, `$project`, `$lookup`, `$unwind`, or similar stages.
 
 Do not use an aggregation for a single `$match`. That is just a normal query and should stay a normal query.
 
@@ -544,7 +522,7 @@ export default aggregation(({ orgId }, { session }) => {
 Guidelines:
 
 - prefer normal queries first
-- add a `$$...` aggregation only when query syntax is not enough
+- add a `_...` aggregation only when query syntax is not enough
 - validate params before returning a pipeline
 - when access control is enabled, also validate session/access inside the aggregation itself, because aggregations are not automatically protected by `read`
 
@@ -587,25 +565,44 @@ export default observer(function MyComponent () {
 
 ## Private Collections
 
-Private collections live only on the client. They start with `_` and do NOT need subscriptions:
+Private collections live only on the client. They start with `_` and do NOT need subscriptions. `$._session` also has the convenience alias `$.session`:
 
 ```js
 // Session-scoped (persists until tab closes)
-const userId = $._session.userId.get()
+const userId = $.session.userId.get()
 ```
+
+Private collection schemas are defined for the whole private value:
+
+```ts
+// models/_session/schema.ts
+import { defineSchema } from 'startupjs'
+
+export default defineSchema({
+  userId: { type: 'string' },
+  banner: {
+    type: 'object',
+    properties: {
+      visible: { type: 'boolean' }
+    }
+  }
+})
+```
+
+Private schemas are skipped by backend validation; they exist to type client-local signals like `$.session.banner.visible`.
 
 ## Current User
 
-StartupJS automatically provides a unique user ID on the client via `$._session.userId`:
+StartupJS automatically provides a unique user ID on the client via `$.session.userId`:
 
 ```js
-const userId = $._session.userId.get()
+const userId = $.session.userId.get()
 ```
 
 This ID is generated per browser session and persists until the tab is closed. Use the `users` collection to store per-user data (preferences, progress, settings, etc.):
 
 ```js
-const userId = $._session.userId.get()
+const userId = $.session.userId.get()
 const $user = useSub($.users[userId])
 
 // Create user doc on first visit if it doesn't exist.

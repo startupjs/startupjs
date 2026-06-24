@@ -1,9 +1,8 @@
 {
-  "version": "0.62.4",
+  "version": "0.63.0-alpha.7",
   "command": {
     "publish": {
       "ignoreChanges": [
-        "*.md",
         "*.txt",
         "test/**"
       ]

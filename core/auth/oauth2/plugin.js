@@ -1,6 +1,6 @@
 import { Suspense, createElement as el } from 'react'
 import { createPlugin } from '@startupjs/registry'
-import { Signal } from 'teamplay'
+import { Signal, accessControl } from 'teamplay'
 import { maybeRestoreUrl } from '../client/reload.js'
 import {
   AUTH_URL,
@@ -38,6 +38,9 @@ export default createPlugin({
         auths: {
           default: Signal,
           ...models.auths,
+          access: accessControl(models.auths?.access || {
+            read: ({ session, docId }) => session.userId === docId
+          }, { force: true }),
           schema: {
             ...getAuthsSchema(enabledProviderIds),
             ...models.auths?.schema
@@ -46,6 +49,10 @@ export default createPlugin({
         users: {
           default: Signal,
           ...models.users,
+          access: accessControl(models.users?.access || {
+            read: true,
+            update: ({ session, docId }) => session.userId === docId
+          }, { force: true }),
           schema: {
             ...getUsersSchema(),
             ...models.users?.schema

@@ -2,7 +2,7 @@
  * @typedef {import('./lib/Module.js').default} Module
  * @typedef {import('./lib/Plugin.js').default} Plugin
  */
-import { addModel } from 'teamplay'
+import { initModels as initTeamplayModels } from 'teamplay/orm'
 import Registry from './lib/Registry.js'
 
 // force registry to be singleton
@@ -105,9 +105,5 @@ function initModels (registry, projectModels) {
   let models = { ...projectModels }
   models = registry.rootModule.reduceHook('models', projectModels)
   registry.rootModule.models = models
-  for (const modelPattern in models) {
-    const model = models[modelPattern].default
-    if (!model) continue
-    addModel(modelPattern, model)
-  }
+  initTeamplayModels(models)
 }

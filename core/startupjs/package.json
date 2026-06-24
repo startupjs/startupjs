@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.62.4",
+  "version": "0.63.0-alpha.7",
   "engines": {
     "node": ">= 14"
   },
@@ -24,24 +24,26 @@
     "./metro-config": "./metro-config.cjs",
     "./metro-babel-transformer": "./metro-babel-transformer.cjs",
     "./babel": "./babel.cjs",
+    "./babel/plugin-react-pug": "./babel/plugin-react-pug.cjs",
     "./startupjs.config": "./startupjs.config.cjs",
     "./package.json": "./package.json"
   },
   "bin": "./cli.js",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/auth": "^0.62.0",
-    "@startupjs/bundler": "^0.62.4",
-    "@startupjs/cli": "^0.62.1",
-    "@startupjs/hooks": "^0.62.0",
-    "@startupjs/isomorphic-helpers": "^0.62.0",
-    "@startupjs/registry": "^0.62.0",
-    "@startupjs/server": "^0.62.4",
-    "@startupjs/utils": "^0.62.0",
-    "babel-preset-startupjs": "^0.62.0",
+    "@startupjs/auth": "^0.63.0-alpha.3",
+    "@startupjs/bundler": "^0.63.0-alpha.3",
+    "@startupjs/cli": "^0.63.0-alpha.7",
+    "@startupjs/hooks": "^0.63.0-alpha.0",
+    "@startupjs/isomorphic-helpers": "^0.63.0-alpha.0",
+    "@startupjs/registry": "^0.63.0-alpha.0",
+    "@startupjs/server": "^0.63.0-alpha.3",
+    "@startupjs/skills": "^0.63.0-alpha.7",
+    "@startupjs/utils": "^0.63.0-alpha.0",
+    "babel-preset-startupjs": "^0.63.0-alpha.3",
     "cssxjs": "^0.3.0",
     "lodash": "^4.17.20",
-    "teamplay": "^0.4.0"
+    "teamplay": "^0.5.0"
   },
   "peerDependencies": {
     "@startupjs/worker": "*",
