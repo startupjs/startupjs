@@ -1196,13 +1196,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@colordx/core@npm:5.4.3":
-  version: 5.4.3
-  resolution: "@colordx/core@npm:5.4.3"
-  checksum: 10c0/9fa1888b8794d6e80c9fb346bf18dc6de0a79834099559baab4854ed09c5684f1ec26f1d745c2702774dbb47ce936eeb0645da0f64cce43b45df68f7e8fa9ff2
-  languageName: node
-  linkType: hard
-
 "@cssxjs/babel-plugin-rn-stylename-inline@npm:^0.3.0":
   version: 0.3.0
   resolution: "@cssxjs/babel-plugin-rn-stylename-inline@npm:0.3.0"
@@ -1248,25 +1241,6 @@ __metadata:
   checksum: 10c0/54d5990946c164089be1ca2203ff360ab49528df79290b8fd9df1bcdb07780335c03c3a6668a045786ff1b5808c6e101bdfe3b9b62a9fcc3b460d3513f56287f
   languageName: node
   linkType: hard
-
-"@cssxjs/css-to-rn@portal:../cssx/packages/css-to-rn::locator=root-workspace-0b6124%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@cssxjs/css-to-rn@portal:../cssx/packages/css-to-rn::locator=root-workspace-0b6124%40workspace%3A."
-  dependencies:
-    "@colordx/core": "npm:5.4.3"
-    css: "npm:^3.0.0"
-    css-mediaquery: "npm:^0.1.2"
-    postcss-value-parser: "npm:^4.2.0"
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-native:
-      optional: true
-  languageName: node
-  linkType: soft
 
 "@cssxjs/loaders@npm:^0.3.0":
   version: 0.3.0
@@ -11762,24 +11736,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cssxjs@portal:../cssx/packages/cssxjs::locator=root-workspace-0b6124%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "cssxjs@portal:../cssx/packages/cssxjs::locator=root-workspace-0b6124%40workspace%3A."
+"cssxjs@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "cssxjs@npm:0.3.0"
   dependencies:
     "@cssxjs/babel-plugin-rn-stylename-inline": "npm:^0.3.0"
     "@cssxjs/babel-plugin-rn-stylename-to-style": "npm:^0.3.0"
     "@cssxjs/bundler": "npm:^0.3.0"
-    "@cssxjs/css-to-rn": "npm:^0.3.0"
     "@cssxjs/loaders": "npm:^0.3.0"
+    "@cssxjs/runtime": "npm:^0.3.0"
     "@react-pug/babel-plugin-react-pug": "npm:^0.1.18"
     "@react-pug/check-types": "npm:^0.1.18"
     babel-preset-cssxjs: "npm:^0.3.0"
   peerDependencies:
     react: "*"
   bin:
-    cssxjs: ./cli.js
+    cssxjs: cli.js
+  checksum: 10c0/843c6b80ed9b3118e1c3a27dc21672f53385c8c9cb5cbda5f5bda1307e644b9d03dcedf81c6409f45610747b02d5db220b2a99255667c81a94c5660613061d81
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "dargs@npm:^7.0.0":
   version: 7.0.0
