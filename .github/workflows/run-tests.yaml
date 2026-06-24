@@ -33,7 +33,7 @@ jobs:
       run: yarn install --immutable
 
     - name: Install Playwright Browsers
-      run: yarn playwright install --with-deps
+      run: yarn exec playwright install --with-deps
 
     - name: Run Playwright tests
       run: yarn test-e2e
