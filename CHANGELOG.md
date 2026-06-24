@@ -167,6 +167,15 @@
 
 * use new cssxjs with improved pug support in TS and style(lang='styl') tag. Support Expo 55. ([3238ce7](https://github.com/startupjs/startupjs/commit/3238ce7b136b497e7a2f28413a5a4e8406e12c27))
 * **worker:** [BREAKING] Rewrite worker implementation and API ([#1308](https://github.com/startupjs/startupjs/issues/1308)) ([ad95c81](https://github.com/startupjs/startupjs/commit/ad95c81e3a1031133330a167cee2505678ed735a))
+## [0.62.4](https://github.com/startupjs/startupjs/compare/v0.62.3...v0.62.4) (2026-06-17)
+
+
+
+## [0.62.3](https://github.com/startupjs/startupjs/compare/v0.62.2...v0.62.3) (2026-06-16)
+
+
+
+## [0.62.2](https://github.com/startupjs/startupjs/compare/v0.62.1...v0.62.2) (2026-06-16)
 
 
 

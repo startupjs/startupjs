@@ -17,6 +17,7 @@ const IS_EXPO = isExpo(process.env.ROOT_PATH || process.cwd())
 //       might actually be good for performance since the data is cached
 //       between concurrent requests and we don't have to re-fetch it each time.
 const FETCH_ONLY = false
+const importLocalModule = createLocalModuleImporter()
 
 const defaultOptions = {
   publicPath: IS_EXPO ? './dist' : './public',
@@ -28,6 +29,7 @@ const defaultOptions = {
 }
 
 let backendInitialized = false
+let currentBackend
 
 export default async function startServer (options) {
   const props = await createServer(options)
@@ -40,9 +42,12 @@ export default async function startServer (options) {
 }
 
 export async function createServer (options = {}) {
-  const { default: createServer } = await import('./server/createServer.js')
+  const { default: createServer } = await importLocalModule(
+    new URL('./server/createServer.js', import.meta.url).href
+  )
   options = transformOptions(options)
   const backend = _createBackend({ ...options, models: MODULE.models })
+  currentBackend = backend
   MODULE.hook('backend', backend)
   const sessionRef = {}
   if (!options.enableOAuth2) sessionRef.session = _createSession(options)
@@ -54,9 +59,12 @@ export async function createServer (options = {}) {
 }
 
 export async function createMiddleware (options = {}) {
-  const { default: createMiddleware } = await import('./server/createMiddleware.js')
+  const { default: createMiddleware } = await importLocalModule(
+    new URL('./server/createMiddleware.js', import.meta.url).href
+  )
   options = transformOptions(options)
   const backend = _createBackend({ ...options, models: MODULE.models })
+  currentBackend = backend
   MODULE.hook('backend', backend)
   const sessionRef = {}
   if (!options.enableOAuth2) sessionRef.session = _createSession(options)
@@ -70,6 +78,7 @@ export async function createMiddleware (options = {}) {
 export function createBackend (options = {}) {
   options = transformOptions(options)
   const backend = _createBackend({ ...options, models: MODULE.models })
+  currentBackend = backend
   MODULE.hook('backend', backend)
   _initConnection(backend, { fetchOnly: FETCH_ONLY })
   markBackendInitialized()
@@ -78,6 +87,14 @@ export function createBackend (options = {}) {
 
 export function isBackendInitialized () {
   return backendInitialized
+}
+
+export function getBackend () {
+  if (currentBackend) return currentBackend
+
+  throw new Error(
+    '[startupjs/server] Backend is not initialized. Call createServer(), createMiddleware() or createBackend() first.'
+  )
 }
 
 function transformOptions (options = {}) {
@@ -101,6 +118,12 @@ function isExpo (rootPath) {
 
 function markBackendInitialized () {
   backendInitialized = true
+}
+
+function createLocalModuleImporter () {
+  // Keep server-only modules lazy without exposing literal dynamic imports
+  // to Metro/Expo web static analysis through startupjs/server consumers.
+  return new Function('specifier', 'return import(specifier)') // eslint-disable-line no-new-func
 }
 
 export {

@@ -7,6 +7,11 @@
   "description": "Worker based on bullmq",
   "type": "module",
   "main": "index.js",
+  "scripts": {
+    "test": "yarn test:unit && yarn test:integration",
+    "test:unit": "node --test test/job*.test.js",
+    "test:integration": "node --test test/*.integration.test.js"
+  },
   "exports": {
     ".": "./index.js",
     "./init": "./init.js",

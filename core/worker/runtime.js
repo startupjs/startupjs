@@ -1,5 +1,6 @@
 import {
   createBackend,
+  getBackend,
   getRedis,
   getRedisOptions,
   isBackendInitialized,
@@ -17,9 +18,12 @@ export const AVAILABLE_WORKERS = Object.freeze(['default', 'priority'])
 
 const DEFAULT_OPTIONS = {
   concurrency: 300,
+  ensureBackend: true,
   useSeparateProcess: false,
   useWorkerThreads: true,
-  jobTimeout: 30000
+  jobTimeout: 30000,
+  queuePrefix: redisPrefix,
+  events: undefined
 }
 
 const DEFAULT_JOB_OPTIONS = {
@@ -29,8 +33,12 @@ const DEFAULT_JOB_OPTIONS = {
 
 const queues = new Map()
 const queueEvents = new Map()
+const redisConnections = new Set()
+const pendingWorkerEvents = new Set()
+const importLocalModule = createLocalModuleImporter()
 
 let backendInitPromise
+let workerBackend
 let jobsPromise
 let runtimeOptionsOverrides = {}
 
@@ -47,6 +55,7 @@ export function getRuntimeOptions (override = {}) {
 
   return {
     concurrency: toNumber(mergedOptions.concurrency, DEFAULT_OPTIONS.concurrency),
+    ensureBackend: toBoolean(mergedOptions.ensureBackend, DEFAULT_OPTIONS.ensureBackend),
     useSeparateProcess: toBoolean(
       mergedOptions.useSeparateProcess,
       DEFAULT_OPTIONS.useSeparateProcess
@@ -55,7 +64,9 @@ export function getRuntimeOptions (override = {}) {
       mergedOptions.useWorkerThreads,
       DEFAULT_OPTIONS.useWorkerThreads
     ),
-    jobTimeout: toNumber(mergedOptions.jobTimeout, DEFAULT_OPTIONS.jobTimeout)
+    jobTimeout: toNumber(mergedOptions.jobTimeout, DEFAULT_OPTIONS.jobTimeout),
+    queuePrefix: normalizeQueuePrefix(mergedOptions.queuePrefix, DEFAULT_OPTIONS.queuePrefix),
+    events: normalizeEvents(mergedOptions.events)
   }
 }
 
@@ -89,33 +100,37 @@ export function getWorkersToStart (workers) {
 
 export function getQueue (queueName) {
   validateWorkerName(queueName)
+  const queuePrefix = getRuntimeOptions().queuePrefix
+  const queueKey = `${queuePrefix}:${queueName}`
 
-  if (!queues.has(queueName)) {
-    queues.set(queueName, new Queue(queueName, {
-      prefix: redisPrefix,
+  if (!queues.has(queueKey)) {
+    queues.set(queueKey, new Queue(queueName, {
+      prefix: queuePrefix,
       connection: createQueueConnection()
     }))
   }
 
-  return queues.get(queueName)
+  return queues.get(queueKey)
 }
 
 export function getQueueEvents (queueName) {
   validateWorkerName(queueName)
+  const queuePrefix = getRuntimeOptions().queuePrefix
+  const queueKey = `${queuePrefix}:${queueName}`
 
-  if (!queueEvents.has(queueName)) {
+  if (!queueEvents.has(queueKey)) {
     const queueEventsInstance = new QueueEvents(queueName, {
-      prefix: redisPrefix,
+      prefix: queuePrefix,
       connection: createQueueConnection()
     })
 
     // Multiple concurrent runJob().waitUntilFinished() calls attach listeners to
     // the same QueueEvents instance, which can exceed Node's default of 10.
     queueEventsInstance.setMaxListeners(0)
-    queueEvents.set(queueName, queueEventsInstance)
+    queueEvents.set(queueKey, queueEventsInstance)
   }
 
-  return queueEvents.get(queueName)
+  return queueEvents.get(queueKey)
 }
 
 export function getQueueJobOptions () {
@@ -126,6 +141,8 @@ export function getQueueJobOptions () {
 }
 
 export async function closeRuntimeResources () {
+  await flushWorkerEvents()
+
   const queuesToClose = Array.from(queues.values())
   const queueEventsToClose = Array.from(queueEvents.values())
 
@@ -136,17 +153,26 @@ export async function closeRuntimeResources () {
     ...queuesToClose.map(queue => queue.close()),
     ...queueEventsToClose.map(events => events.close())
   ])
+
+  const connectionsToClose = Array.from(redisConnections.values())
+  redisConnections.clear()
+
+  await Promise.allSettled(connectionsToClose.map(closeRedisConnection))
 }
 
 export function getWorkerConnection () {
-  return getRedis({
+  return createRedisConnection({
     ...getRedisOptions({ addPrefix: false }),
     maxRetriesPerRequest: null
   })
 }
 
 export async function ensureBackendReady () {
-  if (isBackendInitialized()) return
+  if (workerBackend) return
+  if (isBackendInitialized()) {
+    workerBackend = getBackend()
+    return
+  }
   if (backendInitPromise) {
     await backendInitPromise
     return
@@ -154,7 +180,7 @@ export async function ensureBackendReady () {
 
   backendInitPromise = Promise.resolve()
     .then(() => {
-      createBackend()
+      workerBackend = createBackend()
     })
     .catch(error => {
       backendInitPromise = undefined
@@ -164,16 +190,72 @@ export async function ensureBackendReady () {
   await backendInitPromise
 }
 
+export function getWorkerBackend () {
+  if (workerBackend) return workerBackend
+
+  throw new Error(
+    '[@startupjs/worker] Worker backend is not available. ' +
+      'Enable backend initialization for the worker process before using job context backend/createModel.'
+  )
+}
+
+export function createWorkerModel () {
+  return getWorkerBackend().createModel()
+}
+
+export async function emitWorkerEvent (eventName, event = {}) {
+  const promise = runWorkerEvent(eventName, event)
+
+  pendingWorkerEvents.add(promise)
+  promise.finally(() => {
+    pendingWorkerEvents.delete(promise)
+  })
+
+  return await promise
+}
+
+async function runWorkerEvent (eventName, event = {}) {
+  const events = getRuntimeOptions().events
+  const handlerName = getWorkerEventHandlerName(eventName)
+  const handler = events?.[handlerName]
+
+  if (typeof handler !== 'function') return
+
+  try {
+    await handler(event)
+  } catch (error) {
+    console.error(`[@startupjs/worker] ${handlerName} hook failed:`, error)
+  }
+}
+
+async function flushWorkerEvents () {
+  if (!pendingWorkerEvents.size) return
+
+  await Promise.allSettled(Array.from(pendingWorkerEvents))
+}
+
 export async function getJobsMap ({ refresh = false } = {}) {
   if (refresh || !jobsPromise) jobsPromise = loadJobs()
   return jobsPromise
 }
 
 function createQueueConnection () {
-  return getRedis({
+  return createRedisConnection({
     ...getRedisOptions({ addPrefix: false }),
     maxRetriesPerRequest: null,
     enableOfflineQueue: false
+  })
+}
+
+function createRedisConnection (options) {
+  const connection = getRedis(options)
+  redisConnections.add(connection)
+  return connection
+}
+
+async function closeRedisConnection (connection) {
+  await connection.quit().catch(() => {
+    connection.disconnect()
   })
 }
 
@@ -254,10 +336,16 @@ async function loadJobsFromFiles () {
 
     const jobName = basename(entry.name, extension)
     const filePath = join(jobsDir, entry.name)
-    jobs[jobName] = await import(pathToFileURL(filePath).href)
+    jobs[jobName] = await importLocalModule(pathToFileURL(filePath).href)
   }
 
   return jobs
+}
+
+function createLocalModuleImporter () {
+  // Keep workerJobs ESM loading server-side without exposing import(expression)
+  // to Metro/Expo web static analysis through @startupjs/worker/plugin.
+  return new Function('specifier', 'return import(specifier)') // eslint-disable-line no-new-func
 }
 
 function normalizeJob (jobName, jobModule) {
@@ -335,4 +423,20 @@ function toNumber (value, defaultValue) {
   if (value == null) return defaultValue
   const normalizedValue = Number(value)
   return Number.isFinite(normalizedValue) ? normalizedValue : defaultValue
+}
+
+function normalizeQueuePrefix (value, defaultValue) {
+  if (value == null || value === '') return defaultValue
+
+  const normalizedValue = String(value).trim()
+  return normalizedValue || defaultValue
+}
+
+function normalizeEvents (events) {
+  if (!events || typeof events !== 'object') return undefined
+  return events
+}
+
+function getWorkerEventHandlerName (eventName) {
+  return `on${eventName.charAt(0).toUpperCase()}${eventName.slice(1)}`
 }

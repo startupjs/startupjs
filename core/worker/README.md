@@ -48,6 +48,191 @@ import runJob from '@startupjs/worker'
 const result = await runJob('sendWelcomeEmail', { userId: 'u1' })
 ```
 
+## Fire-and-forget jobs
+
+Use `enqueueJob()` when the request should return immediately and another part
+of your app will track the job status.
+
+```js
+import { enqueueJob } from '@startupjs/worker'
+
+const jobRef = await enqueueJob('sendWelcomeEmail', { userId: 'u1' })
+```
+
+`jobRef` is serializable:
+
+```js
+{
+  id: '123',
+  worker: 'default',
+  name: 'sendWelcomeEmail'
+}
+```
+
+You can wait for it later:
+
+```js
+import { waitJob } from '@startupjs/worker'
+
+const result = await waitJob(jobRef)
+```
+
+If you need to know whether enqueue created a new job or reused/deduped an
+existing one, pass `returnMeta: true`:
+
+```js
+const result = await enqueueJob('sendWelcomeEmail', { userId: 'u1' }, {
+  returnMeta: true
+})
+
+// result:
+// {
+//   ref: { id, worker, name },
+//   created: true,
+//   deduped: false,
+//   skipped: false,
+//   replaced: false,
+//   reason: null,
+//   policy: 'created',
+//   duplicateOf: null
+// }
+```
+
+Without `returnMeta`, `enqueueJob()` keeps the old behavior and returns only
+`jobRef`.
+
+`runJob(name, data, options)` is still available and still waits for completion.
+Internally it is equivalent to `enqueueJob()` followed by `waitJob()`.
+
+## Job status, logs and counts
+
+```js
+import {
+  getJobLogs,
+  getJobStatus,
+  getJobsCount,
+  queryJobs
+} from '@startupjs/worker'
+
+const status = await getJobStatus(jobRef)
+const logs = await getJobLogs(jobRef)
+
+const activeCount = await getJobsCount({
+  trackingKey: `course:${courseId}:voiceovers`,
+  states: ['waiting', 'delayed', 'active']
+})
+
+const jobs = await queryJobs({
+  trackingKey: `course:${courseId}:voiceovers`,
+  states: ['failed'],
+  limit: 20
+})
+```
+
+Use `trackingKey` when you need to query jobs by domain entity. Without a
+`trackingKey`, BullMQ can count jobs by queue state, but it can not efficiently
+answer domain queries like "active voiceover jobs for this course".
+`getJobsCount({ name })` also requires `trackingKey`; otherwise the result would
+be a capped scan instead of an exact count.
+
+```js
+await enqueueJob('generateCourseVoiceovers', { courseId }, {
+  trackingKey: `course:${courseId}:voiceovers`
+})
+```
+
+## Delayed jobs
+
+```js
+await enqueueJob('sendReminder', { userId }, {
+  delay: 60_000
+})
+
+await enqueueJob('sendReminder', { userId }, {
+  startAt: Date.now() + 60_000
+})
+```
+
+Use either `delay` or `startAt`, not both.
+
+## Per-call singleton and queue selection
+
+Job files can still export `singleton`, but you can also set it per enqueue call:
+
+```js
+await enqueueJob('rebuildUserFeed', { userId }, {
+  singleton: { key: userId }
+})
+```
+
+By default duplicates return the existing in-flight job ref. For per-call
+singleton you can choose a different duplicate policy:
+
+```js
+await enqueueJob('rebuildUserFeed', { userId }, {
+  singleton: {
+    key: userId,
+    onDuplicate: 'skip' // 'return-existing' | 'skip' | 'throw'
+  }
+})
+```
+
+You can override the queue at runtime:
+
+```js
+await enqueueJob('sendOtp', { userId }, {
+  worker: 'priority'
+})
+```
+
+## Debounce and throttle
+
+Debounce and throttle are exposed through a package-level API.
+Basic debounce and leading throttle are implemented with BullMQ deduplication.
+Trailing throttle keeps the first job immediate and schedules one latest-value
+job at the end of the throttle window.
+
+```js
+await enqueueJob('rebuildSearchIndex', { entityId }, {
+  debounce: {
+    key: entityId,
+    delay: 3000
+  }
+})
+
+await enqueueJob('recalculateStats', { lessonId }, {
+  throttle: {
+    key: lessonId,
+    ttl: 3000
+  }
+})
+
+await enqueueJob('recalculateStats', { lessonId, value }, {
+  throttle: {
+    key: lessonId,
+    ttl: 3000,
+    trailing: true
+  }
+})
+```
+
+For debounce, `debounce.delay` is also used as the BullMQ job delay, so do not
+pass a separate `delay` or `startAt` option.
+
+For debounce duplicates, the default policy is `replace`, so the latest delayed
+payload wins. You can opt out with `replace: false` or choose an explicit
+`onDuplicate` policy:
+
+```js
+await enqueueJob('rebuildSearchIndex', { entityId }, {
+  debounce: {
+    key: entityId,
+    delay: 3000,
+    onDuplicate: 'replace' // 'replace' | 'return-existing' | 'skip' | 'throw'
+  }
+})
+```
+
 ## Production Deployment (Important)
 
 Default behavior:
@@ -213,8 +398,75 @@ Your handler receives:
 - `log.warn(message, { data, err })`
 - `log.error(message, { data, err })`
 - `job` (raw queue job object)
+- `jobRef` (serializable job reference)
+- `progress(value)` (updates BullMQ job progress)
+- `enqueueJob(name, data, options)`
+- `waitJob(jobRef, options)`
+- `getJobStatus(jobRef)`
+- `backend`
+- `createModel()`
 
 Use `log(...)` instead of `console.log(...)` when you want logs visible in the queue dashboard.
+
+When the worker backend is initialized, handlers can use model helpers:
+
+```js
+export default async function updateSomething (data, { createModel }) {
+  const $ = createModel()
+  // ...
+  $.close()
+}
+```
+
+`createModel()` throws if worker backend initialization is disabled with
+`ensureBackend: false`.
+
+## Worker Lifecycle Events
+
+Use `events` in worker server config when you need a generic integration point
+for metrics, domain status rows, notifications or custom tracking.
+
+```js
+// startupjs.config.js
+export default {
+  plugins: {
+    worker: {
+      server: {
+        events: {
+          onQueued: event => {},
+          onDeduped: event => {},
+          onStarted: event => {},
+          onProgress: event => {},
+          onCompleted: event => {},
+          onFailed: event => {}
+        }
+      }
+    }
+  }
+}
+```
+
+Each event contains:
+- `ref`: serializable job ref
+- `name`: job name
+- `worker`: queue name
+- `data`: job payload data
+- `meta`: worker metadata
+- `state`
+- `job`: raw BullMQ job object
+
+`onCompleted` also receives `result`, `onFailed` receives `error`, and
+`onProgress` receives `progress`.
+
+Lifecycle hooks are managed best-effort:
+- hook errors are logged and do not change BullMQ job outcome
+- `onStarted` / `onProgress` / `onCompleted` / `onFailed` run from parent
+  BullMQ `Worker` events
+- worker shutdown waits for currently pending hook promises before closing
+  runtime resources
+
+Use BullMQ job state as the source of truth and lifecycle hooks for metrics,
+notifications or eventually consistent read models.
 
 ## Examples By Use Case
 
@@ -353,7 +605,9 @@ export default {
         autoStart: true,
         autoStartProduction: true,
         concurrency: 300,
+        ensureBackend: true,
         jobTimeout: 30000,
+        queuePrefix: undefined,
         useSeparateProcess: false,
         useWorkerThreads: true,
         dashboard: {
@@ -370,7 +624,9 @@ Option meanings:
 - `autoStart` (`true` by default): auto-initialize workers on server startup.
 - `autoStartProduction` (`true` by default): if `false`, workers do not auto-start when `NODE_ENV=production`.
 - `concurrency` (`300`): per-worker concurrency.
+- `ensureBackend` (`true`): initialize StartupJS backend before running a job. Set to `false` only for pure BullMQ jobs/tests that do not use model/backend APIs.
 - `jobTimeout` (`30000` ms): default timeout for jobs.
+- `queuePrefix` (`redisPrefix`): BullMQ Redis key prefix. Mostly useful for isolated tests or dedicated deployments.
 - `useSeparateProcess` (`false`): execute job handlers in sandboxed child runner.
 - `useWorkerThreads` (`true`): when sandbox is on, use worker threads.
 - `dashboard`: queue UI settings. Provide `route` to enable the dashboard route.
@@ -414,12 +670,21 @@ If you split only in production, set `autoStartProduction: false` so dev/stage b
 ## Public Exports
 
 ```js
-import runJob from '@startupjs/worker'
+import runJob, {
+  cancelJob,
+  enqueueJob,
+  getJobLogs,
+  getJobStatus,
+  getJobsCount,
+  queryJobs,
+  waitJob
+} from '@startupjs/worker'
 import initWorker from '@startupjs/worker/init'
 import '@startupjs/worker/plugin'
 ```
 
 - `@startupjs/worker`: `runJob(name, data?, options?)`
+- `@startupjs/worker`: named job helpers listed above
 - `@startupjs/worker/init`: `initWorker(options?)`
 - `@startupjs/worker/plugin`: StartupJS plugin export used by plugin registry
 

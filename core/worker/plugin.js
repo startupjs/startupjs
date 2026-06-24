@@ -1,5 +1,6 @@
 import { createPlugin } from 'startupjs/registry'
-import initDashboardRoute from './initDashboardRoute.js'
+
+const importLocalModule = createLocalModuleImporter()
 
 export default createPlugin({
   name: 'worker',
@@ -19,6 +20,9 @@ export default createPlugin({
         if (dashboardOptions === true) dashboardOptions = {}
 
         if (dashboardOptions) {
+          const { default: initDashboardRoute } = await importLocalModule(
+            new URL('./initDashboardRoute.js', import.meta.url).href
+          )
           initDashboardRoute({
             expressApp,
             ...dashboardOptions
@@ -29,10 +33,18 @@ export default createPlugin({
         const shouldAutoStart = autoStart && (!isProduction || autoStartProduction)
 
         if (shouldAutoStart) {
-          const { default: initWorker } = await import('./init.js')
+          const { default: initWorker } = await importLocalModule(
+            new URL('./init.js', import.meta.url).href
+          )
           await initWorker(initOptions)
         }
       }
     }
   }
 })
+
+function createLocalModuleImporter () {
+  // Keep server-only worker modules lazy without exposing literal dynamic imports
+  // to Metro/Expo web static analysis through startupjs.config.js.
+  return new Function('specifier', 'return import(specifier)') // eslint-disable-line no-new-func
+}

@@ -1,9 +1,9 @@
-import { redisPrefix } from 'startupjs/server'
 import { Worker } from 'bullmq'
 import { fileURLToPath } from 'url'
 import {
   AVAILABLE_WORKERS,
   closeRuntimeResources,
+  emitWorkerEvent,
   getJobsMap,
   getQueue,
   getQueueJobOptions,
@@ -12,6 +12,7 @@ import {
   getWorkerConnection,
   getWorkersToStart
 } from './runtime.js'
+import { createJobRef } from './jobRef.js'
 import processJob from './processJob.js'
 
 const PROCESS_JOB_PATH = fileURLToPath(new URL('./processJob.js', import.meta.url))
@@ -37,8 +38,11 @@ export default async function init (options = {}) {
   }
 }
 
-export async function closeWorkers () {
-  await gracefulShutdown(0, { exitProcess: false })
+export async function closeWorkers (options = {}) {
+  await gracefulShutdown(0, {
+    exitProcess: false,
+    force: Boolean(options.force)
+  })
 }
 
 function startWorker (workerName, runtimeOptions) {
@@ -48,7 +52,7 @@ function startWorker (workerName, runtimeOptions) {
     workerName,
     runtimeOptions.useSeparateProcess ? PROCESS_JOB_PATH : processJob,
     {
-      prefix: redisPrefix,
+      prefix: runtimeOptions.queuePrefix,
       connection: getWorkerConnection(),
       concurrency: runtimeOptions.concurrency,
       useWorkerThreads: runtimeOptions.useSeparateProcess && runtimeOptions.useWorkerThreads,
@@ -59,9 +63,76 @@ function startWorker (workerName, runtimeOptions) {
   worker.on('error', error => {
     console.error(`[@startupjs/worker] Worker "${workerName}" error:`, error)
   })
+  attachWorkerLifecycleEvents(worker, workerName)
 
   activeWorkers.set(workerName, worker)
   return worker
+}
+
+function attachWorkerLifecycleEvents (worker, workerName) {
+  worker.on('active', job => {
+    emitWorkerLifecycleEvent('started', createWorkerEvent(job, workerName, {
+      state: 'active'
+    }))
+  })
+
+  worker.on('progress', (job, progress) => {
+    emitWorkerLifecycleEvent('progress', createWorkerEvent(job, workerName, {
+      state: 'active',
+      progress
+    }))
+  })
+
+  worker.on('completed', (job, result) => {
+    emitWorkerLifecycleEvent('completed', createWorkerEvent(job, workerName, {
+      state: 'completed',
+      result
+    }))
+  })
+
+  worker.on('failed', (job, error) => {
+    emitWorkerLifecycleEvent('failed', createWorkerEvent(job, workerName, {
+      state: 'failed',
+      error
+    }))
+  })
+}
+
+function emitWorkerLifecycleEvent (eventName, event) {
+  emitWorkerEvent(eventName, event).catch(error => {
+    console.error(`[@startupjs/worker] Failed to emit "${eventName}" lifecycle event:`, error)
+  })
+}
+
+function createWorkerEvent (job, workerName, event = {}) {
+  if (!job) {
+    return {
+      ref: null,
+      name: null,
+      worker: workerName,
+      data: undefined,
+      meta: undefined,
+      job: undefined,
+      ...event
+    }
+  }
+
+  const payload = job.data || {}
+  const name = payload.type || job.name
+  const worker = payload.meta?.worker || workerName
+
+  return {
+    ref: {
+      ...createJobRef(job, worker),
+      name
+    },
+    name,
+    worker,
+    data: payload.data,
+    meta: payload.meta,
+    job,
+    ...event
+  }
 }
 
 async function syncSchedulers (workerName, jobs, runtimeOptions) {
@@ -110,7 +181,7 @@ function attachShutdownHandlers () {
   })
 }
 
-async function gracefulShutdown (exitCode = 0, { exitProcess = true } = {}) {
+async function gracefulShutdown (exitCode = 0, { exitProcess = true, force = false } = {}) {
   if (shutdownPromise) return shutdownPromise
 
   shutdownPromise = (async () => {
@@ -127,7 +198,7 @@ async function gracefulShutdown (exitCode = 0, { exitProcess = true } = {}) {
     }
 
     try {
-      await Promise.allSettled(workers.map(worker => worker.close()))
+      await Promise.allSettled(workers.map(worker => worker.close(force)))
       activeWorkers.clear()
       await closeRuntimeResources()
     } finally {

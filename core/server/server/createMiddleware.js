@@ -15,6 +15,7 @@ const DEFAULT_BODY_PARSER_OPTIONS = {
     extended: true
   }
 }
+const importLocalModule = createLocalModuleImporter()
 
 /**
  * A connect middleware with core startupjs functionality. You can plug this into your
@@ -61,7 +62,9 @@ export async function _createMiddleware ({ backend, session, channel, options })
   if (existsSync(join(options.dirname, SERVER_FOLDER))) {
     for (const file of readdirSync(join(options.dirname, SERVER_FOLDER))) {
       if (MIDDLEWARE_FILENAME_REGEX.test(file)) {
-        const { default: middleware } = await import(join(options.dirname, SERVER_FOLDER, file))
+        const { default: middleware } = await importLocalModule(
+          join(options.dirname, SERVER_FOLDER, file)
+        )
         if (!(typeof middleware === 'function' || Array.isArray(middleware))) {
           throw Error(ERRORS.incorrectMiddlewareFile(file))
         }
@@ -102,6 +105,12 @@ export async function _createMiddleware ({ backend, session, channel, options })
   })
 
   return publicApp
+}
+
+function createLocalModuleImporter () {
+  // Keep server middleware ESM loading server-side without exposing import(expression)
+  // to Metro/Expo web static analysis through startupjs.config.js.
+  return new Function('specifier', 'return import(specifier)') // eslint-disable-line no-new-func
 }
 
 const ERRORS = {
