@@ -48,11 +48,15 @@
     "teamplay": "^0.5.0"
   },
   "peerDependencies": {
+    "@react-native-async-storage/async-storage": "*",
     "@startupjs/worker": "*",
     "react": "*",
     "react-native": "*"
   },
   "peerDependenciesMeta": {
+    "@react-native-async-storage/async-storage": {
+      "optional": true
+    },
     "@startupjs/worker": {
       "optional": true
     },
