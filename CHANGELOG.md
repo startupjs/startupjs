@@ -1,3 +1,12 @@
+# [0.64.0-alpha.0](https://github.com/startupjs/startupjs/compare/v0.63.1...v0.64.0-alpha.0) (2026-06-24)
+
+
+### Features
+
+* Wire StartupjsProvider to CSSX ([#1327](https://github.com/startupjs/startupjs/issues/1327)) ([962d8f5](https://github.com/startupjs/startupjs/commit/962d8f54b79b0606aeb1ea7c043d106dbcc2016f)), closes [startupjs/cssx#5](https://github.com/startupjs/cssx/issues/5) [startupjs/startupjs-ui#41](https://github.com/startupjs/startupjs-ui/issues/41)
+
+
+
 ## [0.63.1](https://github.com/startupjs/startupjs/compare/v0.63.0...v0.63.1) (2026-06-24)
 
 
