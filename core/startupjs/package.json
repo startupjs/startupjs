@@ -43,7 +43,7 @@
     "@startupjs/skills": "^0.64.0-alpha.0",
     "@startupjs/utils": "^0.64.0-alpha.0",
     "babel-preset-startupjs": "^0.64.0-alpha.0",
-    "cssxjs": "^0.4.0-alpha.0",
+    "cssxjs": "^0.4.0-alpha.2",
     "lodash": "^4.17.20",
     "teamplay": "^0.5.0"
   },
