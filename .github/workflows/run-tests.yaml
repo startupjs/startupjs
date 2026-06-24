@@ -29,16 +29,16 @@ jobs:
     - name: Enable corepack
       run: corepack enable
 
-    - name: Use yarn@4
-      run: corepack use yarn@4
+    - name: Install dependencies
+      run: yarn install --immutable
 
     - name: Install Playwright Browsers
-      run: yarn playwright install --with-deps
+      run: yarn exec playwright install --with-deps
 
     - name: Run Playwright tests
       run: yarn test-e2e
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: always()
       with:
         name: playwright-report
