@@ -13741,7 +13741,7 @@ __metadata:
     react-native-worklets: "npm:0.7.2"
     react-test-renderer: "npm:~19.1.0"
     startupjs: "npm:^0.64.0-alpha.2"
-    startupjs-ui: "npm:^0.4.0-alpha.0"
+    startupjs-ui: "npm:^0.4.0-alpha.1"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -26372,9 +26372,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs-ui@npm:^0.4.0-alpha.0":
-  version: 0.4.0-alpha.0
-  resolution: "startupjs-ui@npm:0.4.0-alpha.0"
+"startupjs-ui@npm:^0.4.0-alpha.1":
+  version: 0.4.0-alpha.1
+  resolution: "startupjs-ui@npm:0.4.0-alpha.1"
   dependencies:
     "@startupjs-ui/abstract-popover": "npm:^0.4.0-alpha.0"
     "@startupjs-ui/alert": "npm:^0.4.0-alpha.0"
@@ -26438,7 +26438,7 @@ __metadata:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/8db6e94f05199a6ff320f5eb6ba901f90bf7e68ea5475ed3f7d0b49d0d5cffe3ad5c27c16a82c59c058bf6485b36df42bffa1a8a0510caf814de8760f59f0054
+  checksum: 10c0/4e7ff30fba75e5d83deabcb9a57ef25b15abfadd6f8071273652ec67c989b308df9c9b117e156ef69b9fb2ff8e8f75e3b2c9491f0670a7ab5151f40eddbeffe3
   languageName: node
   linkType: hard
 
