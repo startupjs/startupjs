@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/cli",
-  "version": "0.64.0-alpha.0",
+  "version": "0.64.0-alpha.1",
   "description": "The command-line tool for StartupJS apps.",
   "type": "module",
   "main": "index.js",
@@ -14,7 +14,7 @@
     "@startupjs/skills": "^0.64.0-alpha.0",
     "chalk": "^5.3.0",
     "commander": "^12.0.0",
-    "create-startupjs": "^0.64.0-alpha.0",
+    "create-startupjs": "^0.64.0-alpha.1",
     "execa": "^8.0.1"
   },
   "peerDependencies": {

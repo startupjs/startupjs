@@ -1,7 +1,7 @@
 {
   "name": "expoapp",
   "main": "expo-router/entry",
-  "version": "0.64.0-alpha.0",
+  "version": "0.64.0-alpha.1",
   "type": "module",
   "scripts": {
     "start": "npm run check-redis && npx expo start",
@@ -54,7 +54,7 @@
     "react-native-svg": "15.15.3",
     "react-native-web": "^0.21.0",
     "react-native-worklets": "0.7.2",
-    "startupjs": "^0.64.0-alpha.0",
+    "startupjs": "^0.64.0-alpha.1",
     "startupjs-ui": "^0.4.0-alpha.0"
   },
   "devDependencies": {
