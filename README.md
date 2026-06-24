@@ -222,6 +222,10 @@ validateSchema: true
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md)
 
+## TODO (short term):
+
+- @startupjs/babel-plugin-eliminator is used directly in teamplay, should move it out to a separate repo independently versioned so that we don't have multiple versions installed in the end projects (not a big issue since it has no other deps, so it's pure, but still makes sense to get rid of the duplication)
+
 ## License
 
 MIT
