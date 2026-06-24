@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "Auth module for StartupJS apps. Supports either cookie sessions or JWT tokens.",
-  "version": "0.64.0-alpha.0",
+  "version": "0.64.0-alpha.2",
   "type": "module",
   "main": "index.js",
   "exports": {
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@startupjs/registry": "^0.64.0-alpha.0",
-    "@startupjs/utils": "^0.64.0-alpha.0",
+    "@startupjs/utils": "^0.64.0-alpha.2",
     "bcrypt": "^5.1.1",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^3.1.0",
