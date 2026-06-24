@@ -7,7 +7,11 @@ const { join, resolve } = require('path')
 //   config = getDefaultConfig(__dirname, { upstreamConfig })
 exports.getDefaultConfig = function getDefaultConfig (projectRoot, {
   upstreamConfig,
-  checkStartupjsBabel = true
+  checkStartupjsBabel = true,
+  transformCssFiles = false,
+  transformStylFiles = true,
+  cssFileExtensions = ['cssx.css'],
+  stylFileExtensions = ['styl']
 } = {}) {
   let packageJson = {}
   try {
@@ -17,13 +21,24 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, {
   const features = getFeatures(projectRoot)
   upstreamConfig ??= getUpstreamConfig(projectRoot)
   const isExpo = checkIfExpo(upstreamConfig)
+  const cssxMetroOptions = {
+    transformCssFiles,
+    transformStylFiles,
+    cssFileExtensions: normalizeExtensions(cssFileExtensions),
+    stylFileExtensions: normalizeExtensions(stylFileExtensions)
+  }
+  setCssxMetroEnv(cssxMetroOptions)
 
   const config = {
     ...upstreamConfig,
     transformer: {
       ...upstreamConfig.transformer,
       babelTransformerPath: require.resolve('./metro-babel-transformer.js'),
-      unstable_allowRequireContext: true
+      unstable_allowRequireContext: true,
+      cssxTransformCssFiles: cssxMetroOptions.transformCssFiles,
+      cssxTransformStylFiles: cssxMetroOptions.transformStylFiles,
+      cssxCssFileExtensions: cssxMetroOptions.cssFileExtensions,
+      cssxStylFileExtensions: cssxMetroOptions.stylFileExtensions
     },
     resolver: {
       ...upstreamConfig.resolver,
@@ -31,7 +46,8 @@ exports.getDefaultConfig = function getDefaultConfig (projectRoot, {
       sourceExts: [...new Set([
         ...(isExpo ? ['expo.ts', 'expo.tsx', 'expo.js', 'expo.jsx', 'expo.mjs', 'expo.cjs'] : []),
         ...(upstreamConfig.resolver.sourceExts || []),
-        ...['mjs', 'cjs', 'md', 'mdx', 'css', 'styl', 'svg']
+        ...getCssxMetroSourceExts(cssxMetroOptions),
+        ...['mjs', 'cjs', 'md', 'mdx', 'svg']
       ])],
       unstable_enablePackageExports: true
     }
@@ -88,10 +104,7 @@ function handleYarnLink (config, { packageJson, projectRoot }) {
 function getUpstreamConfig (projectRoot) {
   try {
     // Expo
-    return require('expo/metro-config').getDefaultConfig(projectRoot, {
-      // startupjs has a custom CSS implementation so we don't need to use Expo's
-      isCSSEnabled: false
-    })
+    return require('expo/metro-config').getDefaultConfig(projectRoot)
   } catch {
     try {
       // React Native 0.73+
@@ -101,6 +114,32 @@ function getUpstreamConfig (projectRoot) {
       return require('metro-config').getDefaultConfig()
     }
   }
+}
+
+function normalizeExtensions (extensions) {
+  if (!Array.isArray(extensions)) {
+    throw Error('StartupJS Metro style file extensions must be arrays.')
+  }
+  return extensions.map(extension => extension.replace(/^\./, ''))
+}
+
+function getCssxMetroSourceExts ({
+  transformCssFiles,
+  transformStylFiles,
+  cssFileExtensions,
+  stylFileExtensions
+}) {
+  const extensions = []
+  if (transformCssFiles) extensions.push(...cssFileExtensions)
+  if (transformStylFiles) extensions.push(...stylFileExtensions)
+  return extensions.map(extension => extension.split('.').pop())
+}
+
+function setCssxMetroEnv (options) {
+  process.env.STARTUPJS_METRO_TRANSFORM_CSS_FILES = options.transformCssFiles ? '1' : '0'
+  process.env.STARTUPJS_METRO_TRANSFORM_STYL_FILES = options.transformStylFiles ? '1' : '0'
+  process.env.STARTUPJS_METRO_CSS_FILE_EXTENSIONS = JSON.stringify(options.cssFileExtensions)
+  process.env.STARTUPJS_METRO_STYL_FILE_EXTENSIONS = JSON.stringify(options.stylFileExtensions)
 }
 
 function checkIfExpo (upstreamConfig) {

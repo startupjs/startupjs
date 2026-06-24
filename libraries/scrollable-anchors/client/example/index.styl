@@ -4,7 +4,7 @@
   border-style dashed
   border-color var(--color-border-main-subtle)
 
-  +desktop()
+  @media (--breakpoint-desktop)
     margin 10u auto
     max-width 70u
 
@@ -28,13 +28,13 @@
   border-bottom-color var(--color-border-main-subtle)
   padding-top 3u
 
-  +tablet()
+  @media (--breakpoint-tablet)
     flex-direction row
 
 .extraButton
   margin-bottom 1u
 
-  +tablet()
+  @media (--breakpoint-tablet)
     margin-bottom 0
 
 .myAnchors
@@ -59,6 +59,6 @@
   margin-top 4u
   margin-left 2u
 
-  +tablet()
+  @media (--breakpoint-tablet)
     padding-left 3u
     padding-right 1u

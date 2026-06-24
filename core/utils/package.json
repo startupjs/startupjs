@@ -36,7 +36,7 @@
     "./useIsomorphicLayoutEffect": "./useIsomorphicLayoutEffect.js",
     "./axios": {
       "node": "./axios.server.cjs",
-      "default": "./axios.cjs"
+      "default": "./axios.js"
     },
     "./BASE_URL": {
       "node": "./BASE_URL.server.js",

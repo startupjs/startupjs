@@ -80,6 +80,8 @@ styl`
     width 4u
     height @width
     background-color red
-    +tablet()
+
+  @media (--breakpoint-tablet)
+    .box
       background-color green
 `

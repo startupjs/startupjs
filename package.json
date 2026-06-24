@@ -70,5 +70,15 @@
     }
   },
   "license": "MIT",
-  "packageManager": "yarn@4.13.0+sha512.5c20ba010c99815433e5c8453112165e673f1c7948d8d2b267f4b5e52097538658388ebc9f9580656d9b75c5cc996f990f611f99304a2197d4c56d21eea370e7"
+  "packageManager": "yarn@4.13.0+sha512.5c20ba010c99815433e5c8453112165e673f1c7948d8d2b267f4b5e52097538658388ebc9f9580656d9b75c5cc996f990f611f99304a2197d4c56d21eea370e7",
+  "//resolutions": {
+    "cssxjs": "portal:../cssx/packages/cssxjs",
+    "@cssxjs/babel-plugin-rn-stylename-inline": "portal:../cssx/packages/babel-plugin-rn-stylename-inline",
+    "@cssxjs/babel-plugin-rn-stylename-to-style": "portal:../cssx/packages/babel-plugin-rn-stylename-to-style",
+    "@cssxjs/bundler": "portal:../cssx/packages/bundler",
+    "@cssxjs/css-to-rn": "portal:../cssx/packages/css-to-rn",
+    "@cssxjs/loaders": "portal:../cssx/packages/loaders",
+    "babel-preset-cssxjs": "portal:../cssx/packages/babel-preset-cssxjs",
+    "startupjs-ui": "portal:../startupjs-ui/packages/startupjs-ui"
+  }
 }

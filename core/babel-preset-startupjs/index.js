@@ -19,6 +19,11 @@
  *       Default: true
  *   transformCss - Whether to transform CSS modules (styl/css files and styl`` css`` in JSX).
  *       Default: true
+ *   compileCssImports - Whether to compile imported CSS modules in Babel instead of
+ *       leaving them for the bundler. Can be a boolean or an array of extensions.
+ *       Default: ['cssx.css'] on Metro, true elsewhere.
+ *   cssFileExtensions - CSSX style import extensions handled by Babel.
+ *       Default on Metro: ['cssx.css', 'cssx.styl', 'styl'].
  *   useRequireContext - Whether to use require.context for loading startupjs plugins.
  *       The underlying environment must support require.context (e.g. Metro, Webpack).
  *       Default: true
@@ -65,15 +70,14 @@ module.exports = (api, {
   const pluginTypes = getPluginTypeEntries()
   const featuresType = getStaticFeaturesType()
 
-  // By default on Metro we don't need to compile CSS imports since we are relying on the custom
-  // StartupJS metro-babel-transformer which handles CSS imports as separate files.
-  if (compileCssImports == null && isMetro) compileCssImports = false
+  // On Metro, compile CSSX CSS imports in Babel so Expo's own CSS pipeline can
+  // keep owning ordinary .css files. Keep Stylus imports as imports by default
+  // so StartupJS Metro can still transform legacy .styl files and watch them.
+  if (compileCssImports == null && isMetro) compileCssImports = ['cssx.css']
 
-  // on Metro we transform any CSS imports since StartupJS metro-babel-transformer
-  // turns off Expo's default CSS support and handles only our CSS imports.
-  // When used in a plain Web project though though,
-  // we want to only handle the default ['cssx.css', 'cssx.styl'] extensions.
-  if (cssFileExtensions == null && isMetro) cssFileExtensions = ['styl', 'css']
+  if (cssFileExtensions == null && isMetro) {
+    cssFileExtensions = ['cssx.css', 'cssx.styl', 'styl']
+  }
 
   return {
     overrides: [{
