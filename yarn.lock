@@ -5962,9 +5962,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@startupjs-ui/dark-mode@npm:^0.4.0-alpha.2":
-  version: 0.4.0-alpha.2
-  resolution: "@startupjs-ui/dark-mode@npm:0.4.0-alpha.2"
+"@startupjs-ui/dark-mode@npm:^0.4.0-alpha.3":
+  version: 0.4.0-alpha.3
+  resolution: "@startupjs-ui/dark-mode@npm:0.4.0-alpha.3"
   dependencies:
     "@fortawesome/free-solid-svg-icons": "npm:^7.1.0"
     "@startupjs-ui/button": "npm:^0.4.0-alpha.0"
@@ -5972,7 +5972,7 @@ __metadata:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/d15da3594a200c419604c70d5bd3ac8ae5dd305d1bf66618f6e19a58e97d9a235a7cc38d14241539902814909576e793e0e9980fa70f412388d6d6126d90da69
+  checksum: 10c0/afe9ce8324e247df3d04b4d258ecd84ba05a19bb36dc9b01380d5c56a9e3e0789a85d7f341b67a6d47d1ec4c62a329fe1263fa9674c9898d2122dd2419cd7d1c
   languageName: node
   linkType: hard
 
@@ -13762,7 +13762,7 @@ __metadata:
     react-native-worklets: "npm:0.7.2"
     react-test-renderer: "npm:~19.1.0"
     startupjs: "npm:^0.64.0-alpha.8"
-    startupjs-ui: "npm:^0.4.0-alpha.2"
+    startupjs-ui: "npm:^0.4.0-alpha.3"
     typescript: "npm:~5.9.2"
   languageName: unknown
   linkType: soft
@@ -26393,9 +26393,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs-ui@npm:^0.4.0-alpha.2":
-  version: 0.4.0-alpha.2
-  resolution: "startupjs-ui@npm:0.4.0-alpha.2"
+"startupjs-ui@npm:^0.4.0-alpha.3":
+  version: 0.4.0-alpha.3
+  resolution: "startupjs-ui@npm:0.4.0-alpha.3"
   dependencies:
     "@startupjs-ui/abstract-popover": "npm:^0.4.0-alpha.0"
     "@startupjs-ui/alert": "npm:^0.4.0-alpha.0"
@@ -26413,7 +26413,7 @@ __metadata:
     "@startupjs-ui/color-picker": "npm:^0.4.0-alpha.0"
     "@startupjs-ui/content": "npm:^0.4.0-alpha.0"
     "@startupjs-ui/core": "npm:^0.4.0-alpha.0"
-    "@startupjs-ui/dark-mode": "npm:^0.4.0-alpha.2"
+    "@startupjs-ui/dark-mode": "npm:^0.4.0-alpha.3"
     "@startupjs-ui/date-time-picker": "npm:^0.4.0-alpha.2"
     "@startupjs-ui/dialogs": "npm:^0.4.0-alpha.2"
     "@startupjs-ui/div": "npm:^0.4.0-alpha.0"
@@ -26460,7 +26460,7 @@ __metadata:
     react: "*"
     react-native: "*"
     startupjs: "*"
-  checksum: 10c0/41b69075937abb781eb9752d6dbc3ec9c86ff58a24c494a9fdb50a5b1edc1d5d61693f440d144e6161e1de75a2c8d2eee62cd8fcf5b0ccb377bf05141d83edcc
+  checksum: 10c0/e8107482fa6c87579f418192301eac957818520efb58836bd932d21f8b46275db1ff729fc594d67739d634666db13acc9bf8afda438f8f8c693a28ee2b3cda95
   languageName: node
   linkType: hard
 
