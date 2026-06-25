@@ -13761,7 +13761,7 @@ __metadata:
     react-native-web: "npm:^0.21.0"
     react-native-worklets: "npm:0.7.2"
     react-test-renderer: "npm:~19.1.0"
-    startupjs: "npm:^0.64.0-alpha.7"
+    startupjs: "npm:^0.64.0-alpha.8"
     startupjs-ui: "npm:^0.4.0-alpha.2"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -26464,7 +26464,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.64.0-alpha.7, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.64.0-alpha.8, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
