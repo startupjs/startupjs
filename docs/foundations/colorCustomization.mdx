@@ -66,9 +66,9 @@ That keeps brand changes localized to the theme layer.
 
 ## Light and dark themes
 
-The default provider theme is `auto`, so CSSX uses the device color scheme when
-a dark theme exists. Define light/default values in `:root` and dark overrides
-in `:root.dark`:
+When no saved user preference exists, the root provider starts with the default
+theme. Define light/default values in `:root` and dark overrides in
+`:root.dark`:
 
 ```jsx
 const appStyle = css`
@@ -86,15 +86,21 @@ const appStyle = css`
 `
 ```
 
-Force a theme with `StartupjsProvider theme`:
+Opt into automatic system light/dark selection with `StartupjsProvider
+theme='auto'`:
 
 ```jsx
-<StartupjsProvider theme='dark' style={appStyle}>
+<StartupjsProvider theme='auto' style={appStyle}>
   <App />
 </StartupjsProvider>
 ```
 
-Use `theme='default'` or `theme='light'` to disable automatic dark selection.
+At the root, `theme='auto'` is an initial/system preference. A saved preference
+from `useTheme()` or the StartupJS UI `DarkMode` button takes priority after the
+user chooses one.
+
+Use `theme='dark'`, `theme='default'`, or another named theme only when you want
+to force that provider subtree.
 
 ## Component variables and parts
 
