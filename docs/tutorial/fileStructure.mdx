@@ -17,7 +17,6 @@ myapp/
       settings.tsx     ← second tab
   components/
     TodoCard.tsx       ← reusable components
-    TodoCard.styl      ← styles for the component
   server/
     index.js           ← server configuration
   package.json
@@ -94,19 +93,28 @@ startupjsServer({
 
 ## Styles
 
-Each component can have an accompanying `.styl` file for styles written in Stylus. Use `styleName` to connect styles to components:
+Prefer keeping component styles next to the component in a local `css`, `styl`,
+or Pug `style` block. Use `styleName` to connect styles to elements:
 
 ```jsx
 // TodoCard.tsx
+import { css } from 'startupjs'
+
 <Card styleName='root'>
   <Span styleName='title'>Learn StartupJS</Span>
 </Card>
+
+css`
+  .root {
+    margin-bottom: 0.5rem;
+  }
+
+  .title {
+    font-weight: 600;
+  }
+`
 ```
 
-```styl
-// TodoCard.styl
-.root
-  margin-bottom 1u
-.title
-  font-weight bold
-```
+Separate `.styl` and `.cssx.css` files are still supported for migration and
+larger shared styles, but local styles make components easier to split and
+maintain.

@@ -1,39 +1,58 @@
-# Export CSS to JS
+# CSS values in JavaScript
 
-StartupJS lets you export values from Stylus files directly into JavaScript using the `:export` block. This is handy for sharing theme values or layout constants.
+Most visual values should stay in CSS. Use CSS variables in `css` or `styl`
+templates, and read them in JavaScript only when a non-CSSX API needs the final
+value.
 
-## Example
+## Read theme variables
 
-```styl
-// index.styl
-$this = merge({
-  bgColor: $UI.colors.primary,
-  height: 10u
-}, $UI.ShoppingCart, true)
-
-.root
-  height: $this.height
-  background-color: $this.bgColor
-
-:export
-  config: $this
-  colors: $UI.colors
-  foobar: 42
-```
+Use `useCssVariable()` for provider-aware CSS variable reads:
 
 ```jsx
-import STYLES from './index.styl'
+import { useCssVariable } from 'startupjs'
 
-const {
-  config: { bgColor },
-  colors,
-  foobar
-} = STYLES
-
-export default function ShoppingCart () {
-  console.log('Background color is:', bgColor)
-  console.log('Available colors:', colors)
-  console.log('Magic number FooBar:', foobar)
-  return <View styleName='root' />
+function Chart () {
+  const gap = useCssVariable('--spacing', '0.25rem')
+  return <ChartCanvas gridGap={gap} />
 }
 ```
+
+The hook resolves nested `var()` references and returns React Native-friendly
+values. For example, `16px` becomes `16`, while percentages remain strings.
+
+## Read color tokens
+
+Use `useCssColor()` for colors:
+
+```jsx
+import { useCssColor } from 'startupjs'
+
+function StatusDot () {
+  const color = useCssColor('success')
+  return <View style={{ backgroundColor: color }} />
+}
+```
+
+`useCssColor('primary')` resolves `var(--color-primary)`. Pass a full
+`var(...)` expression for custom variables:
+
+```jsx
+const color = useCssColor('var(--User-color-online)')
+```
+
+## Static exports
+
+CSSX still supports static `:export` values for build-time constants, but do
+not use it as a theme system. Runtime themes should use provider variables and
+CSSX hooks.
+
+```jsx
+css`
+  :export {
+    iconSize: 24;
+  }
+`
+```
+
+Use static exports only for values that do not change with theme, provider, or
+screen size.

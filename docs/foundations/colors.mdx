@@ -1,59 +1,97 @@
 # Colors
 
-## Overview
+StartupJS color usage is CSSX-first. Use semantic CSS variables in styles and
+CSSX color hooks only when JavaScript needs a resolved value.
 
-StartupJS uses **semantic color names** to keep UI consistent. Instead of hardcoding hex values, use named tokens like `bg-main` or `text-error`. This makes it easy to change a theme later without editing every component.
+For theme overrides, see [Color customization](./colorCustomization).
 
-For custom palettes or overrides, see [Color customization](./colorCustomization).
+## Token layers
 
-## Usage guidelines
+When `startupjs-ui` is installed, its plugin layers:
 
-- Use semantic color names everywhere.
-- Avoid hardcoded hex values in component styles.
-- Prefer background and text roles instead of palette-specific names.
+1. Tailwind-compatible raw tokens, such as spacing, radius, typography, and
+   palette variables.
+2. shadcn-style semantic tokens, such as `--primary`, `--background`,
+   `--foreground`, `--border`, and `--muted`.
+3. StartupJS UI component tokens, such as `--Button-radius`.
+4. Your `StartupjsProvider style` overrides.
 
-## Using color variables in styles
+Bare StartupJS does not install these tokens automatically. They are added when
+the UI package is used, or when you explicitly import CSSX theme assets.
 
-You can reference CSS variables with `var(--color-...)`:
+## Semantic color variables
 
-```styl
-.card
-  background-color var(--color-bg-main-strong)
-  border-color var(--color-border-main)
+Use semantic `--color-*` variables in component and app CSS:
 
-.text
-  color var(--color-text-main)
+```jsx
+import { css } from 'startupjs'
+
+css`
+  .card {
+    background-color: var(--color-card);
+    border-color: var(--color-border);
+  }
+
+  .title {
+    color: var(--color-foreground);
+  }
+
+  .muted {
+    color: var(--color-muted-foreground);
+  }
+`
 ```
 
-## Using color variables in JavaScript
+Common semantic colors include:
 
-```js
-import { useColors } from 'startupjs-ui'
+| Token | Typical use |
+| --- | --- |
+| `--color-background` | app/page background |
+| `--color-foreground` | default text |
+| `--color-card` | card and panel background |
+| `--color-card-foreground` | text on cards |
+| `--color-primary` | primary actions and emphasis |
+| `--color-primary-foreground` | text/icons on primary surfaces |
+| `--color-secondary` | secondary surfaces |
+| `--color-muted` | muted surfaces |
+| `--color-muted-foreground` | secondary text |
+| `--color-border` | borders and dividers |
+| `--color-error` | destructive/error states |
+| `--color-success` | success states |
+| `--color-warning` | warning states |
+| `--color-info` | informational states |
 
-const getColor = useColors()
-const bgColor = getColor('bg-main')
+Prefer these semantic tokens over direct palette values. Override the semantic
+source variables, such as `--primary` or `--background`, to change a theme.
+
+## Color props
+
+StartupJS UI color props accept token names, raw CSS colors, or exact `var(...)`
+expressions:
+
+```jsx
+<Button color='primary'>Save</Button>
+<Tag color='warning'>Warning</Tag>
+<Loader color='var(--color-muted-foreground)' />
 ```
 
-## Base colors
+Token names resolve through `--color-*`. For example, `primary` resolves through
+`--color-primary`, and `primary-foreground` resolves through
+`--color-primary-foreground`.
 
-`main`, `bg-main`, `text-main`, `border-main`, `primary`, `secondary`, `error`, `success`, `warning`, `info`, `attention`
+## Using colors in JavaScript
 
-## Text colors
+Use `useCssColor()` when JS needs the final React Native-friendly color value:
 
-`text-main`, `text-description`, `text-placeholder`, `text-subtle`, `text-primary`, `text-secondary`, `text-error`, `text-success`, `text-warning`, `text-info`, `text-attention`, `text-success-strong`, `text-info-strong`
+```jsx
+import { useCssColor } from 'startupjs'
 
-## Text-on-background colors
+function StatusDot () {
+  const color = useCssColor('success')
+  return <View style={{ backgroundColor: color }} />
+}
+```
 
-`text-on-color`, `text-on-primary`, `text-on-secondary`, `text-on-error`, `text-on-success`, `text-on-warning`, `text-on-info`, `text-on-attention`
-
-## Background colors
-
-`bg-main`, `bg-main-subtle`, `bg-main-subtle-alt`, `bg-main-strong`, `bg-primary`, `bg-secondary`, `bg-error`, `bg-success`, `bg-warning`, `bg-info`, `bg-attention`, `bg-primary-strong`, `bg-primary-subtle`, `bg-primary-transparent`, `bg-secondary-subtle`, `bg-error-transparent`, `bg-success-transparent`, `bg-warning-transparent`
-
-## Border colors
-
-`border-main`, `border-main-strong`, `border-main-strong-alt`, `border-main-subtle`, `border-primary`, `border-secondary`, `border-error`, `border-success`, `border-warning`, `border-info`, `border-attention`
-
-## Shadow colors
-
-`shadow-main`, `shadow-main-strong`, `shadow-main-subtle`
+For visual styling, prefer CSS variables directly in CSS. Use the JS bridge for
+non-CSSX props, canvas/chart integrations, or logic that genuinely needs the
+computed color.

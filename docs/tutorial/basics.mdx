@@ -55,19 +55,22 @@ export default observer(function PHome () {
 
 ## Add styles
 
-Use `styleName` to connect a component to a style class defined in the accompanying `index.styl` file:
+Use `styleName` to connect a component to a local CSSX class:
 
 ```jsx
+import { css } from 'startupjs'
+
 <Span h1 styleName='title'>TODO List</Span>
+
+css`
+  .title {
+    color: var(--color-primary);
+  }
+`
 ```
 
-```styl
-// index.styl
-.title
-  color purple
-```
-
-`styleName` works like `className` in HTML, but it maps to Stylus classes. You can pass a string, an array, or an object for conditional styles:
+`styleName` works like `className` in HTML, but it maps to CSSX classes. You
+can pass a string, an array, or an object for conditional styles:
 
 ```jsx
 <Button styleName={['primary', { disabled: isDisabled }]} />

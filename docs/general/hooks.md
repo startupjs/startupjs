@@ -31,7 +31,7 @@ const RedBlock = observer(({ children }) => {
   `
   styl`
     .root
-      background-color var(--color-bg-error)
+      background-color var(--color-error)
       width: '100%'
   `
 })
@@ -59,7 +59,7 @@ const GreenBlock = observer(({ children }) => {
   `
   styl`
     .root
-      background-color var(--color-bg-success)
+      background-color var(--color-success)
       width: '100%'
   `
 })
