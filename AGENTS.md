@@ -10,7 +10,10 @@ patterns.
 
 ## Required App-Level Context
 
-Before writing user-facing StartupJS app code or E2E tests, run:
+Before maintaining this repo, read the app-level StartupJS concepts. They
+describe how users actually consume the framework, how Teamplay/ORM code is
+written, and how E2E tests are expected to work. Without this context, changes
+to StartupJS internals are easy to make in a way that breaks real apps. Run:
 
 ```sh
 npx startupjs skills
