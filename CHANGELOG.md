@@ -1,3 +1,12 @@
+# [0.64.0-alpha.10](https://github.com/startupjs/startupjs/compare/v0.64.0-alpha.9...v0.64.0-alpha.10) (2026-06-28)
+
+
+### Bug Fixes
+
+* **plugins:** discover plugins from non-hoisted transitive deps ([#1328](https://github.com/startupjs/startupjs/issues/1328)) ([e9d4498](https://github.com/startupjs/startupjs/commit/e9d44982832945c79cf75d911356ed1b5ddb517f))
+
+
+
 # [0.64.0-alpha.9](https://github.com/startupjs/startupjs/compare/v0.64.0-alpha.8...v0.64.0-alpha.9) (2026-06-26)
 
 

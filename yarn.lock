@@ -6915,7 +6915,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/babel-plugin-startupjs-plugins@npm:^0.64.0-alpha.0, @startupjs/babel-plugin-startupjs-plugins@workspace:core/babel-plugin-startupjs-plugins":
+"@startupjs/babel-plugin-startupjs-plugins@npm:^0.64.0-alpha.10, @startupjs/babel-plugin-startupjs-plugins@workspace:core/babel-plugin-startupjs-plugins":
   version: 0.0.0-use.local
   resolution: "@startupjs/babel-plugin-startupjs-plugins@workspace:core/babel-plugin-startupjs-plugins"
   dependencies:
@@ -6962,7 +6962,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/bundler@npm:^0.64.0-alpha.2, @startupjs/bundler@workspace:core/bundler":
+"@startupjs/bundler@npm:^0.64.0-alpha.10, @startupjs/bundler@workspace:core/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:core/bundler"
   dependencies:
@@ -6970,12 +6970,12 @@ __metadata:
     "@babel/plugin-syntax-jsx": "npm:^7.0.0"
     "@mdx-js/mdx": "npm:^3.0.0"
     "@startupjs/babel-plugin-eliminator": "npm:^0.64.0-alpha.0"
-    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.64.0-alpha.0"
+    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.64.0-alpha.10"
     "@startupjs/server": "npm:^0.64.0-alpha.0"
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
     "@svgr/plugin-svgo": "npm:^8.1.0"
-    babel-preset-startupjs: "npm:^0.64.0-alpha.2"
+    babel-preset-startupjs: "npm:^0.64.0-alpha.10"
     connect: "npm:^3.7.0"
     lodash: "npm:^4.17.20"
     remark-gfm: "npm:4.0.1"
@@ -9439,7 +9439,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-startupjs@npm:^0.64.0-alpha.2, babel-preset-startupjs@workspace:core/babel-preset-startupjs":
+"babel-preset-startupjs@npm:^0.64.0-alpha.10, babel-preset-startupjs@workspace:core/babel-preset-startupjs":
   version: 0.0.0-use.local
   resolution: "babel-preset-startupjs@workspace:core/babel-preset-startupjs"
   dependencies:
@@ -9450,7 +9450,7 @@ __metadata:
     "@startupjs/babel-plugin-i18n-extract": "npm:^0.64.0-alpha.0"
     "@startupjs/babel-plugin-startupjs": "npm:^0.64.0-alpha.0"
     "@startupjs/babel-plugin-startupjs-debug": "npm:^0.64.0-alpha.0"
-    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.64.0-alpha.0"
+    "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.64.0-alpha.10"
     "@startupjs/babel-plugin-ts-to-json-schema": "npm:^0.64.0-alpha.0"
   peerDependencies:
     cssxjs: "*"
@@ -13761,7 +13761,7 @@ __metadata:
     react-native-web: "npm:^0.21.0"
     react-native-worklets: "npm:0.7.2"
     react-test-renderer: "npm:~19.1.0"
-    startupjs: "npm:^0.64.0-alpha.9"
+    startupjs: "npm:^0.64.0-alpha.10"
     startupjs-ui: "npm:^0.4.0-alpha.4"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -26464,12 +26464,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.64.0-alpha.9, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.64.0-alpha.10, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
     "@startupjs/auth": "npm:^0.64.0-alpha.2"
-    "@startupjs/bundler": "npm:^0.64.0-alpha.2"
+    "@startupjs/bundler": "npm:^0.64.0-alpha.10"
     "@startupjs/cli": "npm:^0.64.0-alpha.9"
     "@startupjs/hooks": "npm:^0.64.0-alpha.2"
     "@startupjs/isomorphic-helpers": "npm:^0.64.0-alpha.0"
@@ -26477,7 +26477,7 @@ __metadata:
     "@startupjs/server": "npm:^0.64.0-alpha.0"
     "@startupjs/skills": "npm:^0.64.0-alpha.0"
     "@startupjs/utils": "npm:^0.64.0-alpha.2"
-    babel-preset-startupjs: "npm:^0.64.0-alpha.2"
+    babel-preset-startupjs: "npm:^0.64.0-alpha.10"
     cssxjs: "npm:^0.4.0-alpha.6"
     lodash: "npm:^4.17.20"
     teamplay: "npm:^0.5.0"
