@@ -147,8 +147,15 @@ function parsePackage (root, packagePath, _pluginImports = new Set(), _handledPa
   const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
   if (!isPartOfFramework(packageJson)) return
 
-  // find all dependant framework packages and load their plugins first
-  const packagePaths = getPackagePathsFromPackageJson(root, packageJson)
+  // find all dependant framework packages and load their plugins first.
+  // Resolve each dependency from the CURRENT package's location (packagePath),
+  // not the app root — otherwise a transitive framework dep that isn't hoisted to
+  // the app's node_modules (e.g. @startupjs/auth nested under startupjs's own
+  // node_modules, which happens with portal:/file: links or a strict pnpm-style
+  // layout) is never found, and its plugins silently go undiscovered. Node's
+  // resolution walks UP from the basedir, so resolving from packagePath still
+  // finds hoisted deps too.
+  const packagePaths = getPackagePathsFromPackageJson(packagePath, packageJson)
   for (const packagePath of packagePaths) {
     parsePackage(root, packagePath, _pluginImports, _handledPackages)
   }
