@@ -357,6 +357,19 @@ update_deployments () {
 
     if [ -n "$FEATURE_WILDCARD" ]
     then
+      # FEATURE_SHARED=1 switches to the cluster-wide wildcard cert
+      # (`features-cert` Secret in `default`, provisioned by terraform via
+      # var.features_cert_crt/key) and the `<branch>--<app>.${FEATURE_DOMAIN}`
+      # host shape. Without it, behavior is unchanged: per-app
+      # `${APP}-features-cert` Secret and `${FEATURE}.${FEATURE_DOMAIN}` host.
+      if [ -n "$FEATURE_SHARED" ]
+      then
+        _HOST="${FEATURE}--${APP}.${FEATURE_DOMAIN}"
+        _SECRET="features-cert"
+      else
+        _HOST="${FEATURE}.${FEATURE_DOMAIN}"
+        _SECRET="${APP}-features-cert"
+      fi
       kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
         | kubectl-neat \
         | jq '.items[]' \
@@ -368,11 +381,11 @@ update_deployments () {
         | jq ".metadata.labels.app = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq '.metadata.labels["managed-by"] = "terraform-startupjs-features"' \
         | jq "del(.spec.rules[1,2,3,4,5])" \
-        | jq ".spec.rules[].host = \"${FEATURE}.${FEATURE_DOMAIN}\"" \
+        | jq ".spec.rules[].host = \"${_HOST}\"" \
         | jq ".spec.rules[].http.paths[].backend.service.name = \"${APP}-\" + .metadata.labels.microservice + \"-${FEATURE}\"" \
         | jq "del(.spec.tls[1,2,3,4,5])" \
-        | jq ".spec.tls[0].hosts = [\"${FEATURE}.${FEATURE_DOMAIN}\"]" \
-        | jq ".spec.tls[0].secretName = \"${APP}-features-cert\"" \
+        | jq ".spec.tls[0].hosts = [\"${_HOST}\"]" \
+        | jq ".spec.tls[0].secretName = \"${_SECRET}\"" \
         | kubectl apply -f -
     else
       kubectl get ingress -l "managed-by=terraform,part-of=${APP}" -o json \
