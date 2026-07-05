@@ -118,8 +118,10 @@ TokenInitializer → ConnectionInitializer → <app>
 2. **`setSessionData(session)`** (`client/sessionData.js`) writes
    `startupjs.session` storage, fans every claim into the client signal
    (`for (const key in session) $.session[key].set(...)` — so `$.session.userId`,
-   `$.session.loggedIn`, `$.session.user`, … all become readable), sets the axios
-   default `Authorization: Bearer <token>`, and fires `onInitSession`.
+   `$.session.loggedIn`, `$.session.user`, … all become readable), registers the
+   token for the axios `Authorization: Bearer` interceptor (attached only to
+   requests targeting our own server's origin — a request to any other host
+   never carries it), and fires `onInitSession`.
 3. **`ConnectionInitializer`** opens the teamplay websocket with the token
    appended: `getConnectionUrl → getDefaultConnectionUrl() + '?token=' + token`.
 
@@ -210,9 +212,13 @@ Consequences — **read these before writing a route or a test:**
     `?access_token` on the initiating navigation.
 
 Client-side, always use the framework axios (`@startupjs/utils/axios`, re-exported
-as `import { axios } from 'startupjs'`). `setSessionData` sets its default Bearer
-header, so every axios call is authenticated automatically. **Never use a bare
-`fetch()`** for a gated route — it won't carry the header.
+as `import { axios } from 'startupjs'`). `setSessionData` registers the session
+token with it, so every axios call to our own server is authenticated
+automatically. The Bearer header is scoped by origin: a request whose resolved
+target is any OTHER host (an absolute url or a custom `baseURL` pointing
+elsewhere) does not carry the token — using the shared instance for third-party
+APIs can't leak the session. **Never use a bare `fetch()`** for a gated route —
+it won't carry the header.
 
 ---
 
