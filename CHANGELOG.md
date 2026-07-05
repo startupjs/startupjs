@@ -1,3 +1,12 @@
+# [0.64.0-alpha.11](https://github.com/startupjs/startupjs/compare/v0.64.0-alpha.10...v0.64.0-alpha.11) (2026-07-05)
+
+
+### Features
+
+* **auth:** SESSION_SECRET pinning, opt-in local provider, origin-scoped axios Bearer, token-mint exports + docs ([#1329](https://github.com/startupjs/startupjs/issues/1329)) ([9f9c33a](https://github.com/startupjs/startupjs/commit/9f9c33aab99dcb68565503aa4fb1cbcdae9084f0))
+
+
+
 # [0.64.0-alpha.10](https://github.com/startupjs/startupjs/compare/v0.64.0-alpha.9...v0.64.0-alpha.10) (2026-06-28)
 
 

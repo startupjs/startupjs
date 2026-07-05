@@ -6879,12 +6879,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth@npm:^0.64.0-alpha.2, @startupjs/auth@workspace:core/auth":
+"@startupjs/auth@npm:^0.64.0-alpha.11, @startupjs/auth@workspace:core/auth":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth@workspace:core/auth"
   dependencies:
     "@startupjs/registry": "npm:^0.64.0-alpha.0"
-    "@startupjs/utils": "npm:^0.64.0-alpha.2"
+    "@startupjs/utils": "npm:^0.64.0-alpha.11"
     "@types/jsonwebtoken": "npm:^9"
     "@types/speakeasy": "npm:^2"
     bcrypt: "npm:^5.1.1"
@@ -7041,11 +7041,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/hooks@npm:^0.64.0-alpha.2, @startupjs/hooks@workspace:core/hooks":
+"@startupjs/hooks@npm:^0.64.0-alpha.11, @startupjs/hooks@workspace:core/hooks":
   version: 0.0.0-use.local
   resolution: "@startupjs/hooks@workspace:core/hooks"
   dependencies:
-    "@startupjs/utils": "npm:^0.64.0-alpha.2"
+    "@startupjs/utils": "npm:^0.64.0-alpha.11"
     lodash: "npm:^4.17.20"
   peerDependencies:
     react: "*"
@@ -7153,11 +7153,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/router@npm:^0.64.0-alpha.2, @startupjs/router@workspace:core/router":
+"@startupjs/router@npm:^0.64.0-alpha.11, @startupjs/router@workspace:core/router":
   version: 0.0.0-use.local
   resolution: "@startupjs/router@workspace:core/router"
   dependencies:
-    "@startupjs/utils": "npm:^0.64.0-alpha.2"
+    "@startupjs/utils": "npm:^0.64.0-alpha.11"
     react-router: "npm:^6.22.3"
   peerDependencies:
     expo-router: "*"
@@ -7229,7 +7229,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/utils@npm:^0.64.0-alpha.2, @startupjs/utils@workspace:core/utils":
+"@startupjs/utils@npm:^0.64.0-alpha.11, @startupjs/utils@workspace:core/utils":
   version: 0.0.0-use.local
   resolution: "@startupjs/utils@workspace:core/utils"
   dependencies:
@@ -13774,7 +13774,7 @@ __metadata:
     "@react-native-picker/picker": "npm:2.11.4"
     "@react-navigation/native": "npm:^7.1.6"
     "@startupjs-ui/mdx": "npm:^0.4.0-alpha.4"
-    "@startupjs/router": "npm:^0.64.0-alpha.2"
+    "@startupjs/router": "npm:^0.64.0-alpha.11"
     "@startupjs/worker": "npm:^0.64.0-alpha.0"
     "@types/react": "npm:~19.2.10"
     eslint-config-expo: "npm:^55.0.0"
@@ -13804,7 +13804,7 @@ __metadata:
     react-native-web: "npm:^0.21.0"
     react-native-worklets: "npm:0.7.2"
     react-test-renderer: "npm:~19.1.0"
-    startupjs: "npm:^0.64.0-alpha.10"
+    startupjs: "npm:^0.64.0-alpha.11"
     startupjs-ui: "npm:^0.4.0-alpha.4"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -26432,19 +26432,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.64.0-alpha.10, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.64.0-alpha.11, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
-    "@startupjs/auth": "npm:^0.64.0-alpha.2"
+    "@startupjs/auth": "npm:^0.64.0-alpha.11"
     "@startupjs/bundler": "npm:^0.64.0-alpha.10"
     "@startupjs/cli": "npm:^0.64.0-alpha.9"
-    "@startupjs/hooks": "npm:^0.64.0-alpha.2"
+    "@startupjs/hooks": "npm:^0.64.0-alpha.11"
     "@startupjs/isomorphic-helpers": "npm:^0.64.0-alpha.0"
     "@startupjs/registry": "npm:^0.64.0-alpha.0"
     "@startupjs/server": "npm:^0.64.0-alpha.0"
     "@startupjs/skills": "npm:^0.64.0-alpha.0"
-    "@startupjs/utils": "npm:^0.64.0-alpha.2"
+    "@startupjs/utils": "npm:^0.64.0-alpha.11"
     babel-preset-startupjs: "npm:^0.64.0-alpha.10"
     cssxjs: "npm:^0.4.0-alpha.6"
     lodash: "npm:^4.17.20"
