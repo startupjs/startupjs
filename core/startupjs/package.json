@@ -45,7 +45,7 @@
     "babel-preset-startupjs": "^0.64.0-alpha.10",
     "cssxjs": "^0.4.0-alpha.6",
     "lodash": "^4.17.20",
-    "teamplay": "^0.5.0"
+    "teamplay": "^0.6.0-alpha.0"
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "*",
