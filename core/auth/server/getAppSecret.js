@@ -6,6 +6,11 @@ import { v4 as uuid } from 'uuid'
 //       Because of this here we'll have a race condition if jwtSecret does not exist yet.
 let $appSecret
 export default async function getAppSecret () {
+  // env override: lets an orchestrator inject a stable per-app secret so that
+  // wiping/restoring the DB doesn't rotate it (which would invalidate every
+  // issued token), and sidesteps the multi-instance creation race below
+  // (all instances share the env value instead of racing to write the doc)
+  if (process.env.SESSION_SECRET) return process.env.SESSION_SECRET
   if (!$appSecret) $appSecret = await sub($.service.appSecret)
   let value = $appSecret.value.get()
   if (value) return value

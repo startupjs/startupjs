@@ -40,6 +40,11 @@ export default {
       }
     },
     auth: {
+      isomorphic: {
+        // email/password auth (the only provider with no credentials to gate on,
+        // so its self-service registration routes are opt-in)
+        enableLocal: true
+      },
       client: {
         redirectUrl: '/two'
       }

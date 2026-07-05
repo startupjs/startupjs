@@ -61,19 +61,26 @@ export default createPlugin({
       }
     }
   }),
-  server: ({ providers, getUsersFilterQueryParams = () => ({}), userDBStorage }) => ({
+  server: ({ providers, getUsersFilterQueryParams = () => ({}), userDBStorage }, plugin) => ({
     beforeSession (expressApp) {
       // TODO: probably move the storage variable up to be a singleton
       const storage = userDBStorage || new LocalAuthStorage(getUsersFilterQueryParams)
       expressApp.post(AUTH_GET_URL,
         apiGetUrl({ providers })
       )
-      expressApp.post(`${AUTH_URL}/${AUTH_LOCAL_PROVIDER}/register`,
-        apiLocalRegister({ providers, storage, provider: AUTH_LOCAL_PROVIDER })
-      )
-      expressApp.post(`${AUTH_URL}/${AUTH_LOCAL_PROVIDER}/login`,
-        apiLocalLogin({ providers, storage, provider: AUTH_LOCAL_PROVIDER })
-      )
+      // 'local' (email/password) is the only provider with no credentials to gate on
+      // (oauth providers are inert without their *_CLIENT_ID/SECRET env vars, 'force'
+      // requires FORCE_CLIENT_SECRET), so its routes -- self-service account
+      // registration -- are strictly opt-in:
+      //   plugins: { auth: { isomorphic: { enableLocal: true } } }
+      if (plugin.optionsByEnv.isomorphic?.enableLocal) {
+        expressApp.post(`${AUTH_URL}/${AUTH_LOCAL_PROVIDER}/register`,
+          apiLocalRegister({ providers, storage, provider: AUTH_LOCAL_PROVIDER })
+        )
+        expressApp.post(`${AUTH_URL}/${AUTH_LOCAL_PROVIDER}/login`,
+          apiLocalLogin({ providers, storage, provider: AUTH_LOCAL_PROVIDER })
+        )
+      }
       // apple has a magic flow:
       // - it make a POST request to the callback URL and all params are in the body
       // - it sends user data in a magic 'user' field
