@@ -13,7 +13,10 @@ export default function getBaseUrl () {
   url ??= DEFAULT_BASE_URL
   if (/^exps?:/.test(url)) {
     url = url.replace(/^exp/, 'http')
-    url = url.replace(/\/--\/$/, '')
+    // the linking uri may carry a path, query or hash (deep links, one-shot
+    // handoff codes riding a QR) -- the backend base url is just the origin.
+    // Regex instead of new URL(): react-native's URL polyfill is unreliable.
+    url = url.match(/^(https?:\/\/[^/?#]+)/)?.[1] ?? DEFAULT_BASE_URL
   } else if (!/^https?:/.test(url)) {
     url = DEFAULT_BASE_URL
   }
