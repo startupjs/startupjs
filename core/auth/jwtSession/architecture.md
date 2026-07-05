@@ -244,8 +244,8 @@ name `'auth'`), which adds the login surface and the account model.
 | method | path | purpose |
 |---|---|---|
 | POST | `/auth/getUrl` | returns the provider's authorize URL |
-| POST | `/auth/local/register` | email/password register (bcrypt) |
-| POST | `/auth/local/login` | email/password login |
+| POST | `/auth/local/register` | email/password register (bcrypt). **Opt-in** — mounted only with the `enableLocal: true` isomorphic plugin option |
+| POST | `/auth/local/login` | email/password login (same `enableLocal` gate) |
 | POST | `/auth/apple/callback` | Apple `form_post` callback |
 | GET | `/auth/:provider/callback` | Google/GitHub/… OAuth code callback |
 | POST | `/auth/2fa/login` | TOTP second factor |
@@ -301,7 +301,12 @@ option (useful for a fake OAuth server in tests).
 `import { login, logout } from '@startupjs/auth/client'` (or `'startupjs/auth'`).
 
 - `login('local', { email, password, register?, redirectUrl })` → POSTs
-  local/register|login, stores the returned session, hard-redirects.
+  local/register|login, stores the returned session, hard-redirects. Requires the
+  `enableLocal: true` isomorphic plugin option
+  (`plugins: { auth: { isomorphic: { enableLocal: true } } }`) — every other
+  provider is gated by its own credentials (`GOOGLE_CLIENT_SECRET`,
+  `FORCE_CLIENT_SECRET`, …); `local` needs none, so self-service registration
+  must be explicitly opted into instead of being an always-on route.
 - `login('google', { redirectUrl })` → POSTs `/auth/getUrl`, navigates to the
   provider with a `state` carrying `{ platform, redirectUrl, scopes }`.
 - `login('force', { userId })` → admin impersonation.

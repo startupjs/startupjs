@@ -99,6 +99,12 @@ export default async function login (
 }
 
 async function localLogin ({ redirectUrl, register, ...userinfo } = {}) {
+  if (!getPlugin(AUTH_PLUGIN_NAME).optionsByEnv.isomorphic?.enableLocal) {
+    throw new Error(
+      'Local (email/password) auth is disabled. Enable it in startupjs.config.js:\n' +
+      '  plugins: { auth: { isomorphic: { enableLocal: true } } }'
+    )
+  }
   let url
   if (register) {
     url = `${BASE_URL}${AUTH_URL}/${AUTH_LOCAL_PROVIDER}/register`
