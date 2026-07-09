@@ -61,6 +61,45 @@ const { middleware, backend, session, channel } = await createMiddleware()
 // do something with the middleware
 ```
 
+### Expo Router API routes and middleware
+
+StartupJS also supports Expo Router server output. Existing `server/middleware.js` and `server/api/*` routes keep working and are mounted first. If the app config has `web.output: "server"` and the Expo export contains `dist/server/_expo/routes.json`, StartupJS mounts the Expo Router server bundle after StartupJS session setup and after existing StartupJS routes.
+
+Install `expo-server` in the app package to opt in. `@startupjs/server` treats it as an optional peer dependency; if server output is detected without `expo-server`, StartupJS logs a warning and keeps serving the existing StartupJS server routes and client fallback.
+
+To enable Expo Router API routes and `+middleware.ts`, configure the app for server output:
+
+```json
+{
+  "expo": {
+    "web": {
+      "output": "server"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "unstable_useServerMiddleware": true
+        }
+      ]
+    ]
+  }
+}
+```
+
+Expo API routes can access the current Express request, response, and session through the lightweight server context helper:
+
+```ts
+import { getServerSession } from 'startupjs/serverContext'
+
+export async function GET () {
+  const session = getServerSession()
+  return Response.json({ userId: session?.userId })
+}
+```
+
+Use `startupjs/serverContext` inside Expo API routes instead of `startupjs/server`; it avoids bundling the full StartupJS server into the Expo server function.
+
 ### Get just the ORM part (with ShareDB connected to the DB)
 
 This is useful for `cron` or `worker` microservices where you just want to work with the database and don't need any http server running.

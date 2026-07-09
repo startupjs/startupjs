@@ -30,11 +30,16 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "single",
+      "output": "server",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router",
+      [
+        "expo-router",
+        {
+          "unstable_useServerMiddleware": true
+        }
+      ],
       "expo-font",
       "expo-web-browser",
       "@react-native-community/datetimepicker"

@@ -74,10 +74,15 @@ function isBuild () {
 
 function addServer (config) {
   config.server ??= {}
-  config.server.enhanceMiddleware = metroMiddleware =>
+  const upstreamEnhanceMiddleware = config.server.enhanceMiddleware
+  config.server.enhanceMiddleware = (metroMiddleware, server) =>
     connect()
       .use(getStartupjsMiddleware())
-      .use(metroMiddleware)
+      .use(
+        upstreamEnhanceMiddleware
+          ? upstreamEnhanceMiddleware(metroMiddleware, server)
+          : metroMiddleware
+      )
 }
 
 function handleYarnLink (config, { packageJson, projectRoot }) {

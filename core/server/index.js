@@ -143,3 +143,10 @@ export {
 export function NO_DEAD_CODE_ELIMINATION () {
   return [dummyDotenv, dummyInitServer]
 }
+
+export {
+  getRequestContext,
+  getServerRequest,
+  getServerResponse,
+  getServerSession
+} from './server/requestContext.js'

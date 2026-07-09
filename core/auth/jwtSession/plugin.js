@@ -59,7 +59,6 @@ export default createPlugin({
       expressApp.use(async (req, res, next) => {
         let token
         token ??= req.query?.access_token // query
-        token ??= req.body?.access_token // body
         token ??= req.headers.authorization?.split('Bearer ')[1] // header
         if (!token) return next()
         try {
