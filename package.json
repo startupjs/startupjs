@@ -45,6 +45,7 @@
     "publish-update-changelog": "./scripts/tasks.sh update-changelog",
     "test-e2e": "cd styleguide && yarn test-e2e",
     "codegen-test-e2e": "cd styleguide && yarn codegen-test-e2e",
+    "generate:llms": "node scripts/generate-llms.js",
     "docs": "rspress dev --port 3011",
     "docs-build": "rspress build",
     "docs-preview": "rspress preview --port 3011"
