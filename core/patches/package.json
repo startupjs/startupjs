@@ -4,6 +4,9 @@
   "type": "module",
   "description": "Patches for libraries used by StartupJS",
   "main": "index.js",
+  "scripts": {
+    "test": "node --test test/*.test.cjs"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"
