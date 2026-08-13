@@ -32,6 +32,9 @@ jobs:
     - name: Use yarn@4
       run: corepack use yarn@4
 
+    - name: Run ShareDB patch tests
+      run: yarn workspace @startupjs/patches test
+
     - name: Install Playwright Browsers
       run: yarn playwright install --with-deps
 
