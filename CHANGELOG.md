@@ -1,3 +1,12 @@
+## [0.62.5](https://github.com/startupjs/startupjs/compare/v0.62.4...v0.62.5) (2026-08-13)
+
+
+### Bug Fixes
+
+* **patches:** stabilize reactive ShareDB aggregations ([#1330](https://github.com/startupjs/startupjs/issues/1330)) ([2150dfd](https://github.com/startupjs/startupjs/commit/2150dfd7449f7d291d0f2f6ecd462aa8c1e0ece1))
+
+
+
 ## [0.62.4](https://github.com/startupjs/startupjs/compare/v0.62.3...v0.62.4) (2026-06-17)
 
 
