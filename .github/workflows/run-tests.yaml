@@ -32,6 +32,9 @@ jobs:
     - name: Install dependencies
       run: yarn install --immutable
 
+    - name: Run server middleware tests
+      run: node --experimental-vm-modules --test core/server/test/createMiddleware.test.js
+
     - name: Run ShareDB patch tests
       run: yarn workspace @startupjs/patches test
 
