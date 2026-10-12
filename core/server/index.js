@@ -24,6 +24,7 @@ const defaultOptions = {
   loginUrl: '/login',
   bodyParserLimit: '10mb',
   secure: false,
+  enableFilesystemApiRouting: true,
   dirname: process.env.ROOT_PATH || process.cwd(),
   isExpo: IS_EXPO
 }
