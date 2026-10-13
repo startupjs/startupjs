@@ -1,3 +1,12 @@
+## [0.62.6](https://github.com/startupjs/startupjs/compare/v0.62.5...v0.62.6) (2026-10-13)
+
+
+### Features
+
+* **server:** allow disabling filesystem API routing ([#1331](https://github.com/startupjs/startupjs/pull/1331)) ([43cd170](https://github.com/startupjs/startupjs/commit/43cd1701f0de54ba626d275ae17cce4d4785841c))
+
+
+
 ## [0.62.5](https://github.com/startupjs/startupjs/compare/v0.62.4...v0.62.5) (2026-08-13)
 
 
