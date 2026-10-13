@@ -77,7 +77,7 @@ export async function _createMiddleware ({ backend, session, channel, options })
   MODULE.hook('api', protectedApp)
 
   // filesystem-based routing for hosting project's server/api folder as /api
-  if (ROOT_MODULE.options.enableServer && existsSync(join(options.dirname, API_ROUTES_FOLDER))) {
+  if (ROOT_MODULE.options.enableServer && options.enableFilesystemApiRouting !== false && existsSync(join(options.dirname, API_ROUTES_FOLDER))) {
     try {
       protectedApp.use('/api', await router({ directory: join(options.dirname, API_ROUTES_FOLDER) }))
     } catch (err) {
