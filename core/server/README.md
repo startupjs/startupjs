@@ -61,6 +61,35 @@ const { middleware, backend, session, channel } = await createMiddleware()
 // do something with the middleware
 ```
 
+### Disable automatic filesystem API routing
+
+Filesystem API routing is enabled by default. To register API routes explicitly
+without loading the hosting application's `server/api` modules, set:
+
+```js
+// startupjs.config.js
+export default {
+  server: {
+    enableFilesystemApiRouting: false
+  }
+}
+```
+
+You can also pass `enableFilesystemApiRouting: false` to `createServer()` or
+`createMiddleware()`. Explicit call options override application options, which
+override the default. Only explicit `false` disables filesystem API routing.
+The API directory is not probed or traversed and its route modules are not
+imported. Explicit `api` hooks, `server/middleware.*`, session/OAuth middleware
+and `serverRoutes` hooks keep their existing behavior. Disabling this option
+does not itself authorize explicitly registered routes; applications must keep
+their own authentication and authorization middleware.
+
+The focused middleware tests run on the declared Node.js engines with:
+
+```sh
+yarn node --experimental-vm-modules --test core/server/test/createMiddleware.test.js
+```
+
 ### Get just the ORM part (with ShareDB connected to the DB)
 
 This is useful for `cron` or `worker` microservices where you just want to work with the database and don't need any http server running.
