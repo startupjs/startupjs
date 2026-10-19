@@ -1,6 +1,6 @@
 {
   "name": "@startupjs/cli",
-  "version": "0.63.1",
+  "version": "0.63.2",
   "description": "The command-line tool for StartupJS apps.",
   "type": "module",
   "main": "index.js",
@@ -9,7 +9,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@startupjs/patches": "^0.63.1",
+    "@startupjs/patches": "^0.63.2",
     "@startupjs/pm": "^0.63.1",
     "@startupjs/skills": "^0.63.1",
     "chalk": "^5.3.0",

@@ -1,3 +1,12 @@
+## [0.63.2](/compare/v0.63.1...v0.63.2) (2026-10-19)
+
+
+### Bug Fixes
+
+* port aggregation and API routing fixes to 0.63 (#1332) 31a17bf, closes #1332 #1330 #1331 #1330
+
+
+
 ## [0.63.1](https://github.com/startupjs/startupjs/compare/v0.63.0...v0.63.1) (2026-06-24)
 
 
