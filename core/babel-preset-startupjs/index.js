@@ -36,6 +36,11 @@
  *       when clientOnly is true, it also returns true for model/*.js files to keep only client-relevant code there.
  *   docgen - Whether to enable docgen features - magic exports of JSON schemas from TypeScript interfaces.
  *       Default: false
+ *   teamplay - Options for babel-plugin-teamplay, on top of the ones the preset sets.
+ *       For example `{ reactCompiler: 'full' }` keeps components the React Compiler compiles
+ *       reactive to signals, and `{ dollarCalls: 'warn' }` reports $() calls
+ *       (signal() and useSignal() replace them). See teamplay's docs.
+ *       Default: {}
  */
 const { createStartupjsFileChecker, CONFIG_FILENAME_REGEX } = require('./utils.js')
 const {
@@ -59,7 +64,8 @@ module.exports = (api, {
   clientOnly = true,
   envs = ['features', 'isomorphic', 'client'],
   isStartupjsFile = createStartupjsFileChecker({ clientOnly }),
-  docgen = false
+  docgen = false,
+  teamplay = {}
 } = {}) => {
   const isMetro = api.caller(caller => caller?.name === 'metro')
   const pluginTypes = getPluginTypeEntries()
@@ -133,7 +139,8 @@ module.exports = (api, {
           pluginTypes,
           featuresType,
           autoInit: false,
-          clientOnly
+          clientOnly,
+          ...teamplay
         }],
 
         // run eliminator to remove code targeting other envs.
