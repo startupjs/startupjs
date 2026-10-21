@@ -32,6 +32,9 @@ jobs:
     - name: Install dependencies
       run: yarn install --immutable
 
+    - name: Run babel-preset-startupjs tests
+      run: yarn workspace babel-preset-startupjs test
+
     - name: Install Playwright Browsers
       run: yarn exec playwright install --with-deps
 
