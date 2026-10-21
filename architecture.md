@@ -110,6 +110,11 @@ Important options:
 - `cssFileExtensions`: style import extensions considered by the CSSX plugin.
 - `envs`: active environments for eliminator.
 - `clientOnly`: ensures client bundles do not include server-only model code.
+- `teamplay`: options passed to `babel-plugin-teamplay` on top of the preset's
+  own, e.g. `{ reactCompiler: 'full' }` for apps with the React Compiler on.
+  The plugin runs before the compiler (`babel-preset-expo` comes first in the
+  `presets` list, and presets run last to first), which its React Compiler
+  support requires.
 
 The preset is integration-sensitive. When changing it, validate in an actual
 Expo/Metro app in addition to unit tests.
