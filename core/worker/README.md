@@ -711,3 +711,6 @@ Implementation summary:
 - `initWorker` starts workers, syncs cron schedulers, and removes stale schedulers.
 - `runJob` enqueues a job and waits for completion before returning.
 - Queue names are fixed to `default` and `priority`.
+- Completed and failed jobs are kept for one day (`removeOnComplete` / `removeOnFail` `age: 86400` — BullMQ
+  counts `age` in seconds). BullMQ removes them when the next job of the same kind finishes, so an idle queue
+  keeps them longer. Pass `removeOnComplete` / `removeOnFail` to `enqueueJob` to change it per job.

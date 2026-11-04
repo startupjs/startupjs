@@ -449,6 +449,31 @@ test('worker public API with Redis and BullMQ', async t => {
       /Worker backend is not available/
     )
   })
+
+  // BullMQ reads `removeOn*.age` in seconds and removes old finished jobs when
+  // the next job of the same kind finishes. A two-day-old job must go with the
+  // one-day default; with a millisecond value (1000 days) it stayed.
+  for (const [name, target] of [['echo', 'completed'], ['fail', 'failed']]) {
+    await t.test(`removes ${target} jobs older than one day`, async () => {
+      const finish = async ref => {
+        await api.waitJob(ref, { timeout: 5000 }).catch(() => {})
+      }
+      const oldRef = await api.enqueueJob(name, { value: 'old' })
+      await finish(oldRef)
+
+      const twoDaysAgo = Date.now() - 2 * 24 * 60 * 60 * 1000
+      await withRedis(async redis => {
+        await redis.hset(`${api.queuePrefix}:default:${oldRef.id}`, 'finishedOn', twoDaysAgo)
+        await redis.zadd(`${api.queuePrefix}:default:${target}`, twoDaysAgo, oldRef.id)
+      })
+
+      const triggerRef = await api.enqueueJob(name, { value: 'trigger' })
+      await finish(triggerRef)
+
+      assert.equal((await api.getJobStatus(oldRef)).state, 'unknown')
+      assert.equal((await api.getJobStatus(triggerRef)).state, target)
+    })
+  }
 })
 
 async function setupWorkerRuntime (t, options = {}) {
@@ -533,6 +558,21 @@ async function closeTeamplayBackendResources () {
   })
 
   await dbModule.mongoClient?.close?.()
+}
+
+async function withRedis (fn) {
+  const { getRedis, getRedisOptions } = await import('startupjs/server')
+  const redis = getRedis({
+    ...getRedisOptions({ addPrefix: false })
+  })
+
+  try {
+    return await fn(redis)
+  } finally {
+    await redis.quit().catch(() => {
+      redis.disconnect()
+    })
+  }
 }
 
 async function removeRedisKeys (queuePrefix) {

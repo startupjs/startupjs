@@ -1,6 +1,12 @@
 // will import: { ... }
 import projectConfig from './virtual/startupjs.config.virtual.js'
-import models from 'teamplay/file-based-models'
+// will import: { 'users': $1, 'users.*': $2, '_session.games': $3, '_session.games.*': $4 }
+// babel-plugin-teamplay replaces this import with the project's models.
+// Without Babel (plain Node: unit tests, scripts) it stays `{}`. Don't import
+// 'teamplay/file-based-models' here: in plain Node it require()s every model
+// file while `startupjs` itself is still loading, and model files import
+// 'startupjs', so Node throws ERR_REQUIRE_CYCLE_MODULE.
+import models from './virtual/startupjs.models.virtual.js'
 // will import: [$1, $2, $3, ...]
 import plugins from './virtual/startupjs.plugins.virtual.js'
 // { enableServer: true }
