@@ -8,6 +8,9 @@
     "./server": "./server.js",
     "./utils": "./utils.js"
   },
+  "scripts": {
+    "test": "node --test test/*.test.cjs"
+  },
   "publishConfig": {
     "access": "public"
   },
