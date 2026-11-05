@@ -1,7 +1,7 @@
 {
   "name": "startupjs",
   "type": "module",
-  "version": "0.63.2",
+  "version": "0.63.3",
   "engines": {
     "node": ">= 14"
   },
@@ -31,13 +31,13 @@
   "bin": "./cli.js",
   "license": "MIT",
   "dependencies": {
-    "@startupjs/auth": "^0.63.1",
-    "@startupjs/bundler": "^0.63.2",
+    "@startupjs/auth": "^0.63.3",
+    "@startupjs/bundler": "^0.63.3",
     "@startupjs/cli": "^0.63.2",
     "@startupjs/hooks": "^0.63.1",
     "@startupjs/isomorphic-helpers": "^0.63.1",
-    "@startupjs/registry": "^0.63.1",
-    "@startupjs/server": "^0.63.2",
+    "@startupjs/registry": "^0.63.3",
+    "@startupjs/server": "^0.63.3",
     "@startupjs/skills": "^0.63.1",
     "@startupjs/utils": "^0.63.1",
     "babel-preset-startupjs": "^0.63.1",

@@ -6899,11 +6899,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/auth@npm:^0.63.1, @startupjs/auth@workspace:core/auth":
+"@startupjs/auth@npm:^0.63.3, @startupjs/auth@workspace:core/auth":
   version: 0.0.0-use.local
   resolution: "@startupjs/auth@workspace:core/auth"
   dependencies:
-    "@startupjs/registry": "npm:^0.63.1"
+    "@startupjs/registry": "npm:^0.63.3"
     "@startupjs/utils": "npm:^0.63.1"
     "@types/jsonwebtoken": "npm:^9"
     "@types/speakeasy": "npm:^2"
@@ -7016,7 +7016,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/bundler@npm:^0.63.2, @startupjs/bundler@workspace:core/bundler":
+"@startupjs/bundler@npm:^0.63.3, @startupjs/bundler@workspace:core/bundler":
   version: 0.0.0-use.local
   resolution: "@startupjs/bundler@workspace:core/bundler"
   dependencies:
@@ -7025,7 +7025,7 @@ __metadata:
     "@mdx-js/mdx": "npm:^3.0.0"
     "@startupjs/babel-plugin-eliminator": "npm:^0.63.1"
     "@startupjs/babel-plugin-startupjs-plugins": "npm:^0.63.1"
-    "@startupjs/server": "npm:^0.63.2"
+    "@startupjs/server": "npm:^0.63.3"
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
     "@svgr/plugin-svgo": "npm:^8.1.0"
@@ -7173,7 +7173,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/registry@npm:^0.63.1, @startupjs/registry@workspace:core/registry":
+"@startupjs/registry@npm:^0.63.3, @startupjs/registry@workspace:core/registry":
   version: 0.0.0-use.local
   resolution: "@startupjs/registry@workspace:core/registry"
   dependencies:
@@ -7220,11 +7220,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/server@npm:^0.63.2, @startupjs/server@workspace:core/server":
+"@startupjs/server@npm:^0.63.3, @startupjs/server@workspace:core/server":
   version: 0.0.0-use.local
   resolution: "@startupjs/server@workspace:core/server"
   dependencies:
-    "@startupjs/registry": "npm:^0.63.1"
+    "@startupjs/registry": "npm:^0.63.3"
     body-parser: "npm:1.20.0"
     compression: "npm:^1.6.0"
     connect-mongo: "npm:^4.4.1"
@@ -7285,13 +7285,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@startupjs/worker@npm:^0.63.1, @startupjs/worker@workspace:core/worker":
+"@startupjs/worker@npm:^0.63.3, @startupjs/worker@workspace:core/worker":
   version: 0.0.0-use.local
   resolution: "@startupjs/worker@workspace:core/worker"
   dependencies:
     "@bull-board/api": "npm:^6.14.0"
     "@bull-board/express": "npm:^6.14.0"
-    "@startupjs/registry": "npm:^0.63.1"
+    "@startupjs/registry": "npm:^0.63.3"
     bullmq: "npm:^5.25.6"
   peerDependencies:
     startupjs: "*"
@@ -13841,7 +13841,7 @@ __metadata:
     "@react-navigation/native": "npm:^7.1.6"
     "@startupjs-ui/mdx": "npm:^0.3.0"
     "@startupjs/router": "npm:^0.63.1"
-    "@startupjs/worker": "npm:^0.63.1"
+    "@startupjs/worker": "npm:^0.63.3"
     "@types/react": "npm:~19.2.10"
     eslint-config-expo: "npm:^55.0.0"
     expo: "npm:~55.0.11"
@@ -13870,7 +13870,7 @@ __metadata:
     react-native-web: "npm:^0.21.0"
     react-native-worklets: "npm:0.7.2"
     react-test-renderer: "npm:~19.1.0"
-    startupjs: "npm:^0.63.2"
+    startupjs: "npm:^0.63.3"
     startupjs-ui: "npm:^0.3.0"
     typescript: "npm:~5.9.2"
   languageName: unknown
@@ -26579,17 +26579,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"startupjs@npm:^0.63.2, startupjs@workspace:core/startupjs":
+"startupjs@npm:^0.63.3, startupjs@workspace:core/startupjs":
   version: 0.0.0-use.local
   resolution: "startupjs@workspace:core/startupjs"
   dependencies:
-    "@startupjs/auth": "npm:^0.63.1"
-    "@startupjs/bundler": "npm:^0.63.2"
+    "@startupjs/auth": "npm:^0.63.3"
+    "@startupjs/bundler": "npm:^0.63.3"
     "@startupjs/cli": "npm:^0.63.2"
     "@startupjs/hooks": "npm:^0.63.1"
     "@startupjs/isomorphic-helpers": "npm:^0.63.1"
-    "@startupjs/registry": "npm:^0.63.1"
-    "@startupjs/server": "npm:^0.63.2"
+    "@startupjs/registry": "npm:^0.63.3"
+    "@startupjs/server": "npm:^0.63.3"
     "@startupjs/skills": "npm:^0.63.1"
     "@startupjs/utils": "npm:^0.63.1"
     babel-preset-startupjs: "npm:^0.63.1"

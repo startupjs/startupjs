@@ -1,3 +1,12 @@
+## [0.63.3](/compare/v0.63.2...v0.63.3) (2026-11-05)
+
+
+### Bug Fixes
+
+* **registry, worker:** plain-Node import cycle with project models; k… (#1335) 0088188, closes #1335 #1318
+
+
+
 ## [0.63.2](/compare/v0.63.1...v0.63.2) (2026-10-19)
 
 
