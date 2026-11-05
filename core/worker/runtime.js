@@ -12,7 +12,10 @@ import { existsSync, readdirSync } from 'fs'
 import { basename, extname, join } from 'path'
 import { pathToFileURL } from 'url'
 
-const DAY_IN_MS = 24 * 60 * 60 * 1000
+// BullMQ's `removeOnComplete.age` / `removeOnFail.age` are in SECONDS
+// (removeJobsByMaxAge.lua: `timestamp - maxAge * 1000`). A millisecond value
+// here kept finished jobs for 1000 days instead of one.
+const DAY_IN_SECONDS = 24 * 60 * 60
 
 export const AVAILABLE_WORKERS = Object.freeze(['default', 'priority'])
 
@@ -27,8 +30,8 @@ const DEFAULT_OPTIONS = {
 }
 
 const DEFAULT_JOB_OPTIONS = {
-  removeOnComplete: { age: DAY_IN_MS },
-  removeOnFail: { age: DAY_IN_MS }
+  removeOnComplete: { age: DAY_IN_SECONDS },
+  removeOnFail: { age: DAY_IN_SECONDS }
 }
 
 const queues = new Map()
